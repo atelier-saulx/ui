@@ -17,6 +17,7 @@ const Input = ({
       autoFocus={autoFocus}
       placeholder={placeholder}
       value={useInternal ? state : value}
+      type='text'
       onChange={e => {
         setInternal(e.target.value)
         onChange(e.target.value)
