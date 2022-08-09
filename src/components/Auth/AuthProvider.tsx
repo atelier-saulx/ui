@@ -15,12 +15,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [isGoogleRedirect] = useRoute('/auth-google')
   const [isMicrosoftRedirect] = useRoute('/auth-microsoft')
   const [isGithubRedirect] = useRoute('/auth-github')
+  const [isAppleRedirect] = useRoute('/auth-apple')
   const thirdPartyRedirect = isGoogleRedirect
     ? 'google'
     : isMicrosoftRedirect
     ? 'microsoft'
     : isGithubRedirect
     ? 'github'
+    : isAppleRedirect
+    ? 'apple'
     : false
   useEffect(() => {
     if (thirdPartyRedirect && window) {
@@ -37,6 +40,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       console.log({ params, code })
       const clientId = window.sessionStorage.getItem('client_id')
       const codeVerifier = window.sessionStorage.getItem('code_verifier')
+      const teamId = window.sessionStorage.getItem('team_id')
+      const keyId = window.sessionStorage.getItem('key_id')
       client
         .call(
           `auth${
@@ -49,6 +54,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
             state,
             clientId,
             ...(codeVerifier ? { codeVerifier } : null),
+            ...(teamId ? { teamId } : null),
+            ...(keyId ? { keyId } : null),
           }
         )
         .then(async (response) => {
@@ -57,6 +64,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           toast.add(<Toast label={'Signedin as ' + email} type="success" />)
           window.sessionStorage.removeItem('client_id')
           window.sessionStorage.removeItem('code_verifier')
+          window.sessionStorage.removeItem('team_id')
+          window.sessionStorage.removeItem('key_id')
           setShowLoader(false)
           if (window && state.redirectUrl) {
             window.location.href = state.redirectUrl

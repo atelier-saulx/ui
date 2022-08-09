@@ -10,6 +10,7 @@ import { email as isEmail } from '@saulx/validators'
 import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './MicrosoftButton'
 import { GithubButton } from './GithubButton'
+import { AppleButton } from './AppleButton'
 
 type LoginProps = {
   width?: number
@@ -19,6 +20,9 @@ type LoginProps = {
   googleClientId?: string
   microsoftClientId?: string
   githubClientId?: string
+  appleClientId?: string
+  appleTeamId?: string
+  appleKeyId?: string
 }
 
 // TODO: make width dynamic.
@@ -31,6 +35,9 @@ export const Login: FC<LoginProps> = ({
   googleClientId,
   microsoftClientId,
   githubClientId,
+  appleClientId,
+  appleTeamId,
+  appleKeyId,
 }) => {
   const [email = '', setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -40,6 +47,9 @@ export const Login: FC<LoginProps> = ({
   const client = useClient()
   const passwordRef = useRef<HTMLInputElement>(null)
   const valid = passwordExpanded && password && isEmail(email)
+
+  if (appleClientId && (!appleTeamId || !appleKeyId))
+    console.error('Apple provider also needs TeamId and KeyId arguments')
 
   return (
     <div
@@ -57,6 +67,14 @@ export const Login: FC<LoginProps> = ({
           ) : null}
           {githubClientId ? (
             <GithubButton width={width} clientId={githubClientId} />
+          ) : null}
+          {appleClientId ? (
+            <AppleButton
+              width={width}
+              clientId={appleClientId}
+              teamId={appleTeamId}
+              keyId={appleKeyId}
+            />
           ) : null}
           <Separator style={{ marginTop: 16 }}>OR</Separator>
         </>

@@ -10,6 +10,7 @@ import { Separator } from '../Separator'
 import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './MicrosoftButton'
 import { GithubButton } from './GithubButton'
+import { AppleButton } from './AppleButton'
 import { Text } from '../Text'
 
 const WaitingScreen: FC<{ email: string }> = ({ email }) => {
@@ -38,6 +39,9 @@ type RegisterProps = {
   googleClientId?: string
   microsoftClientId?: string
   githubClientId?: string
+  appleClientId?: string
+  appleTeamId?: string
+  appleKeyId?: string
 }
 
 export const Register: FC<RegisterProps> = ({
@@ -47,6 +51,9 @@ export const Register: FC<RegisterProps> = ({
   googleClientId,
   microsoftClientId,
   githubClientId,
+  appleClientId,
+  appleTeamId,
+  appleKeyId,
 }) => {
   const client = useClient()
   const [email, setEmail] = useState(initialEmail)
@@ -103,6 +110,15 @@ export const Register: FC<RegisterProps> = ({
               width={width}
               label="Signup with GitHub"
               clientId={githubClientId}
+            />
+          ) : null}
+          {appleClientId ? (
+            <AppleButton
+              width={width}
+              label="Signup with Apple"
+              clientId={appleClientId}
+              teamId={appleTeamId}
+              keyId={appleKeyId}
             />
           ) : null}
           <Separator style={{ marginTop: 16 }}>OR</Separator>

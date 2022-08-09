@@ -64,7 +64,8 @@ export const Select: FC<SelectProps> = ({
 
   useEffect(() => {
     if (currentValue !== value) {
-      onChange(currentValue)
+      // TODO: Fix this type
+      onChange(currentValue as Value)
     }
   }, [currentValue])
 

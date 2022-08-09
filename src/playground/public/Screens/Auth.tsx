@@ -34,6 +34,9 @@ export const Auth = () => {
       googleClientId="96290045386-rsvl0vdjdhmc3q12kgc0jli41edbk5dr.apps.googleusercontent.com"
       microsoftClientId="ee7485ca-a5e5-40b9-af82-748310d01da0"
       githubClientId="23ba4856b09e22976494"
+      appleClientId="io.based.auth"
+      appleTeamId="36CCRKC437"
+      appleKeyId="M496N3L7M7"
     />
   )
 }

@@ -24,6 +24,9 @@ type AuthProps = {
   googleClientId?: string
   microsoftClientId?: string
   githubClientId?: string
+  appleClientId?: string
+  appleTeamId?: string
+  appleKeyId?: string
 }
 
 export const Authorize: FC<AuthProps> = ({
@@ -39,6 +42,9 @@ export const Authorize: FC<AuthProps> = ({
   googleClientId,
   microsoftClientId,
   githubClientId,
+  appleClientId,
+  appleTeamId,
+  appleKeyId,
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
   const [email = '', setEmail] = useGlobalState('email')
@@ -85,6 +91,9 @@ export const Authorize: FC<AuthProps> = ({
               googleClientId={googleClientId}
               microsoftClientId={microsoftClientId}
               githubClientId={githubClientId}
+              appleClientId={appleClientId}
+              appleTeamId={appleTeamId}
+              appleKeyId={appleKeyId}
             />
           </Tab>
           {register || onRegister ? (
@@ -95,6 +104,8 @@ export const Authorize: FC<AuthProps> = ({
                 googleClientId={googleClientId}
                 microsoftClientId={microsoftClientId}
                 githubClientId={githubClientId}
+                appleTeamId={appleTeamId}
+                appleKeyId={appleKeyId}
               />
             </Tab>
           ) : null}
