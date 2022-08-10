@@ -1,14 +1,14 @@
 import React, { FC } from 'react'
 import { Button, AppleIcon } from '~'
 
-type GoogleButtonProps = {
+type AppleButtonProps = {
   width?: number | string
   label?: string
   clientId: string
   teamId: string
   keyId: string
 }
-export const AppleButton: FC<GoogleButtonProps> = ({
+export const AppleButton: FC<AppleButtonProps> = ({
   width = '100%',
   label = 'Continue with Apple',
   clientId,

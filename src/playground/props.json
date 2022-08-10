@@ -46,6 +46,33 @@
       "code": "type AccordionProps = {\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
       "file": "/components/Accordion/index.tsx"
     },
+    "AppleButtonProps": {
+      "name": "AppleButtonProps",
+      "props": {
+        "width": {
+          "optional": true,
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "clientId": {
+          "type": "string"
+        },
+        "teamId": {
+          "type": "string"
+        },
+        "keyId": {
+          "type": "string"
+        }
+      },
+      "code": "type AppleButtonProps = {\n  width?: number | string\n  label?: string\n  clientId: string\n  teamId: string\n  keyId: string\n}",
+      "file": "/components/Auth/AppleButton.tsx"
+    },
     "AuthProps": {
       "name": "AuthProps",
       "props": {
@@ -95,9 +122,21 @@
         "githubClientId": {
           "optional": true,
           "type": "string"
+        },
+        "appleClientId": {
+          "optional": true,
+          "type": "string"
+        },
+        "appleTeamId": {
+          "optional": true,
+          "type": "string"
+        },
+        "appleKeyId": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type AuthProps = {\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  register?: boolean\n  onResetRequest?: () => void\n  logo?: boolean | ReactChild\n  overlay?: boolean\n  style?: CSSProperties\n  app?: FC<any | { user: { id: string; email: string } }>\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n}",
+      "code": "type AuthProps = {\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  register?: boolean\n  onResetRequest?: () => void\n  logo?: boolean | ReactChild\n  overlay?: boolean\n  style?: CSSProperties\n  app?: FC<any | { user: { id: string; email: string } }>\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n  appleClientId?: string\n  appleTeamId?: string\n  appleKeyId?: string\n}",
       "file": "/components/Auth/Auth.tsx"
     },
     "AuthProviderProps": {
@@ -182,9 +221,21 @@
         "githubClientId": {
           "optional": true,
           "type": "string"
+        },
+        "appleClientId": {
+          "optional": true,
+          "type": "string"
+        },
+        "appleTeamId": {
+          "optional": true,
+          "type": "string"
+        },
+        "appleKeyId": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type LoginProps = {\n  width?: number\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegisterRequest?: (email: string) => void\n  onResetRequest?: () => void\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n}",
+      "code": "type LoginProps = {\n  width?: number\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegisterRequest?: (email: string) => void\n  onResetRequest?: () => void\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n  appleClientId?: string\n  appleTeamId?: string\n  appleKeyId?: string\n}",
       "file": "/components/Auth/Login.tsx"
     },
     "MicrosoftButtonProps": {
@@ -237,9 +288,21 @@
         "githubClientId": {
           "optional": true,
           "type": "string"
+        },
+        "appleClientId": {
+          "optional": true,
+          "type": "string"
+        },
+        "appleTeamId": {
+          "optional": true,
+          "type": "string"
+        },
+        "appleKeyId": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type RegisterProps = {\n  width?: number | string\n  email?: string\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n}",
+      "code": "type RegisterProps = {\n  width?: number | string\n  email?: string\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n  appleClientId?: string\n  appleTeamId?: string\n  appleKeyId?: string\n}",
       "file": "/components/Auth/Register.tsx"
     },
     "ResetRequestProps": {
