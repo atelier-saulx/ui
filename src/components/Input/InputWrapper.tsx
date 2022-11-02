@@ -27,6 +27,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   ...props
 }) => {
   const [focus, setFocus] = useState(false)
+
   return (
     <div
       onFocus={() => {

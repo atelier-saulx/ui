@@ -23,7 +23,7 @@ export const SingleArrayListItem = ({
   ...props
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: props.id })
+    useSortable({ id: props.id /* data: { index: props.index } */ })
 
   const style = {
     transform: CSS.Transform.toString(transform),

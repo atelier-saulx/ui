@@ -2177,105 +2177,6 @@
       "code": "type LinkProps = {\n  href?: string\n  children?: ReactNode\n  style?: Style\n  onClick?: () => {}\n}",
       "file": "/components/Link/index.tsx"
     },
-    "DraggableListWrapperProps": {
-      "name": "DraggableListWrapperProps",
-      "props": {
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        }
-      },
-      "code": "type DraggableListWrapperProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
-      "file": "/components/ListItems/DraggableListWrapper.tsx"
-    },
-    "StackedListItemsWrapperProps": {
-      "name": "StackedListItemsWrapperProps",
-      "props": {
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "topLeft": {
-          "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
-        "topRight": {
-          "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
-        "bottomLeft": {
-          "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
-        "bottomRight": {
-          "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
-        "footer": {
-          "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
-        "space": {
-          "optional": true,
-          "type": "Space"
-        }
-      },
-      "code": "type StackedListItemsWrapperProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomLeft?: FC | ReactNode\n  bottomRight?: FC | ReactNode\n  footer?: FC | ReactNode\n  space?: Space\n}",
-      "file": "/components/ListItems/StackedListItems.tsx"
-    },
-    "StackedListItemProps": {
-      "name": "StackedListItemProps",
-      "props": {
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "right": {
-          "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "space": {
-          "optional": true,
-          "type": "Space"
-        },
-        "border": {
-          "optional": true,
-          "type": "boolean"
-        }
-      },
-      "code": "type StackedListItemProps = {\n  children?: ReactNode\n  right?: FC | ReactNode\n  style?: CSSProperties\n  space?: Space\n  border?: boolean\n}",
-      "file": "/components/ListItems/StackedListItems.tsx"
-    },
     "MasonryGridProps": {
       "name": "MasonryGridProps",
       "props": {
@@ -3386,13 +3287,9 @@
         "avatar": {
           "optional": true,
           "type": "ReactNode"
-        },
-        "onClick": {
-          "optional": true,
-          "type": "function"
         }
       },
-      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n  children?: ReactNode\n  noLogo?: boolean\n  style?: CSSProperties\n  icons?: ReactNode | string\n  avatar?: ReactNode\n  onClick?: () => void\n}",
+      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n  children?: ReactNode\n  noLogo?: boolean\n  style?: CSSProperties\n  icons?: ReactNode | string\n  avatar?: ReactNode\n}",
       "file": "/components/Topbar/index.tsx"
     },
     "ValueSliderProps": {

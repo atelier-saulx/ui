@@ -45,9 +45,11 @@ export const useLocation = (): [string, (href: string) => void] => {
   return [
     location,
     (href) => {
-      setLocation(parseHref(href))
       const i = href.indexOf('#')
-      if (i !== -1 && href.substring(i) !== window.location.hash) {
+      const fireHashChange =
+        i !== -1 && href.substring(i) !== window.location.hash
+      setLocation(parseHref(href))
+      if (fireHashChange) {
         dispatchEvent(new HashChangeEvent('hashchange'))
       }
     },

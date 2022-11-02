@@ -39,7 +39,7 @@ const FilterInputHolder = styled('div', {
   alignItems: 'center',
   borderBottom: `1px solid ${color('border')}`,
   width: '100%',
-  backgroundColor: color('lightgrey:hover'),
+  backgroundColor: color('background2dp:hover'),
 })
 
 const FilterInput = styled('input', {

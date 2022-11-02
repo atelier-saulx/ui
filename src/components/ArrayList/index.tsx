@@ -67,7 +67,38 @@ export const ArrayList = ({
   }
   // @ts-ignore
   const itemType = props?.schema?.items.type
-  console.log(itemType)
+
+  const addItemHandler = async () => {
+    const ok = await prompt(
+      `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
+    )
+
+    // als er nog geen array is
+    if (ok && typeof ok !== 'boolean') {
+      if (itemType === 'string') {
+        onChange([ok])
+      }
+      if (itemType === 'int') {
+        onChange([parseInt(ok)])
+      }
+      if (itemType === 'float') {
+        onChange([parseFloat(ok)])
+      }
+    }
+
+    // als er wel al een begin-array is
+    if (ok && typeof ok !== 'boolean') {
+      if (itemType === 'string') {
+        onChange([...arr, ok])
+      }
+      if (itemType === 'int') {
+        onChange([...arr, parseInt(ok)])
+      }
+      if (itemType === 'float') {
+        onChange([...arr, parseFloat(ok)])
+      }
+    }
+  }
 
   const deleteSpecificItem = async (idx) => {
     setArr((arr) => arr.filter((item, index) => index !== idx))
@@ -144,7 +175,7 @@ export const ArrayList = ({
           <SortableContext items={arr} strategy={verticalListSortingStrategy}>
             {arr?.map((id, idx) => (
               <SingleArrayListItem
-                key={id}
+                key={idx}
                 id={id}
                 idx={idx}
                 itemType={itemType}
@@ -156,44 +187,7 @@ export const ArrayList = ({
         </DndContext>
       )}
 
-      <Button
-        ghost
-        icon={AddIcon}
-        space={8}
-        onClick={async () => {
-          const ok = await prompt(
-            `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
-          )
-
-          // als er nog geen array is
-          if (ok && typeof ok !== 'boolean') {
-            if (itemType === 'string') {
-              onChange([ok])
-            }
-            if (itemType === 'int') {
-              onChange([parseInt(ok)])
-            }
-            if (itemType === 'float') {
-              onChange([parseFloat(ok)])
-            }
-          }
-
-          // als er wel al een begin-array is
-          if (ok && typeof ok !== 'boolean') {
-            if (itemType === 'string') {
-              onChange([...arr, ok])
-            }
-            if (itemType === 'int') {
-              onChange([...arr, parseInt(ok)])
-            }
-            if (itemType === 'float') {
-              onChange([...arr, parseFloat(ok)])
-            }
-          }
-
-          //  focus on button after adding one to quickly add another
-        }}
-      >
+      <Button ghost icon={AddIcon} space={8} onClick={addItemHandler}>
         Add {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
       </Button>
     </InputWrapper>
