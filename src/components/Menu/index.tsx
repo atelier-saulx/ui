@@ -13,8 +13,10 @@ import { styled } from 'inlines'
 type MenuHeaderProps = {
   children?: ReactNode
   style?: CSSProperties
-  onClick?: (e) => void
+  onClick?: (e: any) => void
   id?: string
+  href?: string
+  isActive?: boolean
 }
 
 type MenuItemProps = {
@@ -26,7 +28,14 @@ type MenuItemProps = {
   weight?: Weight
 }
 
-const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
+const MenuHeader: FC<MenuHeaderProps> = ({
+  children,
+  style,
+  onClick,
+  id,
+  href,
+  isActive,
+}) => {
   return (
     <styled.div
       id={id}
@@ -36,16 +45,38 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
         },
       }}
     >
-      <Text
-        weight="600"
-        style={{
-          marginBottom: 12,
-          ...style,
-        }}
-        onClick={onClick}
-      >
-        {children}
-      </Text>
+      {href ? (
+        <Link
+          href={href}
+          style={{
+            padding: '4px 12px',
+            margin: '-4px -12px 10px',
+            fontWeight: 600,
+            borderRadius: 4,
+            backgroundColor: isActive ? color('lightaccent:active') : null,
+            '&:hover': !isActive
+              ? {
+                  backgroundColor: color('background:hover'),
+                  color: `${color('text')} !important`,
+                }
+              : null,
+            ...style,
+          }}
+        >
+          {typeof children === 'function' ? children({ isActive }) : children}
+        </Link>
+      ) : (
+        <Text
+          weight="600"
+          style={{
+            marginBottom: 12,
+            ...style,
+          }}
+          onClick={onClick}
+        >
+          {children}
+        </Text>
+      )}
     </styled.div>
   )
 }
@@ -156,9 +187,9 @@ export const Menu: FC<{
     })
   }
 
-  let firstHref
-  let hasActive
-  const items = data.map(({ label, href, items }, i) => {
+  let firstHref: string
+  let hasActive: boolean
+  const items = data.map(({ label, href, items }, i: number) => {
     if (items) {
       if (!Array.isArray(items)) {
         items = Object.keys(items).map((key) => ({
@@ -166,6 +197,7 @@ export const Menu: FC<{
           href: items[key],
         }))
       }
+      const isActive = hrefIsActive(href, selected, items)
 
       return (
         <Fragment key={i}>
@@ -178,6 +210,8 @@ export const Menu: FC<{
               alignItems: 'center',
               cursor: href ? 'pointer' : null,
             }}
+            href={href}
+            isActive={isActive}
             onClick={(e) => {
               if (collapse) {
                 e.currentTarget.parentNode.nextSibling.classList.toggle(
@@ -192,7 +226,7 @@ export const Menu: FC<{
             {collapse && <StyledChevron id={`${i}-menuchevron`} />}
           </MenuHeader>
           <HideableStyledDiv id={`${i}-menuitems`}>
-            {items.map(({ href, label }, index) => {
+            {items.map(({ href, label }, index: number) => {
               if (href[0] !== '?') {
                 href = prefix + href
               }
