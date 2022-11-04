@@ -64,16 +64,8 @@ export const ArrayList = ({
 
   if (!idsRef.current) {
     // if no ids cache
-    const set = new Set()
     // create an array of unique values to act as id
-    idsRef.current = value.map((item) => {
-      let cnt = 0
-      while (set.has(item)) {
-        item = `${item}-${cnt++}`
-      }
-      set.add(item)
-      return item
-    })
+    idsRef.current = value.map((_, index) => String(index))
   }
 
   const ids = idsRef.current
@@ -94,10 +86,11 @@ export const ArrayList = ({
     if (active.id !== over.id) {
       const oldIndex = ids.indexOf(active.id)
       const newIndex = ids.indexOf(over.id)
-      // update the array
-      const newArray = arrayMove(arr, oldIndex, newIndex)
       // update the ids
-      idsRef.current = arrayMove(idsRef.current, oldIndex, newIndex)
+      idsRef.current = arrayMove(ids, oldIndex, newIndex)
+      // update the actual array
+      const newArray = arrayMove(arr, oldIndex, newIndex)
+
       onChange(newArray)
       setArr(newArray)
     }
