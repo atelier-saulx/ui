@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { border, color } from '~/utils'
-import { CloseIcon, Text, ScrollArea, Button } from '~'
+import { CloseIcon, Text, ScrollArea, Button, Input } from '~'
 import { RightSidebar } from '../RightSidebar'
 import { ContentEditor } from '../Content/ContentEditor'
 // import { useDescriptor } from '../hooks/useDescriptor'
@@ -45,12 +45,11 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
 export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
   console.log('props from objectlistmodal', props)
 
-  const ObjectId = props.id
-
+  const objectId = props.id
   const objectKeys = Object.keys(schema.properties)
 
-  console.log(Object.keys(schema.properties))
-  console.log(Object.values(schema.properties))
+  console.log('----> keys', Object.keys(schema.properties))
+  console.log('---> values', Object.values(schema.properties))
 
   const onClose = async () => {
     console.log('close it')
@@ -119,16 +118,17 @@ export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
                   }}
                 >
                   {objectKey} - {schema.properties[objectKey].type}
+                  ----Contentfield hiere??\
                 </div>
               ))}
             </div>
             <ContentEditor
               // object id ??
-              id={ObjectId}
-              type={type}
-              language={language}
+              id={objectId}
+              type={null}
+              language={'en'}
               style={{ padding: '48px 76px' }}
-              autoFocus={id ? field : null}
+              //   autoFocus={ObjectId ? field : null}
               onChange={(data) => {
                 setDisabled(false)
                 Object.assign(changes, data)

@@ -179,7 +179,7 @@ const SingleReference = (props) => {
 
 const object = {
   default: ({ label, description, schema, style, ...props }) => {
-    console.log('Object props -->', props)
+    console.log('Muthafuckon Object props -->', props)
     return (
       <ObjectList
         label={label}
@@ -460,7 +460,7 @@ const ContentField = ({
     )
   }
 
-  // console.log({ name, index })
+  // console.log({ name, index, id })
 
   return (
     <Component
@@ -503,6 +503,9 @@ export const ContentEditor = ({
     const s = useItemSchema(id)
     fields = s.fields
     loading = s.loading
+
+    // console.log('Fields from ContentEditor ----->', fields)
+    // console.log('------------------')
   } else {
     const s = useSchemaTypes()
     loading = s.loading
@@ -531,6 +534,9 @@ export const ContentEditor = ({
       {Object.keys(fields).map((field) => {
         const fieldSchema = fields[field]
         const { type, meta } = fields[field]
+
+        // console.log('fieldSchema', fieldSchema)
+        // console.log('type', type, meta)
 
         if (
           type === 'id' ||
