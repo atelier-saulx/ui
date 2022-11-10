@@ -51,7 +51,12 @@ export const ObjectList = ({
         </Button>
       </InputWrapper>
       {showModal && (
-        <ObjectListModal label={label} props={props} schema={schema} />
+        <ObjectListModal
+          label={label}
+          props={props}
+          schema={schema}
+          setShowModal={setShowModal}
+        />
       )}
     </>
   )

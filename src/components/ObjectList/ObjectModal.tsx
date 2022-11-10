@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { border, color } from '~/utils'
 import { CloseIcon, Text, ScrollArea, Button } from '~'
 import { RightSidebar } from '../RightSidebar'
+import { ContentEditor } from '../Content/ContentEditor'
 // import { useDescriptor } from '../hooks/useDescriptor'
 
 const Topbar = ({ label, id, type, onClose }) => {
@@ -41,19 +42,19 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
   )
 }
 
-export const ObjectListModal = ({ label, props, schema }) => {
+export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
   console.log('props from objectlistmodal', props)
+
+  const ObjectId = props.id
 
   const objectKeys = Object.keys(schema.properties)
 
   console.log(Object.keys(schema.properties))
   console.log(Object.values(schema.properties))
-  console.log(schema.properties['arraytje'])
-
-  console.log(schema.properties['arraytje'].type)
 
   const onClose = async () => {
     console.log('close it')
+    setShowModal(false)
   }
 
   return (
@@ -83,6 +84,8 @@ export const ObjectListModal = ({ label, props, schema }) => {
           boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
           display: 'flex',
           flexDirection: 'column',
+          // TODO temp zIndex fixie
+          zIndex: 1,
         }}
       >
         {/* @ts-ignore */}
@@ -100,7 +103,11 @@ export const ObjectListModal = ({ label, props, schema }) => {
         >
           <ScrollArea style={{ flexGrow: 1 }}>
             <div style={{ padding: '48px 76px' }}>
-              1 level deep
+              <Text space>
+                Content Editor weer maar dan voor de fields in dit object, die
+                mapt trough - ContentField - Component
+              </Text>
+
               {objectKeys.map((objectKey, idx) => (
                 <div
                   key={idx}
@@ -115,8 +122,9 @@ export const ObjectListModal = ({ label, props, schema }) => {
                 </div>
               ))}
             </div>
-            {/* <ContentEditor
-              id={id}
+            <ContentEditor
+              // object id ??
+              id={ObjectId}
               type={type}
               language={language}
               style={{ padding: '48px 76px' }}
@@ -125,7 +133,7 @@ export const ObjectListModal = ({ label, props, schema }) => {
                 setDisabled(false)
                 Object.assign(changes, data)
               }}
-            /> */}
+            />
           </ScrollArea>
           <RightSidebar style={{ width: 260 }}>
             <SideHeader title="Status" />
