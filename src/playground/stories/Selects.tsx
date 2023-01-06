@@ -37,6 +37,16 @@ export const Selects = () => {
               options: ['yes', 'no', 'for sure'],
             },
           },
+            {
+                props: {
+                    value: 'yes',
+                    disableReselect: true,
+                    onChange: () => console.log('Snurp'),
+                    placeholder: 'Forced selection...',
+                    label: 'Force',
+                    options: ['yes', 'no', 'for sure'],
+                },
+            },
           {
             code: ms,
           },

@@ -28,7 +28,8 @@ export function useSelect<T = any>(
     placeholder?: string
     style?: CSSProperties
   },
-  handler?: (selection: Data<T> | Event | any) => () => void | undefined
+  handler?: (selection: Data<T> | Event | any) => () => void | undefined,
+  disableReselect?: boolean,
 ): [
   SelectEvents | boolean | string | number | undefined,
   PropsEventHandler,
@@ -55,7 +56,14 @@ export function useSelect<T = any>(
         items: n,
         value: v,
         onChange: useCallback((value) => {
-          setValue(value)
+          if(disableReselect){
+            // do not set value if value is undefined
+            if(value){
+              setValue(value)
+            }
+          }else {
+            setValue(value)
+          }
         }, []),
       },
       position,

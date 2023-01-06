@@ -43,6 +43,7 @@ export type SelectProps = {
   style?: CSSProperties
   id?: string
   ghost?: boolean
+  disableReselect?: boolean
 }
 
 export const Select: FC<SelectProps> = ({
@@ -58,15 +59,20 @@ export const Select: FC<SelectProps> = ({
   name,
   id,
   ghost,
+  disableReselect,
 }) => {
   const openedRef = useRef<boolean>()
+  console.log("value", value)
   const [currentValue, open] = useSelect(options, value, {
     variant: 'over',
     filterable,
     placement: 'left',
     width: 'target',
     ...overlay,
-  })
+  },
+null,
+    disableReselect
+  )
   let labelValue: ReactNode = currentValue
 
   useEffect(() => {
