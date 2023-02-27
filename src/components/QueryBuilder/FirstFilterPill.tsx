@@ -18,58 +18,71 @@ export const FirstFilterPill = ({ setIsFocus }) => {
 
   const controller = new AbortController()
 
+  let cnt = 0
+
+  const logBlah = (e, cnt) => {
+    console.log('blah')
+
+    if (e.key === 'Tab') {
+      inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+      console.log(
+        inputRef.current.nextElementSibling.childNodes[1].childNodes[0]
+      )
+      console.log(
+        inputRef.current.nextElementSibling.childNodes[2].childNodes[0]
+      )
+    }
+  }
+
   useEffect(() => {
     if (pillIsSelected) {
-      setIsFocus(true)
-      document.addEventListener('keydown', (e) => onKeyHandler(e), {
+      // setIsFocus(true)
+      document.addEventListener('keydown', (e) => logBlah(e, cnt), {
         signal: controller.signal,
       })
     } else if (!pillIsSelected) {
-      setIsFocus(false)
+      //  setIsFocus(false)
       controller.abort()
     }
   }, [pillIsSelected])
 
   useEffect(() => {
     setPillIsSelected(false)
-    setIsFocus(false)
+    // setIsFocus(false)
     controller.abort()
   }, [pillInputValue])
 
-  let cnt = 0
-
-  const onKeyHandler = (e) => {
+  const onKeyHandler = (e, cnt) => {
     if (pillIsSelected) {
       if (e.key === 'Tab') {
+        // removeAllOverlays()
         cnt++
       }
       if (cnt === 1) {
-        removeAllOverlays()
         console.log('TAB cnt  ===> 👻', cnt)
         inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
       }
       if (cnt === 2) {
-        removeAllOverlays()
         inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
       }
       if (cnt === 3) {
-        removeAllOverlays()
         setPillIsSelected(false)
-        setIsFocus(false)
+        //  setIsFocus(false)
         cnt = 0
         controller.abort()
       }
       console.log('Count', cnt)
     }
 
-    if (e.key === 'Backspace' && pillIsSelected) {
-      deletePill()
+    if (e.key !== 'Tab') {
+      // console.log('___> e.key', e.key)
+      // setPillIsSelected(false)
+      // cnt = 0
+      // controller.abort()
     }
 
-    if (e.key !== 'Tab') {
-      setPillIsSelected(false)
-      cnt = 0
-      controller.abort()
+    if (e.key === 'Backspace' && pillIsSelected) {
+      deletePill()
     }
   }
 
@@ -142,14 +155,17 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                 options={
                   idx === 1
                     ? compareOperators
-                    : ['Snurpie', 'Flurpie', 'Snorkies']
+                    : ['Snurpie', 'Flurpie', 'Snorkies', 'Sneerpa', 'Snoep']
                 }
                 placeholder=""
                 onClick={() => {
-                  setIsFocus(true)
+                  //    setIsFocus(true)
+                  console.log('IDX', idx)
+                  setPillIsSelected(true)
 
                   if (idx === 1) {
-                    setPillIsSelected(true)
+                    cnt = 1
+                  } else if (idx === 2) {
                     cnt = 2
                   }
                 }}
