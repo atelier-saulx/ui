@@ -10,6 +10,8 @@ import { styled } from 'inlines'
 // move this
 const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 
+let cnt = 0
+
 export const FirstFilterPill = ({ setIsFocus }) => {
   const [pillInputValue, setPillInputValue] = useState('Type = Flappie')
   const [pillIsSelected, setPillIsSelected] = useState(false)
@@ -17,9 +19,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
   const inputRef = useRef(null)
 
   const controller = new AbortController()
-
-  let cnt = 0
-  let selectMiddlePill = true
 
   useEffect(() => {
     if (pillIsSelected) {
@@ -35,7 +34,7 @@ export const FirstFilterPill = ({ setIsFocus }) => {
 
   useEffect(() => {
     setPillIsSelected(false)
-    // setIsFocus(false)
+    setIsFocus(false)
     controller.abort()
   }, [pillInputValue])
 
@@ -43,15 +42,8 @@ export const FirstFilterPill = ({ setIsFocus }) => {
     console.log('INcoming count', cnt)
     console.log('E', e)
 
-    if (pillIsSelected && selectMiddlePill) {
-      selectMiddlePill = false
-      cnt = 0
-    }
-
     if (pillIsSelected && e.key === 'Tab') {
       //  removeAllOverlays()
-
-      selectMiddlePill = false
 
       cnt++
 
@@ -59,12 +51,11 @@ export const FirstFilterPill = ({ setIsFocus }) => {
         case 1:
           removeAllOverlays()
           inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
-          selectMiddlePill = false
+
           break
         case 2:
           removeAllOverlays()
           inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
-
           break
         case 3:
           removeAllOverlays()
@@ -130,6 +121,7 @@ export const FirstFilterPill = ({ setIsFocus }) => {
               if (idx === 0) {
                 setPillIsSelected(true)
                 console.log('CLCIK 😺')
+                cnt = 0
               }
             }}
           >
@@ -165,12 +157,12 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                   console.log('IDX', idx)
 
                   if (idx === 1) {
-                    selectMiddlePill = true
                     setPillIsSelected(true)
-
-                    //  setPillIsSelected(true)
-                    //   cnt = 1
-                    //  onKeyHandler({ key: 'Tab' }, 1)
+                    cnt = 1
+                    //  /  onKeyHandler({ key: 'Tab' })
+                  } else if (idx === 2) {
+                    setPillIsSelected(true)
+                    cnt = 2
                   }
                 }}
               />
