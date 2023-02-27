@@ -126,8 +126,14 @@ export const ContextMenu: FC<OverlayProps> = ({
             ? (item.style.background = color('lightbackground2:contrast'))
             : (item.style.background = color('background'))
         )
-
         e.preventDefault()
+      }
+      if (key === 'Enter') {
+        const elems = elementRef.current.querySelectorAll(
+          '[data-aviato-context-item]'
+        )
+        const focusElem = elems[currentHighlight]
+        focusElem.click()
       }
     }
     window.document.addEventListener('keydown', setHighlight)
