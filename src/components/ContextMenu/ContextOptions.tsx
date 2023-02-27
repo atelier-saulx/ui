@@ -240,7 +240,7 @@ const FilterableContextOptions: FC<
     <>
       <FilterInputHolderSticky>
         <FilterInputHolder>
-          <SearchIcon color="text2" size={16} />
+          <SearchIcon color="text2" size={16} style={{ minWidth: 16 }} />
           <FilterInput
             autoFocus
             data-aviato-context-item

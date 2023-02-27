@@ -116,7 +116,7 @@ export const ContextItem: FC<ContextItemProps> = ({
     <StyledContextItem
       data-aviato-context-item
       tabIndex={tabIndex}
-      //    onMouseEnter={({ currentTarget }) => currentTarget.focus()}
+      //  onMouseEnter={({ currentTarget }) => currentTarget.focus()}
       //  onMouseLeave={({ currentTarget }) => currentTarget.blur()}
       onClick={onClick}
       style={style}
