@@ -2,6 +2,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Text, Select, color, CloseCircleIcon, removeAllOverlays } from '~'
 import { styled } from 'inlines'
 
+type FirstFilterPillProps = {
+  setFilters?: React.Dispatch<React.SetStateAction<object>>
+  setIsFocus?: React.Dispatch<React.SetStateAction<boolean>>
+  suggestions?: string[]
+  filters?: { $field: string; $operator: string; $value: string }
+}
 // TODO: Onclick altijd focus op filter typ veld.
 // TODO: CLick on middle en dan tab should move to next
 // TODO: Mag nooit leeg zijn of iets wat niet bestaat.
@@ -12,8 +18,13 @@ const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 
 let cnt = 0
 
-export const FirstFilterPill = ({ setIsFocus }) => {
-  const [pillInputValue, setPillInputValue] = useState('Type = Flappie')
+export const FirstFilterPill = ({
+  setFilters,
+  filters,
+  setIsFocus,
+  suggestions,
+}: FirstFilterPillProps) => {
+  const [pillInputValue, setPillInputValue] = useState('')
   const [pillIsSelected, setPillIsSelected] = useState(false)
 
   const inputRef = useRef(null)
@@ -21,7 +32,7 @@ export const FirstFilterPill = ({ setIsFocus }) => {
   const controller = new AbortController()
 
   useEffect(() => {
-    if (pillIsSelected) {
+    if (pillIsSelected && !inputRef.current.focus()) {
       // setIsFocus(true)
       document.addEventListener('keydown', (e) => onKeyHandler(e), {
         signal: controller.signal,
@@ -36,6 +47,15 @@ export const FirstFilterPill = ({ setIsFocus }) => {
     setPillIsSelected(false)
     setIsFocus(false)
     controller.abort()
+
+    // set the first filter
+    let firstFilter = {
+      $field: pillInputValue.split(' ')[0],
+      $operator: pillInputValue.split(' ')[1],
+      $value: pillInputValue.split(' ')[2],
+    }
+
+    setFilters((filters[0] = firstFilter))
   }, [pillInputValue])
 
   const onKeyHandler = (e) => {
@@ -74,6 +94,7 @@ export const FirstFilterPill = ({ setIsFocus }) => {
 
     if (e.key === 'Backspace' && pillIsSelected) {
       deletePill()
+      controller.abort()
     }
   }
 
@@ -87,6 +108,29 @@ export const FirstFilterPill = ({ setIsFocus }) => {
       <input
         ref={inputRef}
         value={pillInputValue}
+        onKeyDown={(e) => {
+          // put cursor logic here and suggestions
+          if (suggestions.length > 0) {
+            if (e.key === 'Tab' && pillInputValue.split(' ').length <= 3) {
+              e.preventDefault()
+              if (pillInputValue.split(' ').length <= 1) {
+                setPillInputValue(suggestions[0] + ' ')
+              } else if (pillInputValue.split(' ').length === 2) {
+                setPillInputValue(pillInputValue + suggestions[0] + ' ')
+              } else if (pillInputValue.split(' ').length === 3) {
+                setPillInputValue(pillInputValue + suggestions[0])
+                // end this block pill
+                setInputString(pillInputValue)
+                inputRef.current.blur()
+              }
+            }
+          } else if (suggestions.length < 1) {
+            if (e.key === 'Tab' && pillInputValue.split(' ').length < 3) {
+              e.preventDefault()
+              setPillInputValue(pillInputValue + ' ')
+            }
+          }
+        }}
         onChange={(e) => setPillInputValue(e.target.value)}
         style={{ border: '1px solid green', position: 'absolute', top: 20 }}
       />
@@ -102,9 +146,12 @@ export const FirstFilterPill = ({ setIsFocus }) => {
               borderBottomLeftRadius: idx === 0 ? 4 : 0,
               borderTopRightRadius: idx === 2 ? 4 : 0,
               borderBottomRightRadius: idx === 2 ? 4 : 0,
-              backgroundColor: pillIsSelected
-                ? 'rgba(44, 60, 234, 0.08)'
-                : color('lightgrey'),
+              backgroundColor:
+                idx === 0 && pillInputValue.split(' ').length === 1
+                  ? color('background')
+                  : pillIsSelected
+                  ? 'rgba(44, 60, 234, 0.08)'
+                  : color('lightgrey'),
               borderRight: `1px solid ${color('border')}`,
               position: 'relative',
               cursor: 'text',
