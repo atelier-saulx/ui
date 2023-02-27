@@ -39,8 +39,10 @@ export const FirstFilterPill = ({ setIsFocus }) => {
   let cnt = 0
 
   const onKeyHandler = (e) => {
-    if (e.key === 'Tab' && pillIsSelected) {
-      cnt++
+    if (pillIsSelected) {
+      if (e.key === 'Tab') {
+        cnt++
+      }
       if (cnt === 1) {
         removeAllOverlays()
         console.log('TAB cnt  ===> 👻', cnt)
@@ -112,8 +114,7 @@ export const FirstFilterPill = ({ setIsFocus }) => {
             }}
             key={idx}
             onClick={() => {
-              inputRef.current.focus()
-              setIsFocus(true)
+              cnt = 0
               setPillIsSelected(true)
             }}
           >
@@ -136,7 +137,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                   temp[idx] = e
                   setPillInputValue(temp.join(' '))
                   setPillIsSelected(false)
-                  // setIsFocus(false)
                   controller.abort()
                 }}
                 options={
@@ -147,6 +147,11 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                 placeholder=""
                 onClick={() => {
                   setIsFocus(true)
+
+                  if (idx === 1) {
+                    setPillIsSelected(true)
+                    cnt = 2
+                  }
                 }}
               />
             )}
