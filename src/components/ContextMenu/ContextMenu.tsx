@@ -102,7 +102,7 @@ export const ContextMenu: FC<OverlayProps> = ({
         if (currentHighlight > elems.length - 1) {
           currentHighlight = 0
         }
-        //        highlight(elems)
+        highlight(elems)
 
         Array.from(elems).filter((item) =>
           item === elems[currentHighlight]
@@ -119,7 +119,7 @@ export const ContextMenu: FC<OverlayProps> = ({
         if (currentHighlight < 0) {
           currentHighlight = elems.length - 1
         }
-        // highlight(elem)
+        highlight(elem)
 
         Array.from(elems).filter((item) =>
           item === elems[currentHighlight]
@@ -127,6 +127,12 @@ export const ContextMenu: FC<OverlayProps> = ({
             : (item.style.background = color('background'))
         )
         e.preventDefault()
+      } else if (key === 'Enter') {
+        const elems = elementRef.current.querySelectorAll(
+          '[data-aviato-context-item]'
+        )
+        const focusElem = elems[currentHighlight]
+        focusElem.click()
       } else if (key !== 'ArrowUp' || key !== 'ArrowDown') {
         console.log('Hallo 🤡')
         currentHighlight = 1
@@ -138,13 +144,6 @@ export const ContextMenu: FC<OverlayProps> = ({
             ? (item.style.background = color('lightbackground2:contrast'))
             : (item.style.background = color('background'))
         )
-      }
-      if (key === 'Enter') {
-        const elems = elementRef.current.querySelectorAll(
-          '[data-aviato-context-item]'
-        )
-        const focusElem = elems[currentHighlight]
-        focusElem.click()
       }
     }
     window.document.addEventListener('keydown', setHighlight)
