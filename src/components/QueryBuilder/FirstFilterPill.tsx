@@ -19,25 +19,12 @@ export const FirstFilterPill = ({ setIsFocus }) => {
   const controller = new AbortController()
 
   let cnt = 0
-
-  const logBlah = (e, cnt) => {
-    console.log('blah')
-
-    if (e.key === 'Tab') {
-      inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
-      console.log(
-        inputRef.current.nextElementSibling.childNodes[1].childNodes[0]
-      )
-      console.log(
-        inputRef.current.nextElementSibling.childNodes[2].childNodes[0]
-      )
-    }
-  }
+  let selectMiddlePill = true
 
   useEffect(() => {
     if (pillIsSelected) {
       // setIsFocus(true)
-      document.addEventListener('keydown', (e) => logBlah(e, cnt), {
+      document.addEventListener('keydown', (e) => onKeyHandler(e), {
         signal: controller.signal,
       })
     } else if (!pillIsSelected) {
@@ -52,33 +39,46 @@ export const FirstFilterPill = ({ setIsFocus }) => {
     controller.abort()
   }, [pillInputValue])
 
-  const onKeyHandler = (e, cnt) => {
-    if (pillIsSelected) {
-      if (e.key === 'Tab') {
-        // removeAllOverlays()
-        cnt++
-      }
-      if (cnt === 1) {
-        console.log('TAB cnt  ===> 👻', cnt)
-        inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
-      }
-      if (cnt === 2) {
-        inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
-      }
-      if (cnt === 3) {
-        setPillIsSelected(false)
-        //  setIsFocus(false)
-        cnt = 0
-        controller.abort()
-      }
-      console.log('Count', cnt)
+  const onKeyHandler = (e) => {
+    console.log('INcoming count', cnt)
+    console.log('E', e)
+
+    if (pillIsSelected && selectMiddlePill) {
+      selectMiddlePill = false
+      cnt = 0
     }
 
-    if (e.key !== 'Tab') {
-      // console.log('___> e.key', e.key)
-      // setPillIsSelected(false)
-      // cnt = 0
-      // controller.abort()
+    if (pillIsSelected && e.key === 'Tab') {
+      //  removeAllOverlays()
+
+      selectMiddlePill = false
+
+      cnt++
+
+      switch (cnt) {
+        case 1:
+          removeAllOverlays()
+          inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+          selectMiddlePill = false
+          break
+        case 2:
+          removeAllOverlays()
+          inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
+
+          break
+        case 3:
+          removeAllOverlays()
+          setPillIsSelected(false)
+          //  setIsFocus(false)
+          cnt = 0
+          controller.abort()
+          break
+        default:
+          removeAllOverlays()
+          break
+      }
+
+      console.log('ADDING TO COUNT', cnt)
     }
 
     if (e.key === 'Backspace' && pillIsSelected) {
@@ -127,8 +127,10 @@ export const FirstFilterPill = ({ setIsFocus }) => {
             }}
             key={idx}
             onClick={() => {
-              cnt = 0
-              setPillIsSelected(true)
+              if (idx === 0) {
+                setPillIsSelected(true)
+                console.log('CLCIK 😺')
+              }
             }}
           >
             {idx === 0 && <Text color="text2">{item}</Text>}
@@ -159,14 +161,16 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                 }
                 placeholder=""
                 onClick={() => {
-                  //    setIsFocus(true)
+                  setIsFocus(true)
                   console.log('IDX', idx)
-                  setPillIsSelected(true)
 
                   if (idx === 1) {
-                    cnt = 1
-                  } else if (idx === 2) {
-                    cnt = 2
+                    selectMiddlePill = true
+                    setPillIsSelected(true)
+
+                    //  setPillIsSelected(true)
+                    //   cnt = 1
+                    //  onKeyHandler({ key: 'Tab' }, 1)
                   }
                 }}
               />
