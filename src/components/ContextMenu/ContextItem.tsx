@@ -25,6 +25,9 @@ const StyledContextItem = styled('div', {
   '&:focus': {
     backgroundColor: color('lightbackground2:contrast'),
   },
+  '&:hover': {
+    backgroundColor: color('lightbackground2:contrast'),
+  },
 })
 
 export type ContextItemProps = {
@@ -113,8 +116,8 @@ export const ContextItem: FC<ContextItemProps> = ({
     <StyledContextItem
       data-aviato-context-item
       tabIndex={tabIndex}
-      onMouseEnter={({ currentTarget }) => currentTarget.focus()}
-      onMouseLeave={({ currentTarget }) => currentTarget.blur()}
+      //    onMouseEnter={({ currentTarget }) => currentTarget.focus()}
+      //  onMouseLeave={({ currentTarget }) => currentTarget.blur()}
       onClick={onClick}
       style={style}
       onKeyDown={

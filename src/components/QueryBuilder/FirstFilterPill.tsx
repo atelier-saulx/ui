@@ -11,7 +11,7 @@ import { styled } from 'inlines'
 const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 
 export const FirstFilterPill = ({ setIsFocus }) => {
-  const [pillInputValue, setPillInputValue] = useState('Type Is Flappie')
+  const [pillInputValue, setPillInputValue] = useState('Type = Flappie')
   const [pillIsSelected, setPillIsSelected] = useState(false)
 
   const inputRef = useRef(null)
