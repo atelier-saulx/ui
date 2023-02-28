@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { styled, Styled } from 'inlines'
 import { Select } from '../Select'
+import { removeAllOverlays } from '../Overlay'
 
 // todo regex the box i guess
 
@@ -10,14 +11,19 @@ export const FirstPill = () => {
   const [inputValue, setInputValue] = useState<string>('')
   const [subPills, setSubPills] = useState<string[]>(['', '', ''])
 
-  const inputRef = useRef(null)
+  const inputRefOne = useRef(null)
+  const inputRefTwo = useRef(null)
+  const inputRefThree = useRef(null)
+
+  const firstSelectionRef = useRef(null)
+  const secondSelectionRef = useRef(null)
 
   return (
     <>
       <input
-        ref={inputRef}
+        ref={inputRefOne}
         type="text"
-        style={{ border: '1px solid purple', marginBottom: 16 }}
+        style={{ border: '1px solid purple', marginBottom: 16, maxWidth: 100 }}
         onKeyDown={(e) => {
           console.log(e.key)
           if (e.key === ' ') {
@@ -29,11 +35,38 @@ export const FirstPill = () => {
 
           if (e.key === 'Tab') {
             e.preventDefault()
+            firstSelectionRef.current.click()
           }
         }}
         onChange={(e) => {
           console.log(e.currentTarget.value)
           subPills[0] = e.currentTarget.value.replace(/\s/g, '')
+          console.log(subPills)
+          setSubPills([...subPills])
+        }}
+      />
+      <input
+        value={subPills[1]}
+        ref={inputRefTwo}
+        type="text"
+        style={{ border: '1px solid purple', marginBottom: 16, maxWidth: 100 }}
+        onKeyDown={(e) => {
+          console.log(e.key)
+          if (e.key === ' ') {
+            e.preventDefault()
+            e.stopPropagation()
+            return false
+            console.log('SPatie was pressed')
+          }
+
+          if (e.key === 'Tab') {
+            e.preventDefault()
+            firstSelectionRef.current.click()
+          }
+        }}
+        onChange={(e) => {
+          console.log(e.currentTarget.value)
+          subPills[1] = e.currentTarget.value.replace(/\s/g, '')
           console.log(subPills)
           setSubPills([...subPills])
         }}
@@ -48,13 +81,38 @@ export const FirstPill = () => {
           display: 'flex',
           gap: 12,
         }}
-        onClick={() => inputRef.current.focus()}
+        onClick={() => inputRefOne.current.focus()}
       >
-        <div style={{ background: 'yellow' }}>{subPills[0]}</div>
+        <div style={{ background: 'yellow', minWidth: 36 }}>{subPills[0]}</div>
         <Select
+          ref={firstSelectionRef}
+          value={subPills[1]}
+          filterable
           options={['=', '<', '!=']}
-          onChange={() => {}}
-          style={{ maxWidth: 100 }}
+          onChange={(e: string) => {
+            subPills[1] = e
+            setSubPills([...subPills])
+          }}
+          style={{
+            maxWidth: 74,
+            '& div': { padding: '8px', display: 'flex' },
+            '& svg': { display: 'none' },
+          }}
+        />
+        <Select
+          ref={secondSelectionRef}
+          value={subPills[2]}
+          filterable
+          options={['Snurpie', 'Flarpie', 'Florkie']}
+          onChange={(e: string) => {
+            subPills[2] = e
+            //  setSubPills([...subPills])
+          }}
+          style={{
+            maxWidth: 74,
+            '& div': { padding: '8px', display: 'flex' },
+            '& svg': { display: 'none' },
+          }}
         />
       </styled.div>
     </>
