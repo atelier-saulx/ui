@@ -12,6 +12,7 @@ type FirstFilterPillProps = {
 // TODO: CLick on middle en dan tab should move to next
 // TODO: Mag nooit leeg zijn of iets wat niet bestaat.
 // TODO: auto hover focus on eerste resultaat en submit met enter
+// Escape halverwege verwijderd hele blokje
 
 // move this
 const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
@@ -28,11 +29,12 @@ export const FirstFilterPill = ({
   const [pillIsSelected, setPillIsSelected] = useState(false)
 
   const inputRef = useRef(null)
+  const selectRef = useRef(null)
 
   const controller = new AbortController()
 
   useEffect(() => {
-    if (pillIsSelected && !inputRef.current.focus()) {
+    if (pillIsSelected) {
       // setIsFocus(true)
       document.addEventListener('keydown', (e) => onKeyHandler(e), {
         signal: controller.signal,
@@ -44,18 +46,18 @@ export const FirstFilterPill = ({
   }, [pillIsSelected])
 
   useEffect(() => {
-    setPillIsSelected(false)
+    // setPillIsSelected(false)
     setIsFocus(false)
     controller.abort()
 
     // set the first filter
-    let firstFilter = {
-      $field: pillInputValue.split(' ')[0],
-      $operator: pillInputValue.split(' ')[1],
-      $value: pillInputValue.split(' ')[2],
-    }
+    // let firstFilter = {
+    //   $field: pillInputValue.split(' ')[0],
+    //   $operator: pillInputValue.split(' ')[1],
+    //   $value: pillInputValue.split(' ')[2],
+    // }
 
-    setFilters((filters[0] = firstFilter))
+    // setFilters((filters[0] = firstFilter))
   }, [pillInputValue])
 
   const onKeyHandler = (e) => {
@@ -71,7 +73,6 @@ export const FirstFilterPill = ({
         case 1:
           removeAllOverlays()
           inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
-
           break
         case 2:
           removeAllOverlays()
@@ -109,29 +110,41 @@ export const FirstFilterPill = ({
         ref={inputRef}
         value={pillInputValue}
         onKeyDown={(e) => {
-          // put cursor logic here and suggestions
-          if (suggestions.length > 0) {
-            if (e.key === 'Tab' && pillInputValue.split(' ').length <= 3) {
+          //  put cursor logic here and suggestions
+          if (e.key === 'Tab') {
+            if (pillInputValue.split(' ').length === 1) {
+              setPillInputValue(e.target.value + ' =' + ' ')
               e.preventDefault()
-              if (pillInputValue.split(' ').length <= 1) {
-                setPillInputValue(suggestions[0] + ' ')
-              } else if (pillInputValue.split(' ').length === 2) {
-                setPillInputValue(pillInputValue + suggestions[0] + ' ')
-              } else if (pillInputValue.split(' ').length === 3) {
-                setPillInputValue(pillInputValue + suggestions[0])
-                // end this block pill
-                setInputString(pillInputValue)
-                inputRef.current.blur()
-              }
+              window.requestAnimationFrame(() => {
+                inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+              })
             }
-          } else if (suggestions.length < 1) {
-            if (e.key === 'Tab' && pillInputValue.split(' ').length < 3) {
-              e.preventDefault()
-              setPillInputValue(pillInputValue + ' ')
-            }
+
+            console.log('SLECT REFFIE --> ', selectRef.current)
+            //   console.log(inputRef.current.nextElementSibling)
+
+            //   inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+
+            // })
+
+            // selectRef.current[0].value = '='
           }
+          // if (suggestions.length > 0) {
+          //   if (e.key === 'Tab' && pillInputValue.split(' ').length <= 1) {
+          //     setPillInputValue(suggestions[0] + ' =')
+          //     console.log(
+          //       '-->',
+          //       inputRef.current.nextElementSibling.childNodes[0].childNodes[0]
+          //     )
+          //     cnt = 1
+          //     inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+          //     e.preventDefault()
+          //   }
+          // }
         }}
-        onChange={(e) => setPillInputValue(e.target.value)}
+        onChange={(e) => {
+          setPillInputValue(e.target.value)
+        }}
         style={{ border: '1px solid green', position: 'absolute', top: 20 }}
       />
       <div style={{ display: 'flex', position: 'relative' }}>
@@ -176,6 +189,7 @@ export const FirstFilterPill = ({
 
             {idx !== 0 && (
               <Select
+                mRef={selectRef}
                 ghost
                 value={pillInputValue.split(' ')[idx]}
                 filterable
