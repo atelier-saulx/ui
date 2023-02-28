@@ -18,6 +18,8 @@ export const FirstPill = () => {
   const firstSelectionRef = useRef(null)
   const secondSelectionRef = useRef(null)
 
+  // TODO make keydownhandler for the input refs
+
   return (
     <>
       <input
@@ -30,7 +32,6 @@ export const FirstPill = () => {
             e.preventDefault()
             e.stopPropagation()
             return false
-            console.log('SPatie was pressed')
           }
 
           if (e.key === 'Tab') {
@@ -56,17 +57,41 @@ export const FirstPill = () => {
             e.preventDefault()
             e.stopPropagation()
             return false
-            console.log('SPatie was pressed')
           }
 
           if (e.key === 'Tab') {
             e.preventDefault()
-            firstSelectionRef.current.click()
+            secondSelectionRef.current.click()
           }
         }}
         onChange={(e) => {
           console.log(e.currentTarget.value)
           subPills[1] = e.currentTarget.value.replace(/\s/g, '')
+          console.log(subPills)
+          setSubPills([...subPills])
+        }}
+      />
+      <input
+        value={subPills[2]}
+        ref={inputRefThree}
+        type="text"
+        style={{ border: '1px solid purple', marginBottom: 16, maxWidth: 100 }}
+        onKeyDown={(e) => {
+          console.log(e.key)
+          if (e.key === ' ') {
+            e.preventDefault()
+            e.stopPropagation()
+            return false
+          }
+
+          if (e.key === 'Tab') {
+            e.preventDefault()
+            secondSelectionRef.current.click()
+          }
+        }}
+        onChange={(e) => {
+          console.log(e.currentTarget.value)
+          subPills[2] = e.currentTarget.value.replace(/\s/g, '')
           console.log(subPills)
           setSubPills([...subPills])
         }}
@@ -92,6 +117,7 @@ export const FirstPill = () => {
           onChange={(e: string) => {
             subPills[1] = e
             setSubPills([...subPills])
+            inputRefTwo.current.focus()
           }}
           style={{
             maxWidth: 74,
@@ -106,7 +132,7 @@ export const FirstPill = () => {
           options={['Snurpie', 'Flarpie', 'Florkie']}
           onChange={(e: string) => {
             subPills[2] = e
-            //  setSubPills([...subPills])
+            setSubPills([...subPills])
           }}
           style={{
             maxWidth: 74,
