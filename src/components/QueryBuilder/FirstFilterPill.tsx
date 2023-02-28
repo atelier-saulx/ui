@@ -17,8 +17,6 @@ type FirstFilterPillProps = {
 // move this
 const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 
-let cnt = 0
-
 export const FirstFilterPill = ({
   setFilters,
   filters,
@@ -60,9 +58,19 @@ export const FirstFilterPill = ({
     // setFilters((filters[0] = firstFilter))
   }, [pillInputValue])
 
+  let cnt = 0
+
   const onKeyHandler = (e) => {
     console.log('INcoming count', cnt)
     console.log('E', e)
+
+    if (e.key === 'Enter' && cnt === 1) {
+      console.log('Flippie')
+
+      cnt++
+      removeAllOverlays()
+      inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
+    }
 
     if (pillIsSelected && e.key === 'Tab') {
       //  removeAllOverlays()
@@ -73,6 +81,7 @@ export const FirstFilterPill = ({
         case 1:
           removeAllOverlays()
           inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+
           break
         case 2:
           removeAllOverlays()
@@ -116,6 +125,7 @@ export const FirstFilterPill = ({
               setPillInputValue(e.target.value + ' =' + ' ')
               e.preventDefault()
               window.requestAnimationFrame(() => {
+                setPillIsSelected(true)
                 inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
               })
             }
