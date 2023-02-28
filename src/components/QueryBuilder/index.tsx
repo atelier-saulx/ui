@@ -5,6 +5,7 @@ import { FirstFilterPill } from './FirstFilterPill'
 import { RootPill } from './RootPill'
 import { FakeCarret } from './FakeCarret'
 import { SuggestionTags } from './SuggestionTags'
+import { FirstPill } from './FirstPill'
 
 export const QueryBuilder = () => {
   const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -22,7 +23,11 @@ export const QueryBuilder = () => {
 
   return (
     <div>
-      <Text space>full string: {inputString}</Text>
+      <div style={{ marginBottom: 64 }}>
+        <FirstPill />
+      </div>
+
+      {/* <Text space>full string: {inputString}</Text>
       <styled.div
         style={{
           border: isFocus
@@ -53,20 +58,20 @@ export const QueryBuilder = () => {
           filters={filters}
         />
         {/* <FakeCarret /> */}
-      </styled.div>
+      {/* </styled.div> */}
 
-      {/* Array map suggestions */}
-      <div style={{ display: 'flex' }}>
-        {suggestions.map((sug, idx) => (
-          <SuggestionTags
-            key={idx}
-            onClick={() => {
-              console.log('clickie')
-            }}
-            suggestion={idx === 0 ? `${sug} (Tab)` : sug}
-          />
-        ))}
-      </div>
+      {/* Array map suggestions 
+      // <div style={{ display: 'flex' }}>
+      //   {suggestions.map((sug, idx) => (
+      //     <SuggestionTags
+      //       key={idx}
+      //       onClick={() => {
+      //         console.log('clickie')
+      //       }}
+      //       suggestion={idx === 0 ? `${sug} (Tab)` : sug}
+      //     />
+      //   ))}
+      // </div> */}
     </div>
   )
 }

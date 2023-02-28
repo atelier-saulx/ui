@@ -27,7 +27,6 @@ export const FirstFilterPill = ({
   const [pillIsSelected, setPillIsSelected] = useState(false)
 
   const inputRef = useRef(null)
-  const selectRef = useRef(null)
 
   const controller = new AbortController()
 
@@ -64,15 +63,16 @@ export const FirstFilterPill = ({
     console.log('INcoming count', cnt)
     console.log('E', e)
 
-    if (e.key === 'Enter' && cnt === 1) {
-      console.log('Flippie')
+    console.log(
+      'FKMEA',
+      inputRef.current.nextElementSibling.childNodes[1].childNodes[0]
+        .childNodes[0].value
+    )
 
-      cnt++
-      removeAllOverlays()
-      inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
-    }
-
-    if (pillIsSelected && e.key === 'Tab') {
+    if (
+      (pillIsSelected && e.key === 'Tab') ||
+      (pillIsSelected && e.key === 'Enter')
+    ) {
       //  removeAllOverlays()
 
       cnt++
@@ -122,15 +122,15 @@ export const FirstFilterPill = ({
           //  put cursor logic here and suggestions
           if (e.key === 'Tab') {
             if (pillInputValue.split(' ').length === 1) {
-              setPillInputValue(e.target.value + ' =' + ' ')
+              setPillInputValue(e.target.value + ' ' + ' ')
               e.preventDefault()
               window.requestAnimationFrame(() => {
                 setPillIsSelected(true)
+                cnt += 1
                 inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
               })
             }
 
-            console.log('SLECT REFFIE --> ', selectRef.current)
             //   console.log(inputRef.current.nextElementSibling)
 
             //   inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
@@ -155,7 +155,7 @@ export const FirstFilterPill = ({
         onChange={(e) => {
           setPillInputValue(e.target.value)
         }}
-        style={{ border: '1px solid green', position: 'absolute', top: 20 }}
+        style={{ border: '1px solid green', position: 'relative', top: 20 }}
       />
       <div style={{ display: 'flex', position: 'relative' }}>
         {pillInputValue.split(' ').map((item, idx) => (
@@ -199,7 +199,6 @@ export const FirstFilterPill = ({
 
             {idx !== 0 && (
               <Select
-                mRef={selectRef}
                 ghost
                 value={pillInputValue.split(' ')[idx]}
                 filterable
@@ -214,8 +213,9 @@ export const FirstFilterPill = ({
                   const temp = pillInputValue.split(' ')
                   temp[idx] = e
                   setPillInputValue(temp.join(' '))
-                  setPillIsSelected(false)
-                  controller.abort()
+
+                  //  setPillIsSelected(false)
+                  // controller.abort()
                 }}
                 options={
                   idx === 1

@@ -46,116 +46,104 @@ export type SelectProps = {
   id?: string
   ghost?: boolean
   onClick?: () => void
-  mRef?: React.Ref<HTMLUListElement> | null
 }
 
-export const Select: FC<SelectProps> = React.forwardRef(
-  (
-    {
-      options,
-      value,
-      onChange,
-      style,
-      filterable,
-      color = 'text',
-      placeholder = 'Select an option',
-      overlay,
-      label,
-      name,
-      id,
-      ghost,
-      onClick,
-    },
-    mRef
-  ) => {
-    const openedRef = useRef<boolean>()
-    const [currentValue, open] = useSelect(options, value, {
-      variant: 'over',
-      filterable,
-      placement: 'left',
-      width: 'target',
-      ...overlay,
-    })
-    let labelValue: ReactNode = currentValue
+export const Select: FC<SelectProps> = ({
+  options,
+  value,
+  onChange,
+  style,
+  filterable,
+  color = 'text',
+  placeholder = 'Select an option',
+  overlay,
+  label,
+  name,
+  id,
+  ghost,
+  onClick,
+}) => {
+  const openedRef = useRef<boolean>()
+  const [currentValue, open] = useSelect(options, value, {
+    variant: 'over',
+    filterable,
+    placement: 'left',
+    width: 'target',
+    ...overlay,
+  })
+  let labelValue: ReactNode = currentValue
 
-    useEffect(() => {
-      if (openedRef.current) {
-        if (currentValue !== value) {
-          // TODO: Fix this type
-          onChange?.(currentValue as Value)
-        }
-      }
-    }, [currentValue, onChange])
-
-    if (currentValue) {
-      for (const opt of options) {
-        if (
-          typeof opt === 'object' &&
-          opt.value === currentValue &&
-          opt.label
-        ) {
-          labelValue = opt.label
-        }
+  useEffect(() => {
+    if (openedRef.current) {
+      if (currentValue !== value) {
+        // TODO: Fix this type
+        onChange?.(currentValue as Value)
       }
     }
+  }, [currentValue, onChange])
 
-    const children = (
-      <>
-        {typeof currentValue === 'string' && (
-          <input
-            readOnly
-            style={{ display: 'none' }}
-            value={currentValue}
-            name={name}
-          />
-        )}
-        <Text color={labelValue ? 'text' : 'text2'}>
-          {labelValue || placeholder}
-        </Text>
-        <ChevronDownIcon color={color} size={16} />
-      </>
-    )
-
-    if (ghost) {
-      style = {
-        ...style,
-        backgroundColor: null,
-        border: null,
-        padding: 0,
-        '&:hover': null,
+  if (currentValue) {
+    for (const opt of options) {
+      if (typeof opt === 'object' && opt.value === currentValue && opt.label) {
+        labelValue = opt.label
       }
     }
-
-    return label ? (
-      <SelectLabel
-        label={label}
-        onClick={(e) => {
-          openedRef.current = true
-          open(e)
-        }}
-        style={style}
-      >
-        {children}
-      </SelectLabel>
-    ) : (
-      <StyledSelect
-        ref={mRef}
-        onClick={(e) => {
-          console.log('----fa->>', mRef)
-          if (onClick) {
-            onClick()
-          }
-          openedRef.current = true
-          open(e)
-        }}
-        style={{
-          boxShadow: ghost ? null : boxShadow('medium'),
-          ...style,
-        }}
-        id={id}
-      >
-        {children}
-      </StyledSelect>
-    )
   }
-)
+
+  const children = (
+    <>
+      {typeof currentValue === 'string' && (
+        <input
+          readOnly
+          style={{ display: 'none' }}
+          value={currentValue}
+          name={name}
+        />
+      )}
+      <Text color={labelValue ? 'text' : 'text2'}>
+        {labelValue || placeholder}
+      </Text>
+      <ChevronDownIcon color={color} size={16} />
+    </>
+  )
+
+  if (ghost) {
+    style = {
+      ...style,
+      backgroundColor: null,
+      border: null,
+      padding: 0,
+      '&:hover': null,
+    }
+  }
+
+  return label ? (
+    <SelectLabel
+      label={label}
+      onClick={(e) => {
+        openedRef.current = true
+        open(e)
+      }}
+      style={style}
+    >
+      {children}
+    </SelectLabel>
+  ) : (
+    <StyledSelect
+      onClick={(e) => {
+        if (onClick) {
+          onClick()
+        }
+        openedRef.current = true
+        open(e)
+      }}
+      style={{
+        boxShadow: ghost ? null : boxShadow('medium'),
+        ...style,
+      }}
+      id={id}
+    >
+      {children}
+    </StyledSelect>
+  )
+}
