@@ -19,9 +19,20 @@ export const FirstPill = () => {
   const secondSelectionRef = useRef(null)
 
   // TODO make keydownhandler for the input refs
+  //   useEffect(() => {
+  //     document.addEventListener('keydown', (e) => onKeyHandler(e))
+  //   }, [])
+
+  //   const onKeyHandler = (e) => {
+  //     console.log('EEEEEE', e)
+  //     if (e.key === 'Tab') {
+  //       console.log('Tab was pressed')
+  //     }
+  //   }
 
   return (
     <>
+      {/* one */}
       <input
         ref={inputRefOne}
         type="text"
@@ -36,7 +47,7 @@ export const FirstPill = () => {
 
           if (e.key === 'Tab') {
             e.preventDefault()
-            firstSelectionRef.current.click()
+            inputRefTwo.current.focus()
           }
         }}
         onChange={(e) => {
@@ -46,6 +57,7 @@ export const FirstPill = () => {
           setSubPills([...subPills])
         }}
       />
+      {/* two */}
       <input
         value={subPills[1]}
         ref={inputRefTwo}
@@ -53,15 +65,17 @@ export const FirstPill = () => {
         style={{ border: '1px solid purple', marginBottom: 16, maxWidth: 100 }}
         onKeyDown={(e) => {
           console.log(e.key)
-          if (e.key === ' ') {
-            e.preventDefault()
-            e.stopPropagation()
-            return false
-          }
 
           if (e.key === 'Tab') {
             e.preventDefault()
-            secondSelectionRef.current.click()
+            inputRefThree.current.focus()
+          }
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            inputRefThree.current.focus()
+          } else {
+            e.preventDefault()
+            return false
           }
         }}
         onChange={(e) => {
@@ -70,7 +84,9 @@ export const FirstPill = () => {
           console.log(subPills)
           setSubPills([...subPills])
         }}
+        onFocus={() => firstSelectionRef.current.click()}
       />
+      {/* three */}
       <input
         value={subPills[2]}
         ref={inputRefThree}
@@ -95,6 +111,7 @@ export const FirstPill = () => {
           console.log(subPills)
           setSubPills([...subPills])
         }}
+        onFocus={() => secondSelectionRef.current.click()}
       />
 
       <styled.div
@@ -113,11 +130,14 @@ export const FirstPill = () => {
           ref={firstSelectionRef}
           value={subPills[1]}
           filterable
-          options={['=', '<', '!=']}
+          options={['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']}
           onChange={(e: string) => {
-            subPills[1] = e
-            setSubPills([...subPills])
-            inputRefTwo.current.focus()
+            window.requestAnimationFrame(() => {
+              subPills[1] = e
+              setSubPills([...subPills])
+            })
+
+            //  inputRefThree.current.focus()
           }}
           style={{
             maxWidth: 74,
