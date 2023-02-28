@@ -232,6 +232,8 @@ type MultiLineTextInput = AllInputProps & {
       }
   )
 
+type DigestInput = AllInputProps & {}
+
 export type InputProps = TextInput | MultiLineTextInput
 
 export const isMultiLineTextInput = (
@@ -248,7 +250,29 @@ export const Input: FC<InputProps> = (props) => {
   if (isMultiLineTextInput(props)) {
     console.log(props)
   }
-
+  // const { v } = props
+  // console.log(defaultValue, value, onChange)
+  const {
+    icon,
+    iconRight,
+    label,
+    description,
+    descriptionBottom,
+    indent,
+    placeholder,
+    ghost,
+    autoFocus,
+    style,
+    pattern,
+    disabled,
+    inputRef,
+    onKeyDown,
+    onKeyPress,
+    onBlur,
+    onFucus,
+    noInterrupt,
+    space,
+  } = props
   return null
 
   // const [focused, setFocused] = useState(false)
