@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, useState, useEffect } from 'react'
+import React, { FC, CSSProperties, useState, useEffect, ReactNode } from 'react'
 import { Label, usePropState } from '~'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -7,17 +7,25 @@ import { DateInput } from './DateInput'
 import { UtcInput } from './UtcInput'
 import { DateRangeInput } from './DateRangeInput'
 
-
 type DateTimePickerProps = {
-  label?: string
-  description?: string
-  descriptionBottom?: string
+  label?: ReactNode
+  description?: ReactNode
+  descriptionBottom?: ReactNode
   indent?: boolean
   onChange?: (value: number) => void
   space?: Space
   style?: CSSProperties
-  error?: (value: boolean | string | number) => string
+  error?: (value: number) => string
   disabled?: boolean
+  /**
+   Pass either a date string or the date in ms
+
+   ```js
+    <DateTimePicker value="01/02/2020" />
+
+    <DateTimePicker value={Date.now()} />
+   ```
+   */
   value?: string | number
   startValue?: string
   endValue?: string

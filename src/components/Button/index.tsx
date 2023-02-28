@@ -43,6 +43,7 @@ export type ButtonProps = {
    Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.
   
    Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`
+
    Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`
   */
   keyboardShortcut?: Key

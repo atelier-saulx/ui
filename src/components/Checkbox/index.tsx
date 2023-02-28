@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties } from 'react'
+import React, { FC, CSSProperties, MouseEvent } from 'react'
 import { Label } from '../Label'
 import { color, spaceToPx } from '~/utils'
 import { CheckIcon, DashIcon } from '~/icons'
@@ -16,7 +16,7 @@ export type CheckboxProps = {
   space?: Space
   small?: boolean
   color?: Color
-  onClick?: (e: any) => void
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 export const Checkbox: FC<CheckboxProps> = ({

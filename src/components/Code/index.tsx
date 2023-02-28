@@ -1,10 +1,4 @@
-import React, {
-  CSSProperties,
-  FC,
-  Dispatch,
-  SetStateAction,
-  ReactNode,
-} from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
 import { border, color, renderOrCreateElement } from '../../'
@@ -28,7 +22,7 @@ export type CodeProps = {
   style?: CSSProperties
   value?: string
   space?: Space
-  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
+  onChange?: (value: string) => void
   topRight?: FC | ReactNode
 }
 

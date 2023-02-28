@@ -1,18 +1,19 @@
-import React, { ReactNode, CSSProperties, FunctionComponent } from 'react'
+import React, { ReactNode, FunctionComponent } from 'react'
 import { Text, Color, spaceToPx } from '~'
 import { Space, Icon } from '~/types'
 import { renderOrCreateElement } from '~/utils'
+import { styled, Style } from 'inlines'
 
 type LabelProps = {
   label?: ReactNode
   labelColor?: Color
-  description?: string
+  description?: ReactNode
   descriptionColor?: Color
   icon?: FunctionComponent<Icon> | ReactNode
   iconColor?: Color
   children?: ReactNode
   space?: Space
-  style?: CSSProperties
+  style?: Style
 }
 
 export const Label = ({
@@ -30,7 +31,7 @@ export const Label = ({
     return null
   }
   return (
-    <div
+    <styled.div
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -67,6 +68,6 @@ export const Label = ({
         </Text>
       )}
       <div>{children}</div>
-    </div>
+    </styled.div>
   )
 }

@@ -9,7 +9,7 @@ type InputWrapperProps = {
   focus?: boolean
   indent?: boolean
   space?: Space
-  descriptionBottom?: string
+  descriptionBottom?: ReactNode
   style?: CSSProperties
   disabled?: boolean
   onMouseEnter?: () => void

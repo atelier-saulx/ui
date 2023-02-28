@@ -53,20 +53,6 @@ export const useInfiniteScroll = ({
 
   useEffect(() => {
     if (client) {
-      return () => {
-        const { subs } = current
-        current.subs = {}
-        // TODO youri check if we can remove this with the new client
-        setTimeout(() => {
-          for (const subId in subs) {
-            current.subs[subId]()
-          }
-        })
-      }
-    }
-  }, [client, current])
-  useEffect(() => {
-    if (client) {
       const subs = {}
       let i = blocks
 
@@ -96,7 +82,16 @@ export const useInfiniteScroll = ({
 
       current.subs = subs
     }
-  }, [target, client, offset, blocks, query, current, language]) // dont include limit
+    return () => {
+      if (current.subs) {
+        for (const subId in current.subs) {
+          console.info('close', subId)
+          current.subs[subId]()
+          delete current.subs[subId]
+        }
+      }
+    }
+  }, [target, client, offset, blocks, query, language])
 
   useEffect(update, [
     blockHeight,

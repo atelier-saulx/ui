@@ -2,7 +2,9 @@ import React, { FC, useEffect } from 'react'
 import { useOverlayPosition } from '~/hooks'
 import { Overlay, OverlayProps } from '../Overlay'
 
-export const ContextMenu: FC<OverlayProps> = ({
+type ContextMenuType<P = any> = FC<OverlayProps<P>>
+
+export const ContextMenu: ContextMenuType = ({
   positionProps = {},
   target,
   props,
