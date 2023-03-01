@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { color, Text } from '~'
 import { styled } from 'inlines'
 import { FirstFilterPill } from './FirstFilterPill'
@@ -11,6 +11,9 @@ export const QueryBuilder = () => {
   const [isFocus, setIsFocus] = useState<boolean>(false)
   const [inputString, setInputString] = useState<string>('')
   const [filters, setFilters] = useState<Object[]>([{}])
+
+  const [selectFirstPill, setSelectFirstPill] = useState<boolean>(false)
+
   const [suggestions, setSuggestions] = useState([
     'Yow',
     'What',
@@ -19,10 +22,22 @@ export const QueryBuilder = () => {
     'Dog',
   ])
 
+  const mainInputRef = useRef(null)
+
   console.log('Filters from index --> ', filters)
 
   return (
     <div>
+      <input
+        ref={mainInputRef}
+        style={{ border: '1px solid green', marginBottom: 12 }}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowLeft') {
+            setSelectFirstPill(true)
+            console.log('LEFT')
+          }
+        }}
+      />
       <styled.div
         style={{
           border: isFocus
@@ -38,10 +53,13 @@ export const QueryBuilder = () => {
           marginBottom: 12,
           cursor: 'text',
         }}
-        onClick={() => setIsFocus(true)}
+        onClick={() => {
+          mainInputRef.current.focus()
+          setIsFocus(true)
+        }}
         onKeyDown={(e) => {
-          if (isFocus) {
-            // console.log('EEEE -->', e)
+          if (isFocus && e.key === 'ArrowLeft') {
+            console.log('EEEE -->', e)
           }
         }}
       >

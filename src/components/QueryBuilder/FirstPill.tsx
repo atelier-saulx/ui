@@ -43,6 +43,11 @@ export const FirstPill = () => {
     }
   }
 
+  const deletePill = () => {
+    console.log('DELETE THIS')
+    setSelectWholePill(false)
+  }
+
   return (
     <>
       {/* one */}
@@ -145,9 +150,6 @@ export const FirstPill = () => {
             '@media (hover: hover)': {
               '&:hover': {
                 backroundColor: color('lightgrey', 'hover'),
-                // backgroundColor: pillIsSelected
-                //   ? 'rgba(44, 60, 234, 0.08)'
-                //   : color('lightgrey:hover'),}
               },
             },
             maxWidth: 'fit-content',
@@ -187,9 +189,6 @@ export const FirstPill = () => {
             '@media (hover: hover)': {
               '&:hover': {
                 backroundColor: color('lightgrey', 'hover'),
-                // backgroundColor: pillIsSelected
-                //   ? 'rgba(44, 60, 234, 0.08)'
-                //   : color('lightgrey:hover'),}
               },
             },
             maxWidth: 'fit-content',
