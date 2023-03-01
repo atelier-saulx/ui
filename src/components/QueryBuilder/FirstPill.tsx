@@ -3,6 +3,7 @@ import { styled, Styled } from 'inlines'
 import { color, Text, CloseCircleIcon } from '~'
 import { Select } from '../Select'
 import { removeAllOverlays } from '../Overlay'
+import { FakeCaret } from '../QueryFilter/FakeCaret'
 
 // todo regex the box i guess
 // TODO -> make sure you clean time out on page change
@@ -12,7 +13,11 @@ type FirstPillProps = {}
 
 let nummie = 1
 
-export const FirstPill = ({ setInputString }) => {
+export const FirstPill = ({
+  setInputString,
+  pillCarretCounter,
+  setPillCarretCounter,
+}) => {
   const [inputValue, setInputValue] = useState<string>('')
   const [subPills, setSubPills] = useState<string[]>(['', '', ''])
   const [selectWholePill, setSelectWholePill] = useState<boolean>(false)
@@ -50,8 +55,23 @@ export const FirstPill = ({ setInputString }) => {
   }
 
   useEffect(() => {
-    setInputString(subPills.join(' '))
-  }, [subPills[2]])
+    if (subPills[2]) {
+      setInputString(subPills.join(' '))
+    }
+  }, [subPills[2], subPills[1]])
+
+  useEffect(() => {
+    if (pillCarretCounter === 1) {
+      if (subPills[0] && subPills[1]) {
+        setSelectWholePill(true)
+      } else {
+        console.log('Focus mothaflippa')
+        inputRefOne.current.focus()
+      }
+    } else {
+      setSelectWholePill(false)
+    }
+  }, [pillCarretCounter])
 
   return (
     <>
@@ -114,7 +134,11 @@ export const FirstPill = ({ setInputString }) => {
             cursor: 'text',
           }}
         >
-          {subPills[0]}
+          {!subPills[0] && pillCarretCounter === 1 ? (
+            <FakeCaret />
+          ) : (
+            subPills[0]
+          )}
         </Text>
         <Select
           placeholder=""
@@ -171,6 +195,7 @@ export const FirstPill = ({ setInputString }) => {
           onChange={(e: string) => {
             subPills[2] = e
             setSubPills([...subPills])
+            setPillCarretCounter(2)
             console.log('SUBPILLs', subPills)
           }}
           style={{

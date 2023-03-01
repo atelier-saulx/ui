@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { color, Text } from '~'
 import { styled } from 'inlines'
 import { FirstFilterPill } from './FirstFilterPill'
@@ -26,6 +26,10 @@ export const QueryBuilder = () => {
 
   const mainInputRef = useRef(null)
 
+  useEffect(() => {
+    if (pillCarretCounter % 2 === 0) mainInputRef.current.focus()
+  }, [pillCarretCounter])
+
   console.log('Filters from index --> ', filters)
 
   return (
@@ -36,8 +40,12 @@ export const QueryBuilder = () => {
         style={{ border: '1px solid green', marginBottom: 12 }}
         onKeyDown={(e) => {
           if (e.key === 'ArrowLeft') {
-            setSelectFirstPill(true)
-            console.log('LEFT')
+            console.log('<--- LEFT')
+            setPillCarretCounter(pillCarretCounter - 1)
+          }
+          if (e.key === 'ArrowRight') {
+            console.log('RIGHT -->')
+            setPillCarretCounter(pillCarretCounter + 1)
           }
         }}
       />
@@ -64,12 +72,19 @@ export const QueryBuilder = () => {
             inputString.split(' ')[0] !== '' &&
             inputString.split(' ')[1] !== ''
           ) {
+            setPillCarretCounter(2)
+            mainInputRef.current.focus()
+          } else {
             setPillCarretCounter(1)
           }
         }}
       >
-        <FirstPill setInputString={setInputString} />
-        {pillCarretCounter === 1 && <FakeCarret />}
+        <FirstPill
+          setInputString={setInputString}
+          pillCarretCounter={pillCarretCounter}
+          setPillCarretCounter={setPillCarretCounter}
+        />
+        {pillCarretCounter === 2 && <FakeCarret />}
       </styled.div>
 
       {/* <Text space>full string: {inputString}</Text>
