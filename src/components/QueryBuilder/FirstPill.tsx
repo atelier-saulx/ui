@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { styled, Styled } from 'inlines'
-import { color, Text } from '~'
+import { color, Text, CloseCircleIcon } from '~'
 import { Select } from '../Select'
 import { removeAllOverlays } from '../Overlay'
 
@@ -15,9 +15,9 @@ let nummie = 1
 export const FirstPill = () => {
   const [inputValue, setInputValue] = useState<string>('')
   const [subPills, setSubPills] = useState<string[]>(['', '', ''])
+  const [selectWholePill, setSelectWholePill] = useState<boolean>(false)
 
   const inputRefOne = useRef(null)
-
   const firstSelectionRef = useRef(null)
   const secondSelectionRef = useRef(null)
 
@@ -77,113 +77,140 @@ export const FirstPill = () => {
         onFocus={() => (nummie = 1)}
       />
 
-      <Text
-        color="text2"
-        style={{
-          height: 28,
-          padding: 8,
-          display: 'flex',
-          alignItems: 'center',
-          border: 0,
-          borderRadius: 0,
-          borderTopLeftRadius: 4,
-          borderBottomLeftRadius: 4,
-          borderRight: `1px solid ${color('border')}`,
-          backgroundColor: subPills[0]
-            ? color('lightgrey', 'hover') // 'rgba(44, 60, 234, 0.08)'
-            : color('background'),
-          position: 'relative',
-          cursor: 'text',
-          '@media (hover: hover)': {
-            '&:hover': {
-              backroundColor: color('lightgrey', 'hover'),
-              // backgroundColor: pillIsSelected
-              //   ? 'rgba(44, 60, 234, 0.08)'
-              //   : color('lightgrey:hover'),}
-            },
-          },
-        }}
+      <div
+        style={{ position: 'relative', display: 'flex', alignItems: 'center' }}
       >
-        {subPills[0]}
-      </Text>
-      <Select
-        placeholder=""
-        ref={firstSelectionRef}
-        value={subPills[1]}
-        filterable
-        options={['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']}
-        onChange={(e: string) => {
-          subPills[1] = e
-          setSubPills([...subPills])
-          setTimeout(() => {
-            console.log('Got some time?? ⌛️')
-            secondSelectionRef.current.click()
-          }, 250)
-        }}
-        style={{
-          height: 28,
-          padding: 8,
-          display: 'flex',
-          alignItems: 'center',
-          border: 0,
-          borderRadius: 0,
-          backgroundColor: subPills[0]
-            ? color('lightgrey', 'hover') // 'rgba(44, 60, 234, 0.08)'
-            : color('lightgrey'),
-          borderRight: `1px solid ${color('border')}`,
-          position: 'relative',
-          cursor: 'text',
-          '@media (hover: hover)': {
-            '&:hover': {
-              backroundColor: color('lightgrey', 'hover'),
-              // backgroundColor: pillIsSelected
-              //   ? 'rgba(44, 60, 234, 0.08)'
-              //   : color('lightgrey:hover'),}
+        <Text
+          color="text2"
+          onClick={() => setSelectWholePill(true)}
+          style={{
+            height: 28,
+            padding: 8,
+            display: 'flex',
+            alignItems: 'center',
+            border: 0,
+            borderRadius: 0,
+            borderTopLeftRadius: 4,
+            borderBottomLeftRadius: 4,
+            borderRight: subPills[0]
+              ? `1px solid ${color('border')}`
+              : '1px solid transparent',
+            backgroundColor: selectWholePill
+              ? 'rgba(44, 60, 234, 0.08)'
+              : subPills[0]
+              ? color('lightgrey', 'hover') // 'rgba(44, 60, 234, 0.08)'
+              : color('background'),
+            position: 'relative',
+            cursor: 'text',
+          }}
+        >
+          {subPills[0]}
+        </Text>
+        <Select
+          placeholder=""
+          ref={firstSelectionRef}
+          value={subPills[1]}
+          filterable
+          options={['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']}
+          onChange={(e: string) => {
+            subPills[1] = e
+            setSubPills([...subPills])
+            setTimeout(() => {
+              console.log('Got some time?? ⌛️')
+              secondSelectionRef.current.click()
+            }, 250)
+          }}
+          onClick={() => {
+            nummie = 2
+          }}
+          style={{
+            height: 28,
+            padding: 8,
+            display: 'flex',
+            alignItems: 'center',
+            border: 0,
+            borderRadius: 0,
+            backgroundColor:
+              selectWholePill && subPills[1]
+                ? 'rgba(44, 60, 234, 0.08)'
+                : subPills[1]
+                ? color('lightgrey', 'hover') // 'rgba(44, 60, 234, 0.08)'
+                : color('background'),
+            borderRight: subPills[1]
+              ? `1px solid ${color('border')}`
+              : '1px solid transparent',
+            boxShadow: subPills[1] ? 'inherit' : '0px',
+            position: 'relative',
+            cursor: 'text',
+            '@media (hover: hover)': {
+              '&:hover': {
+                backroundColor: color('lightgrey', 'hover'),
+                // backgroundColor: pillIsSelected
+                //   ? 'rgba(44, 60, 234, 0.08)'
+                //   : color('lightgrey:hover'),}
+              },
             },
-          },
-          maxWidth: 'fit-content',
-          '& div': { padding: '8px', display: 'flex' },
-          '& svg': { display: 'none' },
-        }}
-      />
-      <Select
-        placeholder=""
-        ref={secondSelectionRef}
-        value={subPills[2]}
-        filterable
-        options={['Snurpie', 'Flarpie', 'Florkie']}
-        onChange={(e: string) => {
-          subPills[2] = e
-          setSubPills([...subPills])
-          console.log('SUBPILLs', subPills)
-        }}
-        style={{
-          height: 28,
-          padding: 8,
-          display: 'flex',
-          alignItems: 'center',
-          border: 0,
-          borderRadius: 0,
-          borderTopRightRadius: 4,
-          borderBottomRightRadius: 4,
-          backgroundColor: subPills[2]
-            ? color('lightgrey', 'hover') // 'rgba(44, 60, 234, 0.08)'
-            : color('lightgrey'),
-          position: 'relative',
-          cursor: 'text',
-          '@media (hover: hover)': {
-            '&:hover': {
-              backroundColor: color('lightgrey', 'hover'),
-              // backgroundColor: pillIsSelected
-              //   ? 'rgba(44, 60, 234, 0.08)'
-              //   : color('lightgrey:hover'),}
+            maxWidth: 'fit-content',
+            '& div': { padding: '8px', display: 'flex' },
+            '& svg': { display: 'none' },
+          }}
+        />
+        <Select
+          placeholder=""
+          ref={secondSelectionRef}
+          value={subPills[2]}
+          filterable
+          options={['Snurpie', 'Flarpie', 'Florkie']}
+          onChange={(e: string) => {
+            subPills[2] = e
+            setSubPills([...subPills])
+            console.log('SUBPILLs', subPills)
+          }}
+          style={{
+            height: 28,
+            padding: 8,
+            display: 'flex',
+            alignItems: 'center',
+            border: 0,
+            borderRadius: 0,
+            borderTopRightRadius: 4,
+            borderBottomRightRadius: 4,
+            backgroundColor:
+              selectWholePill && subPills[2]
+                ? 'rgba(44, 60, 234, 0.08)'
+                : subPills[2]
+                ? color('lightgrey', 'hover') // 'rgba(44, 60, 234, 0.08)'
+                : color('background'),
+            boxShadow: subPills[2] ? 'inherit' : '0px',
+            position: 'relative',
+            cursor: 'text',
+            '@media (hover: hover)': {
+              '&:hover': {
+                backroundColor: color('lightgrey', 'hover'),
+                // backgroundColor: pillIsSelected
+                //   ? 'rgba(44, 60, 234, 0.08)'
+                //   : color('lightgrey:hover'),}
+              },
             },
-          },
-          maxWidth: 'fit-content',
-          '& div': { padding: '8px', display: 'flex' },
-          '& svg': { display: 'none' },
-        }}
-      />
+            maxWidth: 'fit-content',
+            '& div': { padding: '8px', display: 'flex' },
+            '& svg': { display: 'none' },
+          }}
+        />
+        {selectWholePill && (
+          <CloseCircleIcon
+            color="accent"
+            size={12}
+            style={{
+              position: 'absolute',
+              top: -4,
+              right: -5,
+              cursor: 'pointer',
+            }}
+            onClick={() => deletePill()}
+          />
+        )}
+      </div>
     </>
   )
 }
