@@ -1,7 +1,7 @@
 import { color } from '~'
 import { styled } from 'inlines'
 
-export const FakeCarret = styled('div', {
+export const FakeCaret = styled('div', {
   width: 1,
   marginLeft: 5,
   marginRight: 5,

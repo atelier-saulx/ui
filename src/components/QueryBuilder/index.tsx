@@ -1,20 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { color, Text } from '~'
+import { color, renderOrCreateElement, Text } from '~'
 import { styled } from 'inlines'
 import { FirstFilterPill } from './FirstFilterPill'
 import { RootPill } from './RootPill'
-import { FakeCarret } from './FakeCarret'
+import { FakeCaret } from './FakeCaret'
 import { SuggestionTags } from './SuggestionTags'
 import { FirstPill } from './FirstPill'
+import { RepeatablePill } from './RepeatablePill'
 
 export const QueryBuilder = () => {
   const [isFocus, setIsFocus] = useState<boolean>(false)
   const [pillCarretCounter, setPillCarretCounter] = useState(0)
-
   const [inputString, setInputString] = useState<string>('')
   const [filters, setFilters] = useState<Object[]>([{}])
-
-  const [selectFirstPill, setSelectFirstPill] = useState<boolean>(false)
+  const [arrayOfFilterPills, setArrayOfFilterPills] = useState([])
+  const [renderCounter, setRenderCounter] = useState(0)
 
   const [suggestions, setSuggestions] = useState([
     'Yow',
@@ -34,7 +34,8 @@ export const QueryBuilder = () => {
 
   return (
     <div>
-      <Text>Current inputString: {inputString}</Text>
+      <Text color="red">Current PillCarretCounter: {pillCarretCounter}</Text>
+      <Text color="accent">Current inputString: {inputString}</Text>
       <input
         ref={mainInputRef}
         style={{ border: '1px solid green', marginBottom: 12 }}
@@ -42,10 +43,19 @@ export const QueryBuilder = () => {
           if (e.key === 'ArrowLeft') {
             console.log('<--- LEFT')
             setPillCarretCounter(pillCarretCounter - 1)
-          }
-          if (e.key === 'ArrowRight') {
+          } else if (e.key === 'ArrowRight') {
             console.log('RIGHT -->')
             setPillCarretCounter(pillCarretCounter + 1)
+          } else {
+            console.log(e.key)
+            arrayOfFilterPills.push('x')
+            setRenderCounter(renderCounter + 1)
+            mainInputRef.current.blur()
+            setPillCarretCounter(pillCarretCounter + 1)
+            /// carretCounter gaat 1 omhoog als je iets typt
+            /// create a new Element --> nieuwe pill
+            /// plak het resultaat van deze element weer aan de inputString vast
+            console.log('Arraytje?? ->', arrayOfFilterPills)
           }
         }}
       />
@@ -84,41 +94,24 @@ export const QueryBuilder = () => {
           pillCarretCounter={pillCarretCounter}
           setPillCarretCounter={setPillCarretCounter}
         />
-        {pillCarretCounter === 2 && <FakeCarret />}
-      </styled.div>
+        {pillCarretCounter === 2 && <FakeCaret />}
 
-      {/* <Text space>full string: {inputString}</Text>
-      <styled.div
-        style={{
-          border: isFocus
-            ? `1px solid ${color('accent')}`
-            : `1px solid ${color('border')}`,
-          outline: isFocus
-            ? `2px solid rgba(44, 60, 234, 0.2)`
-            : `2px solid transparent`,
-          borderRadius: 4,
-          padding: 5,
-          display: 'flex',
-          alignItems: 'center',
-          marginBottom: 12,
-          cursor: 'text',
-        }}
-        onClick={() => setIsFocus(true)}
-        onKeyDown={(e) => {
-          if (isFocus) {
-            // console.log('EEEE -->', e)
-          }
-        }}
-      >
-        <RootPill />
-        <FirstFilterPill
-          setIsFocus={setIsFocus}
-          suggestions={suggestions}
-          setFilters={setFilters}
-          filters={filters}
-        />
-        {/* <FakeCarret /> */}
-      {/* </styled.div> */}
+        {renderCounter
+          ? arrayOfFilterPills.map((item, idx) => {
+              return (
+                <React.Fragment key={idx}>
+                  <RepeatablePill
+                    index={idx}
+                    setInputString={setInputString}
+                    pillCarretCounter={pillCarretCounter}
+                    setPillCarretCounter={setPillCarretCounter}
+                  />
+                  {pillCarretCounter === idx + 4 && <FakeCaret />}
+                </React.Fragment>
+              )
+            })
+          : null}
+      </styled.div>
 
       {/* Array map suggestions 
       // <div style={{ display: 'flex' }}>

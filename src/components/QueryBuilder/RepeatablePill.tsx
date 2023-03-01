@@ -1,38 +1,42 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { Text, color, removeAllOverlays, Select, CloseCircleIcon } from '~'
 import { styled, Styled } from 'inlines'
-import { color, Text, CloseCircleIcon } from '~'
-import { Select } from '../Select'
-import { removeAllOverlays } from '../Overlay'
 import { FakeCaret } from './FakeCaret'
-
-// todo regex the box i guess
-// TODO -> make sure you clean time out on page change
-// TODO -> you cant unselect if you select the same thing twice
-
-type FirstPillProps = {}
 
 let nummie = 1
 
-export const FirstPill = ({
+export const RepeatablePill = ({
   setInputString,
   pillCarretCounter,
   setPillCarretCounter,
+  index,
 }) => {
-  const [inputValue, setInputValue] = useState<string>('')
   const [subPills, setSubPills] = useState<string[]>(['', '', ''])
   const [selectWholePill, setSelectWholePill] = useState<boolean>(false)
 
-  const inputRefOne = useRef(null)
-  const firstSelectionRef = useRef(null)
-  const secondSelectionRef = useRef(null)
+  const inputRefUno = useRef(null)
+  const firstSelectionRefUno = useRef(null)
+  const secondSelectionRefDos = useRef(null)
 
-  // TODO make keydownhandler for the input refs
+  useEffect(() => {
+    if (pillCarretCounter === index + 3) {
+      if (subPills[0] && subPills[1]) {
+        setSelectWholePill(true)
+      } else {
+        console.log('Focus mothaflippa')
+        inputRefUno.current.focus()
+      }
+    } else {
+      setSelectWholePill(false)
+    }
+  }, [pillCarretCounter])
+
   useEffect(() => {
     document.addEventListener('keydown', (e) => onKeyHandler(e))
   }, [])
 
   useEffect(() => {
-    if (pillCarretCounter !== 1) {
+    if (pillCarretCounter !== index + 3) {
       console.log('ABORT MISSION??')
       document.removeEventListener('keydown', onKeyHandler)
       nummie = 4
@@ -46,12 +50,12 @@ export const FirstPill = ({
       console.log('BAM!')
     } else if (e.key === 'Tab' && nummie === 2) {
       removeAllOverlays()
-      secondSelectionRef.current.click()
+      secondSelectionRefDos.current.click()
       console.log('Return of the nummie 🧟', nummie)
       nummie = 3
     } else if (e.key === 'Tab' && nummie === 1) {
       console.log('Tab was pressed')
-      firstSelectionRef.current.click()
+      firstSelectionRefUno.current.click()
       nummie = 2
     }
   }
@@ -62,37 +66,19 @@ export const FirstPill = ({
     setSelectWholePill(false)
   }
 
-  useEffect(() => {
-    if (subPills[2]) {
-      setInputString(subPills.join(' '))
-    }
-  }, [subPills[2], subPills[1]])
-
-  useEffect(() => {
-    if (pillCarretCounter === 1) {
-      if (subPills[0] && subPills[1]) {
-        setSelectWholePill(true)
-      } else {
-        console.log('Focus mothaflippa')
-        inputRefOne.current.focus()
-      }
-    } else {
-      setSelectWholePill(false)
-    }
-  }, [pillCarretCounter])
-
   return (
     <>
-      {/* one */}
       <input
-        ref={inputRefOne}
+        ref={inputRefUno}
         type="text"
         style={{
-          border: '1px solid purple',
+          border: '1px solid pink',
+          background: 'lightgreen',
           marginBottom: 16,
           maxWidth: 100,
           position: 'absolute',
-          top: 20,
+          top: 30,
+          left: 240,
         }}
         onKeyDown={(e) => {
           console.log(e.key)
@@ -112,16 +98,15 @@ export const FirstPill = ({
           console.log(subPills)
           setSubPills([...subPills])
         }}
-        onFocus={() => (nummie = 1)}
+        // onFocus={() => (nummie = 1)}
       />
-
       <div
         style={{ position: 'relative', display: 'flex', alignItems: 'center' }}
       >
         <Text
           color="text2"
           onClick={() => {
-            setPillCarretCounter(1)
+            setPillCarretCounter(index + 3)
             setSelectWholePill(true)
           }}
           style={{
@@ -143,6 +128,7 @@ export const FirstPill = ({
               : color('background'),
             position: 'relative',
             cursor: 'text',
+            marginLeft: 12,
           }}
         >
           {!subPills[0] && pillCarretCounter === 1 ? (
@@ -153,7 +139,7 @@ export const FirstPill = ({
         </Text>
         <Select
           placeholder=""
-          ref={firstSelectionRef}
+          ref={firstSelectionRefUno}
           value={subPills[1]}
           filterable
           options={['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']}
@@ -162,7 +148,7 @@ export const FirstPill = ({
             setSubPills([...subPills])
             setTimeout(() => {
               console.log('Got some time?? ⌛️')
-              secondSelectionRef.current.click()
+              secondSelectionRefDos.current.click()
             }, 250)
           }}
           onClick={() => {
@@ -199,14 +185,14 @@ export const FirstPill = ({
         />
         <Select
           placeholder=""
-          ref={secondSelectionRef}
+          ref={secondSelectionRefDos}
           value={subPills[2]}
           filterable
           options={['Snurpie', 'Flarpie', 'Florkie']}
           onChange={(e: string) => {
             subPills[2] = e
             setSubPills([...subPills])
-            setPillCarretCounter(2)
+            setPillCarretCounter(index + pillCarretCounter + 1)
             console.log('SUBPILLs', subPills)
           }}
           style={{
