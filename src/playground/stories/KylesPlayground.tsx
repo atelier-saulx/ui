@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
-import { Text } from '~/components/Text'
-import { ColorPicker } from '~/components/ColorPicker'
-import { Button } from '~/components/Button'
-import { DateTimePicker } from '~/components/DateTimePicker'
-import { BarGraph } from '~/components/BarGraph'
-import { PieGraph } from '~/components/PieGraph'
-import { Code } from '~/components/Code'
-import { Page } from '~/components/Page'
-import { Tab, Tabs } from '~/components/Tabs'
-import { Separator } from '~/components/Separator'
-import { Drawer } from '~/components/Drawer'
+import React from 'react'
+// import React, { useState } from 'react'
+// import { Text } from '~/components/Text'
+// import { ColorPicker } from '~/components/ColorPicker'
+// import { Button } from '~/components/Button'
+// import { DateTimePicker } from '~/components/DateTimePicker'
+// import { BarGraph } from '~/components/BarGraph'
+// import { PieGraph } from '~/components/PieGraph'
+// import { Code } from '~/components/Code'
+// import { Page } from '~/components/Page'
+// import { Tab, Tabs } from '~/components/Tabs'
+// import { Separator } from '~/components/Separator'
+// import { Drawer } from '~/components/Drawer'
 import { Input } from '~/components/Input'
-import { ProgressBar } from '~/components/ProgressBar'
-import { Dialog } from '~/components/Dialog'
+// import { ProgressBar } from '~/components/ProgressBar'
+// import { Dialog } from '~/components/Dialog'
+import { AudioIcon } from '~/icons/AudioIcon'
 export const KylesPlayground = () => {
   // const [color, setColor] = useState('rgba(255,0,0,1)')
   // const [drawer, setDrawer] = useState(false)
@@ -35,7 +37,7 @@ export const KylesPlayground = () => {
   //   setColor(e)
   // }
   let width, height
-  const src = 'www.google.com'
+  // const src = 'www.google.com'
   const paramsStart = ['h=' + undefined, 'w=' + undefined]
   const params = ['h=' + height, 'w=' + width]
   const newParams = []
@@ -48,7 +50,15 @@ export const KylesPlayground = () => {
   // join() with & inbetween
   return (
     <div>
-      <Dialog label="Image Options">
+      <Input
+        type="text"
+        multiline
+        indent
+        onChange={(e) => console.log(e)}
+        icon={<AudioIcon />}
+        label="asdfasdf"
+      />
+      {/* <Dialog label="Image Options">
         <Text color="text2" space>
           ImgX parameters
         </Text>
@@ -62,7 +72,7 @@ export const KylesPlayground = () => {
           <Dialog.Cancel />
           <Dialog.Confirm />
         </Dialog.Buttons>
-      </Dialog>
+      </Dialog> */}
     </div>
   )
 }

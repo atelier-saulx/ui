@@ -9,12 +9,14 @@ type SharedInputProps = {
 export const SharedInput: FC<SharedInputProps> = ({ style, children }) => {
   return (
     <styled.div
-      style={{
-        border: '1px solid blue',
-        ...style,
-      }}
+      style={
+        {
+          // border: '1px solid blue',
+          // ...style,
+        }
+      }
     >
-      x X x {children}
+      {children}
     </styled.div>
   )
 }

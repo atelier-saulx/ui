@@ -1,41 +1,167 @@
-import React, { useState, FC } from 'react'
+import React, {
+  useState,
+  FC,
+  useEffect,
+  // ChangeEvent,
+  useCallback,
+} from 'react'
 import { MultiLineTextInputProps } from './types'
-import { SharedInput } from './Shared'
 
+import { InputWrapper } from './InputWrapper'
+import { usePropState, Button } from '~'
+import { color } from '~/utils'
+import { JsonInput } from './MultiLineInput/JsonInput'
+import { MarkdownInput } from './MultiLineInput/MarkdownInput'
+
+const resize = (target) => {
+  if (target) {
+    target.style.height = 'auto'
+    target.style.height = target.scrollHeight + 8 + 'px'
+  }
+}
 export const MultiLineTextInput: FC<MultiLineTextInputProps> = (props) => {
-  return <>{/* <SharedInput /> */}</>
-  // if (inputRef) throw new Error('UI: Cannot use inputRef on Multiline Input')
-  // const [inputFocus, setInputFocus] = useState(false)
+  const onChangeProp = props.onChange
+  const inputRef = props.inputRef
+  const [showJSONClearButton, setShowJSONClearButton] = useState(false)
+  const [clearValue, setClearValue] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [focused] = useState(false)
+  const [value = '', setValue] = usePropState(
+    props.value,
+    props.noInterrupt && focused
+  )
+  const onChange = useCallback(
+    (e: { target: { value: string } }) => {
+      const newValue = props.transform
+        ? props.transform(e.target.value)
+        : e.target.value
+      setValue(newValue)
+      // @ts-ignore
+      onChangeProp?.(newValue)
+    },
+    [onChangeProp]
+  )
+  if (inputRef) throw new Error('UI: Cannot use inputRef on Multiline Input')
+  const [inputFocus, setInputFocus] = useState(false)
 
-  // return (
-  //   <div
-  //     onFocus={() => setInputFocus(true)}
-  //     onBlur={() => setInputFocus(false)}
-  //     style={{
-  //       border: inputFocus
-  //         ? `2px solid rgba(44, 60, 234, 0.2)`
-  //         : `2px solid transparent`,
-  //       borderRadius: 10,
-  //     }}
-  //   >
-  //     <textarea
-  //       style={{
-  //         ...style,
-  //         display: 'block',
-  //         resize: 'none',
-  //         paddingTop: 8,
-  //         minHeight: 84,
-  //         paddingLeft: 12,
-  //         // outline: inputFocus
-  //         //   ? `3px solid rgba(44, 60, 234, 0.2)`
-  //         //   : `3px solid transparent`,
-  //         border: inputFocus
-  //           ? `1.5px solid ${color('accent')}`
-  //           : `1px solid ${color('border')}`,
-  //       }}
-  //       ref={resize}
-  //       onInput={({ target }) => resize(target)}
-  //       {...props}
-  //     />
-  //   </div>
+  useEffect(() => {
+    //  check for when blurred
+    if (!props.pattern) {
+      const msg = props.error?.(value)
+      if (msg) {
+        setErrorMessage(msg)
+      } else {
+        setErrorMessage('')
+      }
+    }
+  }, [focused])
+
+  useEffect(() => {
+    if (props.pattern) {
+      const v = typeof value === 'number' ? String(value) : value
+      const reOk = v === '' || new RegExp(props.pattern).test(v)
+      const msg = props.error
+        ? props.error(value)
+        : reOk
+        ? ''
+        : 'Does not match pattern'
+      if (msg) {
+        setErrorMessage(msg)
+      } else {
+        setErrorMessage('')
+      }
+    }
+  }, [value])
+
+  const style = props.style
+  if (props.type === 'json') {
+    return (
+      <InputWrapper
+        style={{ position: 'relative', ...style }}
+        indent={props.indent}
+        label={props.label}
+        description={props.description}
+        space={props.space}
+        descriptionBottom={props.descriptionBottom}
+        errorMessage={errorMessage}
+        disabled={props.disabled}
+      >
+        {props.indent && showJSONClearButton && (
+          <Button
+            ghost
+            onClick={() => {
+              setShowJSONClearButton(false)
+              setValue('')
+              // @ts-ignore
+              onChangeProp?.('')
+              setClearValue(true)
+              setErrorMessage('')
+            }}
+            style={{
+              height: 'fit-content',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              marginLeft: 'auto',
+            }}
+            disabled={props.disabled}
+          >
+            Clear
+          </Button>
+        )}
+        <JsonInput
+          {...props}
+          setErrorMessage={setErrorMessage}
+          value={value}
+          onChange={onChange}
+          setShowJSONClearButton={setShowJSONClearButton}
+          setClearValue={setClearValue}
+          clearValue={clearValue}
+          disabled={props.disabled}
+        />
+      </InputWrapper>
+    )
+  } else if (props.type === 'markdown') {
+    return (
+      <MarkdownInput
+        {...props}
+        value={value}
+        onChange={onChange}
+        disabled={props.disabled}
+      />
+    )
+  } else {
+    return (
+      <div
+        onFocus={() => setInputFocus(true)}
+        onBlur={() => setInputFocus(false)}
+        style={{
+          border: inputFocus
+            ? `2px solid rgba(44, 60, 234, 0.2)`
+            : `2px solid transparent`,
+          borderRadius: 10,
+        }}
+      >
+        <textarea
+          style={{
+            ...style,
+            display: 'block',
+            resize: 'none',
+            paddingTop: 8,
+            minHeight: 84,
+            paddingLeft: 12,
+            // outline: inputFocus
+            //   ? `3px solid rgba(44, 60, 234, 0.2)`
+            //   : `3px solid transparent`,
+            border: inputFocus
+              ? `1.5px solid ${color('accent')}`
+              : `1px solid ${color('border')}`,
+          }}
+          ref={resize}
+          onInput={({ target }) => resize(target)}
+          {...props}
+        />
+      </div>
+    )
+  }
 }

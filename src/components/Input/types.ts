@@ -25,6 +25,7 @@ export type SharedInputProps = {
   */
   noInterrupt?: boolean
   space?: Space
+  transform?: (str: string) => string // transform string
 }
 
 export type TextInputProps = SharedInputProps & {
