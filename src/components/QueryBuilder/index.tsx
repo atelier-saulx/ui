@@ -14,7 +14,6 @@ export const QueryBuilder = () => {
   const [inputString, setInputString] = useState<string>('')
   const [filters, setFilters] = useState<Object[]>([{}])
   const [arrayOfFilterPills, setArrayOfFilterPills] = useState([])
-  const [renderCounter, setRenderCounter] = useState(0)
 
   const [suggestions, setSuggestions] = useState([
     'Yow',
@@ -49,7 +48,7 @@ export const QueryBuilder = () => {
           } else {
             console.log(e.key)
             arrayOfFilterPills.push('x')
-            setRenderCounter(renderCounter + 1)
+
             mainInputRef.current.blur()
             setPillCarretCounter(pillCarretCounter + 1)
             /// carretCounter gaat 1 omhoog als je iets typt
@@ -96,21 +95,21 @@ export const QueryBuilder = () => {
         />
         {pillCarretCounter === 2 && <FakeCaret />}
 
-        {renderCounter
-          ? arrayOfFilterPills.map((item, idx) => {
-              return (
-                <React.Fragment key={idx}>
-                  <RepeatablePill
-                    index={idx}
-                    setInputString={setInputString}
-                    pillCarretCounter={pillCarretCounter}
-                    setPillCarretCounter={setPillCarretCounter}
-                  />
-                  {pillCarretCounter === idx + 4 && <FakeCaret />}
-                </React.Fragment>
-              )
-            })
-          : null}
+        {arrayOfFilterPills.map((item, idx) => {
+          return (
+            <React.Fragment key={idx}>
+              <RepeatablePill
+                index={idx}
+                inputString={inputString}
+                setInputString={setInputString}
+                pillCarretCounter={pillCarretCounter}
+                setPillCarretCounter={setPillCarretCounter}
+              />
+              {/* {pillCarretCounter === idx + 4 && <FakeCaret />} */}
+              {pillCarretCounter === 4 && <FakeCaret />}
+            </React.Fragment>
+          )
+        })}
       </styled.div>
 
       {/* Array map suggestions 

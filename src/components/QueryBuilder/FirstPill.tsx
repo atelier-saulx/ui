@@ -19,7 +19,7 @@ export const FirstPill = ({
   setPillCarretCounter,
 }) => {
   const [inputValue, setInputValue] = useState<string>('')
-  const [subPills, setSubPills] = useState<string[]>(['', '', ''])
+  const [subPills, setSubPills] = useState<string[]>(['xx', '=', 'flip'])
   const [selectWholePill, setSelectWholePill] = useState<boolean>(false)
 
   const inputRefOne = useRef(null)
