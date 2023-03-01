@@ -12,7 +12,7 @@ type FirstPillProps = {}
 
 let nummie = 1
 
-export const FirstPill = () => {
+export const FirstPill = ({ setInputString }) => {
   const [inputValue, setInputValue] = useState<string>('')
   const [subPills, setSubPills] = useState<string[]>(['', '', ''])
   const [selectWholePill, setSelectWholePill] = useState<boolean>(false)
@@ -45,8 +45,13 @@ export const FirstPill = () => {
 
   const deletePill = () => {
     console.log('DELETE THIS')
+    // TODO Delete on backspace
     setSelectWholePill(false)
   }
+
+  useEffect(() => {
+    setInputString(subPills.join(' '))
+  }, [subPills[2]])
 
   return (
     <>

@@ -9,6 +9,8 @@ import { FirstPill } from './FirstPill'
 
 export const QueryBuilder = () => {
   const [isFocus, setIsFocus] = useState<boolean>(false)
+  const [pillCarretCounter, setPillCarretCounter] = useState(0)
+
   const [inputString, setInputString] = useState<string>('')
   const [filters, setFilters] = useState<Object[]>([{}])
 
@@ -28,6 +30,7 @@ export const QueryBuilder = () => {
 
   return (
     <div>
+      <Text>Current inputString: {inputString}</Text>
       <input
         ref={mainInputRef}
         style={{ border: '1px solid green', marginBottom: 12 }}
@@ -54,16 +57,19 @@ export const QueryBuilder = () => {
           cursor: 'text',
         }}
         onClick={() => {
-          mainInputRef.current.focus()
+          // mainInputRef.current.focus()
           setIsFocus(true)
-        }}
-        onKeyDown={(e) => {
-          if (isFocus && e.key === 'ArrowLeft') {
-            console.log('EEEE -->', e)
+          if (
+            inputString.split(' ').length === 3 &&
+            inputString.split(' ')[0] !== '' &&
+            inputString.split(' ')[1] !== ''
+          ) {
+            setPillCarretCounter(1)
           }
         }}
       >
-        <FirstPill />
+        <FirstPill setInputString={setInputString} />
+        {pillCarretCounter === 1 && <FakeCarret />}
       </styled.div>
 
       {/* <Text space>full string: {inputString}</Text>
