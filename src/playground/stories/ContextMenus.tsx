@@ -126,7 +126,9 @@ export const ContextMenus = () => {
         Menu (double overlays)
       </Button>
 
-      <Button onClick={useContextMenu(TestMenu)}>Test</Button>
+      <Button onClick={useContextMenu(TestMenu, { props: { flap: 1 } })}>
+        Test
+      </Button>
     </div>
   )
 }

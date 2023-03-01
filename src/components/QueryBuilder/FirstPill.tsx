@@ -7,9 +7,12 @@ import { removeAllOverlays } from '../Overlay'
 
 type FirstPillProps = {}
 
+let nummie = 1
+
 export const FirstPill = () => {
   const [inputValue, setInputValue] = useState<string>('')
   const [subPills, setSubPills] = useState<string[]>(['', '', ''])
+  const [openBoxNum, setOpenBoxNum] = useState<number>(1)
 
   const inputRefOne = useRef(null)
   const inputRefTwo = useRef(null)
@@ -19,17 +22,37 @@ export const FirstPill = () => {
   const secondSelectionRef = useRef(null)
 
   // TODO make keydownhandler for the input refs
+  useEffect(() => {
+    document.addEventListener('keydown', (e) => onKeyHandler(e))
+  }, [])
+
+  const onKeyHandler = (e) => {
+    if (e.key === 'Tab' && nummie === 3) {
+      removeAllOverlays()
+      nummie = 0
+      console.log('BAM!')
+    } else if (e.key === 'Tab' && nummie === 2) {
+      removeAllOverlays()
+      //   console.log('Tab TWO was pressed')
+      //  secondSelectionRef.current.click()
+      inputRefThree.current.focus()
+      console.log('Return of the nummie 🧟', nummie)
+      nummie = 3
+    } else if (e.key === 'Tab' && nummie === 1) {
+      console.log('Tab was pressed')
+      //  firstSelectionRef.current.click()
+      inputRefTwo.current.focus()
+      console.log('nummie 🇧🇪', nummie)
+      nummie = 2
+    }
+  }
+
   //   useEffect(() => {
-  //     document.addEventListener('keydown', (e) => onKeyHandler(e))
-  //   }, [])
-
-  //   const onKeyHandler = (e) => {
-  //     console.log('EEEEEE', e)
-  //     if (e.key === 'Tab') {
-  //       console.log('Tab was pressed')
+  //     removeAllOverlays()
+  //     if (nummie === 2) {
+  //       inputRefThree.current.focus()
   //     }
-  //   }
-
+  //   }, [subPills[1]])
   return (
     <>
       {/* one */}
@@ -47,7 +70,8 @@ export const FirstPill = () => {
 
           if (e.key === 'Tab') {
             e.preventDefault()
-            inputRefTwo.current.focus()
+            // inputRefTwo.current.focus()
+            //      setOpenBoxNum(2)
           }
         }}
         onChange={(e) => {
@@ -56,6 +80,7 @@ export const FirstPill = () => {
           console.log(subPills)
           setSubPills([...subPills])
         }}
+        onFocus={() => (nummie = 1)}
       />
       {/* two */}
       <input
@@ -66,25 +91,27 @@ export const FirstPill = () => {
         onKeyDown={(e) => {
           console.log(e.key)
 
-          if (e.key === 'Tab') {
-            e.preventDefault()
-            inputRefThree.current.focus()
-          }
-          if (e.key === 'Enter') {
-            e.preventDefault()
-            inputRefThree.current.focus()
-          } else {
-            e.preventDefault()
-            return false
-          }
+          //   if (e.key === 'Tab') {
+          //     e.preventDefault()
+          //     inputRefThree.current.focus()
+          //   }
+          //   if (e.key === 'Enter') {
+          //     e.preventDefault()
+          //     inputRefThree.current.focus()
+          //   } else {
+          //     e.preventDefault()
+          //     return false
+          //   }
         }}
         onChange={(e) => {
-          console.log(e.currentTarget.value)
           subPills[1] = e.currentTarget.value.replace(/\s/g, '')
-          console.log(subPills)
           setSubPills([...subPills])
         }}
-        onFocus={() => firstSelectionRef.current.click()}
+        onFocus={() => {
+          removeAllOverlays()
+          nummie = 2
+          firstSelectionRef.current.click()
+        }}
       />
       {/* three */}
       <input
@@ -94,16 +121,16 @@ export const FirstPill = () => {
         style={{ border: '1px solid purple', marginBottom: 16, maxWidth: 100 }}
         onKeyDown={(e) => {
           console.log(e.key)
-          if (e.key === ' ') {
-            e.preventDefault()
-            e.stopPropagation()
-            return false
-          }
+          //   if (e.key === ' ') {
+          //     e.preventDefault()
+          //     e.stopPropagation()
+          //     return false
+          //   }
 
-          if (e.key === 'Tab') {
-            e.preventDefault()
-            secondSelectionRef.current.click()
-          }
+          //   if (e.key === 'Tab') {
+          //     e.preventDefault()
+          //     secondSelectionRef.current.click()
+          //   }
         }}
         onChange={(e) => {
           console.log(e.currentTarget.value)
@@ -111,7 +138,10 @@ export const FirstPill = () => {
           console.log(subPills)
           setSubPills([...subPills])
         }}
-        onFocus={() => secondSelectionRef.current.click()}
+        onFocus={() => {
+          nummie = 3
+          secondSelectionRef.current.click()
+        }}
       />
 
       <styled.div
@@ -132,18 +162,23 @@ export const FirstPill = () => {
           filterable
           options={['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']}
           onChange={(e: string) => {
-            window.requestAnimationFrame(() => {
-              subPills[1] = e
-              setSubPills([...subPills])
-            })
+            subPills[1] = e
+            setSubPills([...subPills])
 
-            //  inputRefThree.current.focus()
+            setTimeout(() => {
+              console.log('Got some time?? ⌛️')
+              secondSelectionRef.current.click()
+            }, 250)
           }}
           style={{
             maxWidth: 74,
             '& div': { padding: '8px', display: 'flex' },
             '& svg': { display: 'none' },
           }}
+          //   onClick={() => {
+          //     console.log('CLICKIE')
+          //     nummie = 2
+          //   }}
         />
         <Select
           ref={secondSelectionRef}
