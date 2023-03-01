@@ -23,9 +23,30 @@ export const QueryBuilder = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: 64 }}>
+      <styled.div
+        style={{
+          border: isFocus
+            ? `1px solid ${color('accent')}`
+            : `1px solid ${color('border')}`,
+          outline: isFocus
+            ? `2px solid rgba(44, 60, 234, 0.2)`
+            : `2px solid transparent`,
+          borderRadius: 4,
+          padding: 5,
+          display: 'flex',
+          alignItems: 'center',
+          marginBottom: 12,
+          cursor: 'text',
+        }}
+        onClick={() => setIsFocus(true)}
+        onKeyDown={(e) => {
+          if (isFocus) {
+            // console.log('EEEE -->', e)
+          }
+        }}
+      >
         <FirstPill />
-      </div>
+      </styled.div>
 
       {/* <Text space>full string: {inputString}</Text>
       <styled.div
