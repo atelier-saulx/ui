@@ -1,5 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Text, color, removeAllOverlays, Select, CloseCircleIcon } from '~'
+import {
+  Text,
+  color,
+  removeAllOverlays,
+  Select,
+  CloseCircleIcon,
+  usePropState,
+} from '~'
 import { styled, Styled } from 'inlines'
 import { FakeCaret } from './FakeCaret'
 
@@ -14,23 +21,29 @@ export const RepeatablePill = ({
 }) => {
   const [subPills, setSubPills] = useState<string[]>(['', '', ''])
   const [selectWholePill, setSelectWholePill] = useState<boolean>(false)
+  const [pillnum] = usePropState(pillCarretCounter)
 
   const inputRefUno = useRef(null)
   const firstSelectionRefUno = useRef(null)
   const secondSelectionRefDos = useRef(null)
 
+  const selectElementOne = document.getElementById(`${index}-selectieOne`)
+  const selectElementTwo = document.getElementById(`${index}-selectieTwo`)
+
+  console.log('index --> 🥶 ', index)
+
   useEffect(() => {
     if (
-      (index === 0 && pillCarretCounter === 3) ||
-      (index === 1 && pillCarretCounter === 5) ||
-      (index === 2 && pillCarretCounter === 7)
+      (index === 0 && pillnum === 3) ||
+      (index === 1 && pillnum === 5) ||
+      (index === 2 && pillnum === 7)
     ) {
       if (subPills[0] && subPills[1]) {
         setSelectWholePill(true)
       } else {
         console.log('Focus mothaflippa')
         nummie = 1
-        inputRefUno.current.focus()
+        document.getElementById(`${index}-oneInput`).focus()
       }
     } else {
       setSelectWholePill(false)
@@ -65,22 +78,35 @@ export const RepeatablePill = ({
   //   }, [])
 
   useEffect(() => {
-    document.addEventListener('keydown', (e) => onKeyHandler(e))
+    if (index === 0 && pillnum === 3) {
+      console.log('🧐')
+      document.addEventListener('keydown', (e) => onKeyHandler(e))
+    } else if (index === 1 && pillnum === 5) {
+      console.log('🤓')
+      document.addEventListener('keydown', (e) => onKeyHandler(e))
+    } else if (index === 2 && pillnum === 7) {
+      console.log('😛')
+      document.addEventListener('keydown', (e) => onKeyHandler(e))
+    }
   }, [])
 
   useEffect(() => {
-    if (index === 0 && pillCarretCounter !== 3) {
-      console.log('ABORT MISSION?? ', index)
-      document.removeEventListener('keydown', onKeyHandler)
-      nummie = 0
-    } else if (index === 1 && pillCarretCounter !== 5) {
-      document.removeEventListener('keydown', onKeyHandler)
-      nummie = 0
-    } else if (index === 2 && pillCarretCounter !== 7) {
-      document.removeEventListener('keydown', onKeyHandler)
-      nummie = 0
-    }
-  }, [subPills[1], subPills[2]])
+    // if (index === 0 && pillCarretCounter !== 3) {
+    //   console.log('ABORT MISSION?? ', index)
+    //   document.removeEventListener('keydown', onKeyHandler)
+    //   removeAllOverlays()
+    //   nummie = 0
+    // } else if (index === 1 && pillCarretCounter !== 5) {
+    //   document.removeEventListener('keydown', onKeyHandler)
+    //   removeAllOverlays()
+    //   nummie = 0
+    // } else if (index === 2 && pillCarretCounter !== 7) {
+    //   document.removeEventListener('keydown', onKeyHandler)
+    //   removeAllOverlays()
+    //   nummie = 0
+    // }
+    document.removeEventListener('keydown', onKeyHandler)
+  }, [subPills[1], subPills[2], pillnum])
 
   const onKeyHandler = (e) => {
     if (e.key === 'Tab' && nummie === 3) {
@@ -91,13 +117,16 @@ export const RepeatablePill = ({
     } else if (e.key === 'Tab' && nummie === 2) {
       e.preventDefault()
       removeAllOverlays()
-      secondSelectionRefDos.current.click()
+      document.getElementById(`${index}-selectieTwo`).click()
       console.log('Return of the nummie 🧟', nummie)
       nummie = 3
     } else if (e.key === 'Tab' && nummie === 1) {
       e.preventDefault()
-      console.log('Tab was pressed')
-      firstSelectionRefUno.current.click()
+      console.log(
+        'Tab was pressed GET GET????? 😡',
+        document.getElementById(`${index}-selectieOne`)
+      )
+      document.getElementById(`${index}-selectieOne`).click()
       nummie = 2
     }
   }
@@ -122,6 +151,7 @@ export const RepeatablePill = ({
   return (
     <>
       <input
+        id={`${index}-oneInput`}
         ref={inputRefUno}
         type="text"
         style={{
@@ -131,7 +161,7 @@ export const RepeatablePill = ({
           maxWidth: 100,
           position: 'absolute',
           top: 30,
-          left: 240,
+          left: index === 0 ? 100 : index * 240,
         }}
         onKeyDown={(e) => {
           console.log(e.key)
@@ -184,15 +214,12 @@ export const RepeatablePill = ({
             marginLeft: 12,
           }}
         >
-          {!subPills[0] && pillCarretCounter === 1 ? (
-            <FakeCaret />
-          ) : (
-            subPills[0]
-          )}
+          {!subPills[0] && pillnum === 1 ? <FakeCaret /> : subPills[0]}
         </Text>
         <Select
+          id={`${index}-selectieOne`}
           placeholder=""
-          ref={firstSelectionRefUno}
+          //  ref={firstSelectionRefUno}
           value={subPills[1]}
           filterable
           options={['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']}
@@ -201,11 +228,11 @@ export const RepeatablePill = ({
             setSubPills([...subPills])
             setTimeout(() => {
               console.log('Got some time?? ⌛️')
-              secondSelectionRefDos.current.click()
+              document.getElementById(`${index}-selectieTwo`).click()
             }, 250)
           }}
           onClick={() => {
-            nummie = 2
+            //   nummie = 2
           }}
           style={{
             height: 28,
@@ -237,8 +264,9 @@ export const RepeatablePill = ({
           }}
         />
         <Select
+          id={`${index}-selectieTwo`}
           placeholder=""
-          ref={secondSelectionRefDos}
+          //    ref={secondSelectionRefDos}
           value={subPills[2]}
           filterable
           options={['Snurpie', 'Flarpie', 'Florkie']}
