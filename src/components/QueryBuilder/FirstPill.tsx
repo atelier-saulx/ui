@@ -95,7 +95,7 @@ export const FirstPill = ({
           top: 20,
         }}
         onKeyDown={(e) => {
-          console.log(e.key)
+          console.log('-->', e.key)
           if (e.key === ' ') {
             e.preventDefault()
             e.stopPropagation()

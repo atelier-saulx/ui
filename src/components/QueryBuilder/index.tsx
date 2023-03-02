@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { color, renderOrCreateElement, Text } from '~'
+import { color, renderOrCreateElement, Text, removeAllOverlays } from '~'
 import { styled } from 'inlines'
 import { FirstFilterPill } from './FirstFilterPill'
 import { RootPill } from './RootPill'
@@ -15,6 +15,9 @@ export const QueryBuilder = () => {
   const [filters, setFilters] = useState<Object[]>([{}])
   const [arrayOfFilterPills, setArrayOfFilterPills] = useState([])
 
+  const [newIndex, setNewIndex] = useState(1)
+  const [nummie, setNummie] = useState(1)
+
   const [suggestions, setSuggestions] = useState([
     'Yow',
     'What',
@@ -27,7 +30,54 @@ export const QueryBuilder = () => {
 
   useEffect(() => {
     if (pillCarretCounter % 2 === 0) mainInputRef.current.focus()
+    if (pillCarretCounter === 3) {
+      setNewIndex(0)
+      setNummie(1)
+      console.log('🤢', newIndex)
+    }
+    if (pillCarretCounter === 5) {
+      setNewIndex(1)
+      setNummie(1)
+      console.log('s😈', newIndex)
+    }
+    if (pillCarretCounter === 7) {
+      setNewIndex(2)
+      setNummie(1)
+      console.log('s😈', newIndex)
+    }
   }, [pillCarretCounter])
+
+  useEffect(() => {
+    document.addEventListener('keydown', (e) => onKeyHandler(e))
+  }, [])
+
+  const onKeyHandler = (e) => {
+    // grab the index from somewhere?
+    const index = document.getElementById('index-indicator').innerHTML
+
+    // index = 0
+    console.log('Key handler?? -->', e.key, index)
+    if (e.key === 'Tab' && nummie === 3) {
+      e.preventDefault()
+      removeAllOverlays()
+      setNummie(0)
+      console.log('BAM!')
+    } else if (e.key === 'Tab' && nummie === 2) {
+      e.preventDefault()
+      removeAllOverlays()
+      document.getElementById(`${index}-selectieTwo`).click()
+      console.log('Return of the nummie 🧟', nummie)
+      setNummie(3)
+    } else if (e.key === 'Tab' && nummie === 1) {
+      e.preventDefault()
+      console.log(
+        'Tab was pressed GET GET????? 😡',
+        document.getElementById(`${index}-selectieOne`)
+      )
+      document.getElementById(`${index}-selectieOne`).click()
+      setNummie(2)
+    }
+  }
 
   console.log('Filters from index --> ', filters)
 
@@ -35,6 +85,8 @@ export const QueryBuilder = () => {
     <div>
       <Text color="red">Current PillCarretCounter: {pillCarretCounter}</Text>
       <Text color="accent">Current inputString: {inputString}</Text>
+      <Text color="babyblue">index: {newIndex}</Text>
+      <div id="index-indicator">{newIndex}</div>
       <input
         ref={mainInputRef}
         style={{ border: '1px solid green', marginBottom: 12 }}
@@ -48,7 +100,7 @@ export const QueryBuilder = () => {
           } else {
             console.log(e.key)
             arrayOfFilterPills.push('x')
-
+            setNummie(1)
             mainInputRef.current.blur()
             setPillCarretCounter(pillCarretCounter + 1)
             /// carretCounter gaat 1 omhoog als je iets typt
@@ -84,15 +136,15 @@ export const QueryBuilder = () => {
             setPillCarretCounter(2)
             mainInputRef.current.focus()
           } else {
-            setPillCarretCounter(1)
+            setPillCarretCounter(2)
           }
         }}
       >
-        <FirstPill
+        {/* <FirstPill
           setInputString={setInputString}
           pillCarretCounter={pillCarretCounter}
           setPillCarretCounter={setPillCarretCounter}
-        />
+        /> */}
         {pillCarretCounter === 2 && <FakeCaret />}
 
         {arrayOfFilterPills.map((item, idx) => {
@@ -104,6 +156,7 @@ export const QueryBuilder = () => {
                 setInputString={setInputString}
                 pillCarretCounter={pillCarretCounter}
                 setPillCarretCounter={setPillCarretCounter}
+                nummie={nummie}
               />
               {/* {pillCarretCounter === idx + 4 && <FakeCaret />} */}
               {pillCarretCounter === 4 && <FakeCaret />}

@@ -10,7 +10,7 @@ import {
 import { styled, Styled } from 'inlines'
 import { FakeCaret } from './FakeCaret'
 
-let nummie = 0
+// let nummie = 0
 
 export const RepeatablePill = ({
   inputString,
@@ -18,6 +18,7 @@ export const RepeatablePill = ({
   pillCarretCounter,
   setPillCarretCounter,
   index,
+  nummie,
 }) => {
   const [subPills, setSubPills] = useState<string[]>(['', '', ''])
   const [selectWholePill, setSelectWholePill] = useState<boolean>(false)
@@ -27,10 +28,10 @@ export const RepeatablePill = ({
   const firstSelectionRefUno = useRef(null)
   const secondSelectionRefDos = useRef(null)
 
-  const selectElementOne = document.getElementById(`${index}-selectieOne`)
-  const selectElementTwo = document.getElementById(`${index}-selectieTwo`)
+  //   const selectElementOne = document.getElementById(`${index}-selectieOne`)
+  //   const selectElementTwo = document.getElementById(`${index}-selectieTwo`)
 
-  console.log('index --> 🥶 ', index)
+  //   console.log('index --> 🥶 ', index)
 
   useEffect(() => {
     if (
@@ -77,59 +78,59 @@ export const RepeatablePill = ({
   //     })
   //   }, [])
 
-  useEffect(() => {
-    if (index === 0 && pillnum === 3) {
-      console.log('🧐')
-      document.addEventListener('keydown', (e) => onKeyHandler(e))
-    } else if (index === 1 && pillnum === 5) {
-      console.log('🤓')
-      document.addEventListener('keydown', (e) => onKeyHandler(e))
-    } else if (index === 2 && pillnum === 7) {
-      console.log('😛')
-      document.addEventListener('keydown', (e) => onKeyHandler(e))
-    }
-  }, [])
+  //   useEffect(() => {
+  //     if (index === 0 && pillnum === 3) {
+  //       console.log('🧐')
+  //       document.addEventListener('keydown', (e) => onKeyHandler(e))
+  //     } else if (index === 1 && pillnum === 5) {
+  //       console.log('🤓')
+  //       document.addEventListener('keydown', (e) => onKeyHandler(e))
+  //     } else if (index === 2 && pillnum === 7) {
+  //       console.log('😛')
+  //       document.addEventListener('keydown', (e) => onKeyHandler(e))
+  //     }
+  //   }, [])
 
-  useEffect(() => {
-    // if (index === 0 && pillCarretCounter !== 3) {
-    //   console.log('ABORT MISSION?? ', index)
-    //   document.removeEventListener('keydown', onKeyHandler)
-    //   removeAllOverlays()
-    //   nummie = 0
-    // } else if (index === 1 && pillCarretCounter !== 5) {
-    //   document.removeEventListener('keydown', onKeyHandler)
-    //   removeAllOverlays()
-    //   nummie = 0
-    // } else if (index === 2 && pillCarretCounter !== 7) {
-    //   document.removeEventListener('keydown', onKeyHandler)
-    //   removeAllOverlays()
-    //   nummie = 0
-    // }
-    document.removeEventListener('keydown', onKeyHandler)
-  }, [subPills[1], subPills[2], pillnum])
+  //   useEffect(() => {
+  //     // if (index === 0 && pillCarretCounter !== 3) {
+  //     //   console.log('ABORT MISSION?? ', index)
+  //     //   document.removeEventListener('keydown', onKeyHandler)
+  //     //   removeAllOverlays()
+  //     //   nummie = 0
+  //     // } else if (index === 1 && pillCarretCounter !== 5) {
+  //     //   document.removeEventListener('keydown', onKeyHandler)
+  //     //   removeAllOverlays()
+  //     //   nummie = 0
+  //     // } else if (index === 2 && pillCarretCounter !== 7) {
+  //     //   document.removeEventListener('keydown', onKeyHandler)
+  //     //   removeAllOverlays()
+  //     //   nummie = 0
+  //     // }
+  //     document.removeEventListener('keydown', onKeyHandler)
+  //   }, [subPills[1], subPills[2], pillnum])
 
-  const onKeyHandler = (e) => {
-    if (e.key === 'Tab' && nummie === 3) {
-      e.preventDefault()
-      removeAllOverlays()
-      nummie = 0
-      console.log('BAM!')
-    } else if (e.key === 'Tab' && nummie === 2) {
-      e.preventDefault()
-      removeAllOverlays()
-      document.getElementById(`${index}-selectieTwo`).click()
-      console.log('Return of the nummie 🧟', nummie)
-      nummie = 3
-    } else if (e.key === 'Tab' && nummie === 1) {
-      e.preventDefault()
-      console.log(
-        'Tab was pressed GET GET????? 😡',
-        document.getElementById(`${index}-selectieOne`)
-      )
-      document.getElementById(`${index}-selectieOne`).click()
-      nummie = 2
-    }
-  }
+  //   const onKeyHandler = (e) => {
+  //     if (e.key === 'Tab' && nummie === 3) {
+  //       e.preventDefault()
+  //       removeAllOverlays()
+  //       nummie = 0
+  //       console.log('BAM!')
+  //     } else if (e.key === 'Tab' && nummie === 2) {
+  //       e.preventDefault()
+  //       removeAllOverlays()
+  //       document.getElementById(`${index}-selectieTwo`).click()
+  //       console.log('Return of the nummie 🧟', nummie)
+  //       nummie = 3
+  //     } else if (e.key === 'Tab' && nummie === 1) {
+  //       e.preventDefault()
+  //       console.log(
+  //         'Tab was pressed GET GET????? 😡',
+  //         document.getElementById(`${index}-selectieOne`)
+  //       )
+  //       document.getElementById(`${index}-selectieOne`).click()
+  //       nummie = 2
+  //     }
+  //   }
 
   const deletePill = () => {
     console.log('DELETE THIS')
