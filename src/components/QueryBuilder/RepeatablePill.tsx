@@ -20,9 +20,8 @@ export const RepeatablePill = ({
   index,
   nummie,
 }) => {
-  const [subPills, setSubPills] = useState<string[]>(['', '', ''])
+  const [subPills, setSubPills] = useState<string[]>(['', '', '', ''])
   const [selectWholePill, setSelectWholePill] = useState<boolean>(false)
-  const [pillnum] = usePropState(pillCarretCounter)
 
   const inputRefUno = useRef(null)
   const firstSelectionRefUno = useRef(null)
@@ -34,10 +33,13 @@ export const RepeatablePill = ({
   //   console.log('index --> 🥶 ', index)
 
   useEffect(() => {
+    // TODO make loopie
+
     if (
-      (index === 0 && pillnum === 3) ||
-      (index === 1 && pillnum === 5) ||
-      (index === 2 && pillnum === 7)
+      (index === 0 && pillCarretCounter === 3) ||
+      (index === 1 && pillCarretCounter === 5) ||
+      (index === 2 && pillCarretCounter === 7) ||
+      (index === 3 && pillCarretCounter === 9)
     ) {
       if (subPills[0] && subPills[1]) {
         setSelectWholePill(true)
@@ -139,12 +141,14 @@ export const RepeatablePill = ({
   }
 
   useEffect(() => {
-    if (subPills[2]) {
+    if (subPills[3]) {
       const temp = inputString.split(' ')
       // TODO SET THE RIGHT POSITION PER INDEX
+
       temp[4] = subPills[0]
       temp[5] = subPills[1]
       temp[6] = subPills[2]
+      temp[7] = subPills[3]
       setInputString(temp.join(' '))
     }
   }, [subPills[2], subPills[1]])
@@ -178,7 +182,7 @@ export const RepeatablePill = ({
         }}
         onChange={(e) => {
           console.log(e.currentTarget.value)
-          subPills[0] = e.currentTarget.value.replace(/\s/g, '')
+          subPills[1] = e.currentTarget.value.replace(/\s/g, '')
           console.log(subPills)
           setSubPills([...subPills])
         }}
@@ -187,6 +191,47 @@ export const RepeatablePill = ({
       <div
         style={{ position: 'relative', display: 'flex', alignItems: 'center' }}
       >
+        {/* and or operator */}
+        <Select
+          id={`${index}-selectieOperator`}
+          placeholder=""
+          //  ref={firstSelectionRefUno}
+          value={subPills[0] || '$and'}
+          options={['$and', '$or', '$not']}
+          onChange={(e: string) => {
+            subPills[0] = e
+            setSubPills([...subPills])
+            // setTimeout(() => {
+            //   console.log('Got some time?? ⌛️')
+            //   document.getElementById(`${index}-selectieTwo`).click()
+            // }, 250)
+          }}
+          onClick={() => {
+            //   nummie = 2
+          }}
+          style={{
+            height: 28,
+            display: 'flex',
+            alignItems: 'center',
+            border: `1px solid ${color('accent')}`,
+            borderRadius: 4,
+            backgroundColor: color('background'),
+            boxShadow: subPills[1] ? 'inherit' : '0px',
+            position: 'relative',
+            cursor: 'text',
+            marginLeft: 6,
+            marginRight: 6,
+            maxWidth: 'fit-content',
+            '&:hover': {
+              border: `1px solid ${color('accent')}`,
+            },
+            '& div': {
+              display: 'flex',
+              color: ` ${color('accent')} !important`,
+            },
+            '& svg': { display: 'none' },
+          }}
+        />
         <Text
           color="text2"
           onClick={() => {
@@ -202,30 +247,33 @@ export const RepeatablePill = ({
             borderRadius: 0,
             borderTopLeftRadius: 4,
             borderBottomLeftRadius: 4,
-            borderRight: subPills[0]
+            borderRight: subPills[1]
               ? `1px solid ${color('border')}`
               : '1px solid transparent',
             backgroundColor: selectWholePill
               ? 'rgba(44, 60, 234, 0.08)'
-              : subPills[0]
+              : subPills[1]
               ? color('lightgrey', 'hover') // 'rgba(44, 60, 234, 0.08)'
               : color('background'),
             position: 'relative',
             cursor: 'text',
-            marginLeft: 12,
           }}
         >
-          {!subPills[0] && pillnum === 1 ? <FakeCaret /> : subPills[0]}
+          {!subPills[1] && pillCarretCounter === 3 ? (
+            <FakeCaret />
+          ) : (
+            subPills[1]
+          )}
         </Text>
         <Select
           id={`${index}-selectieOne`}
           placeholder=""
           //  ref={firstSelectionRefUno}
-          value={subPills[1]}
+          value={subPills[2]}
           filterable
           options={['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']}
           onChange={(e: string) => {
-            subPills[1] = e
+            subPills[2] = e
             setSubPills([...subPills])
             setTimeout(() => {
               console.log('Got some time?? ⌛️')
@@ -243,15 +291,15 @@ export const RepeatablePill = ({
             border: 0,
             borderRadius: 0,
             backgroundColor:
-              selectWholePill && subPills[1]
+              selectWholePill && subPills[2]
                 ? 'rgba(44, 60, 234, 0.08)'
-                : subPills[1]
+                : subPills[2]
                 ? color('lightgrey', 'hover') // 'rgba(44, 60, 234, 0.08)'
                 : color('background'),
-            borderRight: subPills[1]
+            borderRight: subPills[2]
               ? `1px solid ${color('border')}`
               : '1px solid transparent',
-            boxShadow: subPills[1] ? 'inherit' : '0px',
+            boxShadow: subPills[2] ? 'inherit' : '0px',
             position: 'relative',
             cursor: 'text',
             '@media (hover: hover)': {
@@ -268,11 +316,11 @@ export const RepeatablePill = ({
           id={`${index}-selectieTwo`}
           placeholder=""
           //    ref={secondSelectionRefDos}
-          value={subPills[2]}
+          value={subPills[3]}
           filterable
           options={['Snurpie', 'Flarpie', 'Florkie']}
           onChange={(e: string) => {
-            subPills[2] = e
+            subPills[3] = e
             setSubPills([...subPills])
             setPillCarretCounter(
               index === 0 ? 4 : index === 1 ? 6 : index === 2 ? 8 : 10
@@ -289,12 +337,12 @@ export const RepeatablePill = ({
             borderTopRightRadius: 4,
             borderBottomRightRadius: 4,
             backgroundColor:
-              selectWholePill && subPills[2]
+              selectWholePill && subPills[3]
                 ? 'rgba(44, 60, 234, 0.08)'
-                : subPills[2]
+                : subPills[3]
                 ? color('lightgrey', 'hover') // 'rgba(44, 60, 234, 0.08)'
                 : color('background'),
-            boxShadow: subPills[2] ? 'inherit' : '0px',
+            boxShadow: subPills[3] ? 'inherit' : '0px',
             position: 'relative',
             cursor: 'text',
             '@media (hover: hover)': {
@@ -320,6 +368,12 @@ export const RepeatablePill = ({
             onClick={() => deletePill()}
           />
         )}
+
+        {/* TODO write loopie */}
+        {pillCarretCounter === 4 && index === 0 && <FakeCaret />}
+        {pillCarretCounter === 6 && index === 1 && <FakeCaret />}
+        {pillCarretCounter === 8 && index === 2 && <FakeCaret />}
+        {pillCarretCounter === 10 && index === 3 && <FakeCaret />}
       </div>
     </>
   )

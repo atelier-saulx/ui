@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { color, renderOrCreateElement, Text, removeAllOverlays } from '~'
+import { color, Text, removeAllOverlays } from '~'
 import { styled } from 'inlines'
-import { FirstFilterPill } from './FirstFilterPill'
 import { RootPill } from './RootPill'
 import { FakeCaret } from './FakeCaret'
 import { SuggestionTags } from './SuggestionTags'
@@ -26,24 +25,39 @@ export const QueryBuilder = () => {
     'Dog',
   ])
 
+  // TODO : Restrict certain key presses
+  // TODO : refactor some loop logic
+  // TODO : make sure no empty fields
+  // TODO : on enter key presses
+  // TODO : on focus div , set carrot in last position
+
+  // TODO : look for cases where it will break
+  // TODO : on select box, make sure the selected option has the lightgrey bg
+
+  // TODO : connect to filter function
+  // TODO : connect to location
+
   const mainInputRef = useRef(null)
 
   useEffect(() => {
     if (pillCarretCounter % 2 === 0) mainInputRef.current.focus()
+
+    // TODO make loopie
     if (pillCarretCounter === 3) {
       setNewIndex(0)
       setNummie(1)
-      console.log('🤢', newIndex)
     }
     if (pillCarretCounter === 5) {
       setNewIndex(1)
       setNummie(1)
-      console.log('s😈', newIndex)
     }
     if (pillCarretCounter === 7) {
       setNewIndex(2)
       setNummie(1)
-      console.log('s😈', newIndex)
+    }
+    if (pillCarretCounter === 9) {
+      setNewIndex(3)
+      setNummie(1)
     }
   }, [pillCarretCounter])
 
@@ -55,13 +69,10 @@ export const QueryBuilder = () => {
     // grab the index from somewhere?
     const index = document.getElementById('index-indicator').innerHTML
 
-    // index = 0
-    console.log('Key handler?? -->', e.key, index)
     if (e.key === 'Tab' && nummie === 3) {
       e.preventDefault()
       removeAllOverlays()
       setNummie(0)
-      console.log('BAM!')
     } else if (e.key === 'Tab' && nummie === 2) {
       e.preventDefault()
       removeAllOverlays()
@@ -70,16 +81,10 @@ export const QueryBuilder = () => {
       setNummie(3)
     } else if (e.key === 'Tab' && nummie === 1) {
       e.preventDefault()
-      console.log(
-        'Tab was pressed GET GET????? 😡',
-        document.getElementById(`${index}-selectieOne`)
-      )
       document.getElementById(`${index}-selectieOne`).click()
       setNummie(2)
     }
   }
-
-  console.log('Filters from index --> ', filters)
 
   return (
     <div>
@@ -92,10 +97,8 @@ export const QueryBuilder = () => {
         style={{ border: '1px solid green', marginBottom: 12 }}
         onKeyDown={(e) => {
           if (e.key === 'ArrowLeft') {
-            console.log('<--- LEFT')
             setPillCarretCounter(pillCarretCounter - 1)
           } else if (e.key === 'ArrowRight') {
-            console.log('RIGHT -->')
             setPillCarretCounter(pillCarretCounter + 1)
           } else {
             console.log(e.key)
@@ -106,7 +109,6 @@ export const QueryBuilder = () => {
             /// carretCounter gaat 1 omhoog als je iets typt
             /// create a new Element --> nieuwe pill
             /// plak het resultaat van deze element weer aan de inputString vast
-            console.log('Arraytje?? ->', arrayOfFilterPills)
           }
         }}
       />
@@ -140,11 +142,12 @@ export const QueryBuilder = () => {
           }
         }}
       >
-        {/* <FirstPill
+        <RootPill />
+        <FirstPill
           setInputString={setInputString}
           pillCarretCounter={pillCarretCounter}
           setPillCarretCounter={setPillCarretCounter}
-        /> */}
+        />
         {pillCarretCounter === 2 && <FakeCaret />}
 
         {arrayOfFilterPills.map((item, idx) => {
@@ -158,8 +161,6 @@ export const QueryBuilder = () => {
                 setPillCarretCounter={setPillCarretCounter}
                 nummie={nummie}
               />
-              {/* {pillCarretCounter === idx + 4 && <FakeCaret />} */}
-              {pillCarretCounter === 4 && <FakeCaret />}
             </React.Fragment>
           )
         })}
