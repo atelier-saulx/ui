@@ -26,6 +26,7 @@ export type SharedInputProps = {
   noInterrupt?: boolean
   space?: Space
   transform?: (str: string) => string // transform string
+  bg?: any
 }
 
 export type TextInputProps = SharedInputProps & {
@@ -54,8 +55,20 @@ export type MultiLineTextInputProps = SharedInputProps & {
         multiline?: true
       }
   )
+export type NumberInputProps = SharedInputProps & {
+  type: 'number' | 'date'
+  min?: number
+  max?: number
+  value?: number
+  onChange: (value: number) => void
+  defaultValue?: number
+  multiline?: false
+}
 
-export type InputProps = MultiLineTextInputProps | TextInputProps
+export type InputProps =
+  | MultiLineTextInputProps
+  | TextInputProps
+  | NumberInputProps
 
 export const isMultiLineTextInput = (
   props: InputProps
@@ -68,5 +81,10 @@ export const isMultiLineTextInput = (
 }
 
 export const isTextInput = (props: InputProps): props is TextInputProps => {
-  return props.type === 'text' && !props.multiline
+  return (
+    (props.type === 'text' && !props.multiline) || props.type === 'password'
+  )
+}
+export const isNumberInput = (props: InputProps): props is NumberInputProps => {
+  return props.type === 'number' || props.type === 'date'
 }

@@ -21,7 +21,6 @@ export const PasswordInput = ({
   value,
   onChange,
   disabled,
-  large,
   icon,
   ...props
 }: PasswordInputProps) => {
@@ -37,8 +36,7 @@ export const PasswordInput = ({
         alignItems: 'center',
       }}
     >
-      <input {...props} type="password" />
-      {/* <Input
+      <Input
         {...props}
         icon={renderOrCreateElement(icon) || <LockIcon />}
         style={{ width: '100%' }}
@@ -48,7 +46,7 @@ export const PasswordInput = ({
           onChange({ target: { value: e } })
         }}
         disabled={disabled}
-      /> */}
+      />
 
       {passwordInputType === 'text' && (
         <EyeIcon

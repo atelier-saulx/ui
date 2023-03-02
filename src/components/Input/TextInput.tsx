@@ -1,8 +1,16 @@
-import React, { FC, CSSProperties, RefObject } from 'react'
+import React, {
+  FC,
+  CSSProperties,
+  RefObject,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react'
 import { TextInputProps } from './types'
-import { SharedInput } from './Shared'
 import { PasswordInput } from './SingleTextInput/PasswordInput'
 import { InputWrapper } from './InputWrapper'
+import { usePropState, useFocus, useHover } from '~/hooks'
+import { color, renderOrCreateElement } from '~/utils'
 
 type SingleProps = {
   type?: string
@@ -41,80 +49,174 @@ const Single: FC<SingleProps> = ({
 }
 
 export const TextInput: FC<TextInputProps> = (props) => {
-  const style = props.style || {}
-  if (props.type === 'password') {
-    return (
-      <SharedInput style={style}>
-        <PasswordInput {...props} />
-      </SharedInput>
-    )
-  } else
-    return (
-      <SharedInput style={style}>
-        <InputWrapper>
-          {props.icon}
-          <Single
-            type="text"
-            {...props}
-            // safari fix maybe it breaks smth
-            onKeyDown={(e) => {
-              // now you can remove the zero in input fields
-              if (e.key === 'Backspace' && value === 0) {
-                // setValue('')
-              }
-              // for some reason pressing . in number input
-              // changed the value to one
-              if (e.key === '.' && type === 'number') {
-                e.preventDefault()
-              }
-              props.onKeyDown?.(e)
-            }}
-            style={props.style}
-            // @ts-ignore
-            // onFocus={() => setFocused(true)}
-            // onBlur={() => setFocused(false)}
-          />
-        </InputWrapper>
-      </SharedInput>
-    )
+  const {
+    type,
+    pattern,
+    style,
+    indent,
+    label,
+    description,
+    space,
+    descriptionBottom,
+    disabled,
+    icon,
+    error,
+    ghost,
+    defaultValue,
+    placeholder,
+    onChange: onChangeProp,
+    autoFocus,
+    inputRef,
+    iconRight,
+    bg,
+  } = props
 
-  return (
-    <>
-      <SharedInput style={style}>BLABLABLA</SharedInput>
-    </>
+  const { listeners: focusListeners, focus } = useFocus()
+  const { listeners: hoverListeners, hover } = useHover()
+  const [errorMessage, setErrorMessage] = useState('')
+  const [focused] = useState(false)
+  const [value = '', setValue] = usePropState(
+    props.value,
+    props.noInterrupt && focused
   )
-  // if (inputRef) throw new Error('UI: Cannot use inputRef on Multiline Input')
-  // const [inputFocus, setInputFocus] = useState(false)
 
-  // return (
-  //   <div
-  //     onFocus={() => setInputFocus(true)}
-  //     onBlur={() => setInputFocus(false)}
-  //     style={{
-  //       border: inputFocus
-  //         ? `2px solid rgba(44, 60, 234, 0.2)`
-  //         : `2px solid transparent`,
-  //       borderRadius: 10,
-  //     }}
-  //   >
-  //     <textarea
-  //       style={{
-  //         ...style,
-  //         display: 'block',
-  //         resize: 'none',
-  //         paddingTop: 8,
-  //         minHeight: 84,
-  //         paddingLeft: 12,
-  //         // outline: inputFocus
-  //         //   ? `3px solid rgba(44, 60, 234, 0.2)`
-  //         //   : `3px solid transparent`,
-  //         border: inputFocus
-  //           ? `1.5px solid ${color('accent')}`
-  //           : `1px solid ${color('border')}`,
-  //       }}
-  //       ref={resize}
-  //       onInput={({ target }) => resize(target)}
-  //       {...props}
-  //     />
-  //   </div>
+  useEffect(() => {
+    //  check for when blurred
+    if (!pattern) {
+      const msg = error?.(value)
+      if (msg) {
+        setErrorMessage(msg)
+      } else {
+        setErrorMessage('')
+      }
+    }
+  }, [focused])
+
+  useEffect(() => {
+    if (pattern) {
+      const v = typeof value === 'number' ? String(value) : value
+      const reOk = v === '' || new RegExp(props.pattern).test(v)
+      const msg = error ? error(value) : reOk ? '' : 'Does not match pattern'
+      if (msg) {
+        setErrorMessage(msg)
+      } else {
+        setErrorMessage('')
+      }
+    }
+  }, [value])
+  const onChange = useCallback(
+    (e: { target: { value: string } }) => {
+      const newValue = props.transform
+        ? props.transform(e.target.value)
+        : e.target.value
+      setValue(newValue)
+      // @ts-ignore
+      onChangeProp?.(newValue)
+    },
+    [onChangeProp]
+  )
+  const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
+  const paddingRight = ghost ? 0 : iconRight ? 36 : 12
+  const fontSize = 14
+  const fontWeight = 400
+  const moreProps = {
+    // consoleFunc,
+    onChange,
+    name,
+    type,
+    value,
+    defaultValue,
+    placeholder,
+    disabled,
+    autoFocus,
+    style: {
+      outlineRadius: '8',
+      outlineOffset: ghost ? null : focus ? -1 : -1,
+      borderRadius: 8,
+      boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
+      cursor: disabled ? 'not-allowed' : 'text',
+      color: disabled ? color('text2:hover') : 'inherit',
+      minHeight: ghost ? '' : 36,
+      paddingLeft,
+      border: ghost
+        ? `0px solid transparent`
+        : focused
+        ? `1.5px solid ${color('accent')}`
+        : `1px solid ${color('border')}`,
+      paddingRight,
+      width: '100%',
+      fontSize,
+      fontWeight,
+      backgroundColor: bg
+        ? color(hover && !disabled ? 'border' : 'border')
+        : 'inherit',
+    },
+    inputRef,
+    ...focusListeners,
+    ...hoverListeners,
+    // ...otherProps,
+  }
+
+  if (type === 'password') {
+    return (
+      <InputWrapper
+        style={{ position: 'relative' }}
+        indent={indent}
+        label={label}
+        description={description}
+        space={space}
+        descriptionBottom={descriptionBottom}
+        errorMessage={errorMessage}
+        disabled={disabled}
+      >
+        <PasswordInput {...moreProps} />
+      </InputWrapper>
+    )
+  } else if (type === 'text') {
+    return (
+      <InputWrapper
+        indent={indent}
+        // {...moreProps}
+        style={{ position: 'relative' }}
+        label={label}
+        description={description}
+        space={space}
+        descriptionBottom={descriptionBottom}
+        errorMessage={errorMessage}
+        disabled={disabled}
+      >
+        {renderOrCreateElement(props.icon, {
+          style: {
+            position: 'absolute',
+            left: 12,
+            top: '50%',
+            transform: 'translate3d(0,-50%,0)',
+            pointerEvents: 'none',
+          },
+        })}
+        <Single
+          type="text"
+          {...moreProps}
+          // safari fix maybe it breaks smth
+          onKeyDown={(e) => {
+            // now you can remove the zero in input fields
+            if (e.key === 'Backspace' && value === 0) {
+              setValue('')
+            }
+            // for some reason pressing . in number input
+            // changed the value to one
+            // @ts-ignore
+            if (e.key === '.' && props.type === 'number') {
+              e.preventDefault()
+            }
+            props.onKeyDown?.(e)
+          }}
+          style={{ ...moreProps.style, ...style }}
+          // @ts-ignore
+          // onFocus={() => setFocused(true)}
+          // onBlur={() => setFocused(false)}
+        />
+      </InputWrapper>
+    )
+  } else return null
 }

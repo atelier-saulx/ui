@@ -6,12 +6,12 @@ import React, {
   useCallback,
 } from 'react'
 import { MultiLineTextInputProps } from './types'
-
 import { InputWrapper } from './InputWrapper'
 import { usePropState, Button } from '~'
 import { color } from '~/utils'
 import { JsonInput } from './MultiLineInput/JsonInput'
 import { MarkdownInput } from './MultiLineInput/MarkdownInput'
+import { renderOrCreateElement } from '~/utils'
 
 const resize = (target) => {
   if (target) {
@@ -20,8 +20,22 @@ const resize = (target) => {
   }
 }
 export const MultiLineTextInput: FC<MultiLineTextInputProps> = (props) => {
-  const onChangeProp = props.onChange
-  const inputRef = props.inputRef
+  const {
+    onChange: onChangeProp,
+    type,
+    pattern,
+    style,
+    indent,
+    label,
+    description,
+    space,
+    descriptionBottom,
+    disabled,
+    inputRef,
+  } = props
+
+  // const { listeners: focusListeners, focus } = useFocus()
+  // const { listeners: hoverListeners, hover } = useHover()
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
   const [clearValue, setClearValue] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -57,9 +71,9 @@ export const MultiLineTextInput: FC<MultiLineTextInputProps> = (props) => {
   }, [focused])
 
   useEffect(() => {
-    if (props.pattern) {
+    if (pattern) {
       const v = typeof value === 'number' ? String(value) : value
-      const reOk = v === '' || new RegExp(props.pattern).test(v)
+      const reOk = v === '' || new RegExp(pattern).test(v)
       const msg = props.error
         ? props.error(value)
         : reOk
@@ -72,21 +86,19 @@ export const MultiLineTextInput: FC<MultiLineTextInputProps> = (props) => {
       }
     }
   }, [value])
-
-  const style = props.style
-  if (props.type === 'json') {
+  if (type === 'json') {
     return (
       <InputWrapper
         style={{ position: 'relative', ...style }}
-        indent={props.indent}
-        label={props.label}
-        description={props.description}
-        space={props.space}
-        descriptionBottom={props.descriptionBottom}
+        indent={indent}
+        label={label}
+        description={description}
+        space={space}
+        descriptionBottom={descriptionBottom}
         errorMessage={errorMessage}
-        disabled={props.disabled}
+        disabled={disabled}
       >
-        {props.indent && showJSONClearButton && (
+        {indent && showJSONClearButton && (
           <Button
             ghost
             onClick={() => {
@@ -104,7 +116,7 @@ export const MultiLineTextInput: FC<MultiLineTextInputProps> = (props) => {
               right: 0,
               marginLeft: 'auto',
             }}
-            disabled={props.disabled}
+            disabled={disabled}
           >
             Clear
           </Button>
@@ -117,17 +129,26 @@ export const MultiLineTextInput: FC<MultiLineTextInputProps> = (props) => {
           setShowJSONClearButton={setShowJSONClearButton}
           setClearValue={setClearValue}
           clearValue={clearValue}
-          disabled={props.disabled}
+          disabled={disabled}
         />
+        {renderOrCreateElement(props.icon, {
+          style: {
+            position: 'absolute',
+            left: 12,
+            top: '50%',
+            transform: 'translate3d(0,-50%,0)',
+            pointerEvents: 'none',
+          },
+        })}
       </InputWrapper>
     )
-  } else if (props.type === 'markdown') {
+  } else if (type === 'markdown') {
     return (
       <MarkdownInput
         {...props}
         value={value}
         onChange={onChange}
-        disabled={props.disabled}
+        disabled={disabled}
       />
     )
   } else {
