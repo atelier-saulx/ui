@@ -9,8 +9,7 @@ export const DigestInput = ({
   value,
   onChange,
   disabled,
-  label,
-  description,
+
   ...props
 }: TextInputProps) => {
   const [shortState, setShortState] = useState(false)

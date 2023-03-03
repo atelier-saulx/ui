@@ -1,4 +1,4 @@
-import { FC, ReactNode, RefObject, KeyboardEvent, SyntheticEvent } from 'react'
+import { FC, ReactNode, RefObject, KeyboardEvent } from 'react'
 import { Space, Icon } from '~/types'
 import { Style } from 'inlines'
 
