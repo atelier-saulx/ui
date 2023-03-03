@@ -5,7 +5,6 @@ import React, {
   CSSProperties,
   RefObject,
 } from 'react'
-// import { InputWrapper } from './InputWrapper'
 import { color, renderOrCreateElement } from '~/utils'
 import { styled } from 'inlines'
 import { ChevronUpIcon, ChevronDownIcon } from '~/icons'
@@ -28,9 +27,6 @@ const Single: FC<SingleProps> = ({
   style,
   ...props
 }) => {
-  // if (type === 'color') {
-  //   return <ColorInput inputRef={inputRef} {...props} />
-  // }
   return (
     <input
       {...props}
@@ -51,12 +47,10 @@ const Single: FC<SingleProps> = ({
 export const NumberInput = (props) => {
   const {
     type,
-    // style,
     onChange: onChangeProp,
     transform,
     noInterrupt,
     value: valueProp,
-    style,
     ghost,
     icon,
     iconRight,
@@ -68,7 +62,7 @@ export const NumberInput = (props) => {
     hover,
     inputRef,
   } = props
-  const [focused] = useState(false)
+  const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const onChange = useCallback(
     (e: { target: { value: string } }) => {
@@ -125,7 +119,7 @@ export const NumberInput = (props) => {
     // ...otherProps,
   }
   return (
-    <InputWrapper style={{ position: 'relative' }} {...props}>
+    <InputWrapper style={{ position: 'relative', display: 'flex' }} {...props}>
       {/* <div> */}
       {renderOrCreateElement(props.icon, {
         style: {
@@ -142,12 +136,11 @@ export const NumberInput = (props) => {
         },
       })}
       <Single
-        style={{ ...moreProps.style, ...style }}
+        {...props}
+        style={{ ...moreProps.style }}
         type={type}
         onChange={onChange}
-        {...props}
         value={value}
-        // safari fix maybe it breaks smth
         onKeyDown={(e) => {
           // now you can remove the zero in input fields
           if (e.key === 'Backspace' && value === 0) {
@@ -160,18 +153,16 @@ export const NumberInput = (props) => {
           }
           props.onKeyDown?.(e)
         }}
-        // style={props.style}
-        // @ts-ignore
-        // onFocus={() => setFocused(true)}
-        // onBlur={() => setFocused(false)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
       />
       {type === 'number' ? (
         <div
           style={{
-            position: 'absolute',
-            right: 8,
-            top: '70%',
-            transform: 'translate3d(0,-50%,0)',
+            paddingRight: '10',
+            marginRight: '0',
+            marginLeft: 'auto',
+            transform: 'translate3d(-20%,-135%,0)',
             display: 'flex',
             flexDirection: 'column',
             width: 15,
@@ -222,7 +213,6 @@ export const NumberInput = (props) => {
           </styled.div>
         </div>
       ) : null}
-      {/* </div> */}
     </InputWrapper>
   )
 }

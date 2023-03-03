@@ -18,8 +18,8 @@ export const KylesPlayground = () => {
   return (
     <div>
       <Input
-        type="number"
-        // onChange={(e) => console.log(e)}
+        type="phone"
+        onChange={(e) => console.log(e)}
         // ghost
         // icon={<AudioIcon />}
         // label="asdfasdf"

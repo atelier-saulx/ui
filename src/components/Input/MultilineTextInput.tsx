@@ -158,9 +158,11 @@ export const MultiLineTextInput: FC<MultiLineTextInputProps> = (props) => {
             ...style,
             display: 'block',
             resize: 'none',
+            width: '100%',
             paddingTop: 8,
             minHeight: 84,
             paddingLeft: 12,
+            borderRadius: 8,
             border: inputFocus
               ? `1.5px solid ${color('accent')}`
               : `1px solid ${color('border')}`,

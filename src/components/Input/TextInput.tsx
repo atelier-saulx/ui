@@ -29,9 +29,6 @@ const Single: FC<SingleProps> = ({
   style,
   ...props
 }) => {
-  // if (type === 'color') {
-  //   return <ColorInput inputRef={inputRef} {...props} />
-  // }
   return (
     <input
       {...props}
@@ -75,7 +72,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
   const [errorMessage, setErrorMessage] = useState('')
-  const [focused] = useState(false)
+  const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(
     props.value,
     props.noInterrupt && focused
@@ -111,7 +108,6 @@ export const TextInput: FC<TextInputProps> = (props) => {
         ? props.transform(e.target.value)
         : e.target.value
       setValue(newValue)
-      // @ts-ignore
       onChangeProp?.(newValue)
     },
     [onChangeProp]
@@ -173,7 +169,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
         <PasswordInput {...moreProps} />
       </InputWrapper>
     )
-  } else if (type === 'text') {
+  } else if (type === 'text' || type === 'email' || type === 'phone') {
     return (
       <InputWrapper
         indent={indent}
@@ -218,8 +214,8 @@ export const TextInput: FC<TextInputProps> = (props) => {
           }}
           style={{ ...moreProps.style, ...style }}
           // @ts-ignore
-          // onFocus={() => setFocused(true)}
-          // onBlur={() => setFocused(false)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
         />
       </InputWrapper>
     )

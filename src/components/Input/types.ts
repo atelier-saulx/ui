@@ -64,11 +64,20 @@ export type NumberInputProps = SharedInputProps & {
   defaultValue?: number
   multiline?: false
 }
+export type ColorInputProps = SharedInputProps & {
+  type: 'color'
+  multiline?: false
+  defaultValue: string
+  value: string
+  inputRef?: RefObject<HTMLInputElement>
+  onChange: (value: any) => void
+}
 
 export type InputProps =
   | MultiLineTextInputProps
   | TextInputProps
   | NumberInputProps
+  | ColorInputProps
 
 export const isMultiLineTextInput = (
   props: InputProps
@@ -82,9 +91,15 @@ export const isMultiLineTextInput = (
 
 export const isTextInput = (props: InputProps): props is TextInputProps => {
   return (
-    (props.type === 'text' && !props.multiline) || props.type === 'password'
+    (props.type === 'text' && !props.multiline) ||
+    props.type === 'password' ||
+    props.type === 'email' ||
+    props.type === 'phone'
   )
 }
 export const isNumberInput = (props: InputProps): props is NumberInputProps => {
   return props.type === 'number' || props.type === 'date'
+}
+export const isColorInput = (props: InputProps): props is ColorInputProps => {
+  return props.type === 'color'
 }
