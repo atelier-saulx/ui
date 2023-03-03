@@ -11,7 +11,6 @@ import { usePropState, Button } from '~'
 import { color } from '~/utils'
 import { JsonInput } from './MultiLineInput/JsonInput'
 import { MarkdownInput } from './MultiLineInput/MarkdownInput'
-import { renderOrCreateElement } from '~/utils'
 
 const resize = (target) => {
   if (target) {
@@ -131,15 +130,6 @@ export const MultiLineTextInput: FC<MultiLineTextInputProps> = (props) => {
           clearValue={clearValue}
           disabled={disabled}
         />
-        {renderOrCreateElement(props.icon, {
-          style: {
-            position: 'absolute',
-            left: 12,
-            top: '50%',
-            transform: 'translate3d(0,-50%,0)',
-            pointerEvents: 'none',
-          },
-        })}
       </InputWrapper>
     )
   } else if (type === 'markdown') {
@@ -171,16 +161,13 @@ export const MultiLineTextInput: FC<MultiLineTextInputProps> = (props) => {
             paddingTop: 8,
             minHeight: 84,
             paddingLeft: 12,
-            // outline: inputFocus
-            //   ? `3px solid rgba(44, 60, 234, 0.2)`
-            //   : `3px solid transparent`,
             border: inputFocus
               ? `1.5px solid ${color('accent')}`
               : `1px solid ${color('border')}`,
           }}
           ref={resize}
           onInput={({ target }) => resize(target)}
-          {...props}
+          // {...props}
         />
       </div>
     )

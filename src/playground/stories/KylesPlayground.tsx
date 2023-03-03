@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Input } from '~/components/Input'
-import { AudioIcon } from '~/icons/AudioIcon'
+// import { AudioIcon } from '~/icons/AudioIcon'
 export const KylesPlayground = () => {
   let width, height
   const paramsStart = ['h=' + undefined, 'w=' + undefined]
@@ -14,16 +14,16 @@ export const KylesPlayground = () => {
   }
   console.log(newParams)
   // join() with & inbetween
-  const icon = <AudioIcon />
+
   return (
     <div>
       <Input
-        type="text"
-        indent
-        onChange={(e) => console.log(e)}
+        type="number"
+        // onChange={(e) => console.log(e)}
         // ghost
-        // icon={icon}
-        label="asdfasdf"
+        // icon={<AudioIcon />}
+        // label="asdfasdf"
+        description="asdasd"
         // style={{ border: '1px solid red' }}
       />
     </div>

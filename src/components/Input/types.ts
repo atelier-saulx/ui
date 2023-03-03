@@ -60,7 +60,7 @@ export type NumberInputProps = SharedInputProps & {
   min?: number
   max?: number
   value?: number
-  onChange: (value: number) => void
+  onChange?: (value: number) => void
   defaultValue?: number
   multiline?: false
 }

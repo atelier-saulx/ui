@@ -11,6 +11,7 @@ import { PasswordInput } from './SingleTextInput/PasswordInput'
 import { InputWrapper } from './InputWrapper'
 import { usePropState, useFocus, useHover } from '~/hooks'
 import { color, renderOrCreateElement } from '~/utils'
+// import { DigestInput } from './SingleTextInput/DigestInput'
 
 type SingleProps = {
   type?: string
@@ -94,7 +95,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
 
   useEffect(() => {
     if (pattern) {
-      const v = typeof value === 'number' ? String(value) : value
+      const v = value
       const reOk = v === '' || new RegExp(props.pattern).test(v)
       const msg = error ? error(value) : reOk ? '' : 'Does not match pattern'
       if (msg) {
@@ -176,7 +177,6 @@ export const TextInput: FC<TextInputProps> = (props) => {
     return (
       <InputWrapper
         indent={indent}
-        // {...moreProps}
         style={{ position: 'relative' }}
         label={label}
         description={description}
@@ -188,8 +188,13 @@ export const TextInput: FC<TextInputProps> = (props) => {
         {renderOrCreateElement(props.icon, {
           style: {
             position: 'absolute',
-            left: 12,
-            top: '50%',
+            left: indent ? 24 : 12,
+            top:
+              label && description
+                ? '77.5%'
+                : label || description
+                ? '72.5%'
+                : '50%',
             transform: 'translate3d(0,-50%,0)',
             pointerEvents: 'none',
           },
