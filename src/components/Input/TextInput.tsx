@@ -6,6 +6,7 @@ import { usePropState, useFocus, useHover } from '~/hooks'
 import { color, renderOrCreateElement } from '~/utils'
 import { MaybeSuggest } from './MaybeSuggest'
 import { Single } from './Single'
+import { DigestInput } from './SingleTextInput/DigestInput'
 
 export const TextInput: FC<TextInputProps> = (props) => {
   const {
@@ -112,8 +113,22 @@ export const TextInput: FC<TextInputProps> = (props) => {
     ...focusListeners,
     ...hoverListeners,
   }
-
-  if (type === 'password') {
+  if (type === 'digest') {
+    return (
+      <InputWrapper
+        style={{ position: 'relative' }}
+        indent={indent}
+        label={label}
+        description={description}
+        space={space}
+        descriptionBottom={descriptionBottom}
+        errorMessage={errorMessage}
+        disabled={disabled}
+      >
+        <DigestInput {...props} />
+      </InputWrapper>
+    )
+  } else if (type === 'password') {
     return (
       <InputWrapper
         style={{ position: 'relative' }}

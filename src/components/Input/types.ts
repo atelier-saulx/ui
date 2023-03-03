@@ -1,4 +1,4 @@
-import { FC, ReactNode, RefObject, KeyboardEvent } from 'react'
+import { FC, ReactNode, RefObject, KeyboardEvent, SyntheticEvent } from 'react'
 import { Space, Icon } from '~/types'
 import { Style } from 'inlines'
 
@@ -30,12 +30,12 @@ export type SharedInputProps = {
 }
 
 export type TextInputProps = SharedInputProps & {
-  type: 'text' | 'email' | 'password' | 'phone'
+  type: 'text' | 'email' | 'password' | 'phone' | 'digest'
   defaultValue?: string
   value?: string
   suggest?: any
   forceSuggestion?: any
-  onChange?: (value: string) => void
+  onChange?: (value: string | any) => void
   maxChars?: number
   multiline?: false
   error?: (str: string, patternMatches?: boolean) => string
@@ -96,7 +96,8 @@ export const isTextInput = (props: InputProps): props is TextInputProps => {
     (props.type === 'text' && !props.multiline) ||
     props.type === 'password' ||
     props.type === 'email' ||
-    props.type === 'phone'
+    props.type === 'phone' ||
+    props.type === 'digest'
   )
 }
 export const isNumberInput = (props: InputProps): props is NumberInputProps => {

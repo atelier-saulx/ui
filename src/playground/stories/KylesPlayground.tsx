@@ -18,13 +18,14 @@ export const KylesPlayground = () => {
   return (
     <div>
       <Input
-        type="password"
+        type="digest"
         onChange={(e) => console.log(e)}
         style={{ width: '800px' }}
         // ghost
-        icon={<AudioIcon />}
+        // icon={<AudioIcon />}
+        value="asdasd"
         // label="asdfasdf"
-        description="asdasd"
+        // description="asdasd"
         // style={{ border: '1px solid red' }}
       />
     </div>
