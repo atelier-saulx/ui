@@ -7,10 +7,11 @@ import React, {
   useCallback,
 } from 'react'
 import { TextInputProps } from './types'
-import { PasswordInput } from './SingleTextInput/PasswordInput'
+// import { PasswordInput } from './SingleTextInput/PasswordInput'
 import { InputWrapper } from './InputWrapper'
 import { usePropState, useFocus, useHover } from '~/hooks'
 import { color, renderOrCreateElement } from '~/utils'
+import { MaybeSuggest } from './MaybeSuggest'
 // import { DigestInput } from './SingleTextInput/DigestInput'
 
 type SingleProps = {
@@ -154,22 +155,23 @@ export const TextInput: FC<TextInputProps> = (props) => {
     // ...otherProps,
   }
 
-  if (type === 'password') {
-    return (
-      <InputWrapper
-        style={{ position: 'relative' }}
-        indent={indent}
-        label={label}
-        description={description}
-        space={space}
-        descriptionBottom={descriptionBottom}
-        errorMessage={errorMessage}
-        disabled={disabled}
-      >
-        <PasswordInput {...moreProps} />
-      </InputWrapper>
-    )
-  } else if (type === 'text' || type === 'email' || type === 'phone') {
+  // if (type === 'password') {
+  //   return (
+  //     <InputWrapper
+  //       style={{ position: 'relative' }}
+  //       indent={indent}
+  //       label={label}
+  //       description={description}
+  //       space={space}
+  //       descriptionBottom={descriptionBottom}
+  //       errorMessage={errorMessage}
+  //       disabled={disabled}
+  //     >
+  //       <PasswordInput {...moreProps} />
+  //     </InputWrapper>
+  //   )
+  // } else
+  if (type === 'text' || type === 'email' || type === 'phone') {
     return (
       <InputWrapper
         indent={indent}
@@ -206,28 +208,40 @@ export const TextInput: FC<TextInputProps> = (props) => {
             position: 'relative',
           }}
         >
-          <Single
-            type="text"
-            {...moreProps}
-            // safari fix maybe it breaks smth
-            onKeyDown={(e) => {
-              // now you can remove the zero in input fields
-              if (e.key === 'Backspace' && value === 0) {
-                setValue('')
-              }
-              // for some reason pressing . in number input
-              // changed the value to one
+          <MaybeSuggest
+            focused={focused}
+            forceSuggestion={props.forceSuggestion}
+            suggest={props.suggest}
+            value={value}
+            paddingLeft={paddingLeft}
+            paddingRight={paddingRight}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            onChange={onChange}
+          >
+            <Single
+              type="text"
+              {...moreProps}
+              // safari fix maybe it breaks smth
+              onKeyDown={(e) => {
+                // now you can remove the zero in input fields
+                if (e.key === 'Backspace' && value === 0) {
+                  setValue('')
+                }
+                // for some reason pressing . in number input
+                // changed the value to one
+                // @ts-ignore
+                if (e.key === '.' && props.type === 'number') {
+                  e.preventDefault()
+                }
+                props.onKeyDown?.(e)
+              }}
+              style={{ position: 'relative', ...moreProps.style }}
               // @ts-ignore
-              if (e.key === '.' && props.type === 'number') {
-                e.preventDefault()
-              }
-              props.onKeyDown?.(e)
-            }}
-            style={{ position: 'relative', ...moreProps.style }}
-            // @ts-ignore
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-          />
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+            />
+          </MaybeSuggest>
         </div>
       </InputWrapper>
     )

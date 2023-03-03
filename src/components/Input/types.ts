@@ -33,6 +33,8 @@ export type TextInputProps = SharedInputProps & {
   type: 'text' | 'email' | 'password' | 'phone'
   defaultValue?: string
   value?: string
+  suggest?: any
+  forceSuggestion: any
   onChange: (value: string) => void
   maxChars?: number
   multiline?: false
@@ -70,7 +72,7 @@ export type ColorInputProps = SharedInputProps & {
   defaultValue: string
   value: string
   inputRef?: RefObject<HTMLInputElement>
-  onChange: (value: any) => void
+  onChange?: (value: any) => void
 }
 
 export type InputProps =

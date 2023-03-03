@@ -18,7 +18,7 @@ export const KylesPlayground = () => {
   return (
     <div>
       <Input
-        type="markdown"
+        type="color"
         onChange={(e) => console.log(e)}
         // ghost
         // icon={<AudioIcon />}
