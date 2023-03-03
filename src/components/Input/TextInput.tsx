@@ -173,7 +173,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
     return (
       <InputWrapper
         indent={indent}
-        style={{ position: 'relative' }}
+        style={{ position: 'relative', ...style }}
         label={label}
         description={description}
         space={space}
@@ -195,28 +195,40 @@ export const TextInput: FC<TextInputProps> = (props) => {
             pointerEvents: 'none',
           },
         })}
-        <Single
-          type="text"
-          {...moreProps}
-          // safari fix maybe it breaks smth
-          onKeyDown={(e) => {
-            // now you can remove the zero in input fields
-            if (e.key === 'Backspace' && value === 0) {
-              setValue('')
-            }
-            // for some reason pressing . in number input
-            // changed the value to one
-            // @ts-ignore
-            if (e.key === '.' && props.type === 'number') {
-              e.preventDefault()
-            }
-            props.onKeyDown?.(e)
-          }}
-          style={{ ...moreProps.style, ...style }}
-          // @ts-ignore
+        <div
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-        />
+          style={{
+            border: focused
+              ? `2px solid rgba(44, 60, 234, 0.2)`
+              : `2px solid transparent`,
+            borderRadius: 10,
+            position: 'relative',
+          }}
+        >
+          <Single
+            type="text"
+            {...moreProps}
+            // safari fix maybe it breaks smth
+            onKeyDown={(e) => {
+              // now you can remove the zero in input fields
+              if (e.key === 'Backspace' && value === 0) {
+                setValue('')
+              }
+              // for some reason pressing . in number input
+              // changed the value to one
+              // @ts-ignore
+              if (e.key === '.' && props.type === 'number') {
+                e.preventDefault()
+              }
+              props.onKeyDown?.(e)
+            }}
+            style={{ position: 'relative', ...moreProps.style }}
+            // @ts-ignore
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+          />
+        </div>
       </InputWrapper>
     )
   } else return null

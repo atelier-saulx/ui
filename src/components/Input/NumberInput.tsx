@@ -47,6 +47,7 @@ const Single: FC<SingleProps> = ({
 export const NumberInput = (props) => {
   const {
     type,
+    style,
     onChange: onChangeProp,
     transform,
     noInterrupt,
@@ -119,8 +120,10 @@ export const NumberInput = (props) => {
     // ...otherProps,
   }
   return (
-    <InputWrapper style={{ position: 'relative', display: 'flex' }} {...props}>
-      {/* <div> */}
+    <InputWrapper
+      style={{ position: 'relative', display: 'flex', ...style }}
+      {...props}
+    >
       {renderOrCreateElement(props.icon, {
         style: {
           position: 'absolute',
@@ -135,84 +138,95 @@ export const NumberInput = (props) => {
           pointerEvents: 'none',
         },
       })}
-      <Single
-        {...props}
-        style={{ ...moreProps.style }}
-        type={type}
-        onChange={onChange}
-        value={value}
-        onKeyDown={(e) => {
-          // now you can remove the zero in input fields
-          if (e.key === 'Backspace' && value === 0) {
-            setValue('')
-          }
-          // for some reason pressing . in number input
-          // changed the value to one
-          if (e.key === '.' && type === 'number') {
-            e.preventDefault()
-          }
-          props.onKeyDown?.(e)
-        }}
+      <div
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-      />
-      {type === 'number' ? (
-        <div
-          style={{
-            paddingRight: '10',
-            marginRight: '0',
-            marginLeft: 'auto',
-            transform: 'translate3d(-20%,-135%,0)',
-            display: 'flex',
-            flexDirection: 'column',
-            width: 15,
-            height: 20,
+        style={{
+          border: focused
+            ? `2px solid rgba(44, 60, 234, 0.2)`
+            : `2px solid transparent`,
+          borderRadius: 10,
+          position: 'relative',
+        }}
+      >
+        <Single
+          {...moreProps}
+          style={{ ...moreProps.style, position: 'relative' }}
+          type={type}
+          // @ts-ignore
+          value={value}
+          onChange={onChange}
+          onKeyDown={(e) => {
+            // now you can remove the zero in input fields
+            if (e.key === 'Backspace' && value === 0) {
+              setValue('')
+            }
+            // for some reason pressing . in number input
+            // changed the value to one
+            if (e.key === '.' && type === 'number') {
+              e.preventDefault()
+            }
+            props.onKeyDown?.(e)
           }}
-        >
-          <styled.div
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+        />
+        {type === 'number' ? (
+          <div
             style={{
-              border: `1px solid ${color('border')}`,
-              borderTopLeftRadius: 5,
-              borderTopRightRadius: 5,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 10,
-              '@media (hover: hover)': {
-                '&:hover': {
-                  backgroundColor: color('border'),
-                },
-              },
-            }}
-            onClick={() => {
-              onChange({ target: { value: String(+value + 1) } })
+              width: 15,
+              height: 20,
+              position: 'absolute',
+              // top: '50%',
+              top: 7.5,
+              right: 8,
             }}
           >
-            <ChevronUpIcon size={9} strokeWidth={2.5} />
-          </styled.div>
-          <styled.div
-            style={{
-              border: `1px solid ${color('border')}`,
-              borderBottomLeftRadius: 5,
-              borderBottomRightRadius: 5,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 10,
-              '@media (hover: hover)': {
-                '&:hover': {
-                  backgroundColor: color('border'),
+            <styled.div
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderTopLeftRadius: 5,
+                borderTopRightRadius: 5,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 10,
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    backgroundColor: color('border'),
+                  },
                 },
-              },
-            }}
-            onClick={() => {
-              onChange({ target: { value: String(+value - 1) } })
-            }}
-          >
-            <ChevronDownIcon size={9} strokeWidth={2.5} />
-          </styled.div>
-        </div>
-      ) : null}
+              }}
+              onClick={() => {
+                onChange({ target: { value: String(+value + 1) } })
+              }}
+            >
+              <ChevronUpIcon size={9} strokeWidth={2.5} />
+            </styled.div>
+            <styled.div
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderBottomLeftRadius: 5,
+                borderBottomRightRadius: 5,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 10,
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    backgroundColor: color('border'),
+                  },
+                },
+              }}
+              onClick={() => {
+                onChange({ target: { value: String(+value - 1) } })
+              }}
+            >
+              <ChevronDownIcon size={9} strokeWidth={2.5} />
+            </styled.div>
+          </div>
+        ) : null}
+      </div>
     </InputWrapper>
   )
 }

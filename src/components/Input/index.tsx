@@ -4,12 +4,12 @@ import {
   isTextInput,
   InputProps,
   isNumberInput,
-  isColorInput,
+  // isColorInput,
 } from './types'
 import { MultiLineTextInput } from './MultilineTextInput'
 import { TextInput } from './TextInput'
 import { NumberInput } from './NumberInput'
-import { ColorInput } from './ColorInput'
+// import { ColorInput } from './ColorInput'
 
 export const Input: FC<InputProps> = (props) => {
   if (isMultiLineTextInput(props)) {
@@ -21,9 +21,9 @@ export const Input: FC<InputProps> = (props) => {
   if (isNumberInput(props)) {
     return <NumberInput {...props} />
   }
-  if (isColorInput(props)) {
-    return <ColorInput {...props} />
-  }
+  // if (isColorInput(props)) {
+  //   return <ColorInput {...props} />
+  // }
 
   return null
 }

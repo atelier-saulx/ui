@@ -11,6 +11,7 @@ const HexInput = ({ r, g, b, onRgbChange }) => {
       type="text"
       style={{ marginLeft: 8, flexGrow: 4, flexBasis: 80, marginBottom: 8 }}
       value={`${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase()}
+      // @ts-ignore
       suggest={hexSuggest}
       transform={(v) =>
         v
