@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Input } from '~/components/Input'
-// import { AudioIcon } from '~/icons/AudioIcon'
+import { AudioIcon } from '~/icons/AudioIcon'
 export const KylesPlayground = () => {
   let width, height
   const paramsStart = ['h=' + undefined, 'w=' + undefined]
@@ -18,10 +18,11 @@ export const KylesPlayground = () => {
   return (
     <div>
       <Input
-        type="color"
+        type="password"
         onChange={(e) => console.log(e)}
+        style={{ width: '800px' }}
         // ghost
-        // icon={<AudioIcon />}
+        icon={<AudioIcon />}
         // label="asdfasdf"
         description="asdasd"
         // style={{ border: '1px solid red' }}

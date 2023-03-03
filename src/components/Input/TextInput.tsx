@@ -1,51 +1,45 @@
-import React, {
-  FC,
-  CSSProperties,
-  RefObject,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react'
+import React, { FC, useState, useEffect, useCallback } from 'react'
 import { TextInputProps } from './types'
-// import { PasswordInput } from './SingleTextInput/PasswordInput'
+import { PasswordInput } from './SingleTextInput/PasswordInput'
 import { InputWrapper } from './InputWrapper'
 import { usePropState, useFocus, useHover } from '~/hooks'
 import { color, renderOrCreateElement } from '~/utils'
 import { MaybeSuggest } from './MaybeSuggest'
 // import { DigestInput } from './SingleTextInput/DigestInput'
+import { Single } from './Single'
 
-type SingleProps = {
-  type?: string
-  inputRef?: RefObject<any>
-  pattern?: string
-  props?: any
-  onKeyDown?: (e: any) => void
-  style?: CSSProperties
-}
+// type SingleProps = {
+//   type?: string
+//   inputRef?: RefObject<any>
+//   pattern?: string
+//   props?: any
+//   onKeyDown?: (e: any) => void
+//   style?: CSSProperties
+// }
 
-const Single: FC<SingleProps> = ({
-  type,
-  inputRef,
-  pattern,
-  style,
-  ...props
-}) => {
-  return (
-    <input
-      {...props}
-      type={type}
-      ref={inputRef}
-      pattern={pattern}
-      style={{
-        width: '100%',
-        userSelect: 'text',
-        MozUserSelect: 'text',
-        WebkitUserSelect: 'text',
-        ...style,
-      }}
-    />
-  )
-}
+// const Single: FC<SingleProps> = ({
+//   type,
+//   inputRef,
+//   pattern,
+//   style,
+//   ...props
+// }) => {
+//   return (
+//     <input
+//       {...props}
+//       type={type}
+//       ref={inputRef}
+//       pattern={pattern}
+//       style={{
+//         width: '100%',
+//         userSelect: 'text',
+//         MozUserSelect: 'text',
+//         WebkitUserSelect: 'text',
+//         ...style,
+//       }}
+//     />
+//   )
+// }
 
 export const TextInput: FC<TextInputProps> = (props) => {
   const {
@@ -155,23 +149,22 @@ export const TextInput: FC<TextInputProps> = (props) => {
     // ...otherProps,
   }
 
-  // if (type === 'password') {
-  //   return (
-  //     <InputWrapper
-  //       style={{ position: 'relative' }}
-  //       indent={indent}
-  //       label={label}
-  //       description={description}
-  //       space={space}
-  //       descriptionBottom={descriptionBottom}
-  //       errorMessage={errorMessage}
-  //       disabled={disabled}
-  //     >
-  //       <PasswordInput {...moreProps} />
-  //     </InputWrapper>
-  //   )
-  // } else
-  if (type === 'text' || type === 'email' || type === 'phone') {
+  if (type === 'password') {
+    return (
+      <InputWrapper
+        style={{ position: 'relative' }}
+        indent={indent}
+        label={label}
+        description={description}
+        space={space}
+        descriptionBottom={descriptionBottom}
+        errorMessage={errorMessage}
+        disabled={disabled}
+      >
+        <PasswordInput {...props} />
+      </InputWrapper>
+    )
+  } else if (type === 'text' || type === 'email' || type === 'phone') {
     return (
       <InputWrapper
         indent={indent}
@@ -220,7 +213,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
             onChange={onChange}
           >
             <Single
-              type="text"
+              type={type}
               {...moreProps}
               // safari fix maybe it breaks smth
               onKeyDown={(e) => {
