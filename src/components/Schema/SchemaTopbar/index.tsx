@@ -60,7 +60,6 @@ export const SchemaTopbar = () => {
             height: 40,
             alignItems: 'center',
             borderRadius: 8,
-            paddingTop: '8px',
             paddingBottom: '6px',
           }}
         />

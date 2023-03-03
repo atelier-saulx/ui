@@ -1,48 +1,10 @@
-import React, {
-  useCallback,
-  useState,
-  FC,
-  CSSProperties,
-  RefObject,
-} from 'react'
+import React, { useCallback, useState } from 'react'
 import { color, renderOrCreateElement } from '~/utils'
 import { styled } from 'inlines'
 import { ChevronUpIcon, ChevronDownIcon } from '~/icons'
 import { usePropState } from '~/hooks'
 import { InputWrapper } from './InputWrapper'
-
-type SingleProps = {
-  type?: string
-  inputRef?: RefObject<any>
-  pattern?: string
-  props?: any
-  onKeyDown?: (e: any) => void
-  style?: CSSProperties
-}
-
-const Single: FC<SingleProps> = ({
-  type,
-  inputRef,
-  pattern,
-  style,
-  ...props
-}) => {
-  return (
-    <input
-      {...props}
-      type={type}
-      ref={inputRef}
-      pattern={pattern}
-      style={{
-        width: '100%',
-        userSelect: 'text',
-        MozUserSelect: 'text',
-        WebkitUserSelect: 'text',
-        ...style,
-      }}
-    />
-  )
-}
+import { Single } from './Single'
 
 export const NumberInput = (props) => {
   const {

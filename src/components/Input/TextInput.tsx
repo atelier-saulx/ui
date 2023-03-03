@@ -5,41 +5,7 @@ import { InputWrapper } from './InputWrapper'
 import { usePropState, useFocus, useHover } from '~/hooks'
 import { color, renderOrCreateElement } from '~/utils'
 import { MaybeSuggest } from './MaybeSuggest'
-// import { DigestInput } from './SingleTextInput/DigestInput'
 import { Single } from './Single'
-
-// type SingleProps = {
-//   type?: string
-//   inputRef?: RefObject<any>
-//   pattern?: string
-//   props?: any
-//   onKeyDown?: (e: any) => void
-//   style?: CSSProperties
-// }
-
-// const Single: FC<SingleProps> = ({
-//   type,
-//   inputRef,
-//   pattern,
-//   style,
-//   ...props
-// }) => {
-//   return (
-//     <input
-//       {...props}
-//       type={type}
-//       ref={inputRef}
-//       pattern={pattern}
-//       style={{
-//         width: '100%',
-//         userSelect: 'text',
-//         MozUserSelect: 'text',
-//         WebkitUserSelect: 'text',
-//         ...style,
-//       }}
-//     />
-//   )
-// }
 
 export const TextInput: FC<TextInputProps> = (props) => {
   const {
@@ -112,7 +78,6 @@ export const TextInput: FC<TextInputProps> = (props) => {
   const fontSize = 14
   const fontWeight = 400
   const moreProps = {
-    // consoleFunc,
     onChange,
     name,
     type,
@@ -128,7 +93,7 @@ export const TextInput: FC<TextInputProps> = (props) => {
       boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
-      minHeight: ghost ? '' : 36,
+      minHeight: ghost ? 36 : 36,
       paddingLeft,
       border: ghost
         ? `0px solid transparent`
@@ -146,7 +111,6 @@ export const TextInput: FC<TextInputProps> = (props) => {
     inputRef,
     ...focusListeners,
     ...hoverListeners,
-    // ...otherProps,
   }
 
   if (type === 'password') {

@@ -34,8 +34,8 @@ export type TextInputProps = SharedInputProps & {
   defaultValue?: string
   value?: string
   suggest?: any
-  forceSuggestion: any
-  onChange: (value: string) => void
+  forceSuggestion?: any
+  onChange?: (value: string) => void
   maxChars?: number
   multiline?: false
   error?: (str: string, patternMatches?: boolean) => string
