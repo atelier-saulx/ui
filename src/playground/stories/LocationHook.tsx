@@ -2,13 +2,13 @@ import React from 'react'
 
 import { Code, Text, Button } from '~'
 
-import { useLocation } from '~/hooks'
+import { useRoute } from 'kabouter'
 
 export const LocationHook = () => {
   const [location, setLocation] = useLocation()
 
   const codeExample = `
-    import { useLocation } from '~/hooks'
+    import { useRoute } from 'kabouter'
 
     const [location, setLocation] = useLocation()
 

@@ -1,16 +1,16 @@
 import { useClient } from '@based/react'
 import React, { FC, Fragment, useState } from 'react'
-import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
+import { useContextMenu, useSchemaTypes } from '~/hooks'
 import {
   Checkbox,
   MoreIcon,
   Text,
   ScrollArea,
-  Link,
   ContextItem,
   Button,
   AddIcon,
 } from '~'
+import { Link, useRoute } from 'kabouter'
 import { Fields } from './Fields'
 import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from '~/icons'
 import { border } from '~/utils'
@@ -101,10 +101,10 @@ const EditMenu = ({ type }) => {
 }
 
 const BackButton = () => {
-  const [location] = useLocation()
+  const route = useRoute()
   return (
     <Link
-      href={location.split('/').slice(0, -1).join('/')}
+      href={route.location.split('/').slice(0, -1).join('/')}
       style={{ paddingRight: 8 }}
     >
       <ChevronLeftIcon />
@@ -159,8 +159,6 @@ const Header = ({ back = null, children, type, path }) => {
               style={{
                 marginTop: 3,
                 cursor: 'pointer',
-                // marginLeft: 20,
-                // marginLeft: 16,
               }}
             />
           }
@@ -183,8 +181,10 @@ const Header = ({ back = null, children, type, path }) => {
 }
 
 const Footer = ({ type, prefix, name }) => {
-  const [location] = useLocation()
-  const path = location.substring(prefix.length + type.length + 2).split('/')
+  const route = useRoute()
+  const path = route.location
+    .substring(prefix.length + type.length + 2)
+    .split('/')
 
   return (
     <div

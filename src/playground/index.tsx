@@ -12,25 +12,22 @@ import {
   LightModeIcon,
   ExternalLinkIcon,
   color,
-  useLocation,
 } from '../'
 import { BasedClient } from '@based/client'
 import * as stories from './stories'
 import { toPascalCase } from './utils'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
-import basedConfig from './based.json'
+
+import { useRoute } from 'kabouter'
 
 export const client = new BasedClient({
   project: 'YOUZI',
   url: 'ws://localhost:8297',
 })
 
-console.log('??', client.opts)
-
 const Stories: FC = () => {
-  useLocation()
-  const story = new URLSearchParams(location.search).get('story')
+  const story = useRoute().query.story
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]

@@ -17,7 +17,7 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { HEADER_HEIGHT, ITEM_HEIGHT } from './constants'
 import { TableFromQuery } from './TableFromQuery'
 import { OnAction } from './types'
-import { useLocation } from '~/hooks'
+import { useRoute } from 'kabouter'
 import { useClient } from '@based/react'
 
 type Fields =

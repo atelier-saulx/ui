@@ -1,8 +1,7 @@
 import React, { FC, CSSProperties } from 'react'
 import { hrefIsActive } from '~/utils/hrefIsActive'
-import { Link } from '../Link'
+import { Link, useRoute } from 'kabouter'
 import { Text } from '../Text'
-import { useLocation } from '~/hooks'
 import { ChevronRightIcon } from '~/icons'
 
 type BreadcrumbsProps = {
@@ -21,7 +20,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   selected,
   ...props
 }) => {
-  const [location] = useLocation()
+  const { location } = useRoute()
 
   if (!data) {
     return null

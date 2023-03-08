@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation } from '~'
+import { useRoute } from 'kabouter'
 import { Shows } from './Shows/Shows'
 import { Users } from './Settings/Users'
 import { WorkspaceSettings } from './Settings/WorkspaceSettings'

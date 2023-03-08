@@ -1,7 +1,7 @@
 import React from 'react'
 import { EditionSidebar } from '../../EditionSidebar'
 import { EditorTopBar } from '../../EditorTopBar'
-import { useLocation } from '~'
+import { useRoute } from 'kabouter'
 import { General } from './General'
 import { Sharing } from './Sharing'
 import { Page, Spacer } from '~'

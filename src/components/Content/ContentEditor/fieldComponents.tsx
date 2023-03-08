@@ -6,7 +6,6 @@ import {
   GeoInput,
   ArrayList,
   FileUpload,
-  useLocation,
 } from '~'
 import { SingleReference } from './References/SingleReference'
 import { References } from './References/References'
@@ -17,17 +16,18 @@ import isUrl from 'is-url-superb'
 import { useClient } from '@based/react'
 import isEmail from 'is-email'
 import { prettyNumber } from '@based/pretty-number'
+import { useRoute } from 'kabouter'
 
 const object = {
   default: ({ prefix, schema, field, ...props }) => {
-    const [, setLocation] = useLocation()
+    const r = useRoute()
     return (
       <ObjectList
         indent
         schema={schema}
         {...props}
         onClick={() => {
-          setLocation(`${prefix}.${field}`)
+          r.setLocation(`${prefix}.${field}`)
         }}
       />
     )
@@ -232,7 +232,8 @@ const set = {
 
 const record = {
   default: ({ prefix, field, label, value, description, schema, ...props }) => {
-    const [, setLocation] = useLocation()
+    const r = useRoute()
+
     return (
       <RecordList
         label={label}
@@ -240,8 +241,7 @@ const record = {
         description={description}
         value={value}
         onClick={() => {
-          //  console.log('get value back?', value)
-          setLocation(`${prefix}.${field}`)
+          r.setLocation(`${prefix}.${field}`)
         }}
         {...props}
       />
@@ -251,8 +251,6 @@ const record = {
 
 const url = {
   default: ({ description, meta, onChange, ...props }) => {
-    console.log('url yo', description, meta, onChange, props)
-
     return (
       <div
         style={{

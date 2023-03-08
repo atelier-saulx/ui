@@ -5,7 +5,7 @@ import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
 import { ScrollArea } from '~/components/ScrollArea'
 import { Text } from '~/components/Text'
-import { useLocation, useSchema, useCopyToClipboard } from '~/hooks'
+import { useSchema, useCopyToClipboard } from '~/hooks'
 import { CloseIcon, ArrowRightIcon, CheckIcon } from '~/icons'
 import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
@@ -18,9 +18,10 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { deepMerge } from '@saulx/utils'
 import { styled } from 'inlines'
 import useGlobalState from '@based/use-global-state'
+import { useRoute } from 'kabouter'
 
 const Topbar = ({ id, type }) => {
-  const [location, setLocation] = useLocation()
+  const { location, setLocation } = useRoute()
   const { type: schemaType, loading } = useDescriptor(id)
 
   return (
@@ -137,7 +138,7 @@ let dialog = false
 
 const ContentModalInner = ({ prefix, id, field }) => {
   const client = useClient()
-  const [, setLocation] = useLocation()
+  const { setLocation } = useRoute()
   const [disabled, setDisabled] = useState(true)
   const ref = useRef({})
   const published = useRef(false)
@@ -223,7 +224,6 @@ const ContentModalInner = ({ prefix, id, field }) => {
       setLocation(prefix)
     }
   }
-  console.log(inputGood)
   return (
     <div
       style={{

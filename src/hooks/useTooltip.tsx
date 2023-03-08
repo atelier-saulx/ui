@@ -1,7 +1,6 @@
-import React, { ReactNode, useEffect } from 'react'
-import { removeAllOverlays, removeOverlay } from '~/components/Overlay'
+import React, { ReactNode } from 'react'
+import { removeOverlay } from '~/components/Overlay'
 import { useOverlay } from '~/hooks'
-import { useLocation } from '~/hooks/location'
 
 export const useTooltip = (
   text: string | ReactNode,
@@ -19,12 +18,6 @@ export const useTooltip = (
       style: { padding: '4px 8px', width: 'fit-content' },
     }
   )
-
-  const [location] = useLocation()
-
-  // useEffect(() => {
-  //   removeAllOverlays()
-  // }, [location])
 
   return {
     onMouseEnter,

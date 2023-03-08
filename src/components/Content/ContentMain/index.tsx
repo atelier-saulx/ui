@@ -4,13 +4,14 @@ import React, { useState, useEffect } from 'react'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery as useQueryStuff } from './useQuery'
-import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
+import { useContextMenu, useSchemaTypes } from '~/hooks'
 import { AddIcon, MoreIcon, WarningIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { ContextItem } from '~/components/ContextMenu'
 import { useDialog } from '~/components/Dialog'
 import { useClient, useQuery } from '@based/react'
 import { Callout } from '~/components/Callout'
+import { useRoute } from 'kabouter'
 
 const Menu = ({ views, currentView, deletable }) => {
   const client = useClient()
@@ -72,7 +73,7 @@ const Menu = ({ views, currentView, deletable }) => {
 // }
 
 const Header = ({ label, view, prefix }) => {
-  const [, setLocation] = useLocation()
+  const { setLocation } = useRoute()
   // const { types } = useSchemaTypes()
   const createBtn = (
     <Button
@@ -153,7 +154,7 @@ export const ContentMain = ({
   label = null,
 }) => {
   const { loading, types } = useSchemaTypes()
-  const [location, setLocation] = useLocation()
+  const route = useRoute()
   const query = useQueryStuff(queryOverwrite)
 
   const { confirm, prompt } = useDialog()
@@ -179,12 +180,10 @@ export const ContentMain = ({
 
   parse()
 
-  // console.log('------>>>>>', currentView, types, query)
-
   /// THIS CHECKS IF THE FIELD IS A REFERENCE
   useEffect(() => {
-    // console.log('currentView changed', currentView)
     if (
+      // console.log('currentView changed', currentView)
       types[currentView?.id]?.fields[query.field].type === 'references' &&
       query.field !== 'descendants'
     ) {
@@ -428,10 +427,10 @@ export const ContentMain = ({
         view={view}
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {
-            setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
+            route.setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
             setIsMultiref(true)
           } else {
-            setLocation(`${prefix}/${item.id}/${field}`)
+            route.setLocation(`${prefix}/${item.id}/${field}`)
             setIsMultiref(false)
           }
         }}

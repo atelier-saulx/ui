@@ -8,7 +8,7 @@ import { ReferencesInput } from './ReferencesInput'
 import { ResizableInput } from './ResizableInput'
 import { SelectInput } from './SelectInput'
 import { Text } from '~/components/Text'
-import { useLocation } from '~/hooks'
+import { useRoute } from 'kabouter'
 import { ValueInput } from './ValueInput'
 import React, { Fragment, useRef, useState } from 'react'
 
@@ -66,14 +66,7 @@ const ScopePill = ({ query, setOverlay, setLocation }) => {
 }
 
 const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
-  // console.log('QUERY FILTERS', query.filters)
-  // console.log('complete query', query)
-
   return query.filters.map(({ $field, $operator, $value }, index) => {
-    // console.log('FILTER from map', $field, $operator, $value)
-
-    //  console.log('the types', types)
-
     return (
       <Fragment key={index}>
         {index ? (
@@ -85,17 +78,12 @@ const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
             }}
           >
             <SelectInput
-              value={'and'}
+              value="and"
               options={Object.keys(logicalOperatorsMap).map((value) => {
                 return { value, label: operatorMap[value] }
               })}
               onOverlay={setOverlay}
-              onSubmit={(value) => {
-                console.log(value)
-                console.log(index)
-
-                const operator = '$' + value
-
+              onSubmit={() => {
                 // so now add this operator at the end of this index
                 query.filters[index - 1].$and = {}
               }}
@@ -154,7 +142,7 @@ const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
 }
 
 export const Query = ({ types, fields, fieldTypes, query }) => {
-  const [, setLocation] = useLocation()
+  const { setLocation } = useRoute()
   const [options, setOptions] = useState('')
   const [focused, setFocused] = useState(false)
   const [overlay, setOverlay] = useState(false)

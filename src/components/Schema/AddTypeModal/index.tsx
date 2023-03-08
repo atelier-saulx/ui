@@ -1,4 +1,4 @@
-import { Input, Dialog, useLocation, useSchema } from '~'
+import { Input, Dialog, useRoute, useSchema } from '~'
 import React, { useState, FC, useEffect } from 'react'
 import safeTypeName from './safeTypeName'
 import { generatePlural } from '~/utils'
@@ -12,7 +12,7 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
   const [pluralName, setPluralName] = useState('')
   const [typeName, setTypeName] = useState('')
   const [description, setDescription] = useState('')
-  const [, setLocation] = useLocation()
+  const { setLocation } = useRoute()
   const [filled, setFilled] = useState(false)
 
   useEffect(() => {

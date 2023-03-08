@@ -10,7 +10,7 @@ import {
 import { Schema } from '~/components/Schema'
 import { Text } from '~/components/Text'
 import { Content } from '~/components/Content'
-import { useLocation } from '~/hooks'
+import { useRoute } from 'kabouter'
 import { border, color } from '~/utils'
 import { Menu } from '~/components/Menu'
 import { Button } from '~/components/Button'

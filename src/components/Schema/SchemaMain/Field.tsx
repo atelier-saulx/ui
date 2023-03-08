@@ -16,10 +16,9 @@ import {
   ContextDivider,
   AddIcon,
 } from '~'
-
+import { useRoute } from 'kabouter'
 import { FieldTemplates, systemFields, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
-import { useLocation } from 'wouter'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
 import { useSchema } from '~/hooks/useSchema'
@@ -37,7 +36,7 @@ const EditMenu: FC<{
 }> = ({ type, field, template, isObject, path }) => {
   const { schema } = useSchema()
   const client = useClient()
-  const [location, setLocation] = useLocation()
+  const router = useRoute()
   const { open } = useDialog()
 
   return (
@@ -63,7 +62,7 @@ const EditMenu: FC<{
               }
               return false
             })
-            setLocation(`${location}/${filteredPath.join('/')}`)
+            router.setLocation(`${location}/${filteredPath.join('/')}`)
           }}
         >
           Configure Object

@@ -1,8 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
-import { useLocation } from '~/hooks'
 import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
-import { Link } from '../Link'
+import { Link, useRoute } from 'kabouter'
 import { Text } from '../Text'
 import { Color } from '~/types'
 
@@ -24,11 +23,11 @@ export const Steps: FC<StepsProps> = ({
   color: colorProp = 'accent',
   ...props
 }) => {
-  const [location] = useLocation()
+  const route = useRoute()
   if (selected) {
     selected = prefix + selected
   } else {
-    selected = location
+    selected = route.location
   }
 
   return (

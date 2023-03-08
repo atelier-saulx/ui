@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import { ContentMain } from './ContentMain'
 import { ContentLeft } from './ContentLeft'
-import { useLocation } from '~'
+import { useRoute } from 'kabouter'
 import { ContentModal } from './ContentModal'
 
 export const Content: FC<{
@@ -9,16 +9,16 @@ export const Content: FC<{
   prefix?: string
   style?: CSSProperties
 }> = ({ db = 'default', prefix = '', style }) => {
-  const [location] = useLocation()
-  const [, type, id, field] = location.substring(prefix.length).split('/')
+  const r = useRoute()
+  // this can be done a lot better...
+  const [, type, id, field] = r.location.substring(prefix.length).split('/')
 
-  // console.log('This ID', id)
+  console.info('This ID', id, db)
 
   return (
     <div
       style={{
         display: 'flex',
-        // height: 'calc(100vh - 120px)',
         ...style,
       }}
     >

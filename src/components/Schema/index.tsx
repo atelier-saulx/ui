@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import { SchemaMain } from './SchemaMain'
 import { SchemaLeft } from './SchemaLeft'
-import { useLocation } from '~'
+import { useRoute } from 'kabouter'
 import { useSchemaTypes } from '~/hooks'
 
 export const Schema: FC<{
@@ -9,7 +9,7 @@ export const Schema: FC<{
   prefix?: string
   style?: CSSProperties
 }> = ({ db = 'default', prefix = '', style }) => {
-  const [location] = useLocation()
+  const { location } = useRoute()
   const [, type, ...p] = location.substring(prefix.length).split('/')
   const { types, loading } = useSchemaTypes()
   const path = []

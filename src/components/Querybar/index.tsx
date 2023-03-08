@@ -18,7 +18,7 @@ import { MiddlePill } from './MiddlePill'
 import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
 import { FromQueryToText } from './FromQueryToText'
-import { useLocation } from '~/hooks'
+import { useRoute } from 'kabouter'
 
 // TODO: Caret position in and around middle block indicator
 
@@ -73,7 +73,7 @@ export const QueryBar = () => {
   }>({ num: 0, open: false })
 
   // url location
-  const [location, setLocation] = useLocation()
+  const { location, setLocation } = useRoute()
 
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
