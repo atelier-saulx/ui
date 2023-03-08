@@ -27,7 +27,12 @@ export const client = new BasedClient({
 })
 
 const Stories: FC = () => {
-  const story = useRoute().query.story
+  const q = useRoute().query
+
+  console.info('???', q)
+
+  const story = q.story
+
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]

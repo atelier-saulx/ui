@@ -58,7 +58,7 @@
     "snarkdown": "^2.0.0",
     "stringify-object": "^4.0.1",
     "tarts": "^1.0.0",
-    "kabouter": "^1.2.5"
+    "kabouter": "^1.2.6"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",

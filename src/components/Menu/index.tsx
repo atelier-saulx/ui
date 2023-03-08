@@ -103,7 +103,6 @@ export const MenuItem: FC<MenuItemProps> = ({
       <StyledLink
         href={href}
         style={{
-          border: '10px solid red',
           backgroundColor: isActive ? color('lightaccent:active') : null,
           '@media (hover: hover)': {
             '&:hover': !isActive
