@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "lint": "tsc --noEmit",
-    "dev": "aristotle watch -t ./src/playground/index.tsx -p 8005",
+    "_dev": "aristotle watch -t ./src/playground/index.tsx -p 8005",
+    "dev": "npx @based/cli dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist && npm run genPropsTypes && tsc --build tsconfig.build.json && node scripts/postbuild",
     "watch": "tsc-watch --build tsconfig.build.json --onSuccess \"node scripts/postbuild\"",
