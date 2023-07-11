@@ -99,7 +99,6 @@ export const SelectFieldTypeModal: FC<{
         placeholder="Search and discover"
         onChange={searchFilterHandler}
         style={{
-          //   backgroundColor: color('background2'),
           boxShadow: '0px',
           outline: 'none',
           height: 40,

@@ -16,30 +16,30 @@ export const referencesFiles: { [key: string]: Field } = {
     icon: ChildrenIcon,
     schema: { type: 'references' },
   },
-  file: {
-    label: 'File',
-    color: 'lightyellow',
-    description: 'File or Files upload',
-    icon: AttachmentIcon,
-    schema: {
-      type: 'reference',
-      meta: {
-        format: 'file',
-        refTypes: ['file'],
-      },
-    },
-  },
-  files: {
-    label: 'Files',
-    color: 'lightyellow',
-    description: 'Multiple files',
-    icon: AttachmentIcon,
-    schema: {
-      type: 'references',
-      meta: {
-        format: 'files',
-        refTypes: ['files'],
-      },
-    },
-  },
+  // file: {
+  //   label: 'File',
+  //   color: 'lightyellow',
+  //   description: 'File or Files upload',
+  //   icon: AttachmentIcon,
+  //   schema: {
+  //     type: 'reference',
+  //     meta: {
+  //       format: 'file',
+  //       refTypes: ['file'],
+  //     },
+  //   },
+  // },
+  // files: {
+  //   label: 'Files',
+  //   color: 'lightyellow',
+  //   description: 'Multiple files',
+  //   icon: AttachmentIcon,
+  //   schema: {
+  //     type: 'references',
+  //     meta: {
+  //       format: 'files',
+  //       refTypes: ['files'],
+  //     },
+  //   },
+  // },
 }

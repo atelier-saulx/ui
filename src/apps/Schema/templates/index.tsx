@@ -7,6 +7,8 @@ import { referencesFiles } from './referencesFiles'
 import { system } from './system'
 import { Color, Icon } from '~/types'
 import { FC } from 'react'
+import { primitives } from './Primitives'
+import { enumerable } from './enumerable'
 
 export type Field = {
   label: string
@@ -50,13 +52,16 @@ export type Format =
   | 'src'
 
 export const groups = {
-  'Text and String': text,
-  'Plain Formatted Data': plainFormattedData,
-  Numbers: numbers,
-  'Complex Data Structures': complexDataStructures,
-  'Rich Formatted Data': richFormattedData,
-  'References and Files': referencesFiles,
-  System: system,
+  Primitives: primitives,
+  Enumerables: enumerable,
+  References: referencesFiles,
+  // 'Text and String': text,
+  // 'Plain Formatted Data': plainFormattedData,
+  // Numbers: numbers,
+  // 'Complex Data Structures': complexDataStructures,
+  // 'Rich Formatted Data': richFormattedData,
+  // 'References and Files': referencesFiles,
+  // System: system,
 }
 
 export const templates: {

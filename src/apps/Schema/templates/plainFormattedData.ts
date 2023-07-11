@@ -2,13 +2,13 @@ import { Field } from '../types'
 import { CalendarIcon, TimeIcon, UserIcon, ToggleIcon } from '~/icons'
 
 export const plainFormattedData: { [key: string]: Field } = {
-  dateTime: {
-    label: 'Date-Time',
-    color: 'lightteal',
-    description: 'Dates and timestamp',
-    icon: CalendarIcon,
-    schema: { type: 'timestamp' },
-  },
+  // dateTime: {
+  //   label: 'Date-Time',
+  //   color: 'lightteal',
+  //   description: 'Dates and timestamp',
+  //   icon: CalendarIcon,
+  //   schema: { type: 'timestamp' },
+  // },
   timestamp: {
     label: 'Timestamp',
     color: 'lightteal',
