@@ -2,13 +2,12 @@ import { useClient } from '@based/react'
 import React, { FC, useState, ReactNode } from 'react'
 import { useSchema } from '../hooks/useSchema'
 import { Checkbox, Text, ScrollArea, useContextState, Page, Column } from '~'
-// import { Fields } from './Fields'
+import { Fields } from './Fields'
 import { Header } from './Header'
 import { Footer } from './Footer'
-// import { getMeta } from './getMeta'
 // import { TypeSchema } from '../types'
 import { styled } from 'inlines'
-import { BasedSchema } from '@based/schema'
+import { BasedSchema, BasedSchemaType } from '@based/schema'
 
 export const SchemaMain: FC = () => {
   const [type] = useContextState('type', '')
@@ -19,7 +18,7 @@ export const SchemaMain: FC = () => {
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const client = useClient()
 
-  console.log('🥎', type, field)
+  console.log('🥎', type)
   console.log('schema -->', schema)
   console.log('types from schema', types)
   console.log('what the db', db)
@@ -38,7 +37,7 @@ export const SchemaMain: FC = () => {
     )
   }
 
-  const typeDef: BasedSchema =
+  const typeDef: BasedSchemaType =
     type === 'root' ? schema.rootType : types[type] || { fields: {} }
   const { fields } = typeDef
   // const { name } = meta
@@ -50,19 +49,12 @@ export const SchemaMain: FC = () => {
     return null
   }
 
-  const typeName = name || type
-
   console.log('type', type)
 
   let header: ReactNode
   let footer: ReactNode
 
   if (field.length) {
-    header = (
-      <Header back>
-        {getMeta(field, typeDef)?.name || field[field.length - 1]}
-      </Header>
-    )
     footer = <Footer name={type} />
   } else {
     header = <Header>{type}</Header>
@@ -97,7 +89,7 @@ export const SchemaMain: FC = () => {
               />
             )}
             <div>
-              {/* <Fields
+              <Fields
                 includeSystemFields={includeSystemFields}
                 onChange={(val) => {
                   const update = {}
@@ -144,7 +136,7 @@ export const SchemaMain: FC = () => {
                       .catch((e) => console.error('error updating schema', e))
                   }
                 }}
-              /> */}
+              />
             </div>
           </styled.div>
         </styled.div>

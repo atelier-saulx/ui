@@ -12,7 +12,7 @@ import {
   WarningIcon,
   ChevronLeftIcon,
 } from '~'
-// import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
+import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { useClient } from '@based/react'
 import { expandFieldPath } from '../fieldParsers'
 import { styled } from 'inlines'
@@ -137,14 +137,14 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
     field: expanded,
   })
 
-  // const openSelectField = useContextMenu(
-  //   SelectFieldTypeModal,
-  //   {
-  //     type,
-  //     field: expanded,
-  //   },
-  //   { width: 924, placement: 'right' }
-  // )
+  const openSelectField = useContextMenu(
+    SelectFieldTypeModal,
+    {
+      type,
+      field: expanded,
+    },
+    { width: 924, placement: 'right' }
+  )
 
   return (
     <div
@@ -190,7 +190,7 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
             large
             icon={AddIcon}
             style={{ width: '100%' }}
-            //   onClick={openSelectField}
+            onClick={openSelectField}
           >
             Add Field
           </Button>
