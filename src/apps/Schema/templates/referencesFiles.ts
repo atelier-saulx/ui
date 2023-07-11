@@ -1,7 +1,17 @@
-import { Field } from '../types'
 import { ChildrenIcon, AttachmentIcon } from '~/icons'
+import {
+  BasedSchemaFieldReference,
+  BasedSchemaFieldReferences,
+} from '@based/schema'
+import { FieldDisplayOptions } from './index'
 
-export const referencesFiles: { [key: string]: Field } = {
+type ReferenceDisplayOptions = {
+  schema?: BasedSchemaFieldReference | BasedSchemaFieldReferences
+}
+
+type NewReference = FieldDisplayOptions & ReferenceDisplayOptions
+
+export const referencesFiles: { [key: string]: NewReference } = {
   reference: {
     label: 'Reference',
     color: 'lightyellow',

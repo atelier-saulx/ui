@@ -1,7 +1,14 @@
 import { TextIcon, AddIcon, PenIcon, LockIcon } from '~/icons'
-import { Field } from '../types'
+import { BasedSchemaFieldPrimitive } from '@based/schema'
+import { FieldDisplayOptions } from './index'
 
-export const primitives: { [key: string]: Field } = {
+type PrimitiveDisplayOptions = {
+  schema?: BasedSchemaFieldPrimitive
+}
+
+type NewPrimitive = FieldDisplayOptions & PrimitiveDisplayOptions
+
+export const primitives: { [key: string]: NewPrimitive } = {
   string: {
     label: 'String',
     color: 'lightpurple',
