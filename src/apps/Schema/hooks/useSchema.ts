@@ -1,20 +1,29 @@
 import { useQuery } from '@based/react'
 import { sortFields } from '../fieldParsers'
-import { BasedSchema, BasedSchemaType, BasedSchemaField } from '@based/schema'
+import {
+  BasedSchema,
+  BasedSchemaType,
+  BasedSchemaField,
+  BasedSchemaFieldShared,
+} from '@based/schema'
 
-const addMeta = (obj: BasedSchemaField | BasedSchemaType, key: string) => {
-  if (!('meta' in obj)) {
-    obj.meta = {}
-  }
-  if (!('name' in obj.meta)) {
-    obj.meta.name = key
+const addTitle = (
+  obj: BasedSchemaType | BasedSchemaFieldShared,
+  key: string
+) => {
+  if (!('title' in obj)) {
+    obj.title = key
   }
 }
 
-const walkField = (obj: BasedSchemaField, key: string) => {
-  addMeta(obj, key)
-  const target = obj.items || obj.values || obj
-  if (target.properties) {
+const walkField = (
+  obj: BasedSchemaField | BasedSchemaFieldShared,
+  key: string
+) => {
+  addTitle(obj as any, key)
+  const target = 'items' in obj ? obj.items : 'values' in obj ? obj.values : obj
+
+  if ('properties' in target) {
     target.properties = sortFields(target.properties).reduce(
       (properties, key) => {
         const property = target.properties[key]
@@ -28,7 +37,7 @@ const walkField = (obj: BasedSchemaField, key: string) => {
 }
 
 const walkType = (obj: BasedSchemaType, key: string) => {
-  addMeta(obj, key)
+  addTitle(obj, key)
   if (obj.fields) {
     obj.fields = sortFields(obj.fields).reduce((fields, key) => {
       const field = obj.fields[key]
