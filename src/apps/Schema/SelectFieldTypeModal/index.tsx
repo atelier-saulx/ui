@@ -13,7 +13,7 @@ import {
 } from '~'
 import { color as colorFn } from '~/utils'
 import { styled } from 'inlines'
-// import { FieldModal } from '../FieldModal'
+import { FieldModal } from '../FieldModal'
 import { groups, templates } from '../templates'
 import { BasedSchemaFieldType } from '@based/schema'
 
@@ -33,7 +33,7 @@ const Template = ({ template, type, field }) => {
     <Row
       onClick={() => {
         removeOverlay()
-        // open(<FieldModal type={type} template={template} path={field} />)
+        open(<FieldModal type={type} template={template} path={field} />)
       }}
       style={{
         borderRadius: 8,
@@ -97,7 +97,10 @@ export const SelectFieldTypeModal: FC<{
         type="search"
         icon={<SearchIcon />}
         placeholder="Search and discover"
-        onChange={searchFilterHandler}
+        onChange={(e) => {
+          console.log('E??', e)
+          searchFilterHandler(e)
+        }}
         style={{
           boxShadow: '0px',
           outline: 'none',
