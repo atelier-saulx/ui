@@ -1,8 +1,8 @@
 import { useQuery } from '@based/react'
-import { FieldSchema, BasedSchema, TypeSchema } from '../types'
 import { sortFields } from '../fieldParsers'
+import { BasedSchema, BasedSchemaType, BasedSchemaField } from '@based/schema'
 
-const addMeta = (obj: FieldSchema | TypeSchema, key: string) => {
+const addMeta = (obj: BasedSchemaField | BasedSchemaType, key: string) => {
   if (!('meta' in obj)) {
     obj.meta = {}
   }
@@ -11,7 +11,7 @@ const addMeta = (obj: FieldSchema | TypeSchema, key: string) => {
   }
 }
 
-const walkField = (obj: FieldSchema, key: string) => {
+const walkField = (obj: BasedSchemaField, key: string) => {
   addMeta(obj, key)
   const target = obj.items || obj.values || obj
   if (target.properties) {
@@ -27,7 +27,7 @@ const walkField = (obj: FieldSchema, key: string) => {
   }
 }
 
-const walkType = (obj: TypeSchema, key: string) => {
+const walkType = (obj: BasedSchemaType, key: string) => {
   addMeta(obj, key)
   if (obj.fields) {
     obj.fields = sortFields(obj.fields).reduce((fields, key) => {
