@@ -143,7 +143,7 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
       type,
       field: expanded,
     },
-    { width: 924, placement: 'right' }
+    { width: 928, placement: 'right' }
   )
 
   return (

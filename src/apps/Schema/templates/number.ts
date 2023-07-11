@@ -40,11 +40,4 @@ export const numbers: { [key: string]: Field } = {
   //     },
   //   },
   // },
-  int: {
-    label: 'Integer',
-    color: 'lightsailorblue',
-    description: 'A whole number',
-    icon: IntegerIcon,
-    schema: { type: 'int' },
-  },
 }

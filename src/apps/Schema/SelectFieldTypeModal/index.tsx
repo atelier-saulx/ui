@@ -120,7 +120,7 @@ export const SelectFieldTypeModal: FC<{
             marginLeft: 0,
           }}
           gap={5}
-          itemWidth={234}
+          itemWidth={200}
         >
           {filteredItems
             ? filteredItems.map((template: BasedSchemaFieldType) => {

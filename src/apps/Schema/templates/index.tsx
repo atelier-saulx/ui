@@ -1,13 +1,7 @@
-import { text } from './text'
-import { numbers } from './number'
-import { complexDataStructures } from './complexDataStructures'
-import { plainFormattedData } from './plainFormattedData'
-import { richFormattedData } from './richFormattedData'
 import { referencesFiles } from './referencesFiles'
-import { system } from './system'
 import { Color, Icon } from '~/types'
 import { FC } from 'react'
-import { primitives } from './Primitives'
+import { primitives } from './primitives'
 import { enumerable } from './enumerable'
 
 export type Field = {
@@ -22,6 +16,13 @@ export type Field = {
     items?: object
     meta?: FieldMeta
   }
+}
+
+export type FieldDisplayOptions = {
+  label?: string
+  color?: string
+  description?: string
+  icon?: FC<Icon>
   hidden?: boolean
 }
 
@@ -55,13 +56,6 @@ export const groups = {
   Primitives: primitives,
   Enumerables: enumerable,
   References: referencesFiles,
-  // 'Text and String': text,
-  // 'Plain Formatted Data': plainFormattedData,
-  // Numbers: numbers,
-  // 'Complex Data Structures': complexDataStructures,
-  // 'Rich Formatted Data': richFormattedData,
-  // 'References and Files': referencesFiles,
-  // System: system,
 }
 
 export const templates: {
