@@ -1,9 +1,8 @@
-import { Input, Dialog, useContextState } from '~'
+import { Input, Dialog, useSchema, useContextState } from '~'
 import React, { useState, FC, useEffect } from 'react'
 import safeTypeName from './safeTypeName'
 import { generatePlural } from '~/utils'
 import { useClient } from '@based/react'
-import { useSchema } from '../hooks/useSchema'
 
 export const AddTypeModal: FC = () => {
   const client = useClient()

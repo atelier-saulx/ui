@@ -22,7 +22,7 @@ import { FieldTemplates, systemFields, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
-import { useSchema } from '~/apps/Schema/hooks/useSchema'
+import { useSchema } from '~/apps/_Schema/hooks/useSchema'
 import { Dialog } from '~/components/Dialog'
 import { WarningIcon } from '~/icons/WarningIcon'
 

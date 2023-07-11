@@ -1,5 +1,5 @@
 import { systemFields, alwaysIgnore } from './templates'
-// import { FieldSchema, TypeSchema } from './types'
+import { FieldSchema, TypeSchema } from './types'
 
 export const sortFields = (fields: {
   [key: string]: FieldSchema

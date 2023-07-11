@@ -1,5 +1,5 @@
 import { TypeSchema, BasedSchema } from '~/apps/_Schema'
-import { useSchema } from '~/apps/Schema/hooks/useSchema'
+import { useSchema } from '~/apps/_Schema/hooks/useSchema'
 
 export const useItemSchema = (
   id: string
