@@ -9,7 +9,6 @@ import {
   Input,
   SearchIcon,
   Row,
-  color,
 } from '~'
 import { color as colorFn } from '~/utils'
 import { styled } from 'inlines'
@@ -70,6 +69,7 @@ export const SelectFieldTypeModal: FC<{
   field?: string[]
 }> = ({ type, field = [] }) => {
   const [filteredItems, setFilteredItems] = useState<string[]>(null)
+  const [searchValue, setSearchValue] = useState('')
 
   const searchFilterHandler = (value: string) => {
     if (value === '') {
@@ -97,9 +97,16 @@ export const SelectFieldTypeModal: FC<{
         type="search"
         icon={<SearchIcon />}
         placeholder="Search and discover"
+        value={searchValue}
         onChange={(e) => {
-          console.log('E??', e)
+          setSearchValue(e)
           searchFilterHandler(e)
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Backspace' && searchValue.length <= 1) {
+            console.log('GRRR')
+            setFilteredItems(null)
+          }
         }}
         style={{
           boxShadow: '0px',

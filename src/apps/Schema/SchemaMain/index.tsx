@@ -18,11 +18,6 @@ export const SchemaMain: FC = () => {
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const client = useClient()
 
-  console.log('🥎', type)
-  console.log('schema -->', schema)
-  console.log('types from schema', types)
-  console.log('what the db', db)
-
   // add root to types
 
   if (loading) {
@@ -42,14 +37,10 @@ export const SchemaMain: FC = () => {
   const { fields } = typeDef
   // const { name } = meta
 
-  console.log('type def-->', typeDef)
-
   if (!fields) {
     console.error('[InvalidSchema] No fields on type', type)
     return null
   }
-
-  console.log('type', type)
 
   let header: ReactNode
   let footer: ReactNode
@@ -107,7 +98,6 @@ export const SchemaMain: FC = () => {
                   Object.assign(dest, val)
 
                   if (type === 'root') {
-                    console.log('duss......')
                     return client
                       .call('db:set-schema', {
                         db,
@@ -120,7 +110,6 @@ export const SchemaMain: FC = () => {
                       })
                       .catch((e) => console.error('error updating schema', e))
                   } else {
-                    console.log('duss.afeafewaf.....')
                     return client
                       .call('db:set-schema', {
                         db,
