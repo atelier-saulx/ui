@@ -203,7 +203,7 @@ export const Field = ({
   const { icon, color: iconColor } = templates[template] || {}
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
-  const lastIndex = path.length - 1
+  // const lastIndex = path.length - 1
   const objectPath: string[] = isObject
     ? fieldType === 'record'
       ? [...path, 'values', 'properties']
