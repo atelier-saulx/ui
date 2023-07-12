@@ -2,13 +2,17 @@ import React, { useEffect } from 'react'
 import { Text, MultiSelect, Select, Checkbox, styled, Input } from '~'
 import { templates, FieldTemplates } from '../templates'
 
-export const StringSettings = ({}) => {
+export const StringSettings = ({ options }) => {
+  console.log(options, 'options 🏀')
+
   return (
     <>
       <Select
         options={['email', 'hostname', 'ipv4', 'ipv6', 'uuid', 'uri']}
         label="String Format"
         style={{ marginBottom: 24 }}
+        value={options.format}
+        onChange={(e) => (options.format = e)}
       />
       <styled.div style={{ display: 'flex', marginBottom: 24 }}>
         <Input
@@ -16,14 +20,24 @@ export const StringSettings = ({}) => {
           label="Minimum length"
           placeholder="0"
           style={{ marginRight: 12 }}
+          value={options.minLength}
+          onChange={(e) => (options.minLength = e)}
         />
         <Input
           type="number"
           label="Maximum length"
           placeholder="Max string length"
+          value={options.maxLength}
+          onChange={(e) => (options.maxLength = e)}
         />
       </styled.div>
-      <Input type="text" label="Pattern" placeholder="Enter a regex pattern" />
+      <Input
+        type="text"
+        label="Pattern"
+        placeholder="^([a-z0-9]{4,7})$"
+        value={options.pattern}
+        onChange={(e) => (options.pattern = e)}
+      />
     </>
   )
 }
