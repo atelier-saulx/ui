@@ -11,6 +11,9 @@ export const Checkbox = () => {
         {
           props: {
             label: 'Checkbox label',
+            onChange: (event) => {
+              console.log('event -> ', event)
+            },
           },
         },
         {

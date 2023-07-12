@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Input } from '~/components/Input'
 import { useUpdate } from '~/hooks/useUpdate'
 import safeTypeName from '../AddTypeModal/safeTypeName'
 import { BasedSchemaFieldShared } from '@based/schema'
+import { Checkbox, Input, styled } from '~'
 
 type FieldOptions = {
   field?: string
@@ -78,6 +78,44 @@ export const SharedGeneral: FC<{
           update()
         }}
       />
+      <styled.div style={{ display: 'flex', marginTop: 20 }}>
+        <Checkbox
+          label="Required"
+          style={{ marginRight: 20 }}
+          onChange={(e) => {
+            e ? (options.isRequired = true) : (options.isRequired = false)
+            update()
+          }}
+          value={options.isRequired}
+        />
+        <Checkbox
+          label="Read only"
+          style={{ marginRight: 20 }}
+          onChange={(e) => {
+            if (e) {
+              options.readOnly = true
+              options.writeOnly = false
+            } else {
+              options.readOnly = false
+            }
+            update()
+          }}
+          value={options.readOnly}
+        />
+        <Checkbox
+          label="Write only"
+          onChange={(e) => {
+            if (e) {
+              options.writeOnly = true
+              options.readOnly = false
+            } else {
+              options.writeOnly = false
+            }
+            update()
+          }}
+          value={options.writeOnly}
+        />
+      </styled.div>
     </>
   )
 }
