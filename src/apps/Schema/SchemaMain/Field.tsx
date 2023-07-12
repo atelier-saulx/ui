@@ -198,8 +198,8 @@ export const Field = ({
 }) => {
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
-  const { meta, type: fieldType } = fieldSchema
-  const template = meta?.format || fieldType
+  const { title, type: fieldType } = fieldSchema
+  const template = fieldType.format || fieldType
   const { icon, color: iconColor } = templates[template] || {}
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
@@ -268,11 +268,9 @@ export const Field = ({
           style={{ flexShrink: 0 }}
         />
         <Text weight={600} style={{ marginLeft: 12, marginRight: 5 }}>
-          {meta?.name}
+          {title}
         </Text>
-        <Text color="text2" weight={400}>
-          - {path[lastIndex]}
-        </Text>
+
         <Badge color="text" style={{ marginLeft: 12 }}>
           {fieldType}
         </Badge>

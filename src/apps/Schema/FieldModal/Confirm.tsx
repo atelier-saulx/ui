@@ -20,8 +20,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
         try {
           const { field, ...schema } = options
 
-          if (!schema.meta.name) {
-            throw Error('Display name is required')
+          if (!schema.title) {
+            throw Error('Title is required')
           }
 
           if (!field) {
