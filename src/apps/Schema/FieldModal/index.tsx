@@ -17,29 +17,16 @@ type FieldOptions = {
 const specificFieldSettings = {
   string: fieldSettings.StringSettings,
   number: fieldSettings.NumberSettings,
-  int: fieldSettings.NumberSettings,
+  integer: fieldSettings.NumberSettings,
   text: fieldSettings.TextSettings,
-  // references: fieldSettings.ReferencesGeneral,
-  // array: fieldSettings.ArrayGeneral,
-  // record: fieldSettings.RecordGeneral,
-  // set: fieldSettings.SetGeneral,
-  // file: fieldSettings.FileGeneral,
 }
 
-export const FieldModal: FC<
-  | {
-      type: string
-      field: string
-      template?: any
-      path?: string[]
-    }
-  | {
-      type: string
-      field?: string
-      template: any
-      path?: string[]
-    }
-> = ({ type, field, template, path = [] }) => {
+export const FieldModal: FC<{
+  type: string
+  field?: string
+  template: any
+  path?: string[]
+}> = ({ type, field, template, path = [] }) => {
   const { schema, loading } = useSchema()
   const [generalDisabled, setGeneralDisabled] = useState(true)
   const [specificDisabled, setSpecificDisabled] = useState(false)
@@ -50,6 +37,8 @@ export const FieldModal: FC<
   }
 
   const types = schema.types
+
+  console.log('type', types, template)
 
   // @ts-ignore
   const fields =
@@ -65,7 +54,7 @@ export const FieldModal: FC<
         console.warn('Field is not defined in schema')
         return null
       }
-      template = fieldSchema.meta?.format || fieldSchema.type
+      template = fieldSchema.format || fieldSchema.type
     } else {
       console.warn('FieldModal needs template or field property')
       return null
@@ -122,18 +111,18 @@ export const FieldModal: FC<
               field={field}
             />
           </Tab>
-          <Tab label="Settings" style={{ overflow: 'auto' }}>
-            <styled.div style={{ paddingTop: 24 }}>
-              {TypeSpecificGeneral && (
+          {TypeSpecificGeneral && (
+            <Tab label="Settings" style={{ overflow: 'auto' }}>
+              <styled.div style={{ paddingTop: 24 }}>
                 <TypeSpecificGeneral
                   options={options}
                   setDisabled={setSpecificDisabled}
                   field={field}
                   types={types}
                 />
-              )}
-            </styled.div>
-          </Tab>
+              </styled.div>
+            </Tab>
+          )}
         </Tabs>
       </Dialog.Body>
       <Dialog.Buttons border>

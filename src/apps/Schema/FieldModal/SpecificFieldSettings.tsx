@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react'
-import { Text, MultiSelect, Select, Checkbox, styled, Input } from '~'
-import { templates, FieldTemplates } from '../templates'
+import React from 'react'
+import { MultiSelect, Select, Checkbox, styled, Input } from '~'
 
 export const StringSettings = ({ options }) => {
-  console.log(options, 'options 🏀')
-
   return (
     <>
       <Select
@@ -87,7 +84,7 @@ export const NumberSettings = ({ options }) => {
   )
 }
 
-export const TextSettings = ({}) => {
+export const TextSettings = ({ options }) => {
   return (
     <>
       <styled.div style={{ display: 'flex', marginBottom: 24 }}>
@@ -96,14 +93,24 @@ export const TextSettings = ({}) => {
           label="Minimum length"
           placeholder="0"
           style={{ marginRight: 12 }}
+          value={options.minLength}
+          onChange={(e) => (options.minLength = e)}
         />
         <Input
           type="number"
           label="Maximum length"
           placeholder="Max text length"
+          value={options.maxLength}
+          onChange={(e) => (options.maxLength = e)}
         />
       </styled.div>
-      <Input type="text" label="Pattern" placeholder="Enter a regex pattern" />
+      <Input
+        type="text"
+        label="Pattern"
+        placeholder="Enter a regex pattern"
+        value={options.pattern}
+        onChange={(e) => (options.pattern = e)}
+      />
     </>
   )
 }
@@ -125,132 +132,132 @@ export const ReferencesGeneral = ({ types, options }) => {
   )
 }
 
-export const ArrayGeneral = ({ options, field, setDisabled }) => {
-  const itemsType = options.items?.type
+// export const ArrayGeneral = ({ options, field, setDisabled }) => {
+//   const itemsType = options.items?.type
 
-  useEffect(() => {
-    setDisabled(!itemsType)
-  }, [itemsType])
+//   useEffect(() => {
+//     setDisabled(!itemsType)
+//   }, [itemsType])
 
-  return (
-    <>
-      <Text style={{ marginTop: 24 }}>Value type</Text>
-      <Select
-        placeholder="Select value type"
-        style={{
-          opacity: field ? 0.6 : 1,
-          pointerEvents: field ? 'none' : null,
-          cursor: field ? 'not-allowed' : null,
-          marginTop: 16,
-          width: 400,
-        }}
-        filterable
-        value={itemsType}
-        onChange={(value) => {
-          options.items = templates[value].schema
-          setDisabled(false)
-        }}
-        options={[
-          { value: 'digest', label: 'Digest' },
-          { value: 'float', label: 'Float' },
-          { value: 'int', label: 'Integer' },
-          { value: 'object', label: 'Object' },
-          { value: 'string', label: 'String' },
-        ]}
-      />
-    </>
-  )
-}
+//   return (
+//     <>
+//       <Text style={{ marginTop: 24 }}>Value type</Text>
+//       <Select
+//         placeholder="Select value type"
+//         style={{
+//           opacity: field ? 0.6 : 1,
+//           pointerEvents: field ? 'none' : null,
+//           cursor: field ? 'not-allowed' : null,
+//           marginTop: 16,
+//           width: 400,
+//         }}
+//         filterable
+//         value={itemsType}
+//         onChange={(value) => {
+//           options.items = templates[value].schema
+//           setDisabled(false)
+//         }}
+//         options={[
+//           { value: 'digest', label: 'Digest' },
+//           { value: 'float', label: 'Float' },
+//           { value: 'int', label: 'Integer' },
+//           { value: 'object', label: 'Object' },
+//           { value: 'string', label: 'String' },
+//         ]}
+//       />
+//     </>
+//   )
+// }
 
-export const SetGeneral = ({ options, field, setDisabled }) => {
-  const itemsType = options.items?.type
+// export const SetGeneral = ({ options, field, setDisabled }) => {
+//   const itemsType = options.items?.type
 
-  useEffect(() => {
-    setDisabled(!itemsType)
-  }, [itemsType])
+//   useEffect(() => {
+//     setDisabled(!itemsType)
+//   }, [itemsType])
 
-  return (
-    <>
-      <Text style={{ marginTop: 24 }}>Value type</Text>
-      <Select
-        placeholder="Select value type"
-        style={{
-          opacity: field ? 0.6 : 1,
-          pointerEvents: field ? 'none' : null,
-          cursor: field ? 'not-allowed' : null,
-          marginTop: 16,
-          width: 400,
-        }}
-        filterable
-        value={itemsType}
-        onChange={(value) => {
-          options.items = templates[value].schema
-          setDisabled(false)
-        }}
-        options={[
-          { value: 'digest', label: 'Digest' },
-          { value: 'float', label: 'Float' },
-          { value: 'int', label: 'Integer' },
-          { value: 'string', label: 'String' },
-        ]}
-      />
-    </>
-  )
-}
+//   return (
+//     <>
+//       <Text style={{ marginTop: 24 }}>Value type</Text>
+//       <Select
+//         placeholder="Select value type"
+//         style={{
+//           opacity: field ? 0.6 : 1,
+//           pointerEvents: field ? 'none' : null,
+//           cursor: field ? 'not-allowed' : null,
+//           marginTop: 16,
+//           width: 400,
+//         }}
+//         filterable
+//         value={itemsType}
+//         onChange={(value) => {
+//           options.items = templates[value].schema
+//           setDisabled(false)
+//         }}
+//         options={[
+//           { value: 'digest', label: 'Digest' },
+//           { value: 'float', label: 'Float' },
+//           { value: 'int', label: 'Integer' },
+//           { value: 'string', label: 'String' },
+//         ]}
+//       />
+//     </>
+//   )
+// }
 
-export const RecordGeneral = ({ options, field, setDisabled }) => {
-  const valuesType = options.values?.type
+// export const RecordGeneral = ({ options, field, setDisabled }) => {
+//   const valuesType = options.values?.type
 
-  useEffect(() => {
-    setDisabled(!valuesType)
-  }, [valuesType])
+//   useEffect(() => {
+//     setDisabled(!valuesType)
+//   }, [valuesType])
 
-  return (
-    <>
-      <Text style={{ marginTop: 24 }}>Value type</Text>
-      <Select
-        placeholder="Select value type"
-        style={{
-          opacity: field ? 0.6 : 1,
-          pointerEvents: field ? 'none' : null,
-          cursor: field ? 'not-allowed' : null,
-          marginTop: 16,
-          width: 400,
-        }}
-        filterable
-        value={valuesType}
-        onChange={(value) => {
-          options.values = templates[value].schema
-          setDisabled(false)
-        }}
-        options={[
-          { value: 'digest', label: 'Digest' },
-          { value: 'float', label: 'Float' },
-          { value: 'int', label: 'Integer' },
-          { value: 'object', label: 'Object' },
-          { value: 'string', label: 'String' },
-        ]}
-      />
-    </>
-  )
-}
+//   return (
+//     <>
+//       <Text style={{ marginTop: 24 }}>Value type</Text>
+//       <Select
+//         placeholder="Select value type"
+//         style={{
+//           opacity: field ? 0.6 : 1,
+//           pointerEvents: field ? 'none' : null,
+//           cursor: field ? 'not-allowed' : null,
+//           marginTop: 16,
+//           width: 400,
+//         }}
+//         filterable
+//         value={valuesType}
+//         onChange={(value) => {
+//           options.values = templates[value].schema
+//           setDisabled(false)
+//         }}
+//         options={[
+//           { value: 'digest', label: 'Digest' },
+//           { value: 'float', label: 'Float' },
+//           { value: 'int', label: 'Integer' },
+//           { value: 'object', label: 'Object' },
+//           { value: 'string', label: 'String' },
+//         ]}
+//       />
+//     </>
+//   )
+// }
 
-export const FileGeneral = ({ options }) => {
-  return (
-    <Checkbox
-      style={{ marginTop: 24 }}
-      label="Allow multiple files upload"
-      value={options.multiple}
-      onChange={(value) => {
-        options.meta.multiple = value
-        if (value) {
-          // schema change from file to files
-          options.meta.format = 'files'
-          options.meta.refTypes = ['files']
-          options.type = 'references'
-        }
-        // change template based on this reference for file and refrences for files
-      }}
-    />
-  )
-}
+// export const FileGeneral = ({ options }) => {
+//   return (
+//     <Checkbox
+//       style={{ marginTop: 24 }}
+//       label="Allow multiple files upload"
+//       value={options.multiple}
+//       onChange={(value) => {
+//         options.meta.multiple = value
+//         if (value) {
+//           // schema change from file to files
+//           options.meta.format = 'files'
+//           options.meta.refTypes = ['files']
+//           options.type = 'references'
+//         }
+//         // change template based on this reference for file and refrences for files
+//       }}
+//     />
+//   )
+// }

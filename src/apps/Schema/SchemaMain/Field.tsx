@@ -17,15 +17,14 @@ import {
   AddIcon,
   useContextState,
 } from '~'
-
 import { systemFields, templates } from '../templates'
-// import { FieldModal } from '../FieldModal'
-// import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
+import { FieldModal } from '../FieldModal'
+import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
-import { useSchema } from '~/apps/_Schema/hooks/useSchema'
 import { Dialog } from '~/components/Dialog'
 import { WarningIcon } from '~/icons/WarningIcon'
 import { BasedSchemaFieldType } from '@based/schema'
+import { useSchema } from '../hooks/useSchema'
 
 const EditMenu: FC<{
   type: string
@@ -44,7 +43,7 @@ const EditMenu: FC<{
     <>
       <ContextItem
         onClick={() => {
-          //      open(<FieldModal type={type} field={field} template={template} />)
+          open(<FieldModal type={type} field={field} template={template} />)
         }}
       >
         Settings
@@ -170,20 +169,16 @@ const EditMenu: FC<{
 }
 
 const AddObjectFieldButton = ({ type, path }) => {
-  // const openSelectField = useContextMenu(
-  //   SelectFieldTypeModal,
-  //   {
-  //     type,
-  //     field: path,
-  //   },
-  //   { width: 924, placement: 'right' }
-  // )
+  const openSelectField = useContextMenu(
+    SelectFieldTypeModal,
+    {
+      type,
+      field: path,
+    },
+    { width: 924, placement: 'right' }
+  )
   return (
-    <Button
-      // onClick={openSelectField}
-      ghost
-      icon={AddIcon}
-    >
+    <Button onClick={openSelectField} ghost icon={AddIcon}>
       Add field
     </Button>
   )

@@ -117,6 +117,7 @@ export const SchemaLeft: FC = () => {
             .sort()
             .map((key) => {
               return {
+                // TODO look into this
                 label: types[key]?.meta?.name || key,
                 value: key,
               }

@@ -55,7 +55,7 @@ export const primitives: { [key: string]: NewPrimitive } = {
     icon: ApertureIcon,
     schema: { type: 'hyperloglog' },
   },
-  int: {
+  integer: {
     label: 'Integer',
     color: 'lightaccent',
     description: 'A whole number',
