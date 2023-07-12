@@ -18,7 +18,7 @@ import { Draggable } from './Draggable'
 import { Field } from './Field'
 import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
-import { BasedSchema, BasedSchemaType } from '@based/schema'
+import { BasedSchemaType } from '@based/schema'
 
 import { useFieldsEvents } from './useFieldsEvents'
 

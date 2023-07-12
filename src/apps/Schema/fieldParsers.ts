@@ -7,8 +7,8 @@ export const sortFields = (fields: {
 }): string[] => {
   return Object.keys(fields).sort((a, b) => {
     // TODO: index type needs to be added to BasedSchemaField
-    const indexA = fields[a]?.index
-    const indexB = fields[b]?.index
+    const indexA = fields[a].meta?.index
+    const indexB = fields[b].meta?.index
     if (indexA === undefined) {
       if (indexB === undefined) {
         if (systemFields.has(a)) {
