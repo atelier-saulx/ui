@@ -42,7 +42,7 @@ export const StringSettings = ({ options }) => {
   )
 }
 
-export const NumberSettings = ({}) => {
+export const NumberSettings = ({ options }) => {
   return (
     <>
       <styled.div style={{ display: 'flex', marginBottom: 24 }}>
@@ -51,18 +51,37 @@ export const NumberSettings = ({}) => {
           label="Minimum"
           placeholder="Min"
           style={{ marginRight: 12 }}
+          value={options.minimum}
+          onChange={(e) => (options.minimum = e)}
         />
         <Input
           type="number"
           label="Maximum"
           placeholder="Max"
           style={{ marginRight: 12 }}
+          value={options.maximum}
+          onChange={(e) => (options.maximum = e)}
         />
-        <Input type="number" label="Multiple of" placeholder="Steps of" />
+        <Input
+          type="number"
+          label="Multiple of"
+          placeholder="Steps of"
+          value={options.multipleOf}
+          onChange={(e) => (options.multipleOf = e)}
+        />
       </styled.div>
       <styled.div style={{ display: 'flex' }}>
-        <Checkbox label="Exclusive Minimum" style={{ marginRight: 20 }} />
-        <Checkbox label="Exclusive Maximum" />
+        <Checkbox
+          label="Exclusive Minimum"
+          value={options.exclusiveMinimum}
+          onChange={(e) => (options.exclusiveMinimum = e)}
+          style={{ marginRight: 20 }}
+        />
+        <Checkbox
+          label="Exclusive Maximum"
+          value={options.exclusiveMaximum}
+          onChange={(e) => (options.exclusiveMaximum = e)}
+        />
       </styled.div>
     </>
   )
