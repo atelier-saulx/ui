@@ -19,6 +19,8 @@ const specificFieldSettings = {
   number: fieldSettings.NumberSettings,
   integer: fieldSettings.NumberSettings,
   text: fieldSettings.TextSettings,
+  reference: fieldSettings.ReferenceSettings,
+  references: fieldSettings.ReferenceSettings,
 }
 
 export const FieldModal: FC<{

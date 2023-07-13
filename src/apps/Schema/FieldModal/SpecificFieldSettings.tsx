@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MultiSelect, Select, Checkbox, styled, Input } from '~'
 
 export const StringSettings = ({ options }) => {
@@ -115,18 +115,38 @@ export const TextSettings = ({ options }) => {
   )
 }
 
-export const ReferencesGeneral = ({ types, options }) => {
+export const ReferenceSettings = ({ types, options }) => {
+  const [tempValues, setTempValues] = useState(options.allowedTypes)
+
   return (
     <>
-      <MultiSelect
-        placeholder="Type to reference"
-        filterable
-        style={{ marginTop: 16, width: 400 }}
-        values={options.meta.refTypes || []}
-        onChange={(values) => {
-          options.meta.refTypes = values
+      <Input
+        type="text"
+        label="Bidirectional"
+        placeholder="From field?"
+        style={{ marginBottom: 24 }}
+        value={options?.bidirectional?.fromField}
+        onChange={(e) => {
+          if (!options.bidirectional) {
+            options.bidirectional = {}
+          }
+          options.bidirectional.fromField = e
         }}
-        options={Object.keys(types)}
+      />
+      <MultiSelect
+        label="Allowed types"
+        options={['snurp', 'snark', 'slurpie']}
+        values={tempValues || []}
+        filterable="create"
+        onChange={(e) => {
+          if (e.length < 1) {
+            options.allowedTypes = null
+            setTempValues(e)
+          } else {
+            setTempValues(e)
+            options.allowedTypes = e
+          }
+        }}
       />
     </>
   )
