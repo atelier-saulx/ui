@@ -183,6 +183,7 @@ const AddObjectFieldButton = ({ type, path }) => {
     </Button>
   )
 }
+
 export const Field = ({
   type,
   field,
@@ -193,7 +194,7 @@ export const Field = ({
 }) => {
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
-  const { title, type: fieldType } = fieldSchema
+  const { title, format, type: fieldType } = fieldSchema
   const template = fieldType.format || fieldType
   const { icon, color: iconColor } = templates[template] || {}
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
@@ -265,12 +266,16 @@ export const Field = ({
         <Text weight={600} style={{ marginLeft: 12, marginRight: 5 }}>
           {title}
         </Text>
-
         <Badge color="text" style={{ marginLeft: 12 }}>
           {fieldType}
         </Badge>
+        {format && (
+          <Badge color="accent" style={{ marginLeft: 12 }}>
+            {format}
+          </Badge>
+        )}
         {systemFields.has(field) && (
-          <Badge color="text" style={{ marginLeft: 12 }}>
+          <Badge color="text" ghost outline style={{ marginLeft: 12 }}>
             System Field
           </Badge>
         )}

@@ -1,8 +1,9 @@
-import { referencesFiles } from './referencesFiles'
 import { Color, Icon } from '~/types'
 import { FC } from 'react'
 import { primitives } from './primitives'
 import { enumerable } from './enumerable'
+import { referencesFiles } from './referencesFiles'
+import { system } from './system'
 
 export type Field = {
   label: string
@@ -56,6 +57,7 @@ export const groups = {
   Primitives: primitives,
   Enumerables: enumerable,
   References: referencesFiles,
+  System: system,
 }
 
 export const templates: {

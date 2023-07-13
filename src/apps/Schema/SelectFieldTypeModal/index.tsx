@@ -104,7 +104,6 @@ export const SelectFieldTypeModal: FC<{
         }}
         onKeyDown={(e) => {
           if (e.key === 'Backspace' && searchValue.length <= 1) {
-            console.log('GRRR')
             setFilteredItems(null)
           }
         }}
