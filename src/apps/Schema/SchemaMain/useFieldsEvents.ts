@@ -113,11 +113,10 @@ export const useFieldsEvents = (
       const setIndex = (field, index) => {
         const path = field.split('.')
         const targetFields = path.reduce((fields, key) => fields[key], fields)
-        // TODO meta index here
-        if ('meta' in targetFields) {
-          targetFields.meta.index = index
+        if (!('index' in targetFields)) {
+          targetFields.index = index
         } else {
-          targetFields.meta = { index }
+          targetFields.index = index
         }
       }
 

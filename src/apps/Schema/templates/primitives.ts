@@ -48,12 +48,12 @@ export const primitives: { [key: string]: NewPrimitive } = {
     icon: TwentyThreeIcon,
     schema: { type: 'number' },
   },
-  hyperloglog: {
-    label: 'Hyperloglog',
+  cardinality: {
+    label: 'Cardinality',
     color: 'lightaccent',
     description: 'algorithm for the count-distinct problem',
     icon: ApertureIcon,
-    schema: { type: 'hyperloglog' },
+    schema: { type: 'cardinality' },
   },
   integer: {
     label: 'Integer',
