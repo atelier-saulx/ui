@@ -13,6 +13,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
   const toast = useToast({ attached: true })
   const client = useClient()
 
+  // filter the null and empty strings
+
   return (
     <Dialog.Confirm
       disabled={disabled}
@@ -47,6 +49,17 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
             ...from[field],
             ...schema,
           }
+
+          console.log(dest[field], 'yo?')
+          // remove fields with null
+          Object.keys(dest[field]).forEach(
+            (k) => dest[field][k] == null && delete dest[field][k]
+          )
+
+          // remove fields with empty string
+          Object.keys(dest[field]).forEach(
+            (k) => dest[field][k] === '' && delete dest[field][k]
+          )
 
           if (type === 'root') {
             return client.call('db:set-schema', {
