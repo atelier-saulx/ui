@@ -34,13 +34,13 @@ export const primitives: { [key: string]: NewPrimitive } = {
     // TODO look into this
     schema: { type: 'enum' },
   },
-  const: {
-    label: 'Const',
-    color: 'lightaccent',
-    description: 'Restrict a value',
-    icon: TagIcon,
-    schema: { type: 'const' },
-  },
+  // const: {
+  //   label: 'Const',
+  //   color: 'lightaccent',
+  //   description: 'Restrict a value',
+  //   icon: TagIcon,
+  //   schema: { type: 'const' },
+  // },
   number: {
     label: 'Number',
     color: 'lightaccent',

@@ -16,9 +16,9 @@ type FieldOptions = {
 
 const specificFieldSettings = {
   string: fieldSettings.StringSettings,
+  text: fieldSettings.StringSettings,
   number: fieldSettings.NumberSettings,
   integer: fieldSettings.NumberSettings,
-  text: fieldSettings.TextSettings,
   reference: fieldSettings.ReferenceSettings,
   references: fieldSettings.ReferenceSettings,
 }
@@ -105,7 +105,7 @@ export const FieldModal: FC<{
             </Text>
           </div>
         </Dialog.Label>
-        <Tabs sameHeight activeTab={0}>
+        <Tabs activeTab={0}>
           <Tab label="General">
             <SharedGeneral
               options={options}

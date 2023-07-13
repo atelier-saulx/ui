@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { MultiSelect, Select, Checkbox, styled, Input } from '~'
 
 export const StringSettings = ({ options }) => {
+  const [reqLangs, setReqLangs] = useState(options.required)
+
   return (
     <>
       <Select
@@ -76,20 +78,30 @@ export const StringSettings = ({ options }) => {
       <styled.div style={{ display: 'flex', marginBottom: 24 }}>
         <Input
           type="number"
-          label="Minimum length"
+          label="Min. length"
           placeholder="0"
-          style={{ marginRight: 12 }}
+          style={{ marginRight: 12, maxWidth: 124 }}
           value={options.minLength}
           onChange={(e) => (options.minLength = e)}
         />
         <Input
           type="number"
-          label="Maximum length"
-          placeholder="Max string length"
+          label="Max. length"
+          placeholder="280"
           value={options.maxLength}
           onChange={(e) => (options.maxLength = e)}
+          style={{ marginRight: 12, maxWidth: 124 }}
+        />
+        <Input
+          type="text"
+          label="Pattern"
+          placeholder="^([a-z0-9]{4,7})$"
+          value={options.pattern}
+          onChange={(e) => (options.pattern = e)}
+          style={{ flexGrow: 1 }}
         />
       </styled.div>
+
       <Select
         options={[
           'text/html',
@@ -101,14 +113,34 @@ export const StringSettings = ({ options }) => {
           'string',
         ]}
         label="Content Media Type"
+        value={options.contentMediaType}
+        onChange={(e) => (options.contentMediaType = e)}
         style={{ marginBottom: 24 }}
       />
+
+      {options.type === 'text' && (
+        <MultiSelect
+          style={{ marginBottom: 24 }}
+          label="Required languages"
+          values={reqLangs || []}
+          options={['en', 'nl']}
+          onChange={(e) => {
+            if (e.length < 1) {
+              options.required = null
+              setReqLangs(e)
+            } else {
+              setReqLangs(e)
+              options.required = e
+            }
+          }}
+        />
+      )}
       <Input
         type="text"
-        label="Pattern"
-        placeholder="^([a-z0-9]{4,7})$"
-        value={options.pattern}
-        onChange={(e) => (options.pattern = e)}
+        label="Content Media Encoding"
+        placeholder="base64"
+        value={options.contentMediaEncoding}
+        onChange={(e) => (options.contentMediaEncoding = e)}
       />
     </>
   )

@@ -15,14 +15,14 @@ export const referencesFiles: { [key: string]: NewReference } = {
   reference: {
     label: 'Reference',
     color: 'lightyellow',
-    description: 'References you know it',
+    description: 'Single Reference',
     icon: ChildrenIcon,
     schema: { type: 'reference' },
   },
   references: {
     label: 'References',
     color: 'lightyellow',
-    description: 'References ',
+    description: 'Multiple References ',
     icon: ChildrenIcon,
     schema: { type: 'references' },
   },
