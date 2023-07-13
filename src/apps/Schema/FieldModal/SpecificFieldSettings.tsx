@@ -5,7 +5,69 @@ export const StringSettings = ({ options }) => {
   return (
     <>
       <Select
-        options={['email', 'hostname', 'ipv4', 'ipv6', 'uuid', 'uri']}
+        options={[
+          'email',
+          'URL',
+          'MACAddress',
+          'IP',
+          'IPRange',
+          'FQDN',
+          'IBAN',
+          'BIC',
+          'alpha',
+          'alphaLocales',
+          'alphanumeric',
+          'alphanumericLocales',
+          'passportNumber',
+          'port',
+          'lowercase',
+          'uppercase',
+          'ascii',
+          'semVer',
+          'surrogatePair',
+          'IMEI',
+          'hexadecimal',
+          'octal',
+          'hexColor',
+          'rgbColor',
+          'HSL',
+          'ISRC',
+          'MD5',
+          'JWT',
+          'UUID',
+          'luhnNumber',
+          'creditCard',
+          'identityCard',
+          'EAN',
+          'ISIN',
+          'ISBN',
+          'ISSN',
+          'mobilePhone',
+          'mobilePhoneLocales',
+          'postalCode',
+          'postalCodeLocales',
+          'ethereumAddress',
+          'currency',
+          'btcAddress',
+          'ISO6391',
+          'ISO8601',
+          'RFC3339',
+          'ISO31661Alpha2',
+          'ISO31661Alpha3',
+          'ISO4217',
+          'base32',
+          'base58',
+          'base64',
+          'dataURI',
+          'magnetURI',
+          'mimeType',
+          'latLong',
+          'slug',
+          'strongPassword',
+          'taxID',
+          'licensePlate',
+          'VAT',
+        ]}
         label="String Format"
         style={{ marginBottom: 24 }}
         value={options.format}
@@ -28,6 +90,19 @@ export const StringSettings = ({ options }) => {
           onChange={(e) => (options.maxLength = e)}
         />
       </styled.div>
+      <Select
+        options={[
+          'text/html',
+          'text/plain',
+          'text/markdown',
+          'image/png',
+          'image/jpeg',
+          'video/mp4',
+          'string',
+        ]}
+        label="Content Media Type"
+        style={{ marginBottom: 24 }}
+      />
       <Input
         type="text"
         label="Pattern"
