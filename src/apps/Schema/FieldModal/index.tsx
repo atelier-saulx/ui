@@ -77,9 +77,7 @@ export const FieldModal: FC<{
 
   const options = optionsRef.current
 
-  useEffect(() => {
-    console.log('fire??')
-  }, [field])
+  console.log(options)
 
   const { label, icon, color, description } = templates[template]
   const TypeSpecificGeneral = specificFieldSettings[template]
@@ -133,8 +131,9 @@ export const FieldModal: FC<{
 
           <Tab label="JSON">
             {/* todo in object modal where is my tab??? */}
-            <styled.div style={{ paddingTop: 24 }}>x</styled.div>
-            {JSON.stringify(options)}
+            <styled.div style={{ paddingTop: 24 }}>
+              {JSON.stringify(options)}
+            </styled.div>
           </Tab>
         </Tabs>
       </Dialog.Body>

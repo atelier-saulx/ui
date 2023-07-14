@@ -24,6 +24,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
         try {
           const { field, ...schema } = options
 
+          console.log(options, '?? 🥬')
+
           if (!schema.title) {
             throw Error('Title is required')
           }

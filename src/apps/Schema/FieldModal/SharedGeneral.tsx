@@ -29,6 +29,11 @@ export const SharedGeneral: FC<{
     }
   }, [options.field, options.title])
 
+  useEffect(() => {
+    console.log('from shared general', options)
+    update()
+  }, [JSON.stringify(options)])
+
   return (
     <>
       <Input
