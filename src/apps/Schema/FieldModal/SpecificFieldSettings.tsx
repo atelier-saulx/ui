@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { MultiSelect, Select, Checkbox, styled, Input } from '~'
-import { useUpdate } from '~/hooks/useUpdate'
 
 export const StringSettings = ({ options }) => {
   const [reqLangs, setReqLangs] = useState(options.required)
-
-  const update = useUpdate()
-
-  useEffect(() => {
-    console.log('from spec', options)
-    // update()
-  }, [JSON.stringify(options)])
 
   return (
     <>
@@ -83,7 +75,6 @@ export const StringSettings = ({ options }) => {
         value={options.format}
         onChange={(e) => {
           options.format = e
-          update()
         }}
       />
       <styled.div style={{ display: 'flex', marginBottom: 24 }}>

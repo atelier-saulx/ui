@@ -15,8 +15,6 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
 
   // filter the null and empty strings
 
-  console.log('options from confirm???', options)
-
   return (
     <Dialog.Confirm
       disabled={disabled}
@@ -24,7 +22,7 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
         try {
           const { field, ...schema } = options
 
-          console.log(options, '?? 🥬')
+          // console.log(options, '?? 🥬')
 
           if (!schema.title) {
             throw Error('Title is required')

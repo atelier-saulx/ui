@@ -5,6 +5,7 @@ import { SharedGeneral } from './SharedGeneral'
 import { useSchema } from '../hooks/useSchema'
 import { Dialog, Tab, Tabs, Thumbnail, Text, styled } from '~'
 import * as fieldSettings from './SpecificFieldSettings'
+import { JsonTab } from './JsonTab'
 
 type FieldOptions = {
   field?: string
@@ -32,6 +33,7 @@ export const FieldModal: FC<{
   const { schema, loading } = useSchema()
   const [generalDisabled, setGeneralDisabled] = useState(true)
   const [specificDisabled, setSpecificDisabled] = useState(false)
+
   const optionsRef = useRef<FieldOptions>()
 
   if (loading) {
@@ -76,8 +78,6 @@ export const FieldModal: FC<{
   }
 
   const options = optionsRef.current
-
-  console.log(options)
 
   const { label, icon, color, description } = templates[template]
   const TypeSpecificGeneral = specificFieldSettings[template]
@@ -132,7 +132,7 @@ export const FieldModal: FC<{
           <Tab label="JSON">
             {/* todo in object modal where is my tab??? */}
             <styled.div style={{ paddingTop: 24 }}>
-              {JSON.stringify(options)}
+              <JsonTab options={options} />
             </styled.div>
           </Tab>
         </Tabs>
