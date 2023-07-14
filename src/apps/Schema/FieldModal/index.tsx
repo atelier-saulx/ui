@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react'
+import React, { FC, useRef, useState, useEffect } from 'react'
 import { templates } from '../templates'
 import { Confirm } from './Confirm'
 import { SharedGeneral } from './SharedGeneral'
@@ -40,8 +40,6 @@ export const FieldModal: FC<{
 
   const types = schema.types
 
-  console.log('type', types, template)
-
   // @ts-ignore
   const fields =
     type === 'root'
@@ -79,7 +77,11 @@ export const FieldModal: FC<{
 
   const options = optionsRef.current
 
-  const { label, icon, color } = templates[template]
+  useEffect(() => {
+    console.log('fire??')
+  }, [field])
+
+  const { label, icon, color, description } = templates[template]
   const TypeSpecificGeneral = specificFieldSettings[template]
   return (
     <Dialog>
@@ -100,9 +102,12 @@ export const FieldModal: FC<{
               outline
               style={{ marginRight: 16 }}
             />
-            <Text weight={600} size={16}>
-              {label}
-            </Text>
+            <styled.div>
+              <Text typography="subtext600">{label}</Text>
+              <Text typography="body500" color="text2">
+                {description}
+              </Text>
+            </styled.div>
           </div>
         </Dialog.Label>
         <Tabs activeTab={0}>
@@ -114,7 +119,7 @@ export const FieldModal: FC<{
             />
           </Tab>
           {TypeSpecificGeneral && (
-            <Tab label="Settings" style={{ overflow: 'auto' }}>
+            <Tab label="Settings">
               <styled.div style={{ paddingTop: 24 }}>
                 <TypeSpecificGeneral
                   options={options}
@@ -125,6 +130,12 @@ export const FieldModal: FC<{
               </styled.div>
             </Tab>
           )}
+
+          <Tab label="JSON">
+            {/* todo in object modal where is my tab??? */}
+            <styled.div style={{ paddingTop: 24 }}>x</styled.div>
+            {JSON.stringify(options)}
+          </Tab>
         </Tabs>
       </Dialog.Body>
       <Dialog.Buttons border>

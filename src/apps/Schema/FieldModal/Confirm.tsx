@@ -15,6 +15,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
 
   // filter the null and empty strings
 
+  console.log('options from confirm???', options)
+
   return (
     <Dialog.Confirm
       disabled={disabled}

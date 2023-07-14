@@ -1,4 +1,4 @@
-import { ChildrenIcon, AttachmentIcon } from '~/icons'
+import { ChildrenIcon } from '~/icons'
 import {
   BasedSchemaFieldReference,
   BasedSchemaFieldReferences,
