@@ -50,15 +50,15 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
             ...schema,
           }
 
-          console.log(dest[field], 'yo?')
-          // remove fields with null
-          Object.keys(dest[field]).forEach(
-            (k) => dest[field][k] == null && delete dest[field][k]
-          )
-
-          // remove fields with empty string
-          Object.keys(dest[field]).forEach(
-            (k) => dest[field][k] === '' && delete dest[field][k]
+          // remove fields with null or empty strings
+          Object.keys(dest[field]).forEach((k) =>
+            dest[field][k] == null
+              ? delete dest[field][k]
+              : dest[field][k] === ''
+              ? delete dest[field][k]
+              : dest[field][k] === false
+              ? delete dest[field][k]
+              : null
           )
 
           if (type === 'root') {
