@@ -87,7 +87,7 @@ export const ThumbnailFile: FC<ThumbnailFileProps> = ({
           height: 32,
           backgroundColor: color('accent', true),
           backgroundSize: 'cover',
-          backgroundImage: `url(${src})`,
+          backgroundImage: `url(${src}?width=64&height=64)`,
         }}
       />
     </styled.div>

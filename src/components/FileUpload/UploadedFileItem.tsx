@@ -23,11 +23,8 @@ const StyledUploadedFile = styled('div', {
   overflow: 'hidden',
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
-  paddingLeft: 24,
   borderRadius: 8,
   alignItems: 'center',
-  // marginLeft: 12,
-  // marginRight: 12,
   marginBottom: 8,
   position: 'relative',
   cursor: 'auto',
@@ -130,9 +127,6 @@ export const UploadedFileItem = ({
   fullScreenView,
   fileName,
 }) => {
-  console.log('hello, ', file)
-  console.log('filename --> 🍺', fileName)
-
   const contextHandler = useContextMenu(
     ContextOptions,
     {
@@ -150,15 +144,8 @@ export const UploadedFileItem = ({
     { placement: 'right' }
   )
 
-  // console.log(file, 'file??')
-
-  // screenshot
-  // console.log(getImageSrcFromId(file?.id))
-  // console.log('-------------______>', file)
-
   return (
     <StyledUploadedFile>
-      {/* image */}
       {file?.type?.includes('image') ? (
         <CacheBackground file={file} />
       ) : file?.type?.includes('video') ? (

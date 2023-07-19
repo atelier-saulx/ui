@@ -17,6 +17,7 @@ import {
   LoadingIcon,
   useSchema,
   ScrollArea,
+  IdIcon,
 } from '~'
 import { ContentEditor } from './ContentEditor'
 import { createTypeModal } from '../schema'
@@ -69,6 +70,15 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const props = parseProps(overlayData?.config.props ?? {}, ctx)
 
   const [copied, copy] = useCopyToClipboard(data?.id)
+
+  let hasChanges = false
+
+  for (const k in state) {
+    if (state[k] !== undefined && state[k] !== null) {
+      hasChanges = true
+      break
+    }
+  }
 
   return (
     <styled.div
@@ -146,7 +156,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
             >
               <Text typography="caption600">STATUS</Text>
             </styled.div>
-            <Button {...props.saveButton} />
+            <Button disabled={!hasChanges} {...props.saveButton} />
 
             {props.deleteButton ? (
               <Button
@@ -161,30 +171,36 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
               />
             ) : null}
 
-            {/* <Text color="text2" style={{ marginBottom: 12 }}>
-          Last snurp
-        </Text> */}
-            <styled.div
-              style={{
-                borderBottom: `1px solid ${color('border')}`,
-                height: 54,
-                marginBottom: 16,
-                display: 'flex',
-                alignItems: 'end',
-                paddingBottom: 8,
-              }}
-            >
-              <Text typography="caption600">ID</Text>
-            </styled.div>
             <Badge
               onClick={() => copy()}
-              icon={copied ? <CheckIcon /> : ''}
-              style={{ marginBottom: 6 }}
+              icon={copied ? <CheckIcon color="accent" /> : ''}
+              style={{
+                marginBottom: 6,
+                marginTop: 32,
+                padding: 8,
+                paddingLeft: 16,
+                paddingRight: 16,
+                borderRadius: 32,
+              }}
             >
-              {data?.id}
+              <Row>
+                <IdIcon
+                  color="accent"
+                  style={{
+                    marginRight: 8,
+                  }}
+                />
+                <Text>{data?.id}</Text>
+              </Row>
             </Badge>
             {copied && (
-              <Text typography="caption500">copied to clipboard!</Text>
+              <Text
+                color="text2"
+                style={{ marginTop: 12, marginLeft: 16 }}
+                typography="caption500"
+              >
+                copied to clipboard
+              </Text>
             )}
             <styled.div
               style={{

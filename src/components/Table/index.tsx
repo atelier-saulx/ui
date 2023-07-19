@@ -17,6 +17,7 @@ import {
   Badge,
   AttachmentIcon,
   ThumbnailFile,
+  pathReader,
 } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
@@ -76,20 +77,6 @@ const Header: FC<{
       {children}
     </styled.div>
   )
-}
-
-const pathReader = (a: any, path: string[]): any => {
-  let d = a
-  for (let i = 0; i < path.length; i++) {
-    const seg = path[i]
-    if (d?.[seg] !== undefined) {
-      d = d[seg]
-    } else {
-      d = undefined
-      break
-    }
-  }
-  return d
 }
 
 const Cell = (props) => {

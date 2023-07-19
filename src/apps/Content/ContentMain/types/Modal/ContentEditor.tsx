@@ -1,11 +1,8 @@
-import { useClient } from '@based/react'
-import React, { FC, useState } from 'react'
-import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
+import React, { FC } from 'react'
+import { styled, Input, Badge, Toggle } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
-
-// meta type finally complete from schema
-
-// todo make meta / type system complete
+import { FileUploadContentEditor } from './FileUploadContentEditor'
+import { BOTTOMSPACE } from './constants'
 
 export const ContentEditor: FC<{
   data: { [key: string]: any }
@@ -36,29 +33,24 @@ export const ContentEditor: FC<{
 }
 
 const ContentRenderer: FC<{
-  item: { [key: string]: any }
+  item: {
+    name?: string
+    type: string
+    meta?: any
+    key: string
+    mimeTypeKey?: string
+  }
   itemValue: any
   data: any
   state: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
-  // references, type, id, set, string, digest, number, url, text
-
-  const client = useClient()
-  // state
-
-  const { type, meta, key } = item
+  const { type, meta, key, mimeTypeKey } = item
   const name = item.name ?? key
 
   const onChange = (v: any) => {
     setState({ [key]: v })
   }
-
-  // state no
-  // TODO double check this
-  itemValue = itemValue ?? state[key]
-
-  const BOTTOMSPACE = 32
 
   if (type === 'boolean') {
     return (
@@ -98,62 +90,15 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (meta?.type === 'file') {
-    const [progress, setProgress] = useState(null)
-
+  if (meta?.type === 'file' || mimeTypeKey) {
     return (
-      <div>
-        {/* {progress * 100}% */}
-        <FileUpload
-          label={name}
-          descriptionBottom="Drag and drop or click to upload"
-          description={
-            meta?.mime?.length > 0
-              ? `Allowed types: ${meta?.mime.join(', ')}`
-              : null
-          }
-          progress={progress}
-          onChange={(files) => {
-            // updateProgess
-            // console.info('FIRE', files[0])
-
-            client
-              .stream('db:file-upload', { contents: files[0] }, (e) =>
-                setProgress(e)
-              )
-              .then(async (v) => {
-                const { mimeType, name } = await client
-                  .query('db', {
-                    $id: v.id,
-                    mimeType: true,
-                    name: true,
-                  })
-                  .get()
-                onChange({ ...v, mimeType, name })
-              })
-          }}
-          indent
-          value={
-            state[key]?.src
-              ? [
-                  {
-                    src: state[key]?.src,
-                    type: state[key]?.mimeType ?? data[key]?.mimeType,
-                    name: state[key]?.name ?? data[key]?.name,
-                  },
-                ]
-              : [
-                  {
-                    src: data[key]?.src,
-                    type: data[key]?.mimeType,
-                    name: data[key]?.name,
-                  },
-                ]
-          }
-          style={{ marginBottom: BOTTOMSPACE }}
-          mime={meta?.mime}
-        />
-      </div>
+      <FileUploadContentEditor
+        data={data}
+        item={item}
+        name={name}
+        state={state}
+        onChange={onChange}
+      />
     )
   }
 
@@ -213,6 +158,19 @@ const ContentRenderer: FC<{
     )
   }
 
+  if (type === 'url') {
+    return (
+      <Input
+        label={name}
+        type="url"
+        onChange={onChange}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
   if (type === 'type') {
     return (
       <InputWrapper
@@ -241,27 +199,17 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (type === 'url' || type === 'thumb') {
+  if (type === 'reference') {
     return (
-      <styled.div style={{ display: 'flex', alignItems: 'center' }}>
-        <styled.div
-          style={{
-            backgroundColor: color('background2'),
-            backgroundImage: `url(${itemValue})`,
-            backgroundSize: 'cover',
-            height: 32,
-            width: 32,
-            marginRight: 16,
-          }}
-        />
-        <Input
-          label={name}
-          onChange={onChange}
-          type="text"
-          value={itemValue}
-          style={{ marginBottom: BOTTOMSPACE, flexGrow: 1 }}
-        />
-      </styled.div>
+      <Input
+        label={name}
+        type="text"
+        placeholder={'Reference'}
+        onChange={onChange}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
     )
   }
 

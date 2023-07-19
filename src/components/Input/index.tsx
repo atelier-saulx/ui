@@ -28,6 +28,22 @@ import { Multi } from './Multi'
 import { MaybeSuggest } from './MaybeSuggest'
 import { UrlInput } from './UrlInput'
 
+const PLACEHOLDERS: Record<InputType, string> = {
+  text: 'Text',
+  password: 'Password',
+  email: 'Email',
+  phone: 'Phone',
+  search: 'Search...',
+  markdown: 'Markdown',
+  number: 'Number',
+  date: 'Date',
+  json: 'JSON',
+  multiline: 'Multiline text',
+  digest: 'Digest',
+  url: 'Url',
+  color: 'Color',
+}
+
 type InputType =
   | 'text'
   | 'password'
@@ -68,7 +84,7 @@ export const Input = <T extends InputType>({
   name,
   noInterrupt,
   onChange: onChangeProp,
-  placeholder = 'Type something here',
+  placeholder = '',
   style,
   suggest,
   transform,
@@ -197,6 +213,10 @@ export const Input = <T extends InputType>({
       }
     }
   }, [focused])
+
+  if (!props.placeholder) {
+    props.placeholder = PLACEHOLDERS[type]
+  }
 
   return (
     <InputWrapper

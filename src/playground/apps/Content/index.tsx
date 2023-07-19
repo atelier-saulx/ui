@@ -83,7 +83,9 @@ const route = useRoute('[view]');
 
       route.setPath({ view: v || null })
     } else {
-      route.setQuery({ [key]: v })
+      if (key !== 'overlay-state') {
+        route.setQuery({ [key]: v })
+      }
     }
   }}
   style={{ 
