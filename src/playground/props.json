@@ -815,9 +815,13 @@
             "FC",
             "ReactNode"
           ]
+        },
+        "header": {
+          "optional": true,
+          "type": "ReactNode"
         }
       },
-      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  topRight?: FC | ReactNode\n}",
+      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  topRight?: FC | ReactNode\n  header?: ReactNode\n}",
       "file": "/components/Code/index.tsx"
     },
     "ColorPickerProps": {
@@ -3704,6 +3708,25 @@
         }
       },
       "code": "type ThumbnailProps = {\n  size?: Size\n  img?: string\n  icon?: FunctionComponent<Icon> | ReactNode\n  color?: Color\n  style?: CSSProperties\n  label?: string\n  outline?: boolean\n  counter?: number\n}",
+      "file": "/components/Thumbnail/index.tsx"
+    },
+    "ThumbnailFileProps": {
+      "name": "ThumbnailFileProps",
+      "props": {
+        "mimeType": {
+          "optional": true,
+          "type": "string"
+        },
+        "src": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "MouseEventHandler"
+        }
+      },
+      "code": "type ThumbnailFileProps = {\n  mimeType?: string\n  src?: string\n  onClick?: MouseEventHandler<HTMLDivElement>\n}",
       "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
