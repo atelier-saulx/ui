@@ -92,7 +92,6 @@ export const SelectFieldTypeModal: FC<{
 
   return (
     <div>
-
       <Input
         bg
         type="search"
@@ -119,8 +118,9 @@ export const SelectFieldTypeModal: FC<{
           marginLeft: 12,
           marginRight: 12,
           marginTop: 0,
-       />
-    
+        }}
+      />
+
       <Section>
         <Grid
           style={{
