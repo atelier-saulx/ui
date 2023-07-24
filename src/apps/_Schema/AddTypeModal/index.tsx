@@ -1,22 +1,19 @@
-import { Input, Dialog, useContextState } from '~'
+import { Input, Dialog, useSchema, useContextState } from '~'
 import React, { useState, FC, useEffect } from 'react'
 import safeTypeName from './safeTypeName'
-// import { generatePlural } from '~/utils'
+import { generatePlural } from '~/utils'
 import { useClient } from '@based/react'
-import { useSchema } from '../hooks/useSchema'
 
 export const AddTypeModal: FC = () => {
   const client = useClient()
   const [name, setName] = useState('')
-  // const [pluralName, setPluralName] = useState<string>('')
+  const [pluralName, setPluralName] = useState<string>('')
   const [typeName, setTypeName] = useState('')
   const [description, setDescription] = useState('')
   const [filled, setFilled] = useState(false)
   const [, setType] = useContextState('type')
   const [db] = useContextState('db', 'default')
   const { schema } = useSchema(db)
-
-  console.log('--> use Schema hook called db', schema)
 
   useEffect(() => {
     if (name !== '') {
@@ -41,7 +38,7 @@ export const AddTypeModal: FC = () => {
           }}
           value={name}
         />
-        {/* <Input
+        <Input
           style={{ marginBottom: 24 }}
           type="text"
           placeholder="Type something here"
@@ -54,7 +51,7 @@ export const AddTypeModal: FC = () => {
             pluralName ||
             (name || typeName ? generatePlural(name || typeName) : undefined)
           }
-        /> */}
+        />
         <Input
           style={{ marginBottom: 24 }}
           type="text"
@@ -92,13 +89,11 @@ export const AddTypeModal: FC = () => {
               const type = typeName || safeTypeName(name)
               const typeSchema = {
                 fields: {},
-                title: name,
-                description: description,
-                // meta: {
-                //   name: name,
-                //   description,
-                //   pluralName,
-                // },
+                meta: {
+                  name: name,
+                  description,
+                  pluralName,
+                },
               }
               if (schema) {
                 schema.types[type] = typeSchema

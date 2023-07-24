@@ -2,7 +2,7 @@ import { useClient } from '@based/react'
 import React from 'react'
 import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
-import { useSchema } from '../hooks/useSchema'
+import { useSchema } from '~/apps/_Schema'
 import { useContextState } from '~/hooks/ContextState'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
@@ -13,8 +13,6 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
   const toast = useToast({ attached: true })
   const client = useClient()
 
-  // filter the null and empty strings
-
   return (
     <Dialog.Confirm
       disabled={disabled}
@@ -22,10 +20,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
         try {
           const { field, ...schema } = options
 
-          // console.log(options, '?? 🥬')
-
-          if (!schema.title) {
-            throw Error('Title is required')
+          if (!schema.meta.name) {
+            throw Error('Display name is required')
           }
 
           if (!field) {
@@ -51,17 +47,6 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
             ...from[field],
             ...schema,
           }
-
-          // remove fields with null or empty strings
-          Object.keys(dest[field]).forEach((k) =>
-            dest[field][k] == null
-              ? delete dest[field][k]
-              : dest[field][k] === ''
-              ? delete dest[field][k]
-              : dest[field][k] === false
-              ? delete dest[field][k]
-              : null
-          )
 
           if (type === 'root') {
             return client.call('db:set-schema', {

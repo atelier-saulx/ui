@@ -11,12 +11,12 @@ import {
   Dialog,
   WarningIcon,
   ChevronLeftIcon,
+  useSchema,
 } from '~'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { useClient } from '@based/react'
 import { expandFieldPath } from '../fieldParsers'
 import { styled } from 'inlines'
-import { useSchema } from '../hooks/useSchema'
 
 const EditMenu = () => {
   const { open } = useDialog()
@@ -143,7 +143,7 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
       type,
       field: expanded,
     },
-    { width: 928, placement: 'right' }
+    { width: 924, placement: 'right' }
   )
 
   return (

@@ -9,12 +9,12 @@ import {
   Input,
   SearchIcon,
   Row,
+  color,
 } from '~'
 import { color as colorFn } from '~/utils'
 import { styled } from 'inlines'
 import { FieldModal } from '../FieldModal'
-import { groups, templates } from '../templates'
-import { BasedSchemaFieldType } from '@based/schema'
+import { groups, FieldTemplates, templates } from '../templates'
 
 const Section = styled('div', {
   marginTop: 20,
@@ -69,7 +69,6 @@ export const SelectFieldTypeModal: FC<{
   field?: string[]
 }> = ({ type, field = [] }) => {
   const [filteredItems, setFilteredItems] = useState<string[]>(null)
-  const [searchValue, setSearchValue] = useState('')
 
   const searchFilterHandler = (value: string) => {
     if (value === '') {
@@ -92,23 +91,14 @@ export const SelectFieldTypeModal: FC<{
 
   return (
     <div>
-
       <Input
-        bg
-        type="search"
+        type="text"
         icon={<SearchIcon />}
         placeholder="Search and discover"
-        value={searchValue}
-        onChange={(e) => {
-          setSearchValue(e)
-          searchFilterHandler(e)
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Backspace' && searchValue.length <= 1) {
-            setFilteredItems(null)
-          }
-        }}
+        onChange={searchFilterHandler}
+        ghost
         style={{
+          backgroundColor: color('background2'),
           boxShadow: '0px',
           outline: 'none',
           height: 40,
@@ -116,11 +106,12 @@ export const SelectFieldTypeModal: FC<{
           borderRadius: 8,
           paddingTop: '6px',
           paddingBottom: '6px',
-          marginLeft: 12,
-          marginRight: 12,
-          marginTop: 0,
-       />
-    
+          marginLeft: 24,
+          marginRight: 24,
+          marginTop: 20,
+          marginBottom: 0,
+        }}
+      />
       <Section>
         <Grid
           style={{
@@ -129,10 +120,10 @@ export const SelectFieldTypeModal: FC<{
             marginLeft: 0,
           }}
           gap={5}
-          itemWidth={200}
+          itemWidth={234}
         >
           {filteredItems
-            ? filteredItems.map((template: BasedSchemaFieldType) => {
+            ? filteredItems.map((template: FieldTemplates) => {
                 // put template
                 return (
                   <Template
@@ -159,7 +150,7 @@ export const SelectFieldTypeModal: FC<{
                         {header}
                       </Text>
                       {Object.keys(groups[header]).map(
-                        (template: BasedSchemaFieldType) => {
+                        (template: FieldTemplates) => {
                           // put template
                           return (
                             <Template

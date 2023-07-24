@@ -1,11 +1,15 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Input } from '~/components/Input'
 import { useUpdate } from '~/hooks/useUpdate'
 import safeTypeName from '../AddTypeModal/safeTypeName'
-import { FieldOptions } from '../types'
+import { BasedSchemaFieldShared } from '@based/schema'
+import { Checkbox, Input, styled } from '~'
+
+type FieldOptions = {
+  field?: string
+}
 
 export const SharedGeneral: FC<{
-  options: FieldOptions
+  options: BasedSchemaFieldShared & FieldOptions
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>
   field?: string
 }> = ({ options, setDisabled, field: targetField }) => {
@@ -14,8 +18,8 @@ export const SharedGeneral: FC<{
 
   useEffect(() => {
     if (
-      !options.meta.name ||
-      options.meta.name.length < 3 ||
+      !options.title ||
+      options.title.length < 3 ||
       !options.field ||
       options.field.length < 3
     ) {
@@ -23,53 +27,80 @@ export const SharedGeneral: FC<{
     } else {
       setDisabled(false)
     }
-  }, [options.field, options.meta.name])
+  }, [options.field, options.title])
+
+  useEffect(() => {
+    console.log('from shared general', options)
+    update()
+  }, [JSON.stringify(options)])
 
   return (
     <>
       <Input
         autoFocus
         type="text"
-        placeholder="Type something here"
-        label="Display name"
-        description="Name that will be displayed in the interface"
+        placeholder="Your title for this field"
+        label="Title"
+        description="Title that will be displayed in the interface"
         onChange={(value: string) => {
-          options.meta.name = value
+          options.title = value
           if (!field) {
             options.field = safeTypeName(value)
           }
           update()
         }}
-        value={options.meta.name}
+        value={options.title}
         style={{ marginTop: 24, marginBottom: 24 }}
       />
-      <Input
-        disabled={!!targetField}
-        type="text"
-        placeholder="Type something here"
-        label="Field name"
-        description="API field - name used in the sdk and clients"
-        onChange={(value: string) => {
-          // TODO make own safeName for fields (dont use type)
-          options.field = safeTypeName(value)
-          setField(options.field)
-        }}
-        value={
-          options.field ??
-          (options.meta.name && safeTypeName(options.meta.name))
-        }
-        style={{ marginBottom: 24 }}
-      />
+
       <Input
         type="multiline"
         label="Description (Optional)"
         description="Displays a hint for content editors"
-        value={options.meta.description}
+        value={options.description}
         onChange={(value) => {
-          options.meta.description = value
+          options.description = value
           update()
         }}
       />
+      <styled.div style={{ display: 'flex', marginTop: 20 }}>
+        <Checkbox
+          label="Required"
+          style={{ marginRight: 20 }}
+          onChange={(e) => {
+            e ? (options.isRequired = true) : (options.isRequired = false)
+            update()
+          }}
+          value={options.isRequired}
+        />
+        <Checkbox
+          label="Read only"
+          style={{ marginRight: 20 }}
+          onChange={(e) => {
+            if (e) {
+              options.readOnly = true
+              options.writeOnly = false
+            } else {
+              options.readOnly = false
+            }
+            update()
+          }}
+          value={options.readOnly}
+        />
+        <Checkbox
+          label="Write only"
+          onChange={(e) => {
+            if (e) {
+              options.writeOnly = true
+              options.readOnly = false
+            } else {
+              options.writeOnly = false
+            }
+            update()
+          }}
+          value={options.writeOnly}
+        />
+      </styled.div>
     </>
   )
 }
