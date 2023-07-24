@@ -35,7 +35,7 @@
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.1.2",
     "@based/react": "^4.2.4",
-    "@based/schema": "^0.0.2",
+    "@based/schema": "^0.0.6",
     "@based/use-global-state": "0.3.0",
     "@based/use-local-storage": "^0.4.0",
     "@dnd-kit/core": "^6.0.5",

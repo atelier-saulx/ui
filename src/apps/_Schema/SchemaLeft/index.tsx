@@ -10,7 +10,7 @@ import {
   LoadingIcon,
   useContextState,
 } from '~'
-import { useSchema } from '~/apps/Schema/hooks/useSchema'
+import { useSchema } from '~/apps/_Schema/hooks/useSchema'
 import { AddTypeModal } from '../AddTypeModal'
 
 export const SystemLabel = ({ isActive = false, children }) => {
@@ -117,7 +117,6 @@ export const SchemaLeft: FC = () => {
             .sort()
             .map((key) => {
               return {
-                // TODO look into this
                 label: types[key]?.meta?.name || key,
                 value: key,
               }

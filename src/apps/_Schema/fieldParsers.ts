@@ -1,25 +1,17 @@
 import { systemFields, alwaysIgnore } from './templates'
-
-import {
-  BasedSchemaField,
-  BasedSchemaFieldShared,
-  BasedSchemaType,
-} from '@based/schema'
+import { FieldSchema, TypeSchema } from './types'
 
 export const sortFields = (fields: {
-  [key: string]: BasedSchemaField | BasedSchemaFieldShared
+  [key: string]: FieldSchema
 }): string[] => {
   return Object.keys(fields).sort((a, b) => {
-
-    // TODO: index type needs to be added to BasedSchemaField
-    const indexA = fields[a]?.index
-    const indexB = fields[b]?.index
-
+    const indexA = fields[a].meta?.index
+    const indexB = fields[b].meta?.index
     if (indexA === undefined) {
       if (indexB === undefined) {
         if (systemFields.has(a)) {
           if (!systemFields.has(b)) {
-            return 1
+            return -1
           }
         } else if (systemFields.has(b)) {
           return 1
@@ -33,7 +25,7 @@ export const sortFields = (fields: {
 }
 
 export const sortAndFlatten = (fields: {
-  [key: string]: BasedSchemaField
+  [key: string]: FieldSchema
 }): string[] => {
   const sortedFields = sortFields(fields)
   for (let i = sortedFields.length - 1; i >= 0; i--) {
@@ -68,13 +60,13 @@ export const sortAndFlatten = (fields: {
 }
 
 export const expandFieldPath = (
-  typeDef: BasedSchemaType,
+  typeDef: TypeSchema,
   field: string[] = []
 ): string[] => {
-  const schemaFields: { [key: string]: BasedSchemaField } = typeDef.fields
+  const schemaFields: { [key: string]: FieldSchema } = typeDef.fields
   if (field.length) {
     const newField = []
-    let n: BasedSchemaField | { [key: string]: BasedSchemaField } = schemaFields
+    let n: FieldSchema | { [key: string]: FieldSchema } = schemaFields
     for (const f of field) {
       if (n === undefined) {
         return []
@@ -100,15 +92,15 @@ export const expandFieldPath = (
 }
 
 export const filteredFields = (
-  typeDef: BasedSchemaType,
+  typeDef: TypeSchema,
   includeSystemFields: boolean,
   excludeFieldPrefix?: string | number | boolean,
   excludeSet: Set<string> = new Set(),
   field: string[] = []
 ): {
   filtered: string[]
-  objects: { [key: string]: { field: string } & BasedSchemaField }
-  properties: { [key: string]: BasedSchemaField }
+  objects: { [key: string]: { field: string } & FieldSchema }
+  properties: { [key: string]: FieldSchema }
 } => {
   const expandedField = expandFieldPath(typeDef, field)
   const sortedFields = sortAndFlatten(typeDef.fields)
@@ -139,7 +131,7 @@ export const filteredFields = (
     }
 
     // @ts-ignore
-    const fieldDef: BasedSchemaField = path.reduce(
+    const fieldDef: FieldSchema = path.reduce(
       // @ts-ignore
       (fields, key) => fields[key],
       fields

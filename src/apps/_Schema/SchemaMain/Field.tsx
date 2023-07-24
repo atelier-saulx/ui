@@ -17,19 +17,19 @@ import {
   AddIcon,
   useContextState,
 } from '~'
-import { systemFields, templates } from '../templates'
+
+import { FieldTemplates, systemFields, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
+import { useSchema } from '~/apps/_Schema/hooks/useSchema'
 import { Dialog } from '~/components/Dialog'
 import { WarningIcon } from '~/icons/WarningIcon'
-import { BasedSchemaFieldType } from '@based/schema'
-import { useSchema } from '../hooks/useSchema'
 
 const EditMenu: FC<{
   type: string
   field: string
-  template: BasedSchemaFieldType
+  template: FieldTemplates
   isObject: boolean
   path: string[]
   setPath: (path: string[]) => void
@@ -183,7 +183,6 @@ const AddObjectFieldButton = ({ type, path }) => {
     </Button>
   )
 }
-
 export const Field = ({
   type,
   field,
@@ -194,12 +193,12 @@ export const Field = ({
 }) => {
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
-  const { title, format, type: fieldType } = fieldSchema
-  const template = fieldType.format || fieldType
+  const { meta, type: fieldType } = fieldSchema
+  const template = meta?.format || fieldType
   const { icon, color: iconColor } = templates[template] || {}
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
-  // const lastIndex = path.length - 1
+  const lastIndex = path.length - 1
   const objectPath: string[] = isObject
     ? fieldType === 'record'
       ? [...path, 'values', 'properties']
@@ -264,18 +263,16 @@ export const Field = ({
           style={{ flexShrink: 0 }}
         />
         <Text weight={600} style={{ marginLeft: 12, marginRight: 5 }}>
-          {title}
+          {meta?.name}
+        </Text>
+        <Text color="text2" weight={400}>
+          - {path[lastIndex]}
         </Text>
         <Badge color="text" style={{ marginLeft: 12 }}>
           {fieldType}
         </Badge>
-        {format && (
-          <Badge color="accent" style={{ marginLeft: 12 }}>
-            {format}
-          </Badge>
-        )}
         {systemFields.has(field) && (
-          <Badge color="text" ghost outline style={{ marginLeft: 12 }}>
+          <Badge color="text" style={{ marginLeft: 12 }}>
             System Field
           </Badge>
         )}
