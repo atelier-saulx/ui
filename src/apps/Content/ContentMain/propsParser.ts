@@ -13,6 +13,29 @@ export type ParseCtx = {
   setOverlay: (view: View) => void
 }
 
+const parse$Files = async (
+  s: any,
+  files: (f: any, prev?: any, k?: string) => Promise<any>,
+  prev?: any,
+  k?: string
+): Promise<any> => {
+  if (typeof s === 'object' && s) {
+    if (s.$files && s.$type && s.$key) {
+      return await files(s, prev, k)
+    } else {
+      const x: any = {}
+      for (const key in s) {
+        const y = await parse$Files(s[key], files, x, key)
+        if (y !== undefined && y !== null) {
+          x[key] = y
+        }
+      }
+      return x
+    }
+  }
+  return s
+}
+
 export const parseFunction = (
   config: any,
   ctx: ParseCtx
@@ -22,10 +45,57 @@ export const parseFunction = (
   if (config.function) {
     // TODO: also support .publish, query.get and some others! stream?
     return async (...args) => {
-      const { name, payload } = parseProps(config.function, {
+      let { name, payload } = parseProps(config.function, {
         ...ctx,
         args,
       })
+
+      payload = await parse$Files(payload, async (files, k, prev) => {
+        if (name === 'db:set') {
+          // TODO: get rid of url
+          if (files.$type === 'string' || files.$type === 'url') {
+            if (files.$data.type === 'file' && files.$key === 'src') {
+              await ctx.client.stream(
+                'db:file-upload',
+                {
+                  payload: {
+                    id: files.$data.id,
+                  },
+                  contents: files.$files[0],
+                },
+                (p) => {
+                  console.info('progress...', p)
+                }
+              )
+            } else {
+              const { src } = await ctx.client.stream(
+                'file:upload',
+                {
+                  contents: files.$files[0],
+                },
+                (p) => {
+                  console.info('progress...', p)
+                }
+              )
+              return src
+            }
+          } else {
+            const { id } = await ctx.client.stream(
+              'db:file-upload',
+              {
+                contents: files.$files[0],
+              },
+              (p) => {
+                console.info('progress...', p)
+              }
+            )
+            return id
+
+            // TODO: todo little ref boy
+          }
+        }
+      })
+
       return ctx.client.call(name, payload)
     }
   }
@@ -130,7 +200,6 @@ export const parseProps = (
       newObj[key] = obj[key]
       continue
     }
-
     const field = obj[key]
     if (/^on[A-Z]([a-z])+/.test(key)) {
       if (typeof field === 'object') {
@@ -140,6 +209,20 @@ export const parseProps = (
       }
     } else if (typeof field === 'object') {
       newObj[key] = parseProps(field, ctx, excludeFields)
+
+      if (key === '$filter') {
+        if (Array.isArray(newObj[key])) {
+          for (let i = 0; i < newObj[key].length; i++) {
+            if (
+              newObj[key][i].$operator === 'includes' &&
+              !newObj[key][i].$value
+            ) {
+              newObj[key].splice(i, 1)
+              break
+            }
+          }
+        }
+      }
     } else if (typeof field === 'string') {
       newObj[key] = parseString(field, ctx)
     } else {

@@ -16,30 +16,93 @@ import {
   color,
   Badge,
   AttachmentIcon,
-  AudioIcon,
-  PlayIcon,
-  FileIcon,
-  TextIcon,
+  ThumbnailFile,
+  IdIcon,
+  CheckIcon,
+  Row,
+  pathReader,
+  useCopyToClipboard,
+  Toggle,
 } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
+import { prettyDate } from '@based/pretty-date'
+import { useClient } from '@based/react'
 
 export * from './types'
 
-const GreySquareBg = styled('div', {
-  position: 'absolute',
-  top: -4,
-  width: 32,
-  borderRadius: 4,
-  height: 32,
-  backgroundColor: color('background2'),
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-})
+const TYPE_WIDTHS = {
+  file: 100,
+  reference: 100,
+  id: 140,
+  references: 130,
+  bytes: 130,
+  boolean: 100,
+}
+
+const BooleanToggle: FC<{
+  item: any
+  k: string
+  itemData: boolean
+}> = ({ item, k, itemData }) => {
+  const client = useClient()
+  return (
+    <Toggle
+      value={itemData}
+      onChange={
+        item.id
+          ? (v) => {
+              const s: any = { $id: item.id }
+              if (Array.isArray(k)) {
+                let t = s
+                for (let i = 0; i < k.length; i++) {
+                  if (i === k.length - 1) {
+                    t[k[i]] = v
+                  } else if (!t[k[i]]) {
+                    t = t[k[i]] = {}
+                  }
+                }
+              } else {
+                s[k] = v
+              }
+              return client.call('db:set', s)
+            }
+          : null
+      }
+    />
+  )
+}
+
+const IdBadge: FC<{
+  itemData: string
+}> = ({ itemData }) => {
+  const [copied, copy] = useCopyToClipboard(itemData)
+  return (
+    <Badge
+      color="accent"
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        copy()
+      }}
+      icon={copied ? <CheckIcon color="accent" /> : ''}
+      style={{
+        display: 'flex',
+        paddingLeft: 8,
+        paddingRight: 8,
+        borderRadius: 32,
+        justifyContent: 'center',
+      }}
+    >
+      <Text color="accent" typography="caption600">
+        {itemData}
+      </Text>
+    </Badge>
+  )
+}
 
 const Header: FC<{
   headerWidth: number
@@ -66,9 +129,13 @@ const Header: FC<{
           width: w,
         }}
       >
-        <Text typography="body600" color={outline ? 'text2' : 'text'}>
-          {header.label ?? header.key}
-        </Text>
+        {header.customLabelComponent ? (
+          <header.customLabelComponent />
+        ) : (
+          <Text typography="body600" color={outline ? 'text2' : 'text'}>
+            {header.label ?? header.key}
+          </Text>
+        )}
       </styled.div>
     )
     total += w
@@ -86,20 +153,6 @@ const Header: FC<{
       {children}
     </styled.div>
   )
-}
-
-const pathReader = (a: any, path: string[]): any => {
-  let d = a
-  for (let i = 0; i < path.length; i++) {
-    const seg = path[i]
-    if (d?.[seg] !== undefined) {
-      d = d[seg]
-    } else {
-      d = undefined
-      break
-    }
-  }
-  return d
 }
 
 const Cell = (props) => {
@@ -121,36 +174,14 @@ const Cell = (props) => {
         break
       }
     }
-
-    console.info(rowData, itemData)
   } else {
     itemData = pathReader(rowData, header.key.split('.'))
   }
 
   const onClick = header.onClick ?? props.data.onClick
-
   const type = header.type
 
-  const isReferences = type === 'references'
-  const isReference = type === 'reference'
-
-  const mimeType =
-    header?.mimeType ?? header.mimeTypeKey
-      ? pathReader(rowData, header.mimeTypeKey.split('.'))
-      : undefined
-
-  const isImg = mimeType?.includes('image/')
-  const isVideo = mimeType?.includes('video/')
-  const isAudio = mimeType?.includes('audio/')
-  const isTextFile = mimeType?.includes('text/')
-  const isFontFile = mimeType?.includes('font/')
-
-  if (isReferences) {
-    itemData = itemData?.length || 0
-  }
-
-  // console.log('Item data??', itemData)
-
+  // Make this into a map /  a bit nicer
   const body = header.customComponent ? (
     createElement(header.customComponent, {
       data: rowData,
@@ -159,84 +190,37 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
-  ) : isImg ? (
-    <styled.div style={{ position: 'relative' }}>
-      <styled.div
-        style={{
-          position: 'absolute',
-          top: -4,
-          width: 32,
-          borderRadius: 4,
-          height: 32,
-          backgroundColor: color('accent', true),
-          backgroundSize: 'cover',
-          backgroundImage: `url(${itemData})`,
-        }}
-      />
-    </styled.div>
-  ) : isVideo ? (
-    <styled.div style={{ position: 'relative' }}>
-      <styled.div
-        style={{
-          position: 'absolute',
-          top: -4,
-          width: 32,
-          height: 32,
-          borderRadius: 4,
-          backgroundColor: 'black',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <PlayIcon style={{ color: 'white', position: 'absolute' }} size={14} />
-        <video src={itemData + '#t=5'} />
-      </styled.div>
-    </styled.div>
-  ) : isAudio ? (
-    <styled.div style={{ position: 'relative' }}>
-      <GreySquareBg>
-        <AudioIcon />
-      </GreySquareBg>
-    </styled.div>
-  ) : isTextFile ? (
-    <styled.div style={{ position: 'relative' }}>
-      <GreySquareBg>
-        <FileIcon />
-      </GreySquareBg>
-    </styled.div>
-  ) : isFontFile ? (
-    <styled.div style={{ position: 'relative' }}>
-      <GreySquareBg>
-        <TextIcon size={14} />
-      </GreySquareBg>
-    </styled.div>
-  ) : isReference ? (
-    <styled.div style={{ position: 'relative' }}>
-      <styled.div
-        style={{
-          position: 'absolute',
-          top: -4,
-          width: 32,
-          borderRadius: 4,
-          height: 32,
-          backgroundColor: color('lightaccent'),
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <AttachmentIcon color="accent" size={14} />
-      </styled.div>
-    </styled.div>
-  ) : isReferences ? (
+  ) : type === 'boolean' ? (
+    <BooleanToggle item={rowData} itemData={itemData} k={key} />
+  ) : type === 'file' || type == 'reference' ? (
+    <ThumbnailFile
+      mimeType={
+        header?.mimeType ?? header.mimeTypeKey
+          ? pathReader(rowData, header.mimeTypeKey.split('.'))
+          : undefined
+      }
+      src={typeof itemData === 'object' ? itemData?.src : itemData}
+    />
+  ) : type === 'id' ? (
+    <IdBadge itemData={itemData} />
+  ) : type === 'timestamp' ? (
+    <Text selectable typography="body400">
+      {prettyDate(itemData, 'date-time-human')}{' '}
+    </Text>
+  ) : type === 'references' ? (
     <Badge color="accent" icon={<AttachmentIcon />}>
       <Text typography="caption600" color="accent">
-        {prettyNumber(itemData, 'number-short')}
+        {prettyNumber(itemData?.length || 0, 'number-short')}
       </Text>
     </Badge>
   ) : (
-    <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
+    <Text selectable typography={type === 'bytes' ? 'caption500' : 'body500'}>
+      {type === 'bytes'
+        ? prettyNumber(itemData, 'number-bytes')
+        : typeof itemData === 'object'
+        ? 'isObj'
+        : itemData}{' '}
+    </Text>
   )
 
   return (
@@ -326,7 +310,14 @@ const SizedGrid: FC<TableProps> = (props) => {
     if (h.width) {
       w += h.width
     } else {
-      nonAllocated++
+      const typeWidth = TYPE_WIDTHS[h.type]
+
+      if (typeWidth) {
+        h.width = typeWidth
+        w += h.width
+      } else {
+        nonAllocated++
+      }
     }
   }
 
@@ -356,7 +347,7 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   const parsedData = query ? result.items : data
 
-  defW = Math.max(Math.floor((width - w - 20) / nonAllocated), 100)
+  defW = Math.max(Math.floor((width - w - 8) / nonAllocated), 100)
 
   const timer = useRef<ReturnType<typeof setTimeout>>()
 
@@ -398,7 +389,9 @@ const SizedGrid: FC<TableProps> = (props) => {
           outline={props.outline}
         />
       </styled.div>
+      {/* TODO: wrap in styled and share froms scroll area */}
       <Grid
+        className="go2015383901 go3565260572 go2201354693 go4127164290"
         onScroll={(e) => {
           result.onScrollY(e.scrollTop)
           headerWrapper.current.scrollLeft = e.scrollLeft

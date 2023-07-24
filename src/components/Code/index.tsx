@@ -18,22 +18,38 @@ export type CodeProps = {
   value?: string
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
   topRight?: FC | ReactNode
+  header?: ReactNode
 }
 
-export const Code: FC<CodeProps> = ({ topRight, value, style, onChange }) => {
+export const Code: FC<CodeProps> = ({
+  topRight,
+  value,
+  style,
+  onChange,
+  header,
+}) => {
   return (
     <styled.div
       style={{
         width: '100%',
-        padding: 16,
         position: 'relative',
         maxWidth: '100%',
         borderRadius: 4,
         border: border(1, 'border'),
         background: color('background2dp'),
+        overflow: 'hidden',
         ...style,
       }}
     >
+      {header && (
+        <div
+          style={{
+            background: color('border'),
+          }}
+        >
+          {header}
+        </div>
+      )}
       {topRight ? (
         <styled.div
           style={{
@@ -45,6 +61,7 @@ export const Code: FC<CodeProps> = ({ topRight, value, style, onChange }) => {
           {renderOrCreateElement(topRight)}
         </styled.div>
       ) : null}
+
       <Editor
         value={value}
         onValueChange={onChange}
@@ -55,6 +72,7 @@ export const Code: FC<CodeProps> = ({ topRight, value, style, onChange }) => {
           } catch (err) {}
         }}
         style={{
+          margin: 16,
           fontSize: 14,
           color: color('accent'),
           fontFamily: 'Fira Code, monospace, sans-serif',

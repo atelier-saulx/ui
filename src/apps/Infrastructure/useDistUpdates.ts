@@ -39,7 +39,12 @@ export const useDistUpdates = (
           (d) => d.checksum === service.distChecksum
         )
         if (!currentDist) {
-          console.warn('Cannot find dist for', serviceName)
+          // is detached
+          needUpdate.push({
+            configName,
+            dist: serviceDists[0],
+            fromVersion: 'Detached',
+          })
         } else {
           for (const d of serviceDists) {
             if (d.index > currentDist.index) {

@@ -1,5 +1,5 @@
 import { useQuery } from '@based/react'
-import { useLanguage } from '~'
+import { resizeImage, useLanguage } from '~'
 
 export const getImageSrcFromId = (id) => {
   const { language } = useLanguage()
@@ -8,6 +8,5 @@ export const getImageSrcFromId = (id) => {
     $language: language,
     src: true,
   })
-
-  return data.src ? data.src + '?w=100&h=100' : null
+  return resizeImage(data.src, 100)
 }

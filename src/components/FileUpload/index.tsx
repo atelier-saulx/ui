@@ -28,10 +28,10 @@ type FileUploadProps = {
   descriptionBottom?: string
   indent?: boolean
   onChange?: (file: File[]) => void
-  // onChange?: (file: File[], onProgress: (p: number) => void) => void
   style?: Style
   progress?: number
   disabled?: boolean
+  looseMime?: boolean
   mime?: string[]
   multiple?: boolean
   value?: [{ name?: string; type?: MimeType; src: string }]
@@ -58,6 +58,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   disabled,
   multiple,
   value,
+  looseMime,
   mime,
 }) => {
   let [uploadedFiles, setUploadedFiles] = usePropState(value)
@@ -67,23 +68,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [, setIsFocused] = useState(false)
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
-
-  // wrap onChange here
-  /*
-    onChange = (files)) => {
-      const [progress, setProgress] = useState(undefined)
-
-        onChangeFromProps(files, setProgress)
-    
-    }
-  */
-
-  // const [progress, setProgress] = useState(undefined)
-  // const onChangeFromProps = onChange
-  // onChange = (file, progress) => {
-  //   onChangeFromProps(file, setProgress)
-  //   console.log(progress)
-  // }
 
   const hiddenFileInput = useRef(null)
 
@@ -95,8 +79,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const { prompt } = useDialog()
   const fullScreenDialog = useDialog()
   const handleClickUpload = async () => {
-    // now we are gonna open new modal here
-
     let otherUrlInputValue = ''
 
     dialog.open(
@@ -110,7 +92,6 @@ export const FileUpload: FC<FileUploadProps> = ({
               fill
               textAlign="center"
               onClick={() => {
-                // upload
                 if (!disabled) {
                   hiddenFileInput.current.click()
                   removeOverlay()
@@ -203,8 +184,6 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
-
-    console.log('new value --> ', newValue)
   }
 
   // should TODO delete file instead of the onChange([])
@@ -394,7 +373,9 @@ export const FileUpload: FC<FileUploadProps> = ({
           position: 'relative',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <styled.div
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           <Label
             label={label}
             labelColor={disabled ? 'text2' : 'text'}
@@ -412,9 +393,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               Clear
             </Button>
           )}
-        </div>
-
-        {/* <ProgressIndicator progress={Math.round(progress * 100)} /> */}
+        </styled.div>
 
         {uploadedFiles?.length > 0 &&
           uploadedFiles.map((file, idx) => (
@@ -428,7 +407,6 @@ export const FileUpload: FC<FileUploadProps> = ({
               openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
               renameFile={renameFile}
               fileName={fileName}
-              //   fullScreenView={() => fullScreenView(file)}
               fullScreenView={fullScreenView}
               key={idx}
               id={idx}
@@ -442,12 +420,9 @@ export const FileUpload: FC<FileUploadProps> = ({
               progress={progress}
               style={{ position: 'absolute', left: 16, top: 70 }}
             />
-            {/* <LoadingIcon style={{ marginRight: 10 }} />
-            {`${Math.round(progress * 100)}%`} */}
           </styled.div>
         ) : null}
 
-        {/* // end map */}
         <StyledFileInput
           onClick={handleClickUpload}
           onDragOver={(e) => {
@@ -500,7 +475,7 @@ export const FileUpload: FC<FileUploadProps> = ({
           }}
           type="file"
           style={{ display: 'none' }}
-          accept={mime ? mime?.join(',') : '/*'}
+          accept={!looseMime && mime ? mime?.join(',') : '/*'}
           // onLoadedData={(e) => console.log('ARRR', e)}
           key={clearCount}
           multiple={multiple}

@@ -1,5 +1,20 @@
-import React, { CSSProperties, FC, ReactNode, useState } from 'react'
-import { color, Text, ErrorIcon, styled, Color, Label, Button } from '~'
+import React, {
+  CSSProperties,
+  FC,
+  MouseEventHandler,
+  ReactNode,
+  useState,
+} from 'react'
+import {
+  color,
+  Text,
+  ErrorIcon,
+  styled,
+  Color,
+  Label,
+  Button,
+  useHover,
+} from '~'
 
 type InputWrapperProps = {
   children: ReactNode
@@ -14,7 +29,7 @@ type InputWrapperProps = {
   onMouseEnter?: () => void
   onMouseLeave?: () => void
   color?: Color
-  onClick?: () => void
+  onClick?: MouseEventHandler
   onBlur?: () => void
   value?: any
   setValue?: (e) => void
@@ -41,7 +56,6 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   ...props
 }) => {
   const [focus, setFocus] = useState(false)
-
   return (
     <styled.div
       onFocus={() => {
@@ -78,16 +92,17 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             description={description}
             style={{ marginBottom: 6, marginLeft: 4 }}
           />
-          {value !== '' && indent && !hideClearButton && (
+          {indent && !hideClearButton && (
             <Button
               ghost
               onClick={() => {
-                // @ts-ignore
                 onChangeProp?.('')
                 setValue('')
               }}
               disabled={disabled}
               style={{
+                opacity: focus && value !== '' ? 1 : 0,
+                transition: 'opacity 0.2s',
                 height: 'fit-content',
                 marginTop: description ? 0 : -6,
                 marginBottom: description ? 0 : 6,

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import {
   styled,
   useContextMenu,
@@ -8,8 +8,10 @@ import {
   useContextState,
   Button,
   MoreIcon,
+  Input,
+  SearchIcon,
   Table,
-  useDialog,
+  AddIcon,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { parseProps } from '../propsParser'
@@ -27,7 +29,17 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   const [target, setTarget] = useContextState<any>('target')
   const [, setOverlayTarget] = useContextState<any>('overlay-target')
   const isTable = view.config.view === 'table'
+  const ref = useRef<ReturnType<typeof setTimeout>>()
+  const typing = useRef<boolean>()
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(ref.current)
+    }
+  }, [])
+
   const targetDefaults = view.config?.target ?? {}
+  const showFilter = view.config?.showFilter
   const client = useClient()
   const ctx = {
     data: {},
@@ -46,16 +58,14 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
       }
     },
   }
+  const payload = parseProps(view.config.function?.payload, ctx)
 
-  const { data } = useQuery(
-    view.config.function?.name,
-    parseProps(view.config.function?.payload, ctx)
-  )
+  const { data } = useQuery(view.config.function?.name, payload)
+
+  console.log(data, payload)
 
   ctx.data = data
-
   const props = parseProps(view.config.props ?? {}, ctx)
-
   return (
     <ScrollArea
       style={{
@@ -81,12 +91,12 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
         <Row
           style={{
             justifyContent: 'space-between',
-            paddingLeft: 32,
-            paddingRight: 32,
+            paddingLeft: 16,
+            paddingRight: 16,
           }}
         >
           <Row>
-            <Text typography="subtitle500">{props.name ?? view.name}</Text>
+            <Text typography="title2">{props.name ?? view.name}</Text>
             <Button
               style={{ marginLeft: 16 }}
               ghost
@@ -94,11 +104,47 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
               icon={MoreIcon}
             />
           </Row>
-          {props.button ? <Button {...props.button} /> : null}
-        </Row>
 
-        <styled.div style={{ width: '100%', height: '100%', padding: 24 }}>
-          {isTable && <Table {...props} />}
+          {showFilter ? (
+            <Input
+              bg
+              icon={<SearchIcon />}
+              value={target?.filter}
+              type="text"
+              style={{
+                width: '100%',
+                maxWidth: 400,
+              }}
+              placeholder="Filter..."
+              onChange={(v) => {
+                const x = { ...target }
+                if (!v) {
+                  delete x.filter
+                } else {
+                  x.filter = v
+                }
+                clearTimeout(ref.current)
+                typing.current = true
+                ref.current = setTimeout(() => {
+                  typing.current = false
+                  setTarget(x)
+                }, 300)
+              }}
+            />
+          ) : null}
+
+          {props.button ? (
+            <Button ghost color="accent" icon={AddIcon} {...props.button} />
+          ) : null}
+        </Row>
+        <styled.div
+          style={{
+            height: '100%',
+            paddingTop: 24,
+            paddingBottom: 24,
+          }}
+        >
+          {!typing.current && isTable && <Table {...props} />}
         </styled.div>
       </styled.div>
     </ScrollArea>

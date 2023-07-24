@@ -10,14 +10,16 @@ export const sortFields = (fields: {
   [key: string]: BasedSchemaField | BasedSchemaFieldShared
 }): string[] => {
   return Object.keys(fields).sort((a, b) => {
+
     // TODO: index type needs to be added to BasedSchemaField
     const indexA = fields[a]?.index
     const indexB = fields[b]?.index
+
     if (indexA === undefined) {
       if (indexB === undefined) {
         if (systemFields.has(a)) {
           if (!systemFields.has(b)) {
-            return -1
+            return 1
           }
         } else if (systemFields.has(b)) {
           return 1

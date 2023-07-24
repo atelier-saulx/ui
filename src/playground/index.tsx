@@ -61,6 +61,7 @@ const Login = () => {
           onConfirm={async () => {
             await adminClient.call('login', {
               email,
+              // @ts-ignore
               skipEmailForTesting: cluster === 'local',
               code:
                 (~~(Math.random() * 1e6)).toString(16) + ' ' + ' ui-playground',

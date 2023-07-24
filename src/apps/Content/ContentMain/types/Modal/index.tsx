@@ -15,8 +15,12 @@ import {
   Badge,
   CheckIcon,
   LoadingIcon,
+  useSchema,
+  ScrollArea,
+  IdIcon,
 } from '~'
 import { ContentEditor } from './ContentEditor'
+import { createTypeModal } from '../schema'
 
 export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const [, setView] = useContextState<any>('view')
@@ -26,11 +30,20 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     useContextState<any>('overlay-target')
   const [, setTarget] = useContextState<any>('target')
   const client = useClient()
-  const { data: overlayData } = useQuery('db', {
+  const { schema, loading: schemaLoading } = useSchema()
+
+  const isType = overlay?.startsWith('type-')
+
+  let { data: overlayData } = useQuery(isType ? null : 'db', {
     $db: 'config',
     $id: overlay,
     $all: true,
   })
+
+  if (isType && !schemaLoading) {
+    overlayData = createTypeModal(schema, overlay.replace(/^type-/, ''))
+  }
+
   const targetDefaults = overlayData?.config?.target ?? {}
   const ctx = {
     data: {},
@@ -51,12 +64,26 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   }
   const { data, loading } = useQuery(
     overlayData?.config?.function?.name,
-    parseProps(overlayData?.config.function?.payload ?? {}, ctx)
+    parseProps(overlayData?.config?.function?.payload ?? {}, ctx)
   )
-  ctx.data = data
-  const props = parseProps(overlayData?.config.props ?? {}, ctx)
 
   const [copied, copy] = useCopyToClipboard(data?.id)
+
+  if (!overlayData) {
+    return <LoadingIcon />
+  }
+
+  ctx.data = data
+  const props = parseProps(overlayData?.config?.props ?? {}, ctx)
+
+  let hasChanges = false
+
+  for (const k in state) {
+    if (state[k] !== undefined && state[k] !== null) {
+      hasChanges = true
+      break
+    }
+  }
 
   return (
     <styled.div
@@ -70,15 +97,15 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
       }}
     >
       {loading ? (
-        <styled.div style={{ flexGrow: 1, overflowY: 'auto', padding: 48 }}>
+        <ScrollArea style={{ flexGrow: 1, padding: 48 }}>
           <Row>
             <LoadingIcon />
             <Text style={{ marginLeft: 8 }}>Loading...</Text>
           </Row>
-        </styled.div>
+        </ScrollArea>
       ) : (
         <>
-          <styled.div style={{ flexGrow: 1, overflowY: 'auto' }}>
+          <ScrollArea style={{ flexGrow: 1 }}>
             <styled.div
               style={{
                 borderBottom: `1px solid ${color('border')}`,
@@ -95,7 +122,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
                 fields={props.fields ?? []}
               />
             </styled.div>
-          </styled.div>
+          </ScrollArea>
 
           <styled.div
             style={{
@@ -134,7 +161,16 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
             >
               <Text typography="caption600">STATUS</Text>
             </styled.div>
-            <Button {...props.saveButton} />
+            <Button
+              disabled={!hasChanges}
+              displayShortcut
+              keyboardShortcut="Cmd+S"
+              {...props.saveButton}
+              onClick={async (e) => {
+                await props.saveButton.onClick(e)
+                setState(null)
+              }}
+            />
 
             {props.deleteButton ? (
               <Button
@@ -149,30 +185,36 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
               />
             ) : null}
 
-            {/* <Text color="text2" style={{ marginBottom: 12 }}>
-          Last snurp
-        </Text> */}
-            <styled.div
-              style={{
-                borderBottom: `1px solid ${color('border')}`,
-                height: 54,
-                marginBottom: 16,
-                display: 'flex',
-                alignItems: 'end',
-                paddingBottom: 8,
-              }}
-            >
-              <Text typography="caption600">ID</Text>
-            </styled.div>
             <Badge
               onClick={() => copy()}
-              icon={copied ? <CheckIcon /> : ''}
-              style={{ marginBottom: 6 }}
+              icon={copied ? <CheckIcon color="accent" /> : ''}
+              style={{
+                marginBottom: 6,
+                marginTop: 32,
+                padding: 8,
+                paddingLeft: 16,
+                paddingRight: 16,
+                borderRadius: 32,
+              }}
             >
-              {data?.id}
+              <Row>
+                <IdIcon
+                  color="accent"
+                  style={{
+                    marginRight: 8,
+                  }}
+                />
+                <Text>{data?.id}</Text>
+              </Row>
             </Badge>
             {copied && (
-              <Text typography="caption500">copied to clipboard!</Text>
+              <Text
+                color="text2"
+                style={{ marginTop: 12, marginLeft: 16 }}
+                typography="caption500"
+              >
+                copied to clipboard
+              </Text>
             )}
             <styled.div
               style={{

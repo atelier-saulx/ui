@@ -1,6 +1,25 @@
-import React, { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
-import { Color, Size, Icon } from '~/types'
-import { color, renderOrCreateElement, boxShadow } from '~/utils'
+import React, {
+  FC,
+  CSSProperties,
+  FunctionComponent,
+  ReactNode,
+  MouseEventHandler,
+} from 'react'
+import {
+  Color,
+  Size,
+  Icon,
+  AudioIcon,
+  PlayIcon,
+  FileIcon,
+  TextIcon,
+  AttachmentIcon,
+  color,
+  renderOrCreateElement,
+  boxShadow,
+  resizeImage,
+  border,
+} from '~'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 
@@ -30,6 +49,109 @@ const CounterBadge = styled('div', {
   boxShadow: boxShadow('small'),
 })
 
+const GreySquareBg = styled('div', {
+  position: 'absolute',
+  top: -4,
+  width: 32,
+  borderRadius: 4,
+  height: 32,
+  backgroundColor: color('background2'),
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+})
+
+type ThumbnailFileProps = {
+  mimeType?: string
+  src?: string
+  onClick?: MouseEventHandler<HTMLDivElement>
+}
+
+export const ThumbnailFile: FC<ThumbnailFileProps> = ({
+  mimeType,
+  src,
+  onClick,
+}) => {
+  const isImg = mimeType?.includes('image/')
+  const isVideo = mimeType?.includes('video/')
+  const isAudio = mimeType?.includes('audio/')
+  const isTextFile = mimeType?.includes('text/')
+  const isFontFile = mimeType?.includes('font/')
+
+  return isImg ? (
+    <styled.div style={{ position: 'relative' }}>
+      <styled.div
+        style={{
+          position: 'absolute',
+          top: -4,
+          width: 32,
+          borderRadius: 4,
+          height: 32,
+          backgroundPosition: 'center',
+          backgroundColor: color('accent', true),
+          backgroundSize: 'cover',
+          backgroundImage: `url(${resizeImage(src, 32)})`,
+        }}
+      />
+    </styled.div>
+  ) : isVideo ? (
+    <styled.div style={{ position: 'relative' }}>
+      <styled.div
+        style={{
+          position: 'absolute',
+          top: -4,
+          width: 32,
+          height: 32,
+          borderRadius: 4,
+          backgroundColor: 'black',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <PlayIcon style={{ color: 'white', position: 'absolute' }} size={14} />
+        <video src={src + '#t=5'} />
+      </styled.div>
+    </styled.div>
+  ) : isAudio ? (
+    <styled.div style={{ position: 'relative' }}>
+      <GreySquareBg>
+        <AudioIcon />
+      </GreySquareBg>
+    </styled.div>
+  ) : isTextFile ? (
+    <styled.div style={{ position: 'relative' }}>
+      <GreySquareBg>
+        <FileIcon />
+      </GreySquareBg>
+    </styled.div>
+  ) : isFontFile ? (
+    <styled.div style={{ position: 'relative' }}>
+      <GreySquareBg>
+        <TextIcon size={14} />
+      </GreySquareBg>
+    </styled.div>
+  ) : (
+    <styled.div style={{ position: 'relative' }}>
+      <styled.div
+        style={{
+          position: 'absolute',
+          top: -4,
+          width: 32,
+          borderRadius: 4,
+          height: 32,
+          backgroundColor: color('lightaccent'),
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <AttachmentIcon color="accent" size={14} />
+      </styled.div>
+    </styled.div>
+  )
+}
+
 export const Thumbnail: FC<ThumbnailProps> = ({
   size = 40,
   img,
@@ -42,13 +164,12 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   ...props
 }) => {
   return (
-    <div
+    <styled.div
       style={{
         backgroundColor: color(colorProp),
         borderRadius: 8,
         color: color(colorProp, 'contrast'),
-        // @ts-ignore
-        border: outline ? `1px solid ${color(colorProp + ':hover')}` : 'none',
+        border: outline ? `1px solid ${color(colorProp, 'hover')}` : 'none',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -77,9 +198,10 @@ export const Thumbnail: FC<ThumbnailProps> = ({
           {label[0].toUpperCase() + label[1].toUpperCase()}
         </Text>
       ) : icon ? (
-        // @ts-ignore
-        renderOrCreateElement(icon, { size: size > 40 ? 20 : 16 })
+        renderOrCreateElement(icon, {
+          size: typeof size === 'number' && size > 40 ? 20 : 16,
+        })
       ) : null}
-    </div>
+    </styled.div>
   )
 }

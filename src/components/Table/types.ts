@@ -13,8 +13,11 @@ export type TableHeader<T> = {
   key: string
   width?: number
   label?: ReactNode
+  mimeTypeKey?: string
+  type?: string
   showColumnCheckbox?: boolean
   customComponent?: TableCustomComponent<T>
+  customLabelComponent?: FC
 }
 
 export type SortOptions = {

@@ -44,7 +44,9 @@ export const Toggle: FC<ToggleProps> = ({
         width: 'fit-content',
         cursor: 'pointer',
       }}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
         const newChecked = !checked
         setChecked(newChecked)
         onChange?.(newChecked)

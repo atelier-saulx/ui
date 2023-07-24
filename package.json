@@ -1,6 +1,6 @@
 {
   "name": "@based/ui",
-  "version": "5.10.11",
+  "version": "5.11.11",
   "description": "",
   "main": "dist/index.js",
   "scripts": {

@@ -5,66 +5,66 @@ import { client } from '../../based'
 // vi
 
 export const Content = () => {
-  useEffect(() => {
-    // client.call('db:set', {
-    //   $db: 'config',
-    //   type: 'view',
-    //   $id: 'vitable',
-    //   config: table,
-    //   name: 'Files',
-    //   category: 'data',
-    //   hidden: false,
-    // })
-    client.call('db:set', {
-      $db: 'config',
-      type: 'view',
-      $id: 'viitems',
-      config: itemTable,
-      name: 'Items',
-      category: 'data',
-      hidden: false,
-    })
-    client.call('db:set', {
-      $db: 'config',
-      type: 'view',
-      $id: 'vibutton',
-      config: button,
-      name: 'BUTTON',
-      category: 'dashboard',
-      hidden: false,
-    })
-    client.call('db:set', {
-      $db: 'config',
-      type: 'view',
-      $id: 'vimodal',
-      config: contentEditModal,
-      name: 'EDIT-MODAL',
-      category: 'hidden',
-      hidden: true,
-    })
-    client.call('db:set-schema', {
-      schema: {
-        types: {
-          item: {
-            fields: {
-              name: { type: 'string' },
-              title: { type: 'text' },
-              picture: {
-                type: 'reference',
-                meta: { type: 'file', mime: 'image' },
-              },
-              startingPrice: { type: 'number' },
-              currentBid: { type: 'number' },
-              bids: {
-                type: 'references',
-                bidirectional: { fromField: 'item' },
-              },
-            },
-          },
-        },
-      },
-    })
-  }, [])
+  // useEffect(() => {
+  //   // client.call('db:set', {
+  //   //   $db: 'config',
+  //   //   type: 'view',
+  //   //   $id: 'vitable',
+  //   //   config: table,
+  //   //   name: 'Files',
+  //   //   category: 'data',
+  //   //   hidden: false,
+  //   // })
+  //   client.call('db:set', {
+  //     $db: 'config',
+  //     type: 'view',
+  //     $id: 'viitems',
+  //     config: itemTable,
+  //     name: 'Items',
+  //     category: 'data',
+  //     hidden: false,
+  //   })
+  //   client.call('db:set', {
+  //     $db: 'config',
+  //     type: 'view',
+  //     $id: 'vibutton',
+  //     config: button,
+  //     name: 'BUTTON',
+  //     category: 'dashboard',
+  //     hidden: false,
+  //   })
+  //   client.call('db:set', {
+  //     $db: 'config',
+  //     type: 'view',
+  //     $id: 'vimodal',
+  //     config: contentEditModal,
+  //     name: 'EDIT-MODAL',
+  //     category: 'hidden',
+  //     hidden: true,
+  //   })
+  //   client.call('db:set-schema', {
+  //     schema: {
+  //       types: {
+  //         item: {
+  //           fields: {
+  //             name: { type: 'string' },
+  //             title: { type: 'text' },
+  //             picture: {
+  //               type: 'reference',
+  //               meta: { type: 'file', mime: 'image' },
+  //             },
+  //             startingPrice: { type: 'number' },
+  //             currentBid: { type: 'number' },
+  //             bids: {
+  //               type: 'references',
+  //               bidirectional: { fromField: 'item' },
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
+  //   })
+  // }, [])
 
   return (
     <div>
@@ -83,7 +83,9 @@ const route = useRoute('[view]');
 
       route.setPath({ view: v || null })
     } else {
-      route.setQuery({ [key]: v })
+      if (key !== 'overlay-state') {
+        route.setQuery({ [key]: v })
+      }
     }
   }}
   style={{ 

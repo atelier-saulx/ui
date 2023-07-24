@@ -28,6 +28,7 @@ export type ViewComponent = {
 
 export type ContentConfig = {
   type: 'content'
+  showFilter?: boolean
   target?: { [key: string]: any }
   view: 'table' | 'grid'
   function?: { payload?: any; name: string }
