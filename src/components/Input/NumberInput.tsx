@@ -1,7 +1,15 @@
 import React from 'react'
 import { styled, ChevronDownIcon, ChevronUpIcon, color } from '~'
 
-export const NumberInput = ({ onChange, value }) => {
+export const NumberInput = ({
+  onChange,
+  value,
+  min,
+  max,
+  multipleOf,
+  exclusiveMinimum,
+  exclusiveMaximum,
+}) => {
   return (
     <styled.div
       style={{
@@ -31,7 +39,26 @@ export const NumberInput = ({ onChange, value }) => {
           },
         }}
         onClick={() => {
-          onChange({ target: { value: String(+value + 1) } })
+          onChange({
+            target: {
+              value:
+                multipleOf &&
+                max &&
+                exclusiveMaximum &&
+                String(+value + multipleOf) < max
+                  ? String(+value + multipleOf)
+                  : !exclusiveMaximum &&
+                    multipleOf &&
+                    max &&
+                    String(+value + multipleOf) <= max
+                  ? String(+value + multipleOf)
+                  : multipleOf && !max && !exclusiveMaximum
+                  ? String(+value + multipleOf)
+                  : !multipleOf && !exclusiveMaximum && String(+value + 1) < max
+                  ? String(+value + 1)
+                  : String(+value),
+            },
+          })
         }}
       >
         <ChevronUpIcon size={9} strokeWidth={2.5} />
@@ -52,7 +79,13 @@ export const NumberInput = ({ onChange, value }) => {
           },
         }}
         onClick={() => {
-          onChange({ target: { value: String(+value - 1) } })
+          onChange({
+            target: {
+              value: multipleOf
+                ? String(+value - multipleOf)
+                : String(+value - 1),
+            },
+          })
         }}
       >
         <ChevronDownIcon size={9} strokeWidth={2.5} />

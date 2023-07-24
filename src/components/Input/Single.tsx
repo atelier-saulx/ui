@@ -26,6 +26,11 @@ type SingleProps = {
   iconRight?: FunctionComponent<Icon> | ReactNode
   setErrorMessage?: (e) => void
   error?: (str: string, patternMatches?: boolean) => string // show error
+  min?: number
+  max?: number
+  multipleOf?: number
+  exclusiveMinimum?: boolean
+  exclusiveMaximum?: boolean
 }
 
 export const Single: FC<SingleProps> = ({
@@ -41,6 +46,11 @@ export const Single: FC<SingleProps> = ({
   setErrorMessage,
   error,
   // onChange,
+  min,
+  max,
+  multipleOf,
+  exclusiveMinimum,
+  exclusiveMaximum,
   ...props
 }) => {
   useEffect(() => {
@@ -121,7 +131,15 @@ export const Single: FC<SingleProps> = ({
         : null}
 
       {type === 'number' && (
-        <NumberInput value={props.value} onChange={props.onChange} />
+        <NumberInput
+          value={props.value}
+          onChange={props.onChange}
+          min={min}
+          max={max}
+          multipleOf={multipleOf}
+          exclusiveMinimum={exclusiveMinimum}
+          exclusiveMaximum={exclusiveMaximum}
+        />
       )}
     </styled.div>
   )

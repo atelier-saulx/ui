@@ -89,7 +89,12 @@ export const Input = <T extends InputType>({
   suggest,
   transform,
   type,
+  min,
+  max,
+  multipleOf,
   time,
+  exclusiveMinimum,
+  exclusiveMaximum,
   value: valueProp,
   ...otherProps
 }: {
@@ -113,6 +118,9 @@ export const Input = <T extends InputType>({
   name?: string
   min?: number
   max?: number
+  multipleOf?: number
+  exclusiveMinimum?: boolean
+  exclusiveMaximum?: boolean
   inputRef?: RefObject<HTMLDivElement>
   large?: boolean
   disabled?: boolean
@@ -295,6 +303,11 @@ export const Input = <T extends InputType>({
             icon={icon}
             iconRight={iconRight}
             setErrorMessage={setErrorMessage}
+            min={min}
+            max={max}
+            multipleOf={multipleOf}
+            exclusiveMinimum={exclusiveMinimum}
+            exclusiveMaximum={exclusiveMaximum}
           />
         </MaybeSuggest>
       )}
