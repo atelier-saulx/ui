@@ -6,7 +6,7 @@ export const NumberInput = ({
   value,
   min,
   max,
-  multipleOf,
+  multipleOf = 1,
   exclusiveMinimum,
   exclusiveMaximum,
 }) => {
@@ -42,20 +42,12 @@ export const NumberInput = ({
           onChange({
             target: {
               value:
-                multipleOf &&
-                max &&
-                exclusiveMaximum &&
-                String(+value + multipleOf) < max
-                  ? String(+value + multipleOf)
-                  : !exclusiveMaximum &&
-                    multipleOf &&
-                    max &&
-                    String(+value + multipleOf) <= max
+                exclusiveMaximum && String(+value + multipleOf) >= max
+                  ? String(+value)
+                  : multipleOf && max && String(+value + multipleOf) <= max
                   ? String(+value + multipleOf)
                   : multipleOf && !max && !exclusiveMaximum
                   ? String(+value + multipleOf)
-                  : !multipleOf && !exclusiveMaximum && String(+value + 1) < max
-                  ? String(+value + 1)
                   : String(+value),
             },
           })
@@ -81,9 +73,14 @@ export const NumberInput = ({
         onClick={() => {
           onChange({
             target: {
-              value: multipleOf
-                ? String(+value - multipleOf)
-                : String(+value - 1),
+              value:
+                exclusiveMinimum && String(+value - multipleOf) <= min
+                  ? String(+value)
+                  : multipleOf && min && String(+value - multipleOf) >= min
+                  ? String(+value - multipleOf)
+                  : multipleOf && !min && !exclusiveMinimum
+                  ? String(+value - multipleOf)
+                  : String(+value),
             },
           })
         }}
