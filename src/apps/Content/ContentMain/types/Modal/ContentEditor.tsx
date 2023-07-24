@@ -16,6 +16,7 @@ export const ContentEditor: FC<{
   }[]
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
+  console.log('data??', data, fields, state)
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
       {fields?.map((item, i) => (
@@ -51,6 +52,8 @@ const ContentRenderer: FC<{
   const onChange = (v: any) => {
     setState({ ...state, [key]: v })
   }
+
+  console.log('item--->', item, '???')
 
   if (type === 'boolean') {
     return (
@@ -205,7 +208,7 @@ const ContentRenderer: FC<{
       <Input
         label={name}
         type="text"
-        placeholder={'Referenced ID'}
+        placeholder="Referenced ID"
         onChange={onChange}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE, width: 150 }}

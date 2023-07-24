@@ -154,9 +154,66 @@ export const Input = <T extends InputType>({
     (e: { target: { value: string } }) => {
       const newValue = transform ? transform(e.target.value) : e.target.value
       if (type === 'number') {
-        setValue(+e.target.value)
-        // @ts-ignore
-        onChangeProp?.(+newValue)
+        // All this for NUMBER rules /////
+        if (max && !min) {
+          if (!exclusiveMaximum && +e.target.value <= max) {
+            setValue(+e.target.value)
+            // @ts-ignore
+            onChangeProp?.(+newValue)
+          } else if (+e.target.value < max) {
+            setValue(+e.target.value)
+            // @ts-ignore
+            onChangeProp?.(+newValue)
+          }
+        } else if (!max && min) {
+          if (!exclusiveMinimum && +e.target.value >= min) {
+            setValue(+e.target.value)
+            // @ts-ignore
+            onChangeProp?.(+newValue)
+          } else if (+e.target.value > min) {
+            setValue(+e.target.value)
+            // @ts-ignore
+            onChangeProp?.(+newValue)
+          }
+        } else if (max && min) {
+          if (
+            !exclusiveMinimum &&
+            +e.target.value >= min &&
+            !exclusiveMaximum &&
+            +e.target.value <= max
+          ) {
+            setValue(+e.target.value)
+            // @ts-ignore
+            onChangeProp?.(+newValue)
+          } else if (
+            exclusiveMinimum &&
+            +e.target.value > min &&
+            !exclusiveMaximum &&
+            +e.target.value <= max
+          ) {
+            setValue(+e.target.value)
+            // @ts-ignore
+            onChangeProp?.(+newValue)
+          } else if (
+            !exclusiveMinimum &&
+            +e.target.value >= min &&
+            exclusiveMaximum &&
+            +e.target.value < max
+          ) {
+            setValue(+e.target.value)
+            // @ts-ignore
+            onChangeProp?.(+newValue)
+          } else if (
+            exclusiveMinimum &&
+            +e.target.value > min &&
+            exclusiveMaximum &&
+            +e.target.value < max
+          ) {
+            setValue(+e.target.value)
+            // @ts-ignore
+            onChangeProp?.(+newValue)
+          }
+        }
       } else {
         setValue(newValue)
         // @ts-ignore
