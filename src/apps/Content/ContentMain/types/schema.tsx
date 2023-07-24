@@ -1,4 +1,6 @@
-import { BasedSchema, alwaysIgnore, IdIcon, systemFields } from '~'
+import { IdIcon } from '~'
+import { alwaysIgnore, systemFields } from '~/apps/Schema/templates'
+import { BasedSchemaFields, BasedSchema } from '@based/schema'
 
 export const createRootEditor = (schema: BasedSchema): any => {
   const typeSchema = schema.types.root
@@ -9,7 +11,7 @@ export const createRootEditor = (schema: BasedSchema): any => {
     if (!alwaysIgnore.has(field)) {
       const f = typeSchema.fields[field]
       fields.push({
-        name: f?.meta?.name ?? field,
+        title: f?.title ?? field,
         key: field,
         type: f.type,
       })
@@ -31,7 +33,7 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
     return {
       id: 'type-' + type,
       name: type,
-      description: typeSchema.meta?.description || '',
+      description: typeSchema?.description || '',
       category: 'default',
       hidden: false,
       config: {},
@@ -39,14 +41,13 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
   }
 
   const MAX_FIELDS = 6
-  const prettyName =
-    typeSchema.meta?.name || type[0].toUpperCase() + type.slice(1)
+  const prettyName = typeSchema?.title || type[0].toUpperCase() + type.slice(1)
   let idKey: string
   const getFields: any = {}
   let fields = []
 
   for (const field in typeSchema.fields) {
-    if (!alwaysIgnore.has(field)) {
+    if (!alwaysIgnore?.has(field)) {
       const f = typeSchema.fields[field]
 
       if (!f) {
@@ -89,9 +90,9 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
       }
 
       fields.push({
-        index: f.meta?.index ?? systemFields.has(field) ? 1e6 : 100,
-        label:
-          field === 'src' && type === 'file' ? 'Src' : f.meta?.name || field,
+        // index: f.meta?.index ?? systemFields?.has(field) ? 1e6 : 100,
+        index: f.index ?? systemFields?.has(field) ? 1e6 : 100,
+        label: field === 'src' && type === 'file' ? 'Src' : f?.name || field,
         key: field,
         customLabelComponent: field === 'id' ? IdIcon : undefined,
         type: isFile
@@ -121,7 +122,7 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
   return {
     id: 'type-' + type,
     name: prettyName,
-    description: typeSchema.meta?.description || '',
+    description: typeSchema?.description || '',
     category: 'default',
     hidden: false,
     config: {
@@ -215,15 +216,14 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
     return
   }
 
-  const prettyName =
-    typeSchema.meta?.name || type[0].toUpperCase() + type.slice(1)
+  const prettyName = typeSchema?.title || type[0].toUpperCase() + type.slice(1)
   const getFields: any = {
     id: true,
     type: true,
   }
   let fields = []
   for (const field in typeSchema.fields) {
-    if (!alwaysIgnore.has(field) && !systemFields.has(field)) {
+    if (!alwaysIgnore?.has(field) && !systemFields?.has(field)) {
       const f = typeSchema.fields[field]
 
       if (!f) {
@@ -277,7 +277,7 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
   return {
     id: 'type-' + type,
     name: prettyName,
-    description: typeSchema.meta?.description || '',
+    description: typeSchema?.description || '',
     category: 'default',
     hidden: false,
     config: {

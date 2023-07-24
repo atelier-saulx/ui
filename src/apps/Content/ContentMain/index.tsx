@@ -12,7 +12,6 @@ import {
   LoadingIcon,
   Row,
   Container,
-  useSchema,
 } from '~'
 import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'
@@ -22,6 +21,7 @@ import { Content } from './types/Content'
 import { Components } from './types/Custom'
 import { Modal } from './types/Modal'
 import { createRootEditor, createTypeTable } from './types/schema'
+import { useSchema } from '~/apps/Schema/hooks/useSchema'
 
 const AnimatedWrapper = styled('div', {
   height: '100%',

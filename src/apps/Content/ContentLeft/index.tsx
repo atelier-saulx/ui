@@ -17,10 +17,10 @@ import {
   ContextDivider,
   ContextItem,
   useContextMenu,
-  useSchema,
 } from '~'
 import { useViews } from '../hooks/useViews'
 import { AddViewModal } from '../ViewModals'
+import { useSchema } from '~/apps/Schema/hooks/useSchema'
 
 const CategoryMenu: FC<{}> = ({}) => {
   const { open } = useDialog()

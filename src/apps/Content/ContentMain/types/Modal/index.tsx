@@ -15,12 +15,12 @@ import {
   Badge,
   CheckIcon,
   LoadingIcon,
-  useSchema,
   ScrollArea,
   IdIcon,
 } from '~'
 import { ContentEditor } from './ContentEditor'
 import { createTypeModal } from '../schema'
+import { useSchema } from '~/apps/Schema/hooks/useSchema'
 
 export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const [, setView] = useContextState<any>('view')
