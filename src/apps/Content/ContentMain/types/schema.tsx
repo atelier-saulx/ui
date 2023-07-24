@@ -1,6 +1,6 @@
 import { IdIcon } from '~'
 import { alwaysIgnore, systemFields } from '~/apps/Schema/templates'
-import { BasedSchemaFields, BasedSchema } from '@based/schema'
+import { BasedSchemaFieldShared, BasedSchema } from '@based/schema'
 
 export const createRootEditor = (schema: BasedSchema): any => {
   const typeSchema = schema.types.root
@@ -9,7 +9,7 @@ export const createRootEditor = (schema: BasedSchema): any => {
   let fields = []
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore.has(field)) {
-      const f = typeSchema.fields[field]
+      const f: BasedSchemaFieldShared = typeSchema.fields[field]
       fields.push({
         title: f?.title ?? field,
         key: field,
@@ -48,7 +48,7 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
 
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore?.has(field)) {
-      const f = typeSchema.fields[field]
+      const f: BasedSchemaFieldShared = typeSchema.fields[field]
 
       if (!f) {
         console.info(field)
@@ -72,7 +72,7 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
           f.meta?.refTypes[0] === 'file')
 
       const fType = isFile && type === 'file'
-      const isBytes = f.meta?.format === 'bytes'
+      const isBytes = f.format === 'bytes'
 
       let d = false
       let mimeTypeKey = ''
@@ -92,7 +92,7 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
       fields.push({
         // index: f.meta?.index ?? systemFields?.has(field) ? 1e6 : 100,
         index: f.index ?? systemFields?.has(field) ? 1e6 : 100,
-        label: field === 'src' && type === 'file' ? 'Src' : f?.name || field,
+        label: field === 'src' && type === 'file' ? 'Src' : f?.title || field,
         key: field,
         customLabelComponent: field === 'id' ? IdIcon : undefined,
         type: isFile

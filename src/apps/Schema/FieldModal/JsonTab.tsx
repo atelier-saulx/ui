@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from 'inlines'
 import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
+import { Input } from '~'
 
 export const JsonTab = ({ options }) => {
   const [db] = useContextState('db', 'default')
 
   const { schema } = useSchema(db)
 
-  console.log('--> yo?', options)
+  console.log('--> yo --> options?', options)
 
   return (
     <styled.div>
-      <pre
+      {/* <pre
         style={{
           boxSizing: 'inherit',
           display: 'inherit',
@@ -35,7 +36,16 @@ export const JsonTab = ({ options }) => {
         //   dangerouslySetInnerHTML={{ __html: options }}
       >
         {JSON.stringify(options, null, 2)}
-      </pre>
+      </pre> */}
+
+      <Input
+        type="json"
+        value={JSON.stringify(options, null, 2)}
+        onChange={(e) => {
+          const eParsed = JSON.parse(e)
+          Object.assign(options, eParsed)
+        }}
+      />
     </styled.div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState, useEffect } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { templates } from '../templates'
 import { Confirm } from './Confirm'
 import { SharedGeneral } from './SharedGeneral'
