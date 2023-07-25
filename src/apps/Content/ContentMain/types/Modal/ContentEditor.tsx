@@ -59,6 +59,7 @@ const ContentRenderer: FC<{
         maxChars={item?.maxLength}
         format={item?.format}
         disabled={item?.readOnly}
+        isRequired={item?.isRequired}
       />
     )
   }
@@ -70,6 +71,7 @@ const ContentRenderer: FC<{
     return (
       <Input
         label={item.title}
+        disabled={item?.readOnly}
         type="number"
         onChange={onChange}
         value={itemValue}
@@ -81,6 +83,7 @@ const ContentRenderer: FC<{
         multipleOf={item?.multipleOf}
         exclusiveMaximum={item?.exclusiveMaximum}
         exclusiveMinimum={item?.exclusiveMinimum}
+        isRequired={item?.isRequired}
       />
     )
   }

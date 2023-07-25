@@ -37,6 +37,10 @@ type InputWrapperProps = {
   maxChars?: number
   onChange?: (e) => void
   hideClearButton?: boolean
+  min?: number
+  max?: number
+  multipleOf?: number
+  isRequired?: boolean
 }
 
 export const InputWrapper: FC<InputWrapperProps> = ({
@@ -55,6 +59,10 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   onChange: onChangeProp,
   maxChars,
   hideClearButton,
+  min,
+  max,
+  multipleOf,
+  isRequired,
   ...props
 }) => {
   const [focus, setFocus] = useState(false)
@@ -94,6 +102,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             description={description}
             style={{ marginBottom: 6, marginLeft: 4 }}
             format={format}
+            isRequired={isRequired}
           />
           {indent && !hideClearButton && (
             <Button
@@ -118,6 +127,25 @@ export const InputWrapper: FC<InputWrapperProps> = ({
         </styled.div>
 
         {children}
+
+        {(min || max) && (
+          <styled.div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 4,
+              marginTop: 8,
+            }}
+          >
+            <Text color="text2" weight={400}>
+              {min ? 'Min: ' + min + '  ' : ''}
+              {max ? 'Max: ' + max + ' ' : ''}
+            </Text>
+            <Text color="text2" weight={400}>
+              {multipleOf ? 'In steps of: ' + multipleOf : ''}
+            </Text>
+          </styled.div>
+        )}
 
         {maxChars && (
           <styled.div

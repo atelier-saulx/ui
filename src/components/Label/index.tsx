@@ -14,6 +14,7 @@ type LabelProps = {
   labelWidth?: number
   style?: Style
   direction?: 'row' | 'column'
+  isRequired?: boolean
 }
 
 export const Label = ({
@@ -29,6 +30,7 @@ export const Label = ({
   style,
   labelWidth,
   direction,
+  isRequired,
 }: LabelProps) => {
   if (!label && !description && !icon) {
     return null
@@ -72,6 +74,17 @@ export const Label = ({
           >
             {label}
           </Text>
+          {isRequired ? (
+            <Text
+              typography="body600"
+              color="accent"
+              style={{ marginLeft: 4, marginTop: format ? -8 : 0 }}
+            >
+              *
+            </Text>
+          ) : (
+            ''
+          )}
           {format && (
             <Badge color="lightaccent" style={{ marginLeft: 8, marginTop: -8 }}>
               {format}

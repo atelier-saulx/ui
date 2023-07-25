@@ -79,6 +79,7 @@ export const Input = <T extends InputType>({
   iconRight,
   indent,
   inputRef,
+  isRequired,
   label,
   large,
   maxChars,
@@ -110,6 +111,7 @@ export const Input = <T extends InputType>({
   value?: string | number
   icon?: FunctionComponent<Icon> | ReactNode
   iconRight?: FunctionComponent<Icon> | ReactNode
+  isRequired?: boolean
   indent?: boolean
   defaultValue?: string | number
   placeholder?: ReactNode
@@ -299,6 +301,7 @@ export const Input = <T extends InputType>({
       indent={indent}
       format={format}
       label={label}
+      isRequired={isRequired}
       description={description}
       descriptionBottom={descriptionBottom}
       errorMessage={errorMessage}
@@ -309,6 +312,10 @@ export const Input = <T extends InputType>({
         onChangeProp?.(e.target.value)
       }}
       maxChars={maxChars}
+      // for numbers
+      min={min}
+      max={max}
+      multipleOf={multipleOf}
     >
       {type === 'color' ? (
         <ColorInput
