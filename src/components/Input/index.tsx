@@ -380,28 +380,45 @@ export const Input = <T extends InputType>({
               }
 
               if (e.key === 'ArrowDown' && type === 'number') {
-                // TODO: FIRE THE UP ARROW , clickie from number input
                 e.preventDefault()
-                exclusiveMinimum && +value - multipleOf <= min
-                  ? setValue(+value)
-                  : multipleOf &&
-                    typeof min === 'number' &&
-                    +value - multipleOf >= min
-                  ? setValue(+value - multipleOf)
-                  : multipleOf && isNaN(min) && !exclusiveMinimum
-                  ? setValue(+value - multipleOf)
-                  : setValue(+value)
+
+                if (exclusiveMinimum && +value - multipleOf <= min) {
+                  setValue(+value)
+                  onChangeProp?.(value)
+                } else if (
+                  multipleOf &&
+                  typeof min === 'number' &&
+                  +value - multipleOf >= min
+                ) {
+                  setValue(+value - multipleOf)
+                  // @ts-ignore
+                  onChangeProp?.(value - multipleOf)
+                } else if (multipleOf && isNaN(min) && !exclusiveMinimum) {
+                  setValue(+value - multipleOf)
+                  // @ts-ignore
+                  onChangeProp?.(value - multipleOf)
+                } else {
+                  setValue(+value)
+                  onChangeProp?.(value)
+                }
               }
 
               if (e.key === 'ArrowUp' && type === 'number') {
                 e.preventDefault()
-                exclusiveMaximum && +value + multipleOf >= max
-                  ? setValue(+value)
-                  : multipleOf && max && +value + multipleOf <= max
-                  ? setValue(+value + multipleOf)
-                  : multipleOf && !max && !exclusiveMaximum
-                  ? setValue(+value + multipleOf)
-                  : setValue(+value)
+
+                if (exclusiveMaximum && +value + multipleOf >= max) {
+                  setValue(+value)
+                  onChangeProp?.(value)
+                } else if (multipleOf && max && +value + multipleOf <= max) {
+                  setValue(+value + multipleOf)
+                  onChangeProp?.(value + multipleOf)
+                } else if (multipleOf && !max && !exclusiveMaximum) {
+                  setValue(+value + multipleOf)
+                  onChangeProp?.(value + multipleOf)
+                } else {
+                  setValue(+value)
+                  onChangeProp?.(value)
+                }
               }
 
               props.onKeyDown?.(e)

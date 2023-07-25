@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
-import { styled, Input, Badge, Toggle } from '~'
-import { InputWrapper } from '~/components/Input/InputWrapper'
+import { styled, Input, Toggle, Badge } from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
 
@@ -41,8 +40,7 @@ const ContentRenderer: FC<{
     setState({ ...state, [item.key]: v })
   }
 
-  // START here
-
+  // **** START 🚥 ****
   // STRING
   if (item.type === 'string') {
     // depending on String format return a different type of input field
@@ -53,6 +51,8 @@ const ContentRenderer: FC<{
       inputType = 'url'
     } else if (item?.format === 'rgbColor') {
       inputType = 'color'
+    } else if (item?.format === 'email') {
+      inputType = 'email'
     } else {
       inputType = 'text'
     }
@@ -70,6 +70,7 @@ const ContentRenderer: FC<{
         format={item?.format}
         disabled={item?.readOnly}
         isRequired={item?.isRequired}
+        pattern={item?.pattern}
       />
     )
   }
@@ -100,7 +101,25 @@ const ContentRenderer: FC<{
 
   // CARDINALITY
   // INTEGER
+
   // TIMESTAMP
+  if (item.type === 'timestamp') {
+    return (
+      <Input
+        label={item.title}
+        description={item.description}
+        type="date"
+        onChange={onChange}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+        disabled={item?.readOnly}
+        isRequired={item?.isRequired}
+        time
+      />
+    )
+  }
+
   // BOOLEAN
   if (item.type === 'boolean') {
     return (
@@ -116,7 +135,23 @@ const ContentRenderer: FC<{
       />
     )
   }
+
   // JSON
+  if (item.type === 'json') {
+    return (
+      <Input
+        label={item.title}
+        description={item?.description}
+        type="json"
+        value={itemValue}
+        onChange={onChange}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+        disabled={item?.readOnly}
+        isRequired={item?.isRequired}
+      />
+    )
+  }
 
   // TEXT
   // OBJECT
@@ -127,37 +162,11 @@ const ContentRenderer: FC<{
   // REFERENCE
   // REFERENCES
 
-  // if (item.type === 'boolean') {
-  //   return (
-  //     <Toggle
-  //       label={item.title}
-  //       description={item.description}
-  //       value={itemValue}
-  //       style={{ marginBottom: BOTTOMSPACE }}
-  //       onChange={onChange}
-  //       indent
-  //     />
-  //   )
-  // }
-
   // if (item.type === 'digest') {
   //   return (
   //     <Input
   //       label={item.title}
   //       type="digest"
-  //       value={itemValue}
-  //       onChange={onChange}
-  //       style={{ marginBottom: BOTTOMSPACE }}
-  //       indent
-  //     />
-  //   )
-  // }
-
-  // if (item.type === 'email') {
-  //   return (
-  //     <Input
-  //       label={item.title}
-  //       type="email"
   //       value={itemValue}
   //       onChange={onChange}
   //       style={{ marginBottom: BOTTOMSPACE }}
@@ -178,22 +187,9 @@ const ContentRenderer: FC<{
   //   )
   // }
 
-  // if (item.type === 'id') {
-  //   return <Badge>{itemValue}</Badge>
-  // }
-
-  // if (item.type === 'json') {
-  //   return (
-  //     <Input
-  //       label={item.title}
-  //       type="json"
-  //       value={itemValue}
-  //       onChange={onChange}
-  //       style={{ marginBottom: BOTTOMSPACE }}
-  //       indent
-  //     />
-  //   )
-  // }
+  if (item.type === 'id') {
+    return <Badge>{itemValue}</Badge>
+  }
 
   // if (item.meta?.format === 'markdown') {
   //   return (
@@ -222,19 +218,6 @@ const ContentRenderer: FC<{
   //   )
   // }
 
-  // if (item.type === 'url') {
-  //   return (
-  //     <Input
-  //       label={item.title}
-  //       type="url"
-  //       onChange={onChange}
-  //       value={itemValue}
-  //       style={{ marginBottom: BOTTOMSPACE }}
-  //       indent
-  //     />
-  //   )
-  // }
-
   // if (item.type === 'type') {
   //   return (
   //     <InputWrapper
@@ -245,21 +228,6 @@ const ContentRenderer: FC<{
   //     >
   //       <Badge>{itemValue}</Badge>
   //     </InputWrapper>
-  //   )
-  // }
-
-  // if (item.type === 'timestamp') {
-  //   return (
-  //     <Input
-  //       label={item.title}
-  //       type="date"
-  //       time
-  //       onChange={onChange}
-  //       value={itemValue}
-  //       style={{ marginBottom: BOTTOMSPACE }}
-  //       descriptionBottom={new Date(itemValue).toString()}
-  //       indent
-  //     />
   //   )
   // }
 

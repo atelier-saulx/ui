@@ -63,7 +63,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     },
   }
 
-  console.log(overlayData.name, '🥎')
+  // console.log(overlayData.name, '🥎')
 
   const { data, loading } = useQuery(
     overlayData?.config?.function?.name,
