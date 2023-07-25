@@ -73,6 +73,7 @@ export const Input = <T extends InputType>({
   disabled,
   error,
   forceSuggestion,
+  format,
   ghost,
   icon,
   iconRight,
@@ -96,6 +97,7 @@ export const Input = <T extends InputType>({
   exclusiveMinimum,
   exclusiveMaximum,
   value: valueProp,
+
   ...otherProps
 }: {
   type: T // <--- this is it
@@ -121,6 +123,7 @@ export const Input = <T extends InputType>({
   multipleOf?: number
   exclusiveMinimum?: boolean
   exclusiveMaximum?: boolean
+  format?: string
   inputRef?: RefObject<HTMLDivElement>
   large?: boolean
   disabled?: boolean
@@ -294,6 +297,7 @@ export const Input = <T extends InputType>({
     <InputWrapper
       style={style}
       indent={indent}
+      format={format}
       label={label}
       description={description}
       descriptionBottom={descriptionBottom}

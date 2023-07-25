@@ -43,7 +43,10 @@ const ContentRenderer: FC<{
 
   // START here
 
+  // STRING
   if (item.type === 'string') {
+    // depending on String format return a different type of input field
+
     return (
       <Input
         label={item.title}
@@ -53,12 +56,16 @@ const ContentRenderer: FC<{
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
+        maxChars={item?.maxLength}
+        format={item?.format}
+        disabled={item?.readOnly}
       />
     )
   }
 
   // ENUM
 
+  // NUMBER
   if (item.type === 'number') {
     return (
       <Input

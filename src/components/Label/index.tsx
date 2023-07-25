@@ -1,5 +1,5 @@
 import React, { ReactNode, FunctionComponent } from 'react'
-import { Text, Color, Style, Row, Icon, renderOrCreateElement } from '~'
+import { Text, Color, Style, Row, Icon, renderOrCreateElement, Badge } from '~'
 
 type LabelProps = {
   label?: ReactNode
@@ -9,6 +9,7 @@ type LabelProps = {
   descriptionColor?: Color
   icon?: FunctionComponent<Icon> | ReactNode
   iconColor?: Color
+  format?: string
   children?: ReactNode
   labelWidth?: number
   style?: Style
@@ -23,6 +24,7 @@ export const Label = ({
   descriptionColor,
   icon,
   iconColor: colorProp = 'accent',
+  format,
   children,
   style,
   labelWidth,
@@ -64,12 +66,17 @@ export const Label = ({
           )}
           <Text
             wrap={wrap}
-            style={{ marginBottom: description ? 0 : 0 }}
+            style={{ marginBottom: format ? 8 : description ? 0 : 0 }}
             color={labelColor || 'text'}
             typography="body600"
           >
             {label}
           </Text>
+          {format && (
+            <Badge color="lightaccent" style={{ marginLeft: 8, marginTop: -8 }}>
+              {format}
+            </Badge>
+          )}
         </Row>
         {description && (
           <Text wrap typography="body500" color={descriptionColor || 'text2'}>

@@ -39,6 +39,7 @@ export const Toggle: FC<ToggleProps> = ({
       value=""
       descriptionBottom={descriptionBottom}
       disabled={disabled}
+      hideClearButton
       color={colorProp}
       style={{
         width: 'fit-content',

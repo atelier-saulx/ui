@@ -20,6 +20,7 @@ type InputWrapperProps = {
   children: ReactNode
   errorMessage?: string
   focus?: boolean
+  format?: string
   indent?: boolean
   label?: ReactNode
   description?: string
@@ -46,6 +47,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   description,
   descriptionBottom,
   style,
+  format,
   disabled,
   color: colorProp = 'accent',
   value,
@@ -91,6 +93,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             label={label}
             description={description}
             style={{ marginBottom: 6, marginLeft: 4 }}
+            format={format}
           />
           {indent && !hideClearButton && (
             <Button
