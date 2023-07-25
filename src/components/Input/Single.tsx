@@ -48,7 +48,7 @@ export const Single: FC<SingleProps> = ({
   // onChange,
   min,
   max,
-  multipleOf,
+  multipleOf = 1,
   exclusiveMinimum,
   exclusiveMaximum,
   ...props

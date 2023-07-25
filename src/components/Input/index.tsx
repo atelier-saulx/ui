@@ -91,7 +91,7 @@ export const Input = <T extends InputType>({
   type,
   min,
   max,
-  multipleOf = 1,
+  multipleOf,
   time,
   exclusiveMinimum,
   exclusiveMaximum,
@@ -156,7 +156,7 @@ export const Input = <T extends InputType>({
       if (type === 'number') {
         // All this for NUMBER rules /////
         // TODO: Multiple of add in here
-        if (!(+e.target.value % multipleOf)) {
+        if (+e.target.value % multipleOf) {
           if (max && !min) {
             if (!exclusiveMaximum && +e.target.value <= max) {
               setValue(+e.target.value)
@@ -216,6 +216,10 @@ export const Input = <T extends InputType>({
               onChangeProp?.(+newValue)
             }
           }
+        } else {
+          setValue(+e.target.value)
+          // @ts-ignore
+          onChangeProp?.(+newValue)
         }
       } else {
         setValue(newValue)
@@ -347,6 +351,7 @@ export const Input = <T extends InputType>({
           <Single
             {...props}
             onKeyDown={(e) => {
+              console.log(e.key)
               // now you can remove the zero in input fields
               if (e.key === 'Backspace' && value.toString().length === 1) {
                 setValue('')
@@ -356,56 +361,40 @@ export const Input = <T extends InputType>({
                 e.preventDefault()
               }
 
-              if (e.key === '-' && min >= 0) {
+              if (
+                e.key === '-' &&
+                typeof min === 'number' &&
+                min >= 0 &&
+                type === 'number'
+              ) {
                 e.preventDefault()
               }
 
               if (e.key === 'ArrowDown' && type === 'number') {
-                if (!exclusiveMinimum && typeof min === 'number' && min === 0) {
-                  if (+e.target.value <= 0) {
-                    setValue(0)
-                    e.preventDefault()
-                  }
-                } else if (
-                  exclusiveMinimum &&
-                  typeof min === 'number' &&
-                  min === 0
-                ) {
-                  if (+e.target.value <= 1) {
-                    setValue(1)
-                    e.preventDefault()
-                  }
-                }
+                // TODO: FIRE THE UP ARROW , clickie from number input
+                e.preventDefault()
+                exclusiveMinimum && +value - multipleOf <= min
+                  ? setValue(+value)
+                  : multipleOf &&
+                    typeof min === 'number' &&
+                    +value - multipleOf >= min
+                  ? setValue(+value - multipleOf)
+                  : multipleOf && isNaN(min) && !exclusiveMinimum
+                  ? setValue(+value - multipleOf)
+                  : setValue(+value)
+              }
 
-                if (
-                  typeof min === 'number' &&
-                  +e.target.value <= min &&
-                  !exclusiveMinimum
-                ) {
-                  e.preventDefault()
-                } else if (
-                  typeof min === 'number' &&
-                  +e.target.value < min &&
-                  exclusiveMinimum
-                ) {
-                  e.preventDefault()
-                }
-              }
               if (e.key === 'ArrowUp' && type === 'number') {
-                if (
-                  typeof max === 'number' &&
-                  +e.target.value >= max &&
-                  !exclusiveMaximum
-                ) {
-                  e.preventDefault()
-                } else if (
-                  typeof max === 'number' &&
-                  +e.target.value > max &&
-                  exclusiveMaximum
-                ) {
-                  e.preventDefault()
-                }
+                e.preventDefault()
+                exclusiveMaximum && +value + multipleOf >= max
+                  ? setValue(+value)
+                  : multipleOf && max && +value + multipleOf <= max
+                  ? setValue(+value + multipleOf)
+                  : multipleOf && !max && !exclusiveMaximum
+                  ? setValue(+value + multipleOf)
+                  : setValue(+value)
               }
+
               props.onKeyDown?.(e)
             }}
             style={props.style}
