@@ -62,8 +62,6 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
 
   const { data } = useQuery(view.config.function?.name, payload)
 
-  console.log(data, payload)
-
   ctx.data = data
   const props = parseProps(view.config.props ?? {}, ctx)
   return (

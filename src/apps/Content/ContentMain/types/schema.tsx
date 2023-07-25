@@ -255,12 +255,13 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
       }
 
       fields.push({
-        name: f.meta?.name ?? field,
+        title: f.title ?? field,
         key: field,
         type: f.type,
-        index: f.meta?.index ?? 1e6,
-        mimeTypeKey: mField,
-        meta: f.meta,
+        index: f?.index ?? 1e6,
+        description: f?.description,
+        // mimeTypeKey: mField,
+        // meta: f.meta,
       })
     }
   }

@@ -7,16 +7,20 @@ import { BOTTOMSPACE } from './constants'
 export const ContentEditor: FC<{
   data: { [key: string]: any }
   state: { [key: string]: any }
-  fields: {
-    key: string
-    meta?: string
-    name?: string
-    type: string
-    mimeType?
-  }[]
+  fields: { [key: string]: any }
+  // fields: {
+  //   key: string
+  //   meta?: string
+  //   name?: string
+  //   type: string
+  //   mimeType?
+  // }[]
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
   console.log('data??', data, fields, state)
+
+  console.log('THE FIELDS??', fields)
+
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
       {fields?.map((item, i) => (
@@ -34,32 +38,31 @@ export const ContentEditor: FC<{
 }
 
 const ContentRenderer: FC<{
-  item: {
-    name?: string
-    type: string
-    meta?: any
-    key: string
-    mimeTypeKey?: string
-  }
+  item: { [key: string]: any }
+  //   title?: string
+  //   type: string
+  //   meta?: any
+  //   key: string
+  //   mimeTypeKey?: string
+  //   description?: string
+  // }
   itemValue: any
   data: any
   state: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
-  const { type, meta, key, mimeTypeKey } = item
-  const name = item.name ?? key
+  // const { type, meta, key, mimeTypeKey } = item
+  // const name = item.title ?? key
 
   const onChange = (v: any) => {
     setState({ ...state, [key]: v })
   }
 
-  console.log('item--->', item, '???')
-
-  if (type === 'boolean') {
+  if (item.type === 'boolean') {
     return (
       <Toggle
-        description={meta?.description}
-        label={name}
+        label={item.title}
+        description={item.description}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         onChange={onChange}
@@ -68,10 +71,10 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (type === 'digest') {
+  if (item.type === 'digest') {
     return (
       <Input
-        label={name}
+        label={item.title}
         type="digest"
         value={itemValue}
         onChange={onChange}
@@ -81,10 +84,10 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (type === 'email') {
+  if (item.type === 'email') {
     return (
       <Input
-        label={name}
+        label={item.title}
         type="email"
         value={itemValue}
         onChange={onChange}
@@ -94,26 +97,26 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (meta?.type === 'file' || mimeTypeKey) {
+  if (item.meta?.type === 'file') {
     return (
       <FileUploadContentEditor
         data={data}
         item={item}
-        name={name}
+        name={item.title}
         state={state}
         onChange={onChange}
       />
     )
   }
 
-  if (type === 'id') {
+  if (item.type === 'id') {
     return <Badge>{itemValue}</Badge>
   }
 
-  if (type === 'json') {
+  if (item.type === 'json') {
     return (
       <Input
-        label={name}
+        label={item.title}
         type="json"
         value={itemValue}
         onChange={onChange}
@@ -123,10 +126,10 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (meta?.format === 'markdown') {
+  if (item.meta?.format === 'markdown') {
     return (
       <Input
-        label={name}
+        label={item.title}
         type="markdown"
         value={itemValue}
         onChange={onChange}
@@ -136,10 +139,10 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (type === 'number') {
+  if (item.type === 'number') {
     return (
       <Input
-        label={name}
+        label={item.title}
         type="number"
         onChange={onChange}
         value={itemValue}
@@ -149,10 +152,11 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (type === 'string' || type === 'text') {
+  if (item.type === 'string' || item.type === 'text') {
     return (
       <Input
-        label={name}
+        label={item.title}
+        description={item.description}
         type="text"
         onChange={onChange}
         value={itemValue}
@@ -162,10 +166,10 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (type === 'url') {
+  if (item.type === 'url') {
     return (
       <Input
-        label={name}
+        label={item.title}
         type="url"
         onChange={onChange}
         value={itemValue}
@@ -175,10 +179,10 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (type === 'type') {
+  if (item.type === 'type') {
     return (
       <InputWrapper
-        label={name}
+        label={item.title}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
         value=""
@@ -188,10 +192,10 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (type === 'timestamp') {
+  if (item.type === 'timestamp') {
     return (
       <Input
-        label={name}
+        label={item.title}
         type="date"
         time
         onChange={onChange}
@@ -203,10 +207,10 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (type === 'reference') {
+  if (item.type === 'reference') {
     return (
       <Input
-        label={name}
+        label={item.title}
         type="text"
         placeholder="Referenced ID"
         onChange={onChange}
@@ -218,6 +222,8 @@ const ContentRenderer: FC<{
   }
 
   return (
-    <styled.div style={{ marginBottom: 12 }}>{name + ' : ' + type}</styled.div>
+    <styled.div style={{ marginBottom: 12 }}>
+      {name + ' : ' + item.type}
+    </styled.div>
   )
 }

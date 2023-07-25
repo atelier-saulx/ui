@@ -62,6 +62,9 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
       }
     },
   }
+
+  console.log(overlayData.name, '🥎')
+
   const { data, loading } = useQuery(
     overlayData?.config?.function?.name,
     parseProps(overlayData?.config?.function?.payload ?? {}, ctx)
@@ -85,7 +88,10 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     }
   }
 
-  console.log('Schema??', schema)
+  console.log(
+    'The fields for this content editor??',
+    schema.types[overlayData.name].fields
+  )
   console.log('Props??', props)
 
   return (
