@@ -226,42 +226,42 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
   let fields = []
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore?.has(field) && !systemFields?.has(field)) {
-      const f = typeSchema.fields[field]
+      const f: BasedSchemaFieldShared = typeSchema.fields[field]
 
       if (!f) {
         console.log('no', f)
         continue
       }
-      // mime
-      let mField: string
-      // @ts-ignore
-      if (type === 'file' && f.meta?.ui === 'file' && f.type === 'string') {
-        mField = 'mimeType'
-      } else if (
-        f.type === 'reference' &&
-        (f.meta?.format === 'file' ||
-          (f.meta?.refTypes &&
-            f.meta?.refTypes.length === 1 &&
-            f.meta?.refTypes[0] === 'file'))
-      ) {
-        mField = `${field}.mimeType`
 
-        getFields[field] = {
-          src: true,
-          id: true,
-          mimeType: true,
-          name: true,
-        }
-      }
+      // // mime
+      // let mField: string
+      // // @ts-ignore
+      // if (type === 'file' && f.meta?.ui === 'file' && f.type === 'string') {
+      //   mField = 'mimeType'
+      // } else if (
+      //   f.type === 'reference' &&
+      //   (f.meta?.format === 'file' ||
+      //     (f.meta?.refTypes &&
+      //       f.meta?.refTypes.length === 1 &&
+      //       f.meta?.refTypes[0] === 'file'))
+      // ) {
+      //   mField = `${field}.mimeType`
+
+      //   getFields[field] = {
+      //     src: true,
+      //     id: true,
+      //     mimeType: true,
+      //     name: true,
+      //   }
+      // }
 
       fields.push({
+        // spread all props
+        ...f,
         title: f.title ?? field,
         key: field,
         type: f.type,
         index: f?.index ?? 1e6,
-        description: f?.description,
-        // mimeTypeKey: mField,
-        // meta: f.meta,
       })
     }
   }

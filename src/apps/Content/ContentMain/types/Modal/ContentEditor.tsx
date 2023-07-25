@@ -8,13 +8,6 @@ export const ContentEditor: FC<{
   data: { [key: string]: any }
   state: { [key: string]: any }
   fields: { [key: string]: any }
-  // fields: {
-  //   key: string
-  //   meta?: string
-  //   name?: string
-  //   type: string
-  //   mimeType?
-  // }[]
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
   console.log('data??', data, fields, state)
@@ -39,25 +32,56 @@ export const ContentEditor: FC<{
 
 const ContentRenderer: FC<{
   item: { [key: string]: any }
-  //   title?: string
-  //   type: string
-  //   meta?: any
-  //   key: string
-  //   mimeTypeKey?: string
-  //   description?: string
-  // }
   itemValue: any
   data: any
   state: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
-  // const { type, meta, key, mimeTypeKey } = item
-  // const name = item.title ?? key
-
   const onChange = (v: any) => {
-    setState({ ...state, [key]: v })
+    setState({ ...state, [item.key]: v })
   }
 
+  // START here
+
+  if (item.type === 'string') {
+    return (
+      <Input
+        label={item.title}
+        description={item.description}
+        type="text"
+        onChange={onChange}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
+  // ENUM
+
+  if (item.type === 'number') {
+    return (
+      <Input
+        label={item.title}
+        type="number"
+        onChange={onChange}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+        description={item?.description}
+        max={item?.maximum}
+        min={item?.minimum}
+        multipleOf={item?.multipleOf}
+        exclusiveMaximum={item?.exclusiveMaximum}
+        exclusiveMinimum={item?.exclusiveMinimum}
+      />
+    )
+  }
+
+  // CARDINALITY
+  // INTEGER
+  // TIMESTAMP
+  // BOOLEAN
   if (item.type === 'boolean') {
     return (
       <Toggle
@@ -70,160 +94,170 @@ const ContentRenderer: FC<{
       />
     )
   }
+  // JSON
 
-  if (item.type === 'digest') {
-    return (
-      <Input
-        label={item.title}
-        type="digest"
-        value={itemValue}
-        onChange={onChange}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
+  // TEXT
+  // OBJECT
+  // RECORD
+  // ARRAY
+  // SET
 
-  if (item.type === 'email') {
-    return (
-      <Input
-        label={item.title}
-        type="email"
-        value={itemValue}
-        onChange={onChange}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
+  // REFERENCE
+  // REFERENCES
 
-  if (item.meta?.type === 'file') {
-    return (
-      <FileUploadContentEditor
-        data={data}
-        item={item}
-        name={item.title}
-        state={state}
-        onChange={onChange}
-      />
-    )
-  }
+  // if (item.type === 'boolean') {
+  //   return (
+  //     <Toggle
+  //       label={item.title}
+  //       description={item.description}
+  //       value={itemValue}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       onChange={onChange}
+  //       indent
+  //     />
+  //   )
+  // }
 
-  if (item.type === 'id') {
-    return <Badge>{itemValue}</Badge>
-  }
+  // if (item.type === 'digest') {
+  //   return (
+  //     <Input
+  //       label={item.title}
+  //       type="digest"
+  //       value={itemValue}
+  //       onChange={onChange}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       indent
+  //     />
+  //   )
+  // }
 
-  if (item.type === 'json') {
-    return (
-      <Input
-        label={item.title}
-        type="json"
-        value={itemValue}
-        onChange={onChange}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
+  // if (item.type === 'email') {
+  //   return (
+  //     <Input
+  //       label={item.title}
+  //       type="email"
+  //       value={itemValue}
+  //       onChange={onChange}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       indent
+  //     />
+  //   )
+  // }
 
-  if (item.meta?.format === 'markdown') {
-    return (
-      <Input
-        label={item.title}
-        type="markdown"
-        value={itemValue}
-        onChange={onChange}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
+  // if (item.meta?.type === 'file') {
+  //   return (
+  //     <FileUploadContentEditor
+  //       data={data}
+  //       item={item}
+  //       name={item.title}
+  //       state={state}
+  //       onChange={onChange}
+  //     />
+  //   )
+  // }
 
-  if (item.type === 'number') {
-    return (
-      <Input
-        label={item.title}
-        type="number"
-        onChange={onChange}
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
+  // if (item.type === 'id') {
+  //   return <Badge>{itemValue}</Badge>
+  // }
 
-  if (item.type === 'string' || item.type === 'text') {
-    return (
-      <Input
-        label={item.title}
-        description={item.description}
-        type="text"
-        onChange={onChange}
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
+  // if (item.type === 'json') {
+  //   return (
+  //     <Input
+  //       label={item.title}
+  //       type="json"
+  //       value={itemValue}
+  //       onChange={onChange}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       indent
+  //     />
+  //   )
+  // }
 
-  if (item.type === 'url') {
-    return (
-      <Input
-        label={item.title}
-        type="url"
-        onChange={onChange}
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
+  // if (item.meta?.format === 'markdown') {
+  //   return (
+  //     <Input
+  //       label={item.title}
+  //       type="markdown"
+  //       value={itemValue}
+  //       onChange={onChange}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       indent
+  //     />
+  //   )
+  // }
 
-  if (item.type === 'type') {
-    return (
-      <InputWrapper
-        label={item.title}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-        value=""
-      >
-        <Badge>{itemValue}</Badge>
-      </InputWrapper>
-    )
-  }
+  // if (item.type === 'text') {
+  //   return (
+  //     <Input
+  //       label={item.title}
+  //       description={item.description}
+  //       type="text"
+  //       onChange={onChange}
+  //       value={itemValue}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       indent
+  //     />
+  //   )
+  // }
 
-  if (item.type === 'timestamp') {
-    return (
-      <Input
-        label={item.title}
-        type="date"
-        time
-        onChange={onChange}
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
-        descriptionBottom={new Date(itemValue).toString()}
-        indent
-      />
-    )
-  }
+  // if (item.type === 'url') {
+  //   return (
+  //     <Input
+  //       label={item.title}
+  //       type="url"
+  //       onChange={onChange}
+  //       value={itemValue}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       indent
+  //     />
+  //   )
+  // }
 
-  if (item.type === 'reference') {
-    return (
-      <Input
-        label={item.title}
-        type="text"
-        placeholder="Referenced ID"
-        onChange={onChange}
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE, width: 150 }}
-        indent
-      />
-    )
-  }
+  // if (item.type === 'type') {
+  //   return (
+  //     <InputWrapper
+  //       label={item.title}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       indent
+  //       value=""
+  //     >
+  //       <Badge>{itemValue}</Badge>
+  //     </InputWrapper>
+  //   )
+  // }
+
+  // if (item.type === 'timestamp') {
+  //   return (
+  //     <Input
+  //       label={item.title}
+  //       type="date"
+  //       time
+  //       onChange={onChange}
+  //       value={itemValue}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       descriptionBottom={new Date(itemValue).toString()}
+  //       indent
+  //     />
+  //   )
+  // }
+
+  // if (item.type === 'reference') {
+  //   return (
+  //     <Input
+  //       label={item.title}
+  //       type="text"
+  //       placeholder="Referenced ID"
+  //       onChange={onChange}
+  //       value={itemValue}
+  //       style={{ marginBottom: BOTTOMSPACE, width: 150 }}
+  //       indent
+  //     />
+  //   )
+  // }
 
   return (
     <styled.div style={{ marginBottom: 12 }}>
-      {name + ' : ' + item.type}
+      {item.title + ' : ' + item.type}
     </styled.div>
   )
 }
