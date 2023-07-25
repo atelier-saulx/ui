@@ -85,6 +85,9 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     }
   }
 
+  console.log('Schema??', schema)
+  console.log('Props??', props)
+
   return (
     <styled.div
       style={{

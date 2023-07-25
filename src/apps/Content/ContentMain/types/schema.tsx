@@ -211,6 +211,8 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
 export const createTypeModal = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
 
+  console.log('🍷', typeSchema)
+
   if (!typeSchema) {
     console.log('no typeschema', type)
     return

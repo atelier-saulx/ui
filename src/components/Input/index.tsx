@@ -91,7 +91,7 @@ export const Input = <T extends InputType>({
   type,
   min,
   max,
-  multipleOf,
+  multipleOf = 1,
   time,
   exclusiveMinimum,
   exclusiveMaximum,
@@ -351,7 +351,6 @@ export const Input = <T extends InputType>({
           <Single
             {...props}
             onKeyDown={(e) => {
-              console.log(e.key)
               // now you can remove the zero in input fields
               if (e.key === 'Backspace' && value.toString().length === 1) {
                 setValue('')

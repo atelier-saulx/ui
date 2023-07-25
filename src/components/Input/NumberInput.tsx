@@ -6,7 +6,7 @@ export const NumberInput = ({
   value,
   min,
   max,
-  multipleOf = 1,
+  multipleOf,
   exclusiveMinimum,
   exclusiveMaximum,
 }) => {
