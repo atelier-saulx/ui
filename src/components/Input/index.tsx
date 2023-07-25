@@ -98,7 +98,6 @@ export const Input = <T extends InputType>({
   exclusiveMinimum,
   exclusiveMaximum,
   value: valueProp,
-
   ...otherProps
 }: {
   type: T // <--- this is it

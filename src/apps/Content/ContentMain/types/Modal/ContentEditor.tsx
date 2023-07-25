@@ -47,11 +47,21 @@ const ContentRenderer: FC<{
   if (item.type === 'string') {
     // depending on String format return a different type of input field
 
+    let inputType
+
+    if (item?.format === 'URL') {
+      inputType = 'url'
+    } else if (item?.format === 'rgbColor') {
+      inputType = 'color'
+    } else {
+      inputType = 'text'
+    }
+
     return (
       <Input
         label={item.title}
         description={item.description}
-        type="text"
+        type={inputType}
         onChange={onChange}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
@@ -96,11 +106,13 @@ const ContentRenderer: FC<{
     return (
       <Toggle
         label={item.title}
-        description={item.description}
+        description={item?.description}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         onChange={onChange}
         indent
+        disabled={item?.readOnly}
+        isRequired={item?.isRequired}
       />
     )
   }

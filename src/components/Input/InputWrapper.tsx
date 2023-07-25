@@ -138,7 +138,8 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             }}
           >
             <Text color="text2" weight={400}>
-              {min ? 'Min: ' + min + '  ' : ''}
+              {min ? 'Min: ' + min + ' ' : ''}
+              {min && max ? '/ ' : ''}
               {max ? 'Max: ' + max + ' ' : ''}
             </Text>
             <Text color="text2" weight={400}>
