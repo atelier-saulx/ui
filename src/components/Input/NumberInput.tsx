@@ -6,7 +6,7 @@ export const NumberInput = ({
   value,
   min,
   max,
-  multipleOf = 1,
+  multipleOf,
   exclusiveMinimum,
   exclusiveMaximum,
 }) => {
@@ -42,13 +42,13 @@ export const NumberInput = ({
           onChange({
             target: {
               value:
-                exclusiveMaximum && String(+value + multipleOf) >= max
-                  ? String(+value)
-                  : multipleOf && max && String(+value + multipleOf) <= max
-                  ? String(+value + multipleOf)
+                exclusiveMaximum && +value + multipleOf >= max
+                  ? +value
+                  : multipleOf && max && +value + multipleOf <= max
+                  ? +value + multipleOf
                   : multipleOf && !max && !exclusiveMaximum
-                  ? String(+value + multipleOf)
-                  : String(+value),
+                  ? +value + multipleOf
+                  : +value,
             },
           })
         }}
@@ -74,13 +74,15 @@ export const NumberInput = ({
           onChange({
             target: {
               value:
-                exclusiveMinimum && String(+value - multipleOf) <= min
-                  ? String(+value)
-                  : multipleOf && min && String(+value - multipleOf) >= min
-                  ? String(+value - multipleOf)
-                  : multipleOf && !min && !exclusiveMinimum
-                  ? String(+value - multipleOf)
-                  : String(+value),
+                exclusiveMinimum && +value - multipleOf <= min
+                  ? +value
+                  : multipleOf &&
+                    typeof min === 'number' &&
+                    +value - multipleOf >= min
+                  ? +value - multipleOf
+                  : multipleOf && isNaN(min) && !exclusiveMinimum
+                  ? +value - multipleOf
+                  : +value,
             },
           })
         }}

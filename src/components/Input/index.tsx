@@ -91,7 +91,7 @@ export const Input = <T extends InputType>({
   type,
   min,
   max,
-  multipleOf,
+  multipleOf = 1,
   time,
   exclusiveMinimum,
   exclusiveMaximum,
@@ -155,63 +155,66 @@ export const Input = <T extends InputType>({
       const newValue = transform ? transform(e.target.value) : e.target.value
       if (type === 'number') {
         // All this for NUMBER rules /////
-        if (max && !min) {
-          if (!exclusiveMaximum && +e.target.value <= max) {
-            setValue(+e.target.value)
-            // @ts-ignore
-            onChangeProp?.(+newValue)
-          } else if (+e.target.value < max) {
-            setValue(+e.target.value)
-            // @ts-ignore
-            onChangeProp?.(+newValue)
-          }
-        } else if (!max && min) {
-          if (!exclusiveMinimum && +e.target.value >= min) {
-            setValue(+e.target.value)
-            // @ts-ignore
-            onChangeProp?.(+newValue)
-          } else if (+e.target.value > min) {
-            setValue(+e.target.value)
-            // @ts-ignore
-            onChangeProp?.(+newValue)
-          }
-        } else if (max && min) {
-          if (
-            !exclusiveMinimum &&
-            +e.target.value >= min &&
-            !exclusiveMaximum &&
-            +e.target.value <= max
-          ) {
-            setValue(+e.target.value)
-            // @ts-ignore
-            onChangeProp?.(+newValue)
-          } else if (
-            exclusiveMinimum &&
-            +e.target.value > min &&
-            !exclusiveMaximum &&
-            +e.target.value <= max
-          ) {
-            setValue(+e.target.value)
-            // @ts-ignore
-            onChangeProp?.(+newValue)
-          } else if (
-            !exclusiveMinimum &&
-            +e.target.value >= min &&
-            exclusiveMaximum &&
-            +e.target.value < max
-          ) {
-            setValue(+e.target.value)
-            // @ts-ignore
-            onChangeProp?.(+newValue)
-          } else if (
-            exclusiveMinimum &&
-            +e.target.value > min &&
-            exclusiveMaximum &&
-            +e.target.value < max
-          ) {
-            setValue(+e.target.value)
-            // @ts-ignore
-            onChangeProp?.(+newValue)
+        // TODO: Multiple of add in here
+        if (!(+e.target.value % multipleOf)) {
+          if (max && !min) {
+            if (!exclusiveMaximum && +e.target.value <= max) {
+              setValue(+e.target.value)
+              // @ts-ignore
+              onChangeProp?.(+newValue)
+            } else if (+e.target.value < max) {
+              setValue(+e.target.value)
+              // @ts-ignore
+              onChangeProp?.(+newValue)
+            }
+          } else if (!max && min) {
+            if (!exclusiveMinimum && +e.target.value >= min) {
+              setValue(+e.target.value)
+              // @ts-ignore
+              onChangeProp?.(+newValue)
+            } else if (+e.target.value > min) {
+              setValue(+e.target.value)
+              // @ts-ignore
+              onChangeProp?.(+newValue)
+            }
+          } else if (max && min) {
+            if (
+              !exclusiveMinimum &&
+              +e.target.value >= min &&
+              !exclusiveMaximum &&
+              +e.target.value <= max
+            ) {
+              setValue(+e.target.value)
+              // @ts-ignore
+              onChangeProp?.(+newValue)
+            } else if (
+              exclusiveMinimum &&
+              +e.target.value > min &&
+              !exclusiveMaximum &&
+              +e.target.value <= max
+            ) {
+              setValue(+e.target.value)
+              // @ts-ignore
+              onChangeProp?.(+newValue)
+            } else if (
+              !exclusiveMinimum &&
+              +e.target.value >= min &&
+              exclusiveMaximum &&
+              +e.target.value < max
+            ) {
+              setValue(+e.target.value)
+              // @ts-ignore
+              onChangeProp?.(+newValue)
+            } else if (
+              exclusiveMinimum &&
+              +e.target.value > min &&
+              exclusiveMaximum &&
+              +e.target.value < max
+            ) {
+              setValue(+e.target.value)
+              // @ts-ignore
+              onChangeProp?.(+newValue)
+            }
           }
         }
       } else {
@@ -351,6 +354,57 @@ export const Input = <T extends InputType>({
               // for some reason pressing . in number input changed the value to one
               if (e.key === '.' && type === 'number') {
                 e.preventDefault()
+              }
+
+              if (e.key === '-' && min >= 0) {
+                e.preventDefault()
+              }
+
+              if (e.key === 'ArrowDown' && type === 'number') {
+                if (!exclusiveMinimum && typeof min === 'number' && min === 0) {
+                  if (+e.target.value <= 0) {
+                    setValue(0)
+                    e.preventDefault()
+                  }
+                } else if (
+                  exclusiveMinimum &&
+                  typeof min === 'number' &&
+                  min === 0
+                ) {
+                  if (+e.target.value <= 1) {
+                    setValue(1)
+                    e.preventDefault()
+                  }
+                }
+
+                if (
+                  typeof min === 'number' &&
+                  +e.target.value <= min &&
+                  !exclusiveMinimum
+                ) {
+                  e.preventDefault()
+                } else if (
+                  typeof min === 'number' &&
+                  +e.target.value < min &&
+                  exclusiveMinimum
+                ) {
+                  e.preventDefault()
+                }
+              }
+              if (e.key === 'ArrowUp' && type === 'number') {
+                if (
+                  typeof max === 'number' &&
+                  +e.target.value >= max &&
+                  !exclusiveMaximum
+                ) {
+                  e.preventDefault()
+                } else if (
+                  typeof max === 'number' &&
+                  +e.target.value > max &&
+                  exclusiveMaximum
+                ) {
+                  e.preventDefault()
+                }
               }
               props.onKeyDown?.(e)
             }}
