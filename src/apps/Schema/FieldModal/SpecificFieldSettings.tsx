@@ -336,42 +336,43 @@ export const SetGeneral = ({ options, field, setDisabled }) => {
   )
 }
 
-// export const RecordGeneral = ({ options, field, setDisabled }) => {
-//   const valuesType = options.values?.type
+export const RecordGeneral = ({ options, field, setDisabled }) => {
+  const valuesType = options.values?.type
 
-//   useEffect(() => {
-//     setDisabled(!valuesType)
-//   }, [valuesType])
+  useEffect(() => {
+    setDisabled(!valuesType)
+  }, [valuesType])
 
-//   return (
-//     <>
-//       <Text style={{ marginTop: 24 }}>Value type</Text>
-//       <Select
-//         placeholder="Select value type"
-//         style={{
-//           opacity: field ? 0.6 : 1,
-//           pointerEvents: field ? 'none' : null,
-//           cursor: field ? 'not-allowed' : null,
-//           marginTop: 16,
-//           width: 400,
-//         }}
-//         filterable
-//         value={valuesType}
-//         onChange={(value) => {
-//           options.values = templates[value].schema
-//           setDisabled(false)
-//         }}
-//         options={[
-//           { value: 'digest', label: 'Digest' },
-//           { value: 'float', label: 'Float' },
-//           { value: 'int', label: 'Integer' },
-//           { value: 'object', label: 'Object' },
-//           { value: 'string', label: 'String' },
-//         ]}
-//       />
-//     </>
-//   )
-// }
+  return (
+    <>
+      <Text style={{ marginTop: 24 }}>Value type</Text>
+      <Select
+        placeholder="Select value type"
+        style={{
+          opacity: field ? 0.6 : 1,
+          pointerEvents: field ? 'none' : null,
+          cursor: field ? 'not-allowed' : null,
+          marginTop: 16,
+          width: 400,
+        }}
+        filterable
+        value={valuesType}
+        onChange={(value) => {
+          options.items = {}
+          options.items.type = value
+          setDisabled(false)
+        }}
+        options={[
+          { value: 'digest', label: 'Digest' },
+          { value: 'float', label: 'Float' },
+          { value: 'int', label: 'Integer' },
+          { value: 'object', label: 'Object' },
+          { value: 'string', label: 'String' },
+        ]}
+      />
+    </>
+  )
+}
 
 // export const FileGeneral = ({ options }) => {
 //   return (

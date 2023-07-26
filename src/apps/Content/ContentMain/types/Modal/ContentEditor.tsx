@@ -4,6 +4,7 @@ import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
 import { SetList } from '~/components/SetList'
 import { useSchema } from '~/apps/Schema/hooks/useSchema'
+import { RecordList } from '~/components/RecordList'
 
 export const ContentEditor: FC<{
   data: { [key: string]: any }
@@ -41,9 +42,11 @@ const ContentRenderer: FC<{
   }
 
   // **** START 🚥 ****
-  // STRING
-  if (item.type === 'string') {
+
+  // STRING // TEXT
+  if (item.type === 'string' || item.type === 'text') {
     // depending on String format return a different type of input field
+    // TODO: for text add Language
 
     let inputType
 
@@ -153,23 +156,22 @@ const ContentRenderer: FC<{
     )
   }
 
-  // TEXT
-  if (item.type === 'text') {
+  // OBJECT
+  // RECORD
+  if (item.type === 'record') {
     return (
-      <Input
+      <RecordList
         label={item.title}
         description={item.description}
-        type="text"
-        onChange={onChange}
-        value={itemValue}
+        recordType={item.items.type}
+        value={item.value}
         style={{ marginBottom: BOTTOMSPACE }}
+        onChange={onChange}
         indent
       />
     )
   }
 
-  // OBJECT
-  // RECORD
   // ARRAY
   // SET
   if (item.type === 'set') {

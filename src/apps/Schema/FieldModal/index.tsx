@@ -24,6 +24,7 @@ const specificFieldSettings = {
   references: fieldSettings.ReferenceSettings,
   array: fieldSettings.ArrayGeneral,
   set: fieldSettings.SetGeneral,
+  record: fieldSettings.RecordGeneral,
 }
 
 export const FieldModal: FC<{

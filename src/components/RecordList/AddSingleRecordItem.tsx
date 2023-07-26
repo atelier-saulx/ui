@@ -47,6 +47,8 @@ export const addSingleRecordItem = async (
               if (itemType === 'string') {
                 setTempObj({ ...tempObj, [inputKey]: inputValue })
                 onChange({ ...ok, [inputKey]: inputValue })
+                console.log({ ...ok, [inputKey]: inputValue })
+                console.log('tempObj>??', tempObj)
               } else if (itemType === 'int') {
                 setTempObj({ ...tempObj, [inputKey]: parseInt(inputValue) })
                 onChange({ ...ok, [inputKey]: parseInt(inputValue) })
