@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { MultiSelect, Select, Checkbox, styled, Input } from '~'
+import { MultiSelect, Select, Checkbox, styled, Input, Text } from '~'
+import { BasedSchemaField } from '@based/schema'
 
 export const StringSettings = ({ options }) => {
   const [reqLangs, setReqLangs] = useState(options.required)
@@ -283,7 +284,7 @@ export const ReferenceSettings = ({ types, options }) => {
 //         filterable
 //         value={itemsType}
 //         onChange={(value) => {
-//           options.items = templates[value].schema
+//           options.items = []
 //           setDisabled(false)
 //         }}
 //         options={[
@@ -298,41 +299,42 @@ export const ReferenceSettings = ({ types, options }) => {
 //   )
 // }
 
-// export const SetGeneral = ({ options, field, setDisabled }) => {
-//   const itemsType = options.items?.type
+export const SetGeneral = ({ options, field, setDisabled }) => {
+  const itemsType = options.items?.type
 
-//   useEffect(() => {
-//     setDisabled(!itemsType)
-//   }, [itemsType])
+  useEffect(() => {
+    setDisabled(!itemsType)
+  }, [itemsType])
 
-//   return (
-//     <>
-//       <Text style={{ marginTop: 24 }}>Value type</Text>
-//       <Select
-//         placeholder="Select value type"
-//         style={{
-//           opacity: field ? 0.6 : 1,
-//           pointerEvents: field ? 'none' : null,
-//           cursor: field ? 'not-allowed' : null,
-//           marginTop: 16,
-//           width: 400,
-//         }}
-//         filterable
-//         value={itemsType}
-//         onChange={(value) => {
-//           options.items = templates[value].schema
-//           setDisabled(false)
-//         }}
-//         options={[
-//           { value: 'digest', label: 'Digest' },
-//           { value: 'float', label: 'Float' },
-//           { value: 'int', label: 'Integer' },
-//           { value: 'string', label: 'String' },
-//         ]}
-//       />
-//     </>
-//   )
-// }
+  return (
+    <>
+      <Text style={{ marginTop: 24 }}>Value type</Text>
+      <Select
+        placeholder="Select value type"
+        style={{
+          opacity: field ? 0.6 : 1,
+          pointerEvents: field ? 'none' : null,
+          cursor: field ? 'not-allowed' : null,
+          marginTop: 16,
+          width: 400,
+        }}
+        filterable
+        value={itemsType}
+        onChange={(value) => {
+          options.items = {}
+          options.items.type = value
+          setDisabled(false)
+        }}
+        options={[
+          { value: 'digest', label: 'Digest' },
+          { value: 'float', label: 'Float' },
+          { value: 'int', label: 'Integer' },
+          { value: 'string', label: 'String' },
+        ]}
+      />
+    </>
+  )
+}
 
 // export const RecordGeneral = ({ options, field, setDisabled }) => {
 //   const valuesType = options.values?.type

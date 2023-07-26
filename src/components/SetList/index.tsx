@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Label, Button, AddIcon, Input, Dialog } from '~'
+import { Label, Button, AddIcon, Input, Dialog, Style } from '~'
 import { InputWrapper } from '../Input/InputWrapper'
 import { useDialog } from '~/components/Dialog'
 
@@ -11,7 +11,9 @@ type SetListProps = {
   indent?: boolean
   onChange?(items: {}): void
   value?: any
-  schema?: any
+  setType?: any
+  style?: Style
+  label?: string
 }
 
 export const SetList = ({
@@ -20,16 +22,23 @@ export const SetList = ({
   disabled,
   indent,
   value,
-  schema,
+  setType,
+  label,
+  style,
   ...props
 }: SetListProps) => {
-  const itemType = schema?.items.type
+  // console.log('Set type?', setType)
+
+  const itemType = setType
   const [arr, setArr] = useState(value)
   const [set, setSet] = useState<any>(new Set(arr))
   const { open } = useDialog()
   const [inputVal] = useState('')
 
   const [errorMessage, setErrorMessage] = useState('')
+
+  // console.log(set, '?????')
+  // console.log(arr, 'yo??')
 
   useEffect(() => {
     setArr(value)
@@ -158,8 +167,9 @@ export const SetList = ({
 
   return (
     <InputWrapper
+      label={label}
       indent={indent}
-      style={{ marginBottom: 24 }}
+      style={{ ...style }}
       disabled={disabled}
       descriptionBottom={description}
       errorMessage={errorMessage}

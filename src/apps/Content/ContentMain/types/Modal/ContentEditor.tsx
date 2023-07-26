@@ -2,6 +2,8 @@ import React, { FC } from 'react'
 import { styled, Input, Toggle, Badge } from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
+import { SetList } from '~/components/SetList'
+import { useSchema } from '~/apps/Schema/hooks/useSchema'
 
 export const ContentEditor: FC<{
   data: { [key: string]: any }
@@ -10,8 +12,6 @@ export const ContentEditor: FC<{
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
   console.log('data??', data, fields, state)
-
-  console.log('THE FIELDS??', fields)
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
@@ -39,8 +39,6 @@ const ContentRenderer: FC<{
   const onChange = (v: any) => {
     setState({ ...state, [item.key]: v })
   }
-
-  console.log('item??', item)
 
   // **** START 🚥 ****
   // STRING
@@ -156,31 +154,51 @@ const ContentRenderer: FC<{
   }
 
   // TEXT
+  if (item.type === 'text') {
+    return (
+      <Input
+        label={item.title}
+        description={item.description}
+        type="text"
+        onChange={onChange}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
   // OBJECT
   // RECORD
   // ARRAY
   // SET
+  if (item.type === 'set') {
+    return (
+      <SetList
+        label={item.title}
+        description={item.description}
+        value={item.value}
+        setType={item.items.type}
+        onChange={onChange}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
 
   // REFERENCE
   if (item.type === 'reference') {
-    // 1. Check the AllowedTypes field -->
-    // 2. Check if $value is image or video etc , and $field mimeType
-    // 3. Determine to display a file upload ??
-
     if (
       item?.allowedTypes?.includes('file') ||
       item?.allowedTypes?.type === 'file'
     ) {
-      //   {
       //     name?: string;
       //     type: string;
       //     meta?: any;
       //     key: string;
       //     mimeTypeKey?: string;
 
-      console.log('item?? 🅾️', item)
-
-      // }
+      // console.log('item?? 🅾️', item)
 
       return (
         <FileUploadContentEditor
@@ -193,6 +211,7 @@ const ContentRenderer: FC<{
         />
       )
     } else {
+      // TODO:  Reference Search modal
       return (
         <Input
           label={item.title}
@@ -206,34 +225,8 @@ const ContentRenderer: FC<{
       )
     }
   }
+
   // REFERENCES
-
-  // if (item.type === 'digest') {
-  //   return (
-  //     <Input
-  //       label={item.title}
-  //       type="digest"
-  //       value={itemValue}
-  //       onChange={onChange}
-  //       style={{ marginBottom: BOTTOMSPACE }}
-  //       indent
-  //     />
-  //   )
-  // }
-
-  // item.
-
-  // if (item.meta?.type === 'file') {
-  //   return (
-  //     <FileUploadContentEditor
-  //       data={data}
-  //       item={item}
-  //       name={item.title}
-  //       state={state}
-  //       onChange={onChange}
-  //     />
-  //   )
-  // }
 
   if (item.type === 'id') {
     return <Badge>{itemValue}</Badge>
@@ -252,20 +245,6 @@ const ContentRenderer: FC<{
   //   )
   // }
 
-  // if (item.type === 'text') {
-  //   return (
-  //     <Input
-  //       label={item.title}
-  //       description={item.description}
-  //       type="text"
-  //       onChange={onChange}
-  //       value={itemValue}
-  //       style={{ marginBottom: BOTTOMSPACE }}
-  //       indent
-  //     />
-  //   )
-  // }
-
   // if (item.type === 'type') {
   //   return (
   //     <InputWrapper
@@ -276,20 +255,6 @@ const ContentRenderer: FC<{
   //     >
   //       <Badge>{itemValue}</Badge>
   //     </InputWrapper>
-  //   )
-  // }
-
-  // if (item.type === 'reference') {
-  //   return (
-  //     <Input
-  //       label={item.title}
-  //       type="text"
-  //       placeholder="Referenced ID"
-  //       onChange={onChange}
-  //       value={itemValue}
-  //       style={{ marginBottom: BOTTOMSPACE, width: 150 }}
-  //       indent
-  //     />
   //   )
   // }
 

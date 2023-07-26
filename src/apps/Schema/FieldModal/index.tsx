@@ -22,6 +22,8 @@ const specificFieldSettings = {
   integer: fieldSettings.NumberSettings,
   reference: fieldSettings.ReferenceSettings,
   references: fieldSettings.ReferenceSettings,
+  array: fieldSettings.ArrayGeneral,
+  set: fieldSettings.SetGeneral,
 }
 
 export const FieldModal: FC<{
@@ -124,6 +126,7 @@ export const FieldModal: FC<{
                   setDisabled={setSpecificDisabled}
                   field={field}
                   types={types}
+                  templates={templates}
                 />
               </styled.div>
             </Tab>

@@ -58,7 +58,7 @@ export const SharedGeneral: FC<{
         description="Displays a hint for content editors"
         value={options.description}
         onChange={(value) => {
-          options.description = value
+          options.description = value as string
           update()
         }}
       />

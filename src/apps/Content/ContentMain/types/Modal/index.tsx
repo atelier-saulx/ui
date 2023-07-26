@@ -88,11 +88,11 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     }
   }
 
-  console.log(
-    'The fields for this content editor??',
-    schema.types[overlayData.name].fields
-  )
-  console.log('Props??', props)
+  // console.log(
+  //   'The fields for this content editor??',
+  //   schema.types[overlayData.name].fields
+  // )
+  // console.log('Props??', props)
 
   return (
     <styled.div
