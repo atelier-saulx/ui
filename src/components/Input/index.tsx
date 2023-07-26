@@ -59,9 +59,7 @@ type InputType =
   | 'digest'
   | 'url'
 
-type OnChange<T extends InputType> = (
-  value: T extends 'number' ? number : string
-) => void
+type OnChange = (value: number | string) => void
 
 export const Input = <T extends InputType>({
   autoFocus,
@@ -101,7 +99,7 @@ export const Input = <T extends InputType>({
   ...otherProps
 }: {
   type: T // <--- this is it
-  onChange?: OnChange<T>
+  onChange?: OnChange
   style?: Style
   label?: ReactNode
   pattern?: string
@@ -157,9 +155,9 @@ export const Input = <T extends InputType>({
   const onChange = useCallback(
     (e: { target: { value: string } }) => {
       const newValue = transform ? transform(e.target.value) : e.target.value
+
+      // All this for NUMBER rules /////
       if (type === 'number') {
-        // All this for NUMBER rules /////
-        // TODO: Multiple of add in here
         if (+e.target.value % multipleOf) {
           if (max && !min) {
             if (!exclusiveMaximum && +e.target.value <= max) {
@@ -335,7 +333,11 @@ export const Input = <T extends InputType>({
       ) : type === 'password' ? (
         <PasswordInput {...props} large={large} disabled={!!valueProp} />
       ) : type === 'date' ? (
-        <DateWidget onChange={() => onChange} value={value} time={time} />
+        <DateWidget
+          onChange={(e) => onChangeProp?.(e)}
+          value={value}
+          time={time}
+        />
       ) : type === 'url' ? (
         <UrlInput
           onChange={(e) => onChangeProp?.(e.target.value)}
