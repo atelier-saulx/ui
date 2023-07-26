@@ -40,6 +40,8 @@ const ContentRenderer: FC<{
     setState({ ...state, [item.key]: v })
   }
 
+  console.log('item??', item)
+
   // **** START 🚥 ****
   // STRING
   if (item.type === 'string') {
@@ -160,6 +162,50 @@ const ContentRenderer: FC<{
   // SET
 
   // REFERENCE
+  if (item.type === 'reference') {
+    // 1. Check the AllowedTypes field -->
+    // 2. Check if $value is image or video etc , and $field mimeType
+    // 3. Determine to display a file upload ??
+
+    if (
+      item?.allowedTypes?.includes('file') ||
+      item?.allowedTypes?.type === 'file'
+    ) {
+      //   {
+      //     name?: string;
+      //     type: string;
+      //     meta?: any;
+      //     key: string;
+      //     mimeTypeKey?: string;
+
+      console.log('item?? 🅾️', item)
+
+      // }
+
+      return (
+        <FileUploadContentEditor
+          data={data}
+          item={item}
+          name={item.title}
+          state={state}
+          onChange={onChange}
+          style={{ marginBottom: BOTTOMSPACE }}
+        />
+      )
+    } else {
+      return (
+        <Input
+          label={item.title}
+          type="text"
+          placeholder="Referenced ID"
+          onChange={onChange}
+          value={itemValue}
+          style={{ marginBottom: BOTTOMSPACE, width: 150 }}
+          indent
+        />
+      )
+    }
+  }
   // REFERENCES
 
   // if (item.type === 'digest') {
@@ -174,6 +220,8 @@ const ContentRenderer: FC<{
   //     />
   //   )
   // }
+
+  // item.
 
   // if (item.meta?.type === 'file') {
   //   return (

@@ -1,6 +1,10 @@
 import { IdIcon } from '~'
 import { alwaysIgnore, systemFields } from '~/apps/Schema/templates'
-import { BasedSchemaFieldShared, BasedSchema } from '@based/schema'
+import {
+  BasedSchemaFieldShared,
+  BasedSchema,
+  BasedSchemaFieldReference,
+} from '@based/schema'
 
 export const createRootEditor = (schema: BasedSchema): any => {
   const typeSchema = schema.types.root
@@ -233,12 +237,26 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
         continue
       }
 
-      // // mime
-      // let mField: string
-      // // @ts-ignore
-      // if (type === 'file' && f.meta?.ui === 'file' && f.type === 'string') {
-      //   mField = 'mimeType'
-      // } else if (
+      // mime
+      let mField: string
+      // @ts-ignore
+      // type file && contentType
+      if (type === 'file' && f.meta?.ui === 'file' && f.type === 'string') {
+        mField = 'mimeType'
+      } else if (
+        f.type === 'reference' &&
+        (f.allowedTypes?.includes('file') || f.allowedTypes?.type === 'file')
+      ) {
+        mField = `${field}.mimeType`
+
+        getFields[field] = {
+          src: true,
+          id: true,
+          mimeType: true,
+          name: true,
+        }
+      }
+
       //   f.type === 'reference' &&
       //   (f.meta?.format === 'file' ||
       //     (f.meta?.refTypes &&
@@ -262,6 +280,8 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
         key: field,
         type: f.type,
         index: f?.index ?? 1e6,
+        mimeTypeKey: mField,
+        // meta: f.meta,
       })
     }
   }

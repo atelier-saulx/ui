@@ -5,16 +5,7 @@ import React, {
   ReactNode,
   useState,
 } from 'react'
-import {
-  color,
-  Text,
-  ErrorIcon,
-  styled,
-  Color,
-  Label,
-  Button,
-  useHover,
-} from '~'
+import { color, Text, ErrorIcon, styled, Color, Label, Button } from '~'
 
 type InputWrapperProps = {
   children: ReactNode
