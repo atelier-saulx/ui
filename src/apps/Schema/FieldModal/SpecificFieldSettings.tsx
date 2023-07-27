@@ -289,8 +289,10 @@ export const ArrayGeneral = ({ options, field, setDisabled }) => {
         value={itemsType}
         onChange={(value) => {
           // options.items = templates[value].schema
-          //   options.items = value
-          options.items = []
+          options.items = {}
+          options.items.type = value
+          options.items.items = []
+
           setDisabled(false)
         }}
         options={[

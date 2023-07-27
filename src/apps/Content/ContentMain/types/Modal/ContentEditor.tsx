@@ -176,6 +176,8 @@ const ContentRenderer: FC<{
   // ARRAY
 
   if (item.type === 'array') {
+    console.log('Array item --> ', item)
+
     return (
       <ArrayList
         label={item.title}
