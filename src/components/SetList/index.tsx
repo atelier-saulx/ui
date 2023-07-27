@@ -39,6 +39,8 @@ export const SetList = ({
 
   const [errorMessage, setErrorMessage] = useState('')
 
+  arr?.sort()
+
   // console.log(set, '?????')
   console.log(arr, 'ARr yo??')
 
@@ -46,12 +48,14 @@ export const SetList = ({
 
   useEffect(() => {
     setArr(value)
+
+    // array.includes()
+
     setSet(new Set(value))
   }, [value])
 
   useEffect(() => {
-    console.log(set, '🏴❤️‍🔥')
-    onChange(set)
+    onChange(Array.from(set))
   }, [arr])
 
   const addItemHandler = async () => {
@@ -88,6 +92,7 @@ export const SetList = ({
                 )
               } else {
                 setErrorMessage('')
+
                 set.add(inputVAL)
                 setArr(Array.from(set))
                 // console.log(set, '🏴‍☠️')
@@ -106,7 +111,7 @@ export const SetList = ({
     newSet.delete(item)
     setArr(Array.from(newSet))
     setSet(newSet)
-    //    onChange(Array.from(newSet))
+    onChange(Array.from(newSet))
   }
 
   const editSpecificItem = async (item, idx, set) => {

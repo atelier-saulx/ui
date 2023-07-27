@@ -37,6 +37,7 @@ RecordListProps) => {
 
   useEffect(() => {
     setTempObj(value)
+    console.log(tempObj)
   }, [value])
 
   const addItemHandler = async () => {

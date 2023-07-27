@@ -38,7 +38,7 @@ const ContentRenderer: FC<{
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
   const onChange = (v: any) => {
-    console.log('v', v)
+    console.log('V for vendetaa', v)
     setState({ ...state, [item.key]: v })
   }
 
