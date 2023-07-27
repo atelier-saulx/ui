@@ -307,7 +307,7 @@ export const LogGroups = () => {
       srvc: 'env-db',
       i: '0',
       mid: 'ma2c3ce4ad',
-      subType: 'bla',
+      // subType: 'bla',
       url: '3.127.35.134',
       eid: 'enBBBFs9x0',
       msg: "Empty hierarchy initialized [ 'root', 'UPDATED' ]\n",

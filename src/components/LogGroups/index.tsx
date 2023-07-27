@@ -112,6 +112,8 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
     }
   }
 
+  // console.log(pairs, 'pairs??')
+
   const result = []
 
   let item
@@ -129,7 +131,11 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
     }
   }
 
+  // console.log('results', result)
+
   const finalArr = []
+
+  // console.log('final arr', finalArr)
 
   for (let i = 0; i < result.length; i++) {
     finalArr.splice(result[i][0], result[i][1] + 1)
@@ -472,29 +478,47 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
       )}
 
       {idx !== 0 && msg[0] !== '{' && (
-        <pre
-          style={{
-            color: colorFn('text2'),
-            boxSizing: 'inherit',
-            display: 'inherit',
-            userSelect: 'text',
-            padding: 0,
-            margin: 0,
-            marginLeft: 8,
-            marginTop: 10,
-            border: undefined,
-            lineHeight: '18px',
-            fontSize: 14,
-            fontFamily: 'Fira Code',
-            wordBreak: 'break-all',
-            whiteSpace: 'break-spaces',
-            overflowWrap: 'break-word',
-            position: 'relative',
-          }}
-          // dangerouslySetInnerHTML={{ __html: msg }}
-        >
-          {msg}
-        </pre>
+        <>
+          {idx > 0 && (
+            <styled.div
+              style={{
+                display: 'flex',
+                backgroundColor: colorFn('background2'),
+                padding: '3px 6px 1px 8px',
+                borderRadius: '12px',
+                maxWidth: 70,
+              }}
+            >
+              <Text typography="caption500">
+                {dayjs(ts).format('HH:mm:ss')}{' '}
+              </Text>
+            </styled.div>
+          )}
+          <pre
+            style={{
+              color: colorFn('text2'),
+              boxSizing: 'inherit',
+              display: 'inherit',
+              userSelect: 'text',
+              padding: 0,
+              margin: 0,
+              marginLeft: 8,
+              marginBottom: 9,
+              marginTop: 6,
+              border: undefined,
+              lineHeight: '18px',
+              fontSize: 14,
+              fontFamily: 'Fira Code',
+              wordBreak: 'break-all',
+              whiteSpace: 'break-spaces',
+              overflowWrap: 'break-word',
+              position: 'relative',
+            }}
+            // dangerouslySetInnerHTML={{ __html: msg }}
+          >
+            {msg}
+          </pre>
+        </>
       )}
     </styled.div>
   )
