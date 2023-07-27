@@ -23,7 +23,8 @@ export const SharedGeneral: FC<{
       !options.field ||
       options.field.length < 3
     ) {
-      setDisabled(true)
+      setDisabled(false)
+      // setDisabled(true)
     } else {
       setDisabled(false)
     }
@@ -50,6 +51,18 @@ export const SharedGeneral: FC<{
         }}
         value={options.title}
         style={{ marginTop: 24, marginBottom: 24 }}
+      />
+
+      <Input
+        type="text"
+        style={{ background: 'lightgreen' }}
+        ghost
+        value={options.field}
+        onChange={(value: string) => {
+          options.field = value
+
+          update()
+        }}
       />
 
       <Input

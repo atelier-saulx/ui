@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { styled, Input, Toggle, Badge } from '~'
+import { styled, Input, Toggle, Badge, ArrayList } from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
 import { SetList } from '~/components/SetList'
@@ -38,6 +38,7 @@ const ContentRenderer: FC<{
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
   const onChange = (v: any) => {
+    console.log('v', v)
     setState({ ...state, [item.key]: v })
   }
 
@@ -164,7 +165,7 @@ const ContentRenderer: FC<{
         label={item.title}
         description={item.description}
         recordType={item.items.type}
-        value={item.value}
+        value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         onChange={onChange}
         indent
@@ -173,13 +174,28 @@ const ContentRenderer: FC<{
   }
 
   // ARRAY
+
+  if (item.type === 'array') {
+    return (
+      <ArrayList
+        label={item.title}
+        description={item.description}
+        style={{ marginBottom: BOTTOMSPACE }}
+        value={itemValue}
+        onChange={onChange}
+        indent
+        arrayType={item.items.type}
+      />
+    )
+  }
+
   // SET
   if (item.type === 'set') {
     return (
       <SetList
         label={item.title}
         description={item.description}
-        value={item.value}
+        value={itemValue}
         setType={item.items.type}
         onChange={onChange}
         style={{ marginBottom: BOTTOMSPACE }}

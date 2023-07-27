@@ -29,6 +29,8 @@ export const SetList = ({
 }: SetListProps) => {
   // console.log('Set type?', setType)
 
+  console.log(value, ' value ?>')
+
   const itemType = setType
   const [arr, setArr] = useState(value)
   const [set, setSet] = useState<any>(new Set(arr))
@@ -38,12 +40,19 @@ export const SetList = ({
   const [errorMessage, setErrorMessage] = useState('')
 
   // console.log(set, '?????')
-  // console.log(arr, 'yo??')
+  console.log(arr, 'ARr yo??')
+
+  console.log(itemType, ' <-- Set items type')
 
   useEffect(() => {
     setArr(value)
     setSet(new Set(value))
   }, [value])
+
+  useEffect(() => {
+    console.log(set, '🏴❤️‍🔥')
+    onChange(set)
+  }, [arr])
 
   const addItemHandler = async () => {
     let inputVAL: number | string = ''
@@ -81,7 +90,9 @@ export const SetList = ({
                 setErrorMessage('')
                 set.add(inputVAL)
                 setArr(Array.from(set))
-                onChange(Array.from(set))
+                // console.log(set, '🏴‍☠️')
+                // onChange({ type: 'set', set: set })
+                //   onChange(Array.from(set))
               }
             }}
           />
@@ -95,7 +106,7 @@ export const SetList = ({
     newSet.delete(item)
     setArr(Array.from(newSet))
     setSet(newSet)
-    onChange(Array.from(newSet))
+    //    onChange(Array.from(newSet))
   }
 
   const editSpecificItem = async (item, idx, set) => {

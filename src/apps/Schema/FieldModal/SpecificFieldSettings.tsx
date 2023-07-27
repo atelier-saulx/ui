@@ -262,42 +262,47 @@ export const ReferenceSettings = ({ types, options }) => {
   )
 }
 
-// export const ArrayGeneral = ({ options, field, setDisabled }) => {
-//   const itemsType = options.items?.type
+export const templates: {
+  [key: string]: BasedSchemaField
+} = {}
 
-//   useEffect(() => {
-//     setDisabled(!itemsType)
-//   }, [itemsType])
+export const ArrayGeneral = ({ options, field, setDisabled }) => {
+  const itemsType = options.items?.type
 
-//   return (
-//     <>
-//       <Text style={{ marginTop: 24 }}>Value type</Text>
-//       <Select
-//         placeholder="Select value type"
-//         style={{
-//           opacity: field ? 0.6 : 1,
-//           pointerEvents: field ? 'none' : null,
-//           cursor: field ? 'not-allowed' : null,
-//           marginTop: 16,
-//           width: 400,
-//         }}
-//         filterable
-//         value={itemsType}
-//         onChange={(value) => {
-//           options.items = []
-//           setDisabled(false)
-//         }}
-//         options={[
-//           { value: 'digest', label: 'Digest' },
-//           { value: 'float', label: 'Float' },
-//           { value: 'int', label: 'Integer' },
-//           { value: 'object', label: 'Object' },
-//           { value: 'string', label: 'String' },
-//         ]}
-//       />
-//     </>
-//   )
-// }
+  useEffect(() => {
+    setDisabled(!itemsType)
+  }, [itemsType])
+
+  return (
+    <>
+      <Text style={{ marginTop: 24 }}>Value type</Text>
+      <Select
+        placeholder="Select value type"
+        style={{
+          opacity: field ? 0.6 : 1,
+          pointerEvents: field ? 'none' : null,
+          cursor: field ? 'not-allowed' : null,
+          marginTop: 16,
+          width: 400,
+        }}
+        filterable
+        value={itemsType}
+        onChange={(value) => {
+          options.items = templates[value].schema
+          //  options.items = []
+          setDisabled(false)
+        }}
+        options={[
+          { value: 'digest', label: 'Digest' },
+          { value: 'float', label: 'Float' },
+          { value: 'int', label: 'Integer' },
+          { value: 'object', label: 'Object' },
+          { value: 'string', label: 'String' },
+        ]}
+      />
+    </>
+  )
+}
 
 export const SetGeneral = ({ options, field, setDisabled }) => {
   const itemsType = options.items?.type

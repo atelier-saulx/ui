@@ -22,9 +22,10 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
         try {
           const { field, ...schema } = options
 
-          if (!schema.title) {
-            throw Error('Title is required')
-          }
+          // DEBUG TODO : TURN ON AGAIN
+          // if (!schema.title) {
+          //   throw Error('Title is required')
+          // }
 
           if (!field) {
             throw Error('Field name is required')

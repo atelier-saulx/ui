@@ -95,7 +95,7 @@ export const parseFunction = (
           }
         }
       })
-
+      console.log(name, payload, '🔴')
       return ctx.client.call(name, payload)
     }
   }
