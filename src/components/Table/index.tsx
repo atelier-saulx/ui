@@ -18,6 +18,8 @@ import {
   AttachmentIcon,
   ThumbnailFile,
   IdIcon,
+  SetIcon,
+  SquareBracketsIcon,
   CheckIcon,
   Row,
   pathReader,
@@ -211,6 +213,18 @@ const Cell = (props) => {
     <Badge color="accent" icon={<AttachmentIcon />}>
       <Text typography="caption600" color="accent">
         {prettyNumber(itemData?.length || 0, 'number-short')}
+      </Text>
+    </Badge>
+  ) : type === 'array' ? (
+    <Badge color="accent" icon={<SquareBracketsIcon />}>
+      <Text typography="caption600" color="accent">
+        {itemData ? itemData.length : '0'}
+      </Text>
+    </Badge>
+  ) : type === 'set' ? (
+    <Badge color="accent" icon={<SetIcon />}>
+      <Text typography="caption600" color="accent">
+        {itemData ? itemData.length : '0'}
       </Text>
     </Badge>
   ) : (
