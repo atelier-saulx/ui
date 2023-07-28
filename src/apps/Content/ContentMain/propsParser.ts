@@ -1,5 +1,6 @@
 import { BasedClient } from '@based/client'
 import { View } from '../types'
+import { getByPath } from '@saulx/utils'
 
 export type ParseCtx = {
   data: any
@@ -154,35 +155,21 @@ export const parseFunction = (
   }
 }
 
-const pathReader = (a: any, path: string[]): any => {
-  let d = a
-  for (let i = 1; i < path.length; i++) {
-    const seg = path[i]
-    if (d?.[seg] !== undefined) {
-      d = d[seg]
-    } else {
-      d = undefined
-      break
-    }
-  }
-  return d
-}
-
 const parseString = (field: string, ctx: ParseCtx): any => {
   if (field[0] === '$') {
     const path = field.split('.')
     const type = path[0]
     if (type === '$data') {
-      return pathReader(ctx.data, path)
+      return getByPath(ctx.data, path.slice(1))
     }
     if (type === '$args') {
-      return pathReader(ctx.args, path)
+      return getByPath(ctx.args, path.slice(1))
     }
     if (type === '$state') {
-      return pathReader(ctx.state, path)
+      return getByPath(ctx.state, path.slice(1))
     }
     if (type === '$target') {
-      return pathReader(ctx.target, path)
+      return getByPath(ctx.target, path.slice(1))
     }
   }
   return field

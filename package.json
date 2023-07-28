@@ -43,7 +43,7 @@
     "@dnd-kit/utilities": "^3.2.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@saulx/hash": "^2.0.0",
-    "@saulx/utils": "^3.2.2",
+    "@saulx/utils": "^3.5.0",
     "@saulx/validators": "^1.2.0",
     "countries-list": "^2.6.1",
     "crypto-js": "^4.1.1",

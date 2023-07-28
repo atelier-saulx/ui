@@ -1,5 +1,7 @@
 import React, { FC } from 'react'
-import { FileUpload, pathReader, styled, Style, Badge } from '~'
+import { FileUpload, styled, Style, Badge } from '~'
+
+import { getByPath } from '@saulx/utils'
 
 export const FileUploadContentEditor: FC<{
   item: {
@@ -25,7 +27,7 @@ export const FileUploadContentEditor: FC<{
   // const [progress, setProgress] = useState(null)
 
   const mimeType: string = mimeTypeKey
-    ? pathReader(data, mimeTypeKey.split('.'))
+    ? getByPath(data, mimeTypeKey.split('.'))
     : undefined
 
   return (
