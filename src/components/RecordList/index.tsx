@@ -6,33 +6,38 @@ import { Text } from '~/components/Text'
 import { Badge } from '~/components/Badge'
 import { useDialog } from '~/components/Dialog'
 import { addSingleRecordItem } from './AddSingleRecordItem'
-import { color } from '~'
+import { Style, color } from '~'
 
 type RecordListProps = {
   label?: string
   description?: string
-  schema?: any
+  recordType?: any
   value?: {}
   onClick?: () => void
   onChange?: (value: any) => void
+  style?: Style
+  indent?: boolean
 }
 
 export const RecordList = ({
   label,
   description,
-  schema,
+  recordType,
   value,
   onClick,
   onChange,
+  style,
+  indent,
 }: // ...props
 RecordListProps) => {
   const { open } = useDialog()
   const [tempObj, setTempObj] = useState({})
 
-  const itemType = schema.values.type
+  const itemType = recordType
 
   useEffect(() => {
     setTempObj(value)
+    console.log(tempObj)
   }, [value])
 
   const addItemHandler = async () => {
@@ -41,24 +46,26 @@ RecordListProps) => {
 
   return (
     <InputWrapper
-      indent
-      style={{ marginBottom: 48 }}
+      style={{ ...style }}
       descriptionBottom={description}
+      indent={indent}
+      hideClearButton
     >
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
         <Text weight={500} size={14}>
           {label}
         </Text>
-        <Badge style={{ marginLeft: 8 }}>{schema.values.type}</Badge>
+        <Badge style={{ marginLeft: 8 }}>{itemType}</Badge>
       </div>
-      <InputWrapper indent style={{ marginBottom: 12 }}>
+      <InputWrapper indent style={{ marginBottom: 12 }} hideClearButton>
         {tempObj &&
           Object.keys(tempObj).map((ObjKey, idx) => (
             <div
               key={idx}
               style={{
                 display: 'flex',
-                marginBottom: 4,
+                marginBottom: 8,
+                paddingBottom: 8,
                 borderRadius: 4,
                 borderBottom: `1px solid ${color('border')}`,
               }}
@@ -77,7 +84,7 @@ RecordListProps) => {
 
       <div style={{ display: 'flex', gap: 16 }}>
         <Button ghost icon={AddIcon} onClick={addItemHandler}>
-          Add {schema.values.type}
+          Add {itemType}
         </Button>
 
         {value && (

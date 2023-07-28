@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Label, Button, AddIcon, Input, Dialog } from '~'
+import { Label, Button, AddIcon, Input, Dialog, Style } from '~'
 import { InputWrapper } from '../Input/InputWrapper'
 import { useDialog } from '~/components/Dialog'
 
@@ -11,7 +11,9 @@ type SetListProps = {
   indent?: boolean
   onChange?(items: {}): void
   value?: any
-  schema?: any
+  setType?: any
+  style?: Style
+  label?: string
 }
 
 export const SetList = ({
@@ -20,10 +22,16 @@ export const SetList = ({
   disabled,
   indent,
   value,
-  schema,
+  setType,
+  label,
+  style,
   ...props
 }: SetListProps) => {
-  const itemType = schema?.items.type
+  // console.log('Set type?', setType)
+
+  console.log(value, ' value ?>')
+
+  const itemType = setType
   const [arr, setArr] = useState(value)
   const [set, setSet] = useState<any>(new Set(arr))
   const { open } = useDialog()
@@ -31,10 +39,24 @@ export const SetList = ({
 
   const [errorMessage, setErrorMessage] = useState('')
 
+  arr?.sort()
+
+  // console.log(set, '?????')
+  console.log(arr, 'ARr yo??')
+
+  console.log(itemType, ' <-- Set items type')
+
   useEffect(() => {
     setArr(value)
+
+    // array.includes()
+
     setSet(new Set(value))
   }, [value])
+
+  useEffect(() => {
+    onChange(Array.from(set))
+  }, [arr])
 
   const addItemHandler = async () => {
     let inputVAL: number | string = ''
@@ -70,9 +92,12 @@ export const SetList = ({
                 )
               } else {
                 setErrorMessage('')
+
                 set.add(inputVAL)
                 setArr(Array.from(set))
-                onChange(Array.from(set))
+                // console.log(set, '🏴‍☠️')
+                // onChange({ type: 'set', set: set })
+                //   onChange(Array.from(set))
               }
             }}
           />
@@ -158,8 +183,9 @@ export const SetList = ({
 
   return (
     <InputWrapper
+      label={label}
       indent={indent}
-      style={{ marginBottom: 24 }}
+      style={{ ...style }}
       disabled={disabled}
       descriptionBottom={description}
       errorMessage={errorMessage}

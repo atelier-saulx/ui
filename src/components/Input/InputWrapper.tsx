@@ -5,21 +5,13 @@ import React, {
   ReactNode,
   useState,
 } from 'react'
-import {
-  color,
-  Text,
-  ErrorIcon,
-  styled,
-  Color,
-  Label,
-  Button,
-  useHover,
-} from '~'
+import { color, Text, ErrorIcon, styled, Color, Label, Button } from '~'
 
 type InputWrapperProps = {
   children: ReactNode
   errorMessage?: string
   focus?: boolean
+  format?: string
   indent?: boolean
   label?: ReactNode
   description?: string
@@ -36,6 +28,10 @@ type InputWrapperProps = {
   maxChars?: number
   onChange?: (e) => void
   hideClearButton?: boolean
+  min?: number
+  max?: number
+  multipleOf?: number
+  isRequired?: boolean
 }
 
 export const InputWrapper: FC<InputWrapperProps> = ({
@@ -46,6 +42,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   description,
   descriptionBottom,
   style,
+  format,
   disabled,
   color: colorProp = 'accent',
   value,
@@ -53,6 +50,10 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   onChange: onChangeProp,
   maxChars,
   hideClearButton,
+  min,
+  max,
+  multipleOf,
+  isRequired,
   ...props
 }) => {
   const [focus, setFocus] = useState(false)
@@ -91,6 +92,8 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             label={label}
             description={description}
             style={{ marginBottom: 6, marginLeft: 4 }}
+            format={format}
+            isRequired={isRequired}
           />
           {indent && !hideClearButton && (
             <Button
@@ -115,6 +118,26 @@ export const InputWrapper: FC<InputWrapperProps> = ({
         </styled.div>
 
         {children}
+
+        {(min || max) && (
+          <styled.div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 4,
+              marginTop: 8,
+            }}
+          >
+            <Text color="text2" weight={400}>
+              {min ? 'Min: ' + min + ' ' : ''}
+              {min && max ? '/ ' : ''}
+              {max ? 'Max: ' + max + ' ' : ''}
+            </Text>
+            <Text color="text2" weight={400}>
+              {multipleOf ? 'In steps of: ' + multipleOf : ''}
+            </Text>
+          </styled.div>
+        )}
 
         {maxChars && (
           <styled.div

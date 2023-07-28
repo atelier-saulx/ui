@@ -23,7 +23,7 @@ const parse$Files = async (
     if (s.$files && s.$type && s.$key) {
       return await files(s, prev, k)
     } else {
-      const x: any = {}
+      const x: any = Array.isArray(s) ? [] : {}
       for (const key in s) {
         const y = await parse$Files(s[key], files, x, key)
         if (y !== undefined && y !== null) {
@@ -45,12 +45,15 @@ export const parseFunction = (
   if (config.function) {
     // TODO: also support .publish, query.get and some others! stream?
     return async (...args) => {
+      console.info('ctx', ctx, config.function)
+
       let { name, payload } = parseProps(config.function, {
         ...ctx,
         args,
       })
+      console.info(name, payload)
 
-      payload = await parse$Files(payload, async (files, k, prev) => {
+      payload = await parse$Files(payload, async (files) => {
         if (name === 'db:set') {
           // TODO: get rid of url
           if (files.$type === 'string' || files.$type === 'url') {
@@ -95,7 +98,6 @@ export const parseFunction = (
           }
         }
       })
-
       return ctx.client.call(name, payload)
     }
   }
@@ -209,7 +211,6 @@ export const parseProps = (
       }
     } else if (typeof field === 'object') {
       newObj[key] = parseProps(field, ctx, excludeFields)
-
       if (key === '$filter') {
         if (Array.isArray(newObj[key])) {
           for (let i = 0; i < newObj[key].length; i++) {
@@ -231,6 +232,7 @@ export const parseProps = (
     if (key === '...') {
       const rest = newObj[key]
       delete newObj[key]
+      console.info('getting here', newObj, rest)
       Object.assign(newObj, rest)
     }
   }

@@ -1,22 +1,19 @@
 import React, { FC } from 'react'
-import { styled, Input, Badge, Toggle } from '~'
-import { InputWrapper } from '~/components/Input/InputWrapper'
+import { styled, Input, Toggle, Badge, ArrayList } from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
+import { SetList } from '~/components/SetList'
+import { useSchema } from '~/apps/Schema/hooks/useSchema'
+import { RecordList } from '~/components/RecordList'
 
 export const ContentEditor: FC<{
   data: { [key: string]: any }
   state: { [key: string]: any }
-  fields: {
-    key: string
-    meta?: string
-    name?: string
-    type: string
-    mimeType?
-  }[]
+  fields: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
   console.log('data??', data, fields, state)
+
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
       {fields?.map((item, i) => (
@@ -34,190 +31,256 @@ export const ContentEditor: FC<{
 }
 
 const ContentRenderer: FC<{
-  item: {
-    name?: string
-    type: string
-    meta?: any
-    key: string
-    mimeTypeKey?: string
-  }
+  item: { [key: string]: any }
   itemValue: any
   data: any
   state: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
-  const { type, meta, key, mimeTypeKey } = item
-  const name = item.name ?? key
-
   const onChange = (v: any) => {
-    setState({ ...state, [key]: v })
+    console.log('V for vendetaa', v)
+    setState({ ...state, [item.key]: v })
   }
 
-  console.log('item--->', item, '???')
+  // **** START 🚥 ****
 
-  if (type === 'boolean') {
-    return (
-      <Toggle
-        description={meta?.description}
-        label={name}
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
-        onChange={onChange}
-        indent
-      />
-    )
-  }
+  // STRING // TEXT
+  if (item.type === 'string' || item.type === 'text') {
+    // depending on String format return a different type of input field
+    // TODO: for text add Language
 
-  if (type === 'digest') {
-    return (
-      <Input
-        label={name}
-        type="digest"
-        value={itemValue}
-        onChange={onChange}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
+    let inputType
 
-  if (type === 'email') {
+    if (item?.format === 'URL') {
+      inputType = 'url'
+    } else if (item?.format === 'rgbColor') {
+      inputType = 'color'
+    } else if (item?.format === 'email') {
+      inputType = 'email'
+    } else {
+      inputType = 'text'
+    }
+
     return (
       <Input
-        label={name}
-        type="email"
-        value={itemValue}
+        label={item.title}
+        description={item.description}
+        type={inputType}
         onChange={onChange}
+        value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
+        maxChars={item?.maxLength}
+        format={item?.format}
+        disabled={item?.readOnly}
+        isRequired={item?.isRequired}
+        pattern={item?.pattern}
       />
     )
   }
 
-  if (meta?.type === 'file' || mimeTypeKey) {
-    return (
-      <FileUploadContentEditor
-        data={data}
-        item={item}
-        name={name}
-        state={state}
-        onChange={onChange}
-      />
-    )
-  }
+  // ENUM
 
-  if (type === 'id') {
-    return <Badge>{itemValue}</Badge>
-  }
-
-  if (type === 'json') {
+  // NUMBER
+  if (item.type === 'number') {
     return (
       <Input
-        label={name}
-        type="json"
-        value={itemValue}
-        onChange={onChange}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
-
-  if (meta?.format === 'markdown') {
-    return (
-      <Input
-        label={name}
-        type="markdown"
-        value={itemValue}
-        onChange={onChange}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
-
-  if (type === 'number') {
-    return (
-      <Input
-        label={name}
+        label={item.title}
+        disabled={item?.readOnly}
         type="number"
         onChange={onChange}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
+        description={item?.description}
+        max={item?.maximum}
+        min={item?.minimum}
+        multipleOf={item?.multipleOf}
+        exclusiveMaximum={item?.exclusiveMaximum}
+        exclusiveMinimum={item?.exclusiveMinimum}
+        isRequired={item?.isRequired}
       />
     )
   }
 
-  if (type === 'string' || type === 'text') {
+  // CARDINALITY
+  // INTEGER
+
+  // TIMESTAMP
+  if (item.type === 'timestamp') {
     return (
       <Input
-        label={name}
-        type="text"
-        onChange={onChange}
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
-
-  if (type === 'url') {
-    return (
-      <Input
-        label={name}
-        type="url"
-        onChange={onChange}
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-      />
-    )
-  }
-
-  if (type === 'type') {
-    return (
-      <InputWrapper
-        label={name}
-        style={{ marginBottom: BOTTOMSPACE }}
-        indent
-        value=""
-      >
-        <Badge>{itemValue}</Badge>
-      </InputWrapper>
-    )
-  }
-
-  if (type === 'timestamp') {
-    return (
-      <Input
-        label={name}
+        label={item.title}
+        description={item.description}
         type="date"
-        time
         onChange={onChange}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
-        descriptionBottom={new Date(itemValue).toString()}
+        indent
+        disabled={item?.readOnly}
+        isRequired={item?.isRequired}
+        time
+      />
+    )
+  }
+
+  // BOOLEAN
+  if (item.type === 'boolean') {
+    return (
+      <Toggle
+        label={item.title}
+        description={item?.description}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        onChange={onChange}
+        indent
+        disabled={item?.readOnly}
+        isRequired={item?.isRequired}
+      />
+    )
+  }
+
+  // JSON
+  if (item.type === 'json') {
+    return (
+      <Input
+        label={item.title}
+        description={item?.description}
+        type="json"
+        value={itemValue}
+        onChange={onChange}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+        disabled={item?.readOnly}
+        isRequired={item?.isRequired}
+      />
+    )
+  }
+
+  // OBJECT
+  // RECORD
+  if (item.type === 'record') {
+    return (
+      <RecordList
+        label={item.title}
+        description={item.description}
+        recordType={item.items.type}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        onChange={onChange}
         indent
       />
     )
   }
 
-  if (type === 'reference') {
+  // ARRAY
+
+  if (item.type === 'array') {
+    console.log('Array item --> ', item)
+
     return (
-      <Input
-        label={name}
-        type="text"
-        placeholder="Referenced ID"
-        onChange={onChange}
+      <ArrayList
+        label={item.title}
+        description={item.description}
+        style={{ marginBottom: BOTTOMSPACE }}
         value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE, width: 150 }}
+        onChange={onChange}
+        indent
+        arrayType={item.items.type}
+      />
+    )
+  }
+
+  // SET
+  if (item.type === 'set') {
+    return (
+      <SetList
+        label={item.title}
+        description={item.description}
+        value={itemValue}
+        setType={item.items.type}
+        onChange={onChange}
+        style={{ marginBottom: BOTTOMSPACE }}
         indent
       />
     )
   }
+
+  // REFERENCE
+  if (item.type === 'reference') {
+    if (
+      item?.allowedTypes?.includes('file') ||
+      item?.allowedTypes?.type === 'file'
+    ) {
+      //     name?: string;
+      //     type: string;
+      //     meta?: any;
+      //     key: string;
+      //     mimeTypeKey?: string;
+
+      // console.log('item?? 🅾️', item)
+
+      return (
+        <FileUploadContentEditor
+          data={data}
+          item={item}
+          name={item.title}
+          state={state}
+          onChange={onChange}
+          style={{ marginBottom: BOTTOMSPACE }}
+        />
+      )
+    } else {
+      // TODO:  Reference Search modal
+      return (
+        <Input
+          label={item.title}
+          type="text"
+          placeholder="Referenced ID"
+          onChange={onChange}
+          value={itemValue}
+          style={{ marginBottom: BOTTOMSPACE, width: 150 }}
+          indent
+        />
+      )
+    }
+  }
+
+  // REFERENCES
+
+  if (item.type === 'id') {
+    return <Badge>{itemValue}</Badge>
+  }
+
+  // if (item.meta?.format === 'markdown') {
+  //   return (
+  //     <Input
+  //       label={item.title}
+  //       type="markdown"
+  //       value={itemValue}
+  //       onChange={onChange}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       indent
+  //     />
+  //   )
+  // }
+
+  // if (item.type === 'type') {
+  //   return (
+  //     <InputWrapper
+  //       label={item.title}
+  //       style={{ marginBottom: BOTTOMSPACE }}
+  //       indent
+  //       value=""
+  //     >
+  //       <Badge>{itemValue}</Badge>
+  //     </InputWrapper>
+  //   )
+  // }
 
   return (
-    <styled.div style={{ marginBottom: 12 }}>{name + ' : ' + type}</styled.div>
+    <styled.div style={{ marginBottom: 12 }}>
+      {item.title + ' : ' + item.type}
+    </styled.div>
   )
 }

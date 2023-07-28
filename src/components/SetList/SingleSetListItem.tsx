@@ -38,6 +38,7 @@ export const SingleSetListItem = ({
 
   return (
     <StyledSetListItem>
+      {id}
       <Badge>{itemType}</Badge>
       <Text style={{ marginLeft: '12px' }}>{item}</Text>
       <MoreIcon

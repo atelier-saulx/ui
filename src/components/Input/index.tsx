@@ -59,9 +59,7 @@ type InputType =
   | 'digest'
   | 'url'
 
-type OnChange<T extends InputType> = (
-  value: T extends 'number' ? number : string
-) => void
+type OnChange = (value: number | string) => void
 
 export const Input = <T extends InputType>({
   autoFocus,
@@ -73,11 +71,13 @@ export const Input = <T extends InputType>({
   disabled,
   error,
   forceSuggestion,
+  format,
   ghost,
   icon,
   iconRight,
   indent,
   inputRef,
+  isRequired,
   label,
   large,
   maxChars,
@@ -99,7 +99,7 @@ export const Input = <T extends InputType>({
   ...otherProps
 }: {
   type: T // <--- this is it
-  onChange?: OnChange<T>
+  onChange?: OnChange
   style?: Style
   label?: ReactNode
   pattern?: string
@@ -108,6 +108,7 @@ export const Input = <T extends InputType>({
   value?: string | number
   icon?: FunctionComponent<Icon> | ReactNode
   iconRight?: FunctionComponent<Icon> | ReactNode
+  isRequired?: boolean
   indent?: boolean
   defaultValue?: string | number
   placeholder?: ReactNode
@@ -121,6 +122,7 @@ export const Input = <T extends InputType>({
   multipleOf?: number
   exclusiveMinimum?: boolean
   exclusiveMaximum?: boolean
+  format?: string
   inputRef?: RefObject<HTMLDivElement>
   large?: boolean
   disabled?: boolean
@@ -153,9 +155,9 @@ export const Input = <T extends InputType>({
   const onChange = useCallback(
     (e: { target: { value: string } }) => {
       const newValue = transform ? transform(e.target.value) : e.target.value
+
+      // All this for NUMBER rules /////
       if (type === 'number') {
-        // All this for NUMBER rules /////
-        // TODO: Multiple of add in here
         if (+e.target.value % multipleOf) {
           if (max && !min) {
             if (!exclusiveMaximum && +e.target.value <= max) {
@@ -294,7 +296,9 @@ export const Input = <T extends InputType>({
     <InputWrapper
       style={style}
       indent={indent}
+      format={format}
       label={label}
+      isRequired={isRequired}
       description={description}
       descriptionBottom={descriptionBottom}
       errorMessage={errorMessage}
@@ -305,6 +309,10 @@ export const Input = <T extends InputType>({
         onChangeProp?.(e.target.value)
       }}
       maxChars={maxChars}
+      // for numbers
+      min={min}
+      max={max}
+      multipleOf={multipleOf}
     >
       {type === 'color' ? (
         <ColorInput
@@ -325,7 +333,11 @@ export const Input = <T extends InputType>({
       ) : type === 'password' ? (
         <PasswordInput {...props} large={large} disabled={!!valueProp} />
       ) : type === 'date' ? (
-        <DateWidget onChange={() => onChange} value={value} time={time} />
+        <DateWidget
+          onChange={(e) => onChangeProp?.(e)}
+          value={value}
+          time={time}
+        />
       ) : type === 'url' ? (
         <UrlInput
           onChange={(e) => onChangeProp?.(e.target.value)}
@@ -370,28 +382,45 @@ export const Input = <T extends InputType>({
               }
 
               if (e.key === 'ArrowDown' && type === 'number') {
-                // TODO: FIRE THE UP ARROW , clickie from number input
                 e.preventDefault()
-                exclusiveMinimum && +value - multipleOf <= min
-                  ? setValue(+value)
-                  : multipleOf &&
-                    typeof min === 'number' &&
-                    +value - multipleOf >= min
-                  ? setValue(+value - multipleOf)
-                  : multipleOf && isNaN(min) && !exclusiveMinimum
-                  ? setValue(+value - multipleOf)
-                  : setValue(+value)
+
+                if (exclusiveMinimum && +value - multipleOf <= min) {
+                  setValue(+value)
+                  onChangeProp?.(value)
+                } else if (
+                  multipleOf &&
+                  typeof min === 'number' &&
+                  +value - multipleOf >= min
+                ) {
+                  setValue(+value - multipleOf)
+                  // @ts-ignore
+                  onChangeProp?.(value - multipleOf)
+                } else if (multipleOf && isNaN(min) && !exclusiveMinimum) {
+                  setValue(+value - multipleOf)
+                  // @ts-ignore
+                  onChangeProp?.(value - multipleOf)
+                } else {
+                  setValue(+value)
+                  onChangeProp?.(value)
+                }
               }
 
               if (e.key === 'ArrowUp' && type === 'number') {
                 e.preventDefault()
-                exclusiveMaximum && +value + multipleOf >= max
-                  ? setValue(+value)
-                  : multipleOf && max && +value + multipleOf <= max
-                  ? setValue(+value + multipleOf)
-                  : multipleOf && !max && !exclusiveMaximum
-                  ? setValue(+value + multipleOf)
-                  : setValue(+value)
+
+                if (exclusiveMaximum && +value + multipleOf >= max) {
+                  setValue(+value)
+                  onChangeProp?.(value)
+                } else if (multipleOf && max && +value + multipleOf <= max) {
+                  setValue(+value + multipleOf)
+                  onChangeProp?.(value + multipleOf)
+                } else if (multipleOf && !max && !exclusiveMaximum) {
+                  setValue(+value + multipleOf)
+                  onChangeProp?.(value + multipleOf)
+                } else {
+                  setValue(+value)
+                  onChangeProp?.(value)
+                }
               }
 
               props.onKeyDown?.(e)

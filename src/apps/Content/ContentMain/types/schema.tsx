@@ -1,6 +1,10 @@
 import { IdIcon } from '~'
 import { alwaysIgnore, systemFields } from '~/apps/Schema/templates'
-import { BasedSchemaFieldShared, BasedSchema } from '@based/schema'
+import {
+  BasedSchemaFieldShared,
+  BasedSchema,
+  BasedSchemaFieldReference,
+} from '@based/schema'
 
 export const createRootEditor = (schema: BasedSchema): any => {
   const typeSchema = schema.types.root
@@ -211,8 +215,6 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
 export const createTypeModal = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
 
-  console.log('🍷', typeSchema)
-
   if (!typeSchema) {
     console.log('no typeschema', type)
     return
@@ -226,23 +228,22 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
   let fields = []
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore?.has(field) && !systemFields?.has(field)) {
-      const f = typeSchema.fields[field]
+      const f: BasedSchemaFieldShared = typeSchema.fields[field]
 
       if (!f) {
         console.log('no', f)
         continue
       }
+
       // mime
       let mField: string
       // @ts-ignore
+      // type file && contentType
       if (type === 'file' && f.meta?.ui === 'file' && f.type === 'string') {
         mField = 'mimeType'
       } else if (
         f.type === 'reference' &&
-        (f.meta?.format === 'file' ||
-          (f.meta?.refTypes &&
-            f.meta?.refTypes.length === 1 &&
-            f.meta?.refTypes[0] === 'file'))
+        (f.allowedTypes?.includes('file') || f.allowedTypes?.type === 'file')
       ) {
         mField = `${field}.mimeType`
 
@@ -254,13 +255,31 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
         }
       }
 
+      //   f.type === 'reference' &&
+      //   (f.meta?.format === 'file' ||
+      //     (f.meta?.refTypes &&
+      //       f.meta?.refTypes.length === 1 &&
+      //       f.meta?.refTypes[0] === 'file'))
+      // ) {
+      //   mField = `${field}.mimeType`
+
+      //   getFields[field] = {
+      //     src: true,
+      //     id: true,
+      //     mimeType: true,
+      //     name: true,
+      //   }
+      // }
+
       fields.push({
-        name: f.meta?.name ?? field,
+        // spread all props
+        ...f,
+        title: f.title ?? field,
         key: field,
         type: f.type,
-        index: f.meta?.index ?? 1e6,
+        index: f?.index ?? 1e6,
         mimeTypeKey: mField,
-        meta: f.meta,
+        // meta: f.meta,
       })
     }
   }
