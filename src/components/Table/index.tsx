@@ -22,7 +22,6 @@ import {
   SquareBracketsIcon,
   CheckIcon,
   Row,
-  pathReader,
   useCopyToClipboard,
   Toggle,
 } from '~'
@@ -33,6 +32,8 @@ import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { prettyDate } from '@based/pretty-date'
 import { useClient } from '@based/react'
+
+import { getByPath } from '@saulx/utils'
 
 export * from './types'
 
@@ -171,13 +172,13 @@ const Cell = (props) => {
   let itemData
   if (Array.isArray(key)) {
     for (const k of key) {
-      itemData = pathReader(rowData, k.split('.'))
+      itemData = getByPath(rowData, k.split('.'))
       if (itemData) {
         break
       }
     }
   } else {
-    itemData = pathReader(rowData, header.key.split('.'))
+    itemData = getByPath(rowData, header.key.split('.'))
   }
 
   const onClick = header.onClick ?? props.data.onClick
@@ -198,7 +199,7 @@ const Cell = (props) => {
     <ThumbnailFile
       mimeType={
         header?.mimeType ?? header.mimeTypeKey
-          ? pathReader(rowData, header.mimeTypeKey.split('.'))
+          ? getByPath(rowData, header.mimeTypeKey.split('.'))
           : undefined
       }
       src={typeof itemData === 'object' ? itemData?.src : itemData}

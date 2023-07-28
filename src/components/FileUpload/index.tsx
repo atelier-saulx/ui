@@ -331,7 +331,8 @@ export const FileUpload: FC<FileUploadProps> = ({
               large
               color="text"
               onClick={() => {
-                fullScreenDialog.close()
+                //  fullScreenDialog.close()
+                removeOverlay()
               }}
             >
               Close
