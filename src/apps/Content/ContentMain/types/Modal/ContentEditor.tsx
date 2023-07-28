@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { styled, Input, Toggle, Badge, ArrayList } from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
-import { SetList } from '~/components/SetList'
+import { SetList } from '~/components/SetList/index'
 import { useSchema } from '~/apps/Schema/hooks/useSchema'
 import { RecordList } from '~/components/RecordList'
 
@@ -12,7 +12,7 @@ export const ContentEditor: FC<{
   fields: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
-  console.log('data??', data, fields, state)
+  // console.log('data??', data, fields, state)
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
