@@ -84,7 +84,7 @@ const orderBy = (arr, props, orders) =>
 export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
   const groupByTimeInMilliSeconds = groupByTime * 60000
 
-  const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['desc', 'desc'])
+  const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['desc', 'asc'])
 
   const checkIfThereAreSameTypeAndWithinRange = (obj, obj2) => {
     const tsResult = Math.abs(obj.ts - obj2?.ts)
@@ -156,7 +156,9 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
       }, 0)
     )
 
-  const finalFinalOrderedArr = finalOrderBy(finalArr, ['ts'], ['desc'])
+  const finalFinalOrderedArr = finalOrderBy(finalArr, ['ts'], ['asc'])
+
+  console.log(finalFinalOrderedArr)
 
   return (
     <styled.div style={{ width: '100%' }}>
@@ -480,18 +482,29 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
       {idx !== 0 && msg[0] !== '{' && (
         <>
           {idx > 0 && (
-            <styled.div
-              style={{
-                display: 'flex',
-                backgroundColor: colorFn('background2'),
-                padding: '3px 6px 1px 8px',
-                borderRadius: '12px',
-                maxWidth: 70,
-              }}
-            >
-              <Text typography="caption500">
-                {dayjs(ts).format('HH:mm:ss')}{' '}
-              </Text>
+            <styled.div style={{ display: 'flex', alignItems: 'center' }}>
+              <styled.div
+                style={{
+                  height: 1,
+                  width: 22,
+                  backgroundColor: colorFn('border'),
+                  position: 'absolute',
+                  left: 12,
+                }}
+              />
+              <styled.div
+                style={{
+                  display: 'flex',
+                  backgroundColor: colorFn('background2'),
+                  padding: '3px 6px 1px 8px',
+                  borderRadius: '12px',
+                  maxWidth: 70,
+                }}
+              >
+                <Text typography="caption500">
+                  {dayjs(ts).format('HH:mm:ss')}{' '}
+                </Text>
+              </styled.div>
             </styled.div>
           )}
           <pre
