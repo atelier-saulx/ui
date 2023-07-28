@@ -32,6 +32,7 @@ type SingleLogProps = {
   ts?: number
   type?: string
   idx?: number
+  status?: string
 }
 
 const VerticalLine = styled('div', {
@@ -299,6 +300,7 @@ const GroupedLogs = ({ ts, msg, color, type, status, subType, subItems }) => {
                       ts={item.ts}
                       type={item.type}
                       idx={idx}
+                      status={item.status}
                     />
                   ) : null
                 )}
@@ -433,7 +435,7 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
   )
 }
 
-const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
+const SingleLog = ({ msg, style, ts, type, idx, status }: SingleLogProps) => {
   return (
     <>
       {idx > 0 && (
@@ -451,13 +453,27 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
             style={{
               display: 'flex',
               backgroundColor: colorFn('background2'),
-              padding: '3px 6px 1px 8px',
-              borderRadius: '12px',
+              padding: '2px 6px 2px 10px',
+              borderRadius: status ? '12px 0px 0px 12px' : '12px',
               maxWidth: 70,
             }}
           >
             <Text typography="caption500">{dayjs(ts).format('HH:mm:ss')} </Text>
           </styled.div>
+          {status ? (
+            <styled.div
+              style={{
+                display: 'flex',
+                backgroundColor: colorFn('background2'),
+                padding: '2px 10px 2px 6px',
+                borderRadius: '0px 12px 12px 0px',
+                borderLeft: `1px solid ${colorFn('border')}`,
+                maxWidth: 70,
+              }}
+            >
+              <Text typography="caption500">{status}</Text>
+            </styled.div>
+          ) : null}
         </styled.div>
       )}
       <pre

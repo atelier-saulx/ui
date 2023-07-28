@@ -38,7 +38,7 @@ const ContentRenderer: FC<{
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
   const onChange = (v: any) => {
-    console.log('V for vendetaa', v)
+    // console.log('V for vendetaa', v)
     setState({ ...state, [item.key]: v })
   }
 
@@ -57,6 +57,8 @@ const ContentRenderer: FC<{
       inputType = 'color'
     } else if (item?.format === 'email') {
       inputType = 'email'
+    } else if (item?.contentMediaType === 'text/markdown') {
+      inputType = 'markdown'
     } else {
       inputType = 'text'
     }
