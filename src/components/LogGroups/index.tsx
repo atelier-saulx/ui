@@ -83,7 +83,7 @@ const orderBy = (arr, props, orders) =>
 export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
   const groupByTimeInMilliSeconds = groupByTime * 60000
 
-  const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['desc', 'asc'])
+  const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['desc', 'desc'])
 
   const checkIfThereAreSameTypeAndWithinRange = (obj, obj2) => {
     const tsResult = Math.abs(obj.ts - obj2?.ts)
