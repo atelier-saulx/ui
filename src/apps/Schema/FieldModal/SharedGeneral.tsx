@@ -53,7 +53,7 @@ export const SharedGeneral: FC<{
         style={{ marginTop: 24, marginBottom: 24 }}
       />
 
-      <Input
+      {/* <Input
         type="text"
         style={{ background: 'lightgreen' }}
         ghost
@@ -63,7 +63,7 @@ export const SharedGeneral: FC<{
 
           update()
         }}
-      />
+      /> */}
 
       <Input
         type="multiline"

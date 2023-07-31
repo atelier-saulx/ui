@@ -363,6 +363,11 @@ export const Input = <T extends InputType>({
           <Single
             {...props}
             onKeyDown={(e) => {
+              if (e.key === ',') {
+                setValue(value.toString() + ',')
+                console.log('comma pressed')
+              }
+
               // now you can remove the zero in input fields
               if (e.key === 'Backspace' && value.toString().length === 1) {
                 setValue('')

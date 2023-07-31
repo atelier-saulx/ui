@@ -106,7 +106,29 @@ const ContentRenderer: FC<{
   }
 
   // CARDINALITY
+
   // INTEGER
+  // TODO: Change to Integer later
+  if (item.type === 'int') {
+    return (
+      <Input
+        label={item.title}
+        disabled={item?.readOnly}
+        type="number"
+        onChange={onChange}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+        description={item?.description}
+        max={item?.maximum}
+        min={item?.minimum}
+        multipleOf={item?.multipleOf}
+        exclusiveMaximum={item?.exclusiveMaximum}
+        exclusiveMinimum={item?.exclusiveMinimum}
+        isRequired={item?.isRequired}
+      />
+    )
+  }
 
   // TIMESTAMP
   if (item.type === 'timestamp') {

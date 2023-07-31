@@ -55,12 +55,14 @@ export const primitives: { [key: string]: NewPrimitive } = {
     icon: ApertureIcon,
     schema: { type: 'cardinality' },
   },
-  integer: {
+  //  TODO change to integer
+  int: {
     label: 'Integer',
     color: 'lightaccent',
     description: 'A whole number',
     icon: IntegerIcon,
-    schema: { type: 'integer' },
+    // TODO look into this
+    schema: { type: 'int' },
   },
   timestamp: {
     label: 'Timestamp',

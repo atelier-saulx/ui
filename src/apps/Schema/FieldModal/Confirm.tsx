@@ -4,8 +4,11 @@ import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
+import { updateSchema } from '../transformOldSchema'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
+  console.log('PROPS 📀 =-->', options, type, children, path)
+
   const [db] = useContextState('db', 'default')
 
   const { schema } = useSchema(db)
@@ -15,6 +18,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
 
   // filter the null and empty strings
 
+  console.log(schema, '🚁')
+
   return (
     <Dialog.Confirm
       disabled={disabled}
@@ -22,16 +27,16 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
         try {
           const { field, ...schema } = options
 
-          // DEBUG TODO : TURN ON AGAIN
-          // if (!schema.title) {
-          //   throw Error('Title is required')
-          // }
+          if (!schema.title) {
+            throw Error('Title is required')
+          }
 
           if (!field) {
             throw Error('Field name is required')
           }
           const currentFields =
             type === 'root' ? rootType.fields : types[type].fields
+
           const fields = {}
           let from = currentFields
           let dest = fields
@@ -51,6 +56,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
             ...schema,
           }
 
+          console.log('DEST??', dest)
+
           // remove fields with null or empty strings
           Object.keys(dest[field]).forEach((k) =>
             dest[field][k] == null
@@ -61,6 +68,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
               ? delete dest[field][k]
               : null
           )
+
+          // const useChangeMetaSchema()
 
           if (type === 'root') {
             return client.call('db:set-schema', {

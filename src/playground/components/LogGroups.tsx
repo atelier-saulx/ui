@@ -442,6 +442,7 @@ export const LogGroups = () => {
       eid: 'enBBBFs9x0',
       msg: "{ name: 'demo', version: 3501681214638 }\n",
       lvl: 'info',
+      // subType: 'flapoie',
       ts: 1687864333486,
     },
   ]
