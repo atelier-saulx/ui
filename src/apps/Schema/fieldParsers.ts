@@ -10,7 +10,6 @@ export const sortFields = (fields: {
   [key: string]: BasedSchemaField | BasedSchemaFieldShared
 }): string[] => {
   return Object.keys(fields).sort((a, b) => {
-
     // TODO: index type needs to be added to BasedSchemaField
     const indexA = fields[a]?.index
     const indexB = fields[b]?.index
@@ -145,7 +144,7 @@ export const filteredFields = (
       fields
     )
 
-    if (fieldDef.$delete) {
+    if (fieldDef?.$delete) {
       return false
     }
 
@@ -164,9 +163,9 @@ export const filteredFields = (
     }
 
     if (
-      fieldDef.type === 'object' ||
-      fieldDef.items?.type === 'object' ||
-      fieldDef.values?.type === 'object'
+      fieldDef?.type === 'object' ||
+      fieldDef?.items?.type === 'object' ||
+      fieldDef?.values?.type === 'object'
     ) {
       const obj = (objects[field] = { field, type: fieldDef.type })
       objectPath.push(obj)

@@ -5,6 +5,7 @@ import { BOTTOMSPACE } from './constants'
 import { SetList } from '~/components/SetList/index'
 import { useSchema } from '~/apps/Schema/hooks/useSchema'
 import { RecordList } from '~/components/RecordList'
+import { ObjectList } from '~/components/ObjectList'
 
 export const ContentEditor: FC<{
   data: { [key: string]: any }
@@ -183,6 +184,22 @@ const ContentRenderer: FC<{
   }
 
   // OBJECT
+  if (item.type === 'object') {
+    console.log(item, 'NANI>>')
+
+    return (
+      <ObjectList
+        label={item.title}
+        description={item.description}
+        objectProperties={item.properties}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        onChange={onChange}
+        indent
+      />
+    )
+  }
+
   // RECORD
   if (item.type === 'record') {
     return (
@@ -242,8 +259,6 @@ const ContentRenderer: FC<{
       //     meta?: any;
       //     key: string;
       //     mimeTypeKey?: string;
-
-      // console.log('item?? 🅾️', item)
 
       return (
         <FileUploadContentEditor

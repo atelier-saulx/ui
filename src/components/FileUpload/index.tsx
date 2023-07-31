@@ -75,6 +75,8 @@ export const FileUpload: FC<FileUploadProps> = ({
     uploadedFiles = uploadedFiles ? [uploadedFiles] : []
   }
 
+  console.log(uploadedFiles, '🛸')
+
   const dialog = useDialog()
   const { prompt } = useDialog()
   const fullScreenDialog = useDialog()
@@ -181,6 +183,8 @@ export const FileUpload: FC<FileUploadProps> = ({
       ? [...uploadedFiles, ...e.target.files]
       : [e.target.files[0]]
 
+    console.log(newValue, 'from changehandler ??')
+
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
@@ -260,14 +264,17 @@ export const FileUpload: FC<FileUploadProps> = ({
 
     const ok = await prompt('Rename file')
     if (ok && ok !== undefined) {
-      // setFileName(ok + '.' + extension)
+      setFileName(ok + '.' + extension)
 
       file.name = ok + '.' + extension
 
+      console.log(uploadedFiles)
+
       // renameArr[idx].name = ok + '.' + extension
       // setUploadedFiles([...renameArr])
+      //  setUploadedFiles({ ...uploadedFiles, uploadedFiles.name = ok })
     }
-    // onChange([...renameArr])
+    onChange(uploadedFiles)
   }
 
   const fullScreenView = (file) => {

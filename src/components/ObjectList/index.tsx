@@ -8,7 +8,7 @@ type ObjectListProps = {
   descriptionBottom?: string
   style?: CSSProperties
   indent?: boolean
-  schema?: any
+  objectProperties?: any
   onClick?: () => void
 }
 
@@ -18,11 +18,13 @@ export const ObjectList = ({
   descriptionBottom,
   indent,
   style,
-  schema,
+  objectProperties,
   onClick,
 }: /// ...props
 ObjectListProps) => {
-  const [insideObjectFields] = useState(schema.properties)
+  console.log(objectProperties, 'NANI>>')
+
+  const [insideObjectFields] = useState(objectProperties)
 
   return (
     <>
@@ -30,6 +32,7 @@ ObjectListProps) => {
         indent={indent}
         style={style}
         descriptionBottom={descriptionBottom}
+        hideClearButton
       >
         <Label
           label={label}
@@ -37,7 +40,11 @@ ObjectListProps) => {
           style={{ marginBottom: 12 }}
         />
 
-        <InputWrapper indent={indent} style={{ marginBottom: 8 }}>
+        <InputWrapper
+          indent={indent}
+          style={{ marginBottom: 12 }}
+          hideClearButton
+        >
           {/* some small indication of what is in the object let say one level deep per object 
           may need to set limit after certain amount ?? TODO */}
           {Object.keys(insideObjectFields).map((objectKey, idx) => (
@@ -50,7 +57,7 @@ ObjectListProps) => {
           ))}
         </InputWrapper>
 
-        <Button icon={EditIcon} ghost onClick={onClick}>
+        <Button icon={EditIcon} ghost onClick={onClick} color="accent">
           Edit object
         </Button>
       </InputWrapper>
