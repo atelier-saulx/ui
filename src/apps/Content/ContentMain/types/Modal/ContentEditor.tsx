@@ -97,9 +97,9 @@ const ContentRenderer: FC<{
         description={item?.description}
         max={item?.maximum}
         min={item?.minimum}
-        multipleOf={item?.multipleOf}
-        exclusiveMaximum={item?.exclusiveMaximum}
-        exclusiveMinimum={item?.exclusiveMinimum}
+        // multipleOf={item?.multipleOf}
+        // exclusiveMaximum={item?.exclusiveMaximum}
+        // exclusiveMinimum={item?.exclusiveMinimum}
         isRequired={item?.isRequired}
       />
     )
@@ -122,9 +122,10 @@ const ContentRenderer: FC<{
         description={item?.description}
         max={item?.maximum}
         min={item?.minimum}
-        multipleOf={item?.multipleOf}
-        exclusiveMaximum={item?.exclusiveMaximum}
-        exclusiveMinimum={item?.exclusiveMinimum}
+        integer
+        // multipleOf={item?.multipleOf}
+        // exclusiveMaximum={item?.exclusiveMaximum}
+        // exclusiveMinimum={item?.exclusiveMinimum}
         isRequired={item?.isRequired}
       />
     )

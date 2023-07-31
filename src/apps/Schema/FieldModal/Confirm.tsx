@@ -4,7 +4,7 @@ import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
-import { updateSchema } from '../transformOldSchema'
+// import { updateSchema } from '../transformOldSchema'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
   console.log('PROPS 📀 =-->', options, type, children, path)
