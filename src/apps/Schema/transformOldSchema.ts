@@ -21,20 +21,30 @@ export const updateSchema = (obj, client) => {
 // }
 
 const fieldWalker = (x) => {
-  console.log('X ??', x)
+  if (x.meta) {
+    console.log('ALARM ', x)
+    for (const key in x.meta) {
+      console.log('keyy>? ', key)
+      x[key] = x.meta[key]
+    }
+  }
+
+  return x
 }
 
 // TODO jim: add if new schema
 export const transformOldToNew = (oldSchema: any): BasedSchema => {
   console.log('oldScheam -->', oldSchema)
 
-  const newSchema = oldSchema
-  // .type =>
-  //      fieldWalker(oldSchema)
+  // loop through all these objects and see if there are meta fields
+  // if there are meta fields put them on object
 
-  for (const key in oldSchema.types) {
-    fieldWalker(oldSchema.types[key])
+  const newSchema = { ...oldSchema }
+
+  for (const key in oldSchema) {
+    newSchema[key] = fieldWalker(oldSchema[key])
   }
 
+  console.log('NEW SCHEMA', newSchema)
   return newSchema
 }

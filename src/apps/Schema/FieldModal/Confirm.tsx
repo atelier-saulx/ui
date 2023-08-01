@@ -4,7 +4,7 @@ import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
-// import { updateSchema } from '../transformOldSchema'
+import { transformOldToNew } from '../transformOldSchema'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
   console.log('PROPS 📀 =-->', options, type, children, path)
@@ -18,7 +18,7 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
 
   // filter the null and empty strings
 
-  console.log(schema, '🚁')
+  console.log(schema.types[type].fields, '🚁 HELIKOPTER HELIKOPTER')
 
   return (
     <Dialog.Confirm
@@ -69,7 +69,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
               : null
           )
 
-          // const useChangeMetaSchema()
+          // nu krijg je nog voordat het extra field toegevoegd is..
+          console.log(transformOldToNew(types[type].fields))
 
           if (type === 'root') {
             return client.call('db:set-schema', {
