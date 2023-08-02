@@ -33,11 +33,17 @@ export const SetList = ({
   const [inputVal] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
-  arr.sort()
+  if (itemType === 'string') {
+    arr.sort()
+  } else {
+    arr.sort((a, b) => a - b)
+  }
 
-  //   useEffect(() => {
-  //     onChange(arr)
-  //   }, [arr])
+  // console.log('INCOMING ARR', arr)
+
+  // useEffect(() => {
+  //   console.log('ARR from Component --> ', arr)
+  // }, [arr])
 
   const addItemHandler = async () => {
     let inputVAL: number | string = ''

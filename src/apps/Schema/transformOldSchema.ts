@@ -1,26 +1,26 @@
 import { BasedSchema } from '@based/schema'
-import { useClient } from '@based/react'
+// import { useClient } from '@based/react'
 
 // type is schema name/type
-export const updateSchema = (client, db, obj, type) => {
-  //   const client = useClient()
+// export const updateSchema = (client, db, obj, type) => {
+//   //   const client = useClient()
 
-  const newFields = transformOldToNew(obj)
+//   const newFields = transformOldToNew(obj)
 
-  // client.call('db:set-schema', obj)
+//   // client.call('db:set-schema', obj)
 
-  console.log('NEW FIELDS -->', newFields)
+//   console.log('NEW FIELDS -->', newFields)
 
-  return client.call('db:set-schema', {
-    mutate: true,
-    db,
-    schema: {
-      [type]: {
-        newFields,
-      },
-    },
-  })
-}
+//   return client.call('db:set-schema', {
+//     mutate: true,
+//     db,
+//     schema: {
+//       [type]: {
+//         newFields,
+//       },
+//     },
+//   })
+// }
 
 const fieldWalker = (x) => {
   if (x.meta) {

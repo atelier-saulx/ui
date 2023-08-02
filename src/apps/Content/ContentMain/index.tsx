@@ -96,11 +96,11 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
 
   const { schema, loading: loadingSchema } = useSchema()
 
-  const [animate, setanimate] = useState(false)
+  const [animate, setAnimate] = useState(false)
   useEffect(() => {
-    setanimate(true)
+    setAnimate(true)
     const timer = setTimeout(() => {
-      setanimate(false)
+      setAnimate(false)
     }, 0)
     return () => {
       clearTimeout(timer)

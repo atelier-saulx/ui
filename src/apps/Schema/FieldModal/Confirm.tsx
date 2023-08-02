@@ -66,6 +66,9 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
           )
 
           // Transform the fields, meta
+          console.log(fields, '☄️')
+          console.log('dest', dest)
+
           Object.assign(
             fields,
             transformOldToNew({

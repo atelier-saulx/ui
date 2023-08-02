@@ -58,12 +58,17 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
       }
     },
   }
+
   const payload = parseProps(view.config.function?.payload, ctx)
 
   const { data } = useQuery(view.config.function?.name, payload)
 
   ctx.data = data
   const props = parseProps(view.config.props ?? {}, ctx)
+
+  // console.log('Context -->', ctx)
+  console.log('props after parsing', props)
+
   return (
     <ScrollArea
       style={{

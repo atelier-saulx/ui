@@ -55,7 +55,7 @@ const BooleanToggle: FC<{
   return (
     <Toggle
       value={itemData}
-      disabled
+      //  disabled
       onChange={
         item.id
           ? (v) => {
@@ -184,6 +184,8 @@ const Cell = (props) => {
 
   const onClick = header.onClick ?? props.data.onClick
   const type = header.type
+
+  Array.isArray(itemData) && console.log('itemDATA??', itemData)
 
   // Make this into a map /  a bit nicer
   const body = header.customComponent ? (

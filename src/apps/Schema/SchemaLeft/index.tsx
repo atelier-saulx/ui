@@ -46,7 +46,7 @@ export const SchemaLeft: FC = () => {
 
   const { schema, loading } = useSchema(db)
 
-  console.log('from schemaLeft??', schema)
+  // console.log('from schemaLeft??', schema)
 
   if (loading) {
     return (
