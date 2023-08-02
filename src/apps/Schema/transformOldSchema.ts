@@ -1,50 +1,51 @@
 import { BasedSchema } from '@based/schema'
 import { useClient } from '@based/react'
 
-export const updateSchema = (obj, client) => {
+// type is schema name/type
+export const updateSchema = (client, db, obj, type) => {
   //   const client = useClient()
 
-  client.call('db:set-schema', obj)
+  const newFields = transformOldToNew(obj)
+
+  // client.call('db:set-schema', obj)
+
+  console.log('NEW FIELDS -->', newFields)
+
+  return client.call('db:set-schema', {
+    mutate: true,
+    db,
+    schema: {
+      [type]: {
+        newFields,
+      },
+    },
+  })
 }
-
-// const fieldWalker =(x): any => {
-
-//     let nSchema
-//         //
-
-//     for (let key in x) {
-//         //
-
-//         return {  f...field , ...meta }
-//     }
-
-// }
 
 const fieldWalker = (x) => {
   if (x.meta) {
-    console.log('ALARM ', x)
     for (const key in x.meta) {
-      console.log('keyy>? ', key)
       x[key] = x.meta[key]
     }
+
+    delete x.meta
   }
 
   return x
 }
 
 // TODO jim: add if new schema
-export const transformOldToNew = (oldSchema: any): BasedSchema => {
-  console.log('oldScheam -->', oldSchema)
+export const transformOldToNew = (oldFields: any): BasedSchema => {
+  //  console.log('oldScheam -->', oldFields)
 
   // loop through all these objects and see if there are meta fields
   // if there are meta fields put them on object
+  const newFields = { ...oldFields }
 
-  const newSchema = { ...oldSchema }
-
-  for (const key in oldSchema) {
-    newSchema[key] = fieldWalker(oldSchema[key])
+  for (const key in oldFields) {
+    newFields[key] = fieldWalker(oldFields[key])
   }
 
-  console.log('NEW SCHEMA', newSchema)
-  return newSchema
+  console.log('NEW FIELDS', newFields)
+  return newFields
 }
