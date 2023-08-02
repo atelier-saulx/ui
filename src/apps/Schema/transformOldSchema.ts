@@ -22,7 +22,7 @@ import { BasedSchema } from '@based/schema'
 //   })
 // }
 
-const fieldWalker = (x) => {
+export const metaFieldWalker = (x) => {
   if (x.meta) {
     for (const key in x.meta) {
       x[key] = x.meta[key]
@@ -36,14 +36,14 @@ const fieldWalker = (x) => {
 
 // TODO jim: add if new schema
 export const transformOldToNew = (oldFields: any): BasedSchema => {
-  //  console.log('oldScheam -->', oldFields)
+  console.log('oldScheam -->', oldFields)
 
   // loop through all these objects and see if there are meta fields
   // if there are meta fields put them on object
   const newFields = { ...oldFields }
 
   for (const key in oldFields) {
-    newFields[key] = fieldWalker(oldFields[key])
+    newFields[key] = metaFieldWalker(oldFields[key])
   }
 
   console.log('NEW FIELDS', newFields)

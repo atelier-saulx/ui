@@ -4,10 +4,10 @@ import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
-import { transformOldToNew } from '../transformOldSchema'
+import { transformOldToNew, metaFieldWalker } from '../transformOldSchema'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
-  console.log('PROPS 📀 =-->', options, type, children, path)
+  console.log('PROPS 📀 =-->', options, type, children, 'Path 🛣', path)
 
   const [db] = useContextState('db', 'default')
 
@@ -66,15 +66,20 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
           )
 
           // Transform the fields, meta
-          console.log(fields, '☄️')
-          console.log('dest', dest)
+          // console.log(fields, '☄️')
+          // console.log('dest', dest)
+          // console.log('currentFields', currentFields)
+          // console.log(from)
+          // console.log(field)
+          // console.log(types)
 
-          Object.assign(
-            fields,
-            transformOldToNew({
-              ...dest,
-            })
-          )
+          /// remove meta from eiter object field or field
+          // might need some beautifiying 🧚🏻
+          if (path.length < 1) {
+            Object.assign(fields, transformOldToNew({ ...dest }))
+          } else {
+            metaFieldWalker(dest[field])
+          }
 
           if (type === 'root') {
             return client.call('db:set-schema', {
