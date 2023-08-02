@@ -82,6 +82,9 @@ export const FieldModal: FC<{
 
   const options = optionsRef.current
 
+  console.log('schemaLFAL', schema.types[type].fields)
+  console.log('options>>??', options)
+
   const { label, icon, color, description } = templates[template]
   const TypeSpecificGeneral = specificFieldSettings[template]
   return (

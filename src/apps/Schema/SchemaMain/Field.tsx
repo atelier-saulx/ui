@@ -39,11 +39,20 @@ const EditMenu: FC<{
   const client = useClient()
   const { open } = useDialog()
 
+  console.log('EDIT --> props', type, field, template, isObject, path)
+
   return (
     <>
       <ContextItem
         onClick={() => {
-          open(<FieldModal type={type} field={field} template={template} />)
+          open(
+            <FieldModal
+              type={type}
+              field={field}
+              template={template}
+              // path={path}
+            />
+          )
         }}
       >
         Settings
