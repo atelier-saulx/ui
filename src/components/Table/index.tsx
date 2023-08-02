@@ -55,6 +55,7 @@ const BooleanToggle: FC<{
   return (
     <Toggle
       value={itemData}
+      disabled
       onChange={
         item.id
           ? (v) => {

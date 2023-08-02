@@ -4,7 +4,7 @@ import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
-import { transformOldToNew, updateSchema } from '../transformOldSchema'
+import { transformOldToNew } from '../transformOldSchema'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
   console.log('PROPS 📀 =-->', options, type, children, path)
@@ -65,18 +65,11 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
               : null
           )
 
-          // nu krijg je nog voordat het extra field toegevoegd is..
-
-          console.log('type?? 🚦', type)
-          console.log('types??', types)
-          console.log('dest??', dest)
-          console.log('current FEILDS>>', fields)
-
+          // Transform the fields, meta
           Object.assign(
             fields,
             transformOldToNew({
               ...dest,
-              // ...currentFields,
             })
           )
 

@@ -245,7 +245,7 @@ export const ReferenceSettings = ({ types, options }) => {
       />
       <MultiSelect
         label="Allowed types"
-        options={['file', 'snark', 'slurpie']}
+        options={['file', 'snurp']}
         values={tempValues || []}
         filterable="create"
         onChange={(e) => {

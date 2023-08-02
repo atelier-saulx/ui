@@ -195,7 +195,7 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles((uploadedFiles) =>
       Array.isArray(uploadedFiles)
         ? uploadedFiles?.filter((_, index) => index !== id)
-        : onChange(undefined)
+        : onChange(null)
     )
     setClearCount((clearCount) => clearCount + 1)
   }
@@ -263,18 +263,26 @@ export const FileUpload: FC<FileUploadProps> = ({
     // const renameArr = [...uploadedFiles]
 
     const ok = await prompt('Rename file')
+
+    const newFile = { ...uploadedFiles }
+
     if (ok && ok !== undefined) {
       setFileName(ok + '.' + extension)
 
       file.name = ok + '.' + extension
 
-      console.log(uploadedFiles)
+      console.log('???', file.name)
+      console.log('uploaded files?->', uploadedFiles)
+
+      newFile.name = file.name
 
       // renameArr[idx].name = ok + '.' + extension
       // setUploadedFiles([...renameArr])
       //  setUploadedFiles({ ...uploadedFiles, uploadedFiles.name = ok })
     }
-    onChange(uploadedFiles)
+    //  onChange(uploadedFiles)
+    console.log('🔥')
+    onChange(newFile)
   }
 
   const fullScreenView = (file) => {
