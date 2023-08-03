@@ -43,6 +43,9 @@ export const FieldModal: FC<{
     return null
   }
 
+  // console.log('PATh??', path)
+  // console.log('FIELD>', field)
+
   const types = schema.types
 
   // @ts-ignore
@@ -83,9 +86,7 @@ export const FieldModal: FC<{
   const options = optionsRef.current
 
   // if it is nested in a object
-  if (field.split('.').length > 1) {
-    const path = field.split('.')
-
+  if (path.length > 1) {
     const currentFieldInObject =
       // @ts-ignore
       schema.types[type].fields?.[path[0]]?.properties[path[path.length - 1]]
@@ -93,10 +94,11 @@ export const FieldModal: FC<{
     Object.assign(options, currentFieldInObject)
   }
 
-  console.log('--> here', options)
+  console.log('new options --> here', options)
 
   const { label, icon, color, description } = templates[template]
   const TypeSpecificGeneral = specificFieldSettings[template]
+
   return (
     <Dialog>
       <Dialog.Body>

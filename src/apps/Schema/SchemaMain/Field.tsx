@@ -39,6 +39,8 @@ const EditMenu: FC<{
   const client = useClient()
   const { open } = useDialog()
 
+  console.log('path from edit menu ??', path)
+
   return (
     <>
       <ContextItem
@@ -48,7 +50,7 @@ const EditMenu: FC<{
               type={type}
               field={field}
               template={template}
-              // path={path}
+              //  path={path}
             />
           )
         }}
@@ -215,8 +217,8 @@ export const Field = ({
       : [...path, 'properties']
     : path
 
-  console.log('object path -->', objectPath)
-  console.log(title, format)
+  // console.log('object path -->', objectPath)
+  // console.log(title, format)
 
   const [, setPath] = useContextState('field', [])
 

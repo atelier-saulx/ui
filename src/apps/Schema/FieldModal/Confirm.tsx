@@ -75,9 +75,13 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
 
           /// remove meta from eiter object field or field
           // might need some beautifiying 🧚🏻
+
+          console.log('path???', path)
+
           if (path.length < 1) {
             Object.assign(fields, transformOldToNew({ ...dest }))
           } else {
+            console.log('🎾  🚌')
             metaFieldWalker(dest[field])
           }
 

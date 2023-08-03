@@ -16,8 +16,6 @@ export const AddTypeModal: FC = () => {
   const [db] = useContextState('db', 'default')
   const { schema } = useSchema(db)
 
-  console.log('--> use Schema hook called db', schema)
-
   useEffect(() => {
     if (name !== '') {
       setFilled(true)

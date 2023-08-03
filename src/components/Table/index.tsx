@@ -22,6 +22,7 @@ import {
   SquareBracketsIcon,
   CheckIcon,
   Row,
+  CurlyBracesIcon,
   useCopyToClipboard,
   Toggle,
 } from '~'
@@ -231,6 +232,12 @@ const Cell = (props) => {
         {itemData ? itemData.length : '0'}
       </Text>
     </Badge>
+  ) : type === 'object' ? (
+    // @ts-ignore
+    <Badge
+      color="accent"
+      icon={<CurlyBracesIcon style={{ marginLeft: 8 }} />}
+    />
   ) : (
     <Text selectable typography={type === 'bytes' ? 'caption500' : 'body500'}>
       {type === 'bytes'
