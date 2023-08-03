@@ -152,6 +152,21 @@ export const StringSettings = ({ options }) => {
 export const NumberSettings = ({ options }) => {
   return (
     <>
+      <Select
+        options={[
+          'bytes',
+          'mobilePhone',
+          'mobilePhoneLocales',
+          'phone',
+          'currency',
+        ]}
+        label="String Format"
+        style={{ marginBottom: 24 }}
+        value={options.format}
+        onChange={(e) => {
+          options.format = e
+        }}
+      />
       <styled.div style={{ display: 'flex', marginBottom: 24 }}>
         <Input
           type="number"

@@ -39,8 +39,6 @@ const EditMenu: FC<{
   const client = useClient()
   const { open } = useDialog()
 
-  console.log('EDIT --> props', type, field, template, isObject, path)
-
   return (
     <>
       <ContextItem
@@ -216,6 +214,9 @@ export const Field = ({
       ? [...path, 'items', 'properties']
       : [...path, 'properties']
     : path
+
+  console.log('object path -->', objectPath)
+  console.log(title, format)
 
   const [, setPath] = useContextState('field', [])
 
