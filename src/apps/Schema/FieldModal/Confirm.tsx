@@ -25,6 +25,10 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
         try {
           const { field, ...schema } = options
 
+          // if (options.field.split('.').length > 1) {
+          //   field = field.split('.')[field.split('.').length - 1]
+          // }
+
           if (!schema.title) {
             throw Error('Title is required')
           }
@@ -66,23 +70,25 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
           )
 
           // Transform the fields, meta
-          // console.log(fields, '☄️')
+          console.log(fields, '☄️')
           // console.log('dest', dest)
           // console.log('currentFields', currentFields)
           // console.log(from)
-          // console.log(field)
-          // console.log(types)
+
+          // console.log('⚠️types->', types)
+          // console.log('🚸type->', type)
+          // console.log('❎field->', field)
+          // console.log('✅fields??', fields)
 
           /// remove meta from eiter object field or field
           // might need some beautifiying 🧚🏻
 
           console.log('path???', path)
 
-          if (path.length < 1) {
+          if (path?.length <= 1) {
             Object.assign(fields, transformOldToNew({ ...dest }))
           } else {
-            console.log('🎾  🚌')
-            metaFieldWalker(dest[field])
+            metaFieldWalker({ ...dest })
           }
 
           if (type === 'root') {

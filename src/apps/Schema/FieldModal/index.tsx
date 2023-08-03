@@ -87,6 +87,9 @@ export const FieldModal: FC<{
 
   // if it is nested in a object
   if (field?.split('.').length > 1) {
+    console.log('💎')
+    const path = field?.split('.')
+
     const currentFieldInObject =
       // @ts-ignore
       schema.types[type].fields?.[path[0]]?.properties[path[path.length - 1]]
@@ -94,7 +97,7 @@ export const FieldModal: FC<{
     Object.assign(options, currentFieldInObject)
   }
 
-  console.log('new options --> here', options)
+  console.log('🚑 new options --> here', options)
 
   const { label, icon, color, description } = templates[template]
   const TypeSpecificGeneral = specificFieldSettings[template]
