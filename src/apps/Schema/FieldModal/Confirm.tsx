@@ -81,14 +81,14 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
           // console.log('🚸type->', type)
           // console.log('❎field->', field)
           // console.log('✅fields??', fields)
-          console.log('path???', path)
+          // console.log('path???', path)
 
           /// remove meta from eiter object field or field
           // might need some beautifiying 🧚🏻
           if (path?.length <= 1) {
             Object.assign(fields, transformOldToNew({ ...dest }))
           } else {
-            console.log('❇️🟡', dest)
+            // console.log('❇️🟡', dest)
             // metaFieldRemover({ ...dest })
             for (const key in dest) {
               dest[key] = metaFieldRemover(dest[key])

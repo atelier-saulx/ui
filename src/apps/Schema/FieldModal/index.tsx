@@ -43,8 +43,8 @@ export const FieldModal: FC<{
     return null
   }
 
-  console.log('PATh??', path)
-  console.log('FIELD>', field)
+  // console.log('PATh??', path)
+  // console.log('FIELD>', field)
 
   const types = schema.types
 
@@ -54,8 +54,6 @@ export const FieldModal: FC<{
       ? schema?.rootType?.fields
       : // @ts-ignore  is this an issue?
         path.reduce((fields, key) => fields[key], types[type].fields)
-
-  console.log('fields??', fields)
 
   if (!template) {
     if (field) {
@@ -92,15 +90,13 @@ export const FieldModal: FC<{
 
   // if it is nested in a object
   if (field?.split('.').length > 1) {
-    const path = field?.split('.')
-
     const currentFieldInObject = getValue(field, schema.types[type].fields)
     console.log('currentField in Object 🧔🏻‍♀️', currentFieldInObject)
 
     Object.assign(options, currentFieldInObject)
   }
 
-  console.log('🚑 new options --> here', options)
+  // console.log('🚑 new options --> here', options)
 
   const { label, icon, color, description } = templates[template]
   const TypeSpecificGeneral = specificFieldSettings[template]
