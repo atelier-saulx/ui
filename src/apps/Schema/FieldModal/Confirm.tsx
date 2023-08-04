@@ -18,13 +18,6 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
 
   const arrayFromField = options?.field?.split('.')
 
-  // filter the null and empty strings
-  // if (arrayFromField.length > 1) {
-  //   console.log('❎')
-  //   path = arrayFromField
-  //   field = arrayFromField[arrayFromField.length - 1]
-  // }
-
   return (
     <Dialog.Confirm
       disabled={disabled}
@@ -32,20 +25,11 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
         try {
           let { field, ...schema } = options
 
-          console.log('old field 🛂--> ', field)
-
+          // this is for updating, editing nested object fields
           if (arrayFromField?.length > 1) {
             field = arrayFromField.pop()
-            console.log('test new fiedl? 💹---> field', field)
-
             path = arrayFromField
-            // field = arrayFromField[0]
-            console.log('new path --> ', path)
           }
-
-          // if (options.field.split('.').length > 1) {
-          //   field = field.split('.')[field.split('.').length - 1]
-          // }
 
           if (!schema.title) {
             throw Error('Title is required')
@@ -88,7 +72,7 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
           )
 
           // Transform the fields, meta
-          console.log(fields, '☄️')
+          //  console.log(fields, '☄️')
           // console.log('dest', dest)
           // console.log('currentFields', currentFields)
           // console.log(from)
@@ -97,16 +81,18 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
           // console.log('🚸type->', type)
           // console.log('❎field->', field)
           // console.log('✅fields??', fields)
+          console.log('path???', path)
 
           /// remove meta from eiter object field or field
           // might need some beautifiying 🧚🏻
-
-          console.log('path???', path)
-
           if (path?.length <= 1) {
             Object.assign(fields, transformOldToNew({ ...dest }))
           } else {
-            metaFieldRemover({ ...dest })
+            console.log('❇️🟡', dest)
+            // metaFieldRemover({ ...dest })
+            for (const key in dest) {
+              dest[key] = metaFieldRemover(dest[key])
+            }
           }
 
           if (type === 'root') {
