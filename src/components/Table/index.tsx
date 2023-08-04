@@ -186,7 +186,7 @@ const Cell = (props) => {
   const onClick = header.onClick ?? props.data.onClick
   const type = header.type
 
-  Array.isArray(itemData) && console.log('itemDATA??', itemData)
+  // Array.isArray(itemData) && console.log('itemDATA??', itemData)
 
   // Make this into a map /  a bit nicer
   const body = header.customComponent ? (

@@ -22,7 +22,7 @@ export const ObjectList = ({
   onClick,
 }: /// ...props
 ObjectListProps) => {
-  console.log(objectProperties, 'NANI>>')
+  // console.log(objectProperties, 'NANI>>')
 
   const [insideObjectFields] = useState(objectProperties)
 

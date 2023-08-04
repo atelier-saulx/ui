@@ -92,6 +92,8 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const [view] = useContextState<string>('view')
   const [overlay, setOverlay] = useContextState<string>('overlay')
 
+  console.log('WHAT IS OVERLAY', overlay)
+
   const [, setOverlayState] = useContextState<string>('overlay-state')
 
   const { schema, loading: loadingSchema } = useSchema()

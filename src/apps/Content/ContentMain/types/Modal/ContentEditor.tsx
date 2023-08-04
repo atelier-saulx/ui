@@ -1,11 +1,12 @@
 import React, { FC } from 'react'
-import { styled, Input, Toggle, Badge, ArrayList } from '~'
+import { styled, Input, Toggle, Badge, ArrayList, Button, useDialog } from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
 import { SetList } from '~/components/SetList/index'
 import { useSchema } from '~/apps/Schema/hooks/useSchema'
 import { RecordList } from '~/components/RecordList'
 import { ObjectList } from '~/components/ObjectList'
+import { Modal } from '.'
 
 export const ContentEditor: FC<{
   data: { [key: string]: any }
@@ -13,7 +14,7 @@ export const ContentEditor: FC<{
   fields: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
-  // console.log('data??', data, fields, state)
+  console.log('data??', data, fields, state)
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
@@ -185,18 +186,31 @@ const ContentRenderer: FC<{
 
   // OBJECT
   if (item.type === 'object') {
-    console.log(item, 'NANI>>')
+    console.log('NANI>> OBJECT ✅', item)
+
+    const { open } = useDialog()
 
     return (
-      <ObjectList
-        label={item.title}
-        description={item.description}
-        objectProperties={item.properties}
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
-        onChange={onChange}
-        indent
-      />
+      <>
+        <ObjectList
+          label={item.title}
+          description={item.description}
+          objectProperties={item.properties}
+          value={itemValue}
+          style={{ marginBottom: BOTTOMSPACE }}
+          onChange={onChange}
+          indent
+        />
+        <Button
+          onClick={() => {
+            // fields = item.properties
+            console.log('open new modal from object')
+            open(<Modal overlay={item.title} />)
+          }}
+        >
+          TEST OBJECT MODAL CLIK
+        </Button>
+      </>
     )
   }
 
