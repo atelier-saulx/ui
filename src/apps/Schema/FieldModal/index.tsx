@@ -43,8 +43,8 @@ export const FieldModal: FC<{
     return null
   }
 
-  // console.log('PATh??', path)
-  // console.log('FIELD>', field)
+  console.log('PATh??', path)
+  console.log('FIELD>', field)
 
   const types = schema.types
 
@@ -87,14 +87,15 @@ export const FieldModal: FC<{
 
   const options = optionsRef.current
 
+  const getValue = (path, obj) =>
+    path?.split('.').reduce((acc, c) => acc && acc[c], obj)
+
   // if it is nested in a object
   if (field?.split('.').length > 1) {
-    console.log('💎')
     const path = field?.split('.')
 
-    const currentFieldInObject =
-      // @ts-ignore
-      schema.types[type].fields?.[path[0]]?.properties[path[path.length - 1]]
+    const currentFieldInObject = getValue(field, schema.types[type].fields)
+    console.log('currentField in Object 🧔🏻‍♀️', currentFieldInObject)
 
     Object.assign(options, currentFieldInObject)
   }
