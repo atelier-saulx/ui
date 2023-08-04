@@ -4,7 +4,7 @@ import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
-import { transformOldToNew, metaFieldWalker } from '../transformOldSchema'
+import { transformOldToNew, metaFieldRemover } from '../transformOldSchema'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
   console.log('PROPS 📀 =-->', options, type, children, 'Path 🛣', path)
@@ -16,14 +16,32 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
   const toast = useToast({ attached: true })
   const client = useClient()
 
+  const arrayFromField = options?.field?.split('.')
+
   // filter the null and empty strings
+  // if (arrayFromField.length > 1) {
+  //   console.log('❎')
+  //   path = arrayFromField
+  //   field = arrayFromField[arrayFromField.length - 1]
+  // }
 
   return (
     <Dialog.Confirm
       disabled={disabled}
       onConfirm={async () => {
         try {
-          const { field, ...schema } = options
+          let { field, ...schema } = options
+
+          console.log('old field 🛂--> ', field)
+
+          if (arrayFromField?.length > 1) {
+            field = arrayFromField.pop()
+            console.log('test new fiedl? 💹---> field', field)
+
+            path = arrayFromField
+            // field = arrayFromField[0]
+            console.log('new path --> ', path)
+          }
 
           // if (options.field.split('.').length > 1) {
           //   field = field.split('.')[field.split('.').length - 1]
@@ -88,7 +106,7 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
           if (path?.length <= 1) {
             Object.assign(fields, transformOldToNew({ ...dest }))
           } else {
-            metaFieldWalker({ ...dest })
+            metaFieldRemover({ ...dest })
           }
 
           if (type === 'root') {

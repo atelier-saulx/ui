@@ -22,7 +22,7 @@ import { BasedSchema } from '@based/schema'
 //   })
 // }
 
-export const metaFieldWalker = (x) => {
+export const metaFieldRemover = (x) => {
   if (x.meta) {
     for (const key in x.meta) {
       x[key] = x.meta[key]
@@ -43,7 +43,7 @@ export const transformOldToNew = (oldFields: any): BasedSchema => {
   const newFields = { ...oldFields }
 
   for (const key in oldFields) {
-    newFields[key] = metaFieldWalker(oldFields[key])
+    newFields[key] = metaFieldRemover(oldFields[key])
   }
 
   console.log('NEW FIELDS', newFields)

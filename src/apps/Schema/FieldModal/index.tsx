@@ -55,6 +55,8 @@ export const FieldModal: FC<{
       : // @ts-ignore  is this an issue?
         path.reduce((fields, key) => fields[key], types[type].fields)
 
+  console.log('fields??', fields)
+
   if (!template) {
     if (field) {
       const fieldSchema = fields[field]
