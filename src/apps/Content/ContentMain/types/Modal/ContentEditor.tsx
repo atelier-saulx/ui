@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { styled, Input, Toggle, Badge, ArrayList, Button, useDialog } from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
@@ -15,6 +15,10 @@ export const ContentEditor: FC<{
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
   console.log('data??', data, fields, state)
+
+  console.log('🐤--> state', state)
+  console.log('DATA-->', data)
+  console.log('Fields --> ', fields)
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
@@ -40,11 +44,25 @@ const ContentRenderer: FC<{
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
   const onChange = (v: any) => {
+    console.log('👃 v', v, item, itemValue)
+
+    if (item.key.split('.').includes('properties')) {
+      const arr = item.key.split('.')
+      setState({
+        ...state,
+        [arr[0]]: {
+          [arr[2]]: v,
+        },
+      })
+    } else {
+      setState({ ...state, [item.key]: v })
+    }
     // console.log('V for vendetaa', v)
-    setState({ ...state, [item.key]: v })
   }
 
   // **** START 🚥 ****
+  console.log('itemCeptions 🫄🏻', item)
+  console.log('🦊🐯🐧', data)
 
   // STRING // TEXT
   if (item.type === 'string' || item.type === 'text') {
@@ -99,6 +117,7 @@ const ContentRenderer: FC<{
         description={item?.description}
         max={item?.maximum}
         min={item?.minimum}
+        format={item?.format}
         // multipleOf={item?.multipleOf}
         // exclusiveMaximum={item?.exclusiveMaximum}
         // exclusiveMinimum={item?.exclusiveMinimum}
@@ -186,9 +205,15 @@ const ContentRenderer: FC<{
 
   // OBJECT
   if (item.type === 'object') {
-    console.log('NANI>> OBJECT ✅', item)
+    // maak een array van de properties
+    const arrOfProperties = []
+    console.log(Object.keys(item.properties))
+    Object.keys(item.properties).map((i, idx) =>
+      arrOfProperties.push(item.properties[i])
+    )
+    console.log(arrOfProperties)
 
-    const { open } = useDialog()
+    console.log('🐸--> state', state)
 
     return (
       <>
@@ -201,15 +226,29 @@ const ContentRenderer: FC<{
           onChange={onChange}
           indent
         />
-        <Button
-          onClick={() => {
-            // fields = item.properties
-            console.log('open new modal from object')
-            open(<Modal overlay={item.title} />)
+
+        <styled.div
+          style={{
+            maxWidth: 742,
+            margin: '48px auto',
+            backgroundColor: 'lightyellow',
           }}
         >
-          TEST OBJECT MODAL CLIK
-        </Button>
+          {arrOfProperties?.map((objItem, i) => {
+            console.log('🦊', data?.item?.key)
+
+            return (
+              <ContentRenderer
+                state={state}
+                setState={setState}
+                data={data}
+                item={objItem}
+                itemValue={item[objItem.key]}
+                key={i}
+              />
+            )
+          })}
+        </styled.div>
       </>
     )
   }
@@ -230,7 +269,6 @@ const ContentRenderer: FC<{
   }
 
   // ARRAY
-
   if (item.type === 'array') {
     console.log('Array item --> ', item)
 
@@ -305,19 +343,6 @@ const ContentRenderer: FC<{
   if (item.type === 'id') {
     return <Badge>{itemValue}</Badge>
   }
-
-  // if (item.meta?.format === 'markdown') {
-  //   return (
-  //     <Input
-  //       label={item.title}
-  //       type="markdown"
-  //       value={itemValue}
-  //       onChange={onChange}
-  //       style={{ marginBottom: BOTTOMSPACE }}
-  //       indent
-  //     />
-  //   )
-  // }
 
   // if (item.type === 'type') {
   //   return (

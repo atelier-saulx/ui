@@ -32,6 +32,7 @@ const AnimatedWrapper = styled('div', {
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
   const client = useClient()
+
   return (
     <>
       <ContextItem
@@ -91,8 +92,6 @@ const Actions: FC<{ view: View }> = ({ view }) => {
 export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const [view] = useContextState<string>('view')
   const [overlay, setOverlay] = useContextState<string>('overlay')
-
-  console.log('WHAT IS OVERLAY', overlay)
 
   const [, setOverlayState] = useContextState<string>('overlay-state')
 
