@@ -46,6 +46,8 @@ const ContentRenderer: FC<{
   const onChange = (v: any) => {
     console.log('👃 v', v, item, itemValue)
 
+    // elke keer als ie properties tegenkomt ga verder qua diepte??
+
     if (item.key.split('.').includes('properties')) {
       const arr = item.key.split('.')
       setState({
@@ -231,11 +233,14 @@ const ContentRenderer: FC<{
           style={{
             maxWidth: 742,
             margin: '48px auto',
+            paddingLeft: 24,
             backgroundColor: 'lightyellow',
           }}
         >
           {arrOfProperties?.map((objItem, i) => {
-            console.log('🦊', data?.item?.key)
+            console.log('🦊', objItem)
+
+            // open in new sub window
 
             return (
               <ContentRenderer
@@ -243,7 +248,11 @@ const ContentRenderer: FC<{
                 setState={setState}
                 data={data}
                 item={objItem}
-                itemValue={item[objItem.key]}
+                itemValue={
+                  data[item?.key][
+                    objItem?.key?.split('.')[objItem.key?.split('.').length - 1]
+                  ]
+                }
                 key={i}
               />
             )
