@@ -40,22 +40,22 @@ ObjectListProps) => {
           style={{ marginBottom: 12 }}
         />
 
-        <InputWrapper
+        {/* <InputWrapper
           indent={indent}
           style={{ marginBottom: 12 }}
           hideClearButton
         >
           {/* some small indication of what is in the object let say one level deep per object 
           may need to set limit after certain amount ?? TODO */}
-          {Object.keys(insideObjectFields).map((objectKey, idx) => (
+        {/* {Object.keys(insideObjectFields).map((objectKey, idx) => (
             <div key={idx} style={{ display: 'flex', marginBottom: 4 }}>
               {objectKey}
               <Badge style={{ marginLeft: 8 }} boxed ghost outline>
                 {insideObjectFields[objectKey].type}
               </Badge>
             </div>
-          ))}
-        </InputWrapper>
+          ))} 
+        </InputWrapper> */}
 
         <Button icon={EditIcon} ghost onClick={onClick} color="accent">
           Edit object

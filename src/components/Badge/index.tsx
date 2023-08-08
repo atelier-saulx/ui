@@ -9,11 +9,12 @@ import {
   styled,
   useCopyToClipboard,
   CheckIcon,
+  Style,
 } from '~'
 
 type BadgeProps = {
   children: ReactNode
-  style?: CSSProperties
+  style?: Style
   icon?: FunctionComponent<Icon> | ReactNode
   iconRight?: FunctionComponent<Icon> | ReactNode
   outline?: boolean

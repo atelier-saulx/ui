@@ -14,11 +14,11 @@ export const ContentEditor: FC<{
   fields: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
-  console.log('data??', data, fields, state)
+  console.log('Incoming  🥮 data??', data, fields, state)
 
-  console.log('🐤--> state', state)
-  console.log('DATA-->', data)
-  console.log('Fields --> ', fields)
+  // console.log('🐤--> state', state)
+  // console.log('DATA-->', data)
+  // console.log('Fields --> ', fields)
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
@@ -46,8 +46,8 @@ const ContentRenderer: FC<{
   const onChange = (v: any) => {
     console.log('👃 v', v, item, itemValue)
 
+    // TODO
     // elke keer als ie properties tegenkomt ga verder qua diepte??
-
     if (item.key.split('.').includes('properties')) {
       const arr = item.key.split('.')
       setState({
@@ -59,12 +59,9 @@ const ContentRenderer: FC<{
     } else {
       setState({ ...state, [item.key]: v })
     }
-    // console.log('V for vendetaa', v)
   }
 
   // **** START 🚥 ****
-  console.log('itemCeptions 🫄🏻', item)
-  console.log('🦊🐯🐧', data)
 
   // STRING // TEXT
   if (item.type === 'string' || item.type === 'text') {
@@ -207,15 +204,17 @@ const ContentRenderer: FC<{
 
   // OBJECT
   if (item.type === 'object') {
+    const [showMore, setShowMore] = useState(false)
+
     // maak een array van de properties
     const arrOfProperties = []
     console.log(Object.keys(item.properties))
     Object.keys(item.properties).map((i, idx) =>
       arrOfProperties.push(item.properties[i])
     )
-    console.log(arrOfProperties)
+    // console.log(arrOfProperties)
 
-    console.log('🐸--> state', state)
+    // console.log('🐸--> state', state)
 
     return (
       <>
@@ -223,41 +222,47 @@ const ContentRenderer: FC<{
           label={item.title}
           description={item.description}
           objectProperties={item.properties}
-          value={itemValue}
+          onClick={() => {
+            setShowMore(true)
+            console.log(item.properties)
+          }}
           style={{ marginBottom: BOTTOMSPACE }}
-          onChange={onChange}
           indent
         />
 
-        <styled.div
-          style={{
-            maxWidth: 742,
-            margin: '48px auto',
-            paddingLeft: 24,
-            backgroundColor: 'lightyellow',
-          }}
-        >
-          {arrOfProperties?.map((objItem, i) => {
-            console.log('🦊', objItem)
+        {showMore && (
+          <styled.div
+            style={{
+              maxWidth: 742,
+              margin: '48px auto',
+              paddingLeft: 24,
+              backgroundColor: '#f4f0fd',
+            }}
+          >
+            {arrOfProperties?.map((objItem, i) => {
+              console.log('🦊', objItem)
 
-            // open in new sub window
+              // open in new sub window
 
-            return (
-              <ContentRenderer
-                state={state}
-                setState={setState}
-                data={data}
-                item={objItem}
-                itemValue={
-                  data[item?.key][
-                    objItem?.key?.split('.')[objItem.key?.split('.').length - 1]
-                  ]
-                }
-                key={i}
-              />
-            )
-          })}
-        </styled.div>
+              return (
+                <ContentRenderer
+                  state={state}
+                  setState={setState}
+                  data={data}
+                  item={objItem}
+                  itemValue={
+                    data[item?.key][
+                      objItem?.key?.split('.')[
+                        objItem.key?.split('.').length - 1
+                      ]
+                    ]
+                  }
+                  key={i}
+                />
+              )
+            })}
+          </styled.div>
+        )}
       </>
     )
   }

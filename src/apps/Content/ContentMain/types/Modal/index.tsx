@@ -44,7 +44,10 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     overlayData = createTypeModal(schema, overlay.replace(/^type-/, ''))
   }
 
+  console.log('lnow THEM??data 🙏🏻', overlayData)
+
   const targetDefaults = overlayData?.config?.target ?? {}
+
   const ctx = {
     data: {},
     state,
@@ -62,9 +65,6 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
       }
     },
   }
-
-  // console.log(overlayData.name, '🥎')
-  // console.log('WTF', state)
 
   const { data, loading } = useQuery(
     overlayData?.config?.function?.name,
@@ -89,11 +89,14 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     }
   }
 
+  console.log('data A', props.data)
+  console.log('fields B', props.fields)
+
   // console.log(
   //   'The fields for this content editor??',
   //   schema.types[overlayData.name].fields
   // )
-  // console.log('Props??', props)
+  console.log('MAD Props??', props)
 
   return (
     <styled.div
@@ -122,7 +125,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
                 padding: '24px 32px',
               }}
             >
-              <Text typography="subtitle500">{props.name}</Text>
+              <Text typography="subtitle500">{props.data.type}</Text>
             </styled.div>
             <styled.div>
               <ContentEditor

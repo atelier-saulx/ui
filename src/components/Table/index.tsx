@@ -235,8 +235,15 @@ const Cell = (props) => {
   ) : type === 'object' ? (
     // @ts-ignore
     <Badge
+      style={{ '&:hover': { backgroundColor: color('lightaccent:active') } }}
       color="accent"
-      icon={<CurlyBracesIcon style={{ marginLeft: 8 }} />}
+      icon={
+        <CurlyBracesIcon
+          style={{
+            marginLeft: 8,
+          }}
+        />
+      }
     />
   ) : (
     <Text selectable typography={type === 'bytes' ? 'caption500' : 'body500'}>
