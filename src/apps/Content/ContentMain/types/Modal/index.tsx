@@ -33,6 +33,9 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const { schema, loading: schemaLoading } = useSchema()
 
   const isType = overlay?.startsWith('type-')
+  // const isNestedObject = overlay
+
+  console.log(overlay, 'gvftyvghb')
 
   let { data: overlayData } = useQuery(isType ? null : 'db', {
     $db: 'config',
@@ -44,9 +47,11 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     overlayData = createTypeModal(schema, overlay.replace(/^type-/, ''))
   }
 
+  console.log('Tge overlayy?', overlay)
   console.log('lnow THEM??data 🙏🏻', overlayData)
 
   const targetDefaults = overlayData?.config?.target ?? {}
+  console.log(targetDefaults, '🍔,')
 
   const ctx = {
     data: {},
@@ -89,7 +94,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     }
   }
 
-  console.log('data A', props.data)
+  console.log('data A', ctx.data)
   console.log('fields B', props.fields)
 
   // console.log(

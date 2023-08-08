@@ -1,5 +1,14 @@
 import React, { FC, useEffect, useState } from 'react'
-import { styled, Input, Toggle, Badge, ArrayList, Button, useDialog } from '~'
+import {
+  styled,
+  Input,
+  Toggle,
+  Badge,
+  ArrayList,
+  Button,
+  useDialog,
+  useContextState,
+} from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
 import { SetList } from '~/components/SetList/index'
@@ -206,6 +215,8 @@ const ContentRenderer: FC<{
   if (item.type === 'object') {
     const [showMore, setShowMore] = useState(false)
 
+    const [, setTarget] = useContextState<any>('object-target')
+
     // maak een array van de properties
     const arrOfProperties = []
     console.log(Object.keys(item.properties))
@@ -213,7 +224,7 @@ const ContentRenderer: FC<{
       arrOfProperties.push(item.properties[i])
     )
     // console.log(arrOfProperties)
-
+    console.log('Object -->', item)
     // console.log('🐸--> state', state)
 
     return (
@@ -263,6 +274,10 @@ const ContentRenderer: FC<{
             })}
           </styled.div>
         )}
+
+        <Button onClick={() => setTarget(item.key)}>
+          set object target in url
+        </Button>
       </>
     )
   }
