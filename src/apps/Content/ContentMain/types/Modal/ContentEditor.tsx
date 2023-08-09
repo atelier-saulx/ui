@@ -16,6 +16,7 @@ import { useSchema } from '~/apps/Schema/hooks/useSchema'
 import { RecordList } from '~/components/RecordList'
 import { ObjectList } from '~/components/ObjectList'
 import { Modal } from '.'
+import { getByPath } from '@saulx/utils'
 
 export const ContentEditor: FC<{
   data: { [key: string]: any }
@@ -28,6 +29,28 @@ export const ContentEditor: FC<{
   // console.log('🐤--> state', state)
   // console.log('DATA-->', data)
   // console.log('Fields --> ', fields)
+
+  const [objectTarget] = useContextState('object-target')
+
+  // 1 arg ->
+  // get correct fields loop check
+
+  if (objectTarget) {
+    for (const prop in fields) {
+      if (fields[prop].key === objectTarget) {
+        console.log('🌶')
+        console.log('This one -->', fields[prop].properties)
+
+        fields = fields[prop].properties
+      }
+    }
+  }
+
+  // 2
+  // get correct data
+  // getByPath(t, )
+
+  console.log('🍜', objectTarget)
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>

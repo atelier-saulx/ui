@@ -35,7 +35,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const isType = overlay?.startsWith('type-')
   // const isNestedObject = overlay
 
-  console.log(overlay, 'gvftyvghb')
+  const [objectTarget] = useContextState<string>('object-target')
 
   let { data: overlayData } = useQuery(isType ? null : 'db', {
     $db: 'config',
@@ -47,11 +47,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     overlayData = createTypeModal(schema, overlay.replace(/^type-/, ''))
   }
 
-  console.log('Tge overlayy?', overlay)
-  console.log('lnow THEM??data 🙏🏻', overlayData)
-
   const targetDefaults = overlayData?.config?.target ?? {}
-  console.log(targetDefaults, '🍔,')
 
   const ctx = {
     data: {},
@@ -130,7 +126,9 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
                 padding: '24px 32px',
               }}
             >
-              <Text typography="subtitle500">{props.data.type}</Text>
+              <Text typography="subtitle500">
+                {props.data.type} {objectTarget}
+              </Text>
             </styled.div>
             <styled.div>
               <ContentEditor
