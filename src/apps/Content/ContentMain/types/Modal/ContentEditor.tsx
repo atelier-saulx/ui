@@ -37,11 +37,19 @@ export const ContentEditor: FC<{
 
   if (objectTarget) {
     for (const prop in fields) {
-      if (fields[prop].key === objectTarget) {
+      if (fields[prop]?.key === objectTarget) {
         console.log('🌶')
-        console.log('This one -->', fields[prop].properties)
+        console.log('This one -->', fields[prop])
 
-        fields = fields[prop].properties
+        let newFields = []
+
+        for (const x in fields[prop].properties) {
+          console.log()
+          newFields.push(fields[prop].properties[x])
+        }
+
+        fields = newFields
+        console.log('New fields --> ', newFields)
       }
     }
   }
