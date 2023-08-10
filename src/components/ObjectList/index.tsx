@@ -1,6 +1,13 @@
 import React, { CSSProperties, useState } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
-import { Label, Button, EditIcon, Badge } from '~'
+import {
+  Label,
+  Button,
+  EditIcon,
+  styled,
+  ChevronUpIcon,
+  ChevronDownIcon,
+} from '~'
 
 type ObjectListProps = {
   label?: string
@@ -25,6 +32,7 @@ ObjectListProps) => {
   // console.log(objectProperties, 'NANI>>')
 
   const [insideObjectFields] = useState(objectProperties)
+  const [expanded, setExpanded] = useState(false)
 
   return (
     <>
@@ -34,11 +42,26 @@ ObjectListProps) => {
         descriptionBottom={descriptionBottom}
         hideClearButton
       >
-        <Label
-          label={label}
-          description={description}
-          style={{ marginBottom: 12 }}
-        />
+        <styled.div
+          style={{
+            display: 'flex',
+            marginBottom: 12,
+            alignItems: 'center',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            onClick()
+            setExpanded(!expanded)
+          }}
+        >
+          <Label
+            label={label}
+            description={description}
+            style={{ marginRight: 8 }}
+          />
+
+          {expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+        </styled.div>
 
         {/* <InputWrapper
           indent={indent}
@@ -57,9 +80,9 @@ ObjectListProps) => {
           ))} 
         </InputWrapper> */}
 
-        <Button icon={EditIcon} ghost onClick={onClick} color="accent">
+        {/* <Button icon={EditIcon} ghost onClick={onClick} color="accent">
           Edit object
-        </Button>
+        </Button> */}
       </InputWrapper>
     </>
   )

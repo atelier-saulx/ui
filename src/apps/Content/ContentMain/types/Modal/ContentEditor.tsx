@@ -1,11 +1,19 @@
 import React, { FC, useEffect, useState } from 'react'
-import { styled, Input, Toggle, Badge, ArrayList, useContextState } from '~'
+import {
+  styled,
+  Input,
+  Toggle,
+  Badge,
+  ArrayList,
+  useContextState,
+  color,
+} from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
 import { SetList } from '~/components/SetList/index'
 import { RecordList } from '~/components/RecordList'
 import { ObjectList } from '~/components/ObjectList'
-import { getByPath } from '@saulx/utils'
+import { getByPath, setByPath } from '@saulx/utils'
 
 export const ContentEditor: FC<{
   data: { [key: string]: any }
@@ -224,7 +232,9 @@ const ContentRenderer: FC<{
 
   // OBJECT
   if (item.type === 'object') {
-    const [target, setTarget] = useContextState<any>('object-target')
+    // const [target, setTarget] = useContextState<any>('object-target')
+
+    const [expandedField, setExpandedField] = useState([])
 
     return (
       <>
@@ -234,12 +244,73 @@ const ContentRenderer: FC<{
           objectProperties={item.properties}
           onClick={() => {
             // TODO: Nested Object items hebben geen key
-            // los op in de propsparser??
-            setTarget(target ? target + '.' + item.title : item.key)
+
+            //    setTarget(target ? target + '.' + item.title : item.key)
+
+            //  expandedFields.push(item.key)
+            if (!expandedField?.includes(item?.title)) {
+              //   const arrCopy =
+              setExpandedField([...expandedField, item.title])
+            }
           }}
           style={{ marginBottom: BOTTOMSPACE }}
           indent
         />
+
+        {/* loop throug expandedfields and for every array map ghroug content editor */}
+        {expandedField?.map((expFieldName, idx) => {
+          const arr = []
+          for (const x in item.properties) {
+            arr.push(item.properties[x])
+          }
+
+          console.log('Arr???', arr)
+          console.log('exp field name', expFieldName)
+
+          let pathData = getByPath(data, [expFieldName])
+          console.log('new DaTA -->', data)
+
+          return (
+            <styled.div
+              key={idx}
+              style={{
+                maxWidth: 742,
+                marginTop: 32,
+                marginLeft: 24,
+                position: 'relative',
+              }}
+            >
+              <styled.div
+                style={{
+                  position: 'absolute',
+                  width: 2,
+                  backgroundColor: 'rgba(236,236,236,1)',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                }}
+              />
+              {arr.map((x, i) => (
+                <ContentRenderer
+                  state={state}
+                  setState={(z) => {
+                    //  setState(setByPath(data, [expFieldName], z))
+
+                    // setState({ ...state, [[expFieldName][x.title]]: z })
+
+                    setByPath(pathData, [expFieldName], z)
+
+                    console.log(setByPath(pathData, [expFieldName], z))
+                  }}
+                  data={data}
+                  item={x}
+                  itemValue={pathData?.[x.title]}
+                  key={i}
+                />
+              ))}
+            </styled.div>
+          )
+        })}
       </>
     )
   }

@@ -3,20 +3,20 @@ import { alwaysIgnore, systemFields } from '~/apps/Schema/templates'
 import {
   BasedSchemaFieldShared,
   BasedSchema,
-  BasedSchemaFieldReference,
+  BasedSchemaFieldType,
 } from '@based/schema'
 
 export const createRootEditor = (schema: BasedSchema): any => {
   const typeSchema = schema.types.root
   const getFields: any = {}
-  // let mimeType
-  let fields = []
+  const fields: BasedSchemaFieldShared[] = []
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore.has(field)) {
       const f: BasedSchemaFieldShared = typeSchema.fields[field]
       fields.push({
         title: f?.title ?? field,
-        key: field,
+        $id: field,
+        // key: field,
         type: f.type,
       })
     }
@@ -25,7 +25,8 @@ export const createRootEditor = (schema: BasedSchema): any => {
     return a.index > b.index ? 1 : a.index < b.index ? -1 : 0
   })
   for (const f of fields) {
-    getFields[f.key] = true
+    //  getFields[f.key] = true
+    getFields[f.$id] = true
   }
   return {}
 }
@@ -49,6 +50,12 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
   let idKey: string
   const getFields: any = {}
   let fields = []
+
+  // 1 ADD FIELD TYPE FOR CONTENT EDITOR
+
+  // 1.1 { expandable: Field[] }[]
+
+  // 2 EXTRACT HEADER TYPE FOR TABLE
 
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore?.has(field)) {
@@ -216,7 +223,7 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
 
   if (!typeSchema) {
-    console.log('no typeschema', type)
+    console.error('no typeschema', type)
     return
   }
 
@@ -225,13 +232,13 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
     id: true,
     type: true,
   }
-  let fields = []
+  // add type
+  const fields = []
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore?.has(field) && !systemFields?.has(field)) {
       const f: BasedSchemaFieldShared = typeSchema.fields[field]
 
       if (!f) {
-        console.log('no', f)
         continue
       }
 
@@ -247,39 +254,24 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
       ) {
         mField = `${field}.mimeType`
 
+        // nested fields
+
         getFields[field] = {
           src: true,
           id: true,
           mimeType: true,
           name: true,
+          // nestedFields Fields[]
         }
       }
 
-      //   f.type === 'reference' &&
-      //   (f.meta?.format === 'file' ||
-      //     (f.meta?.refTypes &&
-      //       f.meta?.refTypes.length === 1 &&
-      //       f.meta?.refTypes[0] === 'file'))
-      // ) {
-      //   mField = `${field}.mimeType`
-
-      //   getFields[field] = {
-      //     src: true,
-      //     id: true,
-      //     mimeType: true,
-      //     name: true,
-      //   }
-      // }
-
       fields.push({
-        // spread all props
         ...f,
         title: f.title ?? field,
         key: field,
         type: f.type,
         index: f?.index ?? 1e6,
         mimeTypeKey: mField,
-        // meta: f.meta,
       })
     }
   }
@@ -294,7 +286,6 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
     }
   }
 
-  // target langiahe
   return {
     id: 'type-' + type,
     name: prettyName,
