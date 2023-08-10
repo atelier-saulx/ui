@@ -13,7 +13,7 @@ import { BOTTOMSPACE } from './constants'
 import { SetList } from '~/components/SetList/index'
 import { RecordList } from '~/components/RecordList'
 import { ObjectList } from '~/components/ObjectList'
-import { getByPath, setByPath } from '@saulx/utils'
+import { deepCopy, getByPath, setByPath } from '@saulx/utils'
 
 export const ContentEditor: FC<{
   data: { [key: string]: any }
@@ -24,46 +24,46 @@ export const ContentEditor: FC<{
   console.log('Incoming  🥮 data??', data, 'fields', fields, 'state', state)
   console.log('Still need to add keys to nested object fields 🔑')
 
-  const [objectTarget]: [string, (value: string) => void] =
-    useContextState('object-target')
-  const [renderCounter, setRenderCounter] = useState(1)
-  const [newFields, setNewFields] = useState(fields)
+  // const [objectTarget]: [string, (value: string) => void] =
+  //   useContextState('object-target')
+  // const [renderCounter, setRenderCounter] = useState(1)
+  // const [newFields, setNewFields] = useState(fields)
 
-  useEffect(() => {
-    setRenderCounter(renderCounter + 1)
-  }, [objectTarget])
+  // useEffect(() => {
+  //   setRenderCounter(renderCounter + 1)
+  // }, [objectTarget])
 
-  // get correct fields loop check
-  const iterate = (obj, objKeyName) => {
-    Object.keys(obj).forEach((key) => {
-      // TODO change title to key if all objects get keys via parser
-      if (key === 'title' && obj[key] === objKeyName) {
-        console.log('📒 fkaion', obj.properties)
-        const arr = []
-        for (const x in obj.properties) {
-          arr.push(obj.properties[x])
-        }
-        setNewFields(arr)
-      }
+  // // get correct fields loop check
+  // const iterate = (obj, objKeyName) => {
+  //   Object.keys(obj).forEach((key) => {
+  //     // TODO change title to key if all objects get keys via parser
+  //     if (key === 'title' && obj[key] === objKeyName) {
+  //       console.log('📒 fkaion', obj.properties)
+  //       const arr = []
+  //       for (const x in obj.properties) {
+  //         arr.push(obj.properties[x])
+  //       }
+  //       setNewFields(arr)
+  //     }
 
-      if (typeof obj[key] === 'object' && obj[key] !== null) {
-        iterate(obj[key], objKeyName)
-      }
-    })
-  }
+  //     if (typeof obj[key] === 'object' && obj[key] !== null) {
+  //       iterate(obj[key], objKeyName)
+  //     }
+  //   })
+  // }
 
-  if (objectTarget && renderCounter) {
-    iterate(
-      newFields,
-      objectTarget?.split('.')[objectTarget?.split('.').length - 1]
-    )
-    console.log('NEW FIELDS THENM?? -->', newFields)
-    data = getByPath(data, objectTarget.split('.'))
-  }
+  // if (objectTarget && renderCounter) {
+  //   iterate(
+  //     newFields,
+  //     objectTarget?.split('.')[objectTarget?.split('.').length - 1]
+  //   )
+  //   console.log('NEW FIELDS THENM?? -->', newFields)
+  //   data = getByPath(data, objectTarget.split('.'))
+  // }
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
-      {newFields?.map((item, i) => (
+      {fields?.map((item, i) => (
         <ContentRenderer
           state={state}
           setState={setState}
@@ -292,15 +292,9 @@ const ContentRenderer: FC<{
               />
               {arr.map((x, i) => (
                 <ContentRenderer
-                  state={state}
+                  state={state[expFieldName]}
                   setState={(z) => {
-                    //  setState(setByPath(data, [expFieldName], z))
-
-                    // setState({ ...state, [[expFieldName][x.title]]: z })
-
-                    setByPath(pathData, [expFieldName], z)
-
-                    console.log(setByPath(pathData, [expFieldName], z))
+                    setState({ ...state, [expFieldName]: z })
                   }}
                   data={data}
                   item={x}

@@ -31,7 +31,6 @@ export const ObjectList = ({
 ObjectListProps) => {
   // console.log(objectProperties, 'NANI>>')
 
-  const [insideObjectFields] = useState(objectProperties)
   const [expanded, setExpanded] = useState(false)
 
   return (
