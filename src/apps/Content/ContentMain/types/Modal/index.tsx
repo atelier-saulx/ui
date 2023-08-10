@@ -35,7 +35,8 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const isType = overlay?.startsWith('type-')
   // const isNestedObject = overlay
 
-  const [objectTarget] = useContextState<string>('object-target')
+  const [objectTarget, setObjectTarget] =
+    useContextState<string>('object-target')
 
   let { data: overlayData } = useQuery(isType ? null : 'db', {
     $db: 'config',
@@ -97,7 +98,6 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   //   'The fields for this content editor??',
   //   schema.types[overlayData.name].fields
   // )
-  console.log('MAD Props??', props)
 
   return (
     <styled.div
@@ -127,7 +127,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
               }}
             >
               <Text typography="subtitle500">
-                {props.data.type} {objectTarget}
+                {props.data.type} {objectTarget ? '> ' + objectTarget : ''}
               </Text>
             </styled.div>
             <styled.div>
@@ -163,7 +163,10 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
               }}
               icon={<CloseIcon color="text2" />}
               color="border"
-              onClick={() => removeOverlay()}
+              onClick={() => {
+                setObjectTarget(null)
+                removeOverlay()
+              }}
             />
             <styled.div
               style={{

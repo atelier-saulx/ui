@@ -32,8 +32,6 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   const ref = useRef<ReturnType<typeof setTimeout>>()
   const typing = useRef<boolean>()
 
-  console.log('🍝', target)
-
   useEffect(() => {
     return () => {
       clearTimeout(ref.current)

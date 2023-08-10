@@ -30,18 +30,36 @@ export const ContentEditor: FC<{
   // console.log('DATA-->', data)
   // console.log('Fields --> ', fields)
 
-  const [objectTarget] = useContextState('object-target')
+  const [objectTarget, setObjectTarget] = useContextState('object-target')
+
+  const makeArrayFromObjectTarget = (target: string): string[] => {
+    if (target?.split('.')?.length > 1) {
+      const arr = target.split('.')
+
+      const filteredArr = arr.filter((item) => item !== 'properties')
+      console.log('ARRRR MATEYS', filteredArr)
+      return filteredArr
+    } else {
+      return [target]
+    }
+  }
+
+  // deeper objects
+  // set more object-targets paths,
 
   // 1 arg ->
   // get correct fields loop check
-
   if (objectTarget) {
+    // let lastObjectPart =
+    //   objectTarget?.split('.')[objectTarget?.split('.').length - 1]
+    // console.log(lastObjectPart, '🧀')
+
+    // walktrough the array and skip over properties
+
     for (const prop in fields) {
       if (fields[prop]?.key === objectTarget) {
-        console.log('🌶')
         console.log('This one -->', fields[prop])
-
-        let newFields = []
+        const newFields = []
 
         for (const x in fields[prop].properties) {
           console.log()
@@ -49,16 +67,31 @@ export const ContentEditor: FC<{
         }
 
         fields = newFields
-        console.log('New fields --> ', newFields)
       }
     }
+
+    console.log('🍜', objectTarget)
+    makeArrayFromObjectTarget(objectTarget)
+    // data = data[objectTarget]
+
+    console.log('NEWFIELDS', fields)
+
+    console.log('DATA Object Target', data)
+    //  const test = getByPath(data, objectTarget?.split('.'))
+    // console.log('🥧', test)
   }
+
+  // objectTarget word array
+  // functie -> ignore properties, skip over properties.
+  // path = directe path
+
+  // get by path skip properties
 
   // 2
   // get correct data
-  // getByPath(t, )
-
-  console.log('🍜', objectTarget)
+  // getByPath(t,  als array)
+  const test = getByPath(data, makeArrayFromObjectTarget(objectTarget))
+  console.log('--> TEST 🍿', test)
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
@@ -76,6 +109,8 @@ export const ContentEditor: FC<{
   )
 }
 
+// 3 close modal remove object target from url
+
 const ContentRenderer: FC<{
   item: { [key: string]: any }
   itemValue: any
@@ -89,6 +124,7 @@ const ContentRenderer: FC<{
     // TODO
     // elke keer als ie properties tegenkomt ga verder qua diepte??
     if (item.key.split('.').includes('properties')) {
+      // TODO: improve this logic make it dynamic
       const arr = item.key.split('.')
       setState({
         ...state,
@@ -246,7 +282,9 @@ const ContentRenderer: FC<{
   if (item.type === 'object') {
     const [showMore, setShowMore] = useState(false)
 
-    const [, setTarget] = useContextState<any>('object-target')
+    const [target, setTarget] = useContextState<any>('object-target')
+
+    console.log(target)
 
     // maak een array van de properties
     const arrOfProperties = []
@@ -265,14 +303,22 @@ const ContentRenderer: FC<{
           description={item.description}
           objectProperties={item.properties}
           onClick={() => {
-            setShowMore(true)
+            // setShowMore(true)
+
+            // TODO: Nested Object items hebben geen key
+            // los op in de propsparser??
+
+            setTarget(
+              target ? target + '.properties.title.' + item.title : item.key
+            )
+
             console.log(item.properties)
           }}
           style={{ marginBottom: BOTTOMSPACE }}
           indent
         />
 
-        {showMore && (
+        {/* {showMore && (
           <styled.div
             style={{
               maxWidth: 742,
@@ -304,11 +350,11 @@ const ContentRenderer: FC<{
               )
             })}
           </styled.div>
-        )}
+        )} */}
 
-        <Button onClick={() => setTarget(item.key)}>
+        {/* <Button onClick={() => setTarget(item.key)}>
           set object target in url
-        </Button>
+        </Button> */}
       </>
     )
   }
