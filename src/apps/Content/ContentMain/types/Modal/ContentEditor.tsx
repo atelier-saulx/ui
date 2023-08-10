@@ -32,30 +32,17 @@ export const ContentEditor: FC<{
 
   const [objectTarget, setObjectTarget] = useContextState('object-target')
 
+  // make array and skip properties
   const makeArrayFromObjectTarget = (target: string): string[] => {
     if (target?.split('.')?.length > 1) {
-      const arr = target.split('.')
-
-      const filteredArr = arr.filter((item) => item !== 'properties')
-      console.log('ARRRR MATEYS', filteredArr)
-      return filteredArr
+      return target.split('.').filter((item) => item !== 'properties')
     } else {
       return [target]
     }
   }
 
-  // deeper objects
-  // set more object-targets paths,
-
-  // 1 arg ->
   // get correct fields loop check
   if (objectTarget) {
-    // let lastObjectPart =
-    //   objectTarget?.split('.')[objectTarget?.split('.').length - 1]
-    // console.log(lastObjectPart, '🧀')
-
-    // walktrough the array and skip over properties
-
     for (const prop in fields) {
       if (fields[prop]?.key === objectTarget) {
         console.log('This one -->', fields[prop])
@@ -71,27 +58,17 @@ export const ContentEditor: FC<{
     }
 
     console.log('🍜', objectTarget)
-    makeArrayFromObjectTarget(objectTarget)
-    // data = data[objectTarget]
-
     console.log('NEWFIELDS', fields)
-
-    console.log('DATA Object Target', data)
-    //  const test = getByPath(data, objectTarget?.split('.'))
-    // console.log('🥧', test)
   }
 
-  // objectTarget word array
-  // functie -> ignore properties, skip over properties.
   // path = directe path
-
-  // get by path skip properties
 
   // 2
   // get correct data
-  // getByPath(t,  als array)
-  const test = getByPath(data, makeArrayFromObjectTarget(objectTarget))
-  console.log('--> TEST 🍿', test)
+  if (objectTarget) {
+    data = getByPath(data, makeArrayFromObjectTarget(objectTarget))
+    console.log('--> TEST 🍿', data)
+  }
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
@@ -308,9 +285,7 @@ const ContentRenderer: FC<{
             // TODO: Nested Object items hebben geen key
             // los op in de propsparser??
 
-            setTarget(
-              target ? target + '.properties.title.' + item.title : item.key
-            )
+            setTarget(target ? target + '.properties.' + item.title : item.key)
 
             console.log(item.properties)
           }}
