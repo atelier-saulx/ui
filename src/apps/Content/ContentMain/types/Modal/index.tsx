@@ -91,9 +91,6 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     }
   }
 
-  console.log('data A', ctx.data)
-  console.log('fields B', props.fields)
-
   // console.log(
   //   'The fields for this content editor??',
   //   schema.types[overlayData.name].fields

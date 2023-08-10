@@ -24,13 +24,20 @@ export const ContentEditor: FC<{
   fields: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
-  console.log('Incoming  🥮 data??', data, fields, state)
+  console.log('Incoming  🥮 data??', data, 'fields', fields, 'state', state)
+  console.log('Still need to add keys to nested object fields 🔑')
 
   // console.log('🐤--> state', state)
   // console.log('DATA-->', data)
-  // console.log('Fields --> ', fields)
 
   const [objectTarget, setObjectTarget] = useContextState('object-target')
+  const [renderCounter, setRenderCounter] = useState(1)
+  const [newFields, setNewFields] = useState(fields)
+
+  useEffect(() => {
+    console.log('object target changeds')
+    setRenderCounter(renderCounter + 1)
+  }, [objectTarget])
 
   // make array and skip properties
   const makeArrayFromObjectTarget = (target: string): string[] => {
@@ -42,43 +49,95 @@ export const ContentEditor: FC<{
   }
 
   // get correct fields loop check
-  if (objectTarget) {
-    for (const prop in fields) {
-      if (fields[prop]?.key === objectTarget) {
-        console.log('This one -->', fields[prop])
-        const newFields = []
+  const iterate = (obj, objKeyName) => {
+    // console.log(objKeyName, '📕')
+    Object.keys(obj).forEach((key) => {
+      //   console.log(`key: ${key}, value: ${obj[key]}`)
+      // TODO change title to key if all objects get keys via parser
+      if (key === 'title' && obj[key] === objKeyName) {
+        console.log('📒 fkaion', obj.properties)
 
-        for (const x in fields[prop].properties) {
-          console.log()
-          newFields.push(fields[prop].properties[x])
+        // newFields should become these
+        //    setNewFields(obj.properties)
+        const arr = []
+
+        for (const x in obj.properties) {
+          arr.push(obj.properties[x])
         }
 
-        fields = newFields
+        console.log('ara', arr)
+        setNewFields(arr)
+        //    return arr
       }
-    }
 
-    console.log('🍜', objectTarget)
-    console.log('NEWFIELDS', fields)
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        iterate(obj[key], objKeyName)
+      }
+    })
+  }
+
+  // console.log(
+  //   'test this then -->',
+  //   objectTarget &&
+  //     iterate(
+  //       fields,
+  //       objectTarget?.split('.')[objectTarget?.split('.').length - 1]
+  //     )
+  // )
+
+  // const newFieldsBasedOnObjectTarget = (objectTarget: string) => {
+  //   if (objectTarget) {
+  //     const arr = objectTarget.split('.')
+
+  //     for (const prop in fields) {
+  //       // is last
+  //       if (fields[prop]?.key === arr[arr.length - 1]) {
+  //         console.log('This one -->', fields[prop])
+  //         const newFields = []
+
+  //         for (const x in fields[prop].properties) {
+  //           console.log(x)
+  //           newFields.push(fields[prop].properties[x])
+  //         }
+
+  //         fields = newFields
+  //         return newFields
+  //       }
+  //     }
+
+  //     console.log('OBJECT-TARGET', objectTarget)
+  //     console.log('NEWFIELDS', fields)
+  //     console.log('ARR -->', makeArrayFromObjectTarget(objectTarget))
+  //   }
+  // }
+
+  if (objectTarget && renderCounter) {
+    console.log('renderCounter 📅', renderCounter)
+    iterate(
+      newFields,
+      objectTarget?.split('.')[objectTarget?.split('.').length - 1]
+    )
+    console.log('NEW FIELDS THENM?? -->', newFields)
+    data = getByPath(data, makeArrayFromObjectTarget(objectTarget))
   }
 
   // path = directe path
 
   // 2
   // get correct data
-  if (objectTarget) {
-    data = getByPath(data, makeArrayFromObjectTarget(objectTarget))
-    console.log('--> TEST 🍿', data)
-  }
+  // if (objectTarget) {
+
+  // }
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
-      {fields?.map((item, i) => (
+      {newFields?.map((item, i) => (
         <ContentRenderer
           state={state}
           setState={setState}
           data={data}
           item={item}
-          itemValue={data[item.key]}
+          itemValue={data?.[item.key]}
           key={i}
         />
       ))}
@@ -86,8 +145,9 @@ export const ContentEditor: FC<{
   )
 }
 
-// 3 close modal remove object target from url
+// fields should be updated if we go deeper in object
 
+// 3 close modal remove object target from url
 const ContentRenderer: FC<{
   item: { [key: string]: any }
   itemValue: any
@@ -96,22 +156,7 @@ const ContentRenderer: FC<{
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
   const onChange = (v: any) => {
-    console.log('👃 v', v, item, itemValue)
-
-    // TODO
-    // elke keer als ie properties tegenkomt ga verder qua diepte??
-    if (item.key.split('.').includes('properties')) {
-      // TODO: improve this logic make it dynamic
-      const arr = item.key.split('.')
-      setState({
-        ...state,
-        [arr[0]]: {
-          [arr[2]]: v,
-        },
-      })
-    } else {
-      setState({ ...state, [item.key]: v })
-    }
+    setState({ ...state, [item.key]: v })
   }
 
   // **** START 🚥 ****
@@ -260,17 +305,10 @@ const ContentRenderer: FC<{
     const [showMore, setShowMore] = useState(false)
 
     const [target, setTarget] = useContextState<any>('object-target')
+    //  console.log(target)
 
-    console.log(target)
-
-    // maak een array van de properties
-    const arrOfProperties = []
-    console.log(Object.keys(item.properties))
-    Object.keys(item.properties).map((i, idx) =>
-      arrOfProperties.push(item.properties[i])
-    )
     // console.log(arrOfProperties)
-    console.log('Object -->', item)
+    // console.log('Object -->', item)
     // console.log('🐸--> state', state)
 
     return (
@@ -287,49 +325,11 @@ const ContentRenderer: FC<{
 
             setTarget(target ? target + '.properties.' + item.title : item.key)
 
-            console.log(item.properties)
+            //   console.log(item.properties)
           }}
           style={{ marginBottom: BOTTOMSPACE }}
           indent
         />
-
-        {/* {showMore && (
-          <styled.div
-            style={{
-              maxWidth: 742,
-              margin: '48px auto',
-              paddingLeft: 24,
-              backgroundColor: '#f4f0fd',
-            }}
-          >
-            {arrOfProperties?.map((objItem, i) => {
-              console.log('🦊', objItem)
-
-              // open in new sub window
-
-              return (
-                <ContentRenderer
-                  state={state}
-                  setState={setState}
-                  data={data}
-                  item={objItem}
-                  itemValue={
-                    data[item?.key][
-                      objItem?.key?.split('.')[
-                        objItem.key?.split('.').length - 1
-                      ]
-                    ]
-                  }
-                  key={i}
-                />
-              )
-            })}
-          </styled.div>
-        )} */}
-
-        {/* <Button onClick={() => setTarget(item.key)}>
-          set object target in url
-        </Button> */}
       </>
     )
   }

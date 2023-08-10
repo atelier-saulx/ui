@@ -67,8 +67,8 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   const props = parseProps(view.config.props ?? {}, ctx)
 
   // console.log('Context -->', ctx)
-  console.log('props after parsing', props)
-  console.log('CTX 🚑', ctx)
+  // console.log('props after parsing', props)
+  // console.log('CTX 🚑', ctx)
 
   return (
     <ScrollArea
