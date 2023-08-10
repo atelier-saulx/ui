@@ -24,8 +24,10 @@ export const ContentEditor: FC<{
   console.log('Incoming  🥮 data??', data, 'fields', fields, 'state', state)
   console.log('Still need to add keys to nested object fields 🔑')
 
-  // const [objectTarget]: [string, (value: string) => void] =
-  //   useContextState('object-target')
+  //  const [arrayOfDeepness, setArrayOfDeepness] = useState([])
+
+  const [objectTarget]: [string, (value: string) => void] =
+    useContextState('object-target')
   // const [renderCounter, setRenderCounter] = useState(1)
   // const [newFields, setNewFields] = useState(fields)
 
@@ -244,13 +246,15 @@ const ContentRenderer: FC<{
           objectProperties={item.properties}
           onClick={() => {
             // TODO: Nested Object items hebben geen key
-
+            console.log('item title???', item?.title)
             //    setTarget(target ? target + '.' + item.title : item.key)
 
             //  expandedFields.push(item.key)
             if (!expandedField?.includes(item?.title)) {
               //   const arrCopy =
               setExpandedField([...expandedField, item.title])
+              // TODO set
+              //      useContextState(item.title)
             }
           }}
           style={{ marginBottom: BOTTOMSPACE }}
@@ -264,10 +268,14 @@ const ContentRenderer: FC<{
             arr.push(item.properties[x])
           }
 
-          console.log('Arr???', arr)
-          console.log('exp field name', expFieldName)
+          // Array of how deep you are
+
+          console.log('Arr??? 🅱️', arr)
+          console.log('STATE>?? 🅾️', state)
+          console.log('exp field name 🆘', expFieldName)
 
           let pathData = getByPath(data, [expFieldName])
+          console.log('Path DATA 🔔', pathData)
           console.log('new DaTA -->', data)
 
           return (
@@ -290,18 +298,27 @@ const ContentRenderer: FC<{
                   bottom: 0,
                 }}
               />
-              {arr.map((x, i) => (
-                <ContentRenderer
-                  state={state[expFieldName]}
-                  setState={(z) => {
-                    setState({ ...state, [expFieldName]: z })
-                  }}
-                  data={data}
-                  item={x}
-                  itemValue={pathData?.[x.title]}
-                  key={i}
-                />
-              ))}
+              {arr.map((x, i) => {
+                console.log('X-Zibit', x)
+
+                console.log(
+                  'DATA>>>>??🟪',
+                  getByPath(data['zzzz']['falk'], [x.title])
+                )
+
+                return (
+                  <ContentRenderer
+                    state={state?.[expFieldName]}
+                    setState={(z) => {
+                      setState({ ...state, [expFieldName]: z })
+                    }}
+                    data={data}
+                    item={x}
+                    itemValue={pathData?.[x.title]}
+                    key={i}
+                  />
+                )
+              })}
             </styled.div>
           )
         })}
