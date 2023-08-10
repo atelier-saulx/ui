@@ -124,7 +124,10 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
               }}
             >
               <Text typography="subtitle500">
-                {props.data.type} {objectTarget ? '> ' + objectTarget : ''}
+                {props.data.type}{' '}
+                {objectTarget
+                  ? ' > ' + objectTarget.split('.').join(' > ')
+                  : ''}
               </Text>
             </styled.div>
             <styled.div>

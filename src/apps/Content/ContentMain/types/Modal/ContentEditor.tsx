@@ -1,21 +1,10 @@
 import React, { FC, useEffect, useState } from 'react'
-import {
-  styled,
-  Input,
-  Toggle,
-  Badge,
-  ArrayList,
-  Button,
-  useDialog,
-  useContextState,
-} from '~'
+import { styled, Input, Toggle, Badge, ArrayList, useContextState } from '~'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
 import { SetList } from '~/components/SetList/index'
-import { useSchema } from '~/apps/Schema/hooks/useSchema'
 import { RecordList } from '~/components/RecordList'
 import { ObjectList } from '~/components/ObjectList'
-import { Modal } from '.'
 import { getByPath } from '@saulx/utils'
 
 export const ContentEditor: FC<{
@@ -27,47 +16,26 @@ export const ContentEditor: FC<{
   console.log('Incoming  🥮 data??', data, 'fields', fields, 'state', state)
   console.log('Still need to add keys to nested object fields 🔑')
 
-  // console.log('🐤--> state', state)
-  // console.log('DATA-->', data)
-
-  const [objectTarget, setObjectTarget] = useContextState('object-target')
+  const [objectTarget]: [string, (value: string) => void] =
+    useContextState('object-target')
   const [renderCounter, setRenderCounter] = useState(1)
   const [newFields, setNewFields] = useState(fields)
 
   useEffect(() => {
-    console.log('object target changeds')
     setRenderCounter(renderCounter + 1)
   }, [objectTarget])
 
-  // make array and skip properties
-  const makeArrayFromObjectTarget = (target: string): string[] => {
-    if (target?.split('.')?.length > 1) {
-      return target.split('.').filter((item) => item !== 'properties')
-    } else {
-      return [target]
-    }
-  }
-
   // get correct fields loop check
   const iterate = (obj, objKeyName) => {
-    // console.log(objKeyName, '📕')
     Object.keys(obj).forEach((key) => {
-      //   console.log(`key: ${key}, value: ${obj[key]}`)
       // TODO change title to key if all objects get keys via parser
       if (key === 'title' && obj[key] === objKeyName) {
         console.log('📒 fkaion', obj.properties)
-
-        // newFields should become these
-        //    setNewFields(obj.properties)
         const arr = []
-
         for (const x in obj.properties) {
           arr.push(obj.properties[x])
         }
-
-        console.log('ara', arr)
         setNewFields(arr)
-        //    return arr
       }
 
       if (typeof obj[key] === 'object' && obj[key] !== null) {
@@ -76,58 +44,14 @@ export const ContentEditor: FC<{
     })
   }
 
-  // console.log(
-  //   'test this then -->',
-  //   objectTarget &&
-  //     iterate(
-  //       fields,
-  //       objectTarget?.split('.')[objectTarget?.split('.').length - 1]
-  //     )
-  // )
-
-  // const newFieldsBasedOnObjectTarget = (objectTarget: string) => {
-  //   if (objectTarget) {
-  //     const arr = objectTarget.split('.')
-
-  //     for (const prop in fields) {
-  //       // is last
-  //       if (fields[prop]?.key === arr[arr.length - 1]) {
-  //         console.log('This one -->', fields[prop])
-  //         const newFields = []
-
-  //         for (const x in fields[prop].properties) {
-  //           console.log(x)
-  //           newFields.push(fields[prop].properties[x])
-  //         }
-
-  //         fields = newFields
-  //         return newFields
-  //       }
-  //     }
-
-  //     console.log('OBJECT-TARGET', objectTarget)
-  //     console.log('NEWFIELDS', fields)
-  //     console.log('ARR -->', makeArrayFromObjectTarget(objectTarget))
-  //   }
-  // }
-
   if (objectTarget && renderCounter) {
-    console.log('renderCounter 📅', renderCounter)
     iterate(
       newFields,
       objectTarget?.split('.')[objectTarget?.split('.').length - 1]
     )
     console.log('NEW FIELDS THENM?? -->', newFields)
-    data = getByPath(data, makeArrayFromObjectTarget(objectTarget))
+    data = getByPath(data, objectTarget.split('.'))
   }
-
-  // path = directe path
-
-  // 2
-  // get correct data
-  // if (objectTarget) {
-
-  // }
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
@@ -144,8 +68,6 @@ export const ContentEditor: FC<{
     </styled.div>
   )
 }
-
-// fields should be updated if we go deeper in object
 
 // 3 close modal remove object target from url
 const ContentRenderer: FC<{
@@ -302,14 +224,7 @@ const ContentRenderer: FC<{
 
   // OBJECT
   if (item.type === 'object') {
-    const [showMore, setShowMore] = useState(false)
-
     const [target, setTarget] = useContextState<any>('object-target')
-    //  console.log(target)
-
-    // console.log(arrOfProperties)
-    // console.log('Object -->', item)
-    // console.log('🐸--> state', state)
 
     return (
       <>
@@ -318,14 +233,9 @@ const ContentRenderer: FC<{
           description={item.description}
           objectProperties={item.properties}
           onClick={() => {
-            // setShowMore(true)
-
             // TODO: Nested Object items hebben geen key
             // los op in de propsparser??
-
-            setTarget(target ? target + '.properties.' + item.title : item.key)
-
-            //   console.log(item.properties)
+            setTarget(target ? target + '.' + item.title : item.key)
           }}
           style={{ marginBottom: BOTTOMSPACE }}
           indent
