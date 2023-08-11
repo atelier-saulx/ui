@@ -148,7 +148,7 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
 
           {props.button ? (
             <Button
-              ghost
+              ghost={isContentEditor}
               color="accent"
               icon={!isContentEditor && AddIcon}
               {...props.button}
@@ -172,7 +172,7 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
                 marginRight: 16,
               }}
             >
-              <Badge>ID here</Badge>
+              <Badge>{data?.id}</Badge>
               <ContentEditor
                 data={ctx.data}
                 fields={props?.fields}

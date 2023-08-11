@@ -13,27 +13,12 @@
     "type": "query",
     "payload": {
       "$language": "en",
-      "$id": "root",
-      "descendants": {
-        "$list": {
-          "$find": {
-            "$filter": {
-              "$field": "type",
-              "$value": "$target.type",
-              "$operator": "="
-            }
-          },
-          "$sort": {
-            "$field": "createdAt",
-            "$order": "desc"
-          }
-        },
-        "id": true,
-        "testje": true,
-        "faaaa": true,
-        "objeaa": true,
-        "testjesss": true
-      }
+      "$id": "20c4d261f5",
+      "id": true,
+      "testje": true,
+      "faaaa": true,
+      "objeaa": true,
+      "testjesss": true
     }
   },
   "props": {
@@ -60,12 +45,13 @@
           "name": "db:set",
           "payload": {
             "$language": "en",
-            "type": "$target.type"
+            "$id": "$data.id",
+            "type": "$target.type",
+            "...": "$state"
           }
         }
       },
-      "children": ["publish"],
-      "ghost": false
+      "children": ["publish"]
     }
   }
 }
