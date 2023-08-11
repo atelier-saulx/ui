@@ -3,8 +3,6 @@ import React, {
   createElement,
   ReactNode,
   useState,
-  Dispatch,
-  SetStateAction,
   useRef,
   useMemo,
   useEffect,
@@ -17,11 +15,9 @@ import {
   Badge,
   AttachmentIcon,
   ThumbnailFile,
-  IdIcon,
   SetIcon,
   SquareBracketsIcon,
   CheckIcon,
-  Row,
   CurlyBracesIcon,
   useCopyToClipboard,
   Toggle,
@@ -113,8 +109,8 @@ const Header: FC<{
   headerWidth: number
   width: number
   headers: TableHeader<any>[]
-  setSortOptions: Dispatch<SetStateAction<SortOptions>>
-  sortOptions: SortOptions
+  // setSortOptions: Dispatch<SetStateAction<SortOptions>>
+  // sortOptions: SortOptions
   outline: boolean
 }> = ({ headers, width, headerWidth, outline }) => {
   const children: ReactNode[] = []
@@ -199,7 +195,7 @@ const Cell = (props) => {
     })
   ) : type === 'boolean' ? (
     <BooleanToggle item={rowData} itemData={itemData} k={key} />
-  ) : type === 'file' || type == 'reference' ? (
+  ) : type === 'file' || type === 'reference' ? (
     <ThumbnailFile
       mimeType={
         header?.mimeType ?? header.mimeTypeKey
@@ -353,7 +349,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     }
   }
 
-  const [sortOptions, setSortOpts] = useState<SortOptions>(
+  const [sortOptions] = useState<SortOptions>(
     defaultSortOptions ?? {
       $field: 'createdAt',
       $order: 'desc',
@@ -413,8 +409,8 @@ const SizedGrid: FC<TableProps> = (props) => {
         ref={headerWrapper}
       >
         <Header
-          sortOptions={sortOptions}
-          setSortOptions={setSortOpts}
+          // sortOptions={sortOptions}
+          // setSortOptions={setSortOpts}
           width={width}
           headers={headers}
           headerWidth={defW}
