@@ -50,7 +50,10 @@ const start = async () => {
 
   const icons = await client.call('import-figma')
 
-  let myFile = "import React from 'react'"
+  let myFile = `import React from 'react'
+import { color as genColor } from '../index.ts'
+import { Icon } from './type'
+`
 
   for (const icon of icons.size20) {
     myFile += '\n' + icon.component
@@ -65,7 +68,7 @@ const start = async () => {
   client.destroy()
 }
 
-// start()
+start()
 
 const parseVars = async () => {
   const vars = await fs.readFile(join(__dirname, './vars.css'), 'utf-8')
@@ -76,8 +79,6 @@ const parseVars = async () => {
 
   const set: Set<string> = new Set()
   const defs = v.match(/(--.+):[^;]+;/g)
-
-  console.log(defs)
 
   let cnt = 0
   if (defs) {

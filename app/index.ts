@@ -1,9 +1,7 @@
 import { BasedAppFunction } from '@based/functions'
 
-// Functions of type 'app' are specialized to
-// bundle and serve frontend applications
 const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
-  return /* HTML */ `<!DOCTYPE html>
+  return `<!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="utf-8" />
@@ -12,7 +10,7 @@ const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
           content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover"
         />
         <meta name="title" content="based-ui" />
-        <title>based-ui</title>
+        <title>Based-ui playground</title>
         <link rel="icon" type="image/x-icon" href="${favicon.url}" />
         <style>
           ${await css.text}
@@ -26,4 +24,5 @@ const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
       </body>
     </html>`
 }
+
 export default app

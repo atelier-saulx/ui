@@ -20,13 +20,13 @@ const createIcon: BasedFunction<
 > = async (based, { name, svg }, ctx) => {
   const componentName = 'Icon' + pascalCase(name.replace(/^\d{2}-/, ''))
   return `export const ${componentName}: Icon = ({ color }) => {
-    const c = color === undefined || color ==='inherit' ? 'currentColor' : genColor(color)
+    const c = color === undefined || color ==='inherit' ? 'currentColor' : genColor('content', color)
     return ${svg
       .replace(/xmlns="(.*?)"/, '')
       .replace(/fill-rule="(.*?)"/, '')
       .replace(/clip-rule="(.*?)"/, '')
-      .replace(/fill=".+"/, 'fill={c}')}
-`
+      .replace(/fill=".+"/g, 'fill={c}')}
+    \n}`
 }
 
 export default createIcon
