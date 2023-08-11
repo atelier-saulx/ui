@@ -11,7 +11,6 @@ import {
   styled,
   LoadingIcon,
   Row,
-  Container,
 } from '~'
 import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'

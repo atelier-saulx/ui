@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { useQuery, useClient } from '@based/react'
 import { parseProps } from '../../propsParser'
 import {
@@ -33,7 +33,6 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const { schema, loading: schemaLoading } = useSchema()
 
   const isType = overlay?.startsWith('type-')
-  // const isNestedObject = overlay
 
   const [objectTarget, setObjectTarget] =
     useContextState<string>('object-target')
@@ -90,11 +89,6 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
       break
     }
   }
-
-  // console.log(
-  //   'The fields for this content editor??',
-  //   schema.types[overlayData.name].fields
-  // )
 
   return (
     <styled.div
