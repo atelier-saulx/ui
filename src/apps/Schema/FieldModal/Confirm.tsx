@@ -71,18 +71,6 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
               : null
           )
 
-          // Transform the fields, meta
-          //  console.log(fields, '☄️')
-          // console.log('dest', dest)
-          // console.log('currentFields', currentFields)
-          // console.log(from)
-
-          // console.log('⚠️types->', types)
-          // console.log('🚸type->', type)
-          // console.log('❎field->', field)
-          // console.log('✅fields??', fields)
-          // console.log('path???', path)
-
           /// remove meta from eiter object field or field
           // might need some beautifiying 🧚🏻
           if (path?.length <= 1) {

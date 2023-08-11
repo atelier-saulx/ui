@@ -1,10 +1,6 @@
 import { IdIcon } from '~'
 import { alwaysIgnore, systemFields } from '~/apps/Schema/templates'
-import {
-  BasedSchemaFieldShared,
-  BasedSchema,
-  BasedSchemaFieldType,
-} from '@based/schema'
+import { BasedSchemaFieldShared, BasedSchema } from '@based/schema'
 
 export const createRootEditor = (schema: BasedSchema): any => {
   const typeSchema = schema.types.root
@@ -52,10 +48,12 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
   let fields = []
 
   // 1 ADD FIELD TYPE FOR CONTENT EDITOR
+  // wich fields you want to show in content editor
 
   // 1.1 { expandable: Field[] }[]
 
   // 2 EXTRACT HEADER TYPE FOR TABLE
+  // base them of table  header type
 
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore?.has(field)) {

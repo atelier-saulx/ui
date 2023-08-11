@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { useQuery, useClient } from '@based/react'
 import { parseProps } from '../../propsParser'
 import {

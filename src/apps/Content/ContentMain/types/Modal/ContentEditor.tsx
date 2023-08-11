@@ -233,7 +233,7 @@ const ContentRenderer: FC<{
                       }}
                       data={nestedData}
                       item={x}
-                      itemValue={nestedData[x.title]}
+                      itemValue={nestedData?.[x.title]}
                       key={i}
                     />
                   )
