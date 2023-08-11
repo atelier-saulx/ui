@@ -34,9 +34,6 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
 
   const isType = overlay?.startsWith('type-')
 
-  const [objectTarget, setObjectTarget] =
-    useContextState<string>('object-target')
-
   let { data: overlayData } = useQuery(isType ? null : 'db', {
     $db: 'config',
     $id: overlay,
@@ -117,12 +114,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
                 padding: '24px 32px',
               }}
             >
-              <Text typography="subtitle500">
-                {props.data.type}{' '}
-                {objectTarget
-                  ? ' > ' + objectTarget.split('.').join(' > ')
-                  : ''}
-              </Text>
+              <Text typography="subtitle500">{props.data.type}</Text>
             </styled.div>
             <styled.div>
               <ContentEditor
@@ -158,7 +150,6 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
               icon={<CloseIcon color="text2" />}
               color="border"
               onClick={() => {
-                setObjectTarget(null)
                 removeOverlay()
               }}
             />

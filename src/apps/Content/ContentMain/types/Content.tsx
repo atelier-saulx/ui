@@ -17,6 +17,7 @@ import { useQuery, useClient } from '@based/react'
 import { parseProps } from '../propsParser'
 import useLocalStorage from '@based/use-local-storage'
 import { ContentConfig, View } from '../../types'
+import { ContentEditor } from './Modal/ContentEditor'
 
 export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   view,
@@ -29,6 +30,7 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   const [target, setTarget] = useContextState<any>('target')
   const [, setOverlayTarget] = useContextState<any>('overlay-target')
   const isTable = view.config.view === 'table'
+  const isContentEditor = view.config.view === 'content-editor'
   const ref = useRef<ReturnType<typeof setTimeout>>()
   const typing = useRef<boolean>()
 
@@ -66,9 +68,13 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   ctx.data = data
   const props = parseProps(view.config.props ?? {}, ctx)
 
-  // console.log('Context -->', ctx)
-  // console.log('props after parsing', props)
-  // console.log('CTX 🚑', ctx)
+  console.log('view', view)
+  console.log(' propss??', props)
+
+  if (isContentEditor) {
+    console.log('🐸')
+    console.log('🐯', ctx.data?.descendants[0])
+  }
 
   return (
     <ScrollArea
@@ -149,6 +155,14 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
           }}
         >
           {!typing.current && isTable && <Table {...props} />}
+          {!typing.current && isContentEditor && (
+            <div style={{ border: '1px solid red', height: 400, width: 600 }}>
+              <ContentEditor
+                data={ctx.data?.descendants[0]}
+                fields={props?.fields}
+              />
+            </div>
+          )}
         </styled.div>
       </styled.div>
     </ScrollArea>
