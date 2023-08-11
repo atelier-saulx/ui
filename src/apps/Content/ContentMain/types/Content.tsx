@@ -71,13 +71,8 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   ctx.data = data
   const props = parseProps(view.config.props ?? {}, ctx)
 
-  console.log('view', view)
-  console.log(' propss??', props)
-
-  if (isContentEditor) {
-    console.log('🐸')
-    console.log('🐯', ctx.data)
-  }
+  // console.log('view', view)
+  // console.log(' propss??', props)
 
   return (
     <ScrollArea
@@ -148,7 +143,7 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
 
           {props.button ? (
             <Button
-              ghost={isContentEditor}
+              ghost={!isContentEditor}
               color="accent"
               icon={!isContentEditor && AddIcon}
               {...props.button}
@@ -172,7 +167,11 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
                 marginRight: 16,
               }}
             >
-              <Badge>{data?.id}</Badge>
+              <Badge color="accent">
+                <Text color="accent" typography="caption600">
+                  {data?.id}
+                </Text>
+              </Badge>
               <ContentEditor
                 data={ctx.data}
                 fields={props?.fields}

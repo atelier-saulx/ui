@@ -4,7 +4,7 @@
   "target": {
     "id": "root",
     "type": "flap",
-    "name": "Flap",
+    "name": "Snupr",
     "filter": ""
   },
   "showFilter": false,
@@ -13,7 +13,7 @@
     "type": "query",
     "payload": {
       "$language": "en",
-      "$id": "20c4d261f5",
+      "$id": "20d3d44f37",
       "id": true,
       "testje": true,
       "faaaa": true,

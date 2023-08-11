@@ -12,8 +12,6 @@ export const ContentEditor: FC<{
   fields: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
-  console.log('hellow?', data, fields, '🐲', state)
-
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
       {fields?.map((item, i) => (
@@ -30,7 +28,6 @@ export const ContentEditor: FC<{
   )
 }
 
-// 3 close modal remove object target from url
 const ContentRenderer: FC<{
   item: { [key: string]: any }
   itemValue: any
@@ -39,15 +36,17 @@ const ContentRenderer: FC<{
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
   const onChange = (v: any) => {
-    setState({ ...state, [item.key]: v })
+    // TODO: decide on item.key or item.title
+    setState({ ...state, [item.title]: v })
   }
+
+  console.log(state, 'STATE 🛎')
 
   // **** START 🚥 ****
   // STRING // TEXT
   if (item.type === 'string' || item.type === 'text') {
     // depending on String format return a different type of input field
     // TODO: for text add Language
-
     let inputType
 
     if (item?.format === 'URL') {
@@ -185,6 +184,7 @@ const ContentRenderer: FC<{
   // OBJECT
   if (item.type === 'object') {
     const [expand, setExpand] = useState('')
+    console.log('Expando 🪄', expand)
 
     return (
       <>
