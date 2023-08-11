@@ -8,6 +8,8 @@ type Icon = {
   svg: string
 }
 
+console.log('??')
+
 const createIcon: BasedFunction<
   {
     id: string
@@ -20,7 +22,7 @@ const createIcon: BasedFunction<
 > = async (based, { name, svg }, ctx) => {
   const componentName = 'Icon' + pascalCase(name.replace(/^\d{2}-/, ''))
   return `export const ${componentName}: Icon = ({ color }) => {
-    const c = color === undefined || color ==='inherit' ? 'currentColor' : genColor('content', color)
+    const c = color === undefined || color ==='inherit' ? 'currentColor' : genColor('content', color, 'primary')
     return ${svg
       .replace(/xmlns="(.*?)"/, '')
       .replace(/fill-rule="(.*?)"/, '')

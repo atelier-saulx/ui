@@ -1,4 +1,4 @@
 import { FC } from 'react'
-import { Content } from '../varsTypes'
+import { ColorContentColors } from '../varsTypes'
 
-export type Icon = FC<{ color?: Content | 'inherit' }>
+export type Icon = FC<{ color?: ColorContentColors | 'inherit' }>

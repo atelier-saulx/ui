@@ -1,4 +1,5 @@
 import { BasedAppFunction } from '@based/functions'
+import { color } from '../src/'
 
 const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
   return `<!DOCTYPE html>
@@ -16,7 +17,7 @@ const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
           ${await css.text}
         </style>
       </head>
-      <body style="margin: 0;background:black;">
+      <body style="margin: 0;background:${'#fbfbff'};">
         <div id="root"></div>
         <script>
           ${await js.text}

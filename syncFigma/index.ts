@@ -3,8 +3,7 @@ import based from '@based/client'
 import { join } from 'path'
 import camelCase from './camelCase'
 const config = require('../based.json')
-
-// AVE advanced variable exporter
+const colors = require('./Colors.json')
 
 function removeRepeatingNamesPerString(inputString: string): string {
   const namesArray = inputString.split('-')
@@ -20,6 +19,17 @@ function removeRepeatingNamesPerString(inputString: string): string {
 
   const uniqueString = uniqueNamesArray.join('-')
   return uniqueString
+}
+
+function toRgb(v: any): string {
+  if (v.a === 1) {
+    return `rgb(${Math.round(v.r * 255)},${Math.round(v.g * 255)},${Math.round(
+      v.b * 255
+    )})`
+  }
+  return `rgba(${Math.round(v.r * 255)},${Math.round(v.g * 255)},${Math.round(
+    v.b * 255
+  )},${Math.round(v.a * 1000) / 1000})`
 }
 
 function convertNumberToLetters(number: number): string {
@@ -51,7 +61,7 @@ const start = async () => {
   const icons = await client.call('import-figma')
 
   let myFile = `import React from 'react'
-import { color as genColor } from '../index.ts'
+import { color as genColor } from '../'
 import { Icon } from './type'
 `
 
@@ -68,212 +78,260 @@ import { Icon } from './type'
   client.destroy()
 }
 
-start()
-
 const parseVars = async () => {
-  const vars = await fs.readFile(join(__dirname, './vars.css'), 'utf-8')
+  const modes = colors.modes
 
-  const v = vars
-    .replace(/ ?- ?- ?(\d)/g, '-min-$1')
-    .replace(/ ?- ?\+ ?(\d)/g, '-plus-$1')
+  const variables = colors.variables
 
-  const set: Set<string> = new Set()
-  const defs = v.match(/(--.+):[^;]+;/g)
-
-  let cnt = 0
-  if (defs) {
-    for (const d of defs) {
-      if (set.has(d)) {
-        cnt++
-      }
-      set.add(d)
-    }
+  type Values = {
+    [key: string]: string
   }
-
-  // light and dark...
-  console.log('removed', cnt, 'duplicates')
-
-  let light = ':root {'
-  let dark = ':root {'
 
   const groups: {
     [k: string]: {
-      [k: string]: { original: string[]; shortName: string; name: string }
+      [k: string]: {
+        colorOptions: Set<string>
+        hasSaturation: boolean
+        optionsName: string
+        keyName: string
+        colors: {
+          [k: string]: {
+            name: string
+            variants: {
+              // maybe change this a bit as well
+              [k: string]: {
+                shortName: string
+                fromName: string
+                description: string
+                values: Values
+              }
+            }
+          }
+        }
+      }
     }
   } = {}
 
   let nameCnt = 0
+
   const reverseNameMap: { [key: string]: string } = {}
 
-  set.forEach((v) => {
-    v = v.replace(/-0/g, '')
-    // css += v
-    const x = v.match(/--(.+):/)
-    if (x) {
-      const name = x[1]
-      let group = name.split('-')[0]
-      if (group === 'non') {
-        group = 'non-semantic'
-      }
-      if (!groups[group]) {
-        groups[group] = {}
-      }
-      if (!groups[group][name]) {
-        const shortName = '--' + convertNumberToLetters(++cnt)
-        groups[group][name] = {
-          original: [],
-          shortName,
-          name,
-        }
-        reverseNameMap['--' + name] = shortName
-      }
-      groups[group][name].original.push(v)
-    }
-  })
-
-  console.dir(groups, { depth: 10 })
-  console.log(reverseNameMap)
-
-  const replaceNames = (str: string): string => {
-    let [name, vars] = str.split(':')
-    vars = vars.replace(/\n/g, '')
-    const varDef = vars.match(/var\(\s{0,10}(.*?)\s{0,10}\)/)
-    let varName = varDef?.[1] ?? ''
-    let cnt = varName.startsWith('--') ? 0 : 1
-    for (const key in reverseNameMap) {
-      if (name === key) {
-        name = reverseNameMap[key]
-        cnt++
-      }
-      if (varName === key) {
-        varName = reverseNameMap[key]
-        cnt++
-      }
-      if (cnt === 2) {
-        break
-      }
-    }
-    return `${name}:${varName ? `var(${varName});` : vars}`
+  for (const id of colors.variableIds) {
+    reverseNameMap[id] = convertNumberToLetters(++nameCnt)
   }
+
+  for (const vars of variables) {
+    const path: string[] = vars.name.split('/')
+    const hasSubGroup = path.length === 4
+
+    const group = camelCase(path[0], {})
+    const subGroup = hasSubGroup ? camelCase(path[1], {}) : '*'
+    const name = hasSubGroup ? path[2] : path[1]
+    const color = camelCase(name, {})
+
+    if (!groups[group]) {
+      groups[group] = {}
+    }
+    const g = groups[group]
+
+    if (!g[subGroup]) {
+      g[subGroup] = {
+        keyName:
+          subGroup === '*'
+            ? camelCase(group, {})
+            : camelCase(
+                group + subGroup[0].toUpperCase() + subGroup.slice(1),
+                {}
+              ),
+        optionsName:
+          'Color' +
+          (subGroup === '*'
+            ? camelCase(group, {
+                pascalCase: true,
+              })
+            : camelCase(group + subGroup[0].toUpperCase() + subGroup.slice(1), {
+                pascalCase: true,
+              })),
+        hasSaturation: false,
+        colorOptions: new Set(),
+        colors: {},
+      }
+    }
+
+    const s = g[subGroup]
+
+    if (!s.colors[color]) {
+      s.colors[color] = {
+        name,
+        variants: {},
+      }
+    }
+
+    const c = s.colors[color]
+
+    const shortName = reverseNameMap[vars.id]
+
+    const values: Values = {}
+
+    for (const mode in vars.valuesByMode) {
+      const modeName = modes[mode]
+      const v = vars.valuesByMode[mode]
+      values[modeName] = v.id ? `var(--${reverseNameMap[v.id]})` : toRgb(v)
+    }
+
+    if (!vars.valuesByMode) {
+      throw new Error('no values by mode...')
+    }
+
+    var variant = path[hasSubGroup ? 3 : 2]
+
+    if (variant === undefined) {
+      variant = 'Default'
+    }
+
+    if (/-[+\-]\d\d?$/.test(variant)) {
+      const digit = variant.split(/-[+\-]/)[1]
+      variant = variant.slice(-(digit.length + 1))
+      if (variant[0] === '+') {
+        variant = variant.split('+')[1]
+      }
+    } else if (/-0$/.test(variant)) {
+      variant = '0'
+    } else {
+      variant = camelCase(variant, {})
+    }
+
+    if (c.variants[variant]) {
+      throw new Error('Double var definition ' + name + ' ' + variant)
+    }
+
+    s.colorOptions.add(variant)
+
+    if (variant === '0') {
+      s.hasSaturation = true
+    }
+
+    c.variants[variant] = {
+      fromName: vars.name,
+      description: vars.description,
+      shortName,
+      values,
+    }
+  }
+
+  const modeFiles: { [mode: string]: string } = {}
+
+  for (const mode in modes) {
+    modeFiles[modes[mode]] = `:root {\n`
+  }
+
+  const vars: any = {}
+
+  let types = ``
+
+  const colorGroups: any = {}
+  const colorGroupsOptions: any = {}
 
   for (const group in groups) {
     const g = groups[group]
-    for (const k in g) {
-      const parsed = g[k].original.map(replaceNames)
-      dark += parsed[0]
-      light += parsed[1] ?? parsed[0]
-    }
-  }
 
-  // groups will be parsed more and then fn generated for it
+    for (const subGroup in g) {
+      const sg = g[subGroup]
 
-  // sementic
-  // global
+      const s: any = (vars[sg.keyName] = {})
 
-  const varsData: {
-    [group: string]: {
-      [color: string]: any[]
-      /*{
-        negative: { name: string; index: number }[]
-        positive: { name: string; index: number }[]
-        color: string
-      }*/
-    }
-  } = {}
+      const arr = Array.from(sg.colorOptions)
 
-  const types: {
-    [group: string]: string[]
-  } = {}
+      types += `\nexport type ${sg.optionsName + 'Options'} = ${
+        sg.hasSaturation ? 'number' : arr.map((a) => `'${a}'`).join('|')
+      }`
 
-  for (const g in groups) {
-    const group = camelCase(g, {})
-    if (!varsData[group]) {
-      varsData[group] = {}
-    }
-    if (!types[group]) {
-      types[group] = []
-    }
-    for (const color in groups[g]) {
-      const baseColor = color.replace(/-min-\d/, '').replace(/-plus-\d/, '')
-      const extension = color.replace(baseColor, '')
+      colorGroups[sg.keyName] = sg.optionsName + 'Colors'
+      colorGroupsOptions[sg.keyName] = sg.optionsName + 'Options'
 
-      const key = camelCase(
-        removeRepeatingNamesPerString(
-          baseColor.replace(group + '-', '').replace('non-semantic', '')
-        ).replace('-normal', ''),
-        {}
+      types += `\nexport type ${sg.optionsName + 'Colors'} = ${Object.keys(
+        sg.colors
       )
+        .map((a) => `'${a}'`)
+        .join('|')}`
 
-      if (!varsData[group][key]) {
-        types[group].push(key)
-        varsData[group][key] = [
-          (reverseNameMap[baseColor] || '').replace('--', ''),
-        ]
+      for (const color in sg.colors) {
+        for (const variant in sg.colors[color].variants) {
+          for (const mode in sg.colors[color].variants[variant].values) {
+            modeFiles[
+              mode
+            ] += `--${sg.colors[color].variants[variant].shortName}:${sg.colors[color].variants[variant].values[mode]};\n`
+          }
+        }
       }
-      const t = varsData[group][key]
-      if (extension.includes('plus-')) {
-        if (!t[1]) {
-          t[1] = []
+
+      if (sg.hasSaturation) {
+        s._i = 1
+        for (const color in sg.colors) {
+          s[color] = [, [], []]
+          for (const variant in sg.colors[color].variants) {
+            if (variant === '0') {
+              s[color][0] = sg.colors[color].variants[variant].shortName
+            } else {
+              if (Number(variant) < 0) {
+                s[color][1].push(Number(variant))
+              } else {
+                s[color][2].push(Number(variant))
+              }
+            }
+          }
+          s[color][1].sort((a, b) => (a > b ? -1 : a === b ? 0 : 1))
+          s[color][2].sort((a, b) => (a < b ? -1 : a === b ? 0 : 1))
+          for (let i = 0; i < s[color][1].length; i++) {
+            s[color][1][i] =
+              sg.colors[color].variants[s[color][1][i]]?.shortName
+          }
+          for (let i = 0; i < s[color][2].length; i++) {
+            s[color][2][i] =
+              sg.colors[color].variants[s[color][2][i]]?.shortName
+          }
         }
-        t[1].push([
-          Number(extension[extension.length - 1]),
-          groups[g][color].shortName.replace('--', ''),
-        ])
-      } else if (extension.includes('min-')) {
-        if (!t[2]) {
-          t[2] = []
-        }
-        t[2].push([
-          Number(extension[extension.length - 1]),
-          groups[g][color].shortName.replace('--', ''),
-        ])
       } else {
-        t[0] = groups[g][color].shortName.replace('--', '')
+        s._ = {}
+        for (let i = 0; i < arr.length; i++) {
+          s._[arr[i]] = i
+        }
+        for (const color in sg.colors) {
+          s[color] = Array.from({ length: arr.length })
+          for (const variant in sg.colors[color].variants) {
+            s[color][s._[variant]] =
+              sg.colors[color].variants[variant].shortName
+          }
+          s[color] = s[color].map((v) => (!v ? 0 : v))
+        }
       }
     }
   }
 
-  for (const g in varsData) {
-    for (const k in varsData[g]) {
-      const t = varsData[g][k]
-      if (t[1]) {
-        t[1].sort((a, b) => {
-          return a[0] > b[0] ? 1 : a[0] === b[0] ? 0 : -1
-        })
-      }
-      if (t[2]) {
-        t[2].sort((a, b) => {
-          return a[0] > b[0] ? 1 : a[0] === b[0] ? 0 : -1
-        })
-      }
-    }
+  types +=
+    '\nexport type ColorGroups = ' +
+    JSON.stringify(colorGroups, null, 2).replace(/"/g, '')
+
+  types +=
+    '\nexport type ColorGroupsOptions = ' +
+    JSON.stringify(colorGroupsOptions, null, 2).replace(/"/g, '')
+
+  for (const mode in modes) {
+    modeFiles[modes[mode]] += `}`
   }
 
-  light += '}'
-  dark += '}'
-
-  const color = `export const vars = ${JSON.stringify(varsData)}`
-
-  let ts = ``
-
-  let tsgroups = `\nexport type ColorGroups = {`
-  for (const group in types) {
-    const g = camelCase(group, { pascalCase: true })
-    ts += `\nexport type ${g} = ${types[group]
-      .map((v) => {
-        return `"${v}"`
-      })
-      .join(' | ')}`
-
-    tsgroups += `\n  ${group}: ${g},`
+  for (const mode in modeFiles) {
+    await fs.writeFile(
+      join(__dirname, `../src/${camelCase(mode, {})}.css`),
+      modeFiles[mode]
+    )
   }
-  tsgroups += '}'
-  ts += tsgroups
-
-  await fs.writeFile(join(__dirname, '../src/light.css'), light)
-  await fs.writeFile(join(__dirname, '../src/dark.css'), dark)
-  await fs.writeFile(join(__dirname, '../src/vars.ts'), color)
-  await fs.writeFile(join(__dirname, '../src/varsTypes.ts'), ts)
+  await fs.writeFile(
+    join(__dirname, '../src/vars.ts'),
+    `export const vars = ${JSON.stringify(vars)}`
+  )
+  await fs.writeFile(join(__dirname, '../src/varsTypes.ts'), types)
 }
 
 parseVars()
+start()

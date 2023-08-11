@@ -1,18 +1,45 @@
 
-export type Background = "informativeOnSubtle" | "positiveOnSubtle" | "warningOnSubtle" | "negativeOnSubtle" | "brandOnSubtle" | "default" | "neutralStrong" | "neutralOnSubtle" | "informativeStrong" | "positiveStrong" | "warningStrong" | "negativeStrong" | "brandStrong"
-export type Action = "primarySubtle" | "primarySubtleHover" | "primarySubtleActive" | "primarySubtleSelected" | "alertSubtle" | "alertSubtleHover" | "alertSubtleActive" | "alertSubtleSelected" | "backgroundModeless" | "primary" | "primaryHover" | "primaryActive" | "primarySelected" | "neutral" | "neutralHover" | "neutralActive" | "neutralSelected" | "neutralSubtle" | "neutralSubtleHover" | "neutralSubtleActive" | "neutralSubtleSelected" | "ghost" | "ghostHover" | "ghostActive" | "ghostSelected" | "inverted" | "alert" | "alertHover" | "alertActive" | "alertSelected" | "borderActive" | "borderNeutral" | "borderNeutralHover" | "borderNeutralActive" | "borderNeutralSelected" | "borderAlert"
-export type NonSemantic = "borderGreyStrong" | "backgroundRedMuted" | "backgroundRedOnSubtle" | "backgroundRaspberryMuted" | "backgroundRaspberryOnSubtle" | "backgroundMagentaMuted" | "backgroundMagentaOnSubtle" | "backgroundPurpleMuted" | "backgroundPurpleOnSubtle" | "backgroundGrapeMuted" | "backgroundGrapeOnSubtle" | "backgroundVioletMuted" | "backgroundVioletOnSubtle" | "backgroundBlueMuted" | "backgroundBlueOnSubtle" | "backgroundCyanMuted" | "backgroundCyanOnSubtle" | "backgroundTealMuted" | "backgroundTealOnSubtle" | "backgroundAquamarineMuted" | "backgroundAquamarineOnSubtle" | "backgroundGreenMuted" | "backgroundGreenOnSubtle" | "backgroundEmeraldMuted" | "backgroundEmeraldOnSubtle" | "backgroundOrangeMuted" | "backgroundOrangeOnSubtle" | "contentWhitePrimary" | "contentRedPrimary" | "contentRaspberryPrimary" | "contentMagentaPrimary" | "contentPurplePrimary" | "contentGrapePrimary" | "contentVioletPrimary" | "contentBluePrimary" | "contentCyanPrimary" | "contentTealPrimary" | "contentAquamarinePrimary" | "contentGreenPrimary" | "contentEmeraldPrimary" | "contentOrangePrimary" | "backgroundRedStrong" | "backgroundRaspberryStrong" | "backgroundMagentaStrong" | "backgroundPurpleStrong" | "backgroundGrapeStrong" | "backgroundVioletStrong" | "backgroundBlueStrong" | "backgroundCyanStrong" | "backgroundTealStrong" | "backgroundAquamarineStrong" | "backgroundGreenStrong" | "backgroundEmeraldStrong" | "backgroundOrangeStrong"
-export type Global = "coolGrey" | "coolGreyAlphaGreya" | "neutralGrey" | "whiteAlphaTransparent" | "whiteAlphaWhitea2" | "whiteAlphaWhitea0" | "whiteAlphaWhitea" | "blue" | "green" | "red" | "orange" | "raspberry" | "magenta" | "purple" | "grape" | "violet" | "cyan" | "teal" | "aquamarine" | "emerald"
-export type Radius = "xs" | "s" | "m" | "l" | "xxl"
-export type Content = "primary" | "secondary" | "invertedPrimary" | "informativePrimary" | "positivePrimary" | "warningPrimary" | "negativePrimary" | "brandPrimary"
-export type Border = "default" | "brandStrong"
-export type Semantic = "brand" | "neutral" | "neutralAlphaNeutrala" | "informative" | "positive" | "warning" | "negative"
+export type ColorContentOptions = 'primary'|'secondary'
+export type ColorContentColors = 'default'|'inverted'|'informative'|'positive'|'warning'|'negative'|'brand'
+export type ColorBorderOptions = 'strong'|'subtle'
+export type ColorBorderColors = 'default'|'inverted'|'informative'|'positive'|'warning'|'negative'|'brand'
+export type ColorBackgroundOptions = 'strong'|'muted'|'soft'|'subtle'|'surface'
+export type ColorBackgroundColors = 'default'|'inverted'|'neutral'|'informative'|'positive'|'warning'|'negative'|'brand'
+export type ColorActionOptions = 'normal'|'hover'|'active'|'selected'|'subtleNormal'|'subtleHover'|'subtleActive'|'subtleSelected'|'neutralNormal'|'neutralHover'|'neutralActive'|'neutralSelected'
+export type ColorActionColors = 'primary'|'neutral'|'ghost'|'inverted'|'alert'|'border'
+export type ColorStandaloneOptions = 'default'
+export type ColorStandaloneColors = 'modal'|'modeless'|'invertedModeless'|'sidepanel'|'defaultDimmer'|'contrastUiDimmed'|'contrastUi'|'contrastUiContent'
+export type ColorSemanticOptions = number
+export type ColorSemanticColors = 'brand'|'neutral'|'neutralAlpha'|'informative'|'positive'|'warning'|'negative'
+export type ColorNonSemanticContentOptions = 'primary'|'secondary'
+export type ColorNonSemanticContentColors = 'grey'|'white'|'red'|'raspberry'|'magenta'|'purple'|'grape'|'violet'|'blue'|'cyan'|'teal'|'aquamarine'|'green'|'emerald'|'orange'
+export type ColorNonSemanticBorderOptions = 'strong'|'subtle'
+export type ColorNonSemanticBorderColors = 'grey'|'white'|'red'|'raspberry'|'magenta'|'purple'|'grape'|'violet'|'blue'|'cyan'|'teal'|'aquamarine'|'green'|'emerald'|'orange'
+export type ColorNonSemanticBackgroundOptions = 'strong'|'muted'|'soft'|'subtle'|'surface'
+export type ColorNonSemanticBackgroundColors = 'grey'|'white'|'red'|'raspberry'|'magenta'|'purple'|'grape'|'violet'|'blue'|'cyan'|'teal'|'aquamarine'|'green'|'emerald'|'orange'
+export type ColorGlobalOptions = number
+export type ColorGlobalColors = 'coolGrey'|'coolGreyAlpha'|'neutralGrey'|'neutralGreyAlpha'|'warmGrey'|'warmGreyAlpha'|'whiteAlpha'|'blue'|'green'|'red'|'orange'|'raspberry'|'magenta'|'purple'|'grape'|'violet'|'cyan'|'teal'|'aquamarine'|'emerald'
 export type ColorGroups = {
-  background: Background,
-  action: Action,
-  nonSemantic: NonSemantic,
-  global: Global,
-  radius: Radius,
-  content: Content,
-  border: Border,
-  semantic: Semantic,}
+  content: ColorContentColors,
+  border: ColorBorderColors,
+  background: ColorBackgroundColors,
+  action: ColorActionColors,
+  standalone: ColorStandaloneColors,
+  semantic: ColorSemanticColors,
+  nonSemanticContent: ColorNonSemanticContentColors,
+  nonSemanticBorder: ColorNonSemanticBorderColors,
+  nonSemanticBackground: ColorNonSemanticBackgroundColors,
+  global: ColorGlobalColors
+}
+export type ColorGroupsOptions = {
+  content: ColorContentOptions,
+  border: ColorBorderOptions,
+  background: ColorBackgroundOptions,
+  action: ColorActionOptions,
+  standalone: ColorStandaloneOptions,
+  semantic: ColorSemanticOptions,
+  nonSemanticContent: ColorNonSemanticContentOptions,
+  nonSemanticBorder: ColorNonSemanticBorderOptions,
+  nonSemanticBackground: ColorNonSemanticBackgroundOptions,
+  global: ColorGlobalOptions
+}
