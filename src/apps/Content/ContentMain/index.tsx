@@ -21,7 +21,6 @@ import { Components } from './types/Custom'
 import { Modal } from './types/Modal'
 import { createRootEditor, createTypeTable } from './types/schema'
 import { useSchema } from '~/apps/Schema/hooks/useSchema'
-import { ContentEditor } from './types/Modal/ContentEditor'
 
 const AnimatedWrapper = styled('div', {
   height: '100%',

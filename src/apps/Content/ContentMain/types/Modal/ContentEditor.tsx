@@ -12,7 +12,7 @@ export const ContentEditor: FC<{
   fields: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
-  console.log('hellow?', data, fields, state)
+  console.log('hellow?', data, fields, '🐲', state)
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>

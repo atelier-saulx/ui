@@ -12,6 +12,9 @@ import {
   SearchIcon,
   Table,
   AddIcon,
+  Page,
+  Badge,
+  color,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { parseProps } from '../propsParser'
@@ -73,7 +76,7 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
 
   if (isContentEditor) {
     console.log('🐸')
-    console.log('🐯', ctx.data?.descendants[0])
+    console.log('🐯', ctx.data)
   }
 
   return (
@@ -144,7 +147,12 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
           ) : null}
 
           {props.button ? (
-            <Button ghost color="accent" icon={AddIcon} {...props.button} />
+            <Button
+              ghost
+              color="accent"
+              icon={!isContentEditor && AddIcon}
+              {...props.button}
+            />
           ) : null}
         </Row>
         <styled.div
@@ -156,12 +164,22 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
         >
           {!typing.current && isTable && <Table {...props} />}
           {!typing.current && isContentEditor && (
-            <div style={{ border: '1px solid red', height: 400, width: 600 }}>
+            <Page
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderRadius: 8,
+                marginLeft: 16,
+                marginRight: 16,
+              }}
+            >
+              <Badge>ID here</Badge>
               <ContentEditor
-                data={ctx.data?.descendants[0]}
+                data={ctx.data}
                 fields={props?.fields}
+                state={state}
+                setState={setState}
               />
-            </div>
+            </Page>
           )}
         </styled.div>
       </styled.div>

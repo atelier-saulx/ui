@@ -1,0 +1,71 @@
+{
+  "type": "content",
+  "view": "content-editor",
+  "target": {
+    "id": "root",
+    "type": "flap",
+    "name": "Flap",
+    "filter": ""
+  },
+  "showFilter": false,
+  "function": {
+    "name": "db",
+    "type": "query",
+    "payload": {
+      "$language": "en",
+      "$id": "root",
+      "descendants": {
+        "$list": {
+          "$find": {
+            "$filter": {
+              "$field": "type",
+              "$value": "$target.type",
+              "$operator": "="
+            }
+          },
+          "$sort": {
+            "$field": "createdAt",
+            "$order": "desc"
+          }
+        },
+        "id": true,
+        "testje": true,
+        "faaaa": true,
+        "objeaa": true,
+        "testjesss": true
+      }
+    }
+  },
+  "props": {
+    "name": ["$target.name"],
+    "data": "$data.descendants",
+    "fields": [
+      {
+        "title": "testje",
+        "type": "string",
+        "key": "testje",
+        "index": 1000000
+      },
+      {
+        "type": "number",
+        "title": "faaaa",
+        "format": "mobilePhoneLocales",
+        "key": "faaaa",
+        "index": 1000000
+      }
+    ],
+    "button": {
+      "onClick": {
+        "function": {
+          "name": "db:set",
+          "payload": {
+            "$language": "en",
+            "type": "$target.type"
+          }
+        }
+      },
+      "children": ["publish"],
+      "ghost": false
+    }
+  }
+}
