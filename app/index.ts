@@ -1,5 +1,6 @@
 import { BasedAppFunction } from '@based/functions'
 import { color } from '../src/'
+import '../src/assets/fonts.css'
 
 const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
   return `<!DOCTYPE html>

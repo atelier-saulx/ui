@@ -51,8 +51,6 @@ const App = () => {
   return (
     <div
       style={{
-        fontFamily: 'SF Pro',
-        fontWeight: '500',
         color: color('content', 'default', 'primary'),
         backgroundColor: color('background', 'default', 'muted'),
         padding: '16px 32px',
