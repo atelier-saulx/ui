@@ -7,6 +7,7 @@ import {
   IconChevronDownSmall,
   color as genColor,
 } from '../../../src'
+import { Text } from '../Text'
 
 type ButtonProps = {
   // TODO add IconProps here
@@ -54,7 +55,7 @@ export const Button: FC<ButtonProps> = ({
         borderRadius: size === 'small' ? '4px' : '8px',
         cursor: disabled ? 'not-allowed' : 'pointer',
         display: 'flex',
-        opacity: loading ? 0.7 : disabled ? 0.4 : 1,
+        opacity: disabled ? 0.4 : loading ? 0.7 : 1,
         padding:
           size === 'small'
             ? '2px 16px'
@@ -113,7 +114,19 @@ export const Button: FC<ButtonProps> = ({
           {renderOrCreateElement(beforeIcon, { color: 'inverted' })}
         </styled.div>
       )}
-      {label}
+      <Text
+        weight={size === 'small' ? 'medium' : 'strong'}
+        size={size === 'small' ? 14 : 16}
+        color={
+          subtle && color === 'neutral'
+            ? 'default'
+            : subtle
+            ? 'brand'
+            : 'inverted'
+        }
+      >
+        {label}
+      </Text>
       {afterIcon && (
         <styled.div style={{ marginLeft: 8 }}>
           {renderOrCreateElement(afterIcon, { color: 'inverted' })}

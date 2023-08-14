@@ -1,6 +1,7 @@
 import { BasedAppFunction } from '@based/functions'
 import { color } from '../src/'
-import '../src/assets/fonts.css'
+// import '../src/assets/fonts.css'
+// TODO remove font from inside here
 
 const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
   return `<!DOCTYPE html>
@@ -16,6 +17,13 @@ const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
         <link rel="icon" type="image/x-icon" href="${favicon.url}" />
         <style>
           ${await css.text}
+
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+          html{
+            font-family: 'Inter', sans-serif;
+          }
+
         </style>
       </head>
       <body style="margin: 0;background:${'#fbfbff'};">

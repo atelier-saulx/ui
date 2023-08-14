@@ -68,6 +68,16 @@ const App = () => {
       />
       <Button
         label="Button label"
+        style={{ marginBottom: 12 }}
+        // beforeIcon={<IconAlarmClock />}
+        // afterIcon={<IconAlarmClock />}
+        // dropdownIndicator
+        // disabled
+        // loading
+        subtle
+      />
+      <Button
+        label="Button label"
         size="medium"
         color="alert"
         style={{ marginBottom: 12 }}
@@ -77,10 +87,11 @@ const App = () => {
         size="medium"
         style={{ marginBottom: 12 }}
         afterIcon={<IconAlarmClock />}
+        color="neutral"
         subtle
       />
       <Button
-        ghost
+        // ghost
         label="Button label"
         size="small"
         disabled
