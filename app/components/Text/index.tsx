@@ -18,6 +18,7 @@ export const Text: FC<TextProps> = ({
   style,
   weight = 'normal',
 }) => {
+  //
   let newLineHeight =
     size === 10
       ? '16px'

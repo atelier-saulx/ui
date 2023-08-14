@@ -24,6 +24,31 @@ const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
             font-family: 'Inter', sans-serif;
           }
 
+          @font-face {
+            font-family: 'Inter-Regular';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/Inter-Regular.woff2') format('woff2');
+          }
+          
+          @font-face {
+            font-family: 'Inter-Medium';
+            font-style: normal;
+            font-weight: 500;
+            font-display: swap;
+            src: url('fonts/Inter-Medium.woff2') format('woff2');
+          }
+          
+          @font-face {
+            font-family: 'Inter-SemiBold';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url(fonts/Inter-SemiBold.woff2') format('woff2');
+          }
+          
+
         </style>
       </head>
       <body style="margin: 0;background:${'#fbfbff'};">

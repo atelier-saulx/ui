@@ -9,8 +9,10 @@ import {
 } from '../../../src'
 import { Text } from '../Text'
 
+// TODO add progress/ loading comp -icon
+
 type ButtonProps = {
-  // TODO add IconProps here
+  // TODO add icons as IconProps here
   afterIcon?: any
   beforeIcon?: any
   color?: ColorActionColors
@@ -24,9 +26,6 @@ type ButtonProps = {
   style?: Style
   subtle?: boolean
 }
-
-// TODO states
-// hover, active, focus, selected
 
 export const Button: FC<ButtonProps> = ({
   afterIcon,
@@ -42,8 +41,7 @@ export const Button: FC<ButtonProps> = ({
   style,
   subtle,
 }) => {
-  // todo Comp Text Inside
-
+  //
   let contentColor: ColorContentColors =
     (subtle || ghost) && color === 'alert'
       ? 'negative'
@@ -97,18 +95,7 @@ export const Button: FC<ButtonProps> = ({
       }}
     >
       {loading && (
-        <styled.div
-          style={{
-            marginRight: 8,
-            // '@keyframes': {
-            //   from: { transform: 'rotate(0deg)' },
-            //   to: { transform: 'rotate(360deg)' },
-            // },
-            // animationTimingFunction: 'linear',
-            // animationIterationCount: 'infinite',
-            // animationDuration: '2s',
-          }}
-        >
+        <styled.div style={{ marginRight: 8 }}>
           <IconCheckCircle />
         </styled.div>
       )}
