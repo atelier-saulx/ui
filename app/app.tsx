@@ -11,6 +11,7 @@ const IconAlarmClock = icons.IconAlarmClock
 
 import basedConfig from '../based.json'
 import { Button } from './components/Button'
+import { Text } from './components/Text'
 export const client = based(basedConfig)
 
 const App = () => {
@@ -63,10 +64,9 @@ const App = () => {
         label="Button label"
         onClick={() => console.log('yo yo')}
         beforeIcon={<IconAlarmClock />}
-        afterIcon={<IconAlarmClock />}
         style={{ marginBottom: 12 }}
-        color="neutral"
         dropdownIndicator
+        loading
       />
       <Button
         label="Button label"
@@ -74,7 +74,13 @@ const App = () => {
         color="alert"
         style={{ marginBottom: 12 }}
       />
-      <Button label="Button label" size="medium" style={{ marginBottom: 12 }} />
+      <Button
+        label="Button label"
+        size="medium"
+        style={{ marginBottom: 12 }}
+        afterIcon={<IconAlarmClock />}
+        subtle
+      />
       <Button
         ghost
         label="Button label"
@@ -82,6 +88,7 @@ const App = () => {
         disabled
         onClick={() => console.log('flippien')}
       />
+      <Text color="informative">hellwo</Text>
     </div>
   )
 }

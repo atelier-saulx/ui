@@ -1,8 +1,12 @@
 import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
-import { ColorActionColors, ColorContentColors } from '../../../src/varsTypes'
+import { ColorActionColors } from '../../../src/varsTypes'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
-import { IconChevronDownSmall, color as genColor } from '../../../src'
+import {
+  IconCheckCircle,
+  IconChevronDownSmall,
+  color as genColor,
+} from '../../../src'
 
 type ButtonProps = {
   // TODO add IconProps here
@@ -39,8 +43,6 @@ export const Button: FC<ButtonProps> = ({
 }) => {
   // todo Comp Text Inside
 
-  IconChevronDownSmall
-
   return (
     <styled.div
       onClick={disabled ? null : onClick}
@@ -48,11 +50,11 @@ export const Button: FC<ButtonProps> = ({
         alignItems: 'center',
         backgroundColor: ghost
           ? 'transparent'
-          : genColor('action', color, 'normal'),
+          : genColor('action', color, subtle ? 'subtleNormal' : 'normal'),
         borderRadius: size === 'small' ? '4px' : '8px',
         cursor: disabled ? 'not-allowed' : 'pointer',
         display: 'flex',
-        opacity: disabled ? 0.4 : 1,
+        opacity: loading ? 0.7 : disabled ? 0.4 : 1,
         padding:
           size === 'small'
             ? '2px 16px'
@@ -61,10 +63,18 @@ export const Button: FC<ButtonProps> = ({
             : '10px 16px',
         width: 'fit-content',
         '&:active': {
-          backgroundColor: genColor('action', color, 'active'),
+          backgroundColor: genColor(
+            'action',
+            color,
+            subtle ? 'subtleActive' : 'active'
+          ),
         },
         '&:focus': {
-          backgroundColor: genColor('action', color, 'selected'),
+          backgroundColor: genColor(
+            'action',
+            color,
+            subtle ? 'subtleSelected' : 'selected'
+          ),
           border: `1px solid ${genColor('content', 'inverted', 'primary')}`,
           boxShadow: `0px 0px 0px 2px ${genColor(
             'action',
@@ -73,11 +83,31 @@ export const Button: FC<ButtonProps> = ({
           )}`,
         },
         '&:hover': {
-          backgroundColor: genColor('action', color, 'hover'),
+          backgroundColor: genColor(
+            'action',
+            color,
+            subtle ? 'subtleHover' : 'hover'
+          ),
         },
         ...style,
       }}
     >
+      {loading && (
+        <styled.div
+          style={{
+            marginRight: 8,
+            // '@keyframes': {
+            //   from: { transform: 'rotate(0deg)' },
+            //   to: { transform: 'rotate(360deg)' },
+            // },
+            // animationTimingFunction: 'linear',
+            // animationIterationCount: 'infinite',
+            // animationDuration: '2s',
+          }}
+        >
+          <IconCheckCircle />
+        </styled.div>
+      )}
       {beforeIcon && (
         <styled.div style={{ marginRight: 8 }}>
           {renderOrCreateElement(beforeIcon, { color: 'inverted' })}
