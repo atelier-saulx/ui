@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
-import { ColorActionColors } from '../../../src/varsTypes'
+import { ColorActionColors, ColorContentColors } from '../../../src/varsTypes'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
 import {
   IconCheckCircle,
@@ -44,6 +44,15 @@ export const Button: FC<ButtonProps> = ({
 }) => {
   // todo Comp Text Inside
 
+  let contentColor: ColorContentColors =
+    (subtle || ghost) && color === 'alert'
+      ? 'negative'
+      : (subtle || ghost) && color === 'neutral'
+      ? 'default'
+      : subtle || ghost
+      ? 'brand'
+      : 'inverted'
+
   return (
     <styled.div
       onClick={disabled ? null : onClick}
@@ -64,18 +73,14 @@ export const Button: FC<ButtonProps> = ({
             : '10px 16px',
         width: 'fit-content',
         '&:active': {
-          backgroundColor: genColor(
-            'action',
-            color,
-            subtle ? 'subtleActive' : 'active'
-          ),
+          backgroundColor: ghost
+            ? 'transparent'
+            : genColor('action', color, subtle ? 'subtleActive' : 'active'),
         },
         '&:focus': {
-          backgroundColor: genColor(
-            'action',
-            color,
-            subtle ? 'subtleSelected' : 'selected'
-          ),
+          backgroundColor: ghost
+            ? 'transparent'
+            : genColor('action', color, subtle ? 'subtleSelected' : 'selected'),
           border: `1px solid ${genColor('content', 'inverted', 'primary')}`,
           boxShadow: `0px 0px 0px 2px ${genColor(
             'action',
@@ -84,11 +89,9 @@ export const Button: FC<ButtonProps> = ({
           )}`,
         },
         '&:hover': {
-          backgroundColor: genColor(
-            'action',
-            color,
-            subtle ? 'subtleHover' : 'hover'
-          ),
+          backgroundColor: ghost
+            ? 'transparent'
+            : genColor('action', color, subtle ? 'subtleHover' : 'hover'),
         },
         ...style,
       }}
@@ -110,31 +113,29 @@ export const Button: FC<ButtonProps> = ({
         </styled.div>
       )}
       {beforeIcon && (
-        <styled.div style={{ marginRight: 8 }}>
-          {renderOrCreateElement(beforeIcon, { color: 'inverted' })}
+        <styled.div
+          style={{ marginRight: 8, display: 'flex', alignItems: 'center' }}
+        >
+          {renderOrCreateElement(beforeIcon, { color: contentColor })}
         </styled.div>
       )}
       <Text
         weight={size === 'small' ? 'medium' : 'strong'}
         size={size === 'small' ? 14 : 16}
-        color={
-          subtle && color === 'neutral'
-            ? 'default'
-            : subtle
-            ? 'brand'
-            : 'inverted'
-        }
+        color={contentColor}
       >
         {label}
       </Text>
       {afterIcon && (
-        <styled.div style={{ marginLeft: 8 }}>
-          {renderOrCreateElement(afterIcon, { color: 'inverted' })}
+        <styled.div
+          style={{ marginLeft: 8, display: 'flex', alignItems: 'center' }}
+        >
+          {renderOrCreateElement(afterIcon, { color: contentColor })}
         </styled.div>
       )}
       {dropdownIndicator && (
         <styled.div style={{ marginLeft: 12 }}>
-          {renderOrCreateElement(IconChevronDownSmall, { color: 'inverted' })}
+          {renderOrCreateElement(IconChevronDownSmall, { color: contentColor })}
         </styled.div>
       )}
     </styled.div>

@@ -70,16 +70,17 @@ const App = () => {
         label="Button label"
         style={{ marginBottom: 12 }}
         // beforeIcon={<IconAlarmClock />}
-        // afterIcon={<IconAlarmClock />}
+        afterIcon={<IconAlarmClock />}
         // dropdownIndicator
         // disabled
         // loading
-        subtle
+        // subtle
       />
       <Button
         label="Button label"
         size="medium"
         color="alert"
+        subtle
         style={{ marginBottom: 12 }}
       />
       <Button
@@ -92,6 +93,7 @@ const App = () => {
       />
       <Button
         // ghost
+        beforeIcon={<IconAlarmClock />}
         label="Button label"
         size="small"
         disabled

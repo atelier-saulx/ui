@@ -39,11 +39,19 @@ export const Text: FC<TextProps> = ({
       ? '64px'
       : '16px'
 
+  // TODO set font Family if font works
+
   return (
     <styled.div
       style={{
         color: genColor('content', color, 'primary'),
         fontSize: size,
+        // fontFamily:
+        //   weight === 'strong'
+        //     ? 'Inter-SemiBold'
+        //     : weight === 'medium'
+        //     ? 'Inter-Medium'
+        //     : 'Inter-Regular',
         fontWeight: weight === 'strong' ? 600 : weight === 'medium' ? 500 : 400,
         lineHeight: newLineHeight,
         ...style,
