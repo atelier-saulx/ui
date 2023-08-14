@@ -7,8 +7,10 @@ import { color, vars } from '../src'
 import { Viewer } from './Viewer'
 
 const IconDns = icons.IconDns
+const IconAlarmClock = icons.IconAlarmClock
 
 import basedConfig from '../based.json'
+import { Button } from './components/Button'
 export const client = based(basedConfig)
 
 const App = () => {
@@ -55,6 +57,22 @@ const App = () => {
       }}
     >
       <IconDns />
+
+      <Button
+        label="Button label"
+        onClick={() => console.log('yo yo')}
+        beforeIcon={<IconAlarmClock />}
+        afterIcon={<IconAlarmClock />}
+        style={{ marginBottom: 12 }}
+      />
+      <Button label="Button label" size="medium" style={{ marginBottom: 12 }} />
+      <Button
+        ghost
+        label="Button label"
+        size="small"
+        disabled
+        onClick={() => console.log('flippien')}
+      />
     </div>
   )
 }

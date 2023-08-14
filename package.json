@@ -17,7 +17,8 @@
     "@based/client": "^4.7.6",
     "@based/react": "^4.4.0",
     "@based/ui": "^5.10.14",
-    "@based/schema": "^1.1.2"
+    "@based/schema": "^1.1.2",
+    "inlines": "^0.2.2"
   },
   "devDependencies": {
     "ts-node": "^10.9.1",
