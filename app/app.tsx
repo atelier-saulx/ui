@@ -53,16 +53,25 @@ const App = () => {
         fontFamily: 'SF Pro',
         fontWeight: '500',
         color: color('content', 'default', 'primary'),
-        backgroundColor: color('action', 'primary', 'normal'),
+        backgroundColor: color('background', 'default', 'muted'),
+        padding: '16px 32px',
       }}
     >
-      <IconDns />
+      <IconDns color="inverted" />
 
       <Button
         label="Button label"
         onClick={() => console.log('yo yo')}
         beforeIcon={<IconAlarmClock />}
         afterIcon={<IconAlarmClock />}
+        style={{ marginBottom: 12 }}
+        color="neutral"
+        dropdownIndicator
+      />
+      <Button
+        label="Button label"
+        size="medium"
+        color="alert"
         style={{ marginBottom: 12 }}
       />
       <Button label="Button label" size="medium" style={{ marginBottom: 12 }} />
