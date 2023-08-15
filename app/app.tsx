@@ -59,7 +59,7 @@ const App = () => {
         padding: '16px 32px',
       }}
     >
-      <IconDns color="inverted" />
+      <IconDns />
       <Avatar emphasis="high" label="as" />
       <Button
         label="Button label"
@@ -96,7 +96,7 @@ const App = () => {
       />
       <Button
         // ghost
-        icon={'IconAlert'}
+        icon="IconAlert"
         label="Button label"
         size="small"
         disabled
