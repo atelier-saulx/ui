@@ -10,8 +10,8 @@ const IconDns = icons.IconDns
 const IconAlarmClock = icons.IconAlarmClock
 
 import basedConfig from '../based.json'
-import { Button } from './components/Button'
-import { Text } from './components/Text'
+import { Button } from '../src/components/Button'
+import { Text } from '../src/components/Text'
 export const client = based(basedConfig)
 
 const App = () => {
