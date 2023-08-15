@@ -63,14 +63,16 @@ export type ButtonProps = {
 
 export type CheckboxProps = {
   active?: boolean
-  disabled?: boolean
   indeterminate?: boolean
   onClick?: () => void
   style?: Style
 }
 
 // this is combination of text and checkbox
-export type CheckboxItemProps = {}
+export type CheckboxItemProps = {
+  disabled?: boolean
+  label?: string
+} & CheckboxProps
 
 export type ClickableIconProps = {
   icon?: any
@@ -112,21 +114,34 @@ export type ListItemProps = {}
 
 export type MenuItemProps = {}
 
-export type ModalProps = {}
+export type ModalProps = {
+  label?: string
+  description?: string
+}
 
 export type ModalBottomBarProps = {}
 
 export type ModalContentProps = {}
 
-export type ModalWarningProps = {}
+export type ModalWarningProps = {
+  color?: ColorBackgroundColors
+  label?: string
+}
 
 export type MultiSelectProps = {}
 
 export type OtherItemsProps = {}
 
-export type RadioButtonProps = {} & CheckboxProps
+export type RadioButtonProps = {
+  active?: boolean
+  onClick?: () => void
+  style?: Style
+}
 
-export type RadioButtonItemProps = {}
+export type RadioButtonItemProps = {
+  disabled?: boolean
+  label?: string
+} & RadioButtonProps
 
 export type ScrollAreaProps = {}
 
