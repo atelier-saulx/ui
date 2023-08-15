@@ -100,7 +100,11 @@ export type FilterPillProps = {}
 // text field in figma
 export type InputProps = {}
 
-export type InputWarningProps = {}
+export type InputWarningProps = {
+  active?: boolean
+  icon?: any
+  label?: string
+}
 
 export type ListItemProps = {}
 
@@ -163,6 +167,10 @@ export type ToggleProps = {
   style?: Style
 }
 
-export type TooltipProps = {}
+export type TooltipProps = {
+  label?: string
+  style?: Style
+  // position/ placement
+}
 
 export type TopNavigationProps = {}
