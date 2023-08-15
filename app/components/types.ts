@@ -102,7 +102,15 @@ export type DropdownProps = {}
 export type FilterPillProps = {}
 
 // text field in figma
-export type InputProps = {}
+export type InputProps = {
+  description?: string
+  onChange?: (value: any) => void
+  label?: string
+  placeholder?: string
+  style?: Style
+  type?: 'text' | 'number' | 'date' | 'json' | 'multiline' | 'markdown'
+  value?: any
+}
 
 export type InputWarningProps = {
   active?: boolean
@@ -115,11 +123,16 @@ export type ListItemProps = {}
 export type MenuItemProps = {}
 
 export type ModalProps = {
-  label?: string
+  children: ReactNode
   description?: string
+  label?: string
 }
 
-export type ModalBottomBarProps = {}
+export type ModalBottomBarProps = {
+  // primary action
+  // secondary action
+  // steps
+}
 
 export type ModalContentProps = {}
 
@@ -145,13 +158,32 @@ export type RadioButtonItemProps = {
 
 export type ScrollAreaProps = {}
 
-export type SelectProps = {}
+type SelectOption = {
+  value: string | number | undefined
+  label?: string
+  icon?: any
+}
+
+export type SelectProps = {
+  disabled?: boolean
+  onChange?: (value: SelectOption) => void
+  options?: SelectOption[]
+  placeholder?: string | SelectOption
+  value?: SelectOption
+}
 
 export type SelectableItemProps = {}
 
-export type SegmentedControlProps = {}
+type SegmentedControlOption = {
+  label?: string
+  active?: boolean
+}
 
-export type SegmentedControlOptionsProps = {}
+export type SegmentedControlOptionsProps = {
+  onChange?: (value: SegmentedControlOption) => void
+  options?: SegmentedControlOption[]
+  value?: SegmentedControlOption
+}
 
 export type SidebarNavigationHolderProps = {}
 
@@ -176,7 +208,11 @@ export type StatusProps = {
   subtle?: boolean
 }
 
-export type TabProps = {}
+export type TabProps = {
+  active?: boolean
+  label?: string
+  onClick?: () => void
+}
 
 export type TagProps = {
   disabled?: boolean
