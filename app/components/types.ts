@@ -10,6 +10,7 @@ import { Style } from 'inlines'
 // notes : beforeIcon =                     icon
 //         muted, emphasis = low etc. are   subtle
 //         state , intent etc. =            color
+//        checked, marked ,  -->            active
 
 export type ActionItemProps = {}
 
@@ -58,19 +59,39 @@ export type ButtonProps = {
   subtle?: boolean
 }
 
-export type CheckboxProps = {}
+export type CheckboxProps = {
+  active?: boolean
+  disabled?: boolean
+  indeterminate?: boolean
+  onClick?: () => void
+  style?: Style
+}
 
+// this is combination of text and checkbox
 export type CheckboxItemProps = {}
 
-export type ClickableIconProps = {}
+export type ClickableIconProps = {
+  icon?: any
+  onClick?: () => void
+  size?: 'large' | 'small'
+  style?: Style
+}
 
-export type CounterProps = {}
+export type CounterProps = {
+  color?: ColorBackgroundColors
+  label?: number
+  onClick?: () => void
+  style?: Style
+  subtle?: boolean
+}
 
 export type DatePickerProps = {}
 
 export type DefaultItemProps = {}
 
-export type DividerProps = {}
+export type DividerProps = {
+  style?: Style
+}
 
 export type DropdownProps = {}
 
@@ -97,6 +118,10 @@ export type MultiSelectProps = {}
 
 export type OtherItemsProps = {}
 
+export type RadioButtonProps = {} & CheckboxProps
+
+export type RadioButtonItemProps = {}
+
 export type ScrollAreaProps = {}
 
 export type SelectProps = {}
@@ -113,13 +138,30 @@ export type SliderProps = {}
 
 export type SpotlightSearchProps = {}
 
-export type StatusProps = {}
+export type StatusProps = {
+  color?: ColorBackgroundColors
+  ghost?: boolean
+  label?: string
+  onClick?: () => void
+  style?: Style
+  subtle?: boolean
+}
 
 export type TabProps = {}
 
-export type TagProps = {}
+export type TagProps = {
+  disabled?: boolean
+  label?: string
+  onClick?: () => void
+  style?: Style
+}
 
-export type ToggleProps = {}
+export type ToggleProps = {
+  active?: boolean
+  disabled?: boolean
+  onClick?: () => void
+  style?: Style
+}
 
 export type TooltipProps = {}
 
