@@ -12,6 +12,7 @@ const IconAlarmClock = icons.IconAlarmClock
 import basedConfig from '../based.json'
 import { Button } from '../src/components/Button'
 import { Text } from '../src/components/Text'
+import { Avatar } from '../src/components/Avatar'
 export const client = based(basedConfig)
 
 const App = () => {
@@ -57,7 +58,7 @@ const App = () => {
       }}
     >
       <IconDns color="inverted" />
-
+      <Avatar emphasis="high" label="as" />
       <Button
         label="Button label"
         onClick={() => console.log('yo yo')}
