@@ -15,7 +15,6 @@ export type AvatarProps = {
   style?: Style
   emphasis?: 'low' | 'high'
 }
-
 export const Avatar: FC<AvatarProps> = ({
   size: sizeProp = 'medium',
   emphasis = 'low',
