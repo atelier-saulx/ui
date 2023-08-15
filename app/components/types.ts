@@ -1,7 +1,9 @@
 // types for all components let's go
+import { ReactNode } from 'react'
 import {
   ColorActionColors,
   ColorBackgroundColors,
+  ColorContentColors,
   ColorNonSemanticBackgroundColors,
 } from '../../src/varsTypes'
 import { Style } from 'inlines'
@@ -138,9 +140,17 @@ export type SegmentedControlOptionsProps = {}
 
 export type SidebarNavigationHolderProps = {}
 
-export type SliderProps = {}
+export type SliderProps = {
+  onChange?: (value: number) => void
+  min?: number
+  max?: number
+  step?: number
+  value?: number
+}
 
-export type SpotlightSearchProps = {}
+export type SpotlightSearchProps = {
+  onChange?: (value: string) => void
+}
 
 export type StatusProps = {
   color?: ColorBackgroundColors
@@ -160,6 +170,15 @@ export type TagProps = {
   style?: Style
 }
 
+export type TextProps = {
+  // check children as string??
+  children: ReactNode
+  color?: ColorContentColors
+  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48
+  style?: Style
+  weight?: 'strong' | 'medium' | 'normal'
+}
+
 export type ToggleProps = {
   active?: boolean
   disabled?: boolean
@@ -170,7 +189,15 @@ export type ToggleProps = {
 export type TooltipProps = {
   label?: string
   style?: Style
-  // position/ placement
+  position?:
+    | 'bottom-left'
+    | 'bottom'
+    | 'bottom-right'
+    | 'left'
+    | 'right'
+    | 'top-left'
+    | 'top'
+    | 'top-right'
 }
 
 export type TopNavigationProps = {}
