@@ -9,6 +9,8 @@ import { Viewer } from './Viewer'
 const IconDns = icons.IconDns
 const IconAlarmClock = icons.IconAlarmClock
 
+console.log(typeof IconAlarmClock)
+
 import basedConfig from '../based.json'
 import { Button } from '../src/components/Button'
 import { Text } from '../src/components/Text'
@@ -61,7 +63,7 @@ const App = () => {
       <Button
         label="Button label"
         onClick={() => console.log('yo yo')}
-        beforeIcon={<IconAlarmClock />}
+        icon={<IconAlarmClock />}
         style={{ marginBottom: 12 }}
         dropdownIndicator
         loading
@@ -69,8 +71,8 @@ const App = () => {
       <Button
         label="Button label"
         style={{ marginBottom: 12 }}
-        // beforeIcon={<IconAlarmClock />}
-        afterIcon={<IconAlarmClock />}
+        icon={'IconChevronDownSmall'}
+        afterIcon={IconAlarmClock}
         // dropdownIndicator
         // disabled
         // loading
@@ -87,13 +89,13 @@ const App = () => {
         label="Button label"
         size="medium"
         style={{ marginBottom: 12 }}
-        afterIcon={<IconAlarmClock />}
+        afterIcon={IconAlarmClock}
         color="neutral"
         subtle
       />
       <Button
         // ghost
-        beforeIcon={<IconAlarmClock />}
+        icon={'IconAlert'}
         label="Button label"
         size="small"
         disabled

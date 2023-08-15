@@ -5,10 +5,15 @@ import {
   ColorBackgroundColors,
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
-} from '../../src/varsTypes'
+} from '../varsTypes'
 import { Style } from 'inlines'
+import * as icons from '../icons'
+import { Icon } from '../icons/type'
 
-// TODO make props of icons
+//  make props of icons
+let newListIconsArr: keyof typeof icons
+type ListOfAllIcons = typeof newListIconsArr
+
 // notes : beforeIcon =                     icon
 //         muted, emphasis = low etc. are   subtle
 //         state , intent etc. =            color
@@ -18,7 +23,7 @@ export type ActionItemProps = {}
 
 export type AlertBannerProps = {
   color?: ColorBackgroundColors
-  icon?: any
+  icon?: ListOfAllIcons
   label?: string
   onClick?: () => void
   style?: Style
@@ -35,9 +40,9 @@ export type AvatarProps = {
 }
 
 export type BadgeProps = {
-  afterIcon?: any
+  afterIcon?: ListOfAllIcons
   color?: ColorBackgroundColors
-  icon?: any
+  icon?: ListOfAllIcons
   label?: string
   onClick?: () => void
   style?: Style
@@ -47,12 +52,12 @@ export type BadgeProps = {
 export type BreadcrumbsProps = {}
 
 export type ButtonProps = {
-  afterIcon?: any
+  afterIcon?: ListOfAllIcons
   color?: ColorActionColors
   disabled?: boolean
   dropdownIndicator?: boolean
   ghost?: boolean
-  icon?: any
+  icon?: ListOfAllIcons
   label?: string
   loading?: boolean
   onClick?: () => void
@@ -75,7 +80,7 @@ export type CheckboxItemProps = {
 } & CheckboxProps
 
 export type ClickableIconProps = {
-  icon?: any
+  icon?: ListOfAllIcons
   onClick?: () => void
   size?: 'large' | 'small'
   style?: Style
@@ -114,7 +119,7 @@ export type InputProps = {
 
 export type InputWarningProps = {
   active?: boolean
-  icon?: any
+  icon?: ListOfAllIcons
   label?: string
 }
 
@@ -161,7 +166,7 @@ export type ScrollAreaProps = {}
 type SelectOption = {
   value: string | number | undefined
   label?: string
-  icon?: any
+  icon?: ListOfAllIcons
 }
 
 export type SelectProps = {
