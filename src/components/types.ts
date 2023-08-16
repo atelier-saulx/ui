@@ -22,7 +22,7 @@ type ListOfAllIcons = typeof icons //typeof newListIconsArr
 export type ActionItemProps = {}
 
 export type AlertBannerProps = {
-  color?: ColorBackgroundColors
+  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
   icon?: ListOfAllIcons
   label?: string
   onClick?: () => void
@@ -175,7 +175,10 @@ export type ModalBottomBarProps = {
 export type ModalContentProps = {}
 
 export type ModalWarningProps = {
-  color?: ColorBackgroundColors
+  color?: Exclude<
+    ColorBackgroundColors,
+    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'
+  >
   label?: string
 }
 

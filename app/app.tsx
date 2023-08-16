@@ -21,6 +21,7 @@ import { Counter } from '../src/components/Counter'
 import { Center, Column } from '../src/components/Styled'
 import { Status } from '../src/components/Status'
 import { AlertBanner } from '../src/components/AlertBanner'
+import { ModalWarning } from '../src/components/Modal/warning'
 export const client = based(basedConfig)
 
 const App = () => {
@@ -70,6 +71,8 @@ const App = () => {
       }}
     >
       {/* <IconDns /> */}
+      <ModalWarning label="warning label" />
+      <ModalWarning label="Warning label breaking" color="negative" />
       <AlertBanner color="warning" />
       <AlertBanner />
       <AlertBanner color="negative" />
