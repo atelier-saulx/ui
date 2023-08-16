@@ -8,7 +8,6 @@ import {
 } from '../varsTypes'
 import { Style } from 'inlines'
 import * as icons from '../icons'
-import { Icon } from '../icons/type'
 
 //  make props of icons
 let newListIconsArr: keyof typeof icons
@@ -70,13 +69,13 @@ export type CheckboxProps = {
   active?: boolean
   indeterminate?: boolean
   onClick?: () => void
-  style?: Style
 }
 
 // this is combination of text and checkbox
 export type CheckboxItemProps = {
   disabled?: boolean
   label?: string
+  style?: Style
 } & CheckboxProps
 
 export type ClickableIconProps = {
@@ -94,9 +93,20 @@ export type CounterProps = {
   subtle?: boolean
 }
 
-export type DatePickerProps = {}
+export type DatePickerProps = {
+  // what to do for ranged
+  onChange?: (value: number) => void
+  style?: Style
+  value?: number
+}
 
-export type DefaultItemProps = {}
+export type DefaultItemProps = {
+  description?: string // caption
+  disabled?: boolean
+  expand: boolean
+  icon?: ListOfAllIcons
+  label?: string
+}
 
 export type DividerProps = {
   style?: Style
@@ -123,9 +133,31 @@ export type InputWarningProps = {
   label?: string
 }
 
-export type ListItemProps = {}
+export type ListItemProps = {
+  icon?: ListOfAllIcons
+  label?: string
+  onClick?: () => void
+  // value ??
+}
 
-export type MenuItemProps = {}
+export type ListProps = {
+  items?: ListItemProps[]
+  style?: Style
+}
+
+export type MenuItemProps = {
+  active?: boolean
+  icon?: ListOfAllIcons
+  label?: string
+  onClick?: () => void
+  // or path maybe??
+  value?: string
+}
+
+export type MenuProps = {
+  items?: MenuItemProps[]
+  style?: Style
+}
 
 export type ModalProps = {
   children: ReactNode
@@ -150,6 +182,12 @@ export type MultiSelectProps = {}
 
 export type OtherItemsProps = {}
 
+export type ProgressCircle = {
+  color?: ColorActionColors
+  style?: Style
+  value?: number
+}
+
 export type RadioButtonProps = {
   active?: boolean
   onClick?: () => void
@@ -172,7 +210,7 @@ type SelectOption = {
 export type SelectProps = {
   disabled?: boolean
   onChange?: (value: SelectOption) => void
-  options?: SelectOption[]
+  items?: SelectOption[]
   placeholder?: string | SelectOption
   value?: SelectOption
 }
@@ -186,7 +224,7 @@ type SegmentedControlOption = {
 
 export type SegmentedControlOptionsProps = {
   onChange?: (value: SegmentedControlOption) => void
-  options?: SegmentedControlOption[]
+  items?: SegmentedControlOption[]
   value?: SegmentedControlOption
 }
 
