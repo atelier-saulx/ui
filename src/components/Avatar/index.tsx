@@ -1,25 +1,14 @@
 import React, { FC, SyntheticEvent, useState } from 'react'
-import { styled, Style } from 'inlines'
-import { ColorActionColors, ColorContentColors } from '../../../src/varsTypes'
-
 import { color as genColor } from '../../../src'
 import { Text } from '../Text'
 import { Center } from '../Styled'
+import { AvatarProps } from '../types'
 
-export type AvatarProps = {
-  size?: 'large' | 'medium' | 'small'
-  color?: ColorActionColors
-  img?: string
-  label?: string
-  onClick?: (e: SyntheticEvent) => void
-  style?: Style
-  emphasis?: 'low' | 'high'
-}
 export const Avatar: FC<AvatarProps> = ({
   size: sizeProp = 'medium',
-  emphasis = 'low',
-  color = 'primary',
-  img,
+  subtle,
+  color = 'aquamarine',
+  imgsrc,
   label,
   onClick,
   style,
@@ -32,30 +21,31 @@ export const Avatar: FC<AvatarProps> = ({
       ? 40
       : sizeProp === 'small'
       ? 32
-      : sizeProp === 'XSMALL'
+      : sizeProp === 'xsmall'
       ? 24
       : 20
+  const fontSize =
+    sizeProp === 'large'
+      ? '16px'
+      : sizeProp === 'medium'
+      ? '14px'
+      : sizeProp === 'small'
+      ? '12px'
+      : '10px'
 
-  let contentColor: ColorContentColors =
-    emphasis && color === 'alert'
-      ? 'negative'
-      : emphasis && color === 'neutral'
-      ? 'default'
-      : emphasis === 'low'
-      ? 'brand'
-      : 'inverted'
-
-  console.log(contentColor)
   return (
     <Center
       style={{
-        border: '1px solid red',
         flexShrink: '0',
         width: size,
         height: size,
-        color: genColor('action', color, emphasis ? 'subtleNormal' : 'normal'),
+        backgroundColor: genColor(
+          'nonSemanticBackground',
+          color,
+          subtle ? 'muted' : 'strong'
+        ),
         borderRadius: '50%',
-        backgroundImage: img ? `url(${img})` : 'none',
+        backgroundImage: imgsrc ? `url(${imgsrc})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         ...style,
@@ -63,14 +53,21 @@ export const Avatar: FC<AvatarProps> = ({
       onClick={onClick}
       {...rest}
     >
-      {label && !img ? (
+      {label && !imgsrc ? (
         <Text
-          color={contentColor}
+          color="inverted"
           //@ts-ignoreignore
-          size={size / 2}
-          style={{ lineHeight: '32px' }}
+          size={fontSize}
+          style={{
+            lineHeight: '32px',
+            color: genColor(
+              'nonSemanticContent',
+              subtle ? color : 'white',
+              'primary'
+            ),
+          }}
         >
-          {label[0].toLocaleUpperCase()}
+          {label[0].toLocaleUpperCase() + label[1].toLocaleUpperCase()}
         </Text>
       ) : null}
     </Center>

@@ -1,7 +1,10 @@
 import React, { FC, ReactNode } from 'react'
 import { styled, Style } from 'inlines'
 import { color as genColor } from '../../../src'
-import { ColorContentColors } from '../../../src/varsTypes'
+import {
+  ColorContentColors,
+  ColorNonSemanticContentColors,
+} from '../../../src/varsTypes'
 
 type TextProps = {
   children: ReactNode

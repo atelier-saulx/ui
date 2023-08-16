@@ -9,6 +9,7 @@ import { Button } from '../src/components/Button'
 import { Text } from '../src/components/Text'
 import { Avatar } from '../src/components/Avatar'
 import { Previewer } from '../src/components/Previewer'
+import { Badge } from '../src/components/Badge'
 export const client = based(basedConfig)
 
 const IconDns = icons.IconDns
@@ -49,7 +50,8 @@ const App = () => {
   //     {children}
   //   </div>
   // )
-
+  // Non-semantic/Background/Orange/Strong
+  // Background/Neutral/Strong
   return (
     <div
       style={{
@@ -58,8 +60,29 @@ const App = () => {
         padding: '16px 32px',
       }}
     >
-      <IconDns />
-      {/* <Avatar emphasis="high" label="as" />
+      {/* <IconDns /> */}
+      <Badge
+        label="asdfasdasdasasfasdfasdf"
+        color="informative"
+        subtle
+        icon={<IconAlarmClock />}
+        afterIcon={<IconAlarmClock />}
+      />
+      <Avatar
+        label="as"
+        size="large"
+        subtle
+        imgsrc="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg"
+      />
+      <Avatar label="as" size="medium" />
+      <Avatar label="as" size="small" subtle />
+      <Avatar label="as" size="xsmall" />
+      <Avatar
+        label="as"
+        size="xxsmall"
+        subtle
+        imgsrc="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg"
+      />
       <Button
         label="Button label"
         onClick={() => console.log('yo yo')}
@@ -101,7 +124,7 @@ const App = () => {
         disabled
         onClick={() => console.log('flippien')}
       />
-      <Text color="informative">hellwo</Text> */}
+      <Text color="informative">hellwo</Text>
       <Previewer component={<Text>flappie</Text>} propsName="TextProps" />
     </div>
   )
