@@ -92,27 +92,27 @@ const App = () => {
       >
         <Column>
           <Counter label={12000} />
-          <Counter label={12} subtle />
+          <Counter label={99} subtle />
         </Column>
         <Column>
-          <Counter label={12} color="neutral" />
-          <Counter label={12} color="neutral" subtle />
+          <Counter label={99} color="neutral" />
+          <Counter label={99} color="neutral" subtle />
         </Column>
         <Column>
-          <Counter label={12} color="brand" />
-          <Counter label={12} color="brand" subtle />
+          <Counter label={99} color="brand" />
+          <Counter label={99} color="brand" subtle />
         </Column>
         <Column>
-          <Counter label={12} color="negative" />
-          <Counter label={12} color="negative" subtle />
+          <Counter label={99} color="negative" />
+          <Counter label={99} color="negative" subtle />
         </Column>
         <Column>
-          <Counter label={12} color="positive" />
-          <Counter label={12} color="positive" subtle />
+          <Counter label={99} color="positive" />
+          <Counter label={99} color="positive" subtle />
         </Column>
         <Column>
-          <Counter label={12} color="informative" />
-          <Counter label={12} color="informative" subtle />
+          <Counter label={99} color="informative" />
+          <Counter label={99} color="informative" subtle />
         </Column>
       </styled.div>
       <Badge
