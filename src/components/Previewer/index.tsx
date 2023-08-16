@@ -12,6 +12,9 @@ type PreviewerProps = {
 
 export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
   const [propState, setPropState] = useState({})
+  const [renderCounter, setRenderCounter] = useState(1)
+
+  console.log('why?? rerender?? ❌')
 
   console.log('Previewer -->', component)
   console.log('propsname -->', typeprops.props[propsName])
@@ -27,22 +30,52 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
 
     ObjPropKeys.map((item, idx) =>
       component.props[item]
-        ? (newObj[item] = component.props[item])
-        : (newObj[item] = null)
+        ? (propState[item] = component.props[item])
+        : (propState[item] = null)
     )
 
     console.log('🛍', ObjPropKeys)
     console.log('🧧', newObj)
 
-    setPropState(newObj)
+    setPropState((newObj) => ({ ...newObj }))
   }, [])
 
+  useEffect(() => {
+    setRenderCounter(renderCounter + 1)
+    console.log('🧛🏻', renderCounter)
+  }, [propState])
+
+  console.log('why?? propstate ', propState)
   // TODO set the props in a state
+  // probably make Controls component
   // generate controls based of the props --> with right values/ options
+
+  // filter out null from propState before passing it in renderElement
+  const removeNullUndefined = (obj) =>
+    Object.entries(obj).reduce(
+      (a, [k, v]) => (v == null ? a : ((a[k] = v), a)),
+      {}
+    )
+
+  let filteredNullPropState = removeNullUndefined(propState)
+  console.log('🥷🏻', filteredNullPropState)
 
   return (
     <styled.div style={{ padding: 20, border: '1px solid green' }}>
-      {renderOrCreateElement(component, { propState })}
+      {renderCounter && renderOrCreateElement(component, filteredNullPropState)}
+
+      <button
+        onClick={() => {
+          setPropState({
+            ...propState,
+            ...{ weight: 'strong', size: 12 },
+          })
+
+          console.log('-->🪅', propState)
+        }}
+      >
+        test
+      </button>
     </styled.div>
   )
 }

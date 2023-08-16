@@ -125,7 +125,10 @@ const App = () => {
         onClick={() => console.log('flippien')}
       />
       <Text color="informative">hellwo</Text>
-      <Previewer component={<Text>flappie</Text>} propsName="TextProps" />
+      <Previewer
+        component={<Text size={18}>flappie</Text>}
+        propsName="TextProps"
+      />
     </div>
   )
 }
