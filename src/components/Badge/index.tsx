@@ -115,11 +115,7 @@ export const Badge: FC<BadgeProps> = ({
         size={14}
         style={{
           userSelect: 'none',
-          color: genColor(
-            COLORGUARD.includes(color) ? 'content' : 'nonSemanticContent',
-            contentColor,
-            'primary'
-          ),
+          color: 'inherit',
         }}
       >
         {label}
