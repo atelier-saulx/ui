@@ -3,6 +3,7 @@ import { styled } from 'inlines'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
 
 import * as typeprops from '../props.json'
+import { Controls } from './Controls'
 
 type PreviewerProps = {
   component?: ReactNode
@@ -13,8 +14,6 @@ type PreviewerProps = {
 export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
   const [propState, setPropState] = useState({})
   const [renderCounter, setRenderCounter] = useState(1)
-
-  console.log('why?? rerender?? ❌')
 
   console.log('Previewer -->', component)
   console.log('propsname -->', typeprops.props[propsName])
@@ -64,18 +63,35 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
     <styled.div style={{ padding: 20, border: '1px solid green' }}>
       {renderCounter && renderOrCreateElement(component, filteredNullPropState)}
 
-      <button
-        onClick={() => {
-          setPropState({
-            ...propState,
-            ...{ weight: 'strong', size: 12 },
-          })
+      <Controls
+        componentProps={componentProps}
+        propState={propState}
+        setPropState={setPropState}
+      />
+      {/* 
+      <styled.div>
+        <button
+          onClick={() => {
+            setPropState({
+              ...propState,
+              ...{ weight: 'strong', size: 12 },
+            })
 
-          console.log('-->🪅', propState)
-        }}
-      >
-        test
-      </button>
+            console.log('-->🪅', propState)
+          }}
+        >
+          test
+        </button>
+        <input
+          value={propState.children}
+          onChange={(e) => {
+            setPropState({
+              ...propState,
+              ...{ children: e.target.value },
+            })
+          }}
+        />
+      </styled.div> */}
     </styled.div>
   )
 }
