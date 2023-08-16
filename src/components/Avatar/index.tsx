@@ -41,10 +41,11 @@ export const Avatar: FC<AvatarProps> = ({
       ? 'negative'
       : emphasis && color === 'neutral'
       ? 'default'
-      : emphasis
+      : emphasis === 'low'
       ? 'brand'
       : 'inverted'
 
+  console.log(contentColor)
   return (
     <Center
       style={{
@@ -52,7 +53,7 @@ export const Avatar: FC<AvatarProps> = ({
         flexShrink: '0',
         width: size,
         height: size,
-        color: genColor('action', color, !emphasis ? 'subtleNormal' : 'normal'),
+        color: genColor('action', color, emphasis ? 'subtleNormal' : 'normal'),
         borderRadius: '50%',
         backgroundImage: img ? `url(${img})` : 'none',
         backgroundSize: 'cover',
