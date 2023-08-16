@@ -61,37 +61,25 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
 
   return (
     <styled.div style={{ padding: 20, border: '1px solid green' }}>
-      {renderCounter && renderOrCreateElement(component, filteredNullPropState)}
-
-      <Controls
-        componentProps={componentProps}
-        propState={propState}
-        setPropState={setPropState}
-      />
-      {/* 
-      <styled.div>
-        <button
-          onClick={() => {
-            setPropState({
-              ...propState,
-              ...{ weight: 'strong', size: 12 },
-            })
-
-            console.log('-->🪅', propState)
+      <styled.div style={{ display: 'flex' }}>
+        <styled.div
+          style={{
+            backgroundColor: '#f5f5f5',
+            padding: 64,
+            minWidth: 240,
+            textAlign: 'center',
           }}
         >
-          test
-        </button>
-        <input
-          value={propState.children}
-          onChange={(e) => {
-            setPropState({
-              ...propState,
-              ...{ children: e.target.value },
-            })
-          }}
+          {renderCounter &&
+            renderOrCreateElement(component, filteredNullPropState)}
+        </styled.div>
+
+        <Controls
+          componentProps={componentProps}
+          propState={propState}
+          setPropState={setPropState}
         />
-      </styled.div> */}
+      </styled.div>
     </styled.div>
   )
 }

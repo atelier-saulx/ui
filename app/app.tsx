@@ -126,8 +126,16 @@ const App = () => {
       />
       <Text color="informative">hellwo</Text>
       <Previewer
-        component={<Text size={18}>flappie</Text>}
+        component={
+          <Text size={18} color="informative">
+            flappie
+          </Text>
+        }
         propsName="TextProps"
+      />
+      <Previewer
+        component={<Avatar label="yollow" />}
+        propsName="AvatarProps"
       />
     </div>
   )

@@ -2,16 +2,28 @@ import React, { FC, SyntheticEvent, useState } from 'react'
 import { color as genColor } from '../../../src'
 import { Text } from '../Text'
 import { Center } from '../Styled'
-import { AvatarProps } from '../types'
+// import { AvatarProps } from '../types'
+import { Style } from 'inlines'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
+
+type AvatarProps = {
+  color?: ColorNonSemanticBackgroundColors
+  imgsrc?: string
+  onClick?: () => void
+  label?: string
+  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'
+  style?: Style
+  subtle?: boolean
+}
 
 export const Avatar: FC<AvatarProps> = ({
-  size: sizeProp = 'medium',
-  subtle,
   color = 'aquamarine',
   imgsrc,
-  label,
   onClick,
+  label,
+  size: sizeProp = 'medium',
   style,
+  subtle,
   ...rest
 }) => {
   const size =
