@@ -23,7 +23,7 @@ type ListOfAllIcons = typeof icons //typeof newListIconsArr
 export type ActionItemProps = {}
 
 export type AlertBannerProps = {
-  color?: ColorBackgroundColors
+  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
   icon?: ListOfAllIcons
   label?: string
   onClick?: () => void
@@ -42,7 +42,10 @@ export type AvatarProps = {
 
 export type BadgeProps = {
   afterIcon?: ListOfAllIcons
-  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
+  color?: Exclude<
+    ColorBackgroundColors | ColorNonSemanticBackgroundColors,
+    'default'
+  >
   icon?: ListOfAllIcons
   label?: string
   onClick?: (e: any) => void | (() => void)
@@ -88,7 +91,7 @@ export type ClickableIconProps = {
 }
 
 export type CounterProps = {
-  color?: ColorBackgroundColors
+  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
   label?: number
   onClick?: () => void
   style?: Style
@@ -176,7 +179,10 @@ export type ModalBottomBarProps = {
 export type ModalContentProps = {}
 
 export type ModalWarningProps = {
-  color?: ColorBackgroundColors
+  color?: Exclude<
+    ColorBackgroundColors,
+    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'
+  >
   label?: string
 }
 
@@ -245,7 +251,7 @@ export type SpotlightSearchProps = {
 }
 
 export type StatusProps = {
-  color?: ColorBackgroundColors
+  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
   ghost?: boolean
   label?: string
   onClick?: () => void

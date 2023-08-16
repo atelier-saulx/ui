@@ -70,14 +70,22 @@ export const Badge: FC<BadgeProps> = ({
     <styled.div
       onClick={onClick}
       style={{
+        flexShrink: 0,
         height: 24,
+        minWidth: 'fit-content',
         borderRadius: '24px',
         cursor: onClick ? 'pointer' : null,
-        padding: '0 8px',
-        width: 'fit-content',
+        padding: !label ? '0px 0px' : '0px 8px',
+        width: label ? 'fit-content' : 24,
         maxWidth: '100%',
         display: 'flex',
+        color: genColor(
+          COLORGUARD.includes(color) ? 'content' : 'nonSemanticContent',
+          contentColor,
+          'primary'
+        ),
         alignItems: 'center',
+        justifyContent: 'center',
         position: 'relative',
         backgroundColor: genColor(
           COLORGUARD.includes(color) ? 'background' : 'nonSemanticBackground',
@@ -91,31 +99,41 @@ export const Badge: FC<BadgeProps> = ({
         <styled.div
           style={{
             display: 'flex',
-            marginRight: 8,
-            minWidth: 10,
+            marginRight: label ? 8 : 0,
+            width: 16,
+            height: 16,
             maxWidth: '100%',
-            height: 'auto',
+            maxHeight: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          {renderOrCreateElement(icon, { size: 10, color: contentColor })}
+          {renderOrCreateElement(icon, { size: 10, color: 'inherit' })}
         </styled.div>
       )}
       <Text
         size={14}
         style={{
           userSelect: 'none',
-          color: genColor(
-            COLORGUARD.includes(color) ? 'content' : 'nonSemanticContent',
-            contentColor,
-            'primary'
-          ),
+          color: 'inherit',
         }}
       >
         {label}
       </Text>
       {afterIcon && (
-        <styled.div style={{ marginLeft: 8, display: 'flex' }}>
-          {renderOrCreateElement(afterIcon, { size: 10, color: contentColor })}
+        <styled.div
+          style={{
+            display: 'flex',
+            marginLeft: label ? 8 : 0,
+            width: 16,
+            height: 16,
+            maxWidth: '100%',
+            maxHeight: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {renderOrCreateElement(afterIcon, { size: 10, color: 'inherit' })}
         </styled.div>
       )}
     </styled.div>
