@@ -4,18 +4,17 @@ import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 import * as icons from '../src/icons'
 import { color, vars } from '../src'
-import { Viewer } from './Viewer'
+import basedConfig from '../based.json'
+import { Button } from '../src/components/Button'
+import { Text } from '../src/components/Text'
+import { Avatar } from '../src/components/Avatar'
+import { Previewer } from '../src/components/Previewer'
+export const client = based(basedConfig)
 
 const IconDns = icons.IconDns
 const IconAlarmClock = icons.IconAlarmClock
 
 console.log(typeof IconAlarmClock)
-
-import basedConfig from '../based.json'
-import { Button } from '../src/components/Button'
-import { Text } from '../src/components/Text'
-import { Avatar } from '../src/components/Avatar'
-export const client = based(basedConfig)
 
 const App = () => {
   // const children: any = []
@@ -60,7 +59,7 @@ const App = () => {
       }}
     >
       <IconDns />
-      <Avatar emphasis="high" label="as" />
+      {/* <Avatar emphasis="high" label="as" />
       <Button
         label="Button label"
         onClick={() => console.log('yo yo')}
@@ -102,7 +101,8 @@ const App = () => {
         disabled
         onClick={() => console.log('flippien')}
       />
-      <Text color="informative">hellwo</Text>
+      <Text color="informative">hellwo</Text> */}
+      <Previewer component={<Text>flappie</Text>} propsName="TextProps" />
     </div>
   )
 }

@@ -11,6 +11,7 @@ import * as icons from '../icons'
 
 // icons.
 // TODO make props of icons
+// let testje = keyof typeof icons
 let newListIconsArr: keyof typeof icons
 type ListOfAllIcons = typeof icons //typeof newListIconsArr
 
