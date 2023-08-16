@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { styled, Style } from 'inlines'
-import { ColorActionColors, ColorContentColors } from '../../../src/varsTypes'
+import { styled } from 'inlines'
+import { ColorContentColors } from '../../../src/varsTypes'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
 import {
   IconCheckCircle,
@@ -8,28 +8,16 @@ import {
   color as genColor,
 } from '../../../src'
 import { Text } from '../Text'
+import { ButtonProps } from '../types'
 
+import * as icons from '../../icons'
+
+const IconAlarmClock = icons.IconAlarmClock
 // TODO add progress/ loading comp -icon
-
-type ButtonProps = {
-  // TODO add icons as IconProps here
-  afterIcon?: any
-  beforeIcon?: any
-  color?: ColorActionColors
-  disabled?: boolean
-  dropdownIndicator?: boolean
-  ghost?: boolean
-  label?: string
-  loading?: boolean
-  onClick?: () => void
-  size?: 'large' | 'medium' | 'small'
-  style?: Style
-  subtle?: boolean
-}
 
 export const Button: FC<ButtonProps> = ({
   afterIcon,
-  beforeIcon,
+  icon,
   color = 'primary',
   disabled,
   dropdownIndicator,
@@ -99,11 +87,11 @@ export const Button: FC<ButtonProps> = ({
           <IconCheckCircle />
         </styled.div>
       )}
-      {beforeIcon && (
+      {icon && (
         <styled.div
           style={{ marginRight: 8, display: 'flex', alignItems: 'center' }}
         >
-          {renderOrCreateElement(beforeIcon, { color: contentColor })}
+          {renderOrCreateElement(icon, { color: contentColor })}
         </styled.div>
       )}
       <Text

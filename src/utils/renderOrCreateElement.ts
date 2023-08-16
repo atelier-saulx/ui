@@ -5,6 +5,7 @@ export const renderOrCreateElement = (element, props: any = undefined) => {
     if (typeof element === 'string') {
       if (props) {
         return createElement('span', props, element)
+        // return createElement(element, props)
       }
       return element
     }
