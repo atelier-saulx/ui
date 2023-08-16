@@ -87,7 +87,7 @@ export type ClickableIconProps = {
 }
 
 export type CounterProps = {
-  color?: ColorBackgroundColors
+  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
   label?: number
   onClick?: () => void
   style?: Style

@@ -1,10 +1,11 @@
-import React, { createElement } from 'react'
 import { render } from 'react-dom'
+import React, { createElement } from 'react'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 import * as icons from '../src/icons'
 import { color, vars } from '../src'
 import { Viewer } from './Viewer'
+import { styled } from 'inlines'
 
 const IconDns = icons.IconDns
 const IconAlarmClock = icons.IconAlarmClock
@@ -16,6 +17,8 @@ import { Button } from '../src/components/Button'
 import { Text } from '../src/components/Text'
 import { Avatar } from '../src/components/Avatar'
 import { Badge } from '../src/components/Badge'
+import { Counter } from '../src/components/Counter'
+import { Center, Column } from '../src/components/Styled'
 export const client = based(basedConfig)
 
 const App = () => {
@@ -65,6 +68,40 @@ const App = () => {
       }}
     >
       {/* <IconDns /> */}
+      <styled.div
+        style={{
+          display: 'flex',
+          // border: '1px solid red',
+          minWidth: 'fit-content',
+          minHeight: 'fit-content',
+          gap: 10,
+        }}
+      >
+        <Column>
+          <Counter />
+          <Counter subtle />
+        </Column>
+        <Column>
+          <Counter color="neutral" />
+          <Counter color="neutral" subtle />
+        </Column>
+        <Column>
+          <Counter color="brand" />
+          <Counter color="brand" subtle />
+        </Column>
+        <Column>
+          <Counter color="negative" />
+          <Counter color="negative" subtle />
+        </Column>
+        <Column>
+          <Counter color="positive" />
+          <Counter color="positive" subtle />
+        </Column>
+        <Column>
+          <Counter color="informative" />
+          <Counter color="informative" subtle />
+        </Column>
+      </styled.div>
       <Badge
         label="asdfasdf"
         color="emerald"
