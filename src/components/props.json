@@ -1,0 +1,111 @@
+{
+  "props": {
+    "PreviewerProps": {
+      "name": "PreviewerProps",
+      "props": {
+        "component": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "propsName": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type PreviewerProps = {\n  component?: ReactNode\n  // types prop\n  propsName?: string\n}",
+      "file": "/components/Previewer/index.tsx"
+    },
+    "TextProps": {
+      "name": "TextProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorContentColors"
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": 10
+            },
+            {
+              "value": 12
+            },
+            {
+              "value": 14
+            },
+            {
+              "value": 16
+            },
+            {
+              "value": 18
+            },
+            {
+              "value": 24
+            },
+            {
+              "value": 32
+            },
+            {
+              "value": 40
+            },
+            {
+              "value": 48
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "weight": {
+          "optional": true,
+          "type": [
+            {
+              "value": "strong"
+            },
+            {
+              "value": "medium"
+            },
+            {
+              "value": "normal"
+            }
+          ]
+        }
+      },
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  weight?: 'strong' | 'medium' | 'normal'\n}",
+      "file": "/components/Text/index.tsx"
+    }
+  },
+  "types": {
+    "CheckboxItemProps": {
+      "name": "CheckboxItemProps",
+      "types": [
+        {
+          "type": "TSTypeLiteral"
+        },
+        {
+          "type": "CheckboxProps"
+        }
+      ],
+      "code": "type CheckboxItemProps = {\n  disabled?: boolean\n  label?: string\n  style?: Style\n} & CheckboxProps",
+      "file": "/components/types.ts"
+    },
+    "RadioButtonItemProps": {
+      "name": "RadioButtonItemProps",
+      "types": [
+        {
+          "type": "TSTypeLiteral"
+        },
+        {
+          "type": "RadioButtonProps"
+        }
+      ],
+      "code": "type RadioButtonItemProps = {\n  disabled?: boolean\n  label?: string\n} & RadioButtonProps",
+      "file": "/components/types.ts"
+    }
+  }
+}
