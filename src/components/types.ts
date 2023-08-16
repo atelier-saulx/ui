@@ -9,9 +9,10 @@ import {
 import { Style } from 'inlines'
 import * as icons from '../icons'
 
-//  make props of icons
+// icons.
+// TODO make props of icons
 let newListIconsArr: keyof typeof icons
-type ListOfAllIcons = typeof newListIconsArr
+type ListOfAllIcons = typeof icons //typeof newListIconsArr
 
 // notes : beforeIcon =                     icon
 //         muted, emphasis = low etc. are   subtle
