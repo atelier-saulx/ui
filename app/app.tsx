@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { render } from 'react-dom'
 import React, { createElement } from 'react'
 import based from '@based/client'
@@ -6,7 +7,6 @@ import * as icons from '../src/icons'
 import { color, vars } from '../src'
 import { Viewer } from './Viewer'
 import { styled } from 'inlines'
-
 const IconDns = icons.IconDns
 const IconAlarmClock = icons.IconAlarmClock
 
