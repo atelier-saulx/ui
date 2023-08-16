@@ -59,13 +59,36 @@ const App = () => {
         color: color('content', 'default', 'primary'),
         backgroundColor: color('background', 'default', 'muted'),
         padding: '16px 32px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
       }}
     >
       {/* <IconDns /> */}
       <Badge
+        label="asdfasdf"
+        color="emerald"
+        subtle
+        afterIcon={<IconAlarmClock />}
+      />
+      <Badge
+        label=""
+        color="warning"
+        // subtle
+        icon={<IconAlarmClock />}
+        // afterIcon={<IconAlarmClock />}
+      />
+      <Badge
+        label="asdfasdasdasasfasdfasdf"
+        color="grape"
+        subtle
+        icon={<IconAlarmClock />}
+        // afterIcon={<IconAlarmClock />}
+      />
+      <Badge
         label="asdfasdasdasasfasdfasdf"
         color="informative"
-        subtle
+        // subtle
         icon={<IconAlarmClock />}
         afterIcon={<IconAlarmClock />}
       />
