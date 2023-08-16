@@ -116,7 +116,7 @@ const App = () => {
       </styled.div>
       <Badge
         label="asdfasdf"
-        color="emerald"
+        color="informative"
         subtle
         afterIcon={<IconAlarmClock />}
       />

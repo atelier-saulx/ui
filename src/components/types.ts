@@ -41,7 +41,10 @@ export type AvatarProps = {
 
 export type BadgeProps = {
   afterIcon?: ListOfAllIcons
-  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
+  color?: Exclude<
+    ColorBackgroundColors | ColorNonSemanticBackgroundColors,
+    'default'
+  >
   icon?: ListOfAllIcons
   label?: string
   onClick?: (e: any) => void | (() => void)
