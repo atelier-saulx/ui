@@ -20,6 +20,7 @@ import { Badge } from '../src/components/Badge'
 import { Counter } from '../src/components/Counter'
 import { Center, Column } from '../src/components/Styled'
 import { Status } from '../src/components/Status'
+import { AlertBanner } from '../src/components/AlertBanner'
 export const client = based(basedConfig)
 
 const App = () => {
@@ -69,7 +70,9 @@ const App = () => {
       }}
     >
       {/* <IconDns /> */}
-
+      <AlertBanner color="warning" />
+      <AlertBanner />
+      <AlertBanner color="negative" />
       <Status color="blue" label="asdasdasdasd" />
       <Status color="blue" label="asdasdasdasd" subtle />
       <Status color="blue" label="asdasdasdasd" ghost />
