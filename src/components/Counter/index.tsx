@@ -6,17 +6,7 @@ import {
   ColorNonSemanticContentColors,
 } from '../../varsTypes'
 import { color as genColor } from '../../../src'
-
-const COLORGUARD = [
-  'default',
-  'inverted',
-  'neutral',
-  'informative',
-  'positive',
-  'warning',
-  'negative',
-  'brand',
-]
+import { isSemanticColor } from '../../utils/isSemanticColor'
 
 // color?: ColorBackgroundColors
 // label?: number
@@ -36,7 +26,7 @@ export const Counter: FC<CounterProps> = ({
       ? color === 'neutral'
         ? 'default'
         : color
-      : COLORGUARD.includes(color)
+      : isSemanticColor(color)
       ? color === 'warning'
         ? 'default'
         : 'inverted'
@@ -46,8 +36,8 @@ export const Counter: FC<CounterProps> = ({
 
   return (
     <Center
+      onClick={onClick}
       style={{
-        // display: 'inline-flex',
         border: color === 'default' ? '1px solid' : undefined,
         borderColor: genColor(
           'nonSemanticBorder',
@@ -55,7 +45,7 @@ export const Counter: FC<CounterProps> = ({
           subtle ? 'subtle' : 'strong'
         ),
         backgroundColor: genColor(
-          COLORGUARD.includes(color) ? 'background' : 'nonSemanticBackground',
+          isSemanticColor(color) ? 'background' : 'nonSemanticBackground',
           color,
           subtle ? 'muted' : 'strong'
         ),
@@ -63,21 +53,21 @@ export const Counter: FC<CounterProps> = ({
           color === 'default'
             ? genColor('content', 'default', 'primary')
             : genColor(
-                COLORGUARD.includes(color) ? 'content' : 'nonSemanticContent',
+                isSemanticColor(color) ? 'content' : 'nonSemanticContent',
                 contentColor,
                 'primary'
               ),
         borderRadius: '16px',
-        minWidth: 'fit-content',
+        minWidth: '24px',
         width: 'fit-content',
         padding: '2px 6px',
         maxHeight: '24px',
         height: '24px',
-        flexDirection: 'column',
         boxSizing: 'border-box',
+        ...style,
       }}
     >
-      24
+      {label}
     </Center>
   )
 }

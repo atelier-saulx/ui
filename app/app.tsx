@@ -19,6 +19,7 @@ import { Avatar } from '../src/components/Avatar'
 import { Badge } from '../src/components/Badge'
 import { Counter } from '../src/components/Counter'
 import { Center, Column } from '../src/components/Styled'
+import { Status } from '../src/components/Status'
 export const client = based(basedConfig)
 
 const App = () => {
@@ -68,6 +69,11 @@ const App = () => {
       }}
     >
       {/* <IconDns /> */}
+
+      <Status color="blue" label="asdasdasdasd" />
+      <Status color="blue" label="asdasdasdasd" subtle />
+      <Status color="blue" label="asdasdasdasd" ghost />
+      <Status color="blue" label="asdasdasdasd" subtle ghost />
       <styled.div
         style={{
           display: 'flex',
@@ -78,28 +84,28 @@ const App = () => {
         }}
       >
         <Column>
-          <Counter />
-          <Counter subtle />
+          <Counter label={12000} />
+          <Counter label={12} subtle />
         </Column>
         <Column>
-          <Counter color="neutral" />
-          <Counter color="neutral" subtle />
+          <Counter label={12} color="neutral" />
+          <Counter label={12} color="neutral" subtle />
         </Column>
         <Column>
-          <Counter color="brand" />
-          <Counter color="brand" subtle />
+          <Counter label={12} color="brand" />
+          <Counter label={12} color="brand" subtle />
         </Column>
         <Column>
-          <Counter color="negative" />
-          <Counter color="negative" subtle />
+          <Counter label={12} color="negative" />
+          <Counter label={12} color="negative" subtle />
         </Column>
         <Column>
-          <Counter color="positive" />
-          <Counter color="positive" subtle />
+          <Counter label={12} color="positive" />
+          <Counter label={12} color="positive" subtle />
         </Column>
         <Column>
-          <Counter color="informative" />
-          <Counter color="informative" subtle />
+          <Counter label={12} color="informative" />
+          <Counter label={12} color="informative" subtle />
         </Column>
       </styled.div>
       <Badge

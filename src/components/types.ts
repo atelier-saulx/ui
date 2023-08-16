@@ -244,7 +244,7 @@ export type SpotlightSearchProps = {
 }
 
 export type StatusProps = {
-  color?: ColorBackgroundColors
+  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
   ghost?: boolean
   label?: string
   onClick?: () => void
