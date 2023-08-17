@@ -43,7 +43,7 @@ const App = () => {
       {/* <IconDns /> */}
       <Input
         type="text"
-        pattern="[A-Za-z]{3}"
+        //  pattern="[A-Za-z]{3}"
         placeholder="Input placeholder"
         onChange={(e) => setTextVal(e.target.value)}
         //    onError={(e) => console.log('aefa', e)}
