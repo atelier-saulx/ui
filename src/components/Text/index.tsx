@@ -8,15 +8,7 @@ import {
 
 type TextProps = {
   children: ReactNode
-  color?:
-    | 'default'
-    | 'inverted'
-    | 'informative'
-    | 'positive'
-    | 'warning'
-    | 'negative'
-    | 'brand'
-  // ColorContentColors
+  color?: ColorContentColors
   size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48
   style?: Style
   weight?: 'strong' | 'medium' | 'normal'

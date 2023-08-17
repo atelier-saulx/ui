@@ -17,6 +17,7 @@ import { Status } from '../src/components/Status'
 import { AlertBanner } from '../src/components/AlertBanner'
 import { ModalWarning } from '../src/components/Modal/warning'
 import { styled } from 'inlines'
+import { Input } from '../src/components/Input/Index'
 
 export const client = based(basedConfig)
 
@@ -72,6 +73,11 @@ const App = () => {
       }}
     >
       {/* <IconDns /> */}
+      <Input
+        type="text"
+        placeholder="Input placeholder"
+        onChange={(e) => console.log(e)}
+      />
       <ModalWarning label="warning label" />
       <ModalWarning label="Warning label breaking" color="negative" />
       <AlertBanner color="warning" />

@@ -85,8 +85,12 @@ const genComponentTypes = async (filePath) => {
     plugins: ['jsx', 'typescript'],
   })
   const p = []
+  const identifiers = {}
   try {
     traverse(ast, {
+      Identifier(p) {
+        identifiers[p.node.name] = p
+      },
       TSTypeAliasDeclaration: function (path) {
         if (path.node.id?.name?.includes('Props') && path.node.typeAnnotation) {
           const type = path.node.typeAnnotation
@@ -108,8 +112,20 @@ const genComponentTypes = async (filePath) => {
                 })
                 if (m.typeAnnotation?.typeAnnotation) {
                   memberTypeDef.type = parseTypeName(
-                    m.typeAnnotation?.typeAnnotation
+                    m.typeAnnotation.typeAnnotation
                   )
+                  // if (
+                  //   m.typeAnnotation.typeAnnotation.type === 'TSTypeReference'
+                  // ) {
+                  //   console.log(
+                  //     'HERE',
+                  //     m.typeAnnotation.typeAnnotation.typeName.name,
+                  //     identifiers[m.typeAnnotation.typeAnnotation.typeName.name]
+                  //       ?.scope?.bindings,
+                  //     identifiers[m.typeAnnotation.typeAnnotation.typeName.name]
+                  //       ?.scope?.references
+                  //   )
+                  // }
                 }
               }
             }
