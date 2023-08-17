@@ -1,4 +1,3 @@
-import { styled } from 'inlines'
 import React, {
   FC,
   useCallback,
@@ -10,7 +9,7 @@ import React, {
   ChangeEventHandler,
 } from 'react'
 
-import { Style } from 'inlines'
+import { styled, Style } from 'inlines'
 import { Text } from '../Text'
 import { color } from '../../varsUtilities'
 import { IconPlus, IconCheckCircle, IconClose, IconSearch } from '../../icons'

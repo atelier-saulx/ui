@@ -6,9 +6,7 @@ import { IconChevronDown, IconClose } from '../..'
 import { RowSpaced } from '../Styled'
 
 import { Value, Option } from '../ContextMenu'
-
 import { PositionProps } from '../Overlay'
-
 import { useSelect } from '../../hooks/useSelect'
 
 export const StyledSelect = styled('div', {

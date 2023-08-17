@@ -3,7 +3,8 @@ import { render } from 'react-dom'
 import React, { createElement, useState } from 'react'
 
 import based from '@based/client'
-import { Provider, useQuery } from '@based/react'
+import { useQuery } from '@based/react'
+import { Provider } from '../src/components/Provider'
 import * as icons from '../src/icons'
 import { color, vars } from '../src'
 import basedConfig from '../based.json'
@@ -23,6 +24,7 @@ import { Menu } from '../src/components/Menu'
 import { MenuItem } from '../src/components/Menu/MenuItem'
 import { Toggle } from '../src/components/Toggle'
 import { Select } from '../src/components/Select'
+import { Toast, useToast } from '../src/components/Toast'
 
 export const client = based(basedConfig)
 
@@ -34,6 +36,13 @@ console.log(typeof IconAlarmClock)
 const App = () => {
   const route = useRoute()
   const [textVal, setTextVal] = useState('')
+
+  const toast = useToast()
+  const notify = () => {
+    toast.add(
+      <Toast label="notify" type="success" description="Account created." />
+    )
+  }
 
   const [toggle, setToggle] = useState(true)
   return (
@@ -78,12 +87,13 @@ const App = () => {
         asdasdasd
       </MenuItem>
       {/* <IconDns /> */}
+
       <Select
-        value="yes"
         onChange={() => console.log('snurpa')}
         placeholder="yow"
-        options={['yews', 'no', 'no-er']}
+        options={['yes', 'no', 'no-er', 'fljua8eop']}
       />
+      <Button onClick={notify}>Notify!</Button>
       <Input
         errorMessage="That's wrong you donkey!"
         type="text"
