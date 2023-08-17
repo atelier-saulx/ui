@@ -85,7 +85,7 @@ export type CheckboxItemProps = {
 
 export type ClickableIconProps = {
   icon?: ListOfAllIcons
-  onClick?: () => void
+  onClick?: () => void | ((e) => void)
   size?: 'large' | 'small'
   style?: Style
 }
@@ -205,6 +205,13 @@ export type RadioButtonProps = {
   active?: boolean
   onClick?: () => void
   style?: Style
+  warning?: boolean
+  disabled?: boolean
+  value: {
+    label?: string
+    value: string | boolean | number
+    description?: string
+  }
 }
 
 export type RadioButtonItemProps = {

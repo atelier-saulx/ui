@@ -1,7 +1,7 @@
 import { useRoute } from '@based/ui'
 import { render } from 'react-dom'
 import React, { createElement, useState } from 'react'
-import React, { createElement, useState } from 'react'
+
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 import * as icons from '../src/icons'
@@ -22,6 +22,9 @@ import { Menu } from '../src/components/Menu'
 import { MenuItem } from '../src/components/Menu/MenuItem'
 import { Toggle } from '../src/components/Toggle'
 import { Input } from '../src/components/Input/Index'
+import { TestButton } from '../src/components/RadioButtons/testButton'
+import { RadioButtons } from '../src/components/RadioButtons'
+import { ClickableIcon } from '../src/components/ClickableIcon'
 
 export const client = based(basedConfig)
 
@@ -46,7 +49,20 @@ const App = () => {
         gap: '10px',
       }}
     >
-      <Toggle size="medium" active onClick={setToggle} />
+      <ClickableIcon icon={<IconAlarmClock />} />
+      <RadioButtons
+        onChange={console.log}
+        data={[
+          { label: 'Appeltjes', value: 'Apples', description: 'jonagold' },
+          {
+            label: 'Sinasapple',
+            value: 'Oranges',
+            description: 'oranje rond fruit',
+          },
+          { label: 'Banaan', value: 'Bananas', description: 'chiquita ' },
+        ]}
+      />
+      <Toggle size="medium" active={toggle} onClick={setToggle} />
       {toggle && <Toggle />}
       <Toggle size="large" disabled active />
       <Menu
