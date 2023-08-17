@@ -57,6 +57,7 @@ export type BreadcrumbsProps = {}
 
 export type ButtonProps = {
   afterIcon?: ListOfAllIcons
+  children?: ReactNode
   color?: ColorActionColors
   disabled?: boolean
   dropdownIndicator?: boolean
@@ -128,7 +129,7 @@ export type InputProps = {
   description?: string
   disabled?: boolean
   onChange?: (value: any) => void
-  onError?: (str: string, patternMatches?: boolean) => string // show error
+  errorMessage?: string
   label?: string
   pattern?: string
   placeholder?: string

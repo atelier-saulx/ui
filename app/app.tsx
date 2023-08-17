@@ -3,7 +3,8 @@ import { render } from 'react-dom'
 import React, { createElement, useState } from 'react'
 
 import based from '@based/client'
-import { Provider, useQuery } from '@based/react'
+import { useQuery } from '@based/react'
+import { Provider } from '../src/components/Provider'
 import * as icons from '../src/icons'
 import { color, vars } from '../src'
 import basedConfig from '../based.json'
@@ -18,10 +19,12 @@ import { Status } from '../src/components/Status'
 import { AlertBanner } from '../src/components/AlertBanner'
 import { ModalWarning } from '../src/components/Modal/warning'
 import { styled } from 'inlines'
+import { Input } from '../src/components/Input'
 import { Menu } from '../src/components/Menu'
 import { MenuItem } from '../src/components/Menu/MenuItem'
 import { Toggle } from '../src/components/Toggle'
-import { Input } from '../src/components/Input/Index'
+import { Select } from '../src/components/Select'
+import { Toast, useToast } from '../src/components/Toast'
 import { TestButton } from '../src/components/RadioButtons/testButton'
 import { RadioButtons } from '../src/components/RadioButtons'
 import { ClickableIcon } from '../src/components/ClickableIcon'
@@ -38,6 +41,13 @@ console.log(typeof IconAlarmClock)
 const App = () => {
   const route = useRoute()
   const [textVal, setTextVal] = useState('')
+
+  const toast = useToast()
+  const notify = () => {
+    toast.add(
+      <Toast label="notify" type="success" description="Account created." />
+    )
+  }
 
   const [toggle, setToggle] = useState(true)
   return (
@@ -98,12 +108,19 @@ const App = () => {
         asdasdasd
       </MenuItem>
       {/* <IconDns /> */}
+
+      <Select
+        onChange={() => console.log('snurpa')}
+        placeholder="yow"
+        options={['yes', 'no', 'no-er', 'fljua8eop']}
+      />
+      <Button onClick={notify}>Notify!</Button>
       <Input
+        errorMessage="That's wrong you donkey!"
         type="text"
-        //  pattern="[A-Za-z]{3}"
+        pattern="[A-Za-z]{3}"
         placeholder="Input placeholder"
         onChange={(e) => setTextVal(e.target.value)}
-        //    onError={(e) => console.log('aefa', e)}
         value={textVal}
       />
       <ModalWarning label="warning label" />

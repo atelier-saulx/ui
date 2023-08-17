@@ -17,11 +17,12 @@ const IconAlarmClock = icons.IconAlarmClock
 
 export const Button: FC<ButtonProps> = ({
   afterIcon,
-  icon,
+  children,
   color = 'primary',
   disabled,
   dropdownIndicator,
   ghost,
+  icon,
   label,
   loading,
   onClick,
@@ -94,6 +95,7 @@ export const Button: FC<ButtonProps> = ({
           {renderOrCreateElement(icon, { color: contentColor })}
         </styled.div>
       )}
+      {children}
       <Text
         weight={size === 'small' ? 'medium' : 'strong'}
         size={size === 'small' ? 14 : 16}
