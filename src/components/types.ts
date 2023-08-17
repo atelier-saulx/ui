@@ -1,5 +1,5 @@
 // types for all components let's go
-import { ReactNode } from 'react'
+import { ReactNode, FC } from 'react'
 import {
   ColorActionColors,
   ColorBackgroundColors,
@@ -154,9 +154,11 @@ export type MenuItemProps = {
   active?: boolean
   icon?: ListOfAllIcons
   label?: string
-  onClick?: () => void
+  onClick?: (e) => void
   // or path maybe??
   value?: string
+  style?: Style
+  children?: ReactNode | FC
 }
 
 export type MenuProps = {

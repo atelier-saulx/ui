@@ -1,6 +1,6 @@
-// @ts-nocheck
+import { useRoute } from '@based/ui'
 import { render } from 'react-dom'
-import React, { createElement } from 'react'
+import React, { createElement, useState } from 'react'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 import * as icons from '../src/icons'
@@ -17,6 +17,8 @@ import { Status } from '../src/components/Status'
 import { AlertBanner } from '../src/components/AlertBanner'
 import { ModalWarning } from '../src/components/Modal/warning'
 import { styled } from 'inlines'
+import { Menu } from '../src/components/Menu'
+import { MenuItem } from '../src/components/Menu/MenuItem'
 import { Toggle } from '../src/components/Toggle'
 
 export const client = based(basedConfig)
@@ -27,6 +29,7 @@ const IconAlarmClock = icons.IconAlarmClock
 console.log(typeof IconAlarmClock)
 
 const App = () => {
+  const route = useRoute()
   // const children: any = []
 
   // for (const name in icons) {
@@ -100,6 +103,9 @@ const App = () => {
         }}
         style={{ backgroundColor: 'white' }}
       />
+      <MenuItem label="asdfasasdfasdfdf" active style={{ height: '40px' }}>
+        asdasdasd
+      </MenuItem>
       {/* <IconDns /> */}
       <ModalWarning label="warning label" />
       <ModalWarning label="Warning label breaking" color="negative" />
