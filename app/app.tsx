@@ -22,6 +22,7 @@ import { Input } from '../src/components/Input'
 import { Menu } from '../src/components/Menu'
 import { MenuItem } from '../src/components/Menu/MenuItem'
 import { Toggle } from '../src/components/Toggle'
+import { Select } from '../src/components/Select'
 
 export const client = based(basedConfig)
 
@@ -77,15 +78,12 @@ const App = () => {
         asdasdasd
       </MenuItem>
       {/* <IconDns /> */}
-      {/* <Select
-        placeholder={{ label: 'Input placeholder', icon: <IconAlarmClock /> }}
-        items={[
-          { value: 'yow', icon: <IconDns /> },
-          { value: 'whatupsa', label: 'whatupow label' },
-          { value: 'yaefawow', icon: <IconAlarmClock /> },
-          { value: 'whatupsa' },
-        ]}
-      /> */}
+      <Select
+        value="yes"
+        onChange={() => console.log('snurpa')}
+        placeholder="yow"
+        options={['yews', 'no', 'no-er']}
+      />
       <Input
         errorMessage="That's wrong you donkey!"
         type="text"

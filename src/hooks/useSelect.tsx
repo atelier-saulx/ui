@@ -1,11 +1,11 @@
-import { PositionProps } from '~/components/Overlay'
+import { PositionProps } from '../components/Overlay'
 import {
   Option,
   Value,
   ContextOptions,
   ContextMenu,
   ContextMultiOptions,
-} from '~/components/ContextMenu'
+} from '../components/ContextMenu'
 
 import { useOverlay } from './useOverlay'
 import React, {

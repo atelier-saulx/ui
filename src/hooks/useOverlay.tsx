@@ -5,9 +5,9 @@ import {
   OverlayOptions,
   OverlayProps,
   PositionProps,
-} from '~/components/Overlay'
+} from '../components/Overlay'
 import React, { ComponentType, SyntheticEvent, useCallback } from 'react'
-import { useAllContexts, ForwardContext } from '~/components/Provider'
+import { useAllContexts, ForwardContext } from '../components/Provider'
 import { hash } from '@saulx/hash'
 
 type PropsEventHandler<E = SyntheticEvent, P = any> = (

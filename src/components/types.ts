@@ -57,6 +57,7 @@ export type BreadcrumbsProps = {}
 
 export type ButtonProps = {
   afterIcon?: ListOfAllIcons
+  children?: ReactNode
   color?: ColorActionColors
   disabled?: boolean
   dropdownIndicator?: boolean
