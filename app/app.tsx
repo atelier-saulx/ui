@@ -25,6 +25,10 @@ import { MenuItem } from '../src/components/Menu/MenuItem'
 import { Toggle } from '../src/components/Toggle'
 import { Select } from '../src/components/Select'
 import { Toast, useToast } from '../src/components/Toast'
+import { TestButton } from '../src/components/RadioButtons/testButton'
+import { RadioButtons } from '../src/components/RadioButtons'
+import { ClickableIcon } from '../src/components/ClickableIcon'
+import { Checkbox } from '../src/components/Checkbox'
 
 export const client = based(basedConfig)
 
@@ -56,7 +60,22 @@ const App = () => {
         gap: '10px',
       }}
     >
-      <Toggle size="medium" active onClick={setToggle} />
+      <Checkbox />
+      <Checkbox warning />
+      <ClickableIcon icon={<IconAlarmClock />} />
+      <RadioButtons
+        onChange={console.log}
+        data={[
+          { label: 'Appeltjes', value: 'Apples', description: 'jonagold' },
+          {
+            label: 'Sinasapple',
+            value: 'Oranges',
+            description: 'oranje rond fruit',
+          },
+          { label: 'Banaan', value: 'Bananas', description: 'chiquita ' },
+        ]}
+      />
+      <Toggle size="medium" active={toggle} onClick={setToggle} />
       {toggle && <Toggle />}
       <Toggle size="large" disabled active />
       <Menu

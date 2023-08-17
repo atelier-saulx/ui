@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { ToggleProps } from '../types'
 import { styled } from 'inlines'
 import { color as genColor } from '../../../src'
-import { usePropState } from '@based/ui'
+import { usePropState } from '../../hooks/usePropState'
 
 export const Toggle: FC<ToggleProps> = ({
   active,
@@ -21,17 +21,14 @@ export const Toggle: FC<ToggleProps> = ({
     <styled.input
       key="asdasd"
       type="checkbox"
-      onClick={
-        disabled
-          ? null
-          : (e) => {
-              e.stopPropagation()
-              e.preventDefault()
-              const newChecked = !checked
-              setChecked(newChecked)
-              onClick?.(newChecked)
-            }
-      }
+      disabled={disabled}
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        const newChecked = !checked
+        setChecked(newChecked)
+        onClick?.(newChecked)
+      }}
       style={{
         width,
         height,

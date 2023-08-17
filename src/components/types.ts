@@ -74,19 +74,21 @@ export type ButtonProps = {
 export type CheckboxProps = {
   active?: boolean
   indeterminate?: boolean
-  onClick?: () => void
+  onClick?: (e) => void | (() => void)
+  style?: Style
+  warning?: boolean
+  disabled?: boolean
 }
 
 // this is combination of text and checkbox
 export type CheckboxItemProps = {
-  disabled?: boolean
   label?: string
   style?: Style
 } & CheckboxProps
 
 export type ClickableIconProps = {
   icon?: ListOfAllIcons
-  onClick?: () => void
+  onClick?: () => void | ((e) => void)
   size?: 'large' | 'small'
   style?: Style
 }
@@ -206,6 +208,13 @@ export type RadioButtonProps = {
   active?: boolean
   onClick?: () => void
   style?: Style
+  warning?: boolean
+  disabled?: boolean
+  value: {
+    label?: string
+    value: string | boolean | number
+    description?: string
+  }
 }
 
 export type RadioButtonItemProps = {
