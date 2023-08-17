@@ -15,12 +15,12 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
   const [propState, setPropState] = useState({})
   const [renderCounter, setRenderCounter] = useState(1)
 
-  console.log('Previewer -->', component)
-  console.log('propsname -->', typeprops.props[propsName])
+  // console.log('Previewer -->', component)
+  // console.log('propsname -->', typeprops.props[propsName])
 
   const componentProps = typeprops.props[propsName].props
 
-  console.log('componentProps ', componentProps)
+  // console.log('componentProps ', componentProps)
 
   useEffect(() => {
     const newObj = {}
@@ -33,18 +33,18 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
         : (propState[item] = null)
     )
 
-    console.log('🛍', ObjPropKeys)
-    console.log('🧧', newObj)
+    // console.log('🛍', ObjPropKeys)
+    // console.log('🧧', newObj)
 
     setPropState((newObj) => ({ ...newObj }))
   }, [])
 
   useEffect(() => {
     setRenderCounter(renderCounter + 1)
-    console.log('🧛🏻', renderCounter)
+    // console.log('🧛🏻', renderCounter)
   }, [propState])
 
-  console.log('why?? propstate ', propState)
+  // console.log('why?? propstate ', propState)
   // TODO set the props in a state
   // probably make Controls component
   // generate controls based of the props --> with right values/ options
@@ -57,7 +57,7 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
     )
 
   let filteredNullPropState = removeNullUndefined(propState)
-  console.log('🥷🏻', filteredNullPropState)
+  // console.log('🥷🏻', filteredNullPropState)
 
   return (
     <styled.div style={{ padding: 20, border: '1px solid green' }}>

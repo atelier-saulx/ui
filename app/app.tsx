@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { render } from 'react-dom'
-import React, { createElement } from 'react'
+import React, { createElement, useState } from 'react'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 import * as icons from '../src/icons'
@@ -27,40 +27,8 @@ const IconAlarmClock = icons.IconAlarmClock
 console.log(typeof IconAlarmClock)
 
 const App = () => {
-  // const children: any = []
+  const [textVal, setTextVal] = useState('')
 
-  // for (const name in icons) {
-  //   children.push(
-  //     <div
-  //       style={{
-  //         padding: 10,
-  //         display: 'flex',
-  //         justifyContent: 'center',
-  //         alignItems: 'center',
-  //         borderRadius: 10,
-  //         color: color('content', 'invertedPrimary'),
-  //       }}
-  //     >
-  //       {createElement(icons[name])}
-  //     </div>
-  //   )
-  // }
-  // return (
-  //   <div
-  //     style={{
-  //       padding: 10,
-  //       gap: 10,
-  //       width: 'calc(100vw - 20px)',
-  //       overflow: 'hidden',
-  //       flexWrap: 'wrap',
-  //       display: 'flex',
-  //     }}
-  //   >
-  //     {children}
-  //   </div>
-  // )
-  // Non-semantic/Background/Orange/Strong
-  // Background/Neutral/Strong
   return (
     <div
       style={{
@@ -75,8 +43,11 @@ const App = () => {
       {/* <IconDns /> */}
       <Input
         type="text"
+        pattern="[A-Za-z]{3}"
         placeholder="Input placeholder"
-        onChange={(e) => console.log(e)}
+        onChange={(e) => setTextVal(e.target.value)}
+        //    onError={(e) => console.log('aefa', e)}
+        value={textVal}
       />
       <ModalWarning label="warning label" />
       <ModalWarning label="Warning label breaking" color="negative" />

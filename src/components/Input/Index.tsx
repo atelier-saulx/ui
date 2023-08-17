@@ -1,12 +1,16 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { color as genColor } from '../../varsUtilities'
+import { IconAlertFill } from '../..'
+import { Text } from '../Text'
 
 type InputProps = {
   //  description?: string
   disabled?: boolean
   onChange?: (value: any) => void
+  onError?: (str: string, patternMatches?: boolean) => string // show error
   //  label?: string
+  pattern?: string
   placeholder?: string
   style?: Style
   type: 'text' | 'number' | 'date' | 'json' | 'multiline' | 'markdown'
@@ -22,34 +26,43 @@ const StyledInput = styled('input', {
   lineHeight: '24px',
   padding: '8px 12px',
   width: '100%',
-  '&:hover': {
-    border: `1px solid ${genColor('border', 'default', 'strong')}`,
-  },
-  '&:focus': {
-    border: `1px solid ${genColor('border', 'brand', 'strong')}`,
-    boxShadow: '0px 0px 0px 2px rgba(87, 63, 207, 0.20)',
-  },
-  '&:focus-visible': {
-    border: `1px solid ${genColor('border', 'brand', 'strong')}`,
-    boxShadow: '0px 0px 0px 2px rgba(87, 63, 207, 0.20)',
-    outline: 'none',
-  },
 })
 
 export const Input: FC<InputProps> = ({
   disabled,
-  onChange: onChangeProp,
+  onChange,
+  onError,
+  pattern,
   placeholder,
   style,
   type,
   value,
 }) => {
-  const onChange = useCallback(
-    (e: { target: { value } }) => {
-      e.target.value
-    },
-    [onChangeProp]
-  )
+  const [errorMessage, setErrorMessage] = useState('')
+
+  //   const onChange = useCallback(
+  //     (e: { target: { value } }) => {
+  //       e.target.value
+  //     },
+  //     [onChangeProp]
+  //   )
+
+  useEffect(() => {
+    if (pattern) {
+      const v = value
+      const reOk = v === '' || new RegExp(pattern).test(v)
+      const msg = reOk ? 'does not match' : ''
+      // ? onError(value, reOk)
+      // : reOk
+      // ? ''
+      // : 'Does not match pattern'
+      if (msg) {
+        setErrorMessage(msg)
+      } else {
+        setErrorMessage('')
+      }
+    }
+  }, [value])
 
   return (
     <styled.div
@@ -62,13 +75,55 @@ export const Input: FC<InputProps> = ({
     >
       {type === 'text' ? (
         <StyledInput
-          onChange={(e) => onChangeProp?.(e.target.value)}
+          onChange={onChange}
           placeholder={placeholder}
           type="text"
           value={value}
+          style={{
+            border: `1px solid ${genColor(
+              'border',
+              errorMessage ? 'negative' : 'default',
+              'strong'
+            )}`,
+            '&:hover': {
+              border: `1px solid ${genColor(
+                'border',
+                errorMessage ? 'negative' : 'default',
+                'strong'
+              )}`,
+            },
+            '&:focus': {
+              border: `1px solid ${genColor(
+                'border',
+                errorMessage ? 'negative' : 'brand',
+                'strong'
+              )}`,
+              boxShadow: '0px 0px 0px 2px rgba(87, 63, 207, 0.20)',
+            },
+            '&:focus-visible': {
+              border: `1px solid ${genColor(
+                'border',
+                errorMessage ? 'negative' : 'brand',
+                'strong'
+              )}`,
+              boxShadow: '0px 0px 0px 2px rgba(87, 63, 207, 0.20)',
+              outline: 'none',
+            },
+          }}
         />
       ) : (
         <div>flupo</div>
+      )}
+
+      {errorMessage && (
+        <styled.div
+          style={{ alignItems: 'center', display: 'flex', marginTop: 8 }}
+        >
+          <IconAlertFill color="negative" />
+          <Text size={14} style={{ marginLeft: '8px' }} color="negative">
+            {errorMessage}
+          </Text>
+        </styled.div>
       )}
     </styled.div>
   )

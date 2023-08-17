@@ -126,7 +126,9 @@ export type InputProps = {
   description?: string
   disabled?: boolean
   onChange?: (value: any) => void
+  onError?: (str: string, patternMatches?: boolean) => string // show error
   label?: string
+  pattern?: string
   placeholder?: string
   style?: Style
   type: 'text' | 'number' | 'date' | 'json' | 'multiline' | 'markdown'
