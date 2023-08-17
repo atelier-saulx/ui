@@ -17,6 +17,7 @@ import { Status } from '../src/components/Status'
 import { AlertBanner } from '../src/components/AlertBanner'
 import { ModalWarning } from '../src/components/Modal/warning'
 import { styled } from 'inlines'
+import { Toggle } from '../src/components/Toggle'
 
 export const client = based(basedConfig)
 
@@ -60,6 +61,7 @@ const App = () => {
   // )
   // Non-semantic/Background/Orange/Strong
   // Background/Neutral/Strong
+  const [toggle, setToggle] = useState(true)
   return (
     <div
       style={{
@@ -71,6 +73,33 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <Toggle size="medium" active onClick={setToggle} />
+      {toggle && <Toggle />}
+      <Toggle size="large" disabled active />
+      <Menu
+        collapse
+        header={<Text style={{ marginBottom: 24 }}>Menu</Text>}
+        active={route.path.page}
+        onChange={(page) => route.setPath({ page })}
+        data={{
+          project: 'Project settings',
+          general: 'General',
+          Nested: {
+            nested1: 'Nested item 1',
+            nested2: 'Nested item 2',
+          },
+          Blurf: [
+            {
+              icon: <IconAlarmClock />,
+              value: 'based',
+              label: 'Based',
+              onClick: () => console.log('hello'),
+            },
+            'Button',
+          ],
+        }}
+        style={{ backgroundColor: 'white' }}
+      />
       {/* <IconDns /> */}
       <ModalWarning label="warning label" />
       <ModalWarning label="Warning label breaking" color="negative" />

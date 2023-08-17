@@ -284,8 +284,9 @@ export type TextProps = {
 export type ToggleProps = {
   active?: boolean
   disabled?: boolean
-  onClick?: () => void
+  onClick?: (e) => void | (() => void)
   style?: Style
+  size?: 'large' | 'medium'
 }
 
 export type TooltipProps = {
