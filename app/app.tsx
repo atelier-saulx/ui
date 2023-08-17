@@ -1,6 +1,7 @@
-// @ts-nocheck
+import { useRoute } from '@based/ui'
 import { render } from 'react-dom'
 import React, { createElement, useState } from 'react'
+
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 import * as icons from '../src/icons'
@@ -18,6 +19,9 @@ import { AlertBanner } from '../src/components/AlertBanner'
 import { ModalWarning } from '../src/components/Modal/warning'
 import { styled } from 'inlines'
 import { Input } from '../src/components/Input'
+import { Menu } from '../src/components/Menu'
+import { MenuItem } from '../src/components/Menu/MenuItem'
+import { Toggle } from '../src/components/Toggle'
 
 export const client = based(basedConfig)
 
@@ -27,8 +31,10 @@ const IconAlarmClock = icons.IconAlarmClock
 console.log(typeof IconAlarmClock)
 
 const App = () => {
+  const route = useRoute()
   const [textVal, setTextVal] = useState('')
 
+  const [toggle, setToggle] = useState(true)
   return (
     <div
       style={{
@@ -40,6 +46,36 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <Toggle size="medium" active onClick={setToggle} />
+      {toggle && <Toggle />}
+      <Toggle size="large" disabled active />
+      <Menu
+        collapse
+        header={<Text style={{ marginBottom: 24 }}>Menu</Text>}
+        active={route.path.page}
+        onChange={(page) => route.setPath({ page })}
+        data={{
+          project: 'Project settings',
+          general: 'General',
+          Nested: {
+            nested1: 'Nested item 1',
+            nested2: 'Nested item 2',
+          },
+          Blurf: [
+            {
+              icon: <IconAlarmClock />,
+              value: 'based',
+              label: 'Based',
+              onClick: () => console.log('hello'),
+            },
+            'Button',
+          ],
+        }}
+        style={{ backgroundColor: 'white' }}
+      />
+      <MenuItem label="asdfasasdfasdfdf" active style={{ height: '40px' }}>
+        asdasdasd
+      </MenuItem>
       {/* <IconDns /> */}
       {/* <Select
         placeholder={{ label: 'Input placeholder', icon: <IconAlarmClock /> }}
