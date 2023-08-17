@@ -73,12 +73,14 @@ export type ButtonProps = {
 export type CheckboxProps = {
   active?: boolean
   indeterminate?: boolean
-  onClick?: () => void
+  onClick?: (e) => void | (() => void)
+  style?: Style
+  warning?: boolean
+  disabled?: boolean
 }
 
 // this is combination of text and checkbox
 export type CheckboxItemProps = {
-  disabled?: boolean
   label?: string
   style?: Style
 } & CheckboxProps

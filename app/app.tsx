@@ -25,6 +25,7 @@ import { Input } from '../src/components/Input/Index'
 import { TestButton } from '../src/components/RadioButtons/testButton'
 import { RadioButtons } from '../src/components/RadioButtons'
 import { ClickableIcon } from '../src/components/ClickableIcon'
+import { Checkbox } from '../src/components/Checkbox'
 
 export const client = based(basedConfig)
 
@@ -49,6 +50,8 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <Checkbox />
+      <Checkbox warning />
       <ClickableIcon icon={<IconAlarmClock />} />
       <RadioButtons
         onChange={console.log}
