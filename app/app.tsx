@@ -26,6 +26,7 @@ import { TestButton } from '../src/components/RadioButtons/testButton'
 import { RadioButtons } from '../src/components/RadioButtons'
 import { ClickableIcon } from '../src/components/ClickableIcon'
 import { Checkbox } from '../src/components/Checkbox'
+import { ProgressCircle } from '../src/components/ProgressCircle/ProgressCircle'
 
 export const client = based(basedConfig)
 
@@ -50,6 +51,7 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <ProgressCircle value={0.1} color="inverted" />
       <Checkbox />
       <Checkbox warning />
       <ClickableIcon icon={<IconAlarmClock />} />

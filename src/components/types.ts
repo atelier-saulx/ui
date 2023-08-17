@@ -197,9 +197,10 @@ export type MultiSelectProps = {}
 
 export type OtherItemsProps = {}
 
-export type ProgressCircle = {
+export type ProgressCircleProps = {
   color?: ColorActionColors
   style?: Style
+  // value is progress in decimal 1 === complete
   value?: number
 }
 
