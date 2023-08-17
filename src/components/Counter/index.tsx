@@ -7,6 +7,7 @@ import {
 } from '../../varsTypes'
 import { color as genColor } from '../../../src'
 import { isSemanticColor } from '../../utils/isSemanticColor'
+import { Text } from '../Text'
 
 // color?: ColorBackgroundColors
 // label?: number
@@ -64,10 +65,13 @@ export const Counter: FC<CounterProps> = ({
         maxHeight: '24px',
         height: '24px',
         boxSizing: 'border-box',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         ...style,
       }}
     >
-      {label}
+      <Text style={{ color: 'inherit' }}>{label}</Text>
     </Center>
   )
 }
