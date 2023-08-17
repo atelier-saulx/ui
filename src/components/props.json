@@ -88,29 +88,7 @@
         },
         "color": {
           "optional": true,
-          "type": [
-            {
-              "value": "default"
-            },
-            {
-              "value": "inverted"
-            },
-            {
-              "value": "informative"
-            },
-            {
-              "value": "positive"
-            },
-            {
-              "value": "warning"
-            },
-            {
-              "value": "negative"
-            },
-            {
-              "value": "brand"
-            }
-          ]
+          "type": "ColorContentColors"
         },
         "size": {
           "optional": true,
@@ -163,7 +141,7 @@
           ]
         }
       },
-      "code": "type TextProps = {\n  children: ReactNode\n  color?:\n    | 'default'\n    | 'inverted'\n    | 'informative'\n    | 'positive'\n    | 'warning'\n    | 'negative'\n    | 'brand'\n  // ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  weight?: 'strong' | 'medium' | 'normal'\n}",
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  weight?: 'strong' | 'medium' | 'normal'\n}",
       "file": "/components/Text/index.tsx"
     }
   },

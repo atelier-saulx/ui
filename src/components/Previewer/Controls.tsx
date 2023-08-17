@@ -14,10 +14,10 @@ export const Controls: FC<ControlsProps> = ({
   propState,
   setPropState,
 }) => {
-  console.log('Yolo', componentProps)
-  console.log('PRopSaata', propState)
+  // console.log('Yolo', componentProps)
+  // console.log('PRopSaata', propState)
 
-  console.log(typeof componentProps.size.type[0].value, '🦓')
+  // console.log(typeof componentProps.size.type[0].value, '🦓')
 
   return (
     <styled.div style={{ border: '1px solid red', padding: 12 }}>
@@ -116,7 +116,7 @@ export const Controls: FC<ControlsProps> = ({
           <Text size={14}>weight =</Text>
           <select
             onChange={(e) => {
-              console.log('🦧', e.target.value)
+              // console.log('🦧', e.target.value)
               setPropState({
                 ...propState,
                 ...{ weight: e.target.value },

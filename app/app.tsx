@@ -1,6 +1,7 @@
 import { useRoute } from '@based/ui'
 import { render } from 'react-dom'
 import React, { createElement, useState } from 'react'
+import React, { createElement, useState } from 'react'
 import based from '@based/client'
 import { Provider, useQuery } from '@based/react'
 import * as icons from '../src/icons'
@@ -20,6 +21,7 @@ import { styled } from 'inlines'
 import { Menu } from '../src/components/Menu'
 import { MenuItem } from '../src/components/Menu/MenuItem'
 import { Toggle } from '../src/components/Toggle'
+import { Input } from '../src/components/Input/Index'
 
 export const client = based(basedConfig)
 
@@ -30,40 +32,8 @@ console.log(typeof IconAlarmClock)
 
 const App = () => {
   const route = useRoute()
-  // const children: any = []
+  const [textVal, setTextVal] = useState('')
 
-  // for (const name in icons) {
-  //   children.push(
-  //     <div
-  //       style={{
-  //         padding: 10,
-  //         display: 'flex',
-  //         justifyContent: 'center',
-  //         alignItems: 'center',
-  //         borderRadius: 10,
-  //         color: color('content', 'invertedPrimary'),
-  //       }}
-  //     >
-  //       {createElement(icons[name])}
-  //     </div>
-  //   )
-  // }
-  // return (
-  //   <div
-  //     style={{
-  //       padding: 10,
-  //       gap: 10,
-  //       width: 'calc(100vw - 20px)',
-  //       overflow: 'hidden',
-  //       flexWrap: 'wrap',
-  //       display: 'flex',
-  //     }}
-  //   >
-  //     {children}
-  //   </div>
-  // )
-  // Non-semantic/Background/Orange/Strong
-  // Background/Neutral/Strong
   const [toggle, setToggle] = useState(true)
   return (
     <div
@@ -107,6 +77,14 @@ const App = () => {
         asdasdasd
       </MenuItem>
       {/* <IconDns /> */}
+      <Input
+        type="text"
+        //  pattern="[A-Za-z]{3}"
+        placeholder="Input placeholder"
+        onChange={(e) => setTextVal(e.target.value)}
+        //    onError={(e) => console.log('aefa', e)}
+        value={textVal}
+      />
       <ModalWarning label="warning label" />
       <ModalWarning label="Warning label breaking" color="negative" />
       <AlertBanner color="warning" />
