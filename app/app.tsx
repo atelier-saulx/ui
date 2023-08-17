@@ -17,7 +17,7 @@ import { Status } from '../src/components/Status'
 import { AlertBanner } from '../src/components/AlertBanner'
 import { ModalWarning } from '../src/components/Modal/warning'
 import { styled } from 'inlines'
-import { Input } from '../src/components/Input/Index'
+import { Input } from '../src/components/Input'
 
 export const client = based(basedConfig)
 
@@ -41,12 +41,21 @@ const App = () => {
       }}
     >
       {/* <IconDns /> */}
+      {/* <Select
+        placeholder={{ label: 'Input placeholder', icon: <IconAlarmClock /> }}
+        items={[
+          { value: 'yow', icon: <IconDns /> },
+          { value: 'whatupsa', label: 'whatupow label' },
+          { value: 'yaefawow', icon: <IconAlarmClock /> },
+          { value: 'whatupsa' },
+        ]}
+      /> */}
       <Input
+        errorMessage="That's wrong you donkey!"
         type="text"
-        //  pattern="[A-Za-z]{3}"
+        pattern="[A-Za-z]{3}"
         placeholder="Input placeholder"
         onChange={(e) => setTextVal(e.target.value)}
-        //    onError={(e) => console.log('aefa', e)}
         value={textVal}
       />
       <ModalWarning label="warning label" />

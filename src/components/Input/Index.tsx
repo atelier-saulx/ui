@@ -8,7 +8,7 @@ type InputProps = {
   //  description?: string
   disabled?: boolean
   onChange?: (value: any) => void
-  onError?: (str: string, patternMatches?: boolean) => string // show error
+  errorMessage?: string // show error
   //  label?: string
   pattern?: string
   placeholder?: string
@@ -31,14 +31,14 @@ const StyledInput = styled('input', {
 export const Input: FC<InputProps> = ({
   disabled,
   onChange,
-  onError,
+  errorMessage,
   pattern,
   placeholder,
   style,
   type,
   value,
 }) => {
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
 
   //   const onChange = useCallback(
   //     (e: { target: { value } }) => {
@@ -51,15 +51,16 @@ export const Input: FC<InputProps> = ({
     if (pattern) {
       const v = value
       const reOk = v === '' || new RegExp(pattern).test(v)
-      const msg = reOk ? 'does not match' : ''
+      const msg =
+        reOk && errorMessage ? errorMessage : reOk ? 'does not match' : ''
       // ? onError(value, reOk)
       // : reOk
       // ? ''
       // : 'Does not match pattern'
-      if (msg) {
-        setErrorMessage(msg)
+      if (msg && value.toString().length > 0) {
+        setErrorMsg(msg)
       } else {
-        setErrorMessage('')
+        setErrorMsg('')
       }
     }
   }, [value])
@@ -82,20 +83,20 @@ export const Input: FC<InputProps> = ({
           style={{
             border: `1px solid ${genColor(
               'border',
-              errorMessage ? 'negative' : 'default',
+              errorMsg ? 'negative' : 'default',
               'strong'
             )}`,
             '&:hover': {
               border: `1px solid ${genColor(
                 'border',
-                errorMessage ? 'negative' : 'default',
+                errorMsg ? 'negative' : 'default',
                 'strong'
               )}`,
             },
             '&:focus': {
               border: `1px solid ${genColor(
                 'border',
-                errorMessage ? 'negative' : 'brand',
+                errorMsg ? 'negative' : 'brand',
                 'strong'
               )}`,
               boxShadow: '0px 0px 0px 2px rgba(87, 63, 207, 0.20)',
@@ -103,7 +104,7 @@ export const Input: FC<InputProps> = ({
             '&:focus-visible': {
               border: `1px solid ${genColor(
                 'border',
-                errorMessage ? 'negative' : 'brand',
+                errorMsg ? 'negative' : 'brand',
                 'strong'
               )}`,
               boxShadow: '0px 0px 0px 2px rgba(87, 63, 207, 0.20)',
@@ -115,13 +116,13 @@ export const Input: FC<InputProps> = ({
         <div>flupo</div>
       )}
 
-      {errorMessage && (
+      {errorMsg && (
         <styled.div
           style={{ alignItems: 'center', display: 'flex', marginTop: 8 }}
         >
           <IconAlertFill color="negative" />
           <Text size={14} style={{ marginLeft: '8px' }} color="negative">
-            {errorMessage}
+            {errorMsg}
           </Text>
         </styled.div>
       )}
