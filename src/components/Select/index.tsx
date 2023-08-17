@@ -5,9 +5,9 @@ import { color } from '../../varsUtilities'
 import { IconChevronDown, IconClose } from '../..'
 import { RowSpaced } from '../Styled'
 
-import { Value, Option } from '~/components/ContextMenu'
+import { Value, Option } from '../ContextMenu'
 
-import { PositionProps } from '~'
+import { PositionProps } from '../Overlay'
 
 import { useSelect } from '../../hooks/useSelect'
 
@@ -101,18 +101,27 @@ export const Select: FC<SelectProps> = ({
         {labelValue || placeholder}
       </Text>
       {currentValue && (
-        <IconClose
-          //   style={{ marginLeft: 'auto' }}
+        <styled.div
+          style={{ width: 20, height: 20, background: 'yellow' }}
           onClick={(e) => {
             e.stopPropagation()
             setValues(null)
             onChange(null)
           }}
-        />
+        ></styled.div>
+
+        // <IconClose
+        //   //   style={{ marginLeft: 'auto' }}
+        //   // onClick={(e) => {
+        //   //   e.stopPropagation()
+        //   //   setValues(null)
+        //   //   onChange(null)
+        //   // }}
+        // />
       )}
 
       <IconChevronDown
-        color={color}
+        color="brand"
         //size={16} style={{ marginLeft: 8 }}
       />
     </>
