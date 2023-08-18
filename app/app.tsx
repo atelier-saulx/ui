@@ -31,6 +31,7 @@ import { ClickableIcon } from '../src/components/ClickableIcon'
 import { Checkbox } from '../src/components/Checkbox'
 import { ProgressCircle } from '../src/components/ProgressCircle/ProgressCircle'
 import { DateRange } from '../src/components/DateRange'
+import { DatePicker } from '../src/components/DatePicker'
 
 export const client = based(basedConfig)
 
@@ -62,6 +63,7 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <DatePicker onChange={(e) => console.log('change:', e)} />
       <DateRange onChange={(e) => console.log('change:', e)} />
       <ProgressCircle value={0.1} color="inverted" />
       <Checkbox />
