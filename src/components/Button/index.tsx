@@ -60,6 +60,7 @@ export const Button: FC<ButtonProps> = ({
   style,
   subtle,
 }) => {
+  const [loadingCounter, setLoadingCounter] = useState<number>(0)
   //
   let contentColor: ColorContentColors =
     (subtle || ghost) && color === 'alert'
@@ -116,8 +117,6 @@ export const Button: FC<ButtonProps> = ({
     )
     useKeyboardShortcut(keyboardShortcut, onKeyUp, buttonElem)
   }
-
-  const [loadingCounter, setLoadingCounter] = React.useState<number>(0)
 
   if (loading) {
     if (loadingCounter < 1) {

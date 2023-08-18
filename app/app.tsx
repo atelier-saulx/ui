@@ -32,6 +32,7 @@ import { Checkbox } from '../src/components/Checkbox'
 import { ProgressCircle } from '../src/components/ProgressCircle/ProgressCircle'
 import { Code } from '../src/components/Code'
 import { DateRange } from '../src/components/DateRange'
+import { Tag } from '../src/components/Tag'
 
 export const client = based(basedConfig)
 
@@ -63,6 +64,9 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <Tag label="Tag" onClick={() => console.log('taggie')} />
+      <Tag label="Tag" onClick={() => console.log('taggie')} color="alert" />
+      <Tag label="Tag" onClick={() => console.log('taggie')} disabled />
       <Code header="code this" value="<hellow>" />
       <DateRange onChange={(e) => console.log('change:', e)} />
       <ProgressCircle value={0.1} color="inverted" />
