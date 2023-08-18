@@ -2,6 +2,10 @@ import React, { FC } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { ColorGroups, ColorContentColors } from '../../varsTypes'
+import { Input } from '../Input'
+import { Select } from '../Select'
+import { Toggle } from '../Toggle'
+import { Row } from '../Styled'
 
 type ControlsProps = {
   componentProps: {}
@@ -24,11 +28,10 @@ export const Controls: FC<ControlsProps> = ({
       {/* Lot of props tools */}
       {/* Children */}
       {componentProps.children && (
-        <styled.div
-          style={{ padding: 6, border: '1px solid blue', display: 'flex' }}
-        >
+        <Row>
           <Text size={14}>children =</Text>
-          <input
+          <Input
+            type="text"
             value={propState.children}
             onChange={(e) => {
               setPropState({
@@ -37,7 +40,7 @@ export const Controls: FC<ControlsProps> = ({
               })
             }}
           />
-        </styled.div>
+        </Row>
       )}
       {/* Colors --> Get options from typescript colors, make them in array i guesss */}
       {componentProps.color && (
@@ -62,13 +65,17 @@ export const Controls: FC<ControlsProps> = ({
         </styled.div>
       )}
 
+      {/* <Select
+        onChange={() => console.log('snurpa')}
+        placeholder="Placeholder"
+        options={['yes', 'no', 'no-er', 'fljua8eop']}
+      /> */}
+
       {/* Size */}
       {componentProps.size && (
-        <styled.div
-          style={{ padding: 6, border: '1px solid blue', display: 'flex' }}
-        >
+        <Row>
           <Text size={14}>size =</Text>
-          <select
+          <Select
             onChange={(e) => {
               // make sure you convert value to number here // or not for comp with size as strings
               setPropState({
@@ -76,59 +83,49 @@ export const Controls: FC<ControlsProps> = ({
                 ...{
                   size:
                     typeof componentProps.size.type[0].value === 'number'
-                      ? +e.target.value
-                      : e.target.value,
+                      ? +e
+                      : e,
                 },
               })
             }}
             value={propState.size}
-          >
-            {componentProps.size.type.map((item, idx) => (
-              <option value={item.value}>{item.value}</option>
-            ))}
-          </select>
-        </styled.div>
+            options={componentProps.size.type.map((item, idx) => item.value)}
+          />
+        </Row>
       )}
       {/* Subtle */}
       {componentProps.subtle && (
-        <styled.div
-          style={{ padding: 6, border: '1px solid blue', display: 'flex' }}
-        >
+        <Row>
           <Text size={14}>subtle =</Text>
-          <input
-            type="checkbox"
-            value={propState.subtle}
-            onChange={(e) => {
+          <Toggle
+            size="medium"
+            active={propState.subtle}
+            onClick={(e) => {
               setPropState({
                 ...propState,
                 ...{ subtle: !propState.subtle },
               })
             }}
           />
-        </styled.div>
+        </Row>
       )}
 
       {/* Weight */}
       {componentProps.weight && (
-        <styled.div
-          style={{ padding: 6, border: '1px solid blue', display: 'flex' }}
-        >
+        <Row>
           <Text size={14}>weight =</Text>
-          <select
+          <Select
             onChange={(e) => {
               // console.log('🦧', e.target.value)
               setPropState({
                 ...propState,
-                ...{ weight: e.target.value },
+                ...{ weight: e },
               })
             }}
             value={propState.weight}
-          >
-            {componentProps.weight.type.map((item, idx) => (
-              <option value={item.value}>{item.value}</option>
-            ))}
-          </select>
-        </styled.div>
+            options={componentProps.weight.type.map((item, idx) => item.value)}
+          />
+        </Row>
       )}
     </styled.div>
   )

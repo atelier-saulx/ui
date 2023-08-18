@@ -111,7 +111,7 @@ const App = () => {
 
       <Select
         onChange={() => console.log('snurpa')}
-        placeholder="yow"
+        placeholder="Placeholder"
         options={['yes', 'no', 'no-er', 'fljua8eop']}
       />
       <Button onClick={notify}>Notify!</Button>
