@@ -4,13 +4,13 @@ import { ProgressCircleProps } from '../types'
 import { color as genColor } from '../../../src'
 
 const invertedStyle = {
-  height: '64px',
-  width: '64px',
+  // height: '64px',
+  // width: '64px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '12px',
-  backgroundColor: genColor('background', 'inverted', 'surface'),
+  // backgroundColor: genColor('background', 'inverted', 'surface'),
 }
 
 export const ProgressCircle: FC<ProgressCircleProps> = ({

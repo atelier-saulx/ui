@@ -30,8 +30,10 @@ import { RadioButtons } from '../src/components/RadioButtons'
 import { ClickableIcon } from '../src/components/ClickableIcon'
 import { Checkbox } from '../src/components/Checkbox'
 import { ProgressCircle } from '../src/components/ProgressCircle/ProgressCircle'
+import { Code } from '../src/components/Code'
 import { DateRange } from '../src/components/DateRange'
 import { DatePicker } from '../src/components/DatePicker'
+import { Tag } from '../src/components/Tag'
 
 export const client = based(basedConfig)
 
@@ -64,6 +66,10 @@ const App = () => {
       }}
     >
       <DatePicker onChange={(e) => console.log('change:', e)} />
+      <Tag label="Tag" onClick={() => console.log('taggie')} />
+      <Tag label="Tag" onClick={() => console.log('taggie')} color="alert" />
+      <Tag label="Tag" onClick={() => console.log('taggie')} disabled />
+      <Code header="code this" value="<hellow>" />
       <DateRange onChange={(e) => console.log('change:', e)} />
       <ProgressCircle value={0.1} color="inverted" />
       <Checkbox />
@@ -115,7 +121,7 @@ const App = () => {
 
       <Select
         onChange={() => console.log('snurpa')}
-        placeholder="yow"
+        placeholder="Placeholder"
         options={['yes', 'no', 'no-er', 'fljua8eop']}
       />
       <Button onClick={notify}>Notify!</Button>
@@ -187,7 +193,7 @@ const App = () => {
         label="asdfasdasdasasfasdfasdf"
         color="grape"
         subtle
-        icon={<IconAlarmClock />}
+
         // afterIcon={<IconAlarmClock />}
       />
       <Badge
@@ -215,7 +221,6 @@ const App = () => {
       <Button
         label="Button label"
         onClick={() => console.log('yo yo')}
-        icon={<IconAlarmClock />}
         style={{ marginBottom: 12 }}
         dropdownIndicator
         loading
@@ -223,8 +228,10 @@ const App = () => {
       <Button
         label="Button label"
         style={{ marginBottom: 12 }}
-        icon={'IconChevronDownSmall'}
         afterIcon={IconAlarmClock}
+        keyboardShortcut="Enter"
+        displayShortcut
+        onClick={() => console.log('clickieii')}
         // dropdownIndicator
         // disabled
         // loading
@@ -241,7 +248,7 @@ const App = () => {
         label="Button label"
         size="medium"
         style={{ marginBottom: 12 }}
-        afterIcon={IconAlarmClock}
+        icon={<IconAlarmClock />}
         color="neutral"
         subtle
       />
@@ -255,11 +262,7 @@ const App = () => {
       />
       <Text color="informative">hellwo</Text>
       <Previewer
-        component={
-          <Text size={18} color="informative">
-            flappie
-          </Text>
-        }
+        component={<Text size={18}>flappie</Text>}
         propsName="TextProps"
       />
       <Previewer

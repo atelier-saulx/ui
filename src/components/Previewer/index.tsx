@@ -1,6 +1,7 @@
 import React, { ReactNode, FC, useState, useEffect } from 'react'
 import { styled } from 'inlines'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
+import { Code } from '../Code'
 
 import * as typeprops from '../props.json'
 import { Controls } from './Controls'
@@ -12,52 +13,52 @@ type PreviewerProps = {
 }
 
 export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
-  const [propState, setPropState] = useState({})
+  const [propState, setPropState] = useState(component.props)
+  const [codeString, setCodeString] = useState('')
   const [renderCounter, setRenderCounter] = useState(1)
-
-  // console.log('Previewer -->', component)
-  // console.log('propsname -->', typeprops.props[propsName])
 
   const componentProps = typeprops.props[propsName].props
 
-  // console.log('componentProps ', componentProps)
+  console.log('Previewer -->', component)
+  console.log('propsname -->', typeprops.props[propsName])
 
-  useEffect(() => {
-    const newObj = {}
-
-    let ObjPropKeys = Object.keys(componentProps)
-
-    ObjPropKeys.map((item, idx) =>
-      component.props[item]
-        ? (propState[item] = component.props[item])
-        : (propState[item] = null)
-    )
-
-    // console.log('🛍', ObjPropKeys)
-    // console.log('🧧', newObj)
-
-    setPropState((newObj) => ({ ...newObj }))
-  }, [])
+  console.log('componentProps ', componentProps)
 
   useEffect(() => {
     setRenderCounter(renderCounter + 1)
-    // console.log('🧛🏻', renderCounter)
   }, [propState])
 
-  // console.log('why?? propstate ', propState)
-  // TODO set the props in a state
-  // probably make Controls component
-  // generate controls based of the props --> with right values/ options
+  const makeReactCode = (obj, propsName) => {
+    let finalString = ''
+    let children = ''
 
-  // filter out null from propState before passing it in renderElement
-  const removeNullUndefined = (obj) =>
-    Object.entries(obj).reduce(
-      (a, [k, v]) => (v == null ? a : ((a[k] = v), a)),
-      {}
-    )
+    //get component name from propsName
+    let tempStrIndex = propsName.indexOf('Props')
+    let compName = propsName.substring(0, tempStrIndex)
 
-  let filteredNullPropState = removeNullUndefined(propState)
-  // console.log('🥷🏻', filteredNullPropState)
+    console.log('🦄 -->', compName)
+    // from this obj make react valid code preview
+    finalString += `<${compName}`
+
+    for (const key in obj) {
+      console.log(key, '=', obj[key])
+      if (key === 'children') {
+        children += `\n  ${obj[key]} \n`
+      } else if (typeof obj[key] === 'string') {
+        finalString += ` ${key}="${obj[key]}"`
+      } else if (typeof obj[key] === 'number') {
+        finalString += ` ${key}={${obj[key]}}`
+      } else if (typeof obj[key] === 'boolean') {
+        finalString += ` ${key}`
+      }
+    }
+
+    finalString += children ? `>${children}</${compName}>` : `/>`
+
+    console.log('final countdownie -->', finalString)
+
+    return finalString
+  }
 
   return (
     <styled.div style={{ padding: 20, border: '1px solid green' }}>
@@ -70,8 +71,7 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
             textAlign: 'center',
           }}
         >
-          {renderCounter &&
-            renderOrCreateElement(component, filteredNullPropState)}
+          {renderCounter && renderOrCreateElement(component, propState)}
         </styled.div>
 
         <Controls
@@ -79,6 +79,10 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
           propState={propState}
           setPropState={setPropState}
         />
+
+        <styled.div style={{ backgroundColor: '#f5f5f5' }}>
+          <Code value={makeReactCode(propState, propsName)} />
+        </styled.div>
       </styled.div>
     </styled.div>
   )

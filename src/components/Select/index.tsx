@@ -1,34 +1,36 @@
 import React, { FC, ReactNode } from 'react'
 import { styled, Style } from 'inlines'
 import { Text } from '../Text'
-import { color } from '../../varsUtilities'
-import { IconChevronDown, IconClose } from '../..'
+import { color as genColor } from '../../varsUtilities'
+import { IconChevronDown, IconChevronDownSmall, IconClose } from '../..'
 import { RowSpaced } from '../Styled'
 
 import { Value, Option } from '../ContextMenu'
 import { PositionProps } from '../Overlay'
 import { useSelect } from '../../hooks/useSelect'
+import { ClickableIcon } from '../ClickableIcon'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
   borderRadius: 8,
   alignItems: 'center',
-  border: `1px solid ${color('border', 'default', 'strong')}`,
-  backgroundColor: color('background', 'default', 'surface'),
+  border: `1px solid ${genColor('border', 'default', 'strong')}`,
+  backgroundColor: genColor('background', 'default', 'surface'),
   paddingLeft: 12,
   paddingRight: 12,
-  paddingTop: 7,
-  paddingBottom: 7,
+  paddingTop: 8,
+  paddingBottom: 8,
   cursor: 'pointer',
   userSelect: 'none',
-  height: 36,
   overflowY: 'hidden',
   overflowX: 'hidden',
   display: 'flex',
   width: '100%',
+  maxHeight: '40px',
+  maxWidth: '320px',
   '@media (hover: hover)': {
     '&:hover': {
-      border: `1px solid ${color('border', 'default', 'subtle')}`,
+      border: `1px solid ${genColor('border', 'default', 'subtle')}`,
     },
   },
 })
@@ -95,31 +97,29 @@ export const Select: FC<SelectProps> = ({
           name={name}
         />
       )}
-      <Text color={labelValue ? 'default' : 'negative'}>
+      <Text
+        size={14}
+        style={{
+          color: labelValue
+            ? genColor('content', 'default', 'primary')
+            : genColor('content', 'default', 'secondary'),
+        }}
+      >
         {labelValue || placeholder}
       </Text>
       {currentValue && (
-        <styled.div
-          style={{ width: 20, height: 20, background: 'yellow' }}
+        <ClickableIcon
+          icon={IconClose}
           onClick={(e) => {
             e.stopPropagation()
             setValues(null)
             onChange(null)
           }}
-        ></styled.div>
-
-        // <IconClose
-        //   //   style={{ marginLeft: 'auto' }}
-        //   // onClick={(e) => {
-        //   //   e.stopPropagation()
-        //   //   setValues(null)
-        //   //   onChange(null)
-        //   // }}
-        // />
+        />
       )}
 
-      <IconChevronDown
-        color="brand"
+      <IconChevronDownSmall
+        color="default"
         //size={16} style={{ marginLeft: 8 }}
       />
     </>
@@ -190,8 +190,8 @@ export const SelectLabel: FC<{
       style={{
         alignItems: null,
         borderRadius: 4,
-        border: `1px solid ${color('border', 'default', 'strong')}`,
-        backgroundColor: color('background', 'default', 'surface'),
+        border: `1px solid ${genColor('border', 'default', 'strong')}`,
+        backgroundColor: genColor('background', 'default', 'surface'),
         cursor: 'pointer',
         userSelect: 'none',
         height: 38,
@@ -200,7 +200,7 @@ export const SelectLabel: FC<{
         width: '100%',
         '@media (hover: hover)': {
           '&:hover': {
-            border: `1px solid ${color('border', 'default', 'subtle')}`,
+            border: `1px solid ${genColor('border', 'default', 'subtle')}`,
           },
         },
         ...style,
@@ -213,8 +213,8 @@ export const SelectLabel: FC<{
           alignItems: 'center',
           paddingLeft: 12,
           paddingRight: 12,
-          backgroundColor: color('background', 'neutral', 'subtle'),
-          borderRight: `1px solid ${color('border', 'default', 'strong')}`,
+          backgroundColor: genColor('background', 'neutral', 'subtle'),
+          borderRight: `1px solid ${genColor('border', 'default', 'strong')}`,
           flexShrink: 0,
         }}
       >
@@ -229,7 +229,7 @@ export const SelectLabel: FC<{
           alignItems: 'center',
           paddingLeft: 12,
           paddingRight: 12,
-          borderRight: `1px solid ${color('border', 'default', 'strong')}`,
+          borderRight: `1px solid ${genColor('border', 'default', 'strong')}`,
         }}
       >
         {children}

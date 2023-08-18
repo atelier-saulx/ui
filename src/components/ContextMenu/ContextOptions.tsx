@@ -170,7 +170,7 @@ export const ContextOptionItem = ({
           }
         }}
       >
-        {option.label || option.value}
+        <Text size={14}>{option.label || option.value}</Text>
       </ContextItem>
     </>
   )
