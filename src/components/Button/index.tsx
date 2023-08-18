@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import { styled } from 'inlines'
+import React, { FC, ReactNode } from 'react'
+import { styled, Style } from 'inlines'
 import { ColorContentColors } from '../../../src/varsTypes'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
 import {
@@ -8,12 +8,32 @@ import {
   color as genColor,
 } from '../../../src'
 import { Text } from '../Text'
-import { ButtonProps } from '../types'
+import { ColorActionColors } from '../../../src/varsTypes'
+import { Key, KeyBoardshortcut } from '../KeyboardShortcut'
+import { useKeyboardShortcut } from '../../hooks/useKeyboard'
 
 import * as icons from '../../icons'
 
 const IconAlarmClock = icons.IconAlarmClock
 // TODO add progress/ loading comp -icon
+
+type ButtonProps = {
+  afterIcon?: any
+  children?: ReactNode
+  color?: ColorActionColors
+  disabled?: boolean
+  displayShortcut?: Key
+  dropdownIndicator?: boolean
+  ghost?: boolean
+  icon?: any
+  keyboardShortcut?: Key
+  label?: string
+  loading?: boolean
+  onClick?: () => void
+  size?: 'large' | 'medium' | 'small'
+  style?: Style
+  subtle?: boolean
+}
 
 export const Button: FC<ButtonProps> = ({
   afterIcon,
