@@ -1,6 +1,7 @@
 import React, { ReactNode, FC, useState, useEffect } from 'react'
 import { styled } from 'inlines'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
+import { Code } from '../Code'
 
 import * as typeprops from '../props.json'
 import { Controls } from './Controls'
@@ -15,12 +16,12 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
   const [propState, setPropState] = useState({})
   const [renderCounter, setRenderCounter] = useState(1)
 
-  // console.log('Previewer -->', component)
-  // console.log('propsname -->', typeprops.props[propsName])
+  console.log('Previewer -->', component)
+  console.log('propsname -->', typeprops.props[propsName])
 
   const componentProps = typeprops.props[propsName].props
 
-  // console.log('componentProps ', componentProps)
+  console.log('componentProps ', componentProps)
 
   useEffect(() => {
     const newObj = {}
@@ -41,10 +42,9 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
 
   useEffect(() => {
     setRenderCounter(renderCounter + 1)
-    // console.log('🧛🏻', renderCounter)
   }, [propState])
 
-  // console.log('why?? propstate ', propState)
+  console.log('why?? propstate ', propState)
   // TODO set the props in a state
   // probably make Controls component
   // generate controls based of the props --> with right values/ options
@@ -57,7 +57,18 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
     )
 
   let filteredNullPropState = removeNullUndefined(propState)
-  // console.log('🥷🏻', filteredNullPropState)
+  console.log('🥷🏻', filteredNullPropState)
+
+  const makeReactCode = (obj, propsName) => {
+    //get component name from propsName
+    let tempStrIndex = propsName.indexOf('Props')
+    let compName = propsName.substring(0, tempStrIndex)
+
+    console.log('🦄 -->', compName)
+    // from this obj make react valid code preview
+  }
+
+  makeReactCode(filteredNullPropState, propsName)
 
   return (
     <styled.div style={{ padding: 20, border: '1px solid green' }}>
@@ -79,6 +90,10 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
           propState={propState}
           setPropState={setPropState}
         />
+
+        <styled.div style={{ backgroundColor: '#f5f5f5' }}>
+          <Code value="<TEST>hellow</TEST>" />
+        </styled.div>
       </styled.div>
     </styled.div>
   )

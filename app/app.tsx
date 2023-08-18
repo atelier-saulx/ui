@@ -30,6 +30,7 @@ import { RadioButtons } from '../src/components/RadioButtons'
 import { ClickableIcon } from '../src/components/ClickableIcon'
 import { Checkbox } from '../src/components/Checkbox'
 import { ProgressCircle } from '../src/components/ProgressCircle/ProgressCircle'
+import { Code } from '../src/components/Code'
 
 export const client = based(basedConfig)
 
@@ -61,6 +62,7 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <Code header="code this" value="<hellow>" />
       <ProgressCircle value={0.1} color="inverted" />
       <Checkbox />
       <Checkbox warning />
