@@ -22,7 +22,6 @@ export const ClickableIcon: FC<ClickableIconProps> = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        border: '1px solid red',
         color: genColor('content', 'default', 'primary'),
         '&:hover': {
           backgroundColor: genColor('action', 'ghost', 'hover'),

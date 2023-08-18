@@ -107,6 +107,12 @@ export type DatePickerProps = {
   style?: Style
   value?: number
 }
+export type DateRangeProps = {
+  // what to do for ranged
+  onChange?: (value: number[]) => void
+  style?: Style
+  value?: number[]
+}
 
 export type DefaultItemProps = {
   description?: string // caption

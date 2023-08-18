@@ -73,7 +73,7 @@ export const useContextState = <T extends unknown>(
     })
   }
 
-  const v = values.map.get(key)
+  const v: any = values.map.get(key)
 
   const [, update] = useState<number>(v.version)
 
