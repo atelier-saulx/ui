@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useRef, useEffect, useCallback } from 'react'
 import { styled, Style } from 'inlines'
 import { ColorContentColors } from '../../../src/varsTypes'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
@@ -22,7 +22,7 @@ type ButtonProps = {
   children?: ReactNode
   color?: ColorActionColors
   disabled?: boolean
-  displayShortcut?: Key
+  displayShortcut?: boolean
   dropdownIndicator?: boolean
   ghost?: boolean
   icon?: any
@@ -40,9 +40,11 @@ export const Button: FC<ButtonProps> = ({
   children,
   color = 'primary',
   disabled,
+  displayShortcut,
   dropdownIndicator,
   ghost,
   icon,
+  keyboardShortcut,
   label,
   loading,
   onClick,
@@ -59,6 +61,53 @@ export const Button: FC<ButtonProps> = ({
       : subtle || ghost
       ? 'brand'
       : 'inverted'
+
+  const buttonElem = useRef<HTMLElement>(null)
+  const extendedOnClick = useCallback(
+    async (e: any) => {
+      e.stopPropagation()
+      e.preventDefault()
+      const t = buttonElem.current
+      let isSet = false
+      const timer = setTimeout(() => {
+        if (!isSet) {
+          // setIsLoading(true)
+        }
+      }, 100)
+      try {
+        await onClick?.(e)
+      } catch (e) {
+        console.error(`Error from async click "${e.message}"`)
+        t.style.transform = 'translateX(-10px)'
+        setTimeout(() => {
+          t.style.transform = 'translateX(10px)'
+          setTimeout(() => {
+            t.style.transform = 'translateX(0px)'
+          }, 100)
+        }, 100)
+      }
+      isSet = true
+      // setIsLoading(false)
+      clearTimeout(timer)
+    },
+    [onClick]
+  )
+
+  if (keyboardShortcut) {
+    const timeRef = useRef<any>()
+    useEffect(() => {
+      return () => {
+        clearTimeout(timeRef.current)
+      }
+    }, [])
+    const onKeyUp = useCallback(
+      (event: any) => {
+        extendedOnClick(event)
+      },
+      [extendedOnClick, timeRef]
+    )
+    useKeyboardShortcut(keyboardShortcut, onKeyUp, buttonElem)
+  }
 
   return (
     <styled.div
@@ -122,6 +171,9 @@ export const Button: FC<ButtonProps> = ({
         color={contentColor}
       >
         {label}
+        {displayShortcut && keyboardShortcut ? (
+          <KeyBoardshortcut keyboardShortcut={keyboardShortcut} />
+        ) : null}
       </Text>
       {afterIcon && (
         <styled.div

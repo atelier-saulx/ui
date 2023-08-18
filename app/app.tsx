@@ -185,7 +185,7 @@ const App = () => {
         label="asdfasdasdasasfasdfasdf"
         color="grape"
         subtle
-        icon={<IconAlarmClock />}
+
         // afterIcon={<IconAlarmClock />}
       />
       <Badge
@@ -221,8 +221,10 @@ const App = () => {
       <Button
         label="Button label"
         style={{ marginBottom: 12 }}
-        icon={'IconChevronDownSmall'}
         afterIcon={IconAlarmClock}
+        keyboardShortcut="Enter"
+        displayShortcut
+        onClick={() => console.log('clickieii')}
         // dropdownIndicator
         // disabled
         // loading
