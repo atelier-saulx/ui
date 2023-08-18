@@ -60,12 +60,34 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
   console.log('🥷🏻', filteredNullPropState)
 
   const makeReactCode = (obj, propsName) => {
+    let finalString = ''
+    let children = ''
+
     //get component name from propsName
     let tempStrIndex = propsName.indexOf('Props')
     let compName = propsName.substring(0, tempStrIndex)
 
     console.log('🦄 -->', compName)
     // from this obj make react valid code preview
+    finalString += `<${compName}`
+
+    for (const key in obj) {
+      console.log(key, '=', obj[key])
+      if (key === 'children') {
+        children += ` ${obj[key]} `
+      } else if (typeof obj[key] === 'string') {
+        finalString += ` ${key}="${obj[key]}"`
+      } else if (typeof obj[key] === 'number') {
+        finalString += ` ${key}={${obj[key]}}`
+      } else if (typeof obj[key] === 'boolean') {
+        finalString += ` ${key}`
+      }
+    }
+
+    finalString += children ? `>${children}</${compName}>` : `/>`
+
+    console.log('final countdownie -->', finalString)
+    return finalString
   }
 
   makeReactCode(filteredNullPropState, propsName)
@@ -92,7 +114,7 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
         />
 
         <styled.div style={{ backgroundColor: '#f5f5f5' }}>
-          <Code value="<TEST>hellow</TEST>" />
+          <Code value={makeReactCode(filteredNullPropState, propsName)} />
         </styled.div>
       </styled.div>
     </styled.div>
