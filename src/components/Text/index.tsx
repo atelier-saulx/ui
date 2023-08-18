@@ -12,6 +12,7 @@ type TextProps = {
   size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48
   style?: Style
   weight?: 'strong' | 'medium' | 'normal'
+  onClick?: () => void | ((e) => void)
 }
 
 export const Text: FC<TextProps> = ({
@@ -20,6 +21,7 @@ export const Text: FC<TextProps> = ({
   size = 12,
   style,
   weight = 'normal',
+  onClick,
 }) => {
   //
   let newLineHeight =
@@ -47,6 +49,7 @@ export const Text: FC<TextProps> = ({
 
   return (
     <styled.div
+      onClick={onClick}
       style={{
         color: genColor('content', color, 'primary'),
         fontSize: size,

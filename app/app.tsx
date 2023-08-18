@@ -1,4 +1,4 @@
-import { useRoute } from '@based/ui'
+import { DateRangeWidget, useRoute } from '@based/ui'
 import { render } from 'react-dom'
 import React, { createElement, useState } from 'react'
 
@@ -30,6 +30,7 @@ import { RadioButtons } from '../src/components/RadioButtons'
 import { ClickableIcon } from '../src/components/ClickableIcon'
 import { Checkbox } from '../src/components/Checkbox'
 import { ProgressCircle } from '../src/components/ProgressCircle/ProgressCircle'
+import { DateRange } from '../src/components/DateRange'
 
 export const client = based(basedConfig)
 
@@ -61,6 +62,7 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <DateRange onChange={(e) => console.log('change:', e)} />
       <ProgressCircle value={0.1} color="inverted" />
       <Checkbox />
       <Checkbox warning />
