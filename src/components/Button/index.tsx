@@ -1,4 +1,11 @@
-import React, { FC, ReactNode, useRef, useEffect, useCallback } from 'react'
+import React, {
+  FC,
+  ReactNode,
+  useRef,
+  useEffect,
+  useCallback,
+  useState,
+} from 'react'
 import { styled, Style } from 'inlines'
 import { ColorContentColors } from '../../../src/varsTypes'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
@@ -13,6 +20,7 @@ import { Key, KeyBoardshortcut } from '../KeyboardShortcut'
 import { useKeyboardShortcut } from '../../hooks/useKeyboard'
 
 import * as icons from '../../icons'
+import { ProgressCircle } from '../ProgressCircle/ProgressCircle'
 
 const IconAlarmClock = icons.IconAlarmClock
 // TODO add progress/ loading comp -icon
@@ -109,6 +117,18 @@ export const Button: FC<ButtonProps> = ({
     useKeyboardShortcut(keyboardShortcut, onKeyUp, buttonElem)
   }
 
+  const [loadingCounter, setLoadingCounter] = React.useState<number>(0)
+
+  if (loading) {
+    if (loadingCounter < 1) {
+      setTimeout(() => {
+        setLoadingCounter(loadingCounter + 0.01)
+      }, 24)
+    } else {
+      setLoadingCounter(0)
+    }
+  }
+
   return (
     <styled.div
       onClick={disabled ? null : onClick}
@@ -153,10 +173,15 @@ export const Button: FC<ButtonProps> = ({
       }}
     >
       {loading && (
-        <styled.div style={{ marginRight: 8 }}>
-          <IconCheckCircle />
-        </styled.div>
+        <>
+          <ProgressCircle
+            value={loadingCounter}
+            style={{ marginRight: 10 }}
+            color="inverted"
+          />
+        </>
       )}
+
       {icon && (
         <styled.div
           style={{ marginRight: 8, display: 'flex', alignItems: 'center' }}

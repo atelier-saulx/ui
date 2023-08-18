@@ -213,7 +213,6 @@ const App = () => {
       <Button
         label="Button label"
         onClick={() => console.log('yo yo')}
-        icon={<IconAlarmClock />}
         style={{ marginBottom: 12 }}
         dropdownIndicator
         loading
@@ -241,7 +240,7 @@ const App = () => {
         label="Button label"
         size="medium"
         style={{ marginBottom: 12 }}
-        afterIcon={IconAlarmClock}
+        icon={<IconAlarmClock />}
         color="neutral"
         subtle
       />
