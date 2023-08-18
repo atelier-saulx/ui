@@ -253,11 +253,7 @@ const App = () => {
       />
       <Text color="informative">hellwo</Text>
       <Previewer
-        component={
-          <Text size={18} color="informative">
-            flappie
-          </Text>
-        }
+        component={<Text size={18}>flappie</Text>}
         propsName="TextProps"
       />
       <Previewer

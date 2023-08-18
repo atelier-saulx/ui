@@ -13,51 +13,20 @@ type PreviewerProps = {
 }
 
 export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
-  const [propState, setPropState] = useState({})
+  const [propState, setPropState] = useState(component.props)
+  const [codeString, setCodeString] = useState('')
   const [renderCounter, setRenderCounter] = useState(1)
+
+  const componentProps = typeprops.props[propsName].props
 
   console.log('Previewer -->', component)
   console.log('propsname -->', typeprops.props[propsName])
 
-  const componentProps = typeprops.props[propsName].props
-
   console.log('componentProps ', componentProps)
-
-  useEffect(() => {
-    const newObj = {}
-
-    let ObjPropKeys = Object.keys(componentProps)
-
-    ObjPropKeys.map((item, idx) =>
-      component.props[item]
-        ? (propState[item] = component.props[item])
-        : (propState[item] = null)
-    )
-
-    // console.log('🛍', ObjPropKeys)
-    // console.log('🧧', newObj)
-
-    setPropState((newObj) => ({ ...newObj }))
-  }, [])
 
   useEffect(() => {
     setRenderCounter(renderCounter + 1)
   }, [propState])
-
-  console.log('why?? propstate ', propState)
-  // TODO set the props in a state
-  // probably make Controls component
-  // generate controls based of the props --> with right values/ options
-
-  // filter out null from propState before passing it in renderElement
-  const removeNullUndefined = (obj) =>
-    Object.entries(obj).reduce(
-      (a, [k, v]) => (v == null ? a : ((a[k] = v), a)),
-      {}
-    )
-
-  let filteredNullPropState = removeNullUndefined(propState)
-  console.log('🥷🏻', filteredNullPropState)
 
   const makeReactCode = (obj, propsName) => {
     let finalString = ''
@@ -74,7 +43,7 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
     for (const key in obj) {
       console.log(key, '=', obj[key])
       if (key === 'children') {
-        children += ` ${obj[key]} `
+        children += `\n  ${obj[key]} \n`
       } else if (typeof obj[key] === 'string') {
         finalString += ` ${key}="${obj[key]}"`
       } else if (typeof obj[key] === 'number') {
@@ -87,10 +56,9 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
     finalString += children ? `>${children}</${compName}>` : `/>`
 
     console.log('final countdownie -->', finalString)
+
     return finalString
   }
-
-  makeReactCode(filteredNullPropState, propsName)
 
   return (
     <styled.div style={{ padding: 20, border: '1px solid green' }}>
@@ -103,8 +71,7 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
             textAlign: 'center',
           }}
         >
-          {renderCounter &&
-            renderOrCreateElement(component, filteredNullPropState)}
+          {renderCounter && renderOrCreateElement(component, propState)}
         </styled.div>
 
         <Controls
@@ -114,7 +81,7 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
         />
 
         <styled.div style={{ backgroundColor: '#f5f5f5' }}>
-          <Code value={makeReactCode(filteredNullPropState, propsName)} />
+          <Code value={makeReactCode(propState, propsName)} />
         </styled.div>
       </styled.div>
     </styled.div>
