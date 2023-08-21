@@ -2,6 +2,9 @@ import { DateRangeWidget, useRoute } from '@based/ui'
 import { render } from 'react-dom'
 import React, { createElement, useState } from 'react'
 
+// for now
+import '../src/fonts.css'
+
 import based from '@based/client'
 import { useQuery } from '@based/react'
 import { Provider } from '../src/components/Provider'

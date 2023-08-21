@@ -53,13 +53,13 @@ export const Text: FC<TextProps> = ({
       style={{
         color: genColor('content', color, 'primary'),
         fontSize: size,
-        // fontFamily:
-        //   weight === 'strong'
-        //     ? 'Inter-SemiBold'
-        //     : weight === 'medium'
-        //     ? 'Inter-Medium'
-        //     : 'Inter-Regular',
-        fontWeight: weight === 'strong' ? 600 : weight === 'medium' ? 500 : 400,
+        fontFamily:
+          weight === 'strong'
+            ? 'Inter-SemiBold'
+            : weight === 'medium'
+            ? 'Inter-Medium'
+            : 'Inter-Regular',
+        // fontWeight: weight === 'strong' ? 600 : weight === 'medium' ? 500 : 400,
         lineHeight: newLineHeight,
         ...style,
       }}
