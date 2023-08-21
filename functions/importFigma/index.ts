@@ -6,7 +6,8 @@ type Icon = {
   src: string
   svg: string
   boundVariables: any
-  component: string
+  path: string
+  size: 16 | 20
 }
 
 type Icons = { size20: Icon[]; size16: Icon[] }
@@ -35,7 +36,8 @@ const importFigma: BasedFunction<
     size16: [],
   }
 
-  for (const frame of json.document.children[0].children) {
+  for (const frame of json.document.children.find((v) => v.name === 'Icons')
+    .children) {
     const key = frame.id === '14:10432' ? 'size20' : 'size16'
 
     const ids = frame.children
@@ -60,14 +62,15 @@ const importFigma: BasedFunction<
         src: svgs.images[icon.id],
         svg: '',
         boundVariables: icon.children[0].boundVariables,
-        component: '',
+        path: '',
+        size: key === 'size16' ? 16 : 20,
       })
     }
   }
 
   const readFileFromS3 = async (icon: Icon): Promise<void> => {
     icon.svg = await fetch(icon.src).then(async (t) => t.text())
-    icon.component = await based.call('create-icon', icon)
+    Object.assign(icon, await based.call('create-icon', icon))
   }
 
   const q: Promise<void>[] = []

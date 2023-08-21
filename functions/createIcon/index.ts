@@ -1,15 +1,6 @@
 import { BasedFunction } from '@based/functions'
 import { pascalCase } from 'pascal-case'
 
-type Icon = {
-  id: string
-  name: string
-  src: string
-  svg: string
-}
-
-console.log('??')
-
 const createIcon: BasedFunction<
   {
     id: string
@@ -18,10 +9,15 @@ const createIcon: BasedFunction<
     svg: string
     size: 16 | 20
   },
-  string
-> = async (based, { name, svg }, ctx) => {
-  const componentName = 'Icon' + pascalCase(name.replace(/^\d{2}-/, ''))
-  return `export const ${componentName}: Icon = ({ color }) => {
+  { name: string; path: string; component: string }
+> = async (based, { name, svg, size }) => {
+  let componentName = pascalCase(name.replace(/^\d{2}-/, ''))
+
+  if (size === 16) {
+    componentName = 'Small' + componentName
+  }
+
+  const component = `export const Icon${componentName}: Icon = ({ color }) => {
     const c = color === undefined || color ==='inherit' ? 'currentColor' : genColor('content', color, 'primary')
     return ${svg
       .replace(/xmlns="(.*?)"/, '')
@@ -29,6 +25,12 @@ const createIcon: BasedFunction<
       .replace(/clip-rule="(.*?)"/, '')
       .replace(/fill=".+"/g, 'fill={c}')}
     \n}`
+
+  return {
+    path: svg.match(/d="(.*?)"/)?.[1] ?? '',
+    component,
+    name: componentName,
+  }
 }
 
 export default createIcon

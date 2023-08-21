@@ -60,18 +60,32 @@ const start = async () => {
 
   const icons = await client.call('import-figma')
 
+  const m: { [icon: string]: number } = {}
+
   let myFile = `import React from 'react'
 import { color as genColor } from '../'
 import { Icon } from './type'
 `
 
   for (const icon of icons.size20) {
-    myFile += '\n' + icon.component
+    if (!m[icon.name]) {
+      m[icon.name] = 0
+    }
+    m[icon.name]++
+    if (m[icon.name] > 1) {
+      myFile += '\n' + icon.component.replace('Icon', 'Icon' + m[icon.name])
+    } else {
+      myFile += '\n' + icon.component
+    }
   }
 
-  //   for (const icon of icons.size16) {
-  //     myFile += '\n' + icon.component
-  //   }
+  for (const icon of icons.size16) {
+    if (m[icon.name] > 1) {
+      myFile += '\n' + icon.component.replace('Icon', 'Icon' + m[icon.name])
+    } else {
+      myFile += '\n' + icon.component
+    }
+  }
 
   await fs.writeFile(join(__dirname, '../src/icons/index.tsx'), myFile)
 
