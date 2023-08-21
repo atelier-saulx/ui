@@ -3,6 +3,7 @@ import { styled, Style } from 'inlines'
 import { color as genColor } from '../../varsUtilities'
 import { IconAlertFill } from '../..'
 import { Text } from '../Text'
+import { ColorActionColors } from '../../varsTypes'
 
 type InputProps = {
   //  description?: string
@@ -10,6 +11,7 @@ type InputProps = {
   onChange?: (value: any) => void
   errorMessage?: string // show error
   //  label?: string
+
   pattern?: string
   placeholder?: string
   style?: Style
