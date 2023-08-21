@@ -42,7 +42,9 @@ const App = () => {
         flexDirection: 'column',
         gap: '10px',
       }}
-    ></styled.div>
+    >
+      xx
+    </styled.div>
   )
 }
 
