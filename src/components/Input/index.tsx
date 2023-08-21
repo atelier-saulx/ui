@@ -1,131 +1,91 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
-import { styled, Style } from 'inlines'
-import { color as genColor } from '../../varsUtilities'
-import { IconAlertFill } from '../..'
-import { Text } from '../Text'
-import { ColorActionColors } from '../../varsTypes'
+import React from 'react'
+import { styled } from 'inlines'
+import { color, border } from '../../varsUtilities'
 
-type InputProps = {
-  //  description?: string
-  disabled?: boolean
-  onChange?: (value: any) => void
-  errorMessage?: string // show error
-  //  label?: string
-
-  pattern?: string
-  placeholder?: string
-  style?: Style
-  type: 'text' | 'number' | 'date' | 'json' | 'multiline' | 'markdown'
-  value?: any
+const expectNever = (value: never): never => {
+  throw new TypeError('Unexpected value: ' + value)
 }
 
-// TODO the right colors system for borders
-const StyledInput = styled('input', {
-  border: `1px solid ${genColor('border', 'default', 'strong')}`,
-  borderRadius: '8px',
-  color: genColor('content', 'default', 'primary'),
-  fontSize: '14px',
-  lineHeight: '24px',
-  padding: '8px 12px',
-  width: '100%',
-})
+type InputProps = ({ type: 'text' } & TextInputProps) | { type: 'other' }
 
-export const Input: FC<InputProps> = ({
-  disabled,
-  onChange,
-  errorMessage,
-  pattern,
-  placeholder,
-  style,
-  type,
-  value,
-}) => {
-  const [errorMsg, setErrorMsg] = useState('')
+export function Input({ type, ...props }: InputProps) {
+  switch (type) {
+    case 'text':
+      return <TextInput {...props} />
+    case 'other':
+      return <div>other</div>
+    default:
+      expectNever(type)
+  }
+}
 
-  //   const onChange = useCallback(
-  //     (e: { target: { value } }) => {
-  //       e.target.value
-  //     },
-  //     [onChangeProp]
-  //   )
+type TextInputOwnProps = {
+  prefix?: string
+  suffix?: string
+}
 
-  useEffect(() => {
-    if (pattern) {
-      const v = value
-      const reOk = v === '' || new RegExp(pattern).test(v)
-      const msg =
-        reOk && errorMessage ? errorMessage : reOk ? 'does not match' : ''
-      // ? onError(value, reOk)
-      // : reOk
-      // ? ''
-      // : 'Does not match pattern'
-      if (msg && value.toString().length > 0) {
-        setErrorMsg(msg)
-      } else {
-        setErrorMsg('')
-      }
-    }
-  }, [value])
+type TextInputProps = TextInputOwnProps &
+  Omit<React.ComponentPropsWithoutRef<'input'>, 'style'>
 
+function TextInput({ prefix, suffix, ...props }: TextInputProps) {
   return (
     <styled.div
       style={{
-        cursor: disabled ? 'not-allowed' : 'text',
-        opacity: disabled ? 0.5 : 1,
-        pointerEvents: disabled ? 'none' : 'auto',
-        ...style,
+        padding: '8px 12px',
+        borderRadius: 8,
+        display: 'flex',
+        backgroundColor: 'white',
+        fontSize: '14px',
+        lineHeight: '24px',
+        border: border(1, 'default', 'strong'),
+        '&:hover': {
+          // TODO correct hover color
+          //   border: `1px solid ${color('border', 'default', 'hover')}`,
+        },
+        '&:focus-within': {
+          border: border(1, 'brand', 'strong'),
+          boxShadow: `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
+        },
       }}
     >
-      {type === 'text' ? (
-        <StyledInput
-          onChange={onChange}
-          placeholder={placeholder}
-          type="text"
-          value={value}
-          style={{
-            border: `1px solid ${genColor(
-              'border',
-              errorMsg ? 'negative' : 'default',
-              'strong'
-            )}`,
-            '&:hover': {
-              border: `1px solid ${genColor(
-                'border',
-                errorMsg ? 'negative' : 'default',
-                'strong'
-              )}`,
-            },
-            '&:focus': {
-              border: `1px solid ${genColor(
-                'border',
-                errorMsg ? 'negative' : 'brand',
-                'strong'
-              )}`,
-              boxShadow: '0px 0px 0px 2px rgba(87, 63, 207, 0.20)',
-            },
-            '&:focus-visible': {
-              border: `1px solid ${genColor(
-                'border',
-                errorMsg ? 'negative' : 'brand',
-                'strong'
-              )}`,
-              boxShadow: '0px 0px 0px 2px rgba(87, 63, 207, 0.20)',
-              outline: 'none',
-            },
-          }}
-        />
-      ) : (
-        <div>flupo</div>
-      )}
-
-      {errorMsg && (
+      {prefix && (
         <styled.div
-          style={{ alignItems: 'center', display: 'flex', marginTop: 8 }}
+          style={{
+            marginRight: 8,
+            backgroundColor: color('background', 'neutral', 'soft'),
+            color: color('content', 'default', 'primary'),
+            padding: '0 8px',
+            borderRadius: 24,
+          }}
         >
-          <IconAlertFill color="negative" />
-          <Text size={14} style={{ marginLeft: '8px' }} color="negative">
-            {errorMsg}
-          </Text>
+          {prefix}
+        </styled.div>
+      )}
+      <styled.input
+        style={{
+          width: '100%',
+          appearance: 'none',
+          background: 'transparent',
+          fontSize: 'inherit',
+          lineHeight: 'inherit',
+          color: color('content', 'default', 'primary'),
+          '&::placeholder': {
+            color: color('content', 'default', 'secondary'),
+          },
+        }}
+        {...props}
+      />
+      {suffix && (
+        <styled.div
+          style={{
+            marginLeft: 8,
+            backgroundColor: color('background', 'neutral', 'soft'),
+            color: color('content', 'default', 'primary'),
+            padding: '0 8px',
+            borderRadius: 24,
+          }}
+        >
+          {suffix}
         </styled.div>
       )}
     </styled.div>
