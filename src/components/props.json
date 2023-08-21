@@ -1,0 +1,176 @@
+{
+  "props": {
+    "AvatarProps": {
+      "name": "AvatarProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "ColorNonSemanticBackgroundColors"
+        },
+        "imgsrc": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": "large"
+            },
+            {
+              "value": "medium"
+            },
+            {
+              "value": "small"
+            },
+            {
+              "value": "xsmall"
+            },
+            {
+              "value": "xxsmall"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "subtle": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type AvatarProps = {\n  color?: ColorNonSemanticBackgroundColors\n  imgsrc?: string\n  onClick?: () => void\n  label?: string\n  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'\n  style?: Style\n  subtle?: boolean\n}",
+      "file": "/components/Avatar/index.tsx"
+    },
+    "ControlsProps": {
+      "name": "ControlsProps",
+      "props": {
+        "componentProps": {
+          "type": "TSTypeLiteral"
+        },
+        "propState": {
+          "type": "TSTypeLiteral"
+        },
+        "setPropState": {}
+      },
+      "code": "type ControlsProps = {\n  componentProps: {}\n  propState: {}\n  setPropState: React.Dispatch<React.SetStateAction<{}>>\n}",
+      "file": "/components/Previewer/Controls.tsx"
+    },
+    "PreviewerProps": {
+      "name": "PreviewerProps",
+      "props": {
+        "component": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "propsName": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type PreviewerProps = {\n  component?: ReactNode\n  // types prop\n  propsName?: string\n}",
+      "file": "/components/Previewer/index.tsx"
+    },
+    "TextProps": {
+      "name": "TextProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorContentColors"
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": 10
+            },
+            {
+              "value": 12
+            },
+            {
+              "value": 14
+            },
+            {
+              "value": 16
+            },
+            {
+              "value": 18
+            },
+            {
+              "value": 24
+            },
+            {
+              "value": 32
+            },
+            {
+              "value": 40
+            },
+            {
+              "value": 48
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "weight": {
+          "optional": true,
+          "type": [
+            {
+              "value": "strong"
+            },
+            {
+              "value": "medium"
+            },
+            {
+              "value": "normal"
+            }
+          ]
+        }
+      },
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  weight?: 'strong' | 'medium' | 'normal'\n}",
+      "file": "/components/Text/index.tsx"
+    }
+  },
+  "types": {
+    "CheckboxItemProps": {
+      "name": "CheckboxItemProps",
+      "types": [
+        {
+          "type": "TSTypeLiteral"
+        },
+        {
+          "type": "CheckboxProps"
+        }
+      ],
+      "code": "type CheckboxItemProps = {\n  disabled?: boolean\n  label?: string\n  style?: Style\n} & CheckboxProps",
+      "file": "/components/types.ts"
+    },
+    "RadioButtonItemProps": {
+      "name": "RadioButtonItemProps",
+      "types": [
+        {
+          "type": "TSTypeLiteral"
+        },
+        {
+          "type": "RadioButtonProps"
+        }
+      ],
+      "code": "type RadioButtonItemProps = {\n  disabled?: boolean\n  label?: string\n} & RadioButtonProps",
+      "file": "/components/types.ts"
+    }
+  }
+}

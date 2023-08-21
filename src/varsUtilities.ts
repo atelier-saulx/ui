@@ -17,7 +17,7 @@ export const color = <T extends keyof ColorGroups>(
   const g = vars[group]
   //   @ts-ignore
   const c = g[color][g._[option]]
-  console.info(c)
+  // console.info(c)
   return `var(--${c})`
 }
 

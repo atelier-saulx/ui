@@ -3178,7 +3178,7 @@
     },
     {
       "id": "VariableID:9:100",
-      "name": "Action/Ghost/Normal",
+      "name": "Action/System/Normal",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3201,7 +3201,7 @@
     },
     {
       "id": "VariableID:9:101",
-      "name": "Action/Ghost/Hover",
+      "name": "Action/System/Hover",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3229,7 +3229,7 @@
     },
     {
       "id": "VariableID:9:102",
-      "name": "Action/Ghost/Active",
+      "name": "Action/System/Active",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3257,7 +3257,7 @@
     },
     {
       "id": "VariableID:9:103",
-      "name": "Action/Ghost/Selected",
+      "name": "Action/System/Selected",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -4001,35 +4001,31 @@
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
-        "9:0": {
-          "r": 0.09803921729326248,
-          "g": 0.15294118225574493,
-          "b": 0.22745098173618317,
-          "a": 0.7400000095367432
-        },
+        "9:0": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:214" },
         "10:1": {
-          "r": 0.09803921729326248,
-          "g": 0.15294118225574493,
-          "b": 0.22745098173618317,
-          "a": 0.7400000095367432
+          "r": 0.046388890594244,
+          "g": 0.05712416395545006,
+          "b": 0.06666667014360428,
+          "a": 0.49000000953674316
         }
       },
       "resolvedValuesByMode": {
         "9:0": {
           "resolvedValue": {
-            "r": 0.09803921729326248,
-            "g": 0.15294118225574493,
-            "b": 0.22745098173618317,
-            "a": 0.7400000095367432
+            "r": 0.05098039284348488,
+            "g": 0.14901961386203766,
+            "b": 0.250980406999588,
+            "a": 0.4000000059604645
           },
-          "alias": null
+          "alias": "VariableID:9:214",
+          "aliasName": "Semantic/Neutral Alpha/neutralA-+2"
         },
         "10:1": {
           "resolvedValue": {
-            "r": 0.09803921729326248,
-            "g": 0.15294118225574493,
-            "b": 0.22745098173618317,
-            "a": 0.7400000095367432
+            "r": 0.046388890594244,
+            "g": 0.05712416395545006,
+            "b": 0.06666667014360428,
+            "a": 0.49000000953674316
           },
           "alias": null
         }
@@ -22558,7 +22554,7 @@
     },
     {
       "id": "VariableID:118:1929",
-      "name": "Action/Ghost/Subtle Normal",
+      "name": "Action/System/Subtle Normal",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -22581,7 +22577,7 @@
     },
     {
       "id": "VariableID:118:1930",
-      "name": "Action/Ghost/Subtle Hover",
+      "name": "Action/System/Subtle Hover",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -22609,7 +22605,7 @@
     },
     {
       "id": "VariableID:118:1931",
-      "name": "Action/Ghost/Subtle Active",
+      "name": "Action/System/Subtle Active",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -22637,7 +22633,7 @@
     },
     {
       "id": "VariableID:118:1932",
-      "name": "Action/Ghost/Subtle Selected",
+      "name": "Action/System/Subtle Selected",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -22669,24 +22665,27 @@
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
-        "9:0": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:514" },
-        "10:1": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:195" }
+        "9:0": { "r": 1, "g": 1, "b": 1, "a": 0.07999999821186066 },
+        "10:1": {
+          "r": 0.10588235408067703,
+          "g": 0.1411764770746231,
+          "b": 0.1725490242242813,
+          "a": 0.11999999731779099
+        }
       },
       "resolvedValuesByMode": {
         "9:0": {
-          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 1 },
-          "alias": "VariableID:9:514",
-          "aliasName": "Global/White Alpha/whiteA-0"
+          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 0.07999999821186066 },
+          "alias": null
         },
         "10:1": {
           "resolvedValue": {
             "r": 0.10588235408067703,
             "g": 0.1411764770746231,
             "b": 0.1725490242242813,
-            "a": 1
+            "a": 0.11999999731779099
           },
-          "alias": "VariableID:9:195",
-          "aliasName": "Semantic/Neutral/neutral--4"
+          "alias": null
         }
       },
       "scopes": ["ALL_SCOPES"]
@@ -22697,24 +22696,27 @@
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
-        "9:0": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:513" },
-        "10:1": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:196" }
+        "9:0": { "r": 1, "g": 1, "b": 1, "a": 0.11999999731779099 },
+        "10:1": {
+          "r": 0.10588235408067703,
+          "g": 0.1411764770746231,
+          "b": 0.1725490242242813,
+          "a": 0.1599999964237213
+        }
       },
       "resolvedValuesByMode": {
         "9:0": {
-          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 0.8199999928474426 },
-          "alias": "VariableID:9:513",
-          "aliasName": "Global/White Alpha/whiteA--1"
+          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 0.11999999731779099 },
+          "alias": null
         },
         "10:1": {
           "resolvedValue": {
-            "r": 0.15294118225574493,
-            "g": 0.18039216101169586,
-            "b": 0.2078431397676468,
-            "a": 1
+            "r": 0.10588235408067703,
+            "g": 0.1411764770746231,
+            "b": 0.1725490242242813,
+            "a": 0.1599999964237213
           },
-          "alias": "VariableID:9:196",
-          "aliasName": "Semantic/Neutral/neutral--3"
+          "alias": null
         }
       },
       "scopes": ["ALL_SCOPES"]
@@ -22725,24 +22727,27 @@
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
-        "9:0": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:512" },
-        "10:1": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:197" }
+        "9:0": { "r": 1, "g": 1, "b": 1, "a": 0.1599999964237213 },
+        "10:1": {
+          "r": 0.10588235408067703,
+          "g": 0.1411764770746231,
+          "b": 0.1725490242242813,
+          "a": 0.20000000298023224
+        }
       },
       "resolvedValuesByMode": {
         "9:0": {
-          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 0.7200000286102295 },
-          "alias": "VariableID:9:512",
-          "aliasName": "Global/White Alpha/whiteA--2"
+          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 0.1599999964237213 },
+          "alias": null
         },
         "10:1": {
           "resolvedValue": {
-            "r": 0.22745098173618317,
-            "g": 0.25882354378700256,
-            "b": 0.29019609093666077,
-            "a": 1
+            "r": 0.10588235408067703,
+            "g": 0.1411764770746231,
+            "b": 0.1725490242242813,
+            "a": 0.20000000298023224
           },
-          "alias": "VariableID:9:197",
-          "aliasName": "Semantic/Neutral/neutral--2"
+          "alias": null
         }
       },
       "scopes": ["ALL_SCOPES"]
@@ -22753,24 +22758,27 @@
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
-        "9:0": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:513" },
-        "10:1": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:196" }
+        "9:0": { "r": 1, "g": 1, "b": 1, "a": 0.11999999731779099 },
+        "10:1": {
+          "r": 0.10588235408067703,
+          "g": 0.1411764770746231,
+          "b": 0.1725490242242813,
+          "a": 0.1599999964237213
+        }
       },
       "resolvedValuesByMode": {
         "9:0": {
-          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 0.8199999928474426 },
-          "alias": "VariableID:9:513",
-          "aliasName": "Global/White Alpha/whiteA--1"
+          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 0.11999999731779099 },
+          "alias": null
         },
         "10:1": {
           "resolvedValue": {
-            "r": 0.15294118225574493,
-            "g": 0.18039216101169586,
-            "b": 0.2078431397676468,
-            "a": 1
+            "r": 0.10588235408067703,
+            "g": 0.1411764770746231,
+            "b": 0.1725490242242813,
+            "a": 0.1599999964237213
           },
-          "alias": "VariableID:9:196",
-          "aliasName": "Semantic/Neutral/neutral--3"
+          "alias": null
         }
       },
       "scopes": ["ALL_SCOPES"]

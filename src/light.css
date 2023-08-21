@@ -95,10 +95,10 @@
 --so:var(--nc);
 --sl:var(--mw);
 --si:var(--nc);
---ry:var(--ms);
---sj:var(--nc);
---sm:var(--mw);
---rw:var(--nc);
+--ry:rgba(255,255,255,0.08);
+--sj:rgba(255,255,255,0.12);
+--sm:rgba(255,255,255,0.16);
+--rw:rgba(255,255,255,0.12);
 --rt:var(--kb);
 --rs:var(--kf);
 --rr:var(--kh);
@@ -117,7 +117,7 @@
 --ql:var(--nv);
 --qj:var(--kb);
 --qh:rgb(255,255,255);
---qb:rgba(25,39,58,0.74);
+--qb:var(--nz);
 --rj:rgb(255,255,255);
 --jc:rgb(255,255,255);
 --iv:var(--pa);
