@@ -18,6 +18,7 @@ import { Previewer } from '../src/components/Previewer'
 import { Badge } from '../src/components/Badge'
 import { Counter } from '../src/components/Counter'
 import { Center, Column } from '../src/components/Styled'
+import { Divider } from '../src/components/Divider'
 import { Status } from '../src/components/Status'
 import { AlertBanner } from '../src/components/AlertBanner'
 import { ModalWarning } from '../src/components/Modal/warning'
@@ -68,6 +69,7 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <Divider />
       <DatePicker onChange={(e) => console.log('change:', e)} />
       <Tag label="Tag" onClick={() => console.log('taggie')} />
       <Tag label="Tag" onClick={() => console.log('taggie')} color="alert" />

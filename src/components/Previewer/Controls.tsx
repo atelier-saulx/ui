@@ -71,6 +71,23 @@ export const Controls: FC<ControlsProps> = ({
         options={['yes', 'no', 'no-er', 'fljua8eop']}
       /> */}
 
+      {/* Img url */}
+      {componentProps.imgsrc && (
+        <Row>
+          <Text size={14}>imgsrc (image url) =</Text>
+          <Input
+            type="text"
+            value={propState.imgsrc}
+            onChange={(e) => {
+              setPropState({
+                ...propState,
+                ...{ imgsrc: e.target.value },
+              })
+            }}
+          />
+        </Row>
+      )}
+
       {/* Label */}
       {componentProps.label && (
         <Row>

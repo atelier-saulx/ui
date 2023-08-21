@@ -22,6 +22,7 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
   console.log('propsname -->', typeprops.props[propsName])
   console.log('componentProps ', componentProps)
 
+  // move to code component
   const makeReactCode = (obj, propsName) => {
     let finalString = ''
     let children = ''
@@ -42,7 +43,7 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
         finalString += ` ${key}="${obj[key]}"`
       } else if (typeof obj[key] === 'number') {
         finalString += ` ${key}={${obj[key]}}`
-      } else if (typeof obj[key] === 'boolean') {
+      } else if (typeof obj[key] === 'boolean' && obj[key]) {
         finalString += ` ${key}`
       }
     }

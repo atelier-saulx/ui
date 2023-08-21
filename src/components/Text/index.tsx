@@ -45,8 +45,6 @@ export const Text: FC<TextProps> = ({
       ? '64px'
       : '16px'
 
-  // TODO set font Family if font works
-
   return (
     <styled.div
       onClick={onClick}
