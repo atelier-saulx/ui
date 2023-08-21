@@ -14,8 +14,6 @@ import { Text } from '../Text'
 import { ColorActionColors } from '../../../src/varsTypes'
 import { Key, KeyBoardshortcut } from '../KeyboardShortcut'
 import { useKeyboardShortcut } from '../../hooks/useKeyboard'
-
-import * as icons from '../../icons'
 import { ProgressCircle } from '../ProgressCircle/ProgressCircle'
 
 type ButtonProps = {
