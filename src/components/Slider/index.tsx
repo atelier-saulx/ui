@@ -10,6 +10,20 @@ const StyledBgSlider = styled('div', {
   width: '100%',
 })
 
+const StyledStepProgress = styled('div', {
+  backgroundColor: genColor('action', 'primary', 'hover'),
+  height: 6,
+  borderRadius: 4,
+  width: '20%',
+})
+
+const StyledThumb = styled('div', {
+  width: 4,
+  height: 4,
+  borderRadius: '50%',
+  border: `1px solid ${genColor('content', 'inverted', 'primary')}`,
+})
+
 type SliderProps = {
   data?: { id: string; title: string; index: number }[]
   min?: number
@@ -30,6 +44,7 @@ export const Slider: FC<SliderProps> = ({
   return (
     <styled.div style={{ width: '100%', position: 'relative' }}>
       <StyledBgSlider />
+      <StyledStepProgress />
     </styled.div>
   )
 }
