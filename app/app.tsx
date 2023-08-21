@@ -5,6 +5,7 @@ import { Provider, useQuery } from '@based/react'
 import * as icons from '../src/icons'
 import { color, vars } from '../src'
 import { Viewer } from './Viewer'
+import { Button } from '../src/button'
 
 const IconDns = icons.IconDns
 
@@ -48,13 +49,21 @@ const App = () => {
   return (
     <div
       style={{
-        fontFamily: 'SF Pro',
-        fontWeight: '500',
-        color: color('content', 'default', 'primary'),
-        backgroundColor: color('action', 'primary', 'normal'),
+        padding: 24,
       }}
     >
-      <IconDns />
+      <div
+        style={{
+          marginBottom: 15,
+          fontFamily: 'SF Pro',
+          fontWeight: '500',
+          color: color('content', 'default', 'primary'),
+          // backgroundColor: color('global', 'blue', 10),
+        }}
+      >
+        <IconDns />
+      </div>
+      <Button color="inverted" />
     </div>
   )
 }

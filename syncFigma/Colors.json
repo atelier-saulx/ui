@@ -422,14 +422,12 @@
     "VariableID:9:176",
     "VariableID:9:460",
     "VariableID:9:455",
-    "VariableID:9:174",
     "VariableID:9:458",
-    "VariableID:9:173",
     "VariableID:9:461",
-    "VariableID:9:172",
     "VariableID:9:456",
     "VariableID:9:171",
     "VariableID:9:451",
+    "VariableID:9:170",
     "VariableID:9:454",
     "VariableID:9:169",
     "VariableID:9:457",
@@ -3695,7 +3693,7 @@
     },
     {
       "id": "VariableID:9:162",
-      "name": "Action/Border/Normal",
+      "name": "Input Border/Normal",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3728,7 +3726,7 @@
     },
     {
       "id": "VariableID:9:163",
-      "name": "Action/Border/Hover",
+      "name": "Input Border/Hover",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3761,7 +3759,7 @@
     },
     {
       "id": "VariableID:9:164",
-      "name": "Action/Border/Active",
+      "name": "Input Border/Active",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3794,7 +3792,7 @@
     },
     {
       "id": "VariableID:9:165",
-      "name": "Action/Border/Selected",
+      "name": "Input Border/Selected",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3827,7 +3825,7 @@
     },
     {
       "id": "VariableID:9:166",
-      "name": "Action/Border/Neutral Normal",
+      "name": "Input Border/Neutral Normal",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3855,7 +3853,7 @@
     },
     {
       "id": "VariableID:9:167",
-      "name": "Action/Border/Neutral Hover",
+      "name": "Input Border/Neutral Hover",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3883,7 +3881,7 @@
     },
     {
       "id": "VariableID:9:168",
-      "name": "Action/Border/Neutral Active",
+      "name": "Input Border/Neutral Active",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3911,7 +3909,7 @@
     },
     {
       "id": "VariableID:9:169",
-      "name": "Action/Border/Neutral Selected",
+      "name": "Input Border/Neutral Selected",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -3933,6 +3931,39 @@
           "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 0.4000000059604645 },
           "alias": "VariableID:9:509",
           "aliasName": "Global/White Alpha/whiteA--5"
+        }
+      },
+      "scopes": ["ALL_SCOPES"]
+    },
+    {
+      "id": "VariableID:9:170",
+      "name": "Input Border/Alert",
+      "description": "",
+      "type": "COLOR",
+      "valuesByMode": {
+        "9:0": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:264" },
+        "10:1": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:265" }
+      },
+      "resolvedValuesByMode": {
+        "9:0": {
+          "resolvedValue": {
+            "r": 0.772549033164978,
+            "g": 0.20392157137393951,
+            "b": 0.20392157137393951,
+            "a": 1
+          },
+          "alias": "VariableID:9:264",
+          "aliasName": "Semantic/Negative/negative-0"
+        },
+        "10:1": {
+          "resolvedValue": {
+            "r": 0.9490196108818054,
+            "g": 0.3921568691730499,
+            "b": 0.3921568691730499,
+            "a": 1
+          },
+          "alias": "VariableID:9:265",
+          "aliasName": "Semantic/Negative/negative-+1"
         }
       },
       "scopes": ["ALL_SCOPES"]
@@ -3965,97 +3996,8 @@
       "scopes": ["ALL_SCOPES"]
     },
     {
-      "id": "VariableID:9:172",
-      "name": "Standalone/Modeless",
-      "description": "",
-      "type": "COLOR",
-      "valuesByMode": {
-        "9:0": { "r": 1, "g": 1, "b": 1, "a": 1 },
-        "10:1": { "type": "VARIABLE_ALIAS", "id": "VariableID:9:424" }
-      },
-      "resolvedValuesByMode": {
-        "9:0": {
-          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 1 },
-          "alias": null
-        },
-        "10:1": {
-          "resolvedValue": {
-            "r": 0.15294118225574493,
-            "g": 0.18039216101169586,
-            "b": 0.2078431397676468,
-            "a": 1
-          },
-          "alias": "VariableID:9:424",
-          "aliasName": "Global/Cool Grey/cool-grey--3"
-        }
-      },
-      "scopes": ["ALL_SCOPES"]
-    },
-    {
-      "id": "VariableID:9:173",
-      "name": "Standalone/Inverted Modeless",
-      "description": "",
-      "type": "COLOR",
-      "valuesByMode": {
-        "9:0": {
-          "r": 0.15294118225574493,
-          "g": 0.18039216101169586,
-          "b": 0.2078431397676468,
-          "a": 1
-        },
-        "10:1": {
-          "r": 0.15294118225574493,
-          "g": 0.18039216101169586,
-          "b": 0.2078431397676468,
-          "a": 1
-        }
-      },
-      "resolvedValuesByMode": {
-        "9:0": {
-          "resolvedValue": {
-            "r": 0.15294118225574493,
-            "g": 0.18039216101169586,
-            "b": 0.2078431397676468,
-            "a": 1
-          },
-          "alias": null
-        },
-        "10:1": {
-          "resolvedValue": {
-            "r": 0.15294118225574493,
-            "g": 0.18039216101169586,
-            "b": 0.2078431397676468,
-            "a": 1
-          },
-          "alias": null
-        }
-      },
-      "scopes": ["ALL_SCOPES"]
-    },
-    {
-      "id": "VariableID:9:174",
-      "name": "Standalone/Sidepanel",
-      "description": "",
-      "type": "COLOR",
-      "valuesByMode": {
-        "9:0": { "r": 1, "g": 1, "b": 1, "a": 1 },
-        "10:1": { "r": 1, "g": 1, "b": 1, "a": 1 }
-      },
-      "resolvedValuesByMode": {
-        "9:0": {
-          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 1 },
-          "alias": null
-        },
-        "10:1": {
-          "resolvedValue": { "r": 1, "g": 1, "b": 1, "a": 1 },
-          "alias": null
-        }
-      },
-      "scopes": ["ALL_SCOPES"]
-    },
-    {
       "id": "VariableID:9:176",
-      "name": "Standalone/Default Dimmer",
+      "name": "Standalone/Dimmer",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -22511,7 +22453,7 @@
     },
     {
       "id": "VariableID:76:5377",
-      "name": "Standalone/Contrast UI dimmed",
+      "name": "Standalone/Foreground Subtle",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -22533,7 +22475,7 @@
     },
     {
       "id": "VariableID:76:5378",
-      "name": "Standalone/Contrast UI",
+      "name": "Standalone/Foreground",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {
@@ -22555,7 +22497,7 @@
     },
     {
       "id": "VariableID:76:5379",
-      "name": "Standalone/Contrast UI Content",
+      "name": "Standalone/Foreground Content",
       "description": "",
       "type": "COLOR",
       "valuesByMode": {

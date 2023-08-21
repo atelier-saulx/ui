@@ -5,10 +5,12 @@ export type ColorBorderOptions = 'strong'|'subtle'
 export type ColorBorderColors = 'default'|'inverted'|'informative'|'positive'|'warning'|'negative'|'brand'
 export type ColorBackgroundOptions = 'strong'|'muted'|'soft'|'subtle'|'surface'
 export type ColorBackgroundColors = 'default'|'inverted'|'neutral'|'informative'|'positive'|'warning'|'negative'|'brand'
-export type ColorActionOptions = 'normal'|'hover'|'active'|'selected'|'subtleNormal'|'subtleHover'|'subtleActive'|'subtleSelected'|'neutralNormal'|'neutralHover'|'neutralActive'|'neutralSelected'
-export type ColorActionColors = 'primary'|'neutral'|'ghost'|'inverted'|'alert'|'border'
+export type ColorActionOptions = 'normal'|'hover'|'active'|'selected'|'subtleNormal'|'subtleHover'|'subtleActive'|'subtleSelected'
+export type ColorActionColors = 'primary'|'neutral'|'ghost'|'inverted'|'alert'
+export type ColorInputBorderOptions = 'default'
+export type ColorInputBorderColors = 'normal'|'hover'|'active'|'selected'|'neutralNormal'|'neutralHover'|'neutralActive'|'neutralSelected'|'alert'
 export type ColorStandaloneOptions = 'default'
-export type ColorStandaloneColors = 'modal'|'modeless'|'invertedModeless'|'sidepanel'|'defaultDimmer'|'contrastUiDimmed'|'contrastUi'|'contrastUiContent'
+export type ColorStandaloneColors = 'modal'|'dimmer'|'foregroundSubtle'|'foreground'|'foregroundContent'
 export type ColorSemanticOptions = number
 export type ColorSemanticColors = 'brand'|'neutral'|'neutralAlpha'|'informative'|'positive'|'warning'|'negative'
 export type ColorNonSemanticContentOptions = 'primary'|'secondary'
@@ -24,6 +26,7 @@ export type ColorGroups = {
   border: ColorBorderColors,
   background: ColorBackgroundColors,
   action: ColorActionColors,
+  inputBorder: ColorInputBorderColors,
   standalone: ColorStandaloneColors,
   semantic: ColorSemanticColors,
   nonSemanticContent: ColorNonSemanticContentColors,
@@ -36,6 +39,7 @@ export type ColorGroupsOptions = {
   border: ColorBorderOptions,
   background: ColorBackgroundOptions,
   action: ColorActionOptions,
+  inputBorder: ColorInputBorderOptions,
   standalone: ColorStandaloneOptions,
   semantic: ColorSemanticOptions,
   nonSemanticContent: ColorNonSemanticContentOptions,
