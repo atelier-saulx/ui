@@ -22,9 +22,6 @@ import { useKeyboardShortcut } from '../../hooks/useKeyboard'
 import * as icons from '../../icons'
 import { ProgressCircle } from '../ProgressCircle/ProgressCircle'
 
-const IconAlarmClock = icons.IconAlarmClock
-// TODO add progress/ loading comp -icon
-
 type ButtonProps = {
   afterIcon?: any
   children?: ReactNode
@@ -84,16 +81,18 @@ export const Button: FC<ButtonProps> = ({
         }
       }, 100)
       try {
-        await onClick?.(e)
+        await onClick?.()
       } catch (e) {
-        console.error(`Error from async click "${e.message}"`)
-        t.style.transform = 'translateX(-10px)'
-        setTimeout(() => {
-          t.style.transform = 'translateX(10px)'
+        if (t) {
+          console.error(`Error from async click "${e.message}"`)
+          t.style.transform = 'translateX(-10px)'
           setTimeout(() => {
-            t.style.transform = 'translateX(0px)'
+            t.style.transform = 'translateX(10px)'
+            setTimeout(() => {
+              t.style.transform = 'translateX(0px)'
+            }, 100)
           }, 100)
-        }, 100)
+        }
       }
       isSet = true
       // setIsLoading(false)

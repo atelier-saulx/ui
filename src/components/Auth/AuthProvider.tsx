@@ -38,7 +38,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       const redirect = global.location.origin + `/auth-${thirdPartyRedirect}`
       let state: any
       try {
-        state = JSON.parse(params.get('state'))
+        state = JSON.parse(params.get('state') ?? '')
       } catch (error) {
         console.warn(error)
       }

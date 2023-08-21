@@ -31,6 +31,7 @@ export const Viewer: FC<{
           alignItems: 'center',
         }}
       >
+        <IconHourglass />
         <div
           style={{
             fontSize: 14,
@@ -77,7 +78,7 @@ export const Viewer: FC<{
               justifyContent: 'center',
               border: border(1),
               borderRadius: 4,
-              background: color('standalone', 'dimmer', 8),
+              background: color('standalone', 'dimmer', 'default'),
             }}
           >
             {React.createElement(component)}

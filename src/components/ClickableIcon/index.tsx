@@ -24,10 +24,10 @@ export const ClickableIcon: FC<ClickableIconProps> = ({
         justifyContent: 'center',
         color: genColor('content', 'default', 'primary'),
         '&:hover': {
-          backgroundColor: genColor('action', 'ghost', 'hover'),
+          backgroundColor: genColor('action', 'system', 'hover'),
         },
         '&:active': {
-          backgroundColor: genColor('action', 'ghost', 'active'),
+          backgroundColor: genColor('action', 'system', 'active'),
         },
         // '&:focus': {
         //   backgroundColor: genColor('action', 'ghost', 'selected'),

@@ -46,6 +46,7 @@ export const Code: FC<CodeProps> = ({ value, style, onChange, header }) => {
         </div>
       )}
 
+      {/* @ts-ignore */}
       <Editor
         value={value}
         onValueChange={onChange}
