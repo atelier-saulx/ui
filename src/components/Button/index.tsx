@@ -77,6 +77,8 @@ export const getButtonStyle = (
   const isLight = subtle || ghost
   const style: Style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
+    pointerEvents: disabled ? 'none' : 'auto',
+    cursor: disabled ? 'not-allowed' : 'pointer',
     backgroundColor: ghost
       ? 'transparent'
       : genColor('action', colorProp, subtle ? 'subtleNormal' : 'normal'),
