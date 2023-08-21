@@ -1,13 +1,6 @@
 import React, { FC, ReactNode } from 'react'
 import { IconHourglass, border, color } from '../src'
 
-// port styled
-
-// port code
-
-// default prop types
-// color groups for example
-
 export const Viewer: FC<{
   title: string
   component: FC

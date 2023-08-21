@@ -9,11 +9,7 @@ import React, {
 import { styled, Style } from 'inlines'
 import { ColorContentColors } from '../../../src/varsTypes'
 import { renderOrCreateElement } from '../../../src/utils/renderOrCreateElement'
-import {
-  IconCheckCircle,
-  IconChevronDownSmall,
-  color as genColor,
-} from '../../../src'
+import { IconChevronDownSmall, color as genColor } from '../../../src'
 import { Text } from '../Text'
 import { ColorActionColors } from '../../../src/varsTypes'
 import { Key, KeyBoardshortcut } from '../KeyboardShortcut'

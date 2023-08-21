@@ -8,7 +8,7 @@
     "dev": "npx @based/cli dev",
     "deploy": "npx @based/cli deploy",
     "genPropsTypes": "node ./scripts/generateComponentProps.js",
-    "sync-figma": "ts-node ./syncFigma/index.ts"
+    "sync-figma": "ts-node ./scripts/syncFigma/index.ts"
   },
   "prettier": "@saulx/prettier-config",
   "eslintConfig": {
