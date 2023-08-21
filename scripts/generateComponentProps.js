@@ -202,7 +202,7 @@ const init = async () => {
   }
 
   await fs.writeFile(
-    join(__dirname, '../src/components/props.json'),
+    join(__dirname, '../app/props.json'),
     JSON.stringify({ props: propObject, types: typesObject }, null, 2)
   )
 }

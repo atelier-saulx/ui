@@ -36,8 +36,8 @@ export type ButtonProps = {
   subtle?: boolean
   transparent?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
-  icon?: FunctionComponent<Icon> | ReactNode
-  afterIcon?: FunctionComponent<Icon> | ReactNode
+  icon?: FunctionComponent | ReactNode
+  afterIcon?: FunctionComponent | ReactNode
   loading?: boolean
   onClick?:
     | MouseEventHandler

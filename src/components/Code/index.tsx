@@ -52,6 +52,7 @@ export const Code: FC<CodeProps> = ({ value, style, onChange, header }) => {
         onValueChange={onChange}
         highlight={(code) => {
           try {
+            // @ts-ignore
             const h = highlight(code, languages.js)
             return h
           } catch (err) {}
