@@ -38,6 +38,7 @@ import { Code } from '../src/components/Code'
 import { DateRange } from '../src/components/DateRange'
 import { DatePicker } from '../src/components/DatePicker'
 import { Tag } from '../src/components/Tag'
+import { SegmentedControl } from '../src/components/SegmentedControl'
 
 export const client = based(basedConfig)
 
@@ -69,6 +70,10 @@ const App = () => {
         gap: '10px',
       }}
     >
+      <SegmentedControl
+        data={[2, '15d', 'Option', 'Option']}
+        onChange={(v) => console.log(v)}
+      />
       <Divider />
       <DatePicker onChange={(e) => console.log('change:', e)} />
       <Tag label="Tag" onClick={() => console.log('taggie')} />

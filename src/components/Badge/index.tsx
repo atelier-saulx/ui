@@ -108,7 +108,7 @@ export const Badge: FC<BadgeProps> = ({
             justifyContent: 'center',
           }}
         >
-          {renderOrCreateElement(icon, { size: 10, color: 'inherit' })}
+          {renderOrCreateElement(icon, { size: 16, color: 'inherit' })}
         </styled.div>
       )}
       <Text
@@ -133,7 +133,7 @@ export const Badge: FC<BadgeProps> = ({
             justifyContent: 'center',
           }}
         >
-          {renderOrCreateElement(afterIcon, { size: 10, color: 'inherit' })}
+          {renderOrCreateElement(afterIcon, { size: 16, color: 'inherit' })}
         </styled.div>
       )}
     </styled.div>
