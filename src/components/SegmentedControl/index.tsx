@@ -53,8 +53,7 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
             // todo change this color
             backgroundColor:
               activeOption === idx
-                ? // ? genColor('standalone', 'foreground', 'default')
-                  '#fff'
+                ? genColor('standalone', 'foreground', 'default')
                 : '',
             boxShadow:
               activeOption === idx
