@@ -71,6 +71,22 @@ export const Controls: FC<ControlsProps> = ({
         options={['yes', 'no', 'no-er', 'fljua8eop']}
       /> */}
 
+      {/* Label */}
+      {componentProps.label && (
+        <Row>
+          <Text size={14}>label =</Text>
+          <Input
+            type="text"
+            value={propState.label}
+            onChange={(e) => {
+              setPropState({
+                ...propState,
+                ...{ label: e.target.value },
+              })
+            }}
+          />
+        </Row>
+      )}
       {/* Size */}
       {componentProps.size && (
         <Row>

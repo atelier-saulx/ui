@@ -180,7 +180,7 @@ const App = () => {
         label="asdfasdf"
         color="informative"
         subtle
-        afterIcon={<IconAlarmClock />}
+        icon={<IconAlarmClock />}
       />
       <Badge
         label=""

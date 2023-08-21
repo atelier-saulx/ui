@@ -79,7 +79,8 @@ export const Avatar: FC<AvatarProps> = ({
             ),
           }}
         >
-          {label[0].toLocaleUpperCase() + label[1].toLocaleUpperCase()}
+          {label[0]?.toLocaleUpperCase()}
+          {label.length > 1 ? label[1]?.toLocaleUpperCase() : ''}
         </Text>
       ) : null}
     </Center>
