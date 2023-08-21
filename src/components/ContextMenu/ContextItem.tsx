@@ -72,7 +72,9 @@ export const ContextItem: FC<ContextItemProps> = ({
     // @ts-ignore - this is a hack to make the onClick work, async is very important
     onClick = async (e) => {
       setErrored(false)
+      // @ts-ignore
       e.preventDefault()
+      // @ts-ignore
       e.stopPropagation()
       setLoading(true)
       try {
@@ -113,7 +115,7 @@ export const ContextItem: FC<ContextItemProps> = ({
     )
   } else {
     child = (
-      <Text color={colorProps} style={inset ? { paddingLeft: 24 } : null}>
+      <Text color={colorProps} style={inset ? { paddingLeft: 24 } : undefined}>
         {loading && !icon ? 'processing...' : children}
       </Text>
     )

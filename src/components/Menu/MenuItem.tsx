@@ -38,14 +38,14 @@ export const MenuItem: FC<MenuItemProps> = ({
           '@media (hover: hover)': {
             '&:hover': !active
               ? {
-                  backgroundColor: genColor('action', 'ghost', 'hover'),
+                  backgroundColor: genColor('action', 'system', 'hover'),
                   //   color: `${color('text')} !important`,
                 }
               : null,
           },
           '&:active': !active
             ? {
-                backgroundColor: genColor('action', 'ghost', 'active'),
+                backgroundColor: genColor('action', 'system', 'active'),
               }
             : null,
         }}
