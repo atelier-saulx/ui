@@ -11,7 +11,7 @@ import { Provider } from '../src/components/Provider'
 import * as icons from '../src/icons'
 import { color, vars } from '../src'
 import basedConfig from '../based.json'
-import { Button } from '../src/components/Button'
+import { Button } from '../src/components/Button/'
 import { Text } from '../src/components/Text'
 import { Avatar } from '../src/components/Avatar'
 import { Previewer } from '../src/components/Previewer'
@@ -256,25 +256,25 @@ const App = () => {
       />
       <Button
         label="Button label"
-        size="medium"
         color="alert"
         subtle
         style={{ marginBottom: 12 }}
       />
       <Button
         label="Button label"
-        size="medium"
         style={{ marginBottom: 12 }}
         icon={<IconAlarmClock />}
         color="neutral"
         subtle
       />
       <Button
-        // ghost
-        icon="IconAlert"
+        ghost
         label="Button label"
-        size="small"
-        disabled
+        onClick={() => console.log('flippien')}
+      />
+      <Button
+        // ghost
+        icon={<IconAlarmClock />}
         onClick={() => console.log('flippien')}
       />
       <Text color="informative">hellwo</Text>

@@ -1,12 +1,18 @@
-import React, { FC } from 'react'
-import { AlertBannerProps } from '../types'
+import React, { FC, ReactNode } from 'react'
 import { Center } from '../Styled'
 import { IconInfoFill, IconAlertFill, IconErrorFill } from '../..'
 import { color as genColor } from '../../../src'
 import { Text } from '../Text'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
+import { ColorBackgroundColors } from '../../varsTypes'
 
-// TODO BROKEN ICONS
+export type AlertBannerProps = {
+  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
+  icon?: ReactNode
+  label?: string
+  onClick?: () => void
+  style?: Style
+}
 
 export const AlertBanner: FC<AlertBannerProps> = ({
   color = 'brand',

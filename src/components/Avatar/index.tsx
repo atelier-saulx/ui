@@ -6,7 +6,7 @@ import { Center } from '../Styled'
 import { Style } from 'inlines'
 import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 
-type AvatarProps = {
+export type AvatarProps = {
   color?: ColorNonSemanticBackgroundColors
   imgsrc?: string
   onClick?: () => void

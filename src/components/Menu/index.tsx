@@ -1,7 +1,7 @@
 import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
 
 import { color } from '@based/ui'
-import { Button } from '../Button'
+import { Button } from '../Button/_snurp'
 import { ButtonProps } from '../types'
 import { ScrollArea } from './scrollAreaTest'
 import { Text } from '../Text'

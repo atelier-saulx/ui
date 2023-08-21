@@ -12,7 +12,7 @@ import React, {
 import { useDialog } from './useDialog'
 
 import { styled, Style } from 'inlines'
-import { Button } from '../Button'
+import { Button } from '../Button/_snurp'
 import { Text } from '../Text'
 import { ScrollArea } from '../ScrollArea'
 import { color } from '../../varsUtilities'
