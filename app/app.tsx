@@ -1,54 +1,76 @@
-import { DateRangeWidget, useRoute } from '@based/ui'
+import {} from '@based/ui'
 import { render } from 'react-dom'
-import React, { useState } from 'react'
+import React from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { Provider } from '../src/components/Provider'
-import { color } from '../src'
+import { color, Button, Badge, IconClipboard, Text } from '../src'
+import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
-import { Toast, useToast } from '../src/components/Toast'
 import props from './props.json'
-
-// console.log(components)
+import { ComponentDef } from './types'
+import { OverviewComponent } from './OverviewComponent'
 
 export const client = based(basedConfig)
 
-const components = [
+const components: ComponentDef[] = [
   {
     name: 'Button',
-    properties: props.props.ButtonProps,
+    properties: props.props.ButtonProps.props,
+    component: Button,
+    examples: [
+      {
+        children: 'Click me',
+      },
+      {
+        children: 'Click me',
+        icon: () => <IconClipboard />,
+        color: 'system',
+      },
+    ],
+  },
+  {
+    name: 'Badge',
+    properties: props.props.BadgeProps.props,
+    component: Badge,
+    examples: [
+      {
+        children: 'Hello badge',
+      },
+    ],
+  },
+  {
+    name: 'Text',
+    component: Text,
+    properties: props.props.TextProps.props,
+    examples: [
+      {
+        children: 'Some Text',
+        weight: 300,
+      },
+    ],
   },
 ]
 
 const App = () => {
   const route = useRoute()
-  const [textVal, setTextVal] = useState('')
-
-  const toast = useToast()
-  const notify = () => {
-    toast.add(
-      <Toast label="notify" type="success" description="Account created." />
-    )
-  }
 
   return (
     <styled.div
       style={{
+        flexWrap: 'wrap',
         color: color('content', 'default', 'primary'),
         backgroundColor: color('background', 'default', 'muted'),
         padding: '16px 32px',
         display: 'flex',
-        flexDirection: 'column',
         gap: '10px',
       }}
-    ></styled.div>
+    >
+      {components.map((c) => {
+        return <OverviewComponent component={c} key={c.name} />
+      })}
+    </styled.div>
   )
 }
 
-render(
-  <Provider client={client}>
-    <App />
-  </Provider>,
-  document.body
-)
+render(<App />, document.body)

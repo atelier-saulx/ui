@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { CheckboxProps, ToggleProps } from '../types'
+import { CheckboxProps, ToggleProps } from '../../types'
 import { styled } from 'inlines'
 import { IconCheckSmall, IconMinus, color as genColor } from '../../../src'
 import { usePropState } from '../../hooks/usePropState'

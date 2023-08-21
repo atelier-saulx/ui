@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
 import { color } from '../../varsUtilities'
 
-export const Divider = (style: Style) => {
+export const Divider: FC<{
+  style?: Style
+}> = ({ style }) => {
   return (
     <styled.div
       style={{
@@ -11,6 +13,6 @@ export const Divider = (style: Style) => {
         width: '100%',
         ...style,
       }}
-    ></styled.div>
+    />
   )
 }

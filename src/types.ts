@@ -1,30 +1,21 @@
-// types for all components let's go
 import { ReactNode, FC } from 'react'
 import {
   ColorActionColors,
   ColorBackgroundColors,
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
-} from '../varsTypes'
+} from './varsTypes'
 import { Style } from 'inlines'
-import * as icons from '../icons'
 
-// icons.
-// TODO make props of icons
-// let testje = keyof typeof icons
-let newListIconsArr: keyof typeof icons
-type ListOfAllIcons = typeof icons //typeof newListIconsArr
-
-// notes : beforeIcon =                     icon
-//         muted, emphasis = low etc. are   subtle
-//         state , intent etc. =            color
-//        checked, marked ,  -->            active
+export type ClickHandler =
+  | ((e: MouseEvent) => void)
+  | ((e: MouseEvent) => Promise<void>)
 
 export type ActionItemProps = {}
 
 export type AlertBannerProps = {
   color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
-  icon?: ListOfAllIcons
+  icon?: ReactNode
   label?: string
   onClick?: () => void
   style?: Style
@@ -41,14 +32,11 @@ export type AvatarProps = {
 }
 
 export type BadgeProps = {
-  afterIcon?: ListOfAllIcons
-  color?: Exclude<
-    ColorBackgroundColors | ColorNonSemanticBackgroundColors,
-    'default'
-  >
-  icon?: ListOfAllIcons
+  afterIcon?: ReactNode
+  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
+  icon?: ReactNode
   label?: string
-  onClick?: (e: any) => void | (() => void)
+  onClick?: (e: MouseEvent) => void | (() => void)
   style?: Style
   subtle?: boolean
 }
@@ -56,16 +44,16 @@ export type BadgeProps = {
 export type BreadcrumbsProps = {}
 
 export type ButtonProps = {
-  afterIcon?: ListOfAllIcons
+  afterIcon?: ReactNode
   children?: ReactNode
   color?: ColorActionColors
   disabled?: boolean
   dropdownIndicator?: boolean
   ghost?: boolean
-  icon?: ListOfAllIcons
+  icon?: ReactNode
   label?: string
   loading?: boolean
-  onClick?: () => void
+  onClick?: (e: MouseEvent) => void
   size?: 'large' | 'medium' | 'small'
   style?: Style
   subtle?: boolean
@@ -87,14 +75,17 @@ export type CheckboxItemProps = {
 } & CheckboxProps
 
 export type ClickableIconProps = {
-  icon?: ListOfAllIcons
+  icon?: ReactNode
   onClick?: () => void | ((e) => void)
   size?: 'large' | 'small'
   style?: Style
 }
 
 export type CounterProps = {
-  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
+  color?: Exclude<
+    ColorBackgroundColors | ColorNonSemanticBackgroundColors,
+    'default'
+  >
   label?: number
   onClick?: () => void
   style?: Style
@@ -118,7 +109,7 @@ export type DefaultItemProps = {
   description?: string // caption
   disabled?: boolean
   expand: boolean
-  icon?: ListOfAllIcons
+  icon?: ReactNode
   label?: string
 }
 
@@ -146,12 +137,12 @@ export type InputProps = {
 
 export type InputWarningProps = {
   active?: boolean
-  icon?: ListOfAllIcons
+  icon?: ReactNode
   label?: string
 }
 
 export type ListItemProps = {
-  icon?: ListOfAllIcons
+  icon?: ReactNode
   label?: string
   onClick?: () => void
   // value ??
@@ -164,7 +155,7 @@ export type ListProps = {
 
 export type MenuItemProps = {
   active?: boolean
-  icon?: ListOfAllIcons
+  icon?: ReactNode
   label?: string
   onClick?: (e) => void
   // or path maybe??
@@ -234,7 +225,7 @@ export type ScrollAreaProps = {}
 type SelectOption = {
   value: string | number | undefined
   label?: string
-  icon?: ListOfAllIcons
+  icon?: ReactNode
 }
 
 export type SelectProps = {

@@ -5,6 +5,7 @@ const traverse = require('@babel/traverse').default
 
 const parseTypeName = (typeAnnotation) => {
   const type = typeAnnotation?.type
+
   if (type === 'TSUnionType') {
     const types = typeAnnotation?.types.map((t) => {
       return parseTypeName(t)
@@ -50,6 +51,7 @@ const getTypes = async (filePath) => {
       TSTypeAliasDeclaration: function (path) {
         if (path.node.typeAnnotation) {
           const type = path.node.typeAnnotation
+
           if (type.types) {
             const props = {
               name: path.node.id.name,
@@ -67,6 +69,7 @@ const getTypes = async (filePath) => {
                 memberTypeDef.type = parseTypeName(m)
               }
             }
+          } else {
           }
         }
       },
@@ -86,6 +89,9 @@ const genComponentTypes = async (filePath) => {
   })
   const p = []
   const identifiers = {}
+
+  // console.dir(ast, { depth: 1000 })
+
   try {
     traverse(ast, {
       Identifier(p) {
@@ -94,6 +100,9 @@ const genComponentTypes = async (filePath) => {
       TSTypeAliasDeclaration: function (path) {
         if (path.node.id?.name?.includes('Props') && path.node.typeAnnotation) {
           const type = path.node.typeAnnotation
+
+          console.log(path.node.id?.name)
+
           if (type.members) {
             const props = {
               name: path.node.id.name,
@@ -185,7 +194,9 @@ const init = async () => {
     }
   }
 
-  const types = await getTypes(join(__dirname, '../src/components/types.ts'))
+  const types = await genComponentTypes(
+    join(__dirname, '../src/components/types.ts')
+  )
 
   const typesObject = {}
   for (const type of types) {
@@ -203,7 +214,7 @@ const init = async () => {
 
   await fs.writeFile(
     join(__dirname, '../app/props.json'),
-    JSON.stringify({ props: propObject, types: typesObject }, null, 2)
+    JSON.stringify({ props: Object.assign(propObject, typesObject) }, null, 2)
   )
 }
 

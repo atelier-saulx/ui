@@ -1,3 +1,7 @@
 export * from './varsUtilities'
 export * from './vars'
 export * from './icons'
+export * from './components/Button'
+export * from './components/Text'
+export * from './components/Badge'
+export * from './components/Divider'
