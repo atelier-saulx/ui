@@ -12,7 +12,7 @@ const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
           name="viewport"
           content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover"
         />
-        <meta name="title" content="based-ui" />
+        <meta name="title" content="based-ui xx" />
         <title>Based-ui playground</title>
         <link rel="icon" type="image/x-icon" href="${favicon.url}" />
       
@@ -20,7 +20,11 @@ const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
           ${await css.text}
         </style>
       </head>
-      <body style="margin: 0;background:${'#fbfbff'};">
+      <body style="margin: 0;background:${color(
+        'background',
+        'default',
+        'surface'
+      )};">
         <div id="root"></div>
         <script>
           ${await js.text}

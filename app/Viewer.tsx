@@ -77,7 +77,7 @@ export const Viewer: FC<{
               justifyContent: 'center',
               border: border(1),
               borderRadius: 4,
-              background: color('background', 'default'),
+              background: color('standalone', 'dimmer', 8),
             }}
           >
             {React.createElement(component)}

@@ -1,5 +1,5 @@
 // auto ofc...
-import './light.css'
+import './dark.css'
 
 import {
   ColorBorderColors,
