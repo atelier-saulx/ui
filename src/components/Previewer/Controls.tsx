@@ -51,10 +51,10 @@ export const Controls: FC<ControlsProps> = ({
           {/* <select
             onChange={(e) => {
               // make sure you convert value to number here
-              setPropState({
+              setPropState(prev => ({
                 ...propState,
                 ...{ color: e.target.value },
-              })
+              }))
             }}
             value={propState.color}
           >
@@ -78,15 +78,15 @@ export const Controls: FC<ControlsProps> = ({
           <Select
             onChange={(e) => {
               // make sure you convert value to number here // or not for comp with size as strings
-              setPropState({
-                ...propState,
+              setPropState((prev) => ({
+                ...prev,
                 ...{
                   size:
                     typeof componentProps.size.type[0].value === 'number'
                       ? +e
                       : e,
                 },
-              })
+              }))
             }}
             value={propState.size}
             options={componentProps.size.type.map((item, idx) => item.value)}
@@ -101,10 +101,11 @@ export const Controls: FC<ControlsProps> = ({
             size="medium"
             active={propState.subtle}
             onClick={(e) => {
-              setPropState({
-                ...propState,
+              // Need to do like this with prevState, otherwise og component will overwrite again
+              setPropState((prev) => ({
+                ...prev,
                 ...{ subtle: !propState.subtle },
-              })
+              }))
             }}
           />
         </Row>
@@ -117,10 +118,10 @@ export const Controls: FC<ControlsProps> = ({
           <Select
             onChange={(e) => {
               // console.log('🦧', e.target.value)
-              setPropState({
-                ...propState,
+              setPropState((prev) => ({
+                ...prev,
                 ...{ weight: e },
-              })
+              }))
             }}
             value={propState.weight}
             options={componentProps.weight.type.map((item, idx) => item.value)}

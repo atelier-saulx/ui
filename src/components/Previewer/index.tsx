@@ -15,18 +15,12 @@ type PreviewerProps = {
 export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
   const [propState, setPropState] = useState(component.props)
   const [codeString, setCodeString] = useState('')
-  const [renderCounter, setRenderCounter] = useState(1)
 
   const componentProps = typeprops.props[propsName].props
 
   console.log('Previewer -->', component)
   console.log('propsname -->', typeprops.props[propsName])
-
   console.log('componentProps ', componentProps)
-
-  useEffect(() => {
-    setRenderCounter(renderCounter + 1)
-  }, [propState])
 
   const makeReactCode = (obj, propsName) => {
     let finalString = ''
@@ -71,7 +65,7 @@ export const Previewer: FC<PreviewerProps> = ({ component, propsName }) => {
             textAlign: 'center',
           }}
         >
-          {renderCounter && renderOrCreateElement(component, propState)}
+          {renderOrCreateElement(component, propState)}
         </styled.div>
 
         <Controls
