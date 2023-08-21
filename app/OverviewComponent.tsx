@@ -15,13 +15,17 @@ export const OverviewComponent: FC<{
   return (
     <styled.div
       style={{
-        minWidth: isExpanded ? 'calc(100vw - 48px - 62px)' : 400,
+        minWidth: 750,
+        display: 'flex',
+        flexDirection: 'column',
         padding: 24,
         borderRadius: 4,
       }}
     >
       <styled.div
         style={{
+          borderTop: border(1),
+          paddingTop: 12,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -48,16 +52,21 @@ export const OverviewComponent: FC<{
       <styled.div
         style={{
           padding: 24,
+          paddingTop: 64,
           marginTop: 12,
-          border: border(1),
+          flexGrow: 1,
+          borderTop: border(1),
           display: 'flex',
+          alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        {React.createElement(
-          component.component,
-          parseProps(component.examples[0])
-        )}
+        <styled.div>
+          {React.createElement(
+            component.component,
+            parseProps(component.examples[0])
+          )}
+        </styled.div>
       </styled.div>
     </styled.div>
   )

@@ -4,7 +4,7 @@ import React from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { color, Button, Badge, IconClipboard, Text } from '../src'
+import { color, Button, Badge, IconClipboard, Text, Input } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import props from './props.json'
@@ -50,6 +50,17 @@ const components: ComponentDef[] = [
       },
     ],
   },
+  {
+    name: 'Input',
+    component: Input,
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        value: 'Some Text',
+        type: 'text',
+      },
+    ],
+  },
 ]
 
 const App = () => {
@@ -61,9 +72,10 @@ const App = () => {
         flexWrap: 'wrap',
         color: color('content', 'default', 'primary'),
         backgroundColor: color('background', 'default', 'muted'),
-        padding: '16px 32px',
+        padding: '100px',
         display: 'flex',
-        gap: '10px',
+        gap: '64px',
+        justifyContent: 'center',
       }}
     >
       {components.map((c) => {
