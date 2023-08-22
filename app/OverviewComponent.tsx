@@ -3,7 +3,13 @@ import { useRoute } from 'kabouter'
 import { FC } from 'react'
 import { styled } from 'inlines'
 import { ComponentDef } from './types'
-import { Text, border, IconArrowUpRight, IconArrowDownLeft } from '../src'
+import {
+  Text,
+  border,
+  color,
+  IconArrowUpRight,
+  IconArrowDownLeft,
+} from '../src'
 import { parseProps } from './parseProps'
 
 export const OverviewComponent: FC<{
@@ -15,17 +21,15 @@ export const OverviewComponent: FC<{
   return (
     <styled.div
       style={{
-        minWidth: 750,
         display: 'flex',
         flexDirection: 'column',
         padding: 24,
         borderRadius: 4,
+        maxWidth: 1000,
       }}
     >
       <styled.div
         style={{
-          borderTop: border(1),
-          paddingTop: 12,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -51,12 +55,13 @@ export const OverviewComponent: FC<{
       </styled.div>
       <styled.div
         style={{
-          padding: 24,
-          paddingTop: 64,
+          padding: 32,
           marginTop: 12,
           flexGrow: 1,
           borderTop: border(1),
+          borderRadius: 8,
           display: 'flex',
+          backgroundColor: color('background', 'neutral', 'muted'), // add extra bg color...
           alignItems: 'center',
           justifyContent: 'center',
         }}

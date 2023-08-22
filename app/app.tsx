@@ -4,7 +4,16 @@ import React from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { color, Button, Badge, IconClipboard, Text, Input } from '../src'
+import {
+  color,
+  Button,
+  Badge,
+  IconClipboard,
+  Text,
+  border,
+  Input,
+  ScrollArea,
+} from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import props from './props.json'
@@ -69,18 +78,38 @@ const App = () => {
   return (
     <styled.div
       style={{
-        flexWrap: 'wrap',
-        color: color('content', 'default', 'primary'),
-        backgroundColor: color('background', 'default', 'muted'),
-        padding: '100px',
         display: 'flex',
-        gap: '64px',
-        justifyContent: 'center',
+        height: '100vh',
+        width: '100vw',
+        overflow: 'hidden',
       }}
     >
-      {components.map((c) => {
-        return <OverviewComponent component={c} key={c.name} />
-      })}
+      <styled.div
+        style={{
+          minWidth: 300,
+          borderRight: border(1),
+        }}
+      >
+        MENU
+      </styled.div>
+
+      <ScrollArea
+        style={{
+          color: color('content', 'default', 'primary'),
+          backgroundColor: color('background', 'default', 'muted'),
+          paddingLeft: '64px',
+          paddingRight: '64px',
+          paddingTop: '24px',
+          paddingBottom: '24px',
+          display: 'flex',
+          flexGrow: 1,
+          flexDirection: 'column',
+        }}
+      >
+        {components.map((c) => {
+          return <OverviewComponent component={c} key={c.name} />
+        })}
+      </ScrollArea>
     </styled.div>
   )
 }
