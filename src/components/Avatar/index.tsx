@@ -15,10 +15,12 @@ export type AvatarProps = {
   size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'
   style?: Style
   subtle?: boolean
+  squared?: boolean
 }
 
 export const Avatar: FC<AvatarProps> = ({
   color = 'aquamarine',
+  squared = false,
   imgsrc,
   onClick,
   label,
@@ -57,7 +59,7 @@ export const Avatar: FC<AvatarProps> = ({
           color,
           subtle ? 'muted' : 'strong'
         ),
-        borderRadius: '50%',
+        borderRadius: squared ? '8px' : '50%',
         backgroundImage: imgsrc ? `url(${imgsrc})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',

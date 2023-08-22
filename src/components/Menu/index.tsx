@@ -16,6 +16,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
     <styled.div
       id={id}
       style={{
+        marginBottom: '8px',
         '&.closed': {
           marginBottom: '-12px',
         },
@@ -27,7 +28,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
           color="default"
           size={12}
           style={{
-            marginBottom: 16,
+            // marginBottom: 16,
             textTransform: 'uppercase',
             color: color('content', 'default', 'secondary'),
             ...style,
