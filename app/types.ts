@@ -14,5 +14,10 @@ export type ComponentDef = {
   }
   description: string
   component: FC<any>
-  examples: { name?: string; customRenderer?: FC<any>; [key: string]: any }[]
+  examples: {
+    description?: string
+    name?: string
+    customRenderer?: FC<any>
+    [key: string]: any
+  }[]
 }

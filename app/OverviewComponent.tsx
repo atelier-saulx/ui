@@ -55,11 +55,14 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
           display: 'flex',
         }}
       >
-        <Text style={{ minWidth: 200 }} weight="strong">
+        <Text size={12} style={{ minWidth: 200 }} weight="strong">
           {key}
         </Text>
-        <Text style={{ flexGrow: 1 }}>{displayType(prop)}</Text>
+        <Text size={12} style={{ flexGrow: 1 }}>
+          {displayType(prop)}
+        </Text>
         <Text
+          size={12}
           color="default"
           light
           style={{ minWidth: 150, justifyContent: 'flex-end' }}
@@ -92,10 +95,12 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
           backgroundColor: color('background', 'neutral', 'surface'),
         }}
       >
-        <Text style={{ minWidth: 200 }} weight="strong">
+        <Text size={12} style={{ minWidth: 200 }} weight="strong">
           Name
         </Text>
-        <Text style={{ flexGrow: 1 }}>Type</Text>
+        <Text size={12} style={{ flexGrow: 1 }}>
+          Type
+        </Text>
       </styled.div>
       {p}
     </styled.div>
@@ -112,13 +117,20 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
     <>
       {example.name ? (
         <Text
-          style={{ marginTop: 24, marginBottom: -4 }}
+          style={{ marginTop: 32, marginBottom: example.description ? 0 : -12 }}
           size={18}
           weight="strong"
         >
           {example.name}
         </Text>
       ) : null}
+      {example.description ? (
+        <styled.div>
+          <Text size={12}>{example.description}</Text>
+        </styled.div>
+      ) : (
+        ''
+      )}
       <styled.div
         style={{
           padding: 32,
@@ -164,7 +176,7 @@ export const OverviewComponent: FC<{
         </Text>
       </styled.div>
       <styled.div>
-        <Text>{component.description}</Text>
+        <Text size={12}>{component.description}</Text>
       </styled.div>
       <ComponentViewer index={0} component={component} />
       <Props component={component} />

@@ -24,6 +24,7 @@ import basedConfig from '../based.json'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
+import { wait } from '@saulx/utils'
 
 export const client = based(basedConfig)
 
@@ -59,11 +60,29 @@ const components: ComponentDef[] = [
       {
         children: 'Click me',
       },
+
       {
-        children: 'Ghost',
+        onClick: async () => {
+          await wait(1000)
+        },
+        children: 'Do something async',
+        name: 'Async action indicators',
+        description: 'Visual indication of errors and loading state',
+        light: true,
+      },
+      {
+        color: 'alert',
+        onClick: async () => {
+          throw new Error('Flap!')
+        },
+        children: 'Throw an error!',
+        light: true,
+      },
+      {
+        children: 'System color',
         icon: () => <IconClipboard />,
         color: 'system',
-        name: 'Ghost',
+        name: 'Colors',
       },
     ],
   },
