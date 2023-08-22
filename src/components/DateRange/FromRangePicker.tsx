@@ -18,11 +18,11 @@ type RangeFromPickerProps = {
 
 const StyledDatePickerBox = styled('div', {
   background: genColor('background', 'default', 'strong'),
-  //   background: 'red',
+  // background: 'red',
   borderBottomLeftRadius: 4,
   borderBottomRightRadius: 4,
   width: 280,
-  height: 396,
+  // height: 396,
 })
 
 const StyledChevronHolders = styled('div', {

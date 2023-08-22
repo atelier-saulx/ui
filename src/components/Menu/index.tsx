@@ -1,7 +1,14 @@
 import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
-import { ButtonProps } from '../../types'
-import { IconChevronDown, color, Button, ScrollArea, Text, border } from '../..'
-import { Style, styled } from 'inlines'
+import {
+  IconChevronDown,
+  color,
+  Button,
+  ScrollArea,
+  Text,
+  border,
+  Style,
+  styled,
+} from '../..'
 import { MenuItem } from './MenuItem'
 
 type MenuHeaderProps = {
@@ -186,8 +193,76 @@ export const Menu: FC<MenuProps> = ({
     ({ label, value, icon, items, onClick }, i) => {
       // menu header thing not working>?
       if (items) {
-        console.log('thingy')
+        const topValue = value
+        return (
+          <Fragment key={i}>
+            <MenuHeader
+              id={`${i}-menuheader`}
+              style={{
+                marginTop: i && 36,
+                justifyContent: collapse ? 'space-between' : 'unset',
+                display: collapse ? 'flex' : 'unset',
+                alignItems: 'center',
+                marginBottom: '12px',
+              }}
+              onClick={(e) => {
+                if (onChange) {
+                  onChange(value)
+                }
+                if (onClick) {
+                  onClick(e)
+                }
+                if (collapse) {
+                  // @ts-ignore FIX THIS
+                  e.currentTarget.parentNode.nextSibling.classList.toggle(
+                    'hidden'
+                  )
+                  // @ts-ignore FIX THIS
+                  e.currentTarget.parentNode?.childNodes[0]?.childNodes[1]?.classList.toggle(
+                    'closed'
+                  )
+                }
+              }}
+            >
+              {icon ? (
+                <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
+              ) : null}
+              {label}
+              {collapse && <StyledChevron id={`${i}-menuchevron`} />}
+            </MenuHeader>
+            <HideableStyledDiv id={`${i}-menuitems`}>
+              {items.map(({ value, label, onClick, icon }, index: number) => {
+                return (
+                  <MenuItem
+                    value={value}
+                    key={index}
+                    onClick={(e) => {
+                      if (onChange) {
+                        onChange(value, topValue)
+                      }
+                      if (onClick) {
+                        onClick(e)
+                      }
+                    }}
+                    active={isActive ? isActive(value) : active === value}
+                  >
+                    {icon ? (
+                      <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
+                    ) : null}
+                    <Text
+                      weight="strong"
+                      color={active === value ? 'brand' : 'default'}
+                    >
+                      {label}
+                    </Text>
+                  </MenuItem>
+                )
+              })}
+            </HideableStyledDiv>
+          </Fragment>
+        )
       }
+
       return (
         <MenuItem
           key={i}
@@ -201,7 +276,9 @@ export const Menu: FC<MenuProps> = ({
             }
           }}
         >
-          {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
+          {icon ? (
+            <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
+          ) : null}
           {label}
         </MenuItem>
       )
@@ -226,66 +303,3 @@ export const Menu: FC<MenuProps> = ({
     </ScrollArea>
   )
 }
-
-// if (items) {
-//   const topValue = value
-//   return (
-//     <Fragment key={i}>
-//       <MenuHeader
-//         id={`${i}-menuheader`}
-//         style={{
-//           marginTop: i && 36,
-//           border: '1px solid red',
-//           justifyContent: collapse ? 'space-between' : 'unset',
-//           display: collapse ? 'flex' : 'unset',
-//           alignItems: 'center',
-//           marginBottom: '12px',
-//         }}
-//         onClick={(e) => {
-//           if (onChange) {
-//             onChange(value)
-//           }
-//           if (onClick) {
-//             onClick(e)
-//           }
-//           if (collapse) {
-//             // @ts-ignore FIX THIS
-//             e.currentTarget.parentNode.nextSibling.classList.toggle(
-//               'hidden'
-//             )
-//             // @ts-ignore FIX THIS
-//             e.currentTarget.parentNode?.childNodes[0]?.childNodes[1]?.classList.toggle(
-//               'closed'
-//             )
-//           }
-//         }}
-//       >
-//         console.log('menuheader')
-//         {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
-//         {label}
-//         {collapse && <StyledChevron id={`${i}-menuchevron`} />}
-//       </MenuHeader>
-//       <HideableStyledDiv id={`${i}-menuitems`}>
-//         {items.map(({ value, label, onClick, icon }, index: number) => {
-//           return (
-//             <MenuItem
-//               key={index}
-//               onClick={(e) => {
-//                 if (onChange) {
-//                   onChange(value, topValue)
-//                 }
-//                 if (onClick) {
-//                   onClick(e)
-//                 }
-//               }}
-//               active={isActive ? isActive(value) : active === value}
-//             >
-//               {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
-//               <Text weight="strong">{label}</Text>
-//             </MenuItem>
-//           )
-//         })}
-//       </HideableStyledDiv>
-//     </Fragment>
-//   )
-// }
