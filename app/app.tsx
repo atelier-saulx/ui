@@ -28,21 +28,13 @@ import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
 import { wait } from '@saulx/utils'
-import { CheckboxItem } from '../src/components/Checkbox/CheckboxItem'
 
 export const client = based(basedConfig)
-{
-  /* <AlertBanner
-color="warning"
-label="Alert"
-style={{ marginBottom: '12px' }}
-/>
-<AlertBanner
-color="warning"
-label="Alert"
-action={{ label: 'ACTION', onClick: () => console.log('oppa') }}
-/> */
+
+const asyncClick = async () => {
+  await wait(1000)
 }
+
 const components: ComponentDef[] = [
   {
     name: 'Alert Banner',
@@ -51,15 +43,19 @@ const components: ComponentDef[] = [
     description: 'Banners to alert',
     examples: [
       {
-        color: 'negative',
-        label: 'WARNING BREAKING',
+        props: {
+          color: 'negative',
+          label: 'WARNING BREAKING',
+        },
       },
       {
-        color: 'warning',
-        label: 'Warning Resolve',
-        action: { label: 'RESOLVE', onClick: () => console.log('oppa ') },
-        name: 'Warning with button',
-        description: 'Click to resolve',
+        props: {
+          color: 'warning',
+          label: 'Warning Resolve',
+          action: { label: 'RESOLVE', onClick: () => console.log('oppa ') },
+          name: 'Warning with button',
+          description: 'Click to resolve',
+        },
       },
     ],
   },
@@ -70,20 +66,24 @@ const components: ComponentDef[] = [
     description: 'Simple Avatar component',
     examples: [
       {
-        color: 'raspberry',
-        children: 'sd',
-        size: 'large',
-        light: true,
-        squared: true,
+        props: {
+          color: 'raspberry',
+          children: 'sd',
+          size: 'large',
+          light: true,
+          squared: true,
+        },
       },
       {
-        color: 'aquamarine',
-        children: 'F1',
-        size: 'large',
-        light: true,
         name: 'Solid Color Avatar',
         description: 'Rock solid',
-        imgsrc: 'https://robohash.org/G2J.png?set=set1',
+        props: {
+          color: 'aquamarine',
+          children: 'F1',
+          size: 'large',
+          light: true,
+          imgsrc: 'https://robohash.org/G2J.png?set=set1',
+        },
       },
     ],
   },
@@ -94,43 +94,55 @@ const components: ComponentDef[] = [
     description: 'Simple button component',
     examples: [
       {
-        children: 'Click me',
+        props: {
+          children: 'Click me',
+        },
       },
 
       {
-        onClick: async () => {
-          await wait(1000)
-        },
-        color: 'primary',
-        children: 'Do something async',
         name: 'Async action indicators',
         description: 'Visual indication of errors and loading state',
-        light: true,
-      },
-      {
-        color: 'alert',
-        onClick: async () => {
-          throw new Error('Flap!')
+        props: {
+          onClick: async () => {
+            await wait(5000)
+          },
+          color: 'primary',
+          children: 'Do something async',
+
+          light: true,
         },
-        children: 'Throw an error!',
-        size: 'small',
-        light: true,
       },
       {
-        children: 'System color',
-        icon: () => <IconClipboard />,
-        color: 'neutral',
-        size: 'small',
+        props: {
+          color: 'alert',
+          onClick: async () => {
+            throw new Error('Flap!')
+          },
+          children: 'Throw an error!',
+          size: 'small',
+          light: true,
+        },
+      },
+      {
         name: 'Colors',
-        ghost: true,
+
+        props: {
+          children: 'System color',
+          icon: () => <IconClipboard />,
+          color: 'neutral',
+          size: 'small',
+          ghost: true,
+        },
       },
       {
-        children: 'Bare Button',
-        color: 'alert',
-        size: 'xsmall',
-        underline: true,
-        onClick: async () => {
-          await wait(1000)
+        props: {
+          children: 'Bare Button',
+          color: 'alert',
+          size: 'xsmall',
+          underline: true,
+          onClick: async () => {
+            await wait(1000)
+          },
         },
       },
     ],
@@ -142,7 +154,9 @@ const components: ComponentDef[] = [
     description: 'Badge component',
     examples: [
       {
-        children: 'Hello badge',
+        props: {
+          children: 'Hello badge',
+        },
       },
     ],
   },
@@ -153,17 +167,21 @@ const components: ComponentDef[] = [
     description: 'Simple checkbox component',
     examples: [
       {
-        children: 'Click me',
+        props: {
+          children: 'Click me',
+        },
       },
 
       {
-        onClick: async () => {
-          await wait(1000)
+        props: {
+          onClick: async () => {
+            await wait(1000)
+          },
+          warning: true,
+          children: 'Do something async',
         },
-        children: 'Do something async',
         name: 'Warning',
         description: 'Visual indication of errors ',
-        warning: true,
       },
     ],
   },
@@ -174,18 +192,18 @@ const components: ComponentDef[] = [
     component: DatePicker,
     examples: [
       {
-        onChange: (e) => console.log(e),
+        props: { onChange: (e) => console.log(e) },
       },
     ],
   },
   {
     name: 'Date Range',
-    properties: props.props.DateRangeProps.props,
+    properties: {}, // props.props.DateRangeProps.props,
     description: 'Range of date picker',
     component: DateRange,
     examples: [
       {
-        onChange: (e) => console.log(e),
+        props: { onChange: (e) => console.log(e) },
       },
     ],
   },
@@ -212,8 +230,10 @@ const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        placeholder: 'Search & navigate',
-        type: 'search',
+        props: {
+          placeholder: 'Search & navigate',
+          type: 'search',
+        },
       },
     ],
   },
@@ -224,13 +244,28 @@ const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        placeholder: 'Select something',
-        options: [
-          { label: 'Item one', value: 'value1' },
-          { label: 'Item two', value: 'value2' },
-          { label: 'Item three', value: 'value3' },
-        ],
-        type: 'select',
+        props: {
+          placeholder: 'Select something',
+          options: [
+            { label: 'Item one', value: 'value1' },
+            { label: 'Item two', value: 'value2' },
+            { label: 'Item three', value: 'value3' },
+          ],
+          type: 'select',
+        },
+      },
+    ],
+  },
+  {
+    name: 'FileInput',
+    component: Input,
+    description: 'Single file input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        props: {
+          type: 'file',
+        },
       },
     ],
   },
@@ -279,13 +314,19 @@ const App = () => {
       }}
     >
       <Menu
-        header={'Components'}
-        data={components.map((c) => {
-          return {
-            label: c.name,
-            value: c.name,
-          }
-        })}
+        // header={'HEADER'}
+        data={{
+          Dashboard: {
+            Content: 'Content',
+            Morestuff: 'morestuff',
+          },
+          components: components.map((c) => {
+            return {
+              label: c.name,
+              value: c.name,
+            }
+          }),
+        }}
         active={component}
         onChange={(v) => {
           route.setQuery({ component: v })

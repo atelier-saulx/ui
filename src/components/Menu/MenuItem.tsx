@@ -11,6 +11,7 @@ export const MenuItem: FC<MenuItemProps> = ({
   children,
   style,
 }) => {
+  console.log(value, active)
   return (
     <Text
       color={active ? 'brand' : 'default'}

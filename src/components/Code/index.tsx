@@ -13,16 +13,23 @@ import 'prismjs/components/prism-tsx.min'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
-import { Style, styled, color } from '../..'
+import { Style, styled, color as genColor, ColorBackgroundColors } from '../..'
 
 export type CodeProps = {
   style?: Style
   value?: string
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
   header?: ReactNode
+  color?: ColorBackgroundColors
 }
 
-export const Code: FC<CodeProps> = ({ value, style, onChange, header }) => {
+export const Code: FC<CodeProps> = ({
+  value,
+  style,
+  onChange,
+  header,
+  color,
+}) => {
   return (
     <styled.div
       style={{
@@ -30,7 +37,7 @@ export const Code: FC<CodeProps> = ({ value, style, onChange, header }) => {
         position: 'relative',
         maxWidth: '100%',
         borderRadius: 4,
-        background: color('background', 'default', 'subtle'),
+        background: color ? genColor('background', color, 'subtle') : null,
         overflow: 'hidden',
         ...style,
       }}
@@ -38,7 +45,7 @@ export const Code: FC<CodeProps> = ({ value, style, onChange, header }) => {
       {header && (
         <div
           style={{
-            background: color('background', 'default', 'muted'),
+            background: genColor('background', color || 'default', 'muted'),
           }}
         >
           {header}
@@ -59,7 +66,7 @@ export const Code: FC<CodeProps> = ({ value, style, onChange, header }) => {
         style={{
           margin: 16,
           fontSize: 14,
-          color: color('content', 'brand', 'primary'),
+          color: genColor('content', 'brand', 'primary'),
           fontFamily: 'Fira Code, monospace, sans-serif',
         }}
       />
