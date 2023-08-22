@@ -1,5 +1,6 @@
 export * from './varsUtilities'
 export * from './vars'
+export * from './varsTypes'
 export * from './icons'
 export * from './components/AlertBanner'
 export * from './components/Avatar'
@@ -25,7 +26,10 @@ export * from './components/Slider'
 export * from './components/Status'
 export * from './components/Styled'
 export * from './components/Tag'
-
 export * from './components/Text'
 export * from './components/Toast'
 export * from './components/Toggle'
+
+export * from './utils'
+export * from './hooks'
+export * from 'inlines'

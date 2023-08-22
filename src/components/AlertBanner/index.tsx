@@ -2,15 +2,15 @@ import React, { FC, ReactNode } from 'react'
 
 import {
   Center,
+  ColorBackgroundColors,
   IconInfoFill,
   IconAlertFill,
   IconErrorFill,
   Text,
   color as genColor,
+  styled,
+  Style,
 } from '../..'
-
-import { styled, Style } from 'inlines'
-import { ColorBackgroundColors } from '../../varsTypes'
 
 export type AlertBannerProps = {
   color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
