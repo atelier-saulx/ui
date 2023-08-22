@@ -1,7 +1,6 @@
 import { Style, styled } from 'inlines'
 import React, { FC } from 'react'
-import { ProgressCircleProps } from '../../types'
-import { color as genColor } from '../..'
+import { color as genColor, ColorActionColors } from '../..'
 
 const invertedStyle = {
   // height: '64px',
@@ -11,6 +10,13 @@ const invertedStyle = {
   justifyContent: 'center',
   borderRadius: '12px',
   // backgroundColor: genColor('background', 'inverted', 'surface'),
+}
+
+export type ProgressCircleProps = {
+  color?: ColorActionColors
+  style?: Style
+  // value is progress in decimal 1 === complete
+  value?: number
 }
 
 export const ProgressCircle: FC<ProgressCircleProps> = ({

@@ -1,13 +1,15 @@
 import React, { FC, ReactNode } from 'react'
-import { styled, Style } from 'inlines'
-import { color as genColor, Text } from '../..'
-import { renderOrCreateElement } from '../../utils/renderOrCreateElement'
 import {
+  color as genColor,
+  Text,
+  styled,
+  Style,
+  renderOrCreateElement,
   ColorBackgroundColors,
   ColorNonSemanticContentColors,
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
-} from '../../varsTypes'
+} from '../..'
 
 const COLORGUARD = [
   'default',

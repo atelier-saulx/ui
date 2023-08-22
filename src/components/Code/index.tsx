@@ -13,8 +13,7 @@ import 'prismjs/components/prism-tsx.min'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
-import { Style, styled } from 'inlines'
-import { color } from '../../varsUtilities'
+import { Style, styled, color } from '../..'
 
 export type CodeProps = {
   style?: Style

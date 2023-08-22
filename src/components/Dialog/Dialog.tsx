@@ -11,13 +11,15 @@ import React, {
 } from 'react'
 import { useDialog } from './useDialog'
 
-import { styled, Style } from 'inlines'
-import { Button } from '../Button/'
-import { Text } from '../Text'
-import { ScrollArea } from '../ScrollArea'
-import { color } from '../../varsUtilities'
-
-import { ButtonProps } from '../../components/types'
+import {
+  ButtonProps,
+  Button,
+  styled,
+  Style,
+  Text,
+  ScrollArea,
+  color,
+} from '../..'
 
 const Container = styled('div', {
   width: 632,
