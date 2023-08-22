@@ -80,13 +80,22 @@ const components: ComponentDef[] = [
           throw new Error('Flap!')
         },
         children: 'Throw an error!',
+        size: 'small',
         light: true,
       },
       {
         children: 'System color',
         icon: () => <IconClipboard />,
-        color: 'system',
+        color: 'neutral',
+        size: 'small',
         name: 'Colors',
+        ghost: true,
+      },
+      {
+        children: 'Bare Button',
+        color: 'alert',
+        size: 'xsmall',
+        underline: true,
       },
     ],
   },
