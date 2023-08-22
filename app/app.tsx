@@ -56,7 +56,7 @@ const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        value: 'Some Text',
+        defaultValue: 'Some Text',
         type: 'text',
       },
     ],

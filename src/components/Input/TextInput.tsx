@@ -65,9 +65,13 @@ export function TextInput({
           background: 'transparent',
           fontSize: 'inherit',
           lineHeight: 'inherit',
+          border: 'none',
           color: color('content', 'default', 'primary'),
           '&::placeholder': {
             color: color('content', 'default', 'secondary'),
+          },
+          '&:focus': {
+            outline: 'none',
           },
         }}
         {...props}
