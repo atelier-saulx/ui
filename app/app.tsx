@@ -12,7 +12,6 @@ import {
   Menu,
   Text,
   Input,
-  border,
   IconBolt,
   DatePicker,
   DateRange,
@@ -22,6 +21,9 @@ import basedConfig from '../based.json'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
+import { Slider } from '../src/components/Slider'
+import { Tooltip } from '../src/components/Tooltip'
+import { Provider } from '../src/components/Provider'
 
 export const client = based(basedConfig)
 
@@ -120,7 +122,11 @@ const components: ComponentDef[] = [
 ]
 
 const App = () => {
-  const route = useRoute()
+  const route = useRoute('[component]')
+  const component = route.query.component
+  const filtered = components.filter((c) => {
+    return c.name === component
+  })
 
   return (
     <styled.div
@@ -142,6 +148,10 @@ const App = () => {
             value: c.name,
           }
         })}
+        active={component}
+        onChange={(v) => {
+          route.setQuery({ component: v })
+        }}
       />
 
       <ScrollArea
@@ -157,7 +167,7 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        {components.map((c) => {
+        {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}
       </ScrollArea>
@@ -165,4 +175,9 @@ const App = () => {
   )
 }
 
-render(<App />, document.body)
+render(
+  <Provider>
+    <App />
+  </Provider>,
+  document.body
+)

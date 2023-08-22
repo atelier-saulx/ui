@@ -1,7 +1,6 @@
 import React, { FC, ReactNode } from 'react'
 import { styled, Style } from 'inlines'
-import { color as genColor } from '../../../src'
-import { Text } from '../Text'
+import { color as genColor, Text } from '../..'
 import { renderOrCreateElement } from '../../utils/renderOrCreateElement'
 import {
   ColorBackgroundColors,

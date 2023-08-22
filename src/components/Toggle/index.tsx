@@ -1,8 +1,15 @@
 import React, { FC } from 'react'
-import { ToggleProps } from '../types'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { color as genColor } from '../../../src'
 import { usePropState } from '../../hooks/usePropState'
+
+export type ToggleProps = {
+  active?: boolean
+  disabled?: boolean
+  onClick?: (e) => void | (() => void)
+  style?: Style
+  size?: 'large' | 'medium'
+}
 
 export const Toggle: FC<ToggleProps> = ({
   active,

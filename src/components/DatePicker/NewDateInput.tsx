@@ -8,7 +8,6 @@ import { IconCalendar } from '../../icons'
 import { useOverlay } from '../../hooks/useOverlay'
 import { FromRangePicker } from '../DateRange/FromRangePicker'
 import { TillRangePicker } from '../DateRange/TillRangePicker'
-// import { ClickableIcon } from '../ClickableIcon'
 
 type newDateProps = {
   value: number
