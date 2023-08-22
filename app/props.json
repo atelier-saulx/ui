@@ -1123,10 +1123,10 @@
         },
         "onClick": {
           "optional": true,
-          "type": "function"
+          "type": "ClickHandler"
         }
       },
-      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: () => void | ((e) => void)\n}",
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n}",
       "file": "/components/Text/index.tsx"
     },
     "ToastProps": {
