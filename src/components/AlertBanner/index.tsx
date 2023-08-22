@@ -1,5 +1,4 @@
 import React, { FC, ReactNode } from 'react'
-
 import {
   Center,
   ColorBackgroundColors,
@@ -10,29 +9,36 @@ import {
   color as genColor,
   styled,
   Style,
+  Button,
 } from '../..'
 
 export type AlertBannerProps = {
   color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
   icon?: ReactNode
   label?: string
-  onClick?: () => void
   style?: Style
+  // onClick?: () => void
+  // actionLabel?: string
+  action?: { onClick: () => void; label: string }
 }
 
 export const AlertBanner: FC<AlertBannerProps> = ({
   color = 'brand',
   label,
-  onClick,
   style,
+  // onClick,
+  // actionLabel,
+  action,
 }) => {
   return (
     <Center
-      onClick={onClick}
+      // onClick={onClick}
       style={{
         width: '100%',
+        height: '100%',
         maxHeight: '48px',
-        padding: '12px 0px',
+        padding: action ? '8px 0px' : '12px 0px',
+        // cursor: !actionLabel && onClick ? 'pointer' : 'default',
         backgroundColor: genColor('background', color, 'strong'),
         ...style,
       }}
@@ -57,9 +63,27 @@ export const AlertBanner: FC<AlertBannerProps> = ({
           <IconInfoFill />
         )}
       </styled.div>
-      <Text size={14} color="inverted">
+      <Text size={14} color={color === 'warning' ? 'default' : 'inverted'}>
         {label}
       </Text>
+      {action && (
+        <Button
+          onClick={action.onClick}
+          underline={true}
+          size="xsmall"
+          color={color === 'warning' ? 'neutral' : 'inverted'}
+          style={{
+            marginLeft: '9px',
+            // color: genColor(
+            //   'content',
+            //   color === 'warning' ? 'inverted' : 'inverted',
+            //   'primary'
+            // ),
+          }}
+        >
+          {action.label}
+        </Button>
+      )}
     </Center>
   )
 }
