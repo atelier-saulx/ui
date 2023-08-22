@@ -20,6 +20,9 @@ import basedConfig from '../based.json'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
+import { Slider } from '../src/components/Slider'
+import { Tooltip } from '../src/components/Tooltip'
+import { Provider } from '../src/components/Provider'
 
 export const client = based(basedConfig)
 
@@ -145,4 +148,9 @@ const App = () => {
   )
 }
 
-render(<App />, document.body)
+render(
+  <Provider>
+    <App />
+  </Provider>,
+  document.body
+)

@@ -1,7 +1,7 @@
 import { Style, styled } from 'inlines'
 import React, { FC } from 'react'
 import { ProgressCircleProps } from '../../types'
-import { color as genColor } from '../../../src'
+import { color as genColor } from '../..'
 
 const invertedStyle = {
   // height: '64px',

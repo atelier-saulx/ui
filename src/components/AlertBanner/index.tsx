@@ -1,10 +1,16 @@
 import React, { FC, ReactNode } from 'react'
-import { Center } from '../Styled'
-import { IconInfoFill, IconAlertFill, IconErrorFill } from '../..'
-import { color as genColor } from '../../../src'
-import { Text } from '../Text'
-import { styled, Style } from 'inlines'
-import { ColorBackgroundColors } from '../../varsTypes'
+
+import {
+  Center,
+  ColorBackgroundColors,
+  IconInfoFill,
+  IconAlertFill,
+  IconErrorFill,
+  Text,
+  color as genColor,
+  styled,
+  Style,
+} from '../..'
 
 export type AlertBannerProps = {
   color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
