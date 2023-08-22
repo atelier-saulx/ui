@@ -1,9 +1,8 @@
 import React, { FC } from 'react'
-import { styled } from 'inlines'
-import { color as genColor } from '../../../src'
-import { RadioButtonProps } from '../types'
+import { color as genColor, styled } from '../..'
+import { RadioButtonProps } from '../../types'
 
-export const TestButton: FC<RadioButtonProps> = ({
+export const RadioButton: FC<RadioButtonProps> = ({
   warning,
   disabled,
   active,

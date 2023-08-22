@@ -25,7 +25,7 @@ export const MenuItem: FC<MenuItemProps> = ({
         onClick={(e) => onClick(e)}
         style={{
           padding: '8px 12px',
-          margin: '-4px -4px -4px -2px',
+          margin: '-4px -4px 4px -2px',
           boxSizing: 'content-box',
           width: '200px',
           height: '24px',
