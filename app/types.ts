@@ -10,6 +10,7 @@ export type ComponentDef = {
       type: PropType | PropType[]
     }
   }
+  description: string
   component: FC<any>
   examples: { [key: string]: any }[]
 }

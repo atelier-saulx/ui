@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { useRoute } from 'kabouter'
 import { FC } from 'react'
 import { styled } from 'inlines'
@@ -9,8 +9,62 @@ import {
   color,
   IconArrowUpRight,
   IconArrowDownLeft,
+  Menu,
+  IconArrowDown,
+  IconChevronDown,
 } from '../src'
 import { parseProps } from './parseProps'
+
+const displayProps = () => {}
+
+export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
+  const p: ReactNode[] = []
+  for (const key in component.properties) {
+    const prop = component.properties[key]
+    p.push(
+      <styled.div
+        style={{
+          padding: 16,
+          display: 'flex',
+        }}
+      >
+        <Text style={{ minWidth: 200 }} weight="strong">
+          {key}
+        </Text>
+        <Text style={{ flexGrow: 1 }}>{JSON.stringify(prop.type).trim()}</Text>
+      </styled.div>
+    )
+  }
+
+  return (
+    <styled.div
+      style={{
+        marginTop: 32,
+        width: '100%',
+      }}
+    >
+      <Text size={18} weight="strong">
+        Props
+      </Text>
+
+      <styled.div
+        style={{
+          marginTop: 12,
+          padding: 16,
+          borderRadius: 8,
+          display: 'flex',
+          backgroundColor: color('background', 'neutral', 'surface'),
+        }}
+      >
+        <Text style={{ minWidth: 200 }} weight="strong">
+          Name
+        </Text>
+        <Text style={{ flexGrow: 1 }}>Type</Text>
+      </styled.div>
+      {p}
+    </styled.div>
+  )
+}
 
 export const OverviewComponent: FC<{
   component: ComponentDef
@@ -38,30 +92,18 @@ export const OverviewComponent: FC<{
         <Text size={18} weight="strong">
           {component.name}
         </Text>
-        {isExpanded ? (
-          <IconArrowDownLeft
-            onClick={() => {
-              // @ts-ignore
-              route.setQuery({ expand: null })
-            }}
-          />
-        ) : (
-          <IconArrowUpRight
-            onClick={() => {
-              route.setQuery({ expand: component.name })
-            }}
-          />
-        )}
+      </styled.div>
+      <styled.div>
+        <Text>{component.description}</Text>
       </styled.div>
       <styled.div
         style={{
           padding: 32,
-          marginTop: 12,
+          marginTop: 24,
           flexGrow: 1,
-          borderTop: border(1),
           borderRadius: 8,
           display: 'flex',
-          backgroundColor: color('background', 'neutral', 'muted'), // add extra bg color...
+          backgroundColor: color('background', 'neutral', 'surface'), // add extra bg color...
           alignItems: 'center',
           justifyContent: 'center',
         }}
@@ -73,6 +115,8 @@ export const OverviewComponent: FC<{
           )}
         </styled.div>
       </styled.div>
+
+      <Props component={component} />
     </styled.div>
   )
 }

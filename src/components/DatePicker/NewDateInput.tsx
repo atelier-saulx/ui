@@ -8,7 +8,6 @@ import { IconCalendar } from '../../icons'
 import { useOverlay } from '../../hooks/useOverlay'
 import { FromRangePicker } from '../DateRange/FromRangePicker'
 import { TillRangePicker } from '../DateRange/TillRangePicker'
-import { ClickableIcon } from '../ClickableIcon'
 
 type newDateProps = {
   value: number
@@ -276,7 +275,8 @@ export const NewDateInput = ({
           }}
         >
           {/* @ts-ignore*/}
-          <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} />
+          {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
+          <IconCalendar />
           <styled.div
             style={{
               padding: '0px 1px',

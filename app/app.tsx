@@ -1,4 +1,3 @@
-import {} from '@based/ui'
 import { render } from 'react-dom'
 import React from 'react'
 import { styled } from 'inlines'
@@ -10,23 +9,52 @@ import {
   Badge,
   IconClipboard,
   ScrollArea,
+  Menu,
   Text,
   Input,
   IconBolt,
+  DatePicker,
+  DateRange,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
+import { Slider } from '../src/components/Slider'
+import { Tooltip } from '../src/components/Tooltip'
+import { Provider } from '../src/components/Provider'
 
 export const client = based(basedConfig)
 
 const components: ComponentDef[] = [
   {
+    name: 'Date Picker',
+    properties: props.props.DatePickerProps.props,
+    description: 'Single day picker',
+    component: DatePicker,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
+  // {
+  //   name: 'Date Range',
+  //   properties: props.props.DateRangeProps.props,
+  //   description: 'Range of date picker',
+  //   component: DateRange,
+  //   examples: [
+  //     {
+  //       onChange: (e) => console.log(e),
+  //     },
+  //   ],
+  // },
+  {
     name: 'Button',
     properties: props.props.ButtonProps.props,
     component: Button,
+    description: 'Simple button component',
     examples: [
       {
         children: 'Click me',
@@ -42,6 +70,7 @@ const components: ComponentDef[] = [
     name: 'Badge',
     properties: props.props.BadgeProps.props,
     component: Badge,
+    description: 'Badge component',
     examples: [
       {
         children: 'Hello badge',
@@ -51,6 +80,7 @@ const components: ComponentDef[] = [
   {
     name: 'Text',
     component: Text,
+    description: 'Text including typeography',
     properties: props.props.TextProps.props,
     examples: [
       {
@@ -62,6 +92,7 @@ const components: ComponentDef[] = [
   {
     name: 'TextInput',
     component: Input,
+    description: 'Text Input',
     properties: props.props.InputProps.props,
     examples: [
       {
@@ -75,6 +106,7 @@ const components: ComponentDef[] = [
   {
     name: 'SelectInput',
     component: Input,
+    description: 'Select input',
     properties: props.props.InputProps.props,
     examples: [
       {
@@ -90,7 +122,11 @@ const components: ComponentDef[] = [
 ]
 
 const App = () => {
-  const route = useRoute()
+  const route = useRoute('[component]')
+  const component = route.query.component
+  const filtered = components.filter((c) => {
+    return c.name === component
+  })
 
   return (
     <styled.div
@@ -101,14 +137,18 @@ const App = () => {
         overflow: 'hidden',
       }}
     >
-      <styled.div
-        style={{
-          minWidth: 300,
-          borderRight: border(1),
+      <Menu
+        data={components.map((c) => {
+          return {
+            label: c.name,
+            value: c.name,
+          }
+        })}
+        active={component}
+        onChange={(v) => {
+          route.setQuery({ component: v })
         }}
-      >
-        MENU
-      </styled.div>
+      />
 
       <ScrollArea
         style={{
@@ -123,7 +163,7 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        {components.map((c) => {
+        {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}
       </ScrollArea>
@@ -131,4 +171,9 @@ const App = () => {
   )
 }
 
-render(<App />, document.body)
+render(
+  <Provider>
+    <App />
+  </Provider>,
+  document.body
+)

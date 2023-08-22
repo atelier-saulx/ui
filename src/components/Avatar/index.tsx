@@ -1,8 +1,5 @@
-import React, { FC, SyntheticEvent, useState } from 'react'
-import { color as genColor } from '../../../src'
-import { Text } from '../Text'
-import { Center } from '../Styled'
-// import { AvatarProps } from '../types'
+import React, { FC } from 'react'
+import { color as genColor, Text, Center } from '../..'
 import { Style } from 'inlines'
 import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 

@@ -7,7 +7,6 @@ import { FromRangePicker } from './FromRangePicker'
 import { TillRangePicker } from './TillRangePicker'
 import { removeOverlay } from '../Overlay'
 import { Center } from '../Styled'
-import { ClickableIcon } from '../ClickableIcon'
 
 type DateRangeDoubleInputProps = {
   fromValue: number
@@ -124,7 +123,7 @@ export const DateRangeDoubleInput = ({
   const openFromRangePicker = useOverlay(
     FromRangePicker,
     { setValue: setFromValue, timeString, stringToMilliseconds },
-    { width: '100%', position: 'right' }
+    { width: '100%', position: 'right', variant: 'detached' }
     //   width?: number | '100%' | 'target' | 'auto'
     // position?: 'left' | 'right' | 'top' | 'bottom'
     // placement?: 'center' | 'left' | 'right'
@@ -147,7 +146,7 @@ export const DateRangeDoubleInput = ({
   // console.log('Days in this month', daysInMonth(newMonth, newYear))
 
   return (
-    <styled.div style={{ display: 'flex' }}>
+    <styled.div style={{ display: 'flex', alignItems: 'center' }}>
       {/* hide from ui - user */}
       <styled.div
         style={{
@@ -415,8 +414,9 @@ export const DateRangeDoubleInput = ({
 
       <styled.div
         style={{
-          border: '2px solid transparent',
+          // border: '2px solid red',
           display: 'flex',
+          alignItems: 'center',
         }}
       >
         {/* FROM FROM FROM */}
@@ -426,7 +426,7 @@ export const DateRangeDoubleInput = ({
             position: 'relative',
             border: '1px solid',
             borderColor: genColor('border', 'default', 'strong'),
-            // borderColor: 'red',
+            boxSizing: 'content-box',
             borderRadius: 8,
             boxShadow: `0px 0px 0px 2px ${genColor(
               'action',
@@ -437,6 +437,7 @@ export const DateRangeDoubleInput = ({
             paddingLeft: 8,
             paddingRight: 12,
             alignItems: 'center',
+            width: '100%',
             maxWidth: 139,
             borderTopRightRadius: 0,
             borderBottomRightRadius: 0,
@@ -447,8 +448,8 @@ export const DateRangeDoubleInput = ({
           }}
         >
           {/* @ts-ignore*/}
-          <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} />
-          {/* <IconCalendar /> */}
+          {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
+          <IconCalendar />
           {/* </ClickableIcon> */}
           <styled.div
             style={{
@@ -513,6 +514,7 @@ export const DateRangeDoubleInput = ({
           style={{
             display: 'flex',
             position: 'relative',
+            border: '1px solid',
             borderColor: genColor('border', 'default', 'strong'),
             borderRadius: 8,
             boxShadow: `0px 0px 0px 2px ${genColor(
@@ -521,14 +523,15 @@ export const DateRangeDoubleInput = ({
               'subtleNormal'
             )}`,
             height: 36,
-            // paddingLeft: 32,
+            boxSizing: 'content-box',
             paddingLeft: 8,
             paddingRight: 12,
             alignItems: 'center',
+            width: '100%',
             maxWidth: 139,
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
-            marginLeft: -1,
+            marginLeft: 4,
             ...style,
           }}
           onClick={(e) => {
@@ -536,7 +539,8 @@ export const DateRangeDoubleInput = ({
           }}
         >
           {/* @ts-ignore*/}
-          <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} />
+          {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
+          <IconCalendar />
           <styled.div
             style={{
               padding: '0px 1px',
