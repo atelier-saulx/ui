@@ -1,8 +1,14 @@
 import React, { FC, ReactNode } from 'react'
-import { Center } from '../Styled'
-import { IconInfoFill, IconAlertFill, IconErrorFill } from '../..'
-import { color as genColor } from '../../../src'
-import { Text } from '../Text'
+
+import {
+  Center,
+  IconInfoFill,
+  IconAlertFill,
+  IconErrorFill,
+  Text,
+  color as genColor,
+} from '../..'
+
 import { styled, Style } from 'inlines'
 import { ColorBackgroundColors } from '../../varsTypes'
 

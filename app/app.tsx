@@ -10,6 +10,9 @@ import basedConfig from '../based.json'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
+import { Slider } from '../src/components/Slider'
+import { Tooltip } from '../src/components/Tooltip'
+import { Provider } from '../src/components/Provider'
 
 export const client = based(basedConfig)
 
@@ -67,22 +70,36 @@ const App = () => {
   const route = useRoute()
 
   return (
-    <styled.div
-      style={{
-        flexWrap: 'wrap',
-        color: color('content', 'default', 'primary'),
-        backgroundColor: color('background', 'default', 'muted'),
-        padding: '100px',
-        display: 'flex',
-        gap: '64px',
-        justifyContent: 'center',
-      }}
-    >
-      {components.map((c) => {
-        return <OverviewComponent component={c} key={c.name} />
-      })}
-    </styled.div>
+    <>
+      {' '}
+      <styled.div
+        style={{
+          flexWrap: 'wrap',
+          color: color('content', 'default', 'primary'),
+          backgroundColor: color('background', 'default', 'muted'),
+          padding: '100px',
+          display: 'flex',
+          gap: '64px',
+          justifyContent: 'center',
+        }}
+      >
+        <styled.div style={{ width: '300px' }}>
+          <Slider />
+          <styled.div style={{ marginBottom: '24px' }} />
+          <Tooltip />
+        </styled.div>
+
+        {components.map((c) => {
+          return <OverviewComponent component={c} key={c.name} />
+        })}
+      </styled.div>
+    </>
   )
 }
 
-render(<App />, document.body)
+render(
+  <Provider>
+    <App />
+  </Provider>,
+  document.body
+)

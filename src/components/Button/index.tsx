@@ -17,7 +17,7 @@ import { color as genColor } from '../../varsUtilities'
 import { Text } from '../Text'
 import { useKeyboardShortcut } from '../../hooks/useKeyboard'
 import { KeyBoardshortcut } from '../KeyboardShortcut'
-import { ProgressCircle } from '../ProgressCircle/ProgressCircle'
+import { ProgressCircle } from '../ProgressCircle'
 import { ColorActionColors, ColorContentColors } from '../../varsTypes'
 import { Key } from '../KeyboardShortcut'
 import { IconChevronDownSmall } from '../../icons'
@@ -78,6 +78,7 @@ export const getButtonStyle = (
   const style: Style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
     pointerEvents: disabled ? 'none' : 'auto',
+    border: `1px solid transparent`,
     cursor: disabled ? 'not-allowed' : 'pointer',
     backgroundColor: ghost
       ? 'transparent'
