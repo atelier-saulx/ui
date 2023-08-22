@@ -174,6 +174,17 @@ const components: ComponentDef[] = [
       },
     ],
   },
+  {
+    name: 'FileInput',
+    component: Input,
+    description: 'Single file input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        type: 'file',
+      },
+    ],
+  },
 ]
 
 const App = () => {
