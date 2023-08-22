@@ -30,6 +30,7 @@ const components: ComponentDef[] = [
   {
     name: 'Date Picker',
     properties: props.props.DatePickerProps.props,
+    description: 'Single day picker',
     component: DatePicker,
     examples: [
       {
@@ -40,6 +41,7 @@ const components: ComponentDef[] = [
   {
     name: 'Date Range',
     properties: props.props.DateRangeProps.props,
+    description: 'Range of date picker',
     component: DateRange,
     examples: [
       {
