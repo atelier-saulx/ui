@@ -1,6 +1,5 @@
-import { Style, styled } from 'inlines'
 import React, { FC } from 'react'
-import { color as genColor, ColorActionColors } from '../..'
+import { color as genColor, ColorActionColors, Style, styled } from '../..'
 
 const invertedStyle = {
   // height: '64px',
