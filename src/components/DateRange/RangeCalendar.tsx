@@ -143,7 +143,7 @@ export const RangeCalendar = ({
         style={{
           display: 'flex',
           textAlign: 'center',
-          color: 'grey',
+          color: genColor('content', 'default', 'secondary'),
           padding: '0px 20px',
           justifyContent: 'center',
           '& div': {

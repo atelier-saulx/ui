@@ -18,6 +18,7 @@ import {
   Text,
   DatePicker,
   DateRange,
+  Avatar,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -30,24 +31,23 @@ export const client = based(basedConfig)
 
 const components: ComponentDef[] = [
   {
-    name: 'Date Picker',
-    properties: props.props.DatePickerProps.props,
-    description: 'Single day picker',
-    component: DatePicker,
+    name: 'Avatar',
+    properties: props.props.ButtonProps.props,
+    component: Avatar,
+    description: 'Simple Avatar component',
     examples: [
       {
-        onChange: (e) => console.log(e),
+        color: 'raspberry',
+        label: 's',
+        size: 'large',
+        subtle: true,
+        squared: true,
       },
-    ],
-  },
-  {
-    name: 'Date Range',
-    properties: props.props.DateRangeProps.props,
-    description: 'Range of date picker',
-    component: DateRange,
-    examples: [
       {
-        onChange: (e) => console.log(e),
+        color: 'raspberry',
+        label: 's',
+        size: 'large',
+        subtle: false,
       },
     ],
   },
@@ -107,6 +107,28 @@ const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Date Picker',
+    properties: props.props.DatePickerProps.props,
+    description: 'Single day picker',
+    component: DatePicker,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
+  {
+    name: 'Date Range',
+    properties: props.props.DateRangeProps.props,
+    description: 'Range of date picker',
+    component: DateRange,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
+  {
     name: 'Text',
     component: Text,
     description: 'Text including typeography',
@@ -129,6 +151,18 @@ const components: ComponentDef[] = [
         placeholder: 'placeholder',
         beforeIcon: () => <IconBolt />,
         type: 'text',
+      },
+    ],
+  },
+  {
+    name: 'SearchInput',
+    component: Input,
+    description: 'Text Input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        placeholder: 'Search & navigate',
+        type: 'search',
       },
     ],
   },

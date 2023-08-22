@@ -227,7 +227,6 @@ export const Button: FC<ButtonProps> = (props) => {
     >
       <div
         style={{
-          //   visibility: loading ? 'hidden' : null,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

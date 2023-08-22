@@ -96,18 +96,6 @@ export type DropdownProps = {}
 export type FilterPillProps = {}
 
 // text field in figma
-export type InputProps = {
-  description?: string
-  disabled?: boolean
-  onChange?: (value: any) => void
-  errorMessage?: string
-  label?: string
-  pattern?: string
-  placeholder?: string
-  style?: Style
-  type: 'text' | 'number' | 'date' | 'json' | 'multiline' | 'markdown'
-  value?: any
-}
 
 export type InputWarningProps = {
   active?: boolean

@@ -1,5 +1,5 @@
-import React from 'react'
-import { styled } from 'inlines'
+import React, { useState } from 'react'
+import { Style, styled } from 'inlines'
 import { color } from '../../varsUtilities'
 import { Badge } from '../Badge'
 import { BadgeProps } from '../types'
@@ -9,18 +9,22 @@ export type TextInputOwnProps = {
   suffix?: BadgeProps
   beforeIcon?: React.ReactNode
   afterIcon?: React.ReactNode
+  style?: Style
 }
 
 export type TextInputProps = TextInputOwnProps &
-  Omit<React.ComponentPropsWithoutRef<'input'>, 'style' | 'prefix'>
+  Omit<React.ComponentPropsWithoutRef<'input'>, 'prefix'>
 
 export function TextInput({
   prefix,
   suffix,
   beforeIcon,
   afterIcon,
+  style,
   ...props
 }: TextInputProps) {
+  const [isEmpty, setIsEmpty] = useState(!(props.value || props.defaultValue))
+
   return (
     <styled.div
       style={{
@@ -30,10 +34,11 @@ export function TextInput({
         borderRadius: 8,
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: color('background', 'default', 'surface'),
+        backgroundColor: 'transparent',
         fontSize: '14px',
         lineHeight: '24px',
         boxSizing: 'border-box',
+        color: color('content', 'default', isEmpty ? 'secondary' : 'primary'),
         border: `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`,
         '&:hover': {
           border: `1px solid ${color(
@@ -55,11 +60,17 @@ export function TextInput({
               opacity: '50%',
             }
           : {}),
+        ...style,
       }}
     >
       {beforeIcon && <div style={{ flexShrink: 0 }}>{beforeIcon}</div>}
       {prefix && <Badge {...prefix}>{prefix}</Badge>}
       <styled.input
+        onChange={(e) => {
+          setIsEmpty(e.target.value === '')
+
+          props?.onChange?.(e)
+        }}
         style={{
           width: '100%',
           appearance: 'none',
@@ -67,6 +78,7 @@ export function TextInput({
           fontSize: 'inherit',
           lineHeight: 'inherit',
           border: 'none',
+          padding: 0,
           color: color('content', 'default', 'primary'),
           '&::placeholder': {
             color: color('content', 'default', 'secondary'),

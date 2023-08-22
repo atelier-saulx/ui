@@ -21,7 +21,7 @@ const StyledDatePickerBox = styled('div', {
   borderBottomLeftRadius: 4,
   borderBottomRightRadius: 4,
   width: 280,
-  height: 396,
+  // height: 396,
 })
 
 const StyledChevronHolders = styled('div', {

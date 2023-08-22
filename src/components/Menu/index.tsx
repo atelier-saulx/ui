@@ -1,7 +1,14 @@
 import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
-import { ButtonProps } from '../../types'
-import { IconChevronDown, color, Button, ScrollArea, Text, border } from '../..'
-import { Style, styled } from 'inlines'
+import {
+  IconChevronDown,
+  color,
+  Button,
+  ScrollArea,
+  Text,
+  border,
+  Style,
+  styled,
+} from '../..'
 import { MenuItem } from './MenuItem'
 
 type MenuHeaderProps = {
@@ -16,6 +23,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
     <styled.div
       id={id}
       style={{
+        marginBottom: '8px',
         '&.closed': {
           marginBottom: '-12px',
         },
@@ -27,7 +35,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
           color="default"
           size={12}
           style={{
-            marginBottom: 16,
+            // marginBottom: 16,
             textTransform: 'uppercase',
             color: color('content', 'default', 'secondary'),
             ...style,
