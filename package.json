@@ -28,6 +28,8 @@
     "@babel/parser": "^7.18.6",
     "@babel/traverse": "^7.18.6",
     "@based/cli": "^5.5.3",
+    "@saulx/utils": "^3.5.3",
+    "kabouter": "^1.4.6",
     "@based/functions": "^2.2.2",
     "@saulx/eslint-config": "^1.1.1",
     "@saulx/prettier-config": "^1.0.0",

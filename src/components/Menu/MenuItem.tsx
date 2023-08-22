@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { MenuItemProps } from '../types'
+import { MenuItemProps } from '../../types'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 import { color as genColor } from '../../../src'

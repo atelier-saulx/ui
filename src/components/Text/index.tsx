@@ -1,10 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import { styled, Style } from 'inlines'
-import { color as genColor } from '../../../src'
-import {
-  ColorContentColors,
-  ColorNonSemanticContentColors,
-} from '../../../src/varsTypes'
+import { color as genColor } from '../../'
+import { ColorContentColors } from '../../varsTypes'
 
 type TextProps = {
   children: ReactNode
@@ -23,8 +20,7 @@ export const Text: FC<TextProps> = ({
   weight = 'normal',
   onClick,
 }) => {
-  //
-  let newLineHeight =
+  const newLineHeight =
     size === 10
       ? '16px'
       : size === 12
@@ -49,6 +45,8 @@ export const Text: FC<TextProps> = ({
     <styled.div
       onClick={onClick}
       style={{
+        display: 'flex',
+        flexWrap: 'wrap',
         color: genColor('content', color, 'primary'),
         fontSize: size,
         fontFamily:
@@ -57,7 +55,6 @@ export const Text: FC<TextProps> = ({
             : weight === 'medium'
             ? 'Inter-Medium'
             : 'Inter-Regular',
-        // fontWeight: weight === 'strong' ? 600 : weight === 'medium' ? 500 : 400,
         lineHeight: newLineHeight,
         ...style,
       }}

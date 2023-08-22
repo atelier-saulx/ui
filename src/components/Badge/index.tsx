@@ -1,12 +1,13 @@
-import React, { FC, SyntheticEvent } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { styled, Style } from 'inlines'
-import { BadgeProps } from '../types'
 import { color as genColor } from '../../../src'
 import { Text } from '../Text'
 import { renderOrCreateElement } from '../../utils/renderOrCreateElement'
 import {
-  ColorContentColors,
+  ColorBackgroundColors,
   ColorNonSemanticContentColors,
+  ColorContentColors,
+  ColorNonSemanticBackgroundColors,
 } from '../../varsTypes'
 
 const COLORGUARD = [
@@ -19,6 +20,16 @@ const COLORGUARD = [
   'negative',
   'brand',
 ]
+
+export type BadgeProps = {
+  afterIcon?: ReactNode
+  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
+  icon?: ReactNode
+  children?: ReactNode
+  onClick?: (e: MouseEvent) => void | (() => void)
+  style?: Style
+  subtle?: boolean
+}
 
 // export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
 //   copyValue,
@@ -49,7 +60,7 @@ export const Badge: FC<BadgeProps> = ({
   style,
   onClick,
   subtle,
-  label,
+  children,
   afterIcon,
   color = 'neutral',
 }) => {
@@ -75,8 +86,8 @@ export const Badge: FC<BadgeProps> = ({
         minWidth: 'fit-content',
         borderRadius: '24px',
         cursor: onClick ? 'pointer' : null,
-        padding: !label ? '0px 0px' : '0px 8px',
-        width: label ? 'fit-content' : 24,
+        padding: !children ? '0px 0px' : '0px 8px',
+        width: children ? 'fit-content' : 24,
         maxWidth: '100%',
         display: 'flex',
         color: genColor(
@@ -99,7 +110,7 @@ export const Badge: FC<BadgeProps> = ({
         <styled.div
           style={{
             display: 'flex',
-            marginRight: label ? 8 : 0,
+            marginRight: children ? 8 : 0,
             width: 16,
             height: 16,
             maxWidth: '100%',
@@ -118,13 +129,13 @@ export const Badge: FC<BadgeProps> = ({
           color: 'inherit',
         }}
       >
-        {label}
+        {children}
       </Text>
       {afterIcon && (
         <styled.div
           style={{
             display: 'flex',
-            marginLeft: label ? 8 : 0,
+            marginLeft: children ? 8 : 0,
             width: 16,
             height: 16,
             maxWidth: '100%',

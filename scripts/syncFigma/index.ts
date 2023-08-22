@@ -2,24 +2,8 @@ import fs from 'fs-extra'
 import based from '@based/client'
 import { join } from 'path'
 import camelCase from './camelCase'
-const config = require('../based.json')
+const config = require('../../based.json')
 const colors = require('./Colors.json')
-
-function removeRepeatingNamesPerString(inputString: string): string {
-  const namesArray = inputString.split('-')
-  const uniqueNamesArray: string[] = []
-  const seenNames: Set<string> = new Set()
-
-  for (const name of namesArray) {
-    if (!seenNames.has(name)) {
-      uniqueNamesArray.push(name)
-      seenNames.add(name)
-    }
-  }
-
-  const uniqueString = uniqueNamesArray.join('-')
-  return uniqueString
-}
 
 function toRgb(v: any): string {
   if (v.a === 1) {
@@ -56,7 +40,7 @@ function convertNumberToLetters(number: number): string {
 const start = async () => {
   const client = based(config)
 
-  await fs.ensureDir(join(__dirname, '../src/icons'))
+  await fs.ensureDir(join(__dirname, '../../src/icons'))
 
   const icons = await client.call('import-figma')
 
@@ -64,7 +48,7 @@ const start = async () => {
 
   let myFile = `import React from 'react'
 import { color as genColor } from '../'
-import { Icon } from './type'
+import { Icon } from './Icon'
 `
 
   for (const icon of icons.size20) {
@@ -87,7 +71,7 @@ import { Icon } from './type'
     }
   }
 
-  await fs.writeFile(join(__dirname, '../src/icons/index.tsx'), myFile)
+  await fs.writeFile(join(__dirname, '../../src/icons/index.tsx'), myFile)
 
   client.destroy()
 }
@@ -336,15 +320,15 @@ const parseVars = async () => {
 
   for (const mode in modeFiles) {
     await fs.writeFile(
-      join(__dirname, `../src/${camelCase(mode, {})}.css`),
+      join(__dirname, `../../src/${camelCase(mode, {})}.css`),
       modeFiles[mode]
     )
   }
   await fs.writeFile(
-    join(__dirname, '../src/vars.ts'),
+    join(__dirname, '../../src/vars.ts'),
     `export const vars = ${JSON.stringify(vars)}`
   )
-  await fs.writeFile(join(__dirname, '../src/varsTypes.ts'), types)
+  await fs.writeFile(join(__dirname, '../../src/varsTypes.ts'), types)
 }
 
 parseVars()
