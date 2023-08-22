@@ -164,6 +164,10 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
+        <styled.div style={{ border: '1px solid red', padding: 64 }}>
+          <Slider />
+        </styled.div>
+
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}

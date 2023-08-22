@@ -26,7 +26,7 @@ export const useTooltip = (
       style: {
         padding: '4px 8px',
         width: 'fit-content',
-
+        borderRadius: '4px',
         backgroundColor: genColor('background', 'inverted', 'strong'),
       },
     }
