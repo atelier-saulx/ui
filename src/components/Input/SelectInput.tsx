@@ -26,6 +26,7 @@ export function SelectInput({
   return (
     <styled.div
       style={{
+        position: 'relative',
         height: 40,
         width: '100%',
         padding: '0 12px',
@@ -47,10 +48,6 @@ export function SelectInput({
           border: `1px solid ${color('inputBorder', 'active', 'default')}`,
           boxShadow: `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
         },
-        '& > * + *': {
-          // px instead of raw number bc of https://github.com/atelier-saulx/inlines/issues/1
-          marginLeft: '8px',
-        },
         ...(props.disabled
           ? {
               opacity: '50%',
@@ -62,13 +59,19 @@ export function SelectInput({
       <styled.select
         style={{
           width: '100%',
+          height: '100%',
           appearance: 'none',
+          border: 'none',
           background: 'transparent',
           fontSize: 'inherit',
           lineHeight: 'inherit',
+          paddingRight: 28,
           color: color('content', 'default', 'primary'),
           '&::placeholder': {
             color: color('content', 'default', 'secondary'),
+          },
+          '&:focus': {
+            outline: 'none',
           },
         }}
         {...props}
@@ -79,7 +82,19 @@ export function SelectInput({
           </option>
         ))}
       </styled.select>
-      <div style={{ flexShrink: 0 }}>
+      <div
+        style={{
+          flexShrink: 0,
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          right: 12,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          pointerEvents: 'none',
+        }}
+      >
         <IconChevronDownSmall />
       </div>
     </styled.div>

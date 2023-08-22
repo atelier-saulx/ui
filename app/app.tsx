@@ -9,10 +9,10 @@ import {
   Button,
   Badge,
   IconClipboard,
-  Text,
-  border,
-  Input,
   ScrollArea,
+  Text,
+  Input,
+  IconBolt,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -60,13 +60,30 @@ const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'Input',
+    name: 'TextInput',
     component: Input,
     properties: props.props.InputProps.props,
     examples: [
       {
-        value: 'Some Text',
+        defaultValue: 'hello world',
+        placeholder: 'placeholder',
+        beforeIcon: () => <IconBolt />,
         type: 'text',
+      },
+    ],
+  },
+  {
+    name: 'SelectInput',
+    component: Input,
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        options: [
+          { label: 'label 1', value: 'value1' },
+          { label: 'label 2', value: 'value2' },
+          { label: 'label 3', value: 'value3' },
+        ],
+        type: 'select',
       },
     ],
   },
