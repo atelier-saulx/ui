@@ -638,68 +638,9 @@
     },
     "InputProps": {
       "name": "InputProps",
-      "props": {
-        "description": {
-          "optional": true,
-          "type": "string"
-        },
-        "disabled": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "onChange": {
-          "optional": true,
-          "type": "function"
-        },
-        "errorMessage": {
-          "optional": true,
-          "type": "string"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
-        "pattern": {
-          "optional": true,
-          "type": "string"
-        },
-        "placeholder": {
-          "optional": true,
-          "type": "string"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "type": {
-          "type": [
-            {
-              "value": "text"
-            },
-            {
-              "value": "number"
-            },
-            {
-              "value": "date"
-            },
-            {
-              "value": "json"
-            },
-            {
-              "value": "multiline"
-            },
-            {
-              "value": "markdown"
-            }
-          ]
-        },
-        "value": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        }
-      },
-      "code": "type InputProps = {\n  description?: string\n  disabled?: boolean\n  onChange?: (value: any) => void\n  errorMessage?: string\n  label?: string\n  pattern?: string\n  placeholder?: string\n  style?: Style\n  type: 'text' | 'number' | 'date' | 'json' | 'multiline' | 'markdown'\n  value?: any\n}",
-      "file": "/types.ts"
+      "props": {},
+      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'select' } & SelectInputProps)",
+      "file": "/components/Input/index.tsx"
     },
     "MenuHeaderProps": {
       "name": "MenuHeaderProps",

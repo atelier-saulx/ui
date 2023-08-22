@@ -10,6 +10,7 @@ import {
   IconArrowDownLeft,
   Menu,
   IconArrowDown,
+  Button,
   IconChevronDown,
 } from '../src'
 import { parseProps } from './parseProps'
@@ -133,18 +134,31 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
       )}
       <styled.div
         style={{
-          padding: 32,
           marginTop: 24,
           flexGrow: 1,
           borderRadius: 8,
+          flexDirection: 'column',
           display: 'flex',
           backgroundColor: color('background', 'neutral', 'surface'), // add extra bg color...
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <styled.div>
+        <styled.div
+          style={{
+            padding: 32,
+          }}
+        >
           {React.createElement(component.component, parseProps(example))}
+        </styled.div>
+        <styled.div
+          style={{
+            padding: 16,
+            width: 'calc(100% - 32px)',
+            borderTop: border(1),
+          }}
+        >
+          <Button color="system" icon={<IconChevronDown />}></Button>
         </styled.div>
       </styled.div>
     </>

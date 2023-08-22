@@ -40,7 +40,6 @@ export type ButtonProps = {
   onClick?: ClickHandler
   onPointerDown?: MouseEventHandler
   light?: boolean
-
   style?: Style
   /** 
      Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.
@@ -211,7 +210,6 @@ export const Button: FC<ButtonProps> = (props) => {
     >
       <div
         style={{
-          //   visibility: loading ? 'hidden' : null,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
