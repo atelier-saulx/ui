@@ -110,10 +110,11 @@ const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
+        placeholder: 'Select something',
         options: [
-          { label: 'label 1', value: 'value1' },
-          { label: 'label 2', value: 'value2' },
-          { label: 'label 3', value: 'value3' },
+          { label: 'Item one', value: 'value1' },
+          { label: 'Item two', value: 'value2' },
+          { label: 'Item three', value: 'value3' },
         ],
         type: 'select',
       },

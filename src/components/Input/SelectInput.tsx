@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { styled } from 'inlines'
 import { color } from '../../varsUtilities'
 import { IconCheckLarge, IconChevronDownSmall } from '../..'
@@ -12,6 +12,8 @@ export type SelectInputOption = {
 
 export type SelectInputOwnProps = {
   options: SelectInputOption[]
+  value: string | null
+  onChange?: (newValue: string) => void
   beforeIcon?: React.ReactNode
   disabled?: boolean
   placeholder?: string
@@ -24,21 +26,13 @@ export function SelectInput({
   beforeIcon,
   disabled,
   placeholder,
+  value: incomingValue = null,
+  onChange,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState<string | null>(null)
-  const [_activeLabel, _setActiveLabel] = useState<string | null>(null)
-  const [_minWidth, _setMinWidth] = useState<number | null>(null)
+  const [value, setValue] = useState<string | null>(incomingValue)
+  const [activeLabel, setActiveLabel] = useState<string | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
-
-  // in cases where the placeholder is longer than any of the labels
-  // we have to calculate the minimum width of the input
-  // so that it does not jump around once an item is selected
-  useLayoutEffect(() => {
-    if (value || !placeholder || !buttonRef.current) return
-
-    _setMinWidth(buttonRef.current.clientWidth)
-  }, [placeholder])
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -106,7 +100,7 @@ export function SelectInput({
           '&:focus': {
             outline: 'none',
           },
-          minWidth: _minWidth,
+          minWidth: 320,
         }}
         onClick={() => {
           if (disabled) return
@@ -114,7 +108,7 @@ export function SelectInput({
           setOpen(true)
         }}
       >
-        <div>{value === null ? placeholder : _activeLabel}</div>
+        <div>{value === null ? placeholder : activeLabel}</div>
         <div
           style={{
             flexShrink: 0,
@@ -163,8 +157,9 @@ export function SelectInput({
                 key={option.value}
                 onClick={() => {
                   setValue(option.value)
-                  _setActiveLabel(option.label)
+                  setActiveLabel(option.label)
                   setOpen(false)
+                  onChange?.(option.value)
                 }}
                 style={{
                   position: 'relative',
@@ -190,8 +185,11 @@ export function SelectInput({
                     style={{
                       position: 'absolute',
                       top: 0,
-                      left: 0,
+                      left: 12,
                       bottom: 0,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
                     }}
                   >
                     <IconCheckLarge />
