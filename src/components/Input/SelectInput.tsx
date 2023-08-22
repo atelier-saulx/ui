@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from 'inlines'
 import { color } from '../../varsUtilities'
 import { IconChevronDownSmall } from '../..'
@@ -13,16 +13,18 @@ export type SelectInputOption = {
 export type SelectInputOwnProps = {
   options: SelectInputOption[]
   beforeIcon?: React.ReactNode
+  disabled?: boolean
 }
 
-export type SelectInputProps = SelectInputOwnProps &
-  Omit<React.ComponentPropsWithoutRef<'select'>, 'style'>
+export type SelectInputProps = SelectInputOwnProps
 
 export function SelectInput({
   options,
   beforeIcon,
-  ...props
+  disabled,
 }: SelectInputProps) {
+  const [open, setOpen] = useState(false)
+
   return (
     <styled.div
       style={{
@@ -33,7 +35,7 @@ export function SelectInput({
         borderRadius: 8,
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: color('background', 'default', 'surface'),
         fontSize: '14px',
         lineHeight: '24px',
         border: `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`,
@@ -48,7 +50,7 @@ export function SelectInput({
           border: `1px solid ${color('inputBorder', 'active', 'default')}`,
           boxShadow: `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
         },
-        ...(props.disabled
+        ...(disabled
           ? {
               opacity: '50%',
             }
@@ -56,7 +58,7 @@ export function SelectInput({
       }}
     >
       {beforeIcon && <div style={{ flexShrink: 0 }}>{beforeIcon}</div>}
-      <styled.select
+      <styled.button
         style={{
           width: '100%',
           height: '100%',
@@ -65,38 +67,48 @@ export function SelectInput({
           background: 'transparent',
           fontSize: 'inherit',
           lineHeight: 'inherit',
-          paddingRight: 28,
+          padding: 0,
+          textAlign: 'left',
           color: color('content', 'default', 'primary'),
-          '&::placeholder': {
-            color: color('content', 'default', 'secondary'),
-          },
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           '&:focus': {
             outline: 'none',
           },
         }}
-        {...props}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </styled.select>
-      <div
-        style={{
-          flexShrink: 0,
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          right: 12,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          pointerEvents: 'none',
+        onClick={() => {
+          if (disabled) return
+
+          setOpen(true)
         }}
       >
-        <IconChevronDownSmall />
-      </div>
+        <div>todo asdasd asdasd </div>
+        <div
+          style={{
+            flexShrink: 0,
+            paddingLeft: 8,
+          }}
+        >
+          <IconChevronDownSmall />
+        </div>
+      </styled.button>
+
+      {open && (
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 48,
+            background: 'pink',
+          }}
+        >
+          {options.map((option) => (
+            <div key={option.value} onClick={() => {}}>{option.label}</div>
+          ))}
+        </div>
+      )}
     </styled.div>
   )
 }
