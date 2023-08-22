@@ -146,6 +146,18 @@ const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'SearchInput',
+    component: Input,
+    description: 'Text Input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        placeholder: 'Search & navigate',
+        type: 'search',
+      },
+    ],
+  },
+  {
     name: 'SelectInput',
     component: Input,
     description: 'Select input',
