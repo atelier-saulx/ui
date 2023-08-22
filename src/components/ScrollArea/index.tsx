@@ -1,8 +1,9 @@
+import React from 'react'
 import { styled } from 'inlines'
-import { color } from '~/utils'
+import { color } from '../../varsUtilities'
 
-const scrollbarColor = color('border')
-const transparentAreaColor = color('background')
+const scrollbarColor = color('border', 'default', 'strong')
+const transparentAreaColor = color('background', 'default', 'surface')
 
 export const scrollAreaStyle = {
   scrollbarGutter: 'stable',

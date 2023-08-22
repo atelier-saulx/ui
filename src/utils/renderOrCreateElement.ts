@@ -1,10 +1,11 @@
 import { cloneElement, createElement } from 'react'
 
-export const renderOrCreateElement = (element, props = undefined) => {
+export const renderOrCreateElement = (element, props: any = undefined) => {
   if (element) {
     if (typeof element === 'string') {
       if (props) {
         return createElement('span', props, element)
+        // return createElement(element, props)
       }
       return element
     }

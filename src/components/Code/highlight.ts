@@ -1,5 +1,4 @@
 // TODO this file is ununed?
-import { color } from '../../utils'
 
 const toHtmlSafeChar = (char: string): string => {
   if (char === '>') {
@@ -33,7 +32,7 @@ export default (code: string, type: 'js' | 'ts' | 'json' = 'js'): string => {
 
   //
 
-  const string = []
+  const string: number[] = []
 
   const tracker = [
     [-1], // 0 double quote
@@ -73,7 +72,7 @@ export default (code: string, type: 'js' | 'ts' | 'json' = 'js'): string => {
     }
   }
 
-  let str = []
+  let str: string[] = []
 
   // &lt; x &gt;
 

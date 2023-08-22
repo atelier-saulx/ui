@@ -1,11 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Style, styled } from 'inlines'
-import { border, color } from '~/utils'
-import { CalendarAltIcon } from '~/icons'
-import { useOverlay } from '~/hooks'
+import { color as genColor } from '../../../src'
+import { IconCalendar } from '../../icons'
+import { useOverlay } from '../../hooks/useOverlay'
 import { FromRangePicker } from './FromRangePicker'
 import { TillRangePicker } from './TillRangePicker'
 import { removeOverlay } from '../Overlay'
+import { Center } from '../Styled'
+import { ClickableIcon } from '../ClickableIcon'
 
 type DateRangeDoubleInputProps = {
   fromValue: number
@@ -13,6 +15,11 @@ type DateRangeDoubleInputProps = {
   setFromValue: (e) => void
   setTillValue: (e) => void
   style?: Style
+}
+const hover = {
+  '&:hover': {
+    backgroundColor: genColor('action', 'neutral', 'subtleHover'),
+  },
 }
 
 export const DateRangeDoubleInput = ({
@@ -22,13 +29,14 @@ export const DateRangeDoubleInput = ({
   setTillValue,
   style,
 }: DateRangeDoubleInputProps) => {
-  const dayFromRef = useRef(null)
-  const monthFromRef = useRef(null)
-  const yearFromRef = useRef(null)
+  // TODO type?
+  const dayFromRef = useRef<any>(null)
+  const monthFromRef = useRef<any>(null)
+  const yearFromRef = useRef<any>(null)
 
-  const dayTillRef = useRef(null)
-  const monthTillRef = useRef(null)
-  const yearTillRef = useRef(null)
+  const dayTillRef = useRef<any>(null)
+  const monthTillRef = useRef<any>(null)
+  const yearTillRef = useRef<any>(null)
 
   // try this
   const DateFromObjVal = new Date(fromValue)
@@ -116,14 +124,20 @@ export const DateRangeDoubleInput = ({
   const openFromRangePicker = useOverlay(
     FromRangePicker,
     { setValue: setFromValue, timeString, stringToMilliseconds },
-    { width: 'target', position: 'bottom' }
+    { width: '100%', position: 'right' }
+    //   width?: number | '100%' | 'target' | 'auto'
+    // position?: 'left' | 'right' | 'top' | 'bottom'
+    // placement?: 'center' | 'left' | 'right'
+    // variant?: 'over' | 'detached'
+    // offset?: { x: number; y: number }
+    // selectTarget?: SelectTarget
   )
 
   // if is range
   const openTillRangePicker = useOverlay(
     TillRangePicker,
     { setValue: setTillValue, timeString, stringToMilliseconds },
-    { width: 'target' }
+    { width: '100%', position: 'bottom' }
   )
 
   const daysInMonth = (month, year) => {
@@ -410,11 +424,17 @@ export const DateRangeDoubleInput = ({
           style={{
             display: 'flex',
             position: 'relative',
-            border: border(1, 'border'),
+            border: '1px solid',
+            borderColor: genColor('border', 'default', 'strong'),
+            // borderColor: 'red',
             borderRadius: 8,
-            boxShadow: `0px 1px 4px ${color('background2')}`,
+            boxShadow: `0px 0px 0px 2px ${genColor(
+              'action',
+              'primary',
+              'subtleNormal'
+            )}`,
             height: 36,
-            paddingLeft: 32,
+            paddingLeft: 8,
             paddingRight: 12,
             alignItems: 'center',
             maxWidth: 139,
@@ -426,17 +446,19 @@ export const DateRangeDoubleInput = ({
             openFromRangePicker(e)
           }}
         >
-          <CalendarAltIcon
-            style={{ position: 'absolute', left: 8, bottom: 9 }}
-          />
+          {/* @ts-ignore*/}
+          <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} />
+          {/* <IconCalendar /> */}
+          {/* </ClickableIcon> */}
           <styled.div
             style={{
               padding: '0px 1px',
               backgroundColor:
                 focusField === 'dayFromFocus'
-                  ? color('lightaccent')
-                  : color('background'),
+                  ? genColor('action', 'neutral', 'subtleActive')
+                  : '',
               borderRadius: 4,
+              ...hover,
             }}
             onClick={() => {
               dayFromRef.current.focus()
@@ -451,9 +473,10 @@ export const DateRangeDoubleInput = ({
               padding: '0px 1px',
               backgroundColor:
                 focusField === 'monthFromFocus'
-                  ? color('lightaccent')
-                  : color('background'),
+                  ? genColor('action', 'neutral', 'subtleActive')
+                  : '',
               borderRadius: 4,
+              ...hover,
             }}
             onClick={() => {
               monthFromRef.current.focus()
@@ -472,9 +495,10 @@ export const DateRangeDoubleInput = ({
               padding: '0px 1px',
               backgroundColor:
                 focusField === 'yearFromFocus'
-                  ? color('lightaccent')
-                  : color('background'),
+                  ? genColor('action', 'neutral', 'subtleActive')
+                  : '',
               borderRadius: 4,
+              ...hover,
             }}
             onClick={() => {
               yearFromRef.current.focus()
@@ -489,11 +513,16 @@ export const DateRangeDoubleInput = ({
           style={{
             display: 'flex',
             position: 'relative',
-            border: border(1, 'border'),
+            borderColor: genColor('border', 'default', 'strong'),
             borderRadius: 8,
-            boxShadow: `0px 1px 4px ${color('background2')}`,
+            boxShadow: `0px 0px 0px 2px ${genColor(
+              'action',
+              'primary',
+              'subtleNormal'
+            )}`,
             height: 36,
-            paddingLeft: 32,
+            // paddingLeft: 32,
+            paddingLeft: 8,
             paddingRight: 12,
             alignItems: 'center',
             maxWidth: 139,
@@ -506,17 +535,17 @@ export const DateRangeDoubleInput = ({
             openTillRangePicker(e)
           }}
         >
-          <CalendarAltIcon
-            style={{ position: 'absolute', left: 8, bottom: 9 }}
-          />
+          {/* @ts-ignore*/}
+          <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} />
           <styled.div
             style={{
               padding: '0px 1px',
               backgroundColor:
                 focusField === 'dayTillFocus'
-                  ? color('lightaccent')
-                  : color('background'),
+                  ? genColor('action', 'neutral', 'subtleActive')
+                  : '',
               borderRadius: 4,
+              ...hover,
             }}
             onClick={() => {
               dayTillRef.current.focus()
@@ -531,9 +560,10 @@ export const DateRangeDoubleInput = ({
               padding: '0px 1px',
               backgroundColor:
                 focusField === 'monthTillFocus'
-                  ? color('lightaccent')
-                  : color('background'),
+                  ? genColor('action', 'neutral', 'subtleActive')
+                  : '',
               borderRadius: 4,
+              ...hover,
             }}
             onClick={() => {
               monthTillRef.current.focus()
@@ -552,9 +582,10 @@ export const DateRangeDoubleInput = ({
               padding: '0px 1px',
               backgroundColor:
                 focusField === 'yearTillFocus'
-                  ? color('lightaccent')
-                  : color('background'),
+                  ? genColor('action', 'neutral', 'subtleActive')
+                  : '',
               borderRadius: 4,
+              ...hover,
             }}
             onClick={() => {
               yearTillRef.current.focus()

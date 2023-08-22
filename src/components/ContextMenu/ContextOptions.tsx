@@ -1,4 +1,3 @@
-import { styled } from 'inlines'
 import React, {
   FC,
   useCallback,
@@ -9,18 +8,13 @@ import React, {
   ReactNode,
   ChangeEventHandler,
 } from 'react'
-import {
-  removeOverlay,
-  Color,
-  Style,
-  Text,
-  AddIcon,
-  CheckIcon,
-  CloseIcon,
-  SearchIcon,
-  color,
-  border,
-} from '~'
+
+import { styled, Style } from 'inlines'
+import { Text } from '../Text'
+import { color } from '../../varsUtilities'
+import { IconPlus, IconCheckCircle, IconClose, IconSearch } from '../../icons'
+import { removeOverlay } from '../Overlay'
+
 import { ContextDivider, ContextItem } from '.'
 
 const FilterInputHolderSticky = styled('div', {
@@ -29,7 +23,7 @@ const FilterInputHolderSticky = styled('div', {
   borderTopLeftRadius: 8,
   borderTopRightRadius: 8,
   top: 0,
-  backgroundColor: color('background2dp'),
+  backgroundColor: color('background', 'default', 'subtle'),
 })
 
 const FilterInputHolder = styled('div', {
@@ -43,9 +37,9 @@ const FilterInputHolder = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: border(1),
+  // borderBottom: border(1),
   width: '100%',
-  backgroundColor: color('background2dp:hover'),
+  backgroundColor: color('background', 'default', 'subtle'),
 })
 
 const FilterInput = styled('input', {
@@ -58,7 +52,7 @@ const FilterInput = styled('input', {
   textAlign: 'left',
   paddingLeft: '12px',
   background: 'transparent',
-  color: color('text'),
+  color: color('content', 'default', 'primary'),
   userSelect: 'text',
 })
 
@@ -143,13 +137,15 @@ export const ContextOptionItem = ({
           pointerEvents: option.value === undefined ? 'none' : 'auto',
           '@media (hover:hover)': {
             backgroundColor:
-              isSelected === 1 ? color('lightbackground2:contrast') : null,
+              isSelected === 1
+                ? color('background', 'default', 'surface')
+                : null,
             '&:active': {
-              backgroundColor: color('lightbackground2:contrast'),
+              backgroundColor: color('background', 'default', 'subtle'),
             },
           },
         }}
-        icon={option.icon || (!noInset && selected ? CheckIcon : null)}
+        icon={option.icon || (!noInset && selected ? IconCheckCircle : null)}
         onClick={(e) => {
           if (option.value === undefined) {
             return true
@@ -174,7 +170,7 @@ export const ContextOptionItem = ({
           }
         }}
       >
-        {option.label || option.value}
+        <Text size={14}>{option.label || option.value}</Text>
       </ContextItem>
     </>
   )
@@ -211,7 +207,7 @@ const filterItems = (
 
   if (values) {
     items = items.filter((opt) => {
-      return !values.includes(
+      return !values?.includes(
         (typeof opt.label === 'string' && opt.label) || opt.value
       )
     })
@@ -252,7 +248,7 @@ const FilterableContextOptions: FC<
     <>
       <FilterInputHolderSticky>
         <FilterInputHolder>
-          <SearchIcon color="text2" size={16} />
+          <IconSearch color="brand" />
           <FilterInput
             autoFocus
             data-aviato-context-item
@@ -375,11 +371,11 @@ const FilterInputMultiHolder = styled('div', {
   paddingTop: 2,
   borderTopLeftRadius: 3,
   paddingLeft: 4,
-  borderBottom: `1px solid ${color('border')}`,
+  borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
   borderTopRightRadius: 3,
   display: 'flex',
   width: '100%',
-  backgroundColor: color('lightbackground2:contrast'),
+  backgroundColor: color('background', 'default', 'subtle'),
 })
 
 const FilterMultiInput = styled('input', {
@@ -397,7 +393,7 @@ const FilterMultiInput = styled('input', {
   marginBottom: 4,
   marginTop: 4,
   // fontSize: '$md',
-  color: color('text'),
+  color: color('content', 'default', 'primary'),
   userSelect: 'text',
 })
 
@@ -413,13 +409,13 @@ const StyledFilterSelectedBadge = styled('div', {
   borderRadius: 4,
   paddingLeft: 8,
   paddingRight: 8,
-  backgroundColor: color('lightbackground2:contrast'),
+  backgroundColor: color('background', 'inverted', 'subtle'),
 })
 
 export const FilterSelectBadge: FC<{
   label: string | ReactNode
   onClose: () => void
-  color?: Color
+  color?: any
   style?: Style
 }> = ({ label, onClose, color = 'inherit', style }) => {
   if (color) {
@@ -432,8 +428,8 @@ export const FilterSelectBadge: FC<{
   return (
     <StyledFilterSelectedBadge style={style}>
       <Text>{label}</Text>
-      <CloseIcon
-        color="text"
+      <IconClose
+        color="brand"
         onClick={(e) => {
           e.stopPropagation()
           onClose()
@@ -451,7 +447,7 @@ export const FilterSelectBadge: FC<{
 export const FilterSelectMoreBadge: FC<{
   onClick?: (e: SyntheticEvent) => void
   number: number
-  color?: Color
+  color?: any
   style?: Style
 }> = ({ number, onClick, color = 'inherit', style }) => {
   // make a function for this
@@ -464,9 +460,9 @@ export const FilterSelectMoreBadge: FC<{
   }
   return (
     <StyledFilterSelectedBadge style={style} data-aviato-select-more>
-      <AddIcon
+      <IconPlus
         size={16}
-        color="text"
+        color="default"
         style={{ marginRight: 8 }}
         onClick={onClick}
       />

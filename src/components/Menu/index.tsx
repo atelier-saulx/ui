@@ -1,35 +1,14 @@
 import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
-import { Weight } from '~/types'
-import { color } from '~/utils'
-import { Button, ButtonProps } from '../Button'
-import { ScrollArea } from '../ScrollArea'
-import { Text } from '../Text'
-import { ChevronDownIcon } from '~/icons'
+import { ButtonProps } from '../../types'
+import { IconChevronDown, color, Button, ScrollArea, Text, border } from '../..'
 import { Style, styled } from 'inlines'
-
-const Click = styled('div', {
-  padding: '4px 8px',
-  margin: '-4px -4px -4px -2px',
-  borderRadius: 4,
-  display: 'flex',
-  alignItems: 'center',
-  cursor: 'pointer',
-})
+import { MenuItem } from './MenuItem'
 
 type MenuHeaderProps = {
   children?: ReactNode
   style?: Style
   onClick?: (e: MouseEvent<HTMLDivElement>) => void
   id?: string
-}
-
-type MenuItemProps = {
-  children?: ReactNode | FC
-  style?: Style
-  onClick?: (e: MouseEvent<HTMLDivElement>) => void
-  isActive?: boolean
-  isNested?: boolean
-  weight?: Weight
 }
 
 const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
@@ -42,63 +21,22 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
         },
       }}
     >
-      <Text
-        weight="700"
-        color={color('text2')}
-        size={12}
-        style={{
-          marginBottom: 16,
-          textTransform: 'uppercase',
-          color: color('text2'),
-          ...style,
-        }}
-        onClick={onClick}
-      >
-        {children}
-      </Text>
+      <styled.span onClick={onClick}>
+        <Text
+          weight="strong"
+          color="default"
+          size={12}
+          style={{
+            marginBottom: 16,
+            textTransform: 'uppercase',
+            color: color('content', 'default', 'primary'),
+            ...style,
+          }}
+        >
+          {children}
+        </Text>
+      </styled.span>
     </styled.div>
-  )
-}
-
-export const MenuItem: FC<MenuItemProps> = ({
-  children,
-  style,
-  onClick = () => {},
-  isActive,
-  isNested = false,
-  weight = isNested ? 500 : 600,
-}) => {
-  return (
-    <Text
-      color={isActive ? 'lightaccent:contrast' : 'text'}
-      weight={isActive ? 500 : weight}
-      wrap
-      style={{
-        marginBottom: 8,
-        ...style,
-      }}
-    >
-      <Click
-        onClick={(e) => onClick(e)}
-        style={{
-          backgroundColor: isActive ? color('lightaccent:active') : null,
-          '@media (hover: hover)': {
-            '&:hover': !isActive
-              ? {
-                  backgroundColor: color('background:hover'),
-                  color: `${color('text')} !important`,
-                }
-              : null,
-          },
-        }}
-      >
-        {typeof children === 'function'
-          ? children({
-              isActive,
-            })
-          : children}
-      </Click>
-    </Text>
   )
 }
 
@@ -122,7 +60,7 @@ const HideableStyledDiv = styled('div', {
   },
 })
 
-const StyledChevron = styled(ChevronDownIcon, {
+const StyledChevron = styled(IconChevronDown, {
   transition: 'transform 0.2s',
   '&.closed': {
     transform: 'rotate(180deg)',
@@ -253,8 +191,8 @@ export const Menu: FC<MenuProps> = ({
               id={`${i}-menuheader`}
               style={{
                 marginTop: i && 36,
-                justifyContent: collapse ? 'space-between' : null,
-                display: collapse ? 'flex' : null,
+                justifyContent: collapse ? 'space-between' : 'unset',
+                display: collapse ? 'flex' : 'unset',
                 alignItems: 'center',
               }}
               onClick={(e) => {
@@ -293,8 +231,7 @@ export const Menu: FC<MenuProps> = ({
                         onClick(e)
                       }
                     }}
-                    isActive={isActive ? isActive(value) : active === value}
-                    isNested
+                    active={isActive ? isActive(value) : active === value}
                   >
                     {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
                     {label}
@@ -309,8 +246,7 @@ export const Menu: FC<MenuProps> = ({
       return (
         <MenuItem
           key={i}
-          isActive={isActive ? isActive(value) : active === value}
-          weight={500}
+          active={isActive ? isActive(value) : active === value}
           onClick={(e) => {
             if (onChange) {
               onChange(value)
@@ -331,8 +267,8 @@ export const Menu: FC<MenuProps> = ({
     <ScrollArea
       style={{
         flexShrink: 0,
-        backgroundColor: color('background'),
-        borderRight: `1px solid ${color('border')}`,
+        backgroundColor: color('background', 'default', 'muted'),
+        borderRight: border(1),
         padding: '24px 20px 20px 20px',
         height: '100%',
         width: 224,

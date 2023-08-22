@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, ReactNode } from 'react'
 import { ToastContext, ToastContextType } from './ToastContext'
 import { styled } from 'inlines'
-import { color, boxShadow } from '~/utils'
 import { Text } from '../Text'
+import { color } from '../../varsUtilities'
 
 export const ToastContainer = ({
   id,
@@ -174,15 +174,15 @@ export const ToastProvider = ({
     width: 30,
     height: 30,
     borderRadius: 15,
-    border: `1px solid ${color('border')}`,
-    backgroundColor: color('background'),
+    border: `1px solid ${color('border', 'default', 'strong')}`,
+    backgroundColor: color('background', 'default', 'surface'),
     position: 'absolute',
     right: -10,
     top: -10,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: boxShadow('small'),
+    //   boxShadow: boxShadow('small'),
   })
 
   const toasts = toastsRef.current.map(({ id, children }, index) => {
@@ -208,7 +208,7 @@ export const ToastProvider = ({
         {children}
         {positionFlipped && (
           <CounterBadge>
-            <Text typography="caption600">{length}</Text>
+            <Text size={16}>{length}</Text>
           </CounterBadge>
         )}
       </div>

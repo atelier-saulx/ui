@@ -6,17 +6,21 @@ import React, {
   useContext,
 } from 'react'
 import { StateContext } from '../../hooks/ContextState'
-import { color } from '~/utils'
+
 import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'
 import { Provider as BasedProvider, useClient } from '@based/react'
 import { BasedClient } from '@based/client'
+
 import { ToastProvider } from '../Toast/ToastProvider'
-import { baseTheme } from '~/theme/baseTheme'
-import { updateTheme } from '~/theme'
-import { darkTheme } from '~/theme/darkTheme'
-import { AuthProvider } from '~'
+// import { baseTheme } from '~/theme/baseTheme'
+// import { updateTheme } from '~/theme'
+// import { darkTheme } from '~/theme/darkTheme'
+import { AuthProvider } from '../Auth/AuthProvider'
+
 import { Router, RouterContext } from 'kabouter'
+
+import { color } from '../../varsUtilities'
 
 type ProviderProps = {
   children?: ReactNode
@@ -103,26 +107,27 @@ export const Provider: FC<ProviderProps> = ({
   theme,
   fill,
 }) => {
-  useEffect(() => {
-    if (themes) {
-      const { base, dark } = themes
-      merge(baseTheme, base)
-      merge(darkTheme, dark)
-      updateTheme()
-    }
-  }, [themes])
+  // theme logic
+  //   useEffect(() => {
+  //     if (themes) {
+  //       const { base, dark } = themes
+  //       merge(baseTheme, base)
+  //       merge(darkTheme, dark)
+  //       updateTheme()
+  //     }
+  //   }, [themes])
 
-  useEffect(() => {
-    if (theme) {
-      updateTheme(theme === 'dark' ? darkTheme : baseTheme)
-    }
-  }, [theme])
+  //   useEffect(() => {
+  //     if (theme) {
+  //       updateTheme(theme === 'dark' ? darkTheme : baseTheme)
+  //     }
+  //   }, [theme])
 
   return (
     <div
       style={{
-        backgroundColor: color('background'),
-        color: color('text'),
+        backgroundColor: color('background', 'default', 'surface'),
+        color: color('content', 'default', 'primary'),
         height: fill ? '100vh' : null,
         width: '100%',
         display: 'flex',

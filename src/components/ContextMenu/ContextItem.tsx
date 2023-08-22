@@ -1,17 +1,17 @@
-import React, { ReactNode, FunctionComponent, FC, useState } from 'react'
+import React, {
+  ReactNode,
+  FunctionComponent,
+  FC,
+  useState,
+  SyntheticEvent,
+} from 'react'
 import { removeOverlay } from '../Overlay'
-import {
-  styled,
-  Style,
-  Text,
-  color,
-  renderOrCreateElement,
-  Color,
-  Icon,
-  PropsEventHandler,
-  LoadingIcon,
-  WarningIcon,
-} from '~'
+import { styled, Style } from 'inlines'
+import { Text } from '../Text'
+import { color } from '../../varsUtilities'
+import { renderOrCreateElement } from '../../utils/renderOrCreateElement'
+
+import { IconWarning, IconAlarmClock } from '../../icons'
 
 const StyledContextItem = styled('div', {
   display: 'flex',
@@ -22,28 +22,34 @@ const StyledContextItem = styled('div', {
   paddingRight: '16px',
   cursor: 'pointer',
   '&:active': {
-    backgroundColor: color('lightbackground2:contrast'),
+    backgroundColor: color('background', 'default', 'surface'),
   },
   '&:focus': {
-    backgroundColor: color('lightbackground2:contrast'),
+    backgroundColor: color('background', 'default', 'surface'),
   },
 })
 
 export type ContextItemProps = {
   style?: Style
-  color?: Color
+  color?: any
+  // color?: Color
   onClick?: PropsEventHandler
-  icon?: FunctionComponent<Icon> | ReactNode
-  iconRight?: FunctionComponent<Icon> | ReactNode
+  icon?: FunctionComponent<any> | ReactNode
+  iconRight?: FunctionComponent<any> | ReactNode
   inset?: boolean
   noFocus?: boolean
   tabIndex?: number
   children?: ReactNode
 }
 
+type PropsEventHandler<E = SyntheticEvent, P = any> = (
+  e?: E,
+  props?: P
+) => void | Promise<void> | boolean | Promise<boolean>
+
 export const ContextDivider = styled('div', {
   marginTop: 4,
-  borderTop: `1px solid ${color('border')}`,
+  borderTop: `1px solid ${color('border', 'default', 'strong')}`,
   marginBottom: 4,
 })
 
@@ -66,7 +72,9 @@ export const ContextItem: FC<ContextItemProps> = ({
     // @ts-ignore - this is a hack to make the onClick work, async is very important
     onClick = async (e) => {
       setErrored(false)
+      // @ts-ignore
       e.preventDefault()
+      // @ts-ignore
       e.stopPropagation()
       setLoading(true)
       try {
@@ -91,9 +99,9 @@ export const ContextItem: FC<ContextItemProps> = ({
       >
         {renderOrCreateElement(
           errored && icon ? (
-            <WarningIcon color="red" />
+            <IconWarning color="negative" />
           ) : loading && icon ? (
-            <LoadingIcon />
+            <IconAlarmClock />
           ) : (
             icon
           ),
@@ -107,7 +115,7 @@ export const ContextItem: FC<ContextItemProps> = ({
     )
   } else {
     child = (
-      <Text color={colorProps} style={inset ? { paddingLeft: 24 } : null}>
+      <Text color={colorProps} style={inset ? { paddingLeft: 24 } : undefined}>
         {loading && !icon ? 'processing...' : children}
       </Text>
     )

@@ -1,12 +1,12 @@
 import React, { FC, ReactNode, CSSProperties, FunctionComponent } from 'react'
-import { color, renderOrCreateElement } from '~/utils'
-import { CheckCircleIcon, CloseCircleIcon, WarningIcon } from '~/icons'
-import { Text } from '~'
-import { Icon } from '~/types'
+import { Text } from '../Text'
+import { color } from '../../varsUtilities'
+import { renderOrCreateElement } from '../../utils/renderOrCreateElement'
+import { IconCheckCircle, IconClose, IconWarning } from '../../icons'
 
 type ToastProps = {
   label?: string
-  icon?: FunctionComponent<Icon> | ReactNode
+  icon?: FunctionComponent | ReactNode
   // topLeft?: ReactNode
   // topRight?: ReactNode
   description?: string
@@ -30,7 +30,7 @@ export const Toast: FC<ToastProps> = ({
     <div
       style={{
         borderRadius: 8,
-        backgroundColor: color('background'),
+        backgroundColor: color('background', 'default', 'surface'),
         boxShadow: 'rgb(0 0 0 / 12%) 0px 8px 20px',
         cursor: 'pointer',
         padding: '12px 16px',
@@ -54,14 +54,14 @@ export const Toast: FC<ToastProps> = ({
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {icon && renderOrCreateElement(icon)}
-          {type === 'success' && <CheckCircleIcon color="accent" />}
-          {type === 'error' && <CloseCircleIcon color="red" />}
-          {type === 'warning' && <WarningIcon color="orange" />}
+          {type === 'success' && <IconCheckCircle />}
+          {type === 'error' && <IconClose color="negative" />}
+          {type === 'warning' && <IconWarning color="warning" />}
 
-          {label && <Text typography="subtext500">{label}</Text>}
+          {label && <Text size={14}>{label}</Text>}
         </div>
         {description && (
-          <Text color="text2" style={{ marginTop: 6 }}>
+          <Text color="informative" style={{ marginTop: 6 }}>
             {description}
           </Text>
         )}

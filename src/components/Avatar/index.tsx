@@ -1,40 +1,49 @@
-import React, { FC, SyntheticEvent, FunctionComponent, ReactNode } from 'react'
-import {
-  Text,
-  getButtonStyle,
-  Color,
-  Size,
-  Icon,
-  Style,
-  renderOrCreateElement,
-  Center,
-} from '~'
+import React, { FC, SyntheticEvent, useState } from 'react'
+import { color as genColor } from '../../../src'
+import { Text } from '../Text'
+import { Center } from '../Styled'
+// import { AvatarProps } from '../types'
+import { Style } from 'inlines'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 
 export type AvatarProps = {
-  size?: Size
-  color?: Color
-  img?: string
-  icon?: FunctionComponent<Icon> | ReactNode
+  color?: ColorNonSemanticBackgroundColors
+  imgsrc?: string
+  onClick?: () => void
   label?: string
-  onClick?: (e: SyntheticEvent) => void
+  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'
   style?: Style
+  subtle?: boolean
 }
 
-export const Avatar: FC<AvatarProps> = (props) => {
-  if (!props.color) {
-    props.color = 'accent'
-  }
-
-  const {
-    size = 32,
-    color: colorProp,
-    img,
-    icon,
-    label,
-    onClick,
-    style,
-    ...rest
-  } = props
+export const Avatar: FC<AvatarProps> = ({
+  color = 'aquamarine',
+  imgsrc,
+  onClick,
+  label,
+  size: sizeProp = 'medium',
+  style,
+  subtle,
+  ...rest
+}) => {
+  const size =
+    sizeProp === 'large'
+      ? 48
+      : sizeProp === 'medium'
+      ? 40
+      : sizeProp === 'small'
+      ? 32
+      : sizeProp === 'xsmall'
+      ? 24
+      : 20
+  const fontSize =
+    sizeProp === 'large'
+      ? '16px'
+      : sizeProp === 'medium'
+      ? '14px'
+      : sizeProp === 'small'
+      ? '12px'
+      : '10px'
 
   return (
     <Center
@@ -42,29 +51,38 @@ export const Avatar: FC<AvatarProps> = (props) => {
         flexShrink: '0',
         width: size,
         height: size,
+        backgroundColor: genColor(
+          'nonSemanticBackground',
+          color,
+          subtle ? 'muted' : 'strong'
+        ),
         borderRadius: '50%',
-        backgroundImage: img ? `url(${img})` : 'none',
+        backgroundImage: imgsrc ? `url(${imgsrc})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
-        ...getButtonStyle(props),
         ...style,
       }}
       onClick={onClick}
       {...rest}
     >
-      {label && !icon && !img ? (
+      {label && !imgsrc ? (
         <Text
-          color={colorProp as Color}
-          variant="contrast"
-          size={
-            (typeof size === 'number' ? size / 2 : parseInt(size) / 2) as Size
-          }
-          style={{ lineHeight: '32px' }}
+          color="inverted"
+          //@ts-ignoreignore
+          size={fontSize}
+          style={{
+            lineHeight: '32px',
+            color: genColor(
+              'nonSemanticContent',
+              subtle ? color : 'white',
+              'primary'
+            ),
+          }}
         >
-          {label[0].toLocaleUpperCase()}
+          {label[0]?.toLocaleUpperCase()}
+          {label.length > 1 ? label[1]?.toLocaleUpperCase() : ''}
         </Text>
       ) : null}
-      <>{renderOrCreateElement(icon)}</>
     </Center>
   )
 }

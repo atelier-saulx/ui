@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useMemo } from 'react'
-import { InputKey, Key } from '../../types'
-import { isMac } from '~/utils'
+import { InputKey, Key } from '../../components/KeyboardShortcut'
+import { isMac } from '../../utils/isMac'
 
 class TempEvent {
   constructor(target: EventTarget | Element, ev: KeyboardEvent) {

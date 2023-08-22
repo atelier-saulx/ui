@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "target": "es2021",
-    "module": "ESNext",
+    "incremental": true,
+    "composite": true,
+    "target": "es2019",
+    "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
     "removeComments": false,
@@ -13,16 +15,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "paths": {
-      "~": ["src"],
-      "~/*": ["src/*"]
-    }
+    "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "dist", "scripts", "functions"],
-  "types": ["typePatches"]
+  "include": ["based.json", "build/**/*.json"]
 }

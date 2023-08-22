@@ -1,0 +1,1723 @@
+{
+  "props": {
+    "AlertBannerProps": {
+      "name": "AlertBannerProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "Exclude"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type AlertBannerProps = {\n  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  icon?: ReactNode\n  label?: string\n  onClick?: () => void\n  style?: Style\n}",
+      "file": "/types.ts"
+    },
+    "AuthProviderProps": {
+      "name": "AuthProviderProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type AuthProviderProps = {\n  children: ReactNode\n}",
+      "file": "/components/Auth/AuthProvider.tsx"
+    },
+    "AvatarProps": {
+      "name": "AvatarProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "ColorNonSemanticBackgroundColors"
+        },
+        "imgsrc": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": "large"
+            },
+            {
+              "value": "medium"
+            },
+            {
+              "value": "small"
+            },
+            {
+              "value": "xsmall"
+            },
+            {
+              "value": "xxsmall"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "subtle": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type AvatarProps = {\n  color?: ColorNonSemanticBackgroundColors\n  imgsrc?: string\n  onClick?: () => void\n  label?: string\n  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'\n  style?: Style\n  subtle?: boolean\n}",
+      "file": "/types.ts"
+    },
+    "BadgeProps": {
+      "name": "BadgeProps",
+      "props": {
+        "afterIcon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "subtle": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  label?: string\n  onClick?: (e: MouseEvent) => void | (() => void)\n  style?: Style\n  subtle?: boolean\n}",
+      "file": "/types.ts"
+    },
+    "ButtonProps": {
+      "name": "ButtonProps",
+      "props": {
+        "afterIcon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorActionColors"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "dropdownIndicator": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "loading": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": "large"
+            },
+            {
+              "value": "medium"
+            },
+            {
+              "value": "small"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "subtle": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ButtonProps = {\n  afterIcon?: ReactNode\n  children?: ReactNode\n  color?: ColorActionColors\n  disabled?: boolean\n  dropdownIndicator?: boolean\n  ghost?: boolean\n  icon?: ReactNode\n  label?: string\n  loading?: boolean\n  onClick?: (e: MouseEvent) => void\n  size?: 'large' | 'medium' | 'small'\n  style?: Style\n  subtle?: boolean\n}",
+      "file": "/types.ts"
+    },
+    "CodeProps": {
+      "name": "CodeProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": [
+            "TSParenthesizedType",
+            "Dispatch"
+          ]
+        },
+        "header": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n}",
+      "file": "/components/Code/index.tsx"
+    },
+    "ContextItemProps": {
+      "name": "ContextItemProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "color": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "PropsEventHandler"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
+        },
+        "iconRight": {
+          "optional": true,
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
+        },
+        "inset": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "noFocus": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "tabIndex": {
+          "optional": true,
+          "type": "number"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type ContextItemProps = {\n  style?: Style\n  color?: any\n  // color?: Color\n  onClick?: PropsEventHandler\n  icon?: FunctionComponent<any> | ReactNode\n  iconRight?: FunctionComponent<any> | ReactNode\n  inset?: boolean\n  noFocus?: boolean\n  tabIndex?: number\n  children?: ReactNode\n}",
+      "file": "/components/ContextMenu/ContextItem.tsx"
+    },
+    "ContextOptionsFilterProps": {
+      "name": "ContextOptionsFilterProps",
+      "props": {
+        "filterable": {
+          "optional": true,
+          "type": [
+            "boolean",
+            {
+              "value": "create"
+            }
+          ]
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "resize": {
+          "optional": true,
+          "type": "function"
+        },
+        "multiSelect": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ContextOptionsFilterProps = {\n  // eslint-disable-next-line\n  filterable?: boolean | 'create'\n  placeholder?: string\n  resize?: () => void\n  // eslint-disable-next-line\n  multiSelect?: boolean\n}",
+      "file": "/components/ContextMenu/ContextOptions.tsx"
+    },
+    "ContextOptionsProps": {
+      "name": "ContextOptionsProps",
+      "props": {
+        "items": {
+          "type": [
+            {
+              "array": "Option"
+            },
+            "null",
+            "undefined"
+          ]
+        },
+        "value": {
+          "optional": true,
+          "type": "Value"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "noValue": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ContextOptionsProps = {\n  items: Option[] | null | undefined\n  value?: Value\n  onChange: (value: Value) => void\n  // eslint-disable-next-line\n  noValue?: boolean\n}",
+      "file": "/components/ContextMenu/ContextOptions.tsx"
+    },
+    "ContextMultiOptionsProps": {
+      "name": "ContextMultiOptionsProps",
+      "props": {
+        "items": {
+          "type": [
+            {
+              "array": "Option"
+            },
+            "null",
+            "undefined"
+          ]
+        },
+        "values": {
+          "optional": true,
+          "type": {
+            "array": "Value"
+          }
+        },
+        "onChange": {
+          "type": "function"
+        }
+      },
+      "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null | undefined\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
+      "file": "/components/ContextMenu/ContextOptions.tsx"
+    },
+    "CalendarProps": {
+      "name": "CalendarProps",
+      "props": {
+        "days": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "selectedDay": {
+          "type": "string"
+        },
+        "selectedMonth": {
+          "type": "string"
+        },
+        "selectedYear": {
+          "type": "string"
+        },
+        "setSelectedDay": {
+          "type": "function"
+        }
+      },
+      "code": "type CalendarProps = {\n  days: string[]\n  selectedDay: string\n  selectedMonth: string\n  selectedYear: string\n  setSelectedDay: (e) => void\n}",
+      "file": "/components/DatePicker/Calendar.tsx"
+    },
+    "newDateProps": {
+      "name": "newDateProps",
+      "props": {
+        "value": {
+          "type": "number"
+        },
+        "setValue": {
+          "type": "function"
+        },
+        "time": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isFromRange": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isTillRange": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type newDateProps = {\n  value: number\n  setValue: (e) => void\n  time?: boolean\n  isFromRange?: boolean\n  isTillRange?: boolean\n  style?: Style\n}",
+      "file": "/components/DatePicker/NewDateInput.tsx"
+    },
+    "PickerProps": {
+      "name": "PickerProps",
+      "props": {
+        "setValue": {
+          "type": "function"
+        },
+        "timeString": {
+          "optional": true,
+          "type": "string"
+        },
+        "stringToMilliseconds": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type PickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
+      "file": "/components/DatePicker/Picker.tsx"
+    },
+    "DateWidgetProps": {
+      "name": "DateWidgetProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "number"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "time": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type DateWidgetProps = {\n  value?: number // milliseconds\n  onChange: (value: number) => void\n  time?: boolean\n  style?: Style\n}",
+      "file": "/components/DatePicker/index.tsx"
+    },
+    "DateRangeDoubleInputProps": {
+      "name": "DateRangeDoubleInputProps",
+      "props": {
+        "fromValue": {
+          "type": "number"
+        },
+        "tillValue": {
+          "type": "number"
+        },
+        "setFromValue": {
+          "type": "function"
+        },
+        "setTillValue": {
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type DateRangeDoubleInputProps = {\n  fromValue: number\n  tillValue: number\n  setFromValue: (e) => void\n  setTillValue: (e) => void\n  style?: Style\n}",
+      "file": "/components/DateRange/DateRangeDoubleInput.tsx"
+    },
+    "RangeFromPickerProps": {
+      "name": "RangeFromPickerProps",
+      "props": {
+        "setValue": {
+          "type": "function"
+        },
+        "timeString": {
+          "optional": true,
+          "type": "string"
+        },
+        "stringToMilliseconds": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type RangeFromPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
+      "file": "/components/DateRange/FromRangePicker.tsx"
+    },
+    "RangeCalendarProps": {
+      "name": "RangeCalendarProps",
+      "props": {
+        "days": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "selectedDay": {
+          "type": "string"
+        },
+        "selectedMonth": {
+          "type": "string"
+        },
+        "selectedYear": {
+          "type": "string"
+        },
+        "setSelectedDay": {
+          "type": "function"
+        },
+        "fromRangeCal": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "tillRangeCal": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type RangeCalendarProps = {\n  days: string[]\n  selectedDay: string\n  selectedMonth: string\n  selectedYear: string\n  setSelectedDay: (e) => void\n  fromRangeCal?: boolean\n  tillRangeCal?: boolean\n}",
+      "file": "/components/DateRange/RangeCalendar.tsx"
+    },
+    "RangeTillPickerProps": {
+      "name": "RangeTillPickerProps",
+      "props": {
+        "setValue": {
+          "type": "function"
+        },
+        "timeString": {
+          "optional": true,
+          "type": "string"
+        },
+        "stringToMilliseconds": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type RangeTillPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
+      "file": "/components/DateRange/TillRangePicker.tsx"
+    },
+    "DropDownProps": {
+      "name": "DropDownProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type DropDownProps = {\n  style?: Style\n  children?: ReactNode\n}",
+      "file": "/components/Dropdown/index.tsx"
+    },
+    "SelectInputOwnProps": {
+      "name": "SelectInputOwnProps",
+      "props": {
+        "options": {
+          "type": {
+            "array": "SelectInputOption"
+          }
+        },
+        "beforeIcon": {
+          "optional": true
+        }
+      },
+      "code": "type SelectInputOwnProps = {\n  options: SelectInputOption[]\n  beforeIcon?: React.ReactNode\n}",
+      "file": "/components/Input/SelectInput.tsx"
+    },
+    "TextInputOwnProps": {
+      "name": "TextInputOwnProps",
+      "props": {
+        "prefix": {
+          "optional": true,
+          "type": "BadgeProps"
+        },
+        "suffix": {
+          "optional": true,
+          "type": "BadgeProps"
+        },
+        "beforeIcon": {
+          "optional": true
+        },
+        "afterIcon": {
+          "optional": true
+        }
+      },
+      "code": "type TextInputOwnProps = {\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  beforeIcon?: React.ReactNode\n  afterIcon?: React.ReactNode\n}",
+      "file": "/components/Input/TextInput.tsx"
+    },
+    "InputProps": {
+      "name": "InputProps",
+      "props": {
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "errorMessage": {
+          "optional": true,
+          "type": "string"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "pattern": {
+          "optional": true,
+          "type": "string"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "type": {
+          "type": [
+            {
+              "value": "text"
+            },
+            {
+              "value": "number"
+            },
+            {
+              "value": "date"
+            },
+            {
+              "value": "json"
+            },
+            {
+              "value": "multiline"
+            },
+            {
+              "value": "markdown"
+            }
+          ]
+        },
+        "value": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type InputProps = {\n  description?: string\n  disabled?: boolean\n  onChange?: (value: any) => void\n  errorMessage?: string\n  label?: string\n  pattern?: string\n  placeholder?: string\n  style?: Style\n  type: 'text' | 'number' | 'date' | 'json' | 'multiline' | 'markdown'\n  value?: any\n}",
+      "file": "/types.ts"
+    },
+    "MenuHeaderProps": {
+      "name": "MenuHeaderProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "id": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type MenuHeaderProps = {\n  children?: ReactNode\n  style?: Style\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  id?: string\n}",
+      "file": "/components/Menu/index.tsx"
+    },
+    "MenuProps": {
+      "name": "MenuProps",
+      "props": {
+        "items": {
+          "optional": true,
+          "type": {
+            "array": "MenuItemProps"
+          }
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type MenuProps = {\n  items?: MenuItemProps[]\n  style?: Style\n}",
+      "file": "/types.ts"
+    },
+    "PositionProps": {
+      "name": "PositionProps",
+      "props": {
+        "width": {
+          "optional": true,
+          "type": [
+            "number",
+            {
+              "value": "100%"
+            },
+            {
+              "value": "target"
+            },
+            {
+              "value": "auto"
+            }
+          ]
+        },
+        "position": {
+          "optional": true,
+          "type": [
+            {
+              "value": "left"
+            },
+            {
+              "value": "right"
+            },
+            {
+              "value": "top"
+            },
+            {
+              "value": "bottom"
+            }
+          ]
+        },
+        "placement": {
+          "optional": true,
+          "type": [
+            {
+              "value": "center"
+            },
+            {
+              "value": "left"
+            },
+            {
+              "value": "right"
+            }
+          ]
+        },
+        "variant": {
+          "optional": true,
+          "type": [
+            {
+              "value": "over"
+            },
+            {
+              "value": "detached"
+            }
+          ]
+        },
+        "offset": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "selectTarget": {
+          "optional": true,
+          "type": "SelectTarget"
+        }
+      },
+      "code": "type PositionProps = {\n  width?: number | '100%' | 'target' | 'auto'\n  position?: 'left' | 'right' | 'top' | 'bottom'\n  placement?: 'center' | 'left' | 'right'\n  variant?: 'over' | 'detached'\n  offset?: { x: number; y: number }\n  selectTarget?: SelectTarget\n}",
+      "file": "/components/Overlay/index.tsx"
+    },
+    "OverlayProps": {
+      "name": "OverlayProps",
+      "props": {
+        "Component": {
+          "type": "ComponentType"
+        },
+        "props": {
+          "type": "P"
+        },
+        "target": {
+          "type": "Target"
+        },
+        "positionProps": {
+          "type": "PositionProps"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type OverlayProps<P = any> = {\n  Component: ComponentType<P>\n  props: P\n  target: Target\n  positionProps: PositionProps\n  style?: CSSProperties\n}",
+      "file": "/components/Overlay/index.tsx"
+    },
+    "ControlsProps": {
+      "name": "ControlsProps",
+      "props": {
+        "componentProps": {
+          "type": "TSTypeLiteral"
+        },
+        "propState": {
+          "type": "TSTypeLiteral"
+        },
+        "setPropState": {}
+      },
+      "code": "type ControlsProps = {\n  componentProps: {}\n  propState: {}\n  setPropState: React.Dispatch<React.SetStateAction<{}>>\n}",
+      "file": "/components/Previewer/Controls.tsx"
+    },
+    "PreviewerProps": {
+      "name": "PreviewerProps",
+      "props": {
+        "component": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "propsName": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type PreviewerProps = {\n  component?: ReactNode\n  // types prop\n  propsName?: string\n}",
+      "file": "/components/Previewer/index.tsx"
+    },
+    "ProviderProps": {
+      "name": "ProviderProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "client": {
+          "optional": true,
+          "type": "BasedClient"
+        },
+        "theme": {
+          "optional": true,
+          "type": [
+            {
+              "value": "light"
+            },
+            {
+              "value": "dark"
+            }
+          ]
+        },
+        "themes": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "fill": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "path": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: BasedClient\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n  path?: string\n}",
+      "file": "/components/Provider/index.tsx"
+    },
+    "RadioButtonsProps": {
+      "name": "RadioButtonsProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": [
+            "string",
+            "boolean",
+            "number"
+          ]
+        },
+        "data": {
+          "optional": true,
+          "type": "Array"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "direction": {
+          "optional": true,
+          "type": [
+            {
+              "value": "horizontal"
+            },
+            {
+              "value": "vertical"
+            }
+          ]
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type RadioButtonsProps = {\n  value?: string | boolean | number\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  indent?: boolean\n  disabled?: boolean\n  descriptionBottom?: string\n  onChange?: (value: string | number | boolean) => void\n}",
+      "file": "/components/RadioButtons/index.tsx"
+    },
+    "SegmentedControlProps": {
+      "name": "SegmentedControlProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": {
+            "array": "TSParenthesizedType"
+          }
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type SegmentedControlProps = {\n  data?: (string | number)[]\n  onChange?: (value: number) => void\n  style?: Style\n}",
+      "file": "/components/SegmentedControl/index.tsx"
+    },
+    "SelectProps": {
+      "name": "SelectProps",
+      "props": {
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "items": {
+          "optional": true,
+          "type": {
+            "array": "SelectOption"
+          }
+        },
+        "placeholder": {
+          "optional": true,
+          "type": [
+            "string",
+            "SelectOption"
+          ]
+        },
+        "value": {
+          "optional": true,
+          "type": "SelectOption"
+        }
+      },
+      "code": "type SelectProps = {\n  disabled?: boolean\n  onChange?: (value: SelectOption) => void\n  items?: SelectOption[]\n  placeholder?: string | SelectOption\n  value?: SelectOption\n}",
+      "file": "/types.ts"
+    },
+    "SliderProps": {
+      "name": "SliderProps",
+      "props": {
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "min": {
+          "optional": true,
+          "type": "number"
+        },
+        "max": {
+          "optional": true,
+          "type": "number"
+        },
+        "step": {
+          "optional": true,
+          "type": "number"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type SliderProps = {\n  onChange?: (value: number) => void\n  min?: number\n  max?: number\n  step?: number\n  value?: number\n}",
+      "file": "/types.ts"
+    },
+    "TagProps": {
+      "name": "TagProps",
+      "props": {
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type TagProps = {\n  disabled?: boolean\n  label?: string\n  onClick?: () => void\n  style?: Style\n}",
+      "file": "/types.ts"
+    },
+    "TextProps": {
+      "name": "TextProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorContentColors"
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": 10
+            },
+            {
+              "value": 12
+            },
+            {
+              "value": 14
+            },
+            {
+              "value": 16
+            },
+            {
+              "value": 18
+            },
+            {
+              "value": 24
+            },
+            {
+              "value": 32
+            },
+            {
+              "value": 40
+            },
+            {
+              "value": 48
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "weight": {
+          "optional": true,
+          "type": [
+            {
+              "value": "strong"
+            },
+            {
+              "value": "medium"
+            },
+            {
+              "value": "normal"
+            }
+          ]
+        }
+      },
+      "code": "type TextProps = {\n  // check children as string??\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  weight?: 'strong' | 'medium' | 'normal'\n}",
+      "file": "/types.ts"
+    },
+    "ToastProps": {
+      "name": "ToastProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "type": {
+          "optional": true,
+          "type": [
+            {
+              "value": "success"
+            },
+            {
+              "value": "error"
+            },
+            {
+              "value": "warning"
+            }
+          ]
+        }
+      },
+      "code": "type ToastProps = {\n  label?: string\n  icon?: FunctionComponent | ReactNode\n  // topLeft?: ReactNode\n  // topRight?: ReactNode\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n  type?: 'success' | 'error' | 'warning'\n}",
+      "file": "/components/Toast/Toast.tsx"
+    },
+    "PositionStyleProps": {
+      "name": "PositionStyleProps",
+      "props": {
+        "top": {
+          "optional": true,
+          "type": "number"
+        },
+        "bottom": {
+          "optional": true,
+          "type": "number"
+        },
+        "left": {
+          "optional": true,
+          "type": "number"
+        },
+        "right": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type PositionStyleProps = {\n  top?: number\n  bottom?: number\n  left?: number\n  right?: number\n}",
+      "file": "/components/Toast/ToastProvider.tsx"
+    },
+    "ActionItemProps": {
+      "name": "ActionItemProps",
+      "props": {},
+      "code": "type ActionItemProps = {}",
+      "file": "/types.ts"
+    },
+    "BreadcrumbsProps": {
+      "name": "BreadcrumbsProps",
+      "props": {},
+      "code": "type BreadcrumbsProps = {}",
+      "file": "/types.ts"
+    },
+    "CheckboxProps": {
+      "name": "CheckboxProps",
+      "props": {
+        "active": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "indeterminate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "warning": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type CheckboxProps = {\n  active?: boolean\n  indeterminate?: boolean\n  onClick?: (e) => void | (() => void)\n  style?: Style\n  warning?: boolean\n  disabled?: boolean\n}",
+      "file": "/types.ts"
+    },
+    "ClickableIconProps": {
+      "name": "ClickableIconProps",
+      "props": {
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": "large"
+            },
+            {
+              "value": "small"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type ClickableIconProps = {\n  icon?: ReactNode\n  onClick?: () => void | ((e) => void)\n  size?: 'large' | 'small'\n  style?: Style\n}",
+      "file": "/types.ts"
+    },
+    "CounterProps": {
+      "name": "CounterProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "Exclude"
+        },
+        "label": {
+          "optional": true,
+          "type": "number"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "subtle": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type CounterProps = {\n  color?: Exclude<\n    ColorBackgroundColors | ColorNonSemanticBackgroundColors,\n    'default'\n  >\n  label?: number\n  onClick?: () => void\n  style?: Style\n  subtle?: boolean\n}",
+      "file": "/types.ts"
+    },
+    "DatePickerProps": {
+      "name": "DatePickerProps",
+      "props": {
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type DatePickerProps = {\n  // what to do for ranged\n  onChange?: (value: number) => void\n  style?: Style\n  value?: number\n}",
+      "file": "/types.ts"
+    },
+    "DateRangeProps": {
+      "name": "DateRangeProps",
+      "props": {
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "value": {
+          "optional": true,
+          "type": {
+            "array": "number"
+          }
+        }
+      },
+      "code": "type DateRangeProps = {\n  // what to do for ranged\n  onChange?: (value: number[]) => void\n  style?: Style\n  value?: number[]\n}",
+      "file": "/types.ts"
+    },
+    "DefaultItemProps": {
+      "name": "DefaultItemProps",
+      "props": {
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "expand": {
+          "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type DefaultItemProps = {\n  description?: string // caption\n  disabled?: boolean\n  expand: boolean\n  icon?: ReactNode\n  label?: string\n}",
+      "file": "/types.ts"
+    },
+    "DividerProps": {
+      "name": "DividerProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type DividerProps = {\n  style?: Style\n}",
+      "file": "/types.ts"
+    },
+    "DropdownProps": {
+      "name": "DropdownProps",
+      "props": {},
+      "code": "type DropdownProps = {}",
+      "file": "/types.ts"
+    },
+    "FilterPillProps": {
+      "name": "FilterPillProps",
+      "props": {},
+      "code": "type FilterPillProps = {}",
+      "file": "/types.ts"
+    },
+    "InputWarningProps": {
+      "name": "InputWarningProps",
+      "props": {
+        "active": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type InputWarningProps = {\n  active?: boolean\n  icon?: ReactNode\n  label?: string\n}",
+      "file": "/types.ts"
+    },
+    "ListItemProps": {
+      "name": "ListItemProps",
+      "props": {
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type ListItemProps = {\n  icon?: ReactNode\n  label?: string\n  onClick?: () => void\n  // value ??\n}",
+      "file": "/types.ts"
+    },
+    "ListProps": {
+      "name": "ListProps",
+      "props": {
+        "items": {
+          "optional": true,
+          "type": {
+            "array": "ListItemProps"
+          }
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type ListProps = {\n  items?: ListItemProps[]\n  style?: Style\n}",
+      "file": "/types.ts"
+    },
+    "MenuItemProps": {
+      "name": "MenuItemProps",
+      "props": {
+        "active": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "children": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            "FC"
+          ]
+        }
+      },
+      "code": "type MenuItemProps = {\n  active?: boolean\n  icon?: ReactNode\n  label?: string\n  onClick?: (e) => void\n  // or path maybe??\n  value?: string\n  style?: Style\n  children?: ReactNode | FC\n}",
+      "file": "/types.ts"
+    },
+    "ModalProps": {
+      "name": "ModalProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type ModalProps = {\n  children: ReactNode\n  description?: string\n  label?: string\n}",
+      "file": "/types.ts"
+    },
+    "ModalBottomBarProps": {
+      "name": "ModalBottomBarProps",
+      "props": {},
+      "code": "type ModalBottomBarProps = {\n  // primary action\n  // secondary action\n  // steps\n}",
+      "file": "/types.ts"
+    },
+    "ModalContentProps": {
+      "name": "ModalContentProps",
+      "props": {},
+      "code": "type ModalContentProps = {}",
+      "file": "/types.ts"
+    },
+    "ModalWarningProps": {
+      "name": "ModalWarningProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "Exclude"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type ModalWarningProps = {\n  color?: Exclude<\n    ColorBackgroundColors,\n    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'\n  >\n  label?: string\n}",
+      "file": "/types.ts"
+    },
+    "MultiSelectProps": {
+      "name": "MultiSelectProps",
+      "props": {},
+      "code": "type MultiSelectProps = {}",
+      "file": "/types.ts"
+    },
+    "OtherItemsProps": {
+      "name": "OtherItemsProps",
+      "props": {},
+      "code": "type OtherItemsProps = {}",
+      "file": "/types.ts"
+    },
+    "ProgressCircleProps": {
+      "name": "ProgressCircleProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "ColorActionColors"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type ProgressCircleProps = {\n  color?: ColorActionColors\n  style?: Style\n  // value is progress in decimal 1 === complete\n  value?: number\n}",
+      "file": "/types.ts"
+    },
+    "RadioButtonProps": {
+      "name": "RadioButtonProps",
+      "props": {
+        "active": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "warning": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "value": {
+          "type": "TSTypeLiteral"
+        }
+      },
+      "code": "type RadioButtonProps = {\n  active?: boolean\n  onClick?: () => void\n  style?: Style\n  warning?: boolean\n  disabled?: boolean\n  value: {\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }\n}",
+      "file": "/types.ts"
+    },
+    "ScrollAreaProps": {
+      "name": "ScrollAreaProps",
+      "props": {},
+      "code": "type ScrollAreaProps = {}",
+      "file": "/types.ts"
+    },
+    "SelectableItemProps": {
+      "name": "SelectableItemProps",
+      "props": {},
+      "code": "type SelectableItemProps = {}",
+      "file": "/types.ts"
+    },
+    "SegmentedControlOptionsProps": {
+      "name": "SegmentedControlOptionsProps",
+      "props": {
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "items": {
+          "optional": true,
+          "type": {
+            "array": "SegmentedControlOption"
+          }
+        },
+        "value": {
+          "optional": true,
+          "type": "SegmentedControlOption"
+        }
+      },
+      "code": "type SegmentedControlOptionsProps = {\n  onChange?: (value: SegmentedControlOption) => void\n  items?: SegmentedControlOption[]\n  value?: SegmentedControlOption\n}",
+      "file": "/types.ts"
+    },
+    "SidebarNavigationHolderProps": {
+      "name": "SidebarNavigationHolderProps",
+      "props": {},
+      "code": "type SidebarNavigationHolderProps = {}",
+      "file": "/types.ts"
+    },
+    "SpotlightSearchProps": {
+      "name": "SpotlightSearchProps",
+      "props": {
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type SpotlightSearchProps = {\n  onChange?: (value: string) => void\n}",
+      "file": "/types.ts"
+    },
+    "StatusProps": {
+      "name": "StatusProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "subtle": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type StatusProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  ghost?: boolean\n  label?: string\n  onClick?: () => void\n  style?: Style\n  subtle?: boolean\n}",
+      "file": "/types.ts"
+    },
+    "TabProps": {
+      "name": "TabProps",
+      "props": {
+        "active": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type TabProps = {\n  active?: boolean\n  label?: string\n  onClick?: () => void\n}",
+      "file": "/types.ts"
+    },
+    "ToggleProps": {
+      "name": "ToggleProps",
+      "props": {
+        "active": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": "large"
+            },
+            {
+              "value": "medium"
+            }
+          ]
+        }
+      },
+      "code": "type ToggleProps = {\n  active?: boolean\n  disabled?: boolean\n  onClick?: (e) => void | (() => void)\n  style?: Style\n  size?: 'large' | 'medium'\n}",
+      "file": "/types.ts"
+    },
+    "TooltipProps": {
+      "name": "TooltipProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "position": {
+          "optional": true,
+          "type": [
+            {
+              "value": "bottom-left"
+            },
+            {
+              "value": "bottom"
+            },
+            {
+              "value": "bottom-right"
+            },
+            {
+              "value": "left"
+            },
+            {
+              "value": "right"
+            },
+            {
+              "value": "top-left"
+            },
+            {
+              "value": "top"
+            },
+            {
+              "value": "top-right"
+            }
+          ]
+        }
+      },
+      "code": "type TooltipProps = {\n  label?: string\n  style?: Style\n  position?:\n    | 'bottom-left'\n    | 'bottom'\n    | 'bottom-right'\n    | 'left'\n    | 'right'\n    | 'top-left'\n    | 'top'\n    | 'top-right'\n}",
+      "file": "/types.ts"
+    },
+    "TopNavigationProps": {
+      "name": "TopNavigationProps",
+      "props": {},
+      "code": "type TopNavigationProps = {}",
+      "file": "/types.ts"
+    }
+  }
+}

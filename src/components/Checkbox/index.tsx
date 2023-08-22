@@ -1,111 +1,87 @@
-import React, { FC, ReactNode } from 'react'
-import {
-  Label,
-  color,
-  border,
-  CheckIcon,
-  DashIcon,
-  useHover,
-  usePropState,
-  Color,
-  Style,
-  Center,
-  Row,
-} from '~'
-
-export type CheckboxProps = {
-  value?: boolean
-  indeterminate?: boolean
-  description?: string
-  style?: Style
-  onChange?: (value: boolean) => void
-  label?: ReactNode
-  wrap?: boolean
-  small?: boolean
-  color?: Color
-  onClick?: (e: any) => void
-}
+import React, { FC } from 'react'
+import { CheckboxProps, ToggleProps } from '../../types'
+import { styled } from 'inlines'
+import { IconCheckSmall, IconMinus, color as genColor } from '../../../src'
+import { usePropState } from '../../hooks/usePropState'
 
 export const Checkbox: FC<CheckboxProps> = ({
-  value: valueProp,
+  active,
   indeterminate,
-  description,
-  style,
-  onChange,
   onClick,
-  wrap,
-  label,
-  small,
-  color: colorProp = 'accent',
-  ...props
+  style,
+  warning,
+  disabled,
 }) => {
-  const [checked, setChecked] = usePropState(valueProp)
-  const { listeners, hover } = useHover()
-
-  const clickHandler = () => {
-    const newChecked = !checked
-    setChecked(newChecked)
-    onChange?.(newChecked)
-  }
+  const [checked, setChecked] = usePropState(active)
 
   return (
-    <button
+    <styled.button
+      disabled={disabled}
       onClick={(e) => {
-        clickHandler()
-        if (onClick) {
-          onClick(e)
-        }
+        e.stopPropagation()
+        e.preventDefault()
+        const newChecked = !checked
+        setChecked(newChecked)
+        onClick?.(newChecked)
       }}
       style={{
+        width: '16px',
+        height: '16px',
+        borderRadius: '4px',
+        border: '1px solid',
+        borderColor: genColor(
+          'action',
+          checked ? 'primary' : warning ? 'alert' : 'neutral',
+          checked || warning ? 'normal' : 'subtleNormal'
+        ),
+        backgroundColor: checked
+          ? genColor('action', 'primary', 'normal')
+          : null,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        position: 'relative',
         display: 'flex',
-        alignItems: !description ? 'center' : '',
+        justifyContent: 'center',
+        alignItems: 'center',
+        '&:hover': !disabled
+          ? {
+              borderColor: genColor(
+                'action',
+                checked ? 'primary' : warning ? 'alert' : 'neutral',
+                checked || warning ? 'hover' : 'subtleHover'
+              ),
+              backgroundColor: checked
+                ? genColor('action', 'primary', 'hover')
+                : null,
+            }
+          : null,
+        '&:active': !disabled
+          ? {
+              borderColor: 'transparent',
+              backgroundColor: genColor(
+                'action',
+                checked ? 'primary' : 'neutral',
+                checked ? 'active' : 'subtleActive'
+              ),
+            }
+          : null,
+        '&:focus': !disabled
+          ? {
+              outline: '1px solid',
+              outlineColor: genColor('action', 'primary', 'selected'),
+              outlineOffset: '1px',
+            }
+          : null,
+        transition: 'all 0.2s',
         ...style,
       }}
-      {...listeners}
     >
-      <Row
-        style={{
-          border: ' 2px solid rgba(0,0,0,0)',
-          borderRadius: 4,
-          boxSizing: 'border-box',
-          height: small ? 18 : 22,
-          width: small ? 18 : 22,
-          marginRight: 12,
-          '@media (hover: hover)': {
-            '&:hover': {
-              border: '2px solid rgba(44,60,234,0.2)',
-            },
-          },
-        }}
-      >
-        <Center
-          style={{
-            backgroundColor: checked
-              ? color(colorProp, hover ? 'hover' : null)
-              : null,
-            border: border(1),
-            borderRadius: 4,
-            height: small ? 16 : 20,
-            width: small ? 16 : 20,
-            marginRight: 12,
-            marginLeft: -1,
-            flexShrink: 0,
-          }}
-          {...props}
-        >
-          {checked && indeterminate ? (
-            <DashIcon size={small ? 10 : 14} color="accent:contrast" />
-          ) : checked ? (
-            <CheckIcon size={small ? 12 : 14} color="accent:contrast" />
-          ) : null}
-        </Center>
-      </Row>
-      <Label
-        wrap={wrap}
-        label={label}
-        description={description}
-        style={{ textAlign: 'left' }}
-      />
-    </button>
+      {checked ? (
+        indeterminate ? (
+          <IconMinus color="inverted" />
+        ) : (
+          <IconCheckSmall color="inverted" />
+        )
+      ) : null}
+    </styled.button>
   )
 }

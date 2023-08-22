@@ -4,7 +4,7 @@ import {
   PositionProps,
   SelectTarget,
   Target,
-} from '~/components/Overlay'
+} from '../components/Overlay'
 
 type PosCalculation = (
   targetRect: DOMRect,

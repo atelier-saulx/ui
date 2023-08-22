@@ -1,155 +1,64 @@
-import { Style, styled } from '~'
-import React, { FC, ReactNode, MouseEvent } from 'react'
-import { Size, Color, Weight, ColorVariant, Typography } from '~/types'
-import { font } from '~/utils'
+import React, { FC, ReactNode } from 'react'
+import { styled, Style } from 'inlines'
+import { color as genColor } from '../../'
+import { ColorContentColors } from '../../varsTypes'
 
 type TextProps = {
-  capitalize?: boolean
   children: ReactNode
-  color?: Color
-  italic?: boolean
-  onClick?: (e: MouseEvent<HTMLDivElement>) => void
-  onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void
-  selectable?: boolean
-  size?: Size
+  color?: ColorContentColors
+  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48
   style?: Style
-  textAlign?: 'center' | 'right' | 'left'
-  variant?: ColorVariant
-  weight?: Weight
-  wrap?: boolean
-  typography?: Typography
+  weight?: 'strong' | 'medium' | 'normal'
+  onClick?: () => void | ((e) => void)
 }
 
 export const Text: FC<TextProps> = ({
-  color = 'text',
-  italic,
-  selectable,
-  size,
-  style,
-  weight,
-  wrap,
   children,
-  variant,
-  textAlign,
-  capitalize,
+  color = 'default',
+  size = 12,
+  style,
+  weight = 'normal',
   onClick,
-  typography,
-  ...props
 }) => {
-  const s = font({ size, color, variant, weight }) as Style
-
-  s.userSelect = selectable ? 'text' : 'none'
-
-  s.letterSpacing = '-0.015em'
-  s.fontSize = size || '14px'
-  s.fontWeight = weight || '500'
-  s.lineHeight = size
-    ? typeof size === 'string'
-      ? ~~(parseInt(size) * 1.42) + 'px'
-      : ~~(size * 1.42) + 'px'
-    : '20px'
-
-  if (!wrap) {
-    s.textOverflow = 'ellipsis'
-    s.overflowY = 'hidden'
-    s.overflowX = 'hidden'
-    s.whiteSpace = 'nowrap'
-  }
-
-  if (italic) {
-    s.fontStyle = 'italic'
-  }
-
-  if (textAlign) {
-    s.textAlign = textAlign
-  }
-
-  if (capitalize) {
-    s.textTransform = 'capitalize'
-  }
-
-  if (style) {
-    Object.assign(s, style)
-  }
-
-  // typo styles
-  if (typography === 'title1') {
-    s.fontWeight = 700
-    s.fontSize = '36px'
-    s.lineHeight = '60px'
-  }
-  if (typography === 'title2') {
-    s.fontWeight = 700
-    s.fontSize = '22px'
-    s.lineHeight = '32px'
-  }
-  if (typography === 'subtitle600') {
-    s.fontWeight = 600
-    s.fontSize = '18px'
-    s.lineHeight = '28px'
-  }
-  if (typography === 'subtitle500') {
-    s.fontWeight = 500
-    s.fontSize = '18px'
-    s.lineHeight = '28px'
-  }
-  if (typography === 'subtitle400') {
-    s.fontWeight = 400
-    s.fontSize = '18px'
-    s.lineHeight = '28px'
-  }
-  if (typography === 'subtext600') {
-    s.fontWeight = 600
-    s.fontSize = '16px'
-    s.lineHeight = '24px'
-  }
-  if (typography === 'subtext500') {
-    s.fontWeight = 500
-    s.fontSize = '16px'
-    s.lineHeight = '24px'
-  }
-  if (typography === 'subtext400') {
-    s.fontWeight = 400
-    s.fontSize = '16px'
-    s.lineHeight = '24px'
-  }
-  if (typography === 'body600') {
-    s.fontWeight = 600
-    s.fontSize = '14px'
-    s.lineHeight = '20px'
-  }
-  if (typography === 'body500') {
-    s.fontWeight = 500
-    s.fontSize = '14px'
-    s.lineHeight = '20px'
-  }
-  if (typography === 'body400') {
-    s.fontWeight = 400
-    s.fontSize = '14px'
-    s.lineHeight = '20px'
-  }
-  if (typography === 'caption600') {
-    s.fontWeight = 600
-    s.fontSize = '12px'
-    s.lineHeight = '16px'
-  }
-  if (typography === 'caption500') {
-    s.fontWeight = 500
-    s.fontSize = '12px'
-    s.lineHeight = '16px'
-  }
-  if (typography === 'caption400') {
-    s.fontWeight = 400
-    s.fontSize = '12px'
-    s.lineHeight = '16px'
-  }
-
-  // if (size) {
-  //   s.fontSize = `${size}px`
-  // }
+  const newLineHeight =
+    size === 10
+      ? '16px'
+      : size === 12
+      ? '20px'
+      : size === 14
+      ? '24px'
+      : size === 16
+      ? '28px'
+      : size === 18
+      ? '32px'
+      : size === 24
+      ? '36px'
+      : size === 32
+      ? '44px'
+      : size === 40
+      ? '56px'
+      : size === 48
+      ? '64px'
+      : '16px'
 
   return (
-    <styled.div style={s} {...props} onClick={onClick}>
+    <styled.div
+      onClick={onClick}
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        color: genColor('content', color, 'primary'),
+        fontSize: size,
+        fontFamily:
+          weight === 'strong'
+            ? 'Inter-SemiBold'
+            : weight === 'medium'
+            ? 'Inter-Medium'
+            : 'Inter-Regular',
+        lineHeight: newLineHeight,
+        ...style,
+      }}
+    >
       {children}
     </styled.div>
   )

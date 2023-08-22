@@ -1,11 +1,12 @@
-import { PositionProps } from '~/components/Overlay'
+import { PositionProps } from '../components/Overlay'
 import {
   Option,
   Value,
   ContextOptions,
   ContextMenu,
   ContextMultiOptions,
-} from '~/components/ContextMenu'
+} from '../components/ContextMenu'
+
 import { useOverlay } from './useOverlay'
 import React, {
   useCallback,
@@ -16,9 +17,31 @@ import React, {
   EventHandler,
   SyntheticEvent,
 } from 'react'
-import { PropsEventHandler, Data } from '~/types'
+
 import { hash } from '@saulx/hash'
 import { deepEqual } from '@saulx/utils'
+
+type Data<T = {}> = T & {
+  data: any
+  index?: number
+  exportData?: ExportData
+}
+
+type ExportData<T = any> = (data: Data<T>) => Promise<ExportedData>
+
+type ExportedData = {
+  file?: {
+    value: any
+    name: string
+    mime: string
+  }
+  text?: string
+}
+
+type PropsEventHandler<E = SyntheticEvent, P = any> = (
+  e?: E,
+  props?: P
+) => void | Promise<void> | boolean | Promise<boolean>
 
 export function useSelect<T = any>(
   items: (Option | Value)[] = [],

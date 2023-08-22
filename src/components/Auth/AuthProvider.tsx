@@ -1,8 +1,10 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 import { useClient } from '@based/react'
 import { useRoute } from 'kabouter'
-import { LoadingIcon } from '~/icons'
+
 import { Toast, useToast } from '../Toast'
+
+import { IconAlarmClock } from '../../icons'
 
 type AuthProviderProps = {
   children: ReactNode
@@ -36,7 +38,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       const redirect = global.location.origin + `/auth-${thirdPartyRedirect}`
       let state: any
       try {
-        state = JSON.parse(params.get('state'))
+        state = JSON.parse(params.get('state') ?? '')
       } catch (error) {
         console.warn(error)
       }
@@ -97,7 +99,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           transform: 'translate3d(-50%,-50%,0)',
         }}
       >
-        <LoadingIcon size={32} />
+        <IconAlarmClock />
       </div>
     </div>
   ) : (

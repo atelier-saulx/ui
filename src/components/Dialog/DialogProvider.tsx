@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useRef, ReactNode, FC } from 'react'
 import { DialogContext, DialogContextType } from './DialogContext'
-import {
-  Style,
-  ForwardContext,
-  color,
-  Input,
-  addOverlay,
-  removeOverlay,
-  removeAllOverlays,
-} from '~'
 import { Dialog } from './Dialog'
+
+import { Style } from 'inlines'
+import { color } from '../../varsUtilities'
+import { Input } from '../Input'
+import { ForwardContext } from '../Provider'
+import { addOverlay, removeOverlay, removeAllOverlays } from '../Overlay'
 
 const Prompt: FC<{
   type?: 'prompt' | 'alert'
@@ -74,7 +71,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
           key={id}
           style={{
             alignItems: 'center',
-            backgroundColor: color('backdrop'),
+            backgroundColor: color('background', 'inverted', 'subtle'),
             display: 'flex',
             justifyContent: 'center',
             position: fixed ? 'fixed' : 'absolute',

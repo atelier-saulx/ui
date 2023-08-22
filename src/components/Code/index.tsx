@@ -1,7 +1,7 @@
 import React, { FC, Dispatch, SetStateAction, ReactNode } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
-import Editor from './ReactSImpleEditor'
-import { Style, styled, border, color, renderOrCreateElement } from '~'
+import Editor from './ReactSimpleEditor'
+
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-clike'
@@ -13,21 +13,17 @@ import 'prismjs/components/prism-tsx.min'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
+import { Style, styled } from 'inlines'
+import { color } from '../../varsUtilities'
+
 export type CodeProps = {
   style?: Style
   value?: string
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
-  topRight?: FC | ReactNode
   header?: ReactNode
 }
 
-export const Code: FC<CodeProps> = ({
-  topRight,
-  value,
-  style,
-  onChange,
-  header,
-}) => {
+export const Code: FC<CodeProps> = ({ value, style, onChange, header }) => {
   return (
     <styled.div
       style={{
@@ -35,8 +31,7 @@ export const Code: FC<CodeProps> = ({
         position: 'relative',
         maxWidth: '100%',
         borderRadius: 4,
-        border: border(1, 'border'),
-        background: color('background2dp'),
+        background: color('background', 'default', 'subtle'),
         overflow: 'hidden',
         ...style,
       }}
@@ -44,29 +39,20 @@ export const Code: FC<CodeProps> = ({
       {header && (
         <div
           style={{
-            background: color('border'),
+            background: color('background', 'default', 'muted'),
           }}
         >
           {header}
         </div>
       )}
-      {topRight ? (
-        <styled.div
-          style={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-          }}
-        >
-          {renderOrCreateElement(topRight)}
-        </styled.div>
-      ) : null}
 
+      {/* @ts-ignore */}
       <Editor
         value={value}
         onValueChange={onChange}
         highlight={(code) => {
           try {
+            // @ts-ignore
             const h = highlight(code, languages.js)
             return h
           } catch (err) {}
@@ -74,7 +60,7 @@ export const Code: FC<CodeProps> = ({
         style={{
           margin: 16,
           fontSize: 14,
-          color: color('accent'),
+          color: color('content', 'brand', 'primary'),
           fontFamily: 'Fira Code, monospace, sans-serif',
         }}
       />

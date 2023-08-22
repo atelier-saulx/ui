@@ -12,8 +12,8 @@ import React, {
   useRef,
   useCallback,
 } from 'react'
-import { useOverlayPosition } from '~/hooks/useOverlayPosition'
-import { color } from '~/utils'
+import { useOverlayPosition } from '../../hooks/useOverlayPosition'
+import { color } from '../../varsUtilities'
 import { ScrollArea } from '../ScrollArea'
 
 export type Target = (EventTarget | Element | Node) & {
@@ -87,9 +87,9 @@ export const InnerShared = ({ width, style, children, elementRef }) => {
       ref={elementRef}
       style={{
         pointerEvents: 'all',
-        borderRadius: 4,
-        background: color('background2dp'),
-        border: `1px solid ${color('border')}`,
+        borderRadius: 8,
+        background: color('background', 'default', 'surface'),
+        border: `1px solid ${color('border', 'default', 'strong')}`,
         maxHeight: 'calc(100vh - 30px)',
         boxShadow: `0px 3px 16px 1px rgba(0,0,0,0.05)`,
         width: width,

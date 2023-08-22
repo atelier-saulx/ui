@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import {
-  styled,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  Text,
-  color,
-  removeAllOverlays,
-  useContextState,
-} from '~'
+import { styled } from 'inlines'
+import { useContextState } from '../../hooks/ContextState'
+import { removeAllOverlays } from '../Overlay'
+import { Text } from '../Text'
+import { IconChevronDown, IconChevronTop } from '../../icons'
 import { RangeCalendar } from './RangeCalendar'
+import { color as genColor } from '../../../src'
 
 type RangeFromPickerProps = {
   setValue: (e: any) => void
@@ -17,7 +14,8 @@ type RangeFromPickerProps = {
 }
 
 const StyledDatePickerBox = styled('div', {
-  background: color('background'),
+  background: genColor('background', 'default', 'strong'),
+  //   background: 'red',
   borderBottomLeftRadius: 4,
   borderBottomRightRadius: 4,
   width: 280,
@@ -32,7 +30,10 @@ const StyledChevronHolders = styled('div', {
   alignItems: 'center',
   justifyContent: 'center',
   '@media (hover: hover)': {
-    '&:hover': { background: color('border'), cursor: 'pointer' },
+    '&:hover': {
+      background: genColor('action', 'neutral', 'subtleHover'),
+      cursor: 'pointer',
+    },
   },
 })
 
@@ -106,6 +107,8 @@ export const FromRangePicker = ({
   useEffect(() => {
     setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
     setValue(
+      //TODO type this?
+      //@ts-ignore
       stringToMilliseconds(
         `${selectedDay}/${selectedMonth}/${selectedYear}`,
         timeString
@@ -194,7 +197,7 @@ export const FromRangePicker = ({
           padding: '12px 16px',
         }}
       >
-        <Text weight={400}>
+        <Text>
           {(months[+valueAsString?.split('/')[1]] || '') +
             ' ' +
             (valueAsString?.split('/')[2] || '')}
@@ -204,10 +207,10 @@ export const FromRangePicker = ({
             onClick={() => monthChanger('backward')}
             style={{ marginRight: 16 }}
           >
-            <ChevronUpIcon />
+            <IconChevronTop />
           </StyledChevronHolders>
           <StyledChevronHolders onClick={() => monthChanger('forward')}>
-            <ChevronDownIcon />
+            <IconChevronDown />
           </StyledChevronHolders>
         </styled.div>
       </styled.div>
@@ -232,7 +235,6 @@ export const FromRangePicker = ({
         }}
       >
         <Text
-          weight={400}
           onClick={() => {
             setSelectedYear(dateObj.getFullYear().toString())
             setSelectedMonth(
@@ -250,25 +252,23 @@ export const FromRangePicker = ({
         >
           Today
         </Text>
-        <Text
-          weight={400}
-          style={{ marginBottom: 4 }}
-          onClick={() => dayChanger('forward')}
-        >
+        <Text style={{ marginBottom: 4 }} onClick={() => dayChanger('forward')}>
           Select next date
         </Text>
         <Text
-          weight={400}
           style={{ marginBottom: 4 }}
           onClick={() => dayChanger('backward')}
         >
           Select previous date
         </Text>
       </styled.div>
-      <styled.div style={{ borderBottom: `1px solid ${color('border')}` }} />
+      <styled.div
+        style={{
+          borderBottom: `1px solid ${genColor('border', 'default', 'strong')}`,
+        }}
+      />
       <Text
         style={{ padding: '8px 16px', cursor: 'pointer' }}
-        weight={400}
         onClick={() => {
           setValue(0)
           removeAllOverlays()

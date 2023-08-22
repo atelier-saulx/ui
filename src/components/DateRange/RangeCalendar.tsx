@@ -1,5 +1,8 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react'
-import { styled, color, useContextState } from '~'
+import { styled } from 'inlines'
+import { color as genColor } from '../../../src'
+import { useContextState } from '../../hooks/ContextState'
 
 type RangeCalendarProps = {
   days: string[]
@@ -22,16 +25,16 @@ export const RangeCalendar = ({
 }: RangeCalendarProps) => {
   const [daysArr, setDaysArr] = useState([])
 
-  const [hoverDay, setHoverDay] = useState(null)
-  const [hoverMonth, setHoverMonth] = useState(null)
-  const [hoverYear, setHoverYear] = useState()
+  const [hoverDay, setHoverDay] = useState<number | null>(null)
+  const [hoverMonth, setHoverMonth] = useState<number | null>(null)
+  const [hoverYear, setHoverYear] = useState<number | null>(null)
 
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
   }
 
-  const [fromValue] = useContextState('fromValue')
-  const [tillValue] = useContextState('tillValue')
+  const [fromValue] = useContextState<number | string>('fromValue')
+  const [tillValue] = useContextState<number | string>('tillValue')
 
   const fromDateObj = new Date(+fromValue)
   const fromYear = fromDateObj.getFullYear()
@@ -53,7 +56,7 @@ export const RangeCalendar = ({
   const currentYear = dateObj.getFullYear()
   const presentDay = dateObj.getDate()
 
-  const tempArr = []
+  const tempArr: { day: number; month: string; year: string }[] | any = []
 
   // Calender layout offset
   useEffect(() => {
@@ -160,7 +163,7 @@ export const RangeCalendar = ({
       </styled.div>
 
       <styled.div style={{ padding: '10px 20px' }}>
-        {daysArr.map((val, i) =>
+        {daysArr.map((val: any, i) =>
           val === 'x' ? (
             <styled.div
               key={i}
@@ -199,41 +202,46 @@ export const RangeCalendar = ({
                   val.day === presentDay &&
                   +selectedMonth === currentMonth + 1 &&
                   +selectedYear === currentYear
-                    ? `1px solid ${color('accent')}`
+                    ? `1px solid ${genColor('border', 'brand', 'strong')}`
                     : '',
                 background:
                   val.day === +selectedDay
-                    ? color('accent')
+                    ? genColor('action', 'primary', 'normal')
                     : val.day === fromDay &&
                       +selectedMonth === fromMonth &&
                       +selectedYear === fromYear
-                    ? color('accent')
+                    ? genColor('action', 'primary', 'normal')
                     : val.day === tillDay &&
                       +selectedMonth === tillMonth &&
                       +selectedYear === tillYear
-                    ? color('accent')
+                    ? genColor('action', 'primary', 'normal')
                     : checkIfRanged(val.year, val.month, val.day)
-                    ? color('lightaccent')
+                    ? genColor('action', 'primary', 'subtleNormal')
                     : checkIfIsHoverDay(val.year, val.month, val.day)
-                    ? color('border')
+                    ? genColor('action', 'neutral', 'subtleHover')
                     : '',
                 color:
                   val.day === +selectedDay
-                    ? color('background')
+                    ? genColor('content', 'inverted', 'primary')
                     : val.day === fromDay &&
                       +selectedMonth === fromMonth &&
                       +selectedYear === fromYear
-                    ? color('background')
+                    ? genColor('content', 'inverted', 'primary')
                     : val.day === tillDay &&
                       +selectedMonth === tillMonth &&
                       +selectedYear === tillYear
-                    ? color('background')
-                    : color('text'),
-                borderRadius: checkIfRanged(val.year, val.month, val.day)
-                  ? 0
-                  : checkIfIsHoverDay(val.year, val.month, val.day)
-                  ? 0
-                  : 4,
+                    ? genColor('content', 'inverted', 'primary')
+                    : genColor('content', 'default', 'primary'),
+                borderRadius:
+                  val.day === presentDay &&
+                  +selectedMonth === currentMonth + 1 &&
+                  +selectedYear === currentYear
+                    ? '4px'
+                    : checkIfRanged(val.year, val.month, val.day)
+                    ? 0
+                    : checkIfIsHoverDay(val.year, val.month, val.day)
+                    ? 0
+                    : 4,
                 boxSizing: 'border-box',
                 width: 34,
                 height: 26,
@@ -244,10 +252,22 @@ export const RangeCalendar = ({
                 alignItems: 'center',
                 justifyContent: 'center',
                 '&:hover': {
-                  background: val.day && color('accent'),
-                  cursor: 'pointer',
-                  color: val.day && color('background'),
-                  borderRadius: '4px !important',
+                  background:
+                    val.day === +selectedDay
+                      ? genColor('action', 'primary', 'hover')
+                      : val.day === fromDay &&
+                        +selectedMonth === fromMonth &&
+                        +selectedYear === fromYear
+                      ? genColor('action', 'primary', 'hover')
+                      : val.day === tillDay &&
+                        +selectedMonth === tillMonth &&
+                        +selectedYear === tillYear
+                      ? genColor('action', 'primary', 'hover')
+                      : checkIfRanged(val.year, val.month, val.day)
+                      ? genColor('action', 'primary', 'subtleSelected')
+                      : checkIfIsHoverDay(val.year, val.month, val.day)
+                      ? genColor('action', 'primary', 'subtleSelected')
+                      : genColor('action', 'neutral', 'subtleHover'),
                 },
               }}
               key={i}
@@ -260,8 +280,11 @@ export const RangeCalendar = ({
           )
         )}
       </styled.div>
-
-      <styled.div style={{ borderBottom: `1px solid ${color('border')}` }} />
+      <styled.div
+        style={{
+          borderBottom: `1px solid ${genColor('border', 'default', 'strong')}`,
+        }}
+      />
     </>
   )
 }

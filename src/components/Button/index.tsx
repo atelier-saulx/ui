@@ -10,20 +10,17 @@ import React, {
   FunctionComponent,
   MouseEvent,
 } from 'react'
-import {
-  border,
-  color,
-  renderOrCreateElement,
-  Color,
-  Text,
-  Key,
-  Icon,
-  styled,
-  Style,
-  LoadingIcon,
-  useKeyboardShortcut,
-  KeyBoardshortcut,
-} from '~'
+
+import { styled, Style } from 'inlines'
+import { renderOrCreateElement } from '../../utils/renderOrCreateElement'
+import { color as genColor } from '../../varsUtilities'
+import { Text } from '../Text'
+import { useKeyboardShortcut } from '../../hooks/useKeyboard'
+import { KeyBoardshortcut } from '../KeyboardShortcut'
+import { ProgressCircle } from '../ProgressCircle/ProgressCircle'
+import { ColorActionColors, ColorContentColors } from '../../varsTypes'
+import { Key } from '../KeyboardShortcut'
+import { IconChevronDownSmall } from '../../icons'
 
 const stopPropagation = (e) => e.stopPropagation()
 
@@ -31,15 +28,16 @@ export type ButtonProps = {
   onMouseEnter?: MouseEventHandler
   onMouseLeave?: MouseEventHandler
   children?: ReactNode | ReactNode[]
+  label?: string
   disabled?: boolean
-  color?: Color
+  dropdownIndicator?: boolean
+  color?: ColorActionColors
   ghost?: boolean
-  light?: boolean
-  large?: boolean
+  subtle?: boolean
   transparent?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
-  icon?: FunctionComponent<Icon> | ReactNode
-  iconRight?: FunctionComponent<Icon> | ReactNode
+  icon?: FunctionComponent | ReactNode
+  afterIcon?: FunctionComponent | ReactNode
   loading?: boolean
   onClick?:
     | MouseEventHandler
@@ -47,15 +45,13 @@ export type ButtonProps = {
     | ((e: MouseEvent) => Promise<void>)
     | (() => Promise<void>)
   onPointerDown?: MouseEventHandler
-  outline?: boolean
   style?: Style
-  textAlign?: 'center' | 'right' | 'left'
   /** 
-   Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.
-  
-   Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`
-   Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`
-  */
+     Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.
+    
+     Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`
+     Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`
+    */
   keyboardShortcut?: Key
   /** Parses action keys string and displays it if not on a touchdevice
    */
@@ -72,44 +68,71 @@ export const getButtonStyle = (
   const {
     disabled,
     ghost,
-    color: colorProp = ghost ? 'text' : 'accent',
-    outline,
-    light,
+    color: colorProp = ghost ? 'system' : 'primary',
+    label,
+    subtle,
     clickAnimation,
   } = props
 
-  const isLight = light || ghost || outline
+  const isLight = subtle || ghost
   const style: Style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
-    backgroundColor: ghost || outline ? null : color(colorProp, null, isLight),
-    color: color(colorProp, 'contrast', isLight),
-    border: border(outline && 1, colorProp, 'border', light),
+    pointerEvents: disabled ? 'none' : 'auto',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    backgroundColor: ghost
+      ? 'transparent'
+      : genColor('action', colorProp, subtle ? 'subtleNormal' : 'normal'),
+    // color: genColor(colorProp, 'contrast', isLight),
+    '&:active': {
+      backgroundColor: props.ghost
+        ? 'transparent'
+        : genColor(
+            'action',
+            colorProp,
+            props.subtle ? 'subtleActive' : 'active'
+          ),
+    },
+    '&:focus': {
+      backgroundColor: props.ghost
+        ? 'transparent'
+        : genColor(
+            'action',
+            colorProp,
+            props.subtle ? 'subtleSelected' : 'selected'
+          ),
+      border: `1px solid ${genColor('content', 'inverted', 'primary')}`,
+      boxShadow: `0px 0px 0px 2px ${genColor('action', 'primary', 'normal')}`,
+    },
+    '&:hover': {
+      backgroundColor: props.ghost
+        ? 'transparent'
+        : genColor('action', colorProp, props.subtle ? 'subtleHover' : 'hover'),
+    },
+    width: 'fit-content',
     opacity: disabled ? 0.6 : 1,
   }
 
   if (isButton) {
     style.cursor = 'pointer'
 
-    if (!props.transparent) {
-      style['@media (hover:hover)'] = {
-        '&:hover': {
-          backgroundColor: color(colorProp, 'hover', isLight),
-          cursor: disabled ? 'not-allowed' : 'pointer',
-        },
-      }
-    }
-    style['&:active'] = clickAnimation
-      ? {
-          backgroundColor: !props.transparent
-            ? color(colorProp, 'active', isLight)
-            : null,
-          transform: 'scale(1.05)',
-        }
-      : {
-          backgroundColor: !props.transparent
-            ? color(colorProp, 'active', isLight)
-            : null,
-        }
+    // if (!props.transparent) {
+    //   style['@media (hover:hover)'] = {
+    //     '&:hover': {
+    //       backgroundColor: genColor('action', 'primary', 'hover'),
+    //       cursor: disabled ? 'not-allowed' : 'pointer',
+    //     },
+    //   }
+    // }
+    // style['&:active'] = clickAnimation
+    //   ? {
+    //       backgroundColor: ghost
+    //         ? 'transparent'
+    //         : genColor('action', colorProp, subtle ? 'subtleActive' : 'active'),
+    //       transform: 'scale(1.05)',
+    //     }
+    //   : {
+    //       backgroundColor: !props.transparent ? 'transparent' : null,
+    //     }
   }
 
   return style
@@ -118,10 +141,11 @@ export const getButtonStyle = (
 export const Button: FC<ButtonProps> = (props) => {
   let {
     children,
+    dropdownIndicator,
+    label,
     fill,
     icon,
-    iconRight,
-    large,
+    afterIcon,
     loading,
     onClick,
     onPointerDown,
@@ -130,7 +154,6 @@ export const Button: FC<ButtonProps> = (props) => {
     keyboardShortcut,
     displayShortcut,
     style,
-    textAlign = 'left',
   } = props
 
   const [isLoading, setIsLoading] = useState(false)
@@ -189,6 +212,15 @@ export const Button: FC<ButtonProps> = (props) => {
     props.disabled = true
   }
 
+  let contentColor: ColorContentColors =
+    (props.subtle || props.ghost) && props.color === 'alert'
+      ? 'negative'
+      : (props.subtle || props.ghost) && props.color === 'neutral'
+      ? 'default'
+      : props.subtle || props.ghost
+      ? 'brand'
+      : 'inverted'
+
   return (
     <styled.button
       ref={buttonElem}
@@ -196,15 +228,8 @@ export const Button: FC<ButtonProps> = (props) => {
       onClick={onClick && extendedOnClick}
       onPointerDown={onPointerDown || stopPropagation}
       style={{
-        padding:
-          !children && large
-            ? '16px'
-            : !children
-            ? '8px'
-            : large
-            ? '8px 16px'
-            : '6px 12px',
-        borderRadius: large ? 8 : 4,
+        padding: '10px 16px',
+        borderRadius: 8,
         width: fill ? '100%' : null,
         position: 'relative',
         ...getButtonStyle(props, true),
@@ -215,62 +240,58 @@ export const Button: FC<ButtonProps> = (props) => {
     >
       <div
         style={{
-          visibility: loading ? 'hidden' : null,
+          //   visibility: loading ? 'hidden' : null,
           display: 'flex',
           alignItems: 'center',
-          justifyContent:
-            textAlign === 'left' && fill
-              ? 'flex-start'
-              : textAlign === 'center' && fill
-              ? 'center'
-              : textAlign === 'right' && fill
-              ? 'flex-end'
-              : fill
-              ? 'space-between'
-              : 'center',
+          justifyContent: 'center',
         }}
       >
+        {loading && (
+          <styled.div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate3d(-50%,-50%,0)',
+            }}
+          >
+            <ProgressCircle />
+          </styled.div>
+        )}
         {icon &&
-          renderOrCreateElement(
-            icon,
-            children || iconRight
-              ? {
-                  style: { marginRight: 8, minWidth: 16 },
-                }
-              : null
-          )}
+          renderOrCreateElement(icon, {
+            color: contentColor,
+            style: { marginRight: 8 },
+          })}
         <Text
           style={{ display: 'flex', alignItems: 'center' }}
-          color="inherit"
-          typography={large ? 'subtext600' : 'body500'}
+          color={contentColor}
+          size={16}
+          weight="strong"
         >
-          {children}
+          {label || children}
           {displayShortcut && keyboardShortcut ? (
             <KeyBoardshortcut keyboardShortcut={keyboardShortcut} />
           ) : null}
         </Text>
-        {iconRight &&
+        {afterIcon &&
           renderOrCreateElement(
-            iconRight,
+            afterIcon,
             children || icon
               ? {
+                  color: contentColor,
                   style: { marginLeft: 8, minWidth: 16 },
                 }
               : null
           )}
+        {dropdownIndicator && (
+          <styled.div style={{ marginLeft: 12 }}>
+            {renderOrCreateElement(IconChevronDownSmall, {
+              color: contentColor,
+            })}
+          </styled.div>
+        )}
       </div>
-      {loading && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate3d(-50%,-50%,0)',
-          }}
-        >
-          <LoadingIcon />
-        </div>
-      )}
     </styled.button>
   )
 }

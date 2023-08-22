@@ -1,111 +1,89 @@
-import React, { CSSProperties, FC } from 'react'
-import { Text, Label } from '~'
+import React, { FC } from 'react'
+import { ToggleProps } from '../types'
 import { styled } from 'inlines'
-import { border, Color, color } from '~/utils'
-import { InputWrapper } from '../Input/InputWrapper'
-import { usePropState } from '~/hooks'
-
-type ToggleProps = {
-  value?: boolean
-  label?: string
-  description?: string
-  descriptionBottom?: string
-  text?: string
-  disabled?: boolean
-  indent?: boolean
-  style?: CSSProperties
-  color?: Color
-  onChange?: (value: boolean) => void
-}
+import { color as genColor } from '../../../src'
+import { usePropState } from '../../hooks/usePropState'
 
 export const Toggle: FC<ToggleProps> = ({
-  value = false,
-  indent,
-  label,
+  active,
   disabled,
-  description,
-  descriptionBottom,
-  text,
-  color: colorProp = 'accent',
+  onClick,
+  size = 'large',
   style,
-  onChange,
-  ...props
 }) => {
-  const [checked, setChecked] = usePropState(value)
+  const [checked, setChecked] = usePropState(active)
+
+  const width = size === 'large' ? '36px' : '28px'
+  const height = size === 'large' ? '20px' : '16px'
+  const circleSize = size === 'large' ? '16px' : '12px'
 
   return (
-    <InputWrapper
-      indent={indent}
-      value=""
-      descriptionBottom={descriptionBottom}
+    <styled.input
+      key="asdasd"
+      type="checkbox"
       disabled={disabled}
-      color={colorProp}
-      style={{
-        width: 'fit-content',
-        cursor: 'pointer',
-      }}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
         const newChecked = !checked
         setChecked(newChecked)
-        onChange?.(newChecked)
+        onClick?.(newChecked)
       }}
-    >
-      <Label
-        label={label}
-        description={description}
-        style={{ marginRight: 12 }}
-      />
+      style={{
+        width,
+        height,
+        borderRadius: '24px',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: genColor(
+          'action',
+          checked ? 'primary' : 'neutral',
+          checked ? 'normal' : 'subtleNormal'
+        ),
+        '&:hover': !disabled
+          ? {
+              backgroundColor: genColor(
+                'action',
+                checked ? 'primary' : 'neutral',
+                checked ? 'hover' : 'subtleHover'
+              ),
+            }
+          : null,
+        '&:active': !disabled
+          ? {
+              backgroundColor: genColor(
+                'action',
+                checked ? 'primary' : 'neutral',
+                checked ? 'active' : 'subtleActive'
+              ),
+            }
+          : null,
+        '&:focus': !disabled
+          ? {
+              outline: '1px solid',
+              outlineColor: genColor('action', 'primary', 'selected'),
 
-      <div {...props} style={{ ...style }}>
-        <div
-          style={{
-            display: 'flex',
-            marginTop: label || description ? 8 : 0,
-            alignItems: 'center',
-          }}
-        >
-          <styled.input
-            onChange={() => {
-              const newChecked = !checked
-              setChecked(newChecked)
-              onChange?.(newChecked)
-            }}
-            type="checkbox"
-            checked={checked}
-            style={{
-              display: 'flex',
-              width: 32,
-              height: 21,
-              borderRadius: 10,
-              alignItems: 'center',
-              marginRight: 12,
-              position: 'relative',
-              cursor: 'pointer',
-              border: border('1px', 'border'),
-              backgroundColor: color(checked ? colorProp : 'lightbackdrop'),
-              '@media (hover: hover)': {
-                '&:hover': {
-                  backgroundColor: checked ? color(colorProp, 'active') : null,
-                },
-              },
-              '&:before': {
-                content: '" "',
-                width: '16px',
-                height: '16px',
-                backgroundColor: color('background'),
-                borderRadius: '8px',
-                display: 'block',
-                position: 'absolute',
-                //  left: !checked && '2px',
-                //  right: checked ? '2px' : 'auto',
-                transform: !checked ? 'translateX(2px)' : `translateX(14px)`,
-                transition: 'transform 0.1s linear',
-              },
-            }}
-          />
-          {text && <Text weight={400}>{text}</Text>}
-        </div>
-      </div>
-    </InputWrapper>
+              outlineOffset: '1px',
+            }
+          : null,
+        transition: 'all 0.2s',
+        '&:before': {
+          content: '" "',
+          width: circleSize,
+          height: circleSize,
+          borderRadius: '50%',
+          transform: checked
+            ? `translate3d(${size === 'medium' ? '14px' : '18px'}, 0px, 0px)`
+            : 'translate3d(2px, 0px, 0px)',
+          transition: 'transform 0.2s',
+          boxShadow:
+            '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+          backgroundColor: genColor('content', 'inverted', 'primary'),
+        },
+        ...style,
+      }}
+    />
   )
 }

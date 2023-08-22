@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react'
-import { useOverlayPosition } from '~'
+import { useOverlayPosition } from '../../hooks/useOverlayPosition'
 import { Overlay, OverlayProps } from '../Overlay'
 
 export const ContextMenu: FC<OverlayProps> = ({
@@ -20,6 +20,7 @@ export const ContextMenu: FC<OverlayProps> = ({
     let elem: any
     const focus = (elems?: any) => {
       if (!elems) {
+        // @ts-ignore
         elems = elementRef.current.querySelectorAll(
           '[data-aviato-context-item]'
         )
@@ -36,6 +37,7 @@ export const ContextMenu: FC<OverlayProps> = ({
         focus()
       } else if (key === 'Tab' || key === 'ArrowDown') {
         currentFocus++
+        // @ts-ignore
         const elems = elementRef.current.querySelectorAll(
           '[data-aviato-context-item]'
         )
@@ -46,6 +48,7 @@ export const ContextMenu: FC<OverlayProps> = ({
         e.preventDefault()
       } else if (key === 'ArrowUp') {
         currentFocus--
+        // @ts-ignore
         const elems = elementRef.current.querySelectorAll(
           '[data-aviato-context-item]'
         )

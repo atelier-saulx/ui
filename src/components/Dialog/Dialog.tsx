@@ -10,7 +10,14 @@ import React, {
   useEffect,
 } from 'react'
 import { useDialog } from './useDialog'
-import { styled, Text, Button, ButtonProps, ScrollArea, color, Style } from '~'
+
+import { styled, Style } from 'inlines'
+import { Button } from '../Button/'
+import { Text } from '../Text'
+import { ScrollArea } from '../ScrollArea'
+import { color } from '../../varsUtilities'
+
+import { ButtonProps } from '../../components/types'
 
 const Container = styled('div', {
   width: 632,
@@ -20,7 +27,7 @@ const Container = styled('div', {
   flexDirection: 'column',
   borderRadius: 8,
   boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.12)',
-  backgroundColor: color('background2dp'),
+  backgroundColor: color('background', 'default', 'surface'),
 })
 
 const ScrollBody = styled('div', {
@@ -50,12 +57,12 @@ const StyledButtons = styled('div', {
     justifyContent: 'space-between',
   },
   paddingTop: 'var(--dialogPadding)',
-  backgroundColor: color('background2dp'),
+  backgroundColor: color('background', 'default', 'surface'),
   paddingBottom: 'var(--dialogPadding)',
 })
 
 const ButtonsWithBorder = styled(StyledButtons, {
-  borderTop: `1px solid ${color('border')}`,
+  borderTop: `1px solid ${color('border', 'default', 'strong')}`,
   marginTop: 48,
   paddingLeft: '32px',
   paddingRight: '32px',
@@ -157,10 +164,9 @@ const Confirm: FC<
 
   return (
     <Button
-      large
-      onClick={onClick}
-      keyboardShortcut="Enter"
-      displayShortcut
+      //   onClick={onClick}
+      //   keyboardShortcut="Enter"
+      //   displayShortcut
       {...props}
     >
       {children}
@@ -191,15 +197,10 @@ const Cancel: FC<
 
   return (
     <Button
-      large
       onClick={onClick}
-      outline
-      color="text"
-      light
-      keyboardShortcut="Esc"
-      displayShortcut
+      //   keyboardShortcut="Esc"
+      //   displayShortcut
       style={{
-        borderColor: color('border'),
         ...style,
       }}
       {...props}
@@ -258,7 +259,7 @@ export const Dialog = Object.assign(
                 },
               }}
             >
-              <Text typography="subtitle600">{label}</Text>
+              <Text size={18}>{label}</Text>
             </styled.div>
           )}
           {pure ? (

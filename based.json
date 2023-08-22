@@ -1,6 +1,5 @@
 {
   "org": "saulx",
-  "project": "test",
-  "env": "ci",
-  "cluster": "local"
+  "project": "based-ui",
+  "env": "production"
 }
