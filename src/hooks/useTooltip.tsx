@@ -1,9 +1,11 @@
 import React, { ReactNode } from 'react'
-import { removeOverlay } from '../components/Overlay'
-import { useOverlay } from './useOverlay'
-import { Text } from '../components/Text'
-import { color as genColor } from '../varsUtilities'
-import { styled } from 'inlines'
+import {
+  removeOverlay,
+  useOverlay,
+  Text,
+  color as genColor,
+  styled,
+} from '../../src'
 
 export const useTooltip = (
   text: string | ReactNode,

@@ -1,7 +1,11 @@
 import React, { FC } from 'react'
-import { color as genColor, Text, Center } from '../..'
-import { Style } from 'inlines'
-import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
+import {
+  color as genColor,
+  Text,
+  Center,
+  Style,
+  ColorNonSemanticBackgroundColors,
+} from '../..'
 
 export type AvatarProps = {
   color?: ColorNonSemanticBackgroundColors

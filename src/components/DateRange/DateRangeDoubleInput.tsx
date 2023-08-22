@@ -123,7 +123,7 @@ export const DateRangeDoubleInput = ({
   const openFromRangePicker = useOverlay(
     FromRangePicker,
     { setValue: setFromValue, timeString, stringToMilliseconds },
-    { width: '100%', position: 'right', variant: 'detached' }
+    { width: '100%', position: 'bottom' }
     //   width?: number | '100%' | 'target' | 'auto'
     // position?: 'left' | 'right' | 'top' | 'bottom'
     // placement?: 'center' | 'left' | 'right'

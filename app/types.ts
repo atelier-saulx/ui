@@ -1,16 +1,18 @@
-import { ReactNode, Component, FC } from 'react'
+import { FC } from 'react'
 
-export type PropType = string | { value: string | number }
+type PropTypeAtomic = string | { value: string | number }
+
+export type PropType = {
+  optional?: boolean
+  type: PropTypeAtomic | PropTypeAtomic[]
+}
 
 export type ComponentDef = {
   name: string
   properties: {
-    [key: string]: {
-      optional?: boolean
-      type: PropType | PropType[]
-    }
+    [key: string]: PropType
   }
   description: string
   component: FC<any>
-  examples: { [key: string]: any }[]
+  examples: { name?: string; customRenderer?: FC<any>; [key: string]: any }[]
 }

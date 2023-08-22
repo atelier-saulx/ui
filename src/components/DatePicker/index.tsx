@@ -16,7 +16,7 @@ type DateWidgetProps = {
 // TODO: hover range ??
 
 export const DatePicker: FC<DateWidgetProps> = ({
-  value = 0,
+  value = Date.now(),
   onChange,
   time,
   style,
