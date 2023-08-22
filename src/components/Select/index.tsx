@@ -8,7 +8,6 @@ import { RowSpaced } from '../Styled'
 import { Value, Option } from '../ContextMenu'
 import { PositionProps } from '../Overlay'
 import { useSelect } from '../../hooks/useSelect'
-import { ClickableIcon } from '../ClickableIcon'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
@@ -107,7 +106,7 @@ export const Select: FC<SelectProps> = ({
       >
         {labelValue || placeholder}
       </Text>
-      {currentValue && (
+      {/* {currentValue && (
         <ClickableIcon
           icon={IconClose}
           onClick={(e) => {
@@ -116,7 +115,7 @@ export const Select: FC<SelectProps> = ({
             onChange(null)
           }}
         />
-      )}
+      )} */}
 
       <IconChevronDownSmall
         color="default"
