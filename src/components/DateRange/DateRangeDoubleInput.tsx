@@ -1,12 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Style, styled } from 'inlines'
-import { color as genColor } from '../../../src'
-import { IconCalendar } from '../../icons'
+import {
+  color as genColor,
+  Style,
+  styled,
+  IconCalendar,
+  removeOverlay,
+} from '../../'
 import { useOverlay } from '../../hooks/useOverlay'
 import { FromRangePicker } from './FromRangePicker'
 import { TillRangePicker } from './TillRangePicker'
-import { removeOverlay } from '../Overlay'
-import { Center } from '../Styled'
 
 type DateRangeDoubleInputProps = {
   fromValue: number
@@ -123,7 +125,7 @@ export const DateRangeDoubleInput = ({
   const openFromRangePicker = useOverlay(
     FromRangePicker,
     { setValue: setFromValue, timeString, stringToMilliseconds },
-    { width: '100%', position: 'right', variant: 'detached' }
+    { width: '100%', position: 'bottom' }
     //   width?: number | '100%' | 'target' | 'auto'
     // position?: 'left' | 'right' | 'top' | 'bottom'
     // placement?: 'center' | 'left' | 'right'
@@ -424,7 +426,7 @@ export const DateRangeDoubleInput = ({
           style={{
             display: 'flex',
             position: 'relative',
-            border: '1px solid',
+            // border: '1px solid',
             borderColor: genColor('border', 'default', 'strong'),
             boxSizing: 'content-box',
             borderRadius: 8,
@@ -514,7 +516,7 @@ export const DateRangeDoubleInput = ({
           style={{
             display: 'flex',
             position: 'relative',
-            border: '1px solid',
+            // border: '1px solid',
             borderColor: genColor('border', 'default', 'strong'),
             borderRadius: 8,
             boxShadow: `0px 0px 0px 2px ${genColor(
@@ -532,6 +534,7 @@ export const DateRangeDoubleInput = ({
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
             marginLeft: 4,
+
             ...style,
           }}
           onClick={(e) => {

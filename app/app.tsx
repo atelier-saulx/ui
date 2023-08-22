@@ -24,6 +24,7 @@ import basedConfig from '../based.json'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
+import { wait } from '@saulx/utils'
 
 export const client = based(basedConfig)
 
@@ -39,17 +40,17 @@ const components: ComponentDef[] = [
       },
     ],
   },
-  // {
-  //   name: 'Date Range',
-  //   properties: props.props.DateRangeProps.props,
-  //   description: 'Range of date picker',
-  //   component: DateRange,
-  //   examples: [
-  //     {
-  //       onChange: (e) => console.log(e),
-  //     },
-  //   ],
-  // },
+  {
+    name: 'Date Range',
+    properties: props.props.DateRangeProps.props,
+    description: 'Range of date picker',
+    component: DateRange,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
   {
     name: 'Button',
     properties: props.props.ButtonProps.props,
@@ -59,10 +60,29 @@ const components: ComponentDef[] = [
       {
         children: 'Click me',
       },
+
       {
-        children: 'Click me',
+        onClick: async () => {
+          await wait(1000)
+        },
+        children: 'Do something async',
+        name: 'Async action indicators',
+        description: 'Visual indication of errors and loading state',
+        light: true,
+      },
+      {
+        color: 'alert',
+        onClick: async () => {
+          throw new Error('Flap!')
+        },
+        children: 'Throw an error!',
+        light: true,
+      },
+      {
+        children: 'System color',
         icon: () => <IconClipboard />,
         color: 'system',
+        name: 'Colors',
       },
     ],
   },
@@ -139,6 +159,7 @@ const App = () => {
       }}
     >
       <Menu
+        header={'Components'}
         data={components.map((c) => {
           return {
             label: c.name,

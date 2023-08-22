@@ -8,6 +8,7 @@ type TextProps = {
   color?: ColorContentColors
   size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48
   style?: Style
+  light?: boolean
   weight?: 'strong' | 'medium' | 'normal'
   onClick?: () => void | ((e) => void)
 }
@@ -15,8 +16,9 @@ type TextProps = {
 export const Text: FC<TextProps> = ({
   children,
   color = 'default',
-  size = 12,
+  size = 14,
   style,
+  light,
   weight = 'normal',
   onClick,
 }) => {
@@ -47,7 +49,7 @@ export const Text: FC<TextProps> = ({
       style={{
         display: 'flex',
         flexWrap: 'wrap',
-        color: genColor('content', color, 'primary'),
+        color: genColor('content', color, light ? 'secondary' : 'primary'),
         fontSize: size,
         fontFamily:
           weight === 'strong'

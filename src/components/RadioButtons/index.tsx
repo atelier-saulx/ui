@@ -1,10 +1,7 @@
 import React, { FC } from 'react'
 import { usePropState } from '../../hooks/usePropState'
-import { RadioButtonProps } from '../types'
-import { styled } from 'inlines'
-import { Text } from '../Text'
-import { color as genColor } from '../../../src'
-import { TestButton } from './testButton'
+import { styled, Text, color as genColor } from '../../'
+import { RadioButton } from './RadioButton'
 
 type RadioButtonsProps = {
   value?: string | boolean | number
@@ -34,7 +31,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   const [active, setActive] = usePropState(selectedIndex)
 
   return (
-    <div
+    <styled.div
       style={{
         display: 'flex',
         flexDirection: direction === 'horizontal' ? 'row' : 'column',
@@ -61,7 +58,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
               border: '1px solid red',
             }}
           >
-            <TestButton
+            <RadioButton
               active={active === index}
               value={data[active]}
               onClick={onClick}
@@ -70,6 +67,6 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
           </label>
         )
       })}
-    </div>
+    </styled.div>
   )
 }

@@ -1,7 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-
-import { styled, Style } from 'inlines'
-import { StateProvider } from '../../hooks/ContextState'
+import { StateProvider, styled, Style } from '../../'
 import { NewDateInput } from './NewDateInput'
 // import { DatePickerProps } from '../../'
 
@@ -16,7 +14,7 @@ type DateWidgetProps = {
 // TODO: hover range ??
 
 export const DatePicker: FC<DateWidgetProps> = ({
-  value = 0,
+  value = Date.now(),
   onChange,
   time,
   style,

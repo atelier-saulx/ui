@@ -1,13 +1,11 @@
 import React, { FC } from 'react'
-import { CounterProps } from '../types'
-import { Center } from '../Styled'
+import { CounterProps } from '../../types'
 import {
   ColorContentColors,
   ColorNonSemanticContentColors,
 } from '../../varsTypes'
-import { color as genColor } from '../../../src'
+import { color as genColor, Text, Center } from '../../../src'
 import { isSemanticColor } from '../../utils/isSemanticColor'
-import { Text } from '../Text'
 
 // color?: ColorBackgroundColors
 // label?: number

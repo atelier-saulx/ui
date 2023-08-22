@@ -33,22 +33,6 @@ export type AvatarProps = {
 
 export type BreadcrumbsProps = {}
 
-export type ButtonProps = {
-  afterIcon?: ReactNode
-  children?: ReactNode
-  color?: ColorActionColors
-  disabled?: boolean
-  dropdownIndicator?: boolean
-  ghost?: boolean
-  icon?: ReactNode
-  label?: string
-  loading?: boolean
-  onClick?: (e: MouseEvent) => void
-  size?: 'large' | 'medium' | 'small'
-  style?: Style
-  subtle?: boolean
-}
-
 export type CheckboxProps = {
   active?: boolean
   indeterminate?: boolean
@@ -273,15 +257,6 @@ export type TagProps = {
   label?: string
   onClick?: () => void
   style?: Style
-}
-
-export type TextProps = {
-  // check children as string??
-  children: ReactNode
-  color?: ColorContentColors
-  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48
-  style?: Style
-  weight?: 'strong' | 'medium' | 'normal'
 }
 
 export type ToggleProps = {

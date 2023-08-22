@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { styled } from 'inlines'
+import { styled } from '../../'
 import { StateProvider } from '../../hooks/ContextState'
 import { DateRangeDoubleInput } from './DateRangeDoubleInput'
 import { DateRangeProps } from '../../types'
 
 export const DateRange = ({
-  value = [0],
+  value = [Date.now()],
   onChange = (value) => null,
 }: DateRangeProps) => {
   const [fromMscValue, setfromMscValue] = useState(value[0])
-  const [tillMscValue, setTillMscValue] = useState(value[1])
+  const [tillMscValue, setTillMscValue] = useState(value[0])
 
   useEffect(() => {
     onChange([fromMscValue, tillMscValue])

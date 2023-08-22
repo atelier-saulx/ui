@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { styled } from 'inlines'
-import { IconChevronDown, IconChevronTop } from '../../icons'
-import { Text } from '../Text'
-import { color as genColor } from '../../../src'
-import { removeAllOverlays } from '../Overlay'
+import {
+  color as genColor,
+  Text,
+  IconChevronDown,
+  IconChevronTop,
+  styled,
+  removeAllOverlays,
+} from '../../'
 import { useContextState } from '../../hooks/ContextState'
 import { RangeCalendar } from './RangeCalendar'
 

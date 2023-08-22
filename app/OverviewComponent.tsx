@@ -1,8 +1,7 @@
 import React, { ReactNode } from 'react'
-import { useRoute } from 'kabouter'
 import { FC } from 'react'
 import { styled } from 'inlines'
-import { ComponentDef } from './types'
+import { ComponentDef, PropType } from './types'
 import {
   Text,
   border,
@@ -15,7 +14,35 @@ import {
 } from '../src'
 import { parseProps } from './parseProps'
 
-const displayProps = () => {}
+const displayType = (propType: PropType): string | number | ReactNode => {
+  if (typeof propType.type === 'object') {
+    if (Array.isArray(propType.type)) {
+      return propType.type.map((type, i) => (
+        <>
+          {displayType({ type })}
+          {/* @ts-ignore too stupid... */}
+          {i !== propType.type.length - 1 ? (
+            <Text
+              light
+              color="default"
+              style={{ marginLeft: 4, marginRight: 4 }}
+            >
+              |
+            </Text>
+          ) : null}
+        </>
+      ))
+    }
+
+    return <Text color="brand">{propType.type.value}</Text>
+  }
+
+  if (propType.type === 'TSAnyKeyword') {
+    propType.type = '*'
+  }
+
+  return propType.type
+}
 
 export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
   const p: ReactNode[] = []
@@ -28,10 +55,21 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
           display: 'flex',
         }}
       >
-        <Text style={{ minWidth: 200 }} weight="strong">
+        <Text size={12} style={{ minWidth: 200 }} weight="strong">
           {key}
         </Text>
-        <Text style={{ flexGrow: 1 }}>{JSON.stringify(prop.type).trim()}</Text>
+        <Text size={12} style={{ flexGrow: 1 }}>
+          {displayType(prop)}
+        </Text>
+        <Text
+          size={12}
+          color="default"
+          light
+          style={{ minWidth: 150, justifyContent: 'flex-end' }}
+          weight="strong"
+        >
+          {!prop.optional ? 'required' : '-'}
+        </Text>
       </styled.div>
     )
   }
@@ -39,7 +77,8 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
   return (
     <styled.div
       style={{
-        marginTop: 32,
+        marginTop: 48,
+        marginBottom: 32,
         width: '100%',
       }}
     >
@@ -56,22 +95,65 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
           backgroundColor: color('background', 'neutral', 'surface'),
         }}
       >
-        <Text style={{ minWidth: 200 }} weight="strong">
+        <Text size={12} style={{ minWidth: 200 }} weight="strong">
           Name
         </Text>
-        <Text style={{ flexGrow: 1 }}>Type</Text>
+        <Text size={12} style={{ flexGrow: 1 }}>
+          Type
+        </Text>
       </styled.div>
       {p}
     </styled.div>
   )
 }
 
+const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
+  component,
+  index,
+}) => {
+  const example = component.examples[index]
+  console.info(index, example)
+  return (
+    <>
+      {example.name ? (
+        <Text
+          style={{ marginTop: 32, marginBottom: example.description ? 0 : -12 }}
+          size={18}
+          weight="strong"
+        >
+          {example.name}
+        </Text>
+      ) : null}
+      {example.description ? (
+        <styled.div>
+          <Text size={12}>{example.description}</Text>
+        </styled.div>
+      ) : (
+        ''
+      )}
+      <styled.div
+        style={{
+          padding: 32,
+          marginTop: 24,
+          flexGrow: 1,
+          borderRadius: 8,
+          display: 'flex',
+          backgroundColor: color('background', 'neutral', 'surface'), // add extra bg color...
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <styled.div>
+          {React.createElement(component.component, parseProps(example))}
+        </styled.div>
+      </styled.div>
+    </>
+  )
+}
+
 export const OverviewComponent: FC<{
   component: ComponentDef
 }> = ({ component }) => {
-  const route = useRoute()
-  const isExpanded = route.query.expand === component.name
-
   return (
     <styled.div
       style={{
@@ -94,29 +176,13 @@ export const OverviewComponent: FC<{
         </Text>
       </styled.div>
       <styled.div>
-        <Text>{component.description}</Text>
+        <Text size={12}>{component.description}</Text>
       </styled.div>
-      <styled.div
-        style={{
-          padding: 32,
-          marginTop: 24,
-          flexGrow: 1,
-          borderRadius: 8,
-          display: 'flex',
-          backgroundColor: color('background', 'neutral', 'surface'), // add extra bg color...
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <styled.div>
-          {React.createElement(
-            component.component,
-            parseProps(component.examples[0])
-          )}
-        </styled.div>
-      </styled.div>
-
+      <ComponentViewer index={0} component={component} />
       <Props component={component} />
+      {component.examples.slice(1).map((_, index) => {
+        return <ComponentViewer index={index + 1} component={component} />
+      })}
     </styled.div>
   )
 }
