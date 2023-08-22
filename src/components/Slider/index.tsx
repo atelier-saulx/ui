@@ -280,7 +280,7 @@ export const Slider: FC<SliderProps> = ({
         onTouchEnd={onTouchEnd}
       >
         <StyledLabel style={{ left: `${percentageX}%` }}>
-          <Text color="inverted">{items[index].title}</Text>
+          <Text color="inverted">{items[index]?.title}</Text>
         </StyledLabel>
 
         <StyledBgSlider />

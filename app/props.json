@@ -278,9 +278,13 @@
         "header": {
           "optional": true,
           "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorBackgroundColors"
         }
       },
-      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n}",
+      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n  color?: ColorBackgroundColors\n}",
       "file": "/components/Code/index.tsx"
     },
     "ContextItemProps": {
@@ -611,6 +615,17 @@
       "code": "type DropDownProps = {\n  style?: Style\n  children?: ReactNode\n}",
       "file": "/components/Dropdown/index.tsx"
     },
+    "FileInputProps": {
+      "name": "FileInputProps",
+      "props": {
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type FileInputProps = {\n  disabled?: boolean\n}",
+      "file": "/components/Input/FileInput.tsx"
+    },
     "SelectInputProps": {
       "name": "SelectInputProps",
       "props": {
@@ -672,7 +687,7 @@
     "InputProps": {
       "name": "InputProps",
       "props": {},
-      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'search' } & SearchInputProps)\n  | ({ type: 'select' } & SelectInputProps)",
+      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'search' } & SearchInputProps)\n  | ({ type: 'select' } & SelectInputProps)\n  | ({ type: 'file' } & FileInputProps)",
       "file": "/components/Input/index.tsx"
     },
     "MenuHeaderProps": {
@@ -1010,7 +1025,7 @@
     "SliderProps": {
       "name": "SliderProps",
       "props": {
-        "data": {
+        "items": {
           "optional": true,
           "type": {
             "array": "TSTypeLiteral"
@@ -1038,9 +1053,12 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "onChange": {
+          "type": "function"
         }
       },
-      "code": "type SliderProps = {\n  data?: { id: string; title: string; index: number }[]\n  min?: number\n  max?: number\n  value?: number | { id: string; title: string; index: number }\n  steps?: number\n  style?: Style\n}",
+      "code": "type SliderProps = {\n  items?: { id: string; title: string; index: number }[]\n  min?: number\n  max?: number\n  value?: number | { id: string; title: string; index: number }\n  steps?: number\n  style?: Style\n  onChange: (value: number) => void\n}",
       "file": "/components/Slider/index.tsx"
     },
     "TagProps": {

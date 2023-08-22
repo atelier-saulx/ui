@@ -214,12 +214,14 @@ const components: ComponentDef[] = [
     component: Slider,
     examples: [
       {
-        items: [
-          { id: 'flip', title: '1', index: 0 },
-          { id: 'flap', title: 'Flappie', index: 1 },
-          { id: 'flurp', title: 'Snurp', index: 2 },
-        ],
-        onChange: (e) => console.log(e),
+        props: {
+          items: [
+            { id: 'flip', title: '1', index: 0 },
+            { id: 'flap', title: 'Flappie', index: 1 },
+            { id: 'flurp', title: 'Snurp', index: 2 },
+          ],
+          onChange: (e) => console.log(e),
+        },
       },
     ],
   },
