@@ -44,7 +44,9 @@ export const useTooltip = (
           position === 'top-right' || position === 'bottom-right'
             ? 'translateX(50%)'
             : position === 'top-left' || position === 'bottom-left'
-            ? 'translate(-50%)'
+            ? 'translateX(-50%)'
+            : position === 'left' || position === 'right'
+            ? 'translateY(-25%)'
             : '0px',
         marginLeft:
           position === 'top-right' || position === 'bottom-right'
@@ -65,27 +67,37 @@ export const useTooltip = (
             position === 'top-right' ||
             position === 'top-left'
               ? '-4px'
+              : position === 'left' || position === 'right'
+              ? '0px'
               : 'unset',
           top:
             position === 'bottom' ||
             position === 'bottom-right' ||
             position === 'bottom-left'
               ? '-4px'
+              : position === 'left' || position === 'right'
+              ? '0px'
               : 'unset',
           marginLeft: 'auto',
           marginRight: 'auto',
+          marginTop: 'auto',
+          marginBottom: 'auto',
 
           left:
             position === 'top' || position === 'bottom'
               ? '0px'
               : position === 'top-right' || position === 'bottom-right'
               ? '10px'
+              : position === 'right'
+              ? '-4px'
               : 'unset',
           right:
             position === 'top' || position === 'bottom'
               ? '0px'
               : position === 'top-left' || position === 'bottom-left'
               ? '10px'
+              : position === 'left'
+              ? '-4px'
               : 'unset',
         },
       },
@@ -94,6 +106,6 @@ export const useTooltip = (
 
   return {
     onMouseEnter,
-    // onMouseLeave: () => removeOverlay(),
+    onMouseLeave: () => removeOverlay(),
   }
 }

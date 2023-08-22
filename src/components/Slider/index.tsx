@@ -1,8 +1,11 @@
-import React, { FC, useState } from 'react'
-import { styled, Style } from 'inlines'
-import { color as genColor } from '../../varsUtilities'
-import { useTooltip } from '../../hooks/useTooltip'
-import { useWindowResize } from '../../hooks/useWindowResize'
+import React, {
+  FC,
+  useState,
+  useRef,
+  TouchEventHandler,
+  useEffect,
+} from 'react'
+import { styled, Style, Text, color as genColor, useWindowResize } from '../..'
 
 const StyledBgSlider = styled('div', {
   backgroundColor: genColor('action', 'neutral', 'subtleNormal'),
@@ -34,35 +37,260 @@ const StyledThumb = styled('div', {
   bottom: '-6px',
 })
 
+const StyledLabel = styled('div', {
+  padding: '4px 8px',
+  width: 'fit-content',
+  borderRadius: '4px',
+  overflow: 'inherit',
+  border: 'none',
+  position: 'absolute',
+  boxShadow: 'none',
+  backgroundColor: genColor('background', 'inverted', 'strong'),
+  transform: 'translateX(-50%)',
+  bottom: 24,
+  marginLeft: '-5px',
+  '&::after': {
+    content: `''`,
+    bottom: '-4px',
+    left: 0,
+    right: 0,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: '3px',
+    width: '12px',
+    height: '12px',
+    backgroundColor: genColor('background', 'inverted', 'strong'),
+    transform: 'rotate(45deg)',
+    position: 'absolute',
+  },
+})
+
 type SliderProps = {
-  data?: { id: string; title: string; index: number }[]
+  items?: { id: string; title: string; index: number }[]
   min?: number
   max?: number
   value?: number | { id: string; title: string; index: number }
   steps?: number
   style?: Style
+  onChange: (value: number) => void
 }
 
-// TODO: put tooltip as slider label
+const preventBehavior = (e: Event) => {
+  e.preventDefault()
+}
+
+const preventBodyScroll = () => {
+  document.addEventListener('touchmove', preventBehavior, {
+    passive: false,
+  })
+}
+
+const getClosestIndex = (
+  xPosArray: number[],
+  newPercentage: number
+): number => {
+  for (let i = 0; i < xPosArray.length; i++) {
+    const val = xPosArray[i]
+    const next = xPosArray[i + 1]
+    if (newPercentage === val) {
+      return i
+    } else if (newPercentage < next && newPercentage > val) {
+      const valDiff = Math.abs(val - newPercentage)
+      const nextDiff = Math.abs(next - newPercentage)
+      if (valDiff <= nextDiff) {
+        return i
+      } else {
+        return i + 1
+      }
+    }
+  }
+  return 0
+}
 
 export const Slider: FC<SliderProps> = ({
-  data,
+  items,
   min,
   max,
   value,
+  onChange,
   steps,
   style,
 }) => {
-  const [sliderLabel, setSliderLabel] = useState('Hallow daar hew')
+  const [containerWidth, setContainerWidth] = useState(0)
+  //  const [leftContainerSide, setLeftContainerSide] = useState(0)
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [index, setIndex] = useState(value || 0)
+  const [percentageX, setPercentageX] = useState(0)
 
-  const sliderTooltipLabel = useTooltip(sliderLabel, 'top-right')
+  const refRangeContainer = useRef(null)
+  const refLeftPart = useRef(null)
+  const refThumb = useRef(null)
+
+  const windowSize = useWindowResize()
+
+  // change on window resize
+  useEffect(() => {
+    setContainerWidth(
+      refRangeContainer.current?.getBoundingClientRect().width || 0
+    )
+  }, [windowSize])
+
+  // split number of items
+  const splitUpRange = items ? 100 / (items.length - 1) : max - min
+  const xPosArray = []
+
+  if (items) {
+    for (let i = 0; i < items.length; i++) {
+      xPosArray.push(items[i].index * splitUpRange)
+    }
+  }
+
+  // make percentages
+  const percentage = containerWidth / 100
+
+  useEffect(() => {
+    if (max) {
+      if (value !== undefined && !isUpdating) {
+        setPercentageX((value / max) * 100)
+      }
+    } else if (value !== undefined && !isUpdating) {
+      setPercentageX(xPosArray[index])
+    }
+  }, [isUpdating, value, max])
+
+  useEffect(() => {
+    if (xPosArray.length) {
+      setIndex(getClosestIndex(xPosArray, percentageX))
+    }
+  }, [xPosArray, percentageX])
+
+  const setValue = (newPercentage: number, snap?: boolean) => {
+    if (xPosArray.length) {
+      if (snap) {
+        refLeftPart.current.style.transition = 'width 0.4s ease'
+        if (refThumb.current) {
+          refThumb.current.style.transition =
+            'transform 0.4s ease, opacity 0.2s'
+        }
+      }
+      const index = getClosestIndex(xPosArray, newPercentage)
+      setPercentageX(snap ? xPosArray[index] : newPercentage)
+      if (value !== index) {
+        onChange(index)
+      }
+    } else {
+      setPercentageX(newPercentage)
+      const newValue = (newPercentage * (max - min)) / 100 + min
+      if (value !== newValue) {
+        onChange(Math.trunc(newValue))
+      }
+    }
+  }
+
+  const moveHandler = (x: number) => {
+    refRangeContainer.current.style.cursor = 'grabbing'
+    refThumb.current.style.cursor = 'grabbing'
+    refLeftPart.current.style.transition = 'width 0s'
+    if (refThumb.current) {
+      refThumb.current.style.transition = 'transform 0s, opacity 0.2s'
+    }
+
+    if (x > 0 && x < containerWidth) {
+      refRangeContainer.current.style.cursor = 'pointer'
+
+      setValue(Math.round(x / percentage))
+    }
+  }
+
+  const mouseMoveHandler = (e) => {
+    moveHandler(
+      e.clientX - refRangeContainer.current?.getBoundingClientRect().left
+    )
+  }
+
+  const mouseUpHandler = () => {
+    refRangeContainer.current.style.cursor = 'pointer'
+    refThumb.current.style.cursor = 'pointer'
+    window.removeEventListener('mousemove', mouseMoveHandler)
+    window.removeEventListener('mouseup', mouseUpHandler)
+
+    setContainerWidth(
+      refRangeContainer.current?.getBoundingClientRect().width || 0
+    )
+
+    setIsUpdating(false)
+    // if (onEndSliding) {
+    //   onEndSliding()
+    // }
+  }
+
+  const onMouseDownHandler = () => {
+    setIsUpdating(true)
+
+    // if (onStartSliding) {
+    //   onStartSliding()
+    // }
+    refRangeContainer.current.style.cursor = 'grabbing'
+    window.addEventListener('mouseup', mouseUpHandler)
+    window.addEventListener('mousemove', mouseMoveHandler)
+  }
+
+  const onTouchStart = () => {
+    preventBodyScroll()
+    setIsUpdating(true)
+    // if (onStartSliding) {
+    //   onStartSliding()
+    // }
+  }
+
+  const onTouchEnd: TouchEventHandler<HTMLDivElement> = (e) => {
+    document.removeEventListener('touchmove', preventBehavior)
+    setIsUpdating(false)
+    // if (onEndSliding) {
+    //   onEndSliding()
+    // }
+    onClickSnap(e)
+  }
+
+  // Touch functions
+  const onTouchMoveHandler: TouchEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation()
+    moveHandler(
+      e.touches[0].clientX -
+        refRangeContainer.current?.getBoundingClientRect().left
+    )
+  }
+
+  const onClickSnap = (e) => {
+    const correctedMouseXPos =
+      e.clientX - refRangeContainer.current?.getBoundingClientRect().left
+    if (correctedMouseXPos > 0 && correctedMouseXPos < containerWidth) {
+      setValue(Math.round(correctedMouseXPos / percentage), true)
+    }
+  }
 
   return (
     <styled.div style={{ width: '100%', position: 'relative', minWidth: 340 }}>
-      <StyledBgSlider />
-      <StyledStepProgress>
-        <StyledThumb {...sliderTooltipLabel} />
-      </StyledStepProgress>
+      <styled.div
+        onMouseDown={onMouseDownHandler}
+        onClick={onClickSnap}
+        ref={refRangeContainer}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMoveHandler}
+        onTouchEnd={onTouchEnd}
+      >
+        <StyledLabel style={{ left: `${percentageX}%` }}>
+          <Text color="inverted">{items[index].title}</Text>
+        </StyledLabel>
+
+        <StyledBgSlider />
+        <StyledStepProgress
+          ref={refLeftPart}
+          style={{ width: `${percentageX}%` }}
+        >
+          <StyledThumb ref={refThumb} />
+        </StyledStepProgress>
+      </styled.div>
     </styled.div>
   )
 }

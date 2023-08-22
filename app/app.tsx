@@ -194,7 +194,16 @@ const components: ComponentDef[] = [
     properties: props.props.SliderProps.props,
     description: 'Range slider',
     component: Slider,
-    examples: [{}],
+    examples: [
+      {
+        items: [
+          { id: 'flip', title: '1', index: 0 },
+          { id: 'flap', title: 'Flappie', index: 1 },
+          { id: 'flurp', title: 'Snurp', index: 2 },
+        ],
+        onChange: (e) => console.log(e),
+      },
+    ],
   },
   {
     name: 'SearchInput',
