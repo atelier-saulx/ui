@@ -3,7 +3,16 @@ import { useRoute } from 'kabouter'
 import { FC } from 'react'
 import { styled } from 'inlines'
 import { ComponentDef } from './types'
-import { Text, border, IconArrowUpRight, IconArrowDownLeft } from '../src'
+import {
+  Text,
+  border,
+  color,
+  IconArrowUpRight,
+  IconArrowDownLeft,
+  Menu,
+  IconArrowDown,
+  IconChevronDown,
+} from '../src'
 import { parseProps } from './parseProps'
 
 export const OverviewComponent: FC<{
@@ -15,17 +24,15 @@ export const OverviewComponent: FC<{
   return (
     <styled.div
       style={{
-        minWidth: 750,
         display: 'flex',
         flexDirection: 'column',
         padding: 24,
         borderRadius: 4,
+        maxWidth: 1000,
       }}
     >
       <styled.div
         style={{
-          borderTop: border(1),
-          paddingTop: 12,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -34,29 +41,18 @@ export const OverviewComponent: FC<{
         <Text size={18} weight="strong">
           {component.name}
         </Text>
-        {isExpanded ? (
-          <IconArrowDownLeft
-            onClick={() => {
-              // @ts-ignore
-              route.setQuery({ expand: null })
-            }}
-          />
-        ) : (
-          <IconArrowUpRight
-            onClick={() => {
-              route.setQuery({ expand: component.name })
-            }}
-          />
-        )}
+      </styled.div>
+      <styled.div>
+        <Text>{component.description}</Text>
       </styled.div>
       <styled.div
         style={{
-          padding: 24,
-          paddingTop: 64,
+          padding: 32,
           marginTop: 12,
           flexGrow: 1,
-          borderTop: border(1),
+          borderRadius: 8,
           display: 'flex',
+          backgroundColor: color('background', 'neutral', 'surface'), // add extra bg color...
           alignItems: 'center',
           justifyContent: 'center',
         }}

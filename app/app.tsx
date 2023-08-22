@@ -4,7 +4,18 @@ import React from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { color, Button, Badge, IconClipboard, Text, Input } from '../src'
+import {
+  color,
+  Button,
+  Badge,
+  IconClipboard,
+  ScrollArea,
+  Menu,
+  Text,
+  Input,
+  border,
+  IconBolt,
+} from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import props from './props.json'
@@ -40,6 +51,7 @@ const components: ComponentDef[] = [
     name: 'Button',
     properties: props.props.ButtonProps.props,
     component: Button,
+    description: 'Simple button component',
     examples: [
       {
         children: 'Click me',
@@ -55,6 +67,7 @@ const components: ComponentDef[] = [
     name: 'Badge',
     properties: props.props.BadgeProps.props,
     component: Badge,
+    description: 'Badge component',
     examples: [
       {
         children: 'Hello badge',
@@ -64,6 +77,7 @@ const components: ComponentDef[] = [
   {
     name: 'Text',
     component: Text,
+    description: 'Text including typeography',
     properties: props.props.TextProps.props,
     examples: [
       {
@@ -73,13 +87,32 @@ const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'Input',
+    name: 'TextInput',
     component: Input,
+    description: 'Text Input',
     properties: props.props.InputProps.props,
     examples: [
       {
-        value: 'Some Text',
+        defaultValue: 'hello world',
+        placeholder: 'placeholder',
+        beforeIcon: () => <IconBolt />,
         type: 'text',
+      },
+    ],
+  },
+  {
+    name: 'SelectInput',
+    component: Input,
+    description: 'Select input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        options: [
+          { label: 'label 1', value: 'value1' },
+          { label: 'label 2', value: 'value2' },
+          { label: 'label 3', value: 'value3' },
+        ],
+        type: 'select',
       },
     ],
   },
@@ -91,18 +124,38 @@ const App = () => {
   return (
     <styled.div
       style={{
-        flexWrap: 'wrap',
-        color: color('content', 'default', 'primary'),
-        backgroundColor: color('background', 'default', 'muted'),
-        padding: '100px',
         display: 'flex',
-        gap: '64px',
-        justifyContent: 'center',
+        height: '100vh',
+        width: '100vw',
+        overflow: 'hidden',
       }}
     >
-      {components.map((c) => {
-        return <OverviewComponent component={c} key={c.name} />
-      })}
+      <Menu
+        data={components.map((c) => {
+          return {
+            label: c.name,
+            value: c.name,
+          }
+        })}
+      />
+
+      <ScrollArea
+        style={{
+          color: color('content', 'default', 'primary'),
+          backgroundColor: color('background', 'default', 'muted'),
+          paddingLeft: '64px',
+          paddingRight: '64px',
+          paddingTop: '24px',
+          paddingBottom: '24px',
+          display: 'flex',
+          flexGrow: 1,
+          flexDirection: 'column',
+        }}
+      >
+        {components.map((c) => {
+          return <OverviewComponent component={c} key={c.name} />
+        })}
+      </ScrollArea>
     </styled.div>
   )
 }

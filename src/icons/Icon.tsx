@@ -19,6 +19,7 @@ export const Icon: FC<IconProps> = ({ color, style, children, onClick }) => {
       onClick={onClick}
       style={{
         ...style,
+        display: 'flex',
         cursor: onClick ? 'pointer' : 'default',
         borderRadius: onClick ? 4 : 0,
         '&:hover': onClick
