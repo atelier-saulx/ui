@@ -1,4 +1,3 @@
-import {} from '@based/ui'
 import { render } from 'react-dom'
 import React from 'react'
 import { styled } from 'inlines'
@@ -14,6 +13,8 @@ import {
   Text,
   Input,
   IconBolt,
+  DatePicker,
+  DateRange,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -27,6 +28,28 @@ import { Provider } from '../src/components/Provider'
 export const client = based(basedConfig)
 
 const components: ComponentDef[] = [
+  {
+    name: 'Date Picker',
+    properties: props.props.DatePickerProps.props,
+    description: 'Single day picker',
+    component: DatePicker,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
+  // {
+  //   name: 'Date Range',
+  //   properties: props.props.DateRangeProps.props,
+  //   description: 'Range of date picker',
+  //   component: DateRange,
+  //   examples: [
+  //     {
+  //       onChange: (e) => console.log(e),
+  //     },
+  //   ],
+  // },
   {
     name: 'Button',
     properties: props.props.ButtonProps.props,

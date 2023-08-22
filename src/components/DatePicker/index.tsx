@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { StateProvider } from '../../hooks/ContextState'
 import { NewDateInput } from './NewDateInput'
-import { DatePickerProps } from '../types'
+// import { DatePickerProps } from '../../'
 
 type DateWidgetProps = {
   value?: number // milliseconds
