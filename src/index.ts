@@ -30,6 +30,8 @@ export * from './components/Tag'
 export * from './components/Text'
 export * from './components/Toast'
 export * from './components/Toggle'
+export * from './components/DatePicker'
+export * from './components/DateRange'
 
 export * from './utils'
 export * from './hooks'

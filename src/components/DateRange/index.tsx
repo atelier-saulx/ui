@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { styled } from 'inlines'
 import { StateProvider } from '../../hooks/ContextState'
 import { DateRangeDoubleInput } from './DateRangeDoubleInput'
-import { DateRangeProps } from '../types'
+import { DateRangeProps } from '../../types'
 
 export const DateRange = ({
   value = [0],

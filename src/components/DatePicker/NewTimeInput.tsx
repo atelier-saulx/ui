@@ -87,10 +87,10 @@ export const NewTimeInput = ({ setTimeString, timeString, style }) => {
         // onKeyPress={keyPressHandler}
         onChange={timeHandler}
         placeholder="00:00"
-        style={{
-          backgroundColor: 'transparent',
-          minHeight: 36,
-        }}
+        // style={{
+        //   backgroundColor: 'transparent',
+        //   minHeight: 36,
+        // }}
       />
       {isFocus && (
         <div

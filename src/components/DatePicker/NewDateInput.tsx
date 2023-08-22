@@ -275,7 +275,8 @@ export const NewDateInput = ({
           }}
         >
           {/* @ts-ignore*/}
-          <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} />
+          {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
+          <IconCalendar />
           <styled.div
             style={{
               padding: '0px 1px',

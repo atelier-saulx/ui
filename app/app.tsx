@@ -1,4 +1,3 @@
-import {} from '@based/ui'
 import { render } from 'react-dom'
 import React from 'react'
 import { styled } from 'inlines'
@@ -17,6 +16,8 @@ import {
   ScrollArea,
   Slider,
   Text,
+  DatePicker,
+  DateRange,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -27,6 +28,28 @@ import { OverviewComponent } from './OverviewComponent'
 export const client = based(basedConfig)
 
 const components: ComponentDef[] = [
+  {
+    name: 'Date Picker',
+    properties: props.props.DatePickerProps.props,
+    description: 'Single day picker',
+    component: DatePicker,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
+  // {
+  //   name: 'Date Range',
+  //   properties: props.props.DateRangeProps.props,
+  //   description: 'Range of date picker',
+  //   component: DateRange,
+  //   examples: [
+  //     {
+  //       onChange: (e) => console.log(e),
+  //     },
+  //   ],
+  // },
   {
     name: 'Button',
     properties: props.props.ButtonProps.props,
@@ -87,10 +110,11 @@ const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
+        placeholder: 'Select something',
         options: [
-          { label: 'label 1', value: 'value1' },
-          { label: 'label 2', value: 'value2' },
-          { label: 'label 3', value: 'value3' },
+          { label: 'Item one', value: 'value1' },
+          { label: 'Item two', value: 'value2' },
+          { label: 'Item three', value: 'value3' },
         ],
         type: 'select',
       },
@@ -100,12 +124,10 @@ const components: ComponentDef[] = [
 
 const App = () => {
   const route = useRoute('[component]')
-  const component = route.path.component
-  // const filtered = components.filter((c) => {
-  //   return c.name === component
-  // })
-
-  console.info(component)
+  const component = route.query.component
+  const filtered = components.filter((c) => {
+    return c.name === component
+  })
 
   return (
     <styled.div
@@ -125,7 +147,7 @@ const App = () => {
         })}
         active={component}
         onChange={(v) => {
-          route.setPath({ component: v })
+          route.setQuery({ component: v })
         }}
       />
 
@@ -142,9 +164,9 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        {/* {filtered.map((c) => {
+        {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
-        })} */}
+        })}
       </ScrollArea>
     </styled.div>
   )
