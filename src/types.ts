@@ -21,16 +21,6 @@ export type AlertBannerProps = {
   style?: Style
 }
 
-export type AvatarProps = {
-  color?: ColorNonSemanticBackgroundColors
-  imgsrc?: string
-  onClick?: () => void
-  label?: string
-  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'
-  style?: Style
-  subtle?: boolean
-}
-
 export type BreadcrumbsProps = {}
 
 export type CheckboxProps = {
@@ -45,6 +35,7 @@ export type CheckboxProps = {
 // this is combination of text and checkbox
 export type CheckboxItemProps = {
   label?: string
+  description?: string
   style?: Style
 } & CheckboxProps
 

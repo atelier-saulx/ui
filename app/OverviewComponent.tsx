@@ -173,21 +173,25 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
         >
           <styled.div
             style={{
-              width: '100%',
+              paddingLeft: 8,
+              paddingRight: 8,
+              paddingTop: 8,
+              paddingBottom: 8,
               backgroundColor: color('background', 'brand', 'surface'),
               borderBottomRightRadius: objState.expanded ? 0 : 8,
               borderBottomLeftRadius: objState.expanded ? 0 : 8,
             }}
           >
             <Button
+              size="xsmall"
+              color="neutral"
+              light
               onClick={() => {
-                console.info('xxx')
                 const x = deepCopy(objState)
                 deepMerge(x, { expanded: !objState.expanded })
                 setState(x)
               }}
               style={{ margin: 4 }}
-              color="system"
               icon={
                 objState.expanded ? (
                   <IconChevronDownSmall />

@@ -18,6 +18,9 @@ import {
   Text,
   DatePicker,
   DateRange,
+  Avatar,
+  Checkbox,
+  AlertBanner,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -34,24 +37,53 @@ const asyncClick = async () => {
 
 const components: ComponentDef[] = [
   {
-    name: 'Date Picker',
-    properties: props.props.DatePickerProps.props,
-    description: 'Single day picker',
-    component: DatePicker,
+    name: 'Alert Banner',
+    properties: props.props.AlertBannerProps.props,
+    component: AlertBanner,
+    description: 'Banners to alert',
     examples: [
       {
-        props: { onChange: (e) => console.log(e) },
+        props: {
+          color: 'negative',
+          label: 'WARNING BREAKING',
+        },
+      },
+      {
+        props: {
+          color: 'warning',
+          label: 'Warning Resolve',
+          action: { label: 'RESOLVE', onClick: () => console.log('oppa ') },
+          name: 'Warning with button',
+          description: 'Click to resolve',
+        },
       },
     ],
   },
   {
-    name: 'Date Range',
-    properties: {}, // props.props.DateRangeProps.props,
-    description: 'Range of date picker',
-    component: DateRange,
+    name: 'Avatar',
+    properties: props.props.AvatarProps.props,
+    component: Avatar,
+    description: 'Simple Avatar component',
     examples: [
       {
-        props: { onChange: (e) => console.log(e) },
+        props: {
+          color: 'raspberry',
+          children: 'sd',
+          size: 'large',
+          light: true,
+          squared: true,
+        },
+      },
+      {
+        name: 'Solid Color Avatar',
+        description: 'Rock solid',
+        props: {
+          color: 'aquamarine',
+          children: 'F1',
+          size: 'large',
+          light: true,
+          imgsrc: 'https://robohash.org/G2J.png?set=set1',
+        },
       },
     ],
   },
@@ -71,8 +103,12 @@ const components: ComponentDef[] = [
         name: 'Async action indicators',
         description: 'Visual indication of errors and loading state',
         props: {
-          onClick: asyncClick,
+          onClick: async () => {
+            await wait(5000)
+          },
+          color: 'primary',
           children: 'Do something async',
+
           light: true,
         },
       },
@@ -83,15 +119,30 @@ const components: ComponentDef[] = [
             throw new Error('Flap!')
           },
           children: 'Throw an error!',
+          size: 'small',
           light: true,
         },
       },
       {
+        name: 'Colors',
+
         props: {
           children: 'System color',
           icon: () => <IconClipboard />,
-          color: 'system',
-          name: 'Colors',
+          color: 'neutral',
+          size: 'small',
+          ghost: true,
+        },
+      },
+      {
+        props: {
+          children: 'Bare Button',
+          color: 'alert',
+          size: 'xsmall',
+          underline: true,
+          onClick: async () => {
+            await wait(1000)
+          },
         },
       },
     ],
@@ -106,6 +157,53 @@ const components: ComponentDef[] = [
         props: {
           children: 'Hello badge',
         },
+      },
+    ],
+  },
+  {
+    name: 'Checkbox',
+    properties: props.props.CheckboxProps.props,
+    component: Checkbox,
+    description: 'Simple checkbox component',
+    examples: [
+      {
+        props: {
+          children: 'Click me',
+        },
+      },
+
+      {
+        props: {
+          onClick: async () => {
+            await wait(1000)
+          },
+          warning: true,
+          children: 'Do something async',
+        },
+        name: 'Warning',
+        description: 'Visual indication of errors ',
+      },
+    ],
+  },
+  {
+    name: 'Date Picker',
+    properties: props.props.DatePickerProps.props,
+    description: 'Single day picker',
+    component: DatePicker,
+    examples: [
+      {
+        props: { onChange: (e) => console.log(e) },
+      },
+    ],
+  },
+  {
+    name: 'Date Range',
+    properties: {}, // props.props.DateRangeProps.props,
+    description: 'Range of date picker',
+    component: DateRange,
+    examples: [
+      {
+        props: { onChange: (e) => console.log(e) },
       },
     ],
   },
@@ -140,6 +238,20 @@ const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'SearchInput',
+    component: Input,
+    description: 'Text Input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        props: {
+          placeholder: 'Search & navigate',
+          type: 'search',
+        },
+      },
+    ],
+  },
+  {
     name: 'SelectInput',
     component: Input,
     description: 'Select input',
@@ -154,6 +266,19 @@ const components: ComponentDef[] = [
             { label: 'Item three', value: 'value3' },
           ],
           type: 'select',
+        },
+      },
+    ],
+  },
+  {
+    name: 'FileInput',
+    component: Input,
+    description: 'Single file input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        props: {
+          type: 'file',
         },
       },
     ],
@@ -177,13 +302,19 @@ const App = () => {
       }}
     >
       <Menu
-        header={'Components'}
-        data={components.map((c) => {
-          return {
-            label: c.name,
-            value: c.name,
-          }
-        })}
+        // header={'HEADER'}
+        data={{
+          Dashboard: {
+            Content: 'Content',
+            Morestuff: 'morestuff',
+          },
+          components: components.map((c) => {
+            return {
+              label: c.name,
+              value: c.name,
+            }
+          }),
+        }}
         active={component}
         onChange={(v) => {
           route.setQuery({ component: v })

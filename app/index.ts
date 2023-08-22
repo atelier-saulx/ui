@@ -1,7 +1,7 @@
 import { BasedAppFunction } from '@based/functions'
 import { color } from '../src/'
 
-const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
+const app: BasedAppFunction = async (_based, { css, js, favicon }) => {
   return `<!DOCTYPE html>
     <html lang="en">
       <head>
@@ -13,7 +13,6 @@ const app: BasedAppFunction = async (_based, { css, js, favicon }, _ctx) => {
         <meta name="title" content="based-ui xx" />
         <title>Based-ui playground</title>
         <link rel="icon" type="image/x-icon" href="${favicon.url}" />
-      
         <style>
           ${await css.text}
         </style>

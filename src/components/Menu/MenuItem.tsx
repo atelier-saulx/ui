@@ -11,6 +11,7 @@ export const MenuItem: FC<MenuItemProps> = ({
   children,
   style,
 }) => {
+  console.log(value, active)
   return (
     <Text
       color={active ? 'brand' : 'default'}
@@ -29,24 +30,27 @@ export const MenuItem: FC<MenuItemProps> = ({
           boxSizing: 'content-box',
           width: '200px',
           height: '24px',
-          borderRadius: 4,
+          borderRadius: 8,
           display: 'flex',
           alignItems: 'center',
           cursor: 'pointer',
+          WebkitUserSelect: 'none',
+          MsUserSelect: 'none',
+          userSelect: 'none',
           backgroundColor: active
             ? genColor('action', 'primary', 'subtleSelected')
             : null,
           '@media (hover: hover)': {
             '&:hover': !active
               ? {
-                  backgroundColor: genColor('action', 'primary', 'subtleHover'),
+                  backgroundColor: genColor('action', 'neutral', 'subtleHover'),
                   //   color: `${color('text')} !important`,
                 }
               : null,
           },
           '&:active': !active
             ? {
-                backgroundColor: genColor('action', 'primary', 'subtleActive'),
+                backgroundColor: genColor('action', 'neutral', 'subtleActive'),
               }
             : null,
         }}

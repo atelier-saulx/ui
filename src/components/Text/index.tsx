@@ -1,7 +1,6 @@
 import React, { FC, ReactNode } from 'react'
-import { styled, Style } from 'inlines'
-import { color as genColor } from '../../'
-import { ColorContentColors } from '../../varsTypes'
+import { color as genColor, styled, Style, ColorContentColors } from '../../'
+import { ClickHandler } from '../../types'
 
 type TextProps = {
   children: ReactNode
@@ -10,7 +9,7 @@ type TextProps = {
   style?: Style
   light?: boolean
   weight?: 'strong' | 'medium' | 'normal'
-  onClick?: () => void | ((e) => void)
+  onClick?: ClickHandler
 }
 
 export const Text: FC<TextProps> = ({

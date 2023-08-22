@@ -79,7 +79,7 @@ export const Calendar = ({
         style={{
           display: 'flex',
           textAlign: 'center',
-          color: 'grey',
+          color: genColor('content', 'default', 'secondary'),
           padding: '0px 20px',
           justifyContent: 'center',
           '& div': {
@@ -144,8 +144,8 @@ export const Calendar = ({
                 justifyContent: 'center',
                 '&:hover': {
                   background:
-                    val.day === selectedDay
-                      ? genColor('action', 'primary', 'subtleHover')
+                    val.day === +selectedDay
+                      ? genColor('action', 'primary', 'hover')
                       : genColor('action', 'neutral', 'subtleHover'),
                   cursor: 'pointer',
                 },
