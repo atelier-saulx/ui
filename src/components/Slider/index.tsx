@@ -55,7 +55,7 @@ export const Slider: FC<SliderProps> = ({
 }) => {
   const [sliderLabel, setSliderLabel] = useState('Hallow daar hew')
 
-  const sliderTooltipLabel = useTooltip(sliderLabel, 'top-left')
+  const sliderTooltipLabel = useTooltip(sliderLabel, 'top-right')
 
   return (
     <styled.div style={{ width: '100%', position: 'relative', minWidth: 340 }}>

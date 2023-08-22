@@ -26,7 +26,7 @@ export const useTooltip = (
       </Text>
     ),
     null,
-    { variant: 'detached', position: 'top' },
+    { variant: 'detached', position: position.split('-')[0] },
     undefined,
     undefined,
     {
@@ -41,15 +41,15 @@ export const useTooltip = (
         boxShadow: 'none',
         backgroundColor: genColor('background', 'inverted', 'strong'),
         transform:
-          position === 'top-right'
+          position === 'top-right' || position === 'bottom-right'
             ? 'translateX(50%)'
-            : position === 'top-left'
+            : position === 'top-left' || position === 'bottom-left'
             ? 'translate(-50%)'
             : '0px',
         marginLeft:
-          position === 'top-right'
+          position === 'top-right' || position === 'bottom-right'
             ? '-32px'
-            : position === 'top-left'
+            : position === 'top-left' || position === 'bottom-left'
             ? '32px'
             : 'auto',
         '&::after': {
