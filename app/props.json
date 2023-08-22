@@ -106,9 +106,9 @@
           "optional": true,
           "type": "ReactNode"
         },
-        "label": {
+        "children": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "onClick": {
           "optional": true,
@@ -123,33 +123,33 @@
           "type": "boolean"
         }
       },
-      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  label?: string\n  onClick?: (e: MouseEvent) => void | (() => void)\n  style?: Style\n  subtle?: boolean\n}",
-      "file": "/types.ts"
+      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: (e: MouseEvent) => void | (() => void)\n  style?: Style\n  subtle?: boolean\n}",
+      "file": "/components/Badge/index.tsx"
     },
     "ButtonProps": {
       "name": "ButtonProps",
       "props": {
-        "afterIcon": {
+        "onMouseEnter": {
           "optional": true,
-          "type": "ReactNode"
+          "type": "MouseEventHandler"
+        },
+        "onMouseLeave": {
+          "optional": true,
+          "type": "MouseEventHandler"
         },
         "children": {
           "optional": true,
           "type": "ReactNode"
         },
-        "color": {
-          "optional": true,
-          "type": "ColorActionColors"
-        },
         "disabled": {
           "optional": true,
           "type": "boolean"
         },
-        "dropdownIndicator": {
+        "color": {
           "optional": true,
-          "type": "boolean"
+          "type": "ColorActionColors"
         },
-        "ghost": {
+        "fill": {
           "optional": true,
           "type": "boolean"
         },
@@ -157,9 +157,9 @@
           "optional": true,
           "type": "ReactNode"
         },
-        "label": {
+        "afterIcon": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "loading": {
           "optional": true,
@@ -167,32 +167,65 @@
         },
         "onClick": {
           "optional": true,
-          "type": "function"
+          "type": "ClickHandler"
         },
-        "size": {
+        "onPointerDown": {
           "optional": true,
-          "type": [
-            {
-              "value": "large"
-            },
-            {
-              "value": "medium"
-            },
-            {
-              "value": "small"
-            }
-          ]
+          "type": "MouseEventHandler"
+        },
+        "light": {
+          "optional": true,
+          "type": "boolean"
         },
         "style": {
           "optional": true,
           "type": "Style"
         },
-        "subtle": {
+        "keyboardShortcut": {
+          "optional": true,
+          "type": "Key"
+        },
+        "displayShortcut": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "clickAnimation": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type ButtonProps = {\n  afterIcon?: ReactNode\n  children?: ReactNode\n  color?: ColorActionColors\n  disabled?: boolean\n  dropdownIndicator?: boolean\n  ghost?: boolean\n  icon?: ReactNode\n  label?: string\n  loading?: boolean\n  onClick?: (e: MouseEvent) => void\n  size?: 'large' | 'medium' | 'small'\n  style?: Style\n  subtle?: boolean\n}",
+      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  children?: ReactNode\n  disabled?: boolean\n  color?: ColorActionColors\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  loading?: boolean\n  onClick?: ClickHandler\n  onPointerDown?: MouseEventHandler\n  light?: boolean\n\n  style?: Style\n  /** \n     Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n    \n     Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n     Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n    */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
+      "file": "/components/Button/index.tsx"
+    },
+    "CheckboxProps": {
+      "name": "CheckboxProps",
+      "props": {
+        "active": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "indeterminate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "warning": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type CheckboxProps = {\n  active?: boolean\n  indeterminate?: boolean\n  onClick?: (e) => void | (() => void)\n  style?: Style\n  warning?: boolean\n  disabled?: boolean\n}",
       "file": "/types.ts"
     },
     "CodeProps": {
@@ -557,11 +590,29 @@
             "array": "SelectInputOption"
           }
         },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
         "beforeIcon": {
           "optional": true
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type SelectInputOwnProps = {\n  options: SelectInputOption[]\n  beforeIcon?: React.ReactNode\n}",
+      "code": "type SelectInputOwnProps = {\n  options: SelectInputOption[]\n  value: string | null\n  onChange?: (newValue: string) => void\n  beforeIcon?: React.ReactNode\n  disabled?: boolean\n  placeholder?: string\n}",
       "file": "/components/Input/SelectInput.tsx"
     },
     "TextInputOwnProps": {
@@ -587,68 +638,9 @@
     },
     "InputProps": {
       "name": "InputProps",
-      "props": {
-        "description": {
-          "optional": true,
-          "type": "string"
-        },
-        "disabled": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "onChange": {
-          "optional": true,
-          "type": "function"
-        },
-        "errorMessage": {
-          "optional": true,
-          "type": "string"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
-        "pattern": {
-          "optional": true,
-          "type": "string"
-        },
-        "placeholder": {
-          "optional": true,
-          "type": "string"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "type": {
-          "type": [
-            {
-              "value": "text"
-            },
-            {
-              "value": "number"
-            },
-            {
-              "value": "date"
-            },
-            {
-              "value": "json"
-            },
-            {
-              "value": "multiline"
-            },
-            {
-              "value": "markdown"
-            }
-          ]
-        },
-        "value": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        }
-      },
-      "code": "type InputProps = {\n  description?: string\n  disabled?: boolean\n  onChange?: (value: any) => void\n  errorMessage?: string\n  label?: string\n  pattern?: string\n  placeholder?: string\n  style?: Style\n  type: 'text' | 'number' | 'date' | 'json' | 'multiline' | 'markdown'\n  value?: any\n}",
-      "file": "/types.ts"
+      "props": {},
+      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'select' } & SelectInputProps)",
+      "file": "/components/Input/index.tsx"
     },
     "MenuHeaderProps": {
       "name": "MenuHeaderProps",
@@ -813,6 +805,25 @@
       },
       "code": "type PreviewerProps = {\n  component?: ReactNode\n  // types prop\n  propsName?: string\n}",
       "file": "/components/Previewer/index.tsx"
+    },
+    "ProgressCircleProps": {
+      "name": "ProgressCircleProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "ColorActionColors"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type ProgressCircleProps = {\n  color?: ColorActionColors\n  style?: Style\n  // value is progress in decimal 1 === complete\n  value?: number\n}",
+      "file": "/types.ts"
     },
     "ProviderProps": {
       "name": "ProviderProps",
@@ -1059,6 +1070,10 @@
           "optional": true,
           "type": "Style"
         },
+        "light": {
+          "optional": true,
+          "type": "boolean"
+        },
         "weight": {
           "optional": true,
           "type": [
@@ -1072,10 +1087,14 @@
               "value": "normal"
             }
           ]
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type TextProps = {\n  // check children as string??\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  weight?: 'strong' | 'medium' | 'normal'\n}",
-      "file": "/types.ts"
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: () => void | ((e) => void)\n}",
+      "file": "/components/Text/index.tsx"
     },
     "ToastProps": {
       "name": "ToastProps",
@@ -1144,26 +1163,14 @@
       "code": "type PositionStyleProps = {\n  top?: number\n  bottom?: number\n  left?: number\n  right?: number\n}",
       "file": "/components/Toast/ToastProvider.tsx"
     },
-    "ActionItemProps": {
-      "name": "ActionItemProps",
-      "props": {},
-      "code": "type ActionItemProps = {}",
-      "file": "/types.ts"
-    },
-    "BreadcrumbsProps": {
-      "name": "BreadcrumbsProps",
-      "props": {},
-      "code": "type BreadcrumbsProps = {}",
-      "file": "/types.ts"
-    },
-    "CheckboxProps": {
-      "name": "CheckboxProps",
+    "ToggleProps": {
+      "name": "ToggleProps",
       "props": {
         "active": {
           "optional": true,
           "type": "boolean"
         },
-        "indeterminate": {
+        "disabled": {
           "optional": true,
           "type": "boolean"
         },
@@ -1175,16 +1182,31 @@
           "optional": true,
           "type": "Style"
         },
-        "warning": {
+        "size": {
           "optional": true,
-          "type": "boolean"
-        },
-        "disabled": {
-          "optional": true,
-          "type": "boolean"
+          "type": [
+            {
+              "value": "large"
+            },
+            {
+              "value": "medium"
+            }
+          ]
         }
       },
-      "code": "type CheckboxProps = {\n  active?: boolean\n  indeterminate?: boolean\n  onClick?: (e) => void | (() => void)\n  style?: Style\n  warning?: boolean\n  disabled?: boolean\n}",
+      "code": "type ToggleProps = {\n  active?: boolean\n  disabled?: boolean\n  onClick?: (e) => void | (() => void)\n  style?: Style\n  size?: 'large' | 'medium'\n}",
+      "file": "/types.ts"
+    },
+    "ActionItemProps": {
+      "name": "ActionItemProps",
+      "props": {},
+      "code": "type ActionItemProps = {}",
+      "file": "/types.ts"
+    },
+    "BreadcrumbsProps": {
+      "name": "BreadcrumbsProps",
+      "props": {},
+      "code": "type BreadcrumbsProps = {}",
       "file": "/types.ts"
     },
     "ClickableIconProps": {
@@ -1483,25 +1505,6 @@
       "code": "type OtherItemsProps = {}",
       "file": "/types.ts"
     },
-    "ProgressCircleProps": {
-      "name": "ProgressCircleProps",
-      "props": {
-        "color": {
-          "optional": true,
-          "type": "ColorActionColors"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "value": {
-          "optional": true,
-          "type": "number"
-        }
-      },
-      "code": "type ProgressCircleProps = {\n  color?: ColorActionColors\n  style?: Style\n  // value is progress in decimal 1 === complete\n  value?: number\n}",
-      "file": "/types.ts"
-    },
     "RadioButtonProps": {
       "name": "RadioButtonProps",
       "props": {
@@ -1633,40 +1636,6 @@
         }
       },
       "code": "type TabProps = {\n  active?: boolean\n  label?: string\n  onClick?: () => void\n}",
-      "file": "/types.ts"
-    },
-    "ToggleProps": {
-      "name": "ToggleProps",
-      "props": {
-        "active": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "disabled": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "onClick": {
-          "optional": true,
-          "type": "function"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "size": {
-          "optional": true,
-          "type": [
-            {
-              "value": "large"
-            },
-            {
-              "value": "medium"
-            }
-          ]
-        }
-      },
-      "code": "type ToggleProps = {\n  active?: boolean\n  disabled?: boolean\n  onClick?: (e) => void | (() => void)\n  style?: Style\n  size?: 'large' | 'medium'\n}",
       "file": "/types.ts"
     },
     "TooltipProps": {

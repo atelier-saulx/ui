@@ -7,8 +7,6 @@ import React, {
   useState,
   useEffect,
   useRef,
-  FunctionComponent,
-  MouseEvent,
 } from 'react'
 
 import {
@@ -25,30 +23,23 @@ import {
   Text,
   useKeyboardShortcut,
 } from '../..'
+import { ClickHandler } from '../../types'
 
 const stopPropagation = (e) => e.stopPropagation()
 
 export type ButtonProps = {
   onMouseEnter?: MouseEventHandler
   onMouseLeave?: MouseEventHandler
-  children?: ReactNode | ReactNode[]
-  label?: string
+  children?: ReactNode
   disabled?: boolean
-  dropdownIndicator?: boolean
   color?: ColorActionColors
-  ghost?: boolean
-  subtle?: boolean
-  transparent?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
-  icon?: FunctionComponent | ReactNode
-  afterIcon?: FunctionComponent | ReactNode
+  icon?: ReactNode
+  afterIcon?: ReactNode
   loading?: boolean
-  onClick?:
-    | MouseEventHandler
-    | (() => void)
-    | ((e: MouseEvent) => Promise<void>)
-    | (() => Promise<void>)
+  onClick?: ClickHandler
   onPointerDown?: MouseEventHandler
+  light?: boolean
   style?: Style
   /** 
      Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.
@@ -69,49 +60,39 @@ export const getButtonStyle = (
   props: ButtonProps,
   isButton: boolean = !!props.onClick
 ): Style => {
-  const {
-    disabled,
-    ghost,
-    color: colorProp = ghost ? 'system' : 'primary',
-    label,
-    subtle,
-    clickAnimation,
-  } = props
+  const { disabled, color: colorProp = 'primary', clickAnimation } = props
 
-  const isLight = subtle || ghost
+  const isLight = props.light
+  const isGhost = props.color === 'system'
+
   const style: Style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
     pointerEvents: disabled ? 'none' : 'auto',
     border: `1px solid transparent`,
     cursor: disabled ? 'not-allowed' : 'pointer',
-    backgroundColor: ghost
+    backgroundColor: isGhost
       ? 'transparent'
-      : genColor('action', colorProp, subtle ? 'subtleNormal' : 'normal'),
-    // color: genColor(colorProp, 'contrast', isLight),
+      : genColor('action', colorProp, isLight ? 'subtleNormal' : 'normal'),
     '&:active': {
-      backgroundColor: props.ghost
+      backgroundColor: isGhost
         ? 'transparent'
-        : genColor(
-            'action',
-            colorProp,
-            props.subtle ? 'subtleActive' : 'active'
-          ),
+        : genColor('action', colorProp, isLight ? 'subtleActive' : 'active'),
     },
     '&:focus': {
-      backgroundColor: props.ghost
+      backgroundColor: isGhost
         ? 'transparent'
         : genColor(
             'action',
             colorProp,
-            props.subtle ? 'subtleSelected' : 'selected'
+            isLight ? 'subtleSelected' : 'selected'
           ),
       border: `1px solid ${genColor('content', 'inverted', 'primary')}`,
       boxShadow: `0px 0px 0px 2px ${genColor('action', 'primary', 'normal')}`,
     },
     '&:hover': {
-      backgroundColor: props.ghost
+      backgroundColor: isGhost
         ? 'transparent'
-        : genColor('action', colorProp, props.subtle ? 'subtleHover' : 'hover'),
+        : genColor('action', colorProp, isLight ? 'subtleHover' : 'hover'),
     },
     width: 'fit-content',
     opacity: disabled ? 0.6 : 1,
@@ -119,25 +100,6 @@ export const getButtonStyle = (
 
   if (isButton) {
     style.cursor = 'pointer'
-
-    // if (!props.transparent) {
-    //   style['@media (hover:hover)'] = {
-    //     '&:hover': {
-    //       backgroundColor: genColor('action', 'primary', 'hover'),
-    //       cursor: disabled ? 'not-allowed' : 'pointer',
-    //     },
-    //   }
-    // }
-    // style['&:active'] = clickAnimation
-    //   ? {
-    //       backgroundColor: ghost
-    //         ? 'transparent'
-    //         : genColor('action', colorProp, subtle ? 'subtleActive' : 'active'),
-    //       transform: 'scale(1.05)',
-    //     }
-    //   : {
-    //       backgroundColor: !props.transparent ? 'transparent' : null,
-    //     }
   }
 
   return style
@@ -146,8 +108,6 @@ export const getButtonStyle = (
 export const Button: FC<ButtonProps> = (props) => {
   let {
     children,
-    dropdownIndicator,
-    label,
     fill,
     icon,
     afterIcon,
@@ -161,6 +121,8 @@ export const Button: FC<ButtonProps> = (props) => {
     style,
   } = props
 
+  const isLight = props.light
+  const isGhost = props.color === 'system'
   const [isLoading, setIsLoading] = useState(false)
   const buttonElem = useRef<HTMLElement>(null)
   const extendedOnClick = useCallback(
@@ -168,6 +130,9 @@ export const Button: FC<ButtonProps> = (props) => {
       e.stopPropagation()
       e.preventDefault()
       const t = buttonElem.current
+      if (!t) {
+        return
+      }
       let isSet = false
       const timer = setTimeout(() => {
         if (!isSet) {
@@ -218,11 +183,11 @@ export const Button: FC<ButtonProps> = (props) => {
   }
 
   let contentColor: ColorContentColors =
-    (props.subtle || props.ghost) && props.color === 'alert'
+    (isLight || isGhost) && props.color === 'alert'
       ? 'negative'
-      : (props.subtle || props.ghost) && props.color === 'neutral'
+      : (isLight || isGhost) && props.color === 'neutral'
       ? 'default'
-      : props.subtle || props.ghost
+      : isLight || isGhost
       ? 'brand'
       : 'inverted'
 
@@ -245,7 +210,6 @@ export const Button: FC<ButtonProps> = (props) => {
     >
       <div
         style={{
-          //   visibility: loading ? 'hidden' : null,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -274,7 +238,7 @@ export const Button: FC<ButtonProps> = (props) => {
           size={16}
           weight="strong"
         >
-          {label || children}
+          {children}
           {displayShortcut && keyboardShortcut ? (
             <KeyBoardshortcut keyboardShortcut={keyboardShortcut} />
           ) : null}
@@ -289,13 +253,6 @@ export const Button: FC<ButtonProps> = (props) => {
                 }
               : null
           )}
-        {dropdownIndicator && (
-          <styled.div style={{ marginLeft: 12 }}>
-            {renderOrCreateElement(IconChevronDownSmall, {
-              color: contentColor,
-            })}
-          </styled.div>
-        )}
       </div>
     </styled.button>
   )

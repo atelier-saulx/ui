@@ -33,22 +33,6 @@ export type AvatarProps = {
 
 export type BreadcrumbsProps = {}
 
-export type ButtonProps = {
-  afterIcon?: ReactNode
-  children?: ReactNode
-  color?: ColorActionColors
-  disabled?: boolean
-  dropdownIndicator?: boolean
-  ghost?: boolean
-  icon?: ReactNode
-  label?: string
-  loading?: boolean
-  onClick?: (e: MouseEvent) => void
-  size?: 'large' | 'medium' | 'small'
-  style?: Style
-  subtle?: boolean
-}
-
 export type CheckboxProps = {
   active?: boolean
   indeterminate?: boolean
@@ -112,18 +96,6 @@ export type DropdownProps = {}
 export type FilterPillProps = {}
 
 // text field in figma
-export type InputProps = {
-  description?: string
-  disabled?: boolean
-  onChange?: (value: any) => void
-  errorMessage?: string
-  label?: string
-  pattern?: string
-  placeholder?: string
-  style?: Style
-  type: 'text' | 'number' | 'date' | 'json' | 'multiline' | 'markdown'
-  value?: any
-}
 
 export type InputWarningProps = {
   active?: boolean
@@ -273,15 +245,6 @@ export type TagProps = {
   label?: string
   onClick?: () => void
   style?: Style
-}
-
-export type TextProps = {
-  // check children as string??
-  children: ReactNode
-  color?: ColorContentColors
-  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48
-  style?: Style
-  weight?: 'strong' | 'medium' | 'normal'
 }
 
 export type ToggleProps = {

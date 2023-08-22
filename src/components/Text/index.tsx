@@ -16,7 +16,7 @@ type TextProps = {
 export const Text: FC<TextProps> = ({
   children,
   color = 'default',
-  size = 12,
+  size = 14,
   style,
   light,
   weight = 'normal',
