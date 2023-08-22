@@ -19,6 +19,7 @@ import {
   DatePicker,
   DateRange,
   Avatar,
+  Checkbox,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -26,6 +27,7 @@ import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
 import { wait } from '@saulx/utils'
+import { CheckboxItem } from '../src/components/Checkbox/CheckboxItem'
 
 export const client = based(basedConfig)
 
@@ -44,10 +46,12 @@ const components: ComponentDef[] = [
         squared: true,
       },
       {
-        color: 'raspberry',
+        color: 'aquamarine',
         label: 's',
         size: 'large',
         subtle: false,
+        name: 'Solid Color Avatar',
+        description: 'Rock solid',
       },
     ],
   },
@@ -107,6 +111,27 @@ const components: ComponentDef[] = [
     examples: [
       {
         children: 'Hello badge',
+      },
+    ],
+  },
+  {
+    name: 'Checkbox',
+    properties: props.props.CheckboxProps.props,
+    component: Checkbox,
+    description: 'Simple checkbox component',
+    examples: [
+      {
+        children: 'Click me',
+      },
+
+      {
+        onClick: async () => {
+          await wait(1000)
+        },
+        children: 'Do something async',
+        name: 'Warning',
+        description: 'Visual indication of errors ',
+        warning: true,
       },
     ],
   },
