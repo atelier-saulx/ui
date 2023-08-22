@@ -8,20 +8,29 @@ const StyledBgSlider = styled('div', {
   borderRadius: 4,
   height: 6,
   width: '100%',
+  position: 'absolute',
+  bottom: 0,
 })
 
 const StyledStepProgress = styled('div', {
-  backgroundColor: genColor('action', 'primary', 'hover'),
+  backgroundColor: genColor('action', 'primary', 'normal'),
   height: 6,
   borderRadius: 4,
   width: '20%',
+  position: 'absolute',
+  bottom: 0,
 })
 
 const StyledThumb = styled('div', {
-  width: 4,
-  height: 4,
+  width: 16,
+  height: 16,
   borderRadius: '50%',
-  border: `1px solid ${genColor('content', 'inverted', 'primary')}`,
+  backgroundColor: genColor('content', 'inverted', 'primary'),
+  border: `5px solid ${genColor('action', 'primary', 'normal')} `,
+  cursor: 'pointer',
+  position: 'absolute',
+  right: '-4px',
+  bottom: '-5px',
 })
 
 type SliderProps = {
@@ -32,6 +41,8 @@ type SliderProps = {
   steps?: number
   style?: Style
 }
+
+// TODO: put tooltip as slider label
 
 export const Slider: FC<SliderProps> = ({
   data,
@@ -44,7 +55,9 @@ export const Slider: FC<SliderProps> = ({
   return (
     <styled.div style={{ width: '100%', position: 'relative' }}>
       <StyledBgSlider />
-      <StyledStepProgress />
+      <StyledStepProgress>
+        <StyledThumb />
+      </StyledStepProgress>
     </styled.div>
   )
 }

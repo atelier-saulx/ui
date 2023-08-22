@@ -31,16 +31,6 @@ export type AvatarProps = {
   subtle?: boolean
 }
 
-export type BadgeProps = {
-  afterIcon?: ReactNode
-  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
-  icon?: ReactNode
-  label?: string
-  onClick?: (e: MouseEvent) => void | (() => void)
-  style?: Style
-  subtle?: boolean
-}
-
 export type BreadcrumbsProps = {}
 
 export type ButtonProps = {
