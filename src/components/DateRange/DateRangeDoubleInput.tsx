@@ -113,6 +113,9 @@ export const DateRangeDoubleInput = ({
     setFromDay(newFromDay || '')
     setFromMonth(newFromMonth || '')
     setFromYear(newFromYear || '')
+    if (fromValue > tillValue) {
+      setTillValue(fromValue)
+    }
   }, [fromValue])
 
   useEffect(() => {

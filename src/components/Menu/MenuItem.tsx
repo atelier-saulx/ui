@@ -33,8 +33,8 @@ export const MenuItem: FC<MenuItemProps> = ({
           display: 'flex',
           alignItems: 'center',
           cursor: 'pointer',
-          webkitUserSelect: 'none',
-          msUserSelect: 'none',
+          WebkitUserSelect: 'none',
+          MsUserSelect: 'none',
           userSelect: 'none',
           backgroundColor: active
             ? genColor('action', 'primary', 'subtleSelected')

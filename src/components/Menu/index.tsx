@@ -1,7 +1,14 @@
 import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
-import { ButtonProps } from '../../types'
-import { IconChevronDown, color, Button, ScrollArea, Text, border } from '../..'
-import { Style, styled } from 'inlines'
+import {
+  IconChevronDown,
+  color,
+  Button,
+  ScrollArea,
+  Text,
+  border,
+  Style,
+  styled,
+} from '../..'
 import { MenuItem } from './MenuItem'
 
 type MenuHeaderProps = {
