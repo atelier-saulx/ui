@@ -5,7 +5,7 @@ import {
   OverlayOptions,
   OverlayProps,
   PositionProps,
-} from '../components/Overlay'
+} from '../../src'
 import React, { ComponentType, SyntheticEvent, useCallback } from 'react'
 import { useAllContexts, ForwardContext } from '../components/Provider'
 import { hash } from '@saulx/hash'

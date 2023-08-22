@@ -53,12 +53,12 @@ export const Slider: FC<SliderProps> = ({
   steps,
   style,
 }) => {
-  const [sliderLabel, setSliderLabel] = useState('Hallow')
+  const [sliderLabel, setSliderLabel] = useState('Hallow daar hew')
 
-  const sliderTooltipLabel = useTooltip(sliderLabel, 'top')
+  const sliderTooltipLabel = useTooltip(sliderLabel, 'top-left')
 
   return (
-    <styled.div style={{ width: '100%', position: 'relative' }}>
+    <styled.div style={{ width: '100%', position: 'relative', minWidth: 340 }}>
       <StyledBgSlider />
       <StyledStepProgress>
         <StyledThumb {...sliderTooltipLabel} />

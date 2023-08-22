@@ -9,7 +9,15 @@ import {
 
 export const useTooltip = (
   text: string | ReactNode,
-  position: 'top' | 'bottom' | 'left' | 'right' = 'bottom'
+  position:
+    | 'top'
+    | 'top-right'
+    | 'top-left'
+    | 'bottom'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'left'
+    | 'right' = 'bottom'
 ) => {
   const onMouseEnter = useOverlay(
     () => (
@@ -18,7 +26,7 @@ export const useTooltip = (
       </Text>
     ),
     null,
-    { variant: 'detached', position: position },
+    { variant: 'detached', position: 'top' },
     undefined,
     undefined,
     {
@@ -27,13 +35,65 @@ export const useTooltip = (
         padding: '4px 8px',
         width: 'fit-content',
         borderRadius: '4px',
+        overflow: 'inherit',
+        border: 'none',
+        position: 'relative',
+        boxShadow: 'none',
         backgroundColor: genColor('background', 'inverted', 'strong'),
+        transform:
+          position === 'top-right'
+            ? 'translateX(50%)'
+            : position === 'top-left'
+            ? 'translate(-50%)'
+            : '0px',
+        marginLeft:
+          position === 'top-right'
+            ? '-32px'
+            : position === 'top-left'
+            ? '32px'
+            : 'auto',
+        '&::after': {
+          content: `''`,
+          borderRadius: '3px',
+          width: '12px',
+          height: '12px',
+          backgroundColor: genColor('background', 'inverted', 'strong'),
+          transform: 'rotate(45deg)',
+          position: 'absolute',
+          bottom:
+            position === 'top' ||
+            position === 'top-right' ||
+            position === 'top-left'
+              ? '-4px'
+              : 'unset',
+          top:
+            position === 'bottom' ||
+            position === 'bottom-right' ||
+            position === 'bottom-left'
+              ? '-4px'
+              : 'unset',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+
+          left:
+            position === 'top' || position === 'bottom'
+              ? '0px'
+              : position === 'top-right' || position === 'bottom-right'
+              ? '10px'
+              : 'unset',
+          right:
+            position === 'top' || position === 'bottom'
+              ? '0px'
+              : position === 'top-left' || position === 'bottom-left'
+              ? '10px'
+              : 'unset',
+        },
       },
     }
   )
 
   return {
     onMouseEnter,
-    onMouseLeave: () => removeOverlay(),
+    // onMouseLeave: () => removeOverlay(),
   }
 }

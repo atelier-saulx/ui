@@ -190,30 +190,11 @@ const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'Text',
-    component: Text,
-    description: 'Text including typeography',
-    properties: props.props.TextProps.props,
-    examples: [
-      {
-        children: 'Some Text',
-        weight: 300,
-      },
-    ],
-  },
-  {
-    name: 'TextInput',
-    component: Input,
-    description: 'Text Input',
-    properties: props.props.InputProps.props,
-    examples: [
-      {
-        defaultValue: 'hello world',
-        placeholder: 'placeholder',
-        beforeIcon: () => <IconBolt />,
-        type: 'text',
-      },
-    ],
+    name: 'Slider',
+    properties: props.props.SliderProps.props,
+    description: 'Range slider',
+    component: Slider,
+    examples: [{}],
   },
   {
     name: 'SearchInput',
@@ -241,6 +222,32 @@ const components: ComponentDef[] = [
           { label: 'Item three', value: 'value3' },
         ],
         type: 'select',
+      },
+    ],
+  },
+  {
+    name: 'Text',
+    component: Text,
+    description: 'Text including typeography',
+    properties: props.props.TextProps.props,
+    examples: [
+      {
+        children: 'Some Text',
+        weight: 300,
+      },
+    ],
+  },
+  {
+    name: 'TextInput',
+    component: Input,
+    description: 'Text Input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        defaultValue: 'hello world',
+        placeholder: 'placeholder',
+        beforeIcon: () => <IconBolt />,
+        type: 'text',
       },
     ],
   },

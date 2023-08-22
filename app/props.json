@@ -116,18 +116,18 @@
         },
         "onClick": {
           "optional": true,
-          "type": "function"
+          "type": "ClickHandler"
         },
         "style": {
           "optional": true,
           "type": "Style"
         },
-        "subtle": {
+        "light": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: (e: MouseEvent) => void | (() => void)\n  style?: Style\n  subtle?: boolean\n}",
+      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
       "file": "/components/Badge/index.tsx"
     },
     "ButtonProps": {
@@ -1010,9 +1010,11 @@
     "SliderProps": {
       "name": "SliderProps",
       "props": {
-        "onChange": {
+        "data": {
           "optional": true,
-          "type": "function"
+          "type": {
+            "array": "TSTypeLiteral"
+          }
         },
         "min": {
           "optional": true,
@@ -1022,17 +1024,24 @@
           "optional": true,
           "type": "number"
         },
-        "step": {
+        "value": {
+          "optional": true,
+          "type": [
+            "number",
+            "TSTypeLiteral"
+          ]
+        },
+        "steps": {
           "optional": true,
           "type": "number"
         },
-        "value": {
+        "style": {
           "optional": true,
-          "type": "number"
+          "type": "Style"
         }
       },
-      "code": "type SliderProps = {\n  onChange?: (value: number) => void\n  min?: number\n  max?: number\n  step?: number\n  value?: number\n}",
-      "file": "/types.ts"
+      "code": "type SliderProps = {\n  data?: { id: string; title: string; index: number }[]\n  min?: number\n  max?: number\n  value?: number | { id: string; title: string; index: number }\n  steps?: number\n  style?: Style\n}",
+      "file": "/components/Slider/index.tsx"
     },
     "TagProps": {
       "name": "TagProps",

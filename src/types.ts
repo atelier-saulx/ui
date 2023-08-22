@@ -204,14 +204,6 @@ export type SegmentedControlOptionsProps = {
 
 export type SidebarNavigationHolderProps = {}
 
-export type SliderProps = {
-  onChange?: (value: number) => void
-  min?: number
-  max?: number
-  step?: number
-  value?: number
-}
-
 export type SpotlightSearchProps = {
   onChange?: (value: string) => void
 }
