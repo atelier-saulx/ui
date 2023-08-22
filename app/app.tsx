@@ -28,6 +28,10 @@ import { wait } from '@saulx/utils'
 
 export const client = based(basedConfig)
 
+const asyncClick = async () => {
+  await wait(1000)
+}
+
 const components: ComponentDef[] = [
   {
     name: 'Date Picker',
@@ -36,18 +40,18 @@ const components: ComponentDef[] = [
     component: DatePicker,
     examples: [
       {
-        onChange: (e) => console.log(e),
+        props: { onChange: (e) => console.log(e) },
       },
     ],
   },
   {
     name: 'Date Range',
-    properties: props.props.DateRangeProps.props,
+    properties: {}, // props.props.DateRangeProps.props,
     description: 'Range of date picker',
     component: DateRange,
     examples: [
       {
-        onChange: (e) => console.log(e),
+        props: { onChange: (e) => console.log(e) },
       },
     ],
   },
@@ -58,31 +62,37 @@ const components: ComponentDef[] = [
     description: 'Simple button component',
     examples: [
       {
-        children: 'Click me',
+        props: {
+          children: 'Click me',
+        },
       },
 
       {
-        onClick: async () => {
-          await wait(1000)
-        },
-        children: 'Do something async',
         name: 'Async action indicators',
         description: 'Visual indication of errors and loading state',
-        light: true,
-      },
-      {
-        color: 'alert',
-        onClick: async () => {
-          throw new Error('Flap!')
+        props: {
+          onClick: asyncClick,
+          children: 'Do something async',
+          light: true,
         },
-        children: 'Throw an error!',
-        light: true,
       },
       {
-        children: 'System color',
-        icon: () => <IconClipboard />,
-        color: 'system',
-        name: 'Colors',
+        props: {
+          color: 'alert',
+          onClick: async () => {
+            throw new Error('Flap!')
+          },
+          children: 'Throw an error!',
+          light: true,
+        },
+      },
+      {
+        props: {
+          children: 'System color',
+          icon: () => <IconClipboard />,
+          color: 'system',
+          name: 'Colors',
+        },
       },
     ],
   },
@@ -93,7 +103,9 @@ const components: ComponentDef[] = [
     description: 'Badge component',
     examples: [
       {
-        children: 'Hello badge',
+        props: {
+          children: 'Hello badge',
+        },
       },
     ],
   },
@@ -104,8 +116,10 @@ const components: ComponentDef[] = [
     properties: props.props.TextProps.props,
     examples: [
       {
-        children: 'Some Text',
-        weight: 300,
+        props: {
+          children: 'Some Text',
+          weight: 300,
+        },
       },
     ],
   },
@@ -116,10 +130,12 @@ const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        defaultValue: 'hello world',
-        placeholder: 'placeholder',
-        beforeIcon: () => <IconBolt />,
-        type: 'text',
+        props: {
+          defaultValue: 'hello world',
+          placeholder: 'placeholder',
+          beforeIcon: () => <IconBolt />,
+          type: 'text',
+        },
       },
     ],
   },
@@ -130,13 +146,15 @@ const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        placeholder: 'Select something',
-        options: [
-          { label: 'Item one', value: 'value1' },
-          { label: 'Item two', value: 'value2' },
-          { label: 'Item three', value: 'value3' },
-        ],
-        type: 'select',
+        props: {
+          placeholder: 'Select something',
+          options: [
+            { label: 'Item one', value: 'value1' },
+            { label: 'Item two', value: 'value2' },
+            { label: 'Item three', value: 'value3' },
+          ],
+          type: 'select',
+        },
       },
     ],
   },

@@ -2,18 +2,25 @@ import React, { ReactNode } from 'react'
 import { FC } from 'react'
 import { styled } from 'inlines'
 import { ComponentDef, PropType } from './types'
+import useLocalStorage from '@based/use-local-storage'
 import {
   Text,
   border,
   color,
+  Code,
   IconArrowUpRight,
   IconArrowDownLeft,
   Menu,
   IconArrowDown,
   Button,
   IconChevronDown,
+  IconChevronRight,
+  IconChevronRightSmall,
+  IconChevronDownSmall,
 } from '../src'
 import { parseProps } from './parseProps'
+import { deepCopy, deepMerge } from '@saulx/utils'
+import { propsToCode, toComponent } from './objectToCode'
 
 const displayType = (propType: PropType): string | number | ReactNode => {
   if (typeof propType.type === 'object') {
@@ -113,7 +120,11 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
   index,
 }) => {
   const example = component.examples[index]
-  console.info(index, example)
+  const [state, setState] = useLocalStorage('c-' + component.name + '-' + index)
+
+  let objState = state ?? {}
+  const parsedProps = parseProps(example.props)
+
   return (
     <>
       {example.name ? (
@@ -149,16 +160,54 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
             padding: 32,
           }}
         >
-          {React.createElement(component.component, parseProps(example))}
+          {React.createElement(component.component, parsedProps)}
         </styled.div>
         <styled.div
           style={{
-            padding: 16,
-            width: 'calc(100% - 32px)',
-            borderTop: border(1),
+            // padding: 4,
+
+            width: '100%',
+            transition: 'height 0.2s',
+            borderTop: objState.expanded ? '1px solid transparent' : border(1),
           }}
         >
-          <Button color="system" icon={<IconChevronDown />}></Button>
+          <styled.div
+            style={{
+              width: '100%',
+              backgroundColor: color('background', 'brand', 'surface'),
+              borderBottomRightRadius: objState.expanded ? 0 : 8,
+              borderBottomLeftRadius: objState.expanded ? 0 : 8,
+            }}
+          >
+            <Button
+              onClick={() => {
+                console.info('xxx')
+                const x = deepCopy(objState)
+                deepMerge(x, { expanded: !objState.expanded })
+                setState(x)
+              }}
+              style={{ margin: 4 }}
+              color="system"
+              icon={
+                objState.expanded ? (
+                  <IconChevronDownSmall />
+                ) : (
+                  <IconChevronRightSmall />
+                )
+              }
+            >
+              Code editor
+            </Button>
+          </styled.div>
+          {objState.expanded ? (
+            <Code
+              value={toComponent(
+                component.name,
+                example.props,
+                propsToCode(component.name, parsedProps).propsHeader
+              )}
+            />
+          ) : null}
         </styled.div>
       </styled.div>
     </>

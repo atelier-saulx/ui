@@ -33,6 +33,7 @@ export * from './components/Toast'
 export * from './components/Toggle'
 export * from './components/DatePicker'
 export * from './components/DateRange'
+export * from './components/Code'
 
 export * from './utils'
 export * from './hooks'
