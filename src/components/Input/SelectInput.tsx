@@ -10,7 +10,7 @@ export type SelectInputOption = {
   afterIcon?: React.ReactNode
 }
 
-export type SelectInputOwnProps = {
+export type SelectInputProps = {
   options: SelectInputOption[]
   value: string | null
   onChange?: (newValue: string) => void
@@ -18,8 +18,6 @@ export type SelectInputOwnProps = {
   disabled?: boolean
   placeholder?: string
 }
-
-export type SelectInputProps = SelectInputOwnProps
 
 export function SelectInput({
   options,
@@ -56,7 +54,7 @@ export function SelectInput({
         borderRadius: 8,
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: color('background', 'default', 'surface'),
+        backgroundColor: 'transparent',
         fontSize: '14px',
         lineHeight: '24px',
         border: `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`,
@@ -100,7 +98,7 @@ export function SelectInput({
           '&:focus': {
             outline: 'none',
           },
-          minWidth: 320,
+          minWidth: 200,
         }}
         onClick={() => {
           if (disabled) return
