@@ -40,7 +40,7 @@ export type ButtonProps = {
   onClick?: ClickHandler
   onPointerDown?: MouseEventHandler
   light?: boolean
-  size: 'large' | 'medium' | 'small' | 'xsmall'
+  size?: 'large' | 'medium' | 'small' | 'xsmall'
   style?: Style
   underline?: boolean
   /** 

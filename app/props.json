@@ -40,6 +40,10 @@
     "AvatarProps": {
       "name": "AvatarProps",
       "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
         "color": {
           "optional": true,
           "type": "ColorNonSemanticBackgroundColors"
@@ -50,11 +54,7 @@
         },
         "onClick": {
           "optional": true,
-          "type": "function"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
+          "type": "ClickHandler"
         },
         "size": {
           "optional": true,
@@ -76,17 +76,21 @@
             }
           ]
         },
+        "squared": {
+          "optional": true,
+          "type": "boolean"
+        },
         "style": {
           "optional": true,
           "type": "Style"
         },
-        "subtle": {
+        "light": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type AvatarProps = {\n  color?: ColorNonSemanticBackgroundColors\n  imgsrc?: string\n  onClick?: () => void\n  label?: string\n  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'\n  style?: Style\n  subtle?: boolean\n}",
-      "file": "/types.ts"
+      "code": "type AvatarProps = {\n  children?: ReactNode\n  color?: ColorNonSemanticBackgroundColors\n  imgsrc?: string\n  onClick?: ClickHandler\n  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'\n  squared?: boolean\n  style?: Style\n  light?: boolean\n}",
+      "file": "/components/Avatar/index.tsx"
     },
     "BadgeProps": {
       "name": "BadgeProps",
@@ -153,6 +157,10 @@
           "optional": true,
           "type": "boolean"
         },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
         "icon": {
           "optional": true,
           "type": "ReactNode"
@@ -177,9 +185,30 @@
           "optional": true,
           "type": "boolean"
         },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": "large"
+            },
+            {
+              "value": "medium"
+            },
+            {
+              "value": "small"
+            },
+            {
+              "value": "xsmall"
+            }
+          ]
+        },
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "underline": {
+          "optional": true,
+          "type": "boolean"
         },
         "keyboardShortcut": {
           "optional": true,
@@ -194,7 +223,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  children?: ReactNode\n  disabled?: boolean\n  color?: ColorActionColors\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  loading?: boolean\n  onClick?: ClickHandler\n  onPointerDown?: MouseEventHandler\n  light?: boolean\n\n  style?: Style\n  /** \n     Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n    \n     Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n     Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n    */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
+      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  children?: ReactNode\n  disabled?: boolean\n  color?: ColorActionColors\n  fill?: boolean // TODO: add this on inputs etc as well\n  ghost?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  loading?: boolean\n  onClick?: ClickHandler\n  onPointerDown?: MouseEventHandler\n  light?: boolean\n  size?: 'large' | 'medium' | 'small' | 'xsmall'\n  style?: Style\n  underline?: boolean\n  /** \n     Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n    \n     Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n     Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n    */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
       "file": "/components/Button/index.tsx"
     },
     "CheckboxProps": {
@@ -582,8 +611,8 @@
       "code": "type DropDownProps = {\n  style?: Style\n  children?: ReactNode\n}",
       "file": "/components/Dropdown/index.tsx"
     },
-    "SelectInputOwnProps": {
-      "name": "SelectInputOwnProps",
+    "SelectInputProps": {
+      "name": "SelectInputProps",
       "props": {
         "options": {
           "type": {
@@ -612,7 +641,7 @@
           "type": "string"
         }
       },
-      "code": "type SelectInputOwnProps = {\n  options: SelectInputOption[]\n  value: string | null\n  onChange?: (newValue: string) => void\n  beforeIcon?: React.ReactNode\n  disabled?: boolean\n  placeholder?: string\n}",
+      "code": "type SelectInputProps = {\n  options: SelectInputOption[]\n  value: string | null\n  onChange?: (newValue: string) => void\n  beforeIcon?: React.ReactNode\n  disabled?: boolean\n  placeholder?: string\n}",
       "file": "/components/Input/SelectInput.tsx"
     },
     "TextInputOwnProps": {
@@ -631,15 +660,19 @@
         },
         "afterIcon": {
           "optional": true
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         }
       },
-      "code": "type TextInputOwnProps = {\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  beforeIcon?: React.ReactNode\n  afterIcon?: React.ReactNode\n}",
+      "code": "type TextInputOwnProps = {\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  beforeIcon?: React.ReactNode\n  afterIcon?: React.ReactNode\n  style?: Style\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "InputProps": {
       "name": "InputProps",
       "props": {},
-      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'select' } & SelectInputProps)",
+      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'search' } & SearchInputProps)\n  | ({ type: 'select' } & SelectInputProps)",
       "file": "/components/Input/index.tsx"
     },
     "MenuHeaderProps": {
@@ -1090,10 +1123,10 @@
         },
         "onClick": {
           "optional": true,
-          "type": "function"
+          "type": "ClickHandler"
         }
       },
-      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: () => void | ((e) => void)\n}",
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n}",
       "file": "/components/Text/index.tsx"
     },
     "ToastProps": {
