@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { color as genColor, ColorActionColors, Style, styled } from '../..'
 
 const invertedStyle = {
@@ -14,6 +14,7 @@ const invertedStyle = {
 export type ProgressCircleProps = {
   color?: ColorActionColors
   style?: Style
+  loading?: boolean
   // value is progress in decimal 1 === complete
   value?: number
 }
@@ -21,10 +22,30 @@ export type ProgressCircleProps = {
 export const ProgressCircle: FC<ProgressCircleProps> = ({
   value = 0,
   color = 'neutral',
+  loading,
   style,
 }) => {
-  const barProg = value * 100
+  const [newValue, setNewValue] = useState(value)
+
+  const barProg = newValue * 100
   const inverted = color === 'inverted'
+
+  // non stop loading animation
+  const [loadingCounter, setLoadingCounter] = useState<number>(0)
+
+  if (loading) {
+    if (loadingCounter < 1) {
+      setTimeout(() => {
+        setLoadingCounter(loadingCounter + 0.04)
+      }, 24)
+    } else {
+      setLoadingCounter(0)
+    }
+  }
+
+  useEffect(() => {
+    setNewValue(loadingCounter)
+  }, [loadingCounter])
 
   return (
     <styled.div
@@ -37,6 +58,10 @@ export const ProgressCircle: FC<ProgressCircleProps> = ({
           margin: '0 auto',
           width: '100%',
           display: 'flex',
+          '& svg': {
+            width: '16px',
+            height: '16px',
+          },
         }}
       >
         <svg
