@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { useRoute } from 'kabouter'
 import { FC } from 'react'
 import { styled } from 'inlines'
-import { ComponentDef } from './types'
+import { ComponentDef, PropType } from './types'
 import {
   Text,
   border,
@@ -15,7 +15,30 @@ import {
 } from '../src'
 import { parseProps } from './parseProps'
 
-const displayProps = () => {}
+const displayType = (propType: PropType): string | number | ReactNode => {
+  if (typeof propType.type === 'object') {
+    if (Array.isArray(propType.type)) {
+      return propType.type.map((type, i) => (
+        <>
+          {displayType({ type })}
+          {/* @ts-ignore too stupid... */}
+          {i !== propType.type.length - 1 ? (
+            <Text
+              light
+              color="default"
+              style={{ marginLeft: 4, marginRight: 4 }}
+            >
+              |
+            </Text>
+          ) : null}
+        </>
+      ))
+    }
+    return <Text color="brand">{propType.type.value}</Text>
+  }
+
+  return propType.type
+}
 
 export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
   const p: ReactNode[] = []
@@ -31,7 +54,15 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
         <Text style={{ minWidth: 200 }} weight="strong">
           {key}
         </Text>
-        <Text style={{ flexGrow: 1 }}>{JSON.stringify(prop.type).trim()}</Text>
+        <Text style={{ flexGrow: 1 }}>{displayType(prop)}</Text>
+        <Text
+          color="default"
+          light
+          style={{ minWidth: 150, justifyContent: 'flex-end' }}
+          weight="strong"
+        >
+          {!prop.optional ? 'required' : '-'}
+        </Text>
       </styled.div>
     )
   }
