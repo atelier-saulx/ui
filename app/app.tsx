@@ -13,7 +13,6 @@ import {
   Menu,
   Text,
   Input,
-  border,
   IconBolt,
 } from '../src'
 import { useRoute } from 'kabouter'
@@ -98,12 +97,10 @@ const components: ComponentDef[] = [
 
 const App = () => {
   const route = useRoute('[component]')
-  const component = route.path.component
-  // const filtered = components.filter((c) => {
-  //   return c.name === component
-  // })
-
-  console.info(component)
+  const component = route.query.component
+  const filtered = components.filter((c) => {
+    return c.name === component
+  })
 
   return (
     <styled.div
@@ -123,7 +120,7 @@ const App = () => {
         })}
         active={component}
         onChange={(v) => {
-          route.setPath({ component: v })
+          route.setQuery({ component: v })
         }}
       />
 
@@ -140,9 +137,9 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        {/* {filtered.map((c) => {
+        {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
-        })} */}
+        })}
       </ScrollArea>
     </styled.div>
   )
