@@ -11,16 +11,20 @@ import React, {
   MouseEvent,
 } from 'react'
 
-import { styled, Style } from 'inlines'
-import { renderOrCreateElement } from '../../utils/renderOrCreateElement'
-import { color as genColor } from '../../varsUtilities'
-import { Text } from '../Text'
-import { useKeyboardShortcut } from '../../hooks/useKeyboard'
-import { KeyBoardshortcut } from '../KeyboardShortcut'
-import { ProgressCircle } from '../..'
-import { ColorActionColors, ColorContentColors } from '../../varsTypes'
-import { Key } from '../KeyboardShortcut'
-import { IconChevronDownSmall } from '../../icons'
+import {
+  color as genColor,
+  ColorActionColors,
+  ColorContentColors,
+  IconChevronDownSmall,
+  KeyBoardshortcut,
+  Key,
+  ProgressCircle,
+  renderOrCreateElement,
+  Style,
+  styled,
+  Text,
+  useKeyboardShortcut,
+} from '../..'
 
 const stopPropagation = (e) => e.stopPropagation()
 

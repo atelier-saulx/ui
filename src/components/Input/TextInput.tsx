@@ -33,6 +33,7 @@ export function TextInput({
         backgroundColor: color('background', 'default', 'surface'),
         fontSize: '14px',
         lineHeight: '24px',
+        boxSizing: 'border-box',
         border: `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`,
         '&:hover': {
           border: `1px solid ${color(

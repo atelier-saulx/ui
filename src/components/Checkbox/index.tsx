@@ -1,8 +1,22 @@
 import React, { FC } from 'react'
-import { CheckboxProps, ToggleProps } from '../../types'
-import { styled } from 'inlines'
-import { IconCheckSmall, IconMinus, color as genColor } from '../../../src'
-import { usePropState } from '../../hooks/usePropState'
+
+import {
+  styled,
+  IconCheckSmall,
+  IconMinus,
+  color as genColor,
+  usePropState,
+  Style,
+} from '../..'
+
+export type CheckboxProps = {
+  active?: boolean
+  indeterminate?: boolean
+  onClick?: (e) => void | (() => void)
+  style?: Style
+  warning?: boolean
+  disabled?: boolean
+}
 
 export const Checkbox: FC<CheckboxProps> = ({
   active,
