@@ -236,7 +236,7 @@ export const Button: FC<ButtonProps> = (props) => {
       >
         {isLoading && (
           <styled.div style={{ marginRight: 8, marginLeft: '-4px' }}>
-            <ProgressCircle />
+            <ProgressCircle loading color={props.color} />
           </styled.div>
         )}
         {icon &&

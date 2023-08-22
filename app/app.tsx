@@ -100,6 +100,7 @@ const components: ComponentDef[] = [
         onClick: async () => {
           await wait(1000)
         },
+        color: 'primary',
         children: 'Do something async',
         name: 'Async action indicators',
         description: 'Visual indication of errors and loading state',
@@ -127,6 +128,9 @@ const components: ComponentDef[] = [
         color: 'alert',
         size: 'xsmall',
         underline: true,
+        onClick: async () => {
+          await wait(1000)
+        },
       },
     ],
   },
