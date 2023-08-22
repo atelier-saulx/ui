@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import { useRoute } from 'kabouter'
 import { FC } from 'react'
 import { styled } from 'inlines'
 import { ComponentDef, PropType } from './types'
@@ -34,7 +33,12 @@ const displayType = (propType: PropType): string | number | ReactNode => {
         </>
       ))
     }
+
     return <Text color="brand">{propType.type.value}</Text>
+  }
+
+  if (propType.type === 'TSAnyKeyword') {
+    propType.type = '*'
   }
 
   return propType.type
@@ -70,7 +74,8 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
   return (
     <styled.div
       style={{
-        marginTop: 32,
+        marginTop: 48,
+        marginBottom: 32,
         width: '100%',
       }}
     >
@@ -97,12 +102,46 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
   )
 }
 
+const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
+  component,
+  index,
+}) => {
+  const example = component.examples[index]
+  console.info(index, example)
+  return (
+    <>
+      {example.name ? (
+        <Text
+          style={{ marginTop: 24, marginBottom: -4 }}
+          size={18}
+          weight="strong"
+        >
+          {example.name}
+        </Text>
+      ) : null}
+      <styled.div
+        style={{
+          padding: 32,
+          marginTop: 24,
+          flexGrow: 1,
+          borderRadius: 8,
+          display: 'flex',
+          backgroundColor: color('background', 'neutral', 'surface'), // add extra bg color...
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <styled.div>
+          {React.createElement(component.component, parseProps(example))}
+        </styled.div>
+      </styled.div>
+    </>
+  )
+}
+
 export const OverviewComponent: FC<{
   component: ComponentDef
 }> = ({ component }) => {
-  const route = useRoute()
-  const isExpanded = route.query.expand === component.name
-
   return (
     <styled.div
       style={{
@@ -127,27 +166,11 @@ export const OverviewComponent: FC<{
       <styled.div>
         <Text>{component.description}</Text>
       </styled.div>
-      <styled.div
-        style={{
-          padding: 32,
-          marginTop: 24,
-          flexGrow: 1,
-          borderRadius: 8,
-          display: 'flex',
-          backgroundColor: color('background', 'neutral', 'surface'), // add extra bg color...
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <styled.div>
-          {React.createElement(
-            component.component,
-            parseProps(component.examples[0])
-          )}
-        </styled.div>
-      </styled.div>
-
+      <ComponentViewer index={0} component={component} />
       <Props component={component} />
+      {component.examples.slice(1).map((_, index) => {
+        return <ComponentViewer index={index + 1} component={component} />
+      })}
     </styled.div>
   )
 }

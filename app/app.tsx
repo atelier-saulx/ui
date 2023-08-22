@@ -60,9 +60,10 @@ const components: ComponentDef[] = [
         children: 'Click me',
       },
       {
-        children: 'Click me',
+        children: 'Ghost',
         icon: () => <IconClipboard />,
         color: 'system',
+        name: 'Ghost',
       },
     ],
   },
