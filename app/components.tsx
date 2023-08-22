@@ -12,6 +12,7 @@ import {
   Avatar,
   Checkbox,
   AlertBanner,
+  Slider,
 } from '../src'
 import * as ui from '../src'
 import props from './props.json'
@@ -290,31 +291,31 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'Text',
-    component: Text,
-    description: 'Text including typeography',
-    properties: props.props.TextProps.props,
+    name: 'FileInput',
+    component: Input,
+    description: 'Single file input',
+    properties: props.props.InputProps.props,
     examples: [
       {
         props: {
-          children: 'Some Text',
-          weight: 300,
+          type: 'file',
         },
       },
     ],
   },
   {
-    name: 'TextInput',
-    component: Input,
-    description: 'Text Input',
-    properties: props.props.InputProps.props,
+    name: 'Slider',
+    component: Slider,
+    description: 'Range Slider',
+    properties: props.props.SliderProps.props,
     examples: [
       {
         props: {
-          defaultValue: 'hello world',
-          placeholder: 'placeholder',
-          beforeIcon: () => <IconBolt />,
-          type: 'text',
+          items: [
+            { id: 'flip', title: '1', index: 0 },
+            { id: 'flap', title: 'Flap', index: 1 },
+            { id: 'Flurp', title: 'Flupr', index: 2 },
+          ],
         },
       },
     ],
@@ -353,14 +354,31 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'FileInput',
+    name: 'Text',
+    component: Text,
+    description: 'Text including typeography',
+    properties: props.props.TextProps.props,
+    examples: [
+      {
+        props: {
+          children: 'Some Text',
+          weight: 'medium',
+        },
+      },
+    ],
+  },
+  {
+    name: 'TextInput',
     component: Input,
-    description: 'Single file input',
+    description: 'Text Input',
     properties: props.props.InputProps.props,
     examples: [
       {
         props: {
-          type: 'file',
+          defaultValue: 'hello world',
+          placeholder: 'placeholder',
+          beforeIcon: () => <IconBolt />,
+          type: 'text',
         },
       },
     ],

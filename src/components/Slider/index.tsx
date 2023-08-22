@@ -72,7 +72,7 @@ type SliderProps = {
   value?: number | { id: string; title: string; index: number }
   steps?: number
   style?: Style
-  onChange: (value: number) => void
+  onChange?: (value: number) => void
 }
 
 const preventBehavior = (e: Event) => {
@@ -280,7 +280,9 @@ export const Slider: FC<SliderProps> = ({
         onTouchEnd={onTouchEnd}
       >
         <StyledLabel style={{ left: `${percentageX}%` }}>
-          <Text color="inverted">{items[index]?.title}</Text>
+          <Text color="inverted" weight="strong">
+            {items[index]?.title}
+          </Text>
         </StyledLabel>
 
         <StyledBgSlider />
