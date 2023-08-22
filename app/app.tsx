@@ -138,10 +138,6 @@ const App = () => {
       }}
     >
       <Menu
-        onChange={(value) => {
-          route.setLocation(`/${value}`)
-          console.log('new')
-        }}
         data={components.map((c) => {
           return {
             label: c.name,
