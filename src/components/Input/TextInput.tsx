@@ -30,7 +30,7 @@ export function TextInput({
         borderRadius: 8,
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: color('background', 'default', 'surface'),
         fontSize: '14px',
         lineHeight: '24px',
         border: `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`,
