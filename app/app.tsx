@@ -20,6 +20,7 @@ import {
   DateRange,
   Avatar,
   Checkbox,
+  AlertBanner,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -30,8 +31,38 @@ import { wait } from '@saulx/utils'
 import { CheckboxItem } from '../src/components/Checkbox/CheckboxItem'
 
 export const client = based(basedConfig)
-
+{
+  /* <AlertBanner
+color="warning"
+label="Alert"
+style={{ marginBottom: '12px' }}
+/>
+<AlertBanner
+color="warning"
+label="Alert"
+action={{ label: 'ACTION', onClick: () => console.log('oppa') }}
+/> */
+}
 const components: ComponentDef[] = [
+  {
+    name: 'Alert Banner',
+    properties: props.props.AlertBannerProps.props,
+    component: AlertBanner,
+    description: 'Banners to alert',
+    examples: [
+      {
+        color: 'negative',
+        label: 'WARNING BREAKING',
+      },
+      {
+        color: 'warning',
+        label: 'Warning Resolve',
+        action: { label: 'RESOLVE', onClick: () => console.log('oppa ') },
+        name: 'Warning with button',
+        description: 'Click to resolve',
+      },
+    ],
+  },
   {
     name: 'Avatar',
     properties: props.props.AvatarProps.props,
