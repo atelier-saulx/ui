@@ -13,7 +13,6 @@ import {
   color as genColor,
   ColorActionColors,
   ColorContentColors,
-  IconChevronDownSmall,
   KeyBoardshortcut,
   Key,
   ProgressCircle,
@@ -34,14 +33,16 @@ export type ButtonProps = {
   disabled?: boolean
   color?: ColorActionColors
   fill?: boolean // TODO: add this on inputs etc as well
+  ghost?: boolean
   icon?: ReactNode
   afterIcon?: ReactNode
   loading?: boolean
   onClick?: ClickHandler
   onPointerDown?: MouseEventHandler
   light?: boolean
-
+  size: 'large' | 'medium' | 'small' | 'xsmall'
   style?: Style
+  underline?: boolean
   /** 
      Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.
     
@@ -64,7 +65,7 @@ export const getButtonStyle = (
   const { disabled, color: colorProp = 'primary', clickAnimation } = props
 
   const isLight = props.light
-  const isGhost = props.color === 'system'
+  const isGhost = props.ghost || props.size === 'xsmall'
 
   const style: Style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
@@ -87,8 +88,14 @@ export const getButtonStyle = (
             colorProp,
             isLight ? 'subtleSelected' : 'selected'
           ),
-      border: `1px solid ${genColor('content', 'inverted', 'primary')}`,
-      boxShadow: `0px 0px 0px 2px ${genColor('action', 'primary', 'normal')}`,
+      border:
+        props.size !== 'xsmall'
+          ? `1px solid ${genColor('content', 'inverted', 'primary')}`
+          : '1px solid transparent',
+      boxShadow:
+        props.size !== 'xsmall'
+          ? `0px 0px 0px 2px ${genColor('action', 'primary', 'normal')}`
+          : 'none',
     },
     '&:hover': {
       backgroundColor: isGhost
@@ -119,11 +126,13 @@ export const Button: FC<ButtonProps> = (props) => {
     onMouseLeave,
     keyboardShortcut,
     displayShortcut,
+    size = 'medium',
     style,
+    underline,
   } = props
 
   const isLight = props.light
-  const isGhost = props.color === 'system'
+  const isGhost = props.ghost || props.size === 'xsmall'
   const [isLoading, setIsLoading] = useState(false)
   const buttonElem = useRef<HTMLElement>(null)
   const extendedOnClick = useCallback(
@@ -199,8 +208,15 @@ export const Button: FC<ButtonProps> = (props) => {
       onClick={onClick && extendedOnClick}
       onPointerDown={onPointerDown || stopPropagation}
       style={{
-        padding: '10px 16px',
-        borderRadius: 8,
+        padding:
+          size === 'large'
+            ? '10px 16px'
+            : size === 'medium'
+            ? '6px 16px'
+            : size === 'small'
+            ? '4px 12px'
+            : '0px',
+        borderRadius: size === 'large' || size === 'medium' ? 8 : 4,
         width: fill ? '100%' : null,
         position: 'relative',
         ...getButtonStyle(props, true),
@@ -217,15 +233,8 @@ export const Button: FC<ButtonProps> = (props) => {
           justifyContent: 'center',
         }}
       >
-        {loading && (
-          <styled.div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate3d(-50%,-50%,0)',
-            }}
-          >
+        {isLoading && (
+          <styled.div style={{ marginRight: 8, marginLeft: '-4px' }}>
             <ProgressCircle />
           </styled.div>
         )}
@@ -235,10 +244,16 @@ export const Button: FC<ButtonProps> = (props) => {
             style: { marginRight: 8 },
           })}
         <Text
-          style={{ display: 'flex', alignItems: 'center' }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            textDecoration:
+              size === 'xsmall' && underline ? 'underline' : 'inherit',
+            textUnderlineOffset: size === 'xsmall' && underline ? '2px' : '0px',
+          }}
           color={contentColor}
-          size={16}
-          weight="strong"
+          size={size === 'large' || size === 'medium' ? 16 : 14}
+          weight={size === 'xsmall' ? 'medium' : 'strong'}
         >
           {children}
           {displayShortcut && keyboardShortcut ? (

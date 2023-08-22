@@ -76,13 +76,22 @@ const components: ComponentDef[] = [
           throw new Error('Flap!')
         },
         children: 'Throw an error!',
+        size: 'small',
         light: true,
       },
       {
         children: 'System color',
         icon: () => <IconClipboard />,
-        color: 'system',
+        color: 'neutral',
+        size: 'small',
         name: 'Colors',
+        ghost: true,
+      },
+      {
+        children: 'Bare Button',
+        color: 'alert',
+        size: 'xsmall',
+        underline: true,
       },
     ],
   },
@@ -185,10 +194,6 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        <styled.div style={{ border: '1px solid red', padding: 64 }}>
-          <Slider />
-        </styled.div>
-
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}

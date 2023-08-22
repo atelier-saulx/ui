@@ -34,6 +34,6 @@ export const useTooltip = (
 
   return {
     onMouseEnter,
-    //   onMouseLeave: () => removeOverlay(),
+    onMouseLeave: () => removeOverlay(),
   }
 }
