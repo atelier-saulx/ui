@@ -4,15 +4,18 @@ import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
 import {
-  color,
-  Button,
   Badge,
-  IconClipboard,
-  ScrollArea,
-  Menu,
-  Text,
-  Input,
+  border,
+  Button,
+  color,
   IconBolt,
+  IconClipboard,
+  Input,
+  Menu,
+  Provider,
+  ScrollArea,
+  Slider,
+  Text,
   DatePicker,
   DateRange,
 } from '../src'
@@ -21,9 +24,6 @@ import basedConfig from '../based.json'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
-import { Slider } from '../src/components/Slider'
-import { Tooltip } from '../src/components/Tooltip'
-import { Provider } from '../src/components/Provider'
 
 export const client = based(basedConfig)
 
@@ -39,17 +39,17 @@ const components: ComponentDef[] = [
       },
     ],
   },
-  // {
-  //   name: 'Date Range',
-  //   properties: props.props.DateRangeProps.props,
-  //   description: 'Range of date picker',
-  //   component: DateRange,
-  //   examples: [
-  //     {
-  //       onChange: (e) => console.log(e),
-  //     },
-  //   ],
-  // },
+  {
+    name: 'Date Range',
+    properties: props.props.DateRangeProps.props,
+    description: 'Range of date picker',
+    component: DateRange,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
   {
     name: 'Button',
     properties: props.props.ButtonProps.props,
@@ -111,10 +111,11 @@ const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
+        placeholder: 'Select something',
         options: [
-          { label: 'label 1', value: 'value1' },
-          { label: 'label 2', value: 'value2' },
-          { label: 'label 3', value: 'value3' },
+          { label: 'Item one', value: 'value1' },
+          { label: 'Item two', value: 'value2' },
+          { label: 'Item three', value: 'value3' },
         ],
         type: 'select',
       },
@@ -139,6 +140,7 @@ const App = () => {
       }}
     >
       <Menu
+        header={'Components'}
         data={components.map((c) => {
           return {
             label: c.name,
