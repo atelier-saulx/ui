@@ -49,7 +49,11 @@ const displayType = (propType: PropType): string | number | ReactNode => {
     propType.type = '*'
   }
 
-  return propType.type
+  return (
+    <Text light color="default" style={{ marginLeft: 4, marginRight: 4 }}>
+      {propType.type}
+    </Text>
+  )
 }
 
 export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
@@ -160,7 +164,10 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
             padding: 32,
           }}
         >
-          {React.createElement(component.component, parsedProps)}
+          {React.createElement(
+            example.customRenderer ?? component.component,
+            parsedProps
+          )}
         </styled.div>
         <styled.div
           style={{

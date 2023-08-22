@@ -1257,6 +1257,34 @@
       "code": "type ToggleProps = {\n  active?: boolean\n  disabled?: boolean\n  onClick?: (e) => void | (() => void)\n  style?: Style\n  size?: 'large' | 'medium'\n}",
       "file": "/types.ts"
     },
+    "IconProps": {
+      "name": "IconProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": [
+            "ColorContentColors",
+            {
+              "value": "inherit"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "ClickHandler"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type IconProps = {\n  color?: ColorContentColors | 'inherit'\n  style?: Style\n  onClick?: ClickHandler\n  children?: ReactNode\n}",
+      "file": "/icons/Icon.tsx"
+    },
     "ActionItemProps": {
       "name": "ActionItemProps",
       "props": {},

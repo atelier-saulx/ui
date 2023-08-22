@@ -138,7 +138,7 @@ const walk = async (path) => {
 }
 
 const init = async () => {
-  const components = await walk(join(__dirname, '../src/components'))
+  const components = await walk(join(__dirname, '../src'))
   const propObject = {}
   for (const component of components) {
     if (propObject[component.name]) {
