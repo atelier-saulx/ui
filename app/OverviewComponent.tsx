@@ -15,6 +15,8 @@ import {
 } from '../src'
 import { parseProps } from './parseProps'
 
+const displayProps = () => {}
+
 export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
   const p: ReactNode[] = []
   for (const key in component.properties) {
@@ -29,11 +31,7 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
         <Text style={{ minWidth: 200 }} weight="strong">
           {key}
         </Text>
-        <Text style={{ minWidth: 150 }}>
-          {JSON.stringify(prop.type).trim()}
-        </Text>
-        <Text style={{ flexGrow: 1 }}>Description</Text>
-        <Text style={{ minWidth: 150 }}>Default</Text>
+        <Text style={{ flexGrow: 1 }}>{JSON.stringify(prop.type).trim()}</Text>
       </styled.div>
     )
   }
@@ -61,9 +59,7 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
         <Text style={{ minWidth: 200 }} weight="strong">
           Name
         </Text>
-        <Text style={{ minWidth: 150 }}>Type</Text>
-        <Text style={{ flexGrow: 1 }}>Description</Text>
-        <Text style={{ minWidth: 150 }}>Default</Text>
+        <Text style={{ flexGrow: 1 }}>Type</Text>
       </styled.div>
       {p}
     </styled.div>
