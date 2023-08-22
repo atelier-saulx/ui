@@ -40,18 +40,18 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
   )
 }
 
-export const MenuButton: FC<ButtonProps> = ({ style, ...props }) => {
-  return (
-    <Button
-      {...props}
-      style={{
-        padding: '4px 12px',
-        margin: '-4px -12px',
-        ...style,
-      }}
-    />
-  )
-}
+// export const MenuButton: FC<ButtonProps> = ({ style, ...props }) => {
+//   return (
+//     <Button
+//       {...props}
+//       style={{
+//         padding: '4px 12px',
+//         margin: '-4px -12px',
+//         ...style,
+//       }}
+//     />
+//   )
+// }
 
 const HideableStyledDiv = styled('div', {
   display: 'block',

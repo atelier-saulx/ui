@@ -1,4 +1,3 @@
-import {} from '@based/ui'
 import { render } from 'react-dom'
 import React from 'react'
 import { styled } from 'inlines'
@@ -15,14 +14,14 @@ import {
   Input,
   border,
   IconBolt,
+  DatePicker,
+  DateRange,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
-import { DatePicker } from '../src/components/DatePicker'
-import { DateRange } from '../src/components/DateRange'
 
 export const client = based(basedConfig)
 
@@ -38,17 +37,17 @@ const components: ComponentDef[] = [
       },
     ],
   },
-  {
-    name: 'Date Range',
-    properties: props.props.DateRangeProps.props,
-    description: 'Range of date picker',
-    component: DateRange,
-    examples: [
-      {
-        onChange: (e) => console.log(e),
-      },
-    ],
-  },
+  // {
+  //   name: 'Date Range',
+  //   properties: props.props.DateRangeProps.props,
+  //   description: 'Range of date picker',
+  //   component: DateRange,
+  //   examples: [
+  //     {
+  //       onChange: (e) => console.log(e),
+  //     },
+  //   ],
+  // },
   {
     name: 'Button',
     properties: props.props.ButtonProps.props,
@@ -133,6 +132,10 @@ const App = () => {
       }}
     >
       <Menu
+        onChange={(value) => {
+          route.setLocation(`/${value}`)
+          console.log('new')
+        }}
         data={components.map((c) => {
           return {
             label: c.name,
