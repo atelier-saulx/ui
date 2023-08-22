@@ -1,11 +1,6 @@
 import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
-
-import { color } from '@based/ui'
-import { Button } from '../Button/_snurp'
-import { ButtonProps } from '../types'
-import { ScrollArea } from './scrollAreaTest'
-import { Text } from '../Text'
-import { IconChevronDown } from '../..'
+import { ButtonProps } from '../../types'
+import { IconChevronDown, color, Button, ScrollArea, Text, border } from '../..'
 import { Style, styled } from 'inlines'
 import { MenuItem } from './MenuItem'
 
@@ -29,13 +24,12 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
       <styled.span onClick={onClick}>
         <Text
           weight="strong"
-          //   color={color('text2')}
           color="default"
           size={12}
           style={{
             marginBottom: 16,
             textTransform: 'uppercase',
-            color: color('text2'),
+            color: color('content', 'default', 'primary'),
             ...style,
           }}
         >
@@ -273,8 +267,8 @@ export const Menu: FC<MenuProps> = ({
     <ScrollArea
       style={{
         flexShrink: 0,
-        backgroundColor: color('background'),
-        borderRight: `1px solid ${color('border')}`,
+        backgroundColor: color('background', 'default', 'muted'),
+        borderRight: border(1),
         padding: '24px 20px 20px 20px',
         height: '100%',
         width: 224,

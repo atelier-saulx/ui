@@ -10,8 +10,10 @@ import {
   Badge,
   IconClipboard,
   ScrollArea,
+  Menu,
   Text,
   Input,
+  border,
   IconBolt,
 } from '../src'
 import { useRoute } from 'kabouter'
@@ -27,6 +29,7 @@ const components: ComponentDef[] = [
     name: 'Button',
     properties: props.props.ButtonProps.props,
     component: Button,
+    description: 'Simple button component',
     examples: [
       {
         children: 'Click me',
@@ -42,6 +45,7 @@ const components: ComponentDef[] = [
     name: 'Badge',
     properties: props.props.BadgeProps.props,
     component: Badge,
+    description: 'Badge component',
     examples: [
       {
         children: 'Hello badge',
@@ -51,6 +55,7 @@ const components: ComponentDef[] = [
   {
     name: 'Text',
     component: Text,
+    description: 'Text including typeography',
     properties: props.props.TextProps.props,
     examples: [
       {
@@ -62,6 +67,7 @@ const components: ComponentDef[] = [
   {
     name: 'TextInput',
     component: Input,
+    description: 'Text Input',
     properties: props.props.InputProps.props,
     examples: [
       {
@@ -75,6 +81,7 @@ const components: ComponentDef[] = [
   {
     name: 'SelectInput',
     component: Input,
+    description: 'Select input',
     properties: props.props.InputProps.props,
     examples: [
       {
@@ -101,14 +108,14 @@ const App = () => {
         overflow: 'hidden',
       }}
     >
-      <styled.div
-        style={{
-          minWidth: 300,
-          borderRight: border(1),
-        }}
-      >
-        MENU
-      </styled.div>
+      <Menu
+        data={components.map((c) => {
+          return {
+            label: c.name,
+            value: c.name,
+          }
+        })}
+      />
 
       <ScrollArea
         style={{

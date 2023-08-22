@@ -9,6 +9,9 @@ import {
   color,
   IconArrowUpRight,
   IconArrowDownLeft,
+  Menu,
+  IconArrowDown,
+  IconChevronDown,
 } from '../src'
 import { parseProps } from './parseProps'
 
@@ -38,30 +41,18 @@ export const OverviewComponent: FC<{
         <Text size={18} weight="strong">
           {component.name}
         </Text>
-        {isExpanded ? (
-          <IconArrowDownLeft
-            onClick={() => {
-              // @ts-ignore
-              route.setQuery({ expand: null })
-            }}
-          />
-        ) : (
-          <IconArrowUpRight
-            onClick={() => {
-              route.setQuery({ expand: component.name })
-            }}
-          />
-        )}
+      </styled.div>
+      <styled.div>
+        <Text>{component.description}</Text>
       </styled.div>
       <styled.div
         style={{
           padding: 32,
           marginTop: 12,
           flexGrow: 1,
-          borderTop: border(1),
           borderRadius: 8,
           display: 'flex',
-          backgroundColor: color('background', 'neutral', 'muted'), // add extra bg color...
+          backgroundColor: color('background', 'neutral', 'surface'), // add extra bg color...
           alignItems: 'center',
           justifyContent: 'center',
         }}
