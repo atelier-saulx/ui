@@ -15,6 +15,8 @@ import {
 } from '../src'
 import { parseProps } from './parseProps'
 
+const displayProps = () => {}
+
 export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
   const p: ReactNode[] = []
   for (const key in component.properties) {
