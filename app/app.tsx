@@ -10,10 +10,32 @@ import basedConfig from '../based.json'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { OverviewComponent } from './OverviewComponent'
+import { DatePicker } from '../src/components/DatePicker'
+import { DateRange } from '../src/components/DateRange'
 
 export const client = based(basedConfig)
 
 const components: ComponentDef[] = [
+  {
+    name: 'Date Picker',
+    properties: props.props.DatePickerProps.props,
+    component: DatePicker,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
+  {
+    name: 'Date Range',
+    properties: props.props.DateRangeProps.props,
+    component: DateRange,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
   {
     name: 'Button',
     properties: props.props.ButtonProps.props,
