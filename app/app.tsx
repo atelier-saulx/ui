@@ -34,24 +34,25 @@ export const client = based(basedConfig)
 const components: ComponentDef[] = [
   {
     name: 'Avatar',
-    properties: props.props.ButtonProps.props,
+    properties: props.props.AvatarProps.props,
     component: Avatar,
     description: 'Simple Avatar component',
     examples: [
       {
         color: 'raspberry',
-        label: 's',
+        children: 'sd',
         size: 'large',
-        subtle: true,
+        light: true,
         squared: true,
       },
       {
         color: 'aquamarine',
-        label: 's',
+        children: 'F1',
         size: 'large',
-        subtle: false,
+        light: true,
         name: 'Solid Color Avatar',
         description: 'Rock solid',
+        imgsrc: 'https://robohash.org/G2J.png?set=set1',
       },
     ],
   },
