@@ -278,9 +278,13 @@
         "header": {
           "optional": true,
           "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorBackgroundColors"
         }
       },
-      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n}",
+      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n  color?: ColorBackgroundColors\n}",
       "file": "/components/Code/index.tsx"
     },
     "ContextItemProps": {
@@ -611,6 +615,17 @@
       "code": "type DropDownProps = {\n  style?: Style\n  children?: ReactNode\n}",
       "file": "/components/Dropdown/index.tsx"
     },
+    "FileInputProps": {
+      "name": "FileInputProps",
+      "props": {
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type FileInputProps = {\n  disabled?: boolean\n}",
+      "file": "/components/Input/FileInput.tsx"
+    },
     "SelectInputProps": {
       "name": "SelectInputProps",
       "props": {
@@ -672,7 +687,7 @@
     "InputProps": {
       "name": "InputProps",
       "props": {},
-      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'search' } & SearchInputProps)\n  | ({ type: 'select' } & SelectInputProps)",
+      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'search' } & SearchInputProps)\n  | ({ type: 'select' } & SelectInputProps)\n  | ({ type: 'file' } & FileInputProps)",
       "file": "/components/Input/index.tsx"
     },
     "MenuHeaderProps": {
@@ -1229,6 +1244,34 @@
       },
       "code": "type ToggleProps = {\n  active?: boolean\n  disabled?: boolean\n  onClick?: (e) => void | (() => void)\n  style?: Style\n  size?: 'large' | 'medium'\n}",
       "file": "/types.ts"
+    },
+    "IconProps": {
+      "name": "IconProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": [
+            "ColorContentColors",
+            {
+              "value": "inherit"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "ClickHandler"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type IconProps = {\n  color?: ColorContentColors | 'inherit'\n  style?: Style\n  onClick?: ClickHandler\n  children?: ReactNode\n}",
+      "file": "/icons/Icon.tsx"
     },
     "ActionItemProps": {
       "name": "ActionItemProps",
