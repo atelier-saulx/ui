@@ -97,7 +97,13 @@ const components: ComponentDef[] = [
 ]
 
 const App = () => {
-  const route = useRoute()
+  const route = useRoute('[component]')
+  const component = route.path.component
+  // const filtered = components.filter((c) => {
+  //   return c.name === component
+  // })
+
+  console.info(component)
 
   return (
     <styled.div
@@ -115,6 +121,10 @@ const App = () => {
             value: c.name,
           }
         })}
+        active={component}
+        onChange={(v) => {
+          route.setPath({ component: v })
+        }}
       />
 
       <ScrollArea
@@ -130,9 +140,9 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        {components.map((c) => {
+        {/* {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
-        })}
+        })} */}
       </ScrollArea>
     </styled.div>
   )
