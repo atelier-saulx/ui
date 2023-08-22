@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { color as genColor } from '../../varsUtilities'
+import { useTooltip } from '../../hooks/useTooltip'
 import { useWindowResize } from '../../hooks/useWindowResize'
 
 const StyledBgSlider = styled('div', {
@@ -22,15 +23,15 @@ const StyledStepProgress = styled('div', {
 })
 
 const StyledThumb = styled('div', {
-  width: 16,
-  height: 16,
+  width: 8,
+  height: 8,
   borderRadius: '50%',
   backgroundColor: genColor('content', 'inverted', 'primary'),
   border: `5px solid ${genColor('action', 'primary', 'normal')} `,
   cursor: 'pointer',
   position: 'absolute',
   right: '-4px',
-  bottom: '-5px',
+  bottom: '-6px',
 })
 
 type SliderProps = {
@@ -52,11 +53,15 @@ export const Slider: FC<SliderProps> = ({
   steps,
   style,
 }) => {
+  const [sliderLabel, setSliderLabel] = useState('Hallow')
+
+  const sliderTooltipLabel = useTooltip(sliderLabel, 'top')
+
   return (
     <styled.div style={{ width: '100%', position: 'relative' }}>
       <StyledBgSlider />
       <StyledStepProgress>
-        <StyledThumb />
+        <StyledThumb {...sliderTooltipLabel} />
       </StyledStepProgress>
     </styled.div>
   )
