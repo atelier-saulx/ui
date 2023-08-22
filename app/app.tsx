@@ -4,7 +4,15 @@ import React from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { color, Button, Badge, IconClipboard, Text, Input } from '../src'
+import {
+  color,
+  Button,
+  Badge,
+  IconClipboard,
+  Text,
+  Input,
+  IconBolt,
+} from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import props from './props.json'
@@ -51,13 +59,30 @@ const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'Input',
+    name: 'TextInput',
     component: Input,
     properties: props.props.InputProps.props,
     examples: [
       {
-        defaultValue: 'Some Text',
+        defaultValue: 'hello world',
+        placeholder: 'placeholder',
+        beforeIcon: () => <IconBolt />,
         type: 'text',
+      },
+    ],
+  },
+  {
+    name: 'SelectInput',
+    component: Input,
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        options: [
+          { label: 'label 1', value: 'value1' },
+          { label: 'label 2', value: 'value2' },
+          { label: 'label 3', value: 'value3' },
+        ],
+        type: 'select',
       },
     ],
   },
