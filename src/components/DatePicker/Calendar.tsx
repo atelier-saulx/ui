@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { styled } from 'inlines'
-import { color as genColor } from '../../../src'
+import { color as genColor, styled } from '../../'
 
 type CalendarProps = {
   days: string[]
