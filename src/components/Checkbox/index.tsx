@@ -50,7 +50,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         ),
         backgroundColor: checked
           ? genColor('action', 'primary', 'normal')
-          : null,
+          : 'transparent',
         cursor: disabled ? 'not-allowed' : 'pointer',
         position: 'relative',
         display: 'flex',
