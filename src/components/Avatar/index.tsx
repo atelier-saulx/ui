@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import {
   color as genColor,
   Text,
@@ -6,16 +6,17 @@ import {
   Style,
   ColorNonSemanticBackgroundColors,
 } from '../..'
+import { ClickHandler } from '../../types'
 
 export type AvatarProps = {
+  children?: ReactNode
   color?: ColorNonSemanticBackgroundColors
   imgsrc?: string
-  onClick?: () => void
-  label?: string
+  onClick?: ClickHandler
   size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'
-  style?: Style
-  subtle?: boolean
   squared?: boolean
+  style?: Style
+  light?: boolean
 }
 
 export const Avatar: FC<AvatarProps> = ({
@@ -23,10 +24,10 @@ export const Avatar: FC<AvatarProps> = ({
   squared = false,
   imgsrc,
   onClick,
-  label,
+  children,
   size: sizeProp = 'medium',
   style,
-  subtle,
+  light,
   ...rest
 }) => {
   const size =
@@ -57,7 +58,7 @@ export const Avatar: FC<AvatarProps> = ({
         backgroundColor: genColor(
           'nonSemanticBackground',
           color,
-          subtle ? 'muted' : 'strong'
+          light ? 'muted' : 'strong'
         ),
         borderRadius: squared ? '8px' : '50%',
         backgroundImage: imgsrc ? `url(${imgsrc})` : 'none',
@@ -68,7 +69,7 @@ export const Avatar: FC<AvatarProps> = ({
       onClick={onClick}
       {...rest}
     >
-      {label && !imgsrc ? (
+      {children && !imgsrc ? (
         <Text
           color="inverted"
           //@ts-ignoreignore
@@ -77,13 +78,13 @@ export const Avatar: FC<AvatarProps> = ({
             lineHeight: '32px',
             color: genColor(
               'nonSemanticContent',
-              subtle ? color : 'white',
+              light ? color : 'white',
               'primary'
             ),
           }}
         >
-          {label[0]?.toLocaleUpperCase()}
-          {label.length > 1 ? label[1]?.toLocaleUpperCase() : ''}
+          {children[0]?.toLocaleUpperCase()}
+          {children[1]?.toLocaleUpperCase()}
         </Text>
       ) : null}
     </Center>

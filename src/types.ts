@@ -21,16 +21,6 @@ export type AlertBannerProps = {
   style?: Style
 }
 
-export type AvatarProps = {
-  color?: ColorNonSemanticBackgroundColors
-  imgsrc?: string
-  onClick?: () => void
-  label?: string
-  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'
-  style?: Style
-  subtle?: boolean
-}
-
 export type BreadcrumbsProps = {}
 
 export type CheckboxProps = {
