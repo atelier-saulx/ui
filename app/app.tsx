@@ -262,13 +262,19 @@ const App = () => {
       }}
     >
       <Menu
-        header={'Components'}
-        data={components.map((c) => {
-          return {
-            label: c.name,
-            value: c.name,
-          }
-        })}
+        // header={'HEADER'}
+        data={{
+          Dashboard: {
+            Content: 'Content',
+            Morestuff: 'morestuff',
+          },
+          components: components.map((c) => {
+            return {
+              label: c.name,
+              value: c.name,
+            }
+          }),
+        }}
         active={component}
         onChange={(v) => {
           route.setQuery({ component: v })
