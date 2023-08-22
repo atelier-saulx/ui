@@ -45,6 +45,7 @@ export type CheckboxProps = {
 // this is combination of text and checkbox
 export type CheckboxItemProps = {
   label?: string
+  description?: string
   style?: Style
 } & CheckboxProps
 
