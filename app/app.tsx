@@ -138,6 +138,7 @@ const App = () => {
       }}
     >
       <Menu
+        header={'Components'}
         data={components.map((c) => {
           return {
             label: c.name,
