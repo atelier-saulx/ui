@@ -39,17 +39,17 @@ const components: ComponentDef[] = [
       },
     ],
   },
-  // {
-  //   name: 'Date Range',
-  //   properties: props.props.DateRangeProps.props,
-  //   description: 'Range of date picker',
-  //   component: DateRange,
-  //   examples: [
-  //     {
-  //       onChange: (e) => console.log(e),
-  //     },
-  //   ],
-  // },
+  {
+    name: 'Date Range',
+    properties: props.props.DateRangeProps.props,
+    description: 'Range of date picker',
+    component: DateRange,
+    examples: [
+      {
+        onChange: (e) => console.log(e),
+      },
+    ],
+  },
   {
     name: 'Button',
     properties: props.props.ButtonProps.props,
