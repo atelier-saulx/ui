@@ -1,52 +1,128 @@
-import { useContext, useEffect, useRef } from 'react'
-import { ToastContext, ToastContextType } from './ToastContext'
+import React, { useState, createContext, useContext } from 'react'
 
-export const useToast = ({ attached = false } = {}) => {
-  //@ts-expect-error
-  const toast = useContext<ToastContextType>(ToastContext)
-  const attachedIds = useRef<Set<number>>(new Set())
+import { createPortal } from 'react-dom'
+import { Toast } from './Toast'
+import { Style, styled, ColorBackgroundColors, color as genColor } from '../..'
 
-  useEffect(() => {
-    if (attached) {
-      return () => {
-        attachedIds.current.forEach((id) => toast.close(id))
-      }
-    }
-  }, [attached])
+type ToastProps = {
+  label?: string
+  color?: ColorBackgroundColors
+  description?: string
+  style?: Style
+  closeable?: boolean
+  strong?: Boolean
+  action?: { onClick: () => void; label: string }
+  id?: any
+}
 
-  if (toast) {
-    if (attached) {
-      const extendedToast = Object.assign((child) => {
-        const id = toast(child)
-        attachedIds.current.add(id)
+const ToastContainer = ({ toasts }) => {
+  let lastOne = toasts.length - 1
+  return createPortal(
+    <styled.div
+      style={{
+        position: 'fixed',
+        top: lastOne > 4 ? 24 : 'auto',
+        bottom: lastOne > 4 ? null : 24,
+        right: 24,
+        display: 'flex',
+        flexDirection: 'column',
+        border: '1px solid red',
+        gap: 12,
+      }}
+    >
+      {toasts.length < 4 ? (
+        toasts.map(
+          ({
+            label,
+            action,
+            closeable,
+            color,
+            description,
+            style,
+            strong,
+            id,
+          }) => (
+            <Toast
+              key={id}
+              id={id}
+              label={label}
+              action={action}
+              closeable={closeable}
+              color={color}
+              description={description}
+              strong={strong}
+              style={style}
+            />
+          )
+        )
+      ) : (
+        <styled.div style={{}}>
+          <Toast
+            key={toasts[lastOne].id}
+            id={toasts[lastOne].id}
+            label={toasts[lastOne].label}
+            action={toasts[lastOne].action}
+            closeable={toasts[lastOne].closeable}
+            color={toasts[lastOne].color}
+            description={toasts[lastOne].description}
+            strong={toasts[lastOne].strong}
+            style={toasts[lastOne].style}
+          />
+        </styled.div>
+      )}
+    </styled.div>,
+    document.body
+  )
+}
 
-        return id
-      }, toast)
+const ToastContext = createContext<any>(null)
 
-      extendedToast.close = (id) => {
-        if (id) {
-          attachedIds.current.delete(id)
-        } else {
-          attachedIds.current = new Set()
-        }
-        return toast.close(id)
-      }
+let id = 0
 
-      extendedToast.add = extendedToast
+export const ToastProvider = ({ children }) => {
+  const [toasts, setToasts] = useState<Array<ToastProps>>([])
 
-      return extendedToast
-    }
-    console.log('asdasd')
-    return toast
+  const add = ({
+    label,
+    action,
+    closeable,
+    color,
+    description,
+    style,
+    strong,
+  }) => {
+    setToasts([
+      ...toasts,
+      {
+        id: id++,
+        label: label,
+        action: action,
+        closeable: closeable,
+        color: color,
+        description: description,
+        style: style,
+        strong: strong,
+      },
+    ])
   }
 
-  const noContext = () => {
-    console.warn('No ToastContext found')
+  const remove = (id) => {
+    setToasts((toasts) => toasts.filter((t) => t.id !== id))
   }
 
-  noContext.add = noContext as any
-  noContext.close = noContext as any
-  noContext.useCount = noContext as any
+  const useCount = () => {
+    return toasts.length
+  }
 
-  return noContext
+  return (
+    <ToastContext.Provider value={{ add, remove, useCount }}>
+      <ToastContainer toasts={toasts} />
+      {children}
+    </ToastContext.Provider>
+  )
+}
+
+export const useToast = () => {
+  const toast = useContext(ToastContext)
+  return toast
 }

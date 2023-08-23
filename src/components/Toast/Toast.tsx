@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  ReactNode,
-  CSSProperties,
-  FunctionComponent,
-  useContext,
-} from 'react'
+import React, { FC, CSSProperties } from 'react'
 import {
   ColorBackgroundColors,
   Text,
@@ -16,36 +10,27 @@ import {
   IconError,
   IconInfoFill,
 } from '../..'
-import { ToastContext, ToastContextType } from './ToastContext'
 
 type ToastProps = {
   label?: string
-  icon?: FunctionComponent | ReactNode
-  // topLeft?: ReactNode
-  // topRight?: ReactNode
   color?: ColorBackgroundColors
   description?: string
-  children?: ReactNode
   style?: CSSProperties
   closeable?: boolean
   strong?: Boolean
-  // type?: 'success' | 'error' | 'warning'
   action?: { onClick: () => void; label: string }
+  id?: any
 }
 
 export const Toast: FC<ToastProps> = ({
   label,
-  icon,
   action,
   closeable,
   color = 'default',
-  // topLeft,
-  // topRight,
   description,
-  children,
   style,
-  // type,
   strong,
+  id,
   ...props
 }) => {
   return (
@@ -64,6 +49,13 @@ export const Toast: FC<ToastProps> = ({
         // width: '400px',
         display: 'flex',
         alignItems: 'center',
+        '@keyframes': {
+          '0%': { transform: 'translateY(200px)', opacity: 0 },
+          '50%': { transform: 'translateY(200px)', opacity: 0 },
+          '100%': { transform: 'translateY(0px)', opacity: 1 },
+        },
+        animationDuration: '0.5s',
+        animationEffect: 'ease-in',
       }}
       {...props}
     >
