@@ -312,10 +312,19 @@ export const components: ComponentDef[] = [
       {
         props: {
           items: [
-            { id: 'flip', title: '1', index: 0 },
+            { id: 'flip', title: 'Flippie', index: 0 },
             { id: 'flap', title: 'Flap', index: 1 },
             { id: 'Flurp', title: 'Flupr', index: 2 },
           ],
+        },
+      },
+      {
+        props: {
+          min: 0,
+          max: 60,
+          steps: 5,
+          onChange: (v) => console.log(v),
+          color: 'alert',
         },
       },
     ],

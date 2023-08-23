@@ -1025,6 +1025,10 @@
     "SliderProps": {
       "name": "SliderProps",
       "props": {
+        "color": {
+          "optional": true,
+          "type": "ColorActionColors"
+        },
         "items": {
           "optional": true,
           "type": {
@@ -1055,10 +1059,11 @@
           "type": "Style"
         },
         "onChange": {
+          "optional": true,
           "type": "function"
         }
       },
-      "code": "type SliderProps = {\n  items?: { id: string; title: string; index: number }[]\n  min?: number\n  max?: number\n  value?: number | { id: string; title: string; index: number }\n  steps?: number\n  style?: Style\n  onChange: (value: number) => void\n}",
+      "code": "type SliderProps = {\n  color?: ColorActionColors\n  items?: { id: string; title: string; index: number }[]\n  min?: number\n  max?: number\n  value?: number | { id: string; title: string; index: number }\n  steps?: number\n  style?: Style\n  onChange?: (value: number) => void\n}",
       "file": "/components/Slider/index.tsx"
     },
     "TagProps": {

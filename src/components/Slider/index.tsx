@@ -5,7 +5,14 @@ import React, {
   TouchEventHandler,
   useEffect,
 } from 'react'
-import { styled, Style, Text, color as genColor, useWindowResize } from '../..'
+import {
+  styled,
+  Style,
+  Text,
+  color as genColor,
+  useWindowResize,
+  ColorActionColors,
+} from '../..'
 
 const StyledBgSlider = styled('div', {
   backgroundColor: genColor('action', 'neutral', 'subtleNormal'),
@@ -66,6 +73,7 @@ const StyledLabel = styled('div', {
 })
 
 type SliderProps = {
+  color?: ColorActionColors
   items?: { id: string; title: string; index: number }[]
   min?: number
   max?: number
@@ -109,13 +117,27 @@ const getClosestIndex = (
 
 export const Slider: FC<SliderProps> = ({
   items,
-  min,
+  min = 0,
   max,
   value,
   onChange,
-  steps,
+  color = 'primary',
+  steps = 1,
   style,
 }) => {
+  if (steps && max === undefined) {
+    max = 10
+  }
+
+  if (steps !== 1 && !items) {
+    items = []
+    let counter = 0
+    for (let i = min; i <= max; i += steps) {
+      items.push({ id: `blah${i}`, index: counter, title: i.toString() })
+      counter++
+    }
+  }
+
   const [containerWidth, setContainerWidth] = useState(0)
   //  const [leftContainerSide, setLeftContainerSide] = useState(0)
   const [isUpdating, setIsUpdating] = useState(false)
@@ -270,7 +292,9 @@ export const Slider: FC<SliderProps> = ({
   }
 
   return (
-    <styled.div style={{ width: '100%', position: 'relative', minWidth: 340 }}>
+    <styled.div
+      style={{ width: '100%', position: 'relative', minWidth: 340, ...style }}
+    >
       <styled.div
         onMouseDown={onMouseDownHandler}
         onClick={onClickSnap}
@@ -281,16 +305,24 @@ export const Slider: FC<SliderProps> = ({
       >
         <StyledLabel style={{ left: `${percentageX}%` }}>
           <Text color="inverted" weight="strong">
-            {items[index]?.title}
+            {items ? items[index]?.title : (percentageX * max) / 100}
           </Text>
         </StyledLabel>
 
         <StyledBgSlider />
         <StyledStepProgress
           ref={refLeftPart}
-          style={{ width: `${percentageX}%` }}
+          style={{
+            width: `${percentageX}%`,
+            backgroundColor: genColor('action', color, 'normal'),
+          }}
         >
-          <StyledThumb ref={refThumb} />
+          <StyledThumb
+            ref={refThumb}
+            style={{
+              border: `5px solid ${genColor('action', color, 'normal')} `,
+            }}
+          />
         </StyledStepProgress>
       </styled.div>
     </styled.div>
