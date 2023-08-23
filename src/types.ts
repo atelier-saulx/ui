@@ -13,14 +13,6 @@ export type ClickHandler =
 
 export type ActionItemProps = {}
 
-export type AlertBannerProps = {
-  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
-  icon?: ReactNode
-  label?: string
-  onClick?: () => void
-  style?: Style
-}
-
 export type BreadcrumbsProps = {}
 
 export type DatePickerProps = {

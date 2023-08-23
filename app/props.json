@@ -7,25 +7,21 @@
           "optional": true,
           "type": "Exclude"
         },
-        "icon": {
+        "children": {
           "optional": true,
           "type": "ReactNode"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
-        "onClick": {
-          "optional": true,
-          "type": "function"
         },
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "action": {
+          "optional": true,
+          "type": "TSTypeLiteral"
         }
       },
-      "code": "type AlertBannerProps = {\n  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  icon?: ReactNode\n  label?: string\n  onClick?: () => void\n  style?: Style\n}",
-      "file": "/types.ts"
+      "code": "type AlertBannerProps = {\n  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
+      "file": "/components/AlertBanner/index.tsx"
     },
     "AuthProviderProps": {
       "name": "AuthProviderProps",
