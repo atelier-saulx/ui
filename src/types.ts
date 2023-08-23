@@ -23,17 +23,6 @@ export type AlertBannerProps = {
 
 export type BreadcrumbsProps = {}
 
-export type CounterProps = {
-  color?: Exclude<
-    ColorBackgroundColors | ColorNonSemanticBackgroundColors,
-    'default'
-  >
-  label?: number
-  onClick?: () => void
-  style?: Style
-  subtle?: boolean
-}
-
 export type DatePickerProps = {
   // what to do for ranged
   onChange?: (value: number) => void
@@ -53,10 +42,6 @@ export type DefaultItemProps = {
   expand: boolean
   icon?: ReactNode
   label?: string
-}
-
-export type DividerProps = {
-  style?: Style
 }
 
 export type DropdownProps = {}
@@ -125,13 +110,6 @@ export type MultiSelectProps = {}
 
 export type OtherItemsProps = {}
 
-export type ProgressCircleProps = {
-  color?: ColorActionColors
-  style?: Style
-  // value is progress in decimal 1 === complete
-  value?: number
-}
-
 export type ScrollAreaProps = {}
 
 type SelectOption = {
@@ -180,13 +158,6 @@ export type TabProps = {
   active?: boolean
   label?: string
   onClick?: () => void
-}
-
-export type TagProps = {
-  disabled?: boolean
-  label?: string
-  onClick?: () => void
-  style?: Style
 }
 
 export type TooltipProps = {

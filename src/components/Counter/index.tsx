@@ -1,37 +1,45 @@
-import React, { FC } from 'react'
-import { CounterProps } from '../../types'
+import React, { FC, ReactNode } from 'react'
 import {
+  ColorBackgroundColors,
   ColorContentColors,
+  ColorNonSemanticBackgroundColors,
   ColorNonSemanticContentColors,
-} from '../../varsTypes'
-import { color as genColor, Text, Center } from '../../../src'
-import { isSemanticColor } from '../../utils/isSemanticColor'
+  isSemanticColor,
+  color as genColor,
+  Text,
+  Center,
+  Style,
+} from '../..'
 
-// color?: ColorBackgroundColors
-// label?: number
-// onClick?: () => void
-// style?: Style
-// subtle?: boolean
+export type CounterProps = {
+  color?: Exclude<
+    ColorBackgroundColors | ColorNonSemanticBackgroundColors,
+    'default'
+  >
+  children?: ReactNode
+  onClick?: () => void
+  style?: Style
+  light?: boolean
+}
 
 export const Counter: FC<CounterProps> = ({
   color = 'default',
-  label,
+  children,
   onClick,
   style,
-  subtle,
+  light,
 }) => {
-  const contentColor: ColorContentColors | ColorNonSemanticContentColors =
-    subtle
-      ? color === 'neutral'
-        ? 'default'
-        : color
-      : isSemanticColor(color)
-      ? color === 'warning'
-        ? 'default'
-        : 'inverted'
-      : color === 'orange'
-      ? 'grey'
-      : 'white'
+  const contentColor: string = light
+    ? color === 'neutral'
+      ? 'default'
+      : color
+    : isSemanticColor(color)
+    ? color === 'warning'
+      ? 'default'
+      : 'inverted'
+    : color === 'orange'
+    ? 'grey'
+    : 'white'
 
   return (
     <Center
@@ -41,19 +49,19 @@ export const Counter: FC<CounterProps> = ({
         borderColor: genColor(
           'nonSemanticBorder',
           'grey',
-          subtle ? 'subtle' : 'strong'
+          light ? 'subtle' : 'strong'
         ),
         backgroundColor: genColor(
           isSemanticColor(color) ? 'background' : 'nonSemanticBackground',
-          color,
-          subtle ? 'muted' : 'strong'
+          color as ColorBackgroundColors | ColorNonSemanticBackgroundColors,
+          light ? 'muted' : 'strong'
         ),
         color:
           color === 'default'
             ? genColor('content', 'default', 'primary')
             : genColor(
                 isSemanticColor(color) ? 'content' : 'nonSemanticContent',
-                contentColor,
+                contentColor as ColorContentColors,
                 'primary'
               ),
         borderRadius: '16px',
@@ -69,7 +77,7 @@ export const Counter: FC<CounterProps> = ({
         ...style,
       }}
     >
-      <Text style={{ color: 'inherit' }}>{label}</Text>
+      <Text style={{ color: 'inherit' }}>{children}</Text>
     </Center>
   )
 }

@@ -424,6 +424,33 @@
       "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null | undefined\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
       "file": "/components/ContextMenu/ContextOptions.tsx"
     },
+    "CounterProps": {
+      "name": "CounterProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "Exclude"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "light": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type CounterProps = {\n  color?: Exclude<\n    ColorBackgroundColors | ColorNonSemanticBackgroundColors,\n    'default'\n  >\n  children?: ReactNode\n  onClick?: () => void\n  style?: Style\n  light?: boolean\n}",
+      "file": "/components/Counter/index.tsx"
+    },
     "CalendarProps": {
       "name": "CalendarProps",
       "props": {
@@ -890,13 +917,17 @@
           "optional": true,
           "type": "Style"
         },
+        "loading": {
+          "optional": true,
+          "type": "boolean"
+        },
         "value": {
           "optional": true,
           "type": "number"
         }
       },
-      "code": "type ProgressCircleProps = {\n  color?: ColorActionColors\n  style?: Style\n  // value is progress in decimal 1 === complete\n  value?: number\n}",
-      "file": "/types.ts"
+      "code": "type ProgressCircleProps = {\n  color?: ColorActionColors\n  style?: Style\n  loading?: boolean\n  // value is progress in decimal 1 === complete\n  value?: number\n}",
+      "file": "/components/ProgressCircle/index.tsx"
     },
     "ProviderProps": {
       "name": "ProviderProps",
@@ -1108,25 +1139,33 @@
     "TagProps": {
       "name": "TagProps",
       "props": {
+        "color": {
+          "optional": true,
+          "type": "ColorActionColors"
+        },
         "disabled": {
           "optional": true,
           "type": "boolean"
         },
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
         "onClick": {
           "optional": true,
           "type": "function"
+        },
+        "onClose": {
+          "optional": true,
+          "type": "function"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
         },
         "style": {
           "optional": true,
           "type": "Style"
         }
       },
-      "code": "type TagProps = {\n  disabled?: boolean\n  label?: string\n  onClick?: () => void\n  style?: Style\n}",
-      "file": "/types.ts"
+      "code": "type TagProps = {\n  color?: ColorActionColors\n  disabled?: boolean\n  onClick?: () => void\n  onClose?: () => void\n  children?: ReactNode\n  style?: Style\n}",
+      "file": "/components/Tag/index.tsx"
     },
     "TextProps": {
       "name": "TextProps",
@@ -1347,33 +1386,6 @@
       "code": "type BreadcrumbsProps = {}",
       "file": "/types.ts"
     },
-    "CounterProps": {
-      "name": "CounterProps",
-      "props": {
-        "color": {
-          "optional": true,
-          "type": "Exclude"
-        },
-        "label": {
-          "optional": true,
-          "type": "number"
-        },
-        "onClick": {
-          "optional": true,
-          "type": "function"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "subtle": {
-          "optional": true,
-          "type": "boolean"
-        }
-      },
-      "code": "type CounterProps = {\n  color?: Exclude<\n    ColorBackgroundColors | ColorNonSemanticBackgroundColors,\n    'default'\n  >\n  label?: number\n  onClick?: () => void\n  style?: Style\n  subtle?: boolean\n}",
-      "file": "/types.ts"
-    },
     "DatePickerProps": {
       "name": "DatePickerProps",
       "props": {
@@ -1438,17 +1450,6 @@
         }
       },
       "code": "type DefaultItemProps = {\n  description?: string // caption\n  disabled?: boolean\n  expand: boolean\n  icon?: ReactNode\n  label?: string\n}",
-      "file": "/types.ts"
-    },
-    "DividerProps": {
-      "name": "DividerProps",
-      "props": {
-        "style": {
-          "optional": true,
-          "type": "Style"
-        }
-      },
-      "code": "type DividerProps = {\n  style?: Style\n}",
       "file": "/types.ts"
     },
     "DropdownProps": {

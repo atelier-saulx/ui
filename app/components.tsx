@@ -1,19 +1,21 @@
 import React from 'react'
 import '../src/fonts.css'
 import {
+  AlertBanner,
+  Avatar,
   Badge,
   Button,
+  Checkbox,
+  Counter,
+  DatePicker,
+  DateRange,
   IconBolt,
   IconClipboard,
   Input,
-  Text,
-  DatePicker,
-  DateRange,
-  Avatar,
-  Checkbox,
-  AlertBanner,
   RadioButtons,
   Slider,
+  Tag,
+  Text,
   Toggle,
 } from '../src'
 import * as ui from '../src'
@@ -282,6 +284,17 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Counter',
+    properties: props.props.CounterProps.props,
+    description: '',
+    component: Counter,
+    examples: [
+      {
+        props: { color: 'brand', children: 32, light: true },
+      },
+    ],
+  },
+  {
     name: 'Date Picker',
     properties: props.props.DatePickerProps.props,
     description: 'Single day picker',
@@ -388,6 +401,20 @@ export const components: ComponentDef[] = [
             { label: 'Item three', value: 'value3' },
           ],
           type: 'select',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Tag',
+    component: Tag,
+    description: 'Tags',
+    properties: props.props.TagProps.props,
+    examples: [
+      {
+        props: {
+          children: 'Tag',
+          onClose: () => console.log('close??'),
         },
       },
     ],
