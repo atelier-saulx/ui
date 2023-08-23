@@ -1,5 +1,5 @@
 import { render } from 'react-dom'
-import React from 'react'
+import React, { FC } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
@@ -17,6 +17,21 @@ const App = () => {
   const filtered = components.filter((c) => {
     return c.name === component
   })
+  // const toast = useToast()
+  // const amount = toast.useCount()
+  // const notify = () => {
+  //   toast.add(
+  //     <Toast
+  //       color="informative"
+  //       label="Toastable"
+  //       strong
+  //       closeable
+  //       action={{ label: 'ACTION', onClick: () => console.log('oppa') }}
+  //     >
+  //       Bonjour dudes <br /> yo test
+  //     </Toast>
+  //   )
+  // }
 
   return (
     <styled.div
