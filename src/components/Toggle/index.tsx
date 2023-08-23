@@ -1,10 +1,11 @@
 import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
-import { color as genColor } from '../../../src'
+import { ColorActionColors, color as genColor } from '../../../src'
 import { usePropState } from '../../hooks/usePropState'
 
 export type ToggleProps = {
   active?: boolean
+  color?: ColorActionColors
   disabled?: boolean
   onClick?: (e) => void | (() => void)
   style?: Style
@@ -13,6 +14,7 @@ export type ToggleProps = {
 
 export const Toggle: FC<ToggleProps> = ({
   active,
+  color = 'primary',
   disabled,
   onClick,
   size = 'large',
@@ -25,9 +27,9 @@ export const Toggle: FC<ToggleProps> = ({
   const circleSize = size === 'large' ? '16px' : '12px'
 
   return (
-    <styled.input
+    <styled.div
       key="asdasd"
-      type="checkbox"
+      // type="checkbox"
       disabled={disabled}
       onClick={(e) => {
         e.stopPropagation()
@@ -41,19 +43,21 @@ export const Toggle: FC<ToggleProps> = ({
         height,
         borderRadius: '24px',
         cursor: disabled ? 'not-allowed' : 'pointer',
+        pointerEvents: disabled ? 'none' : 'auto',
+        opacity: disabled ? 0.6 : 1,
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
         backgroundColor: genColor(
           'action',
-          checked ? 'primary' : 'neutral',
+          checked ? color : 'neutral',
           checked ? 'normal' : 'subtleNormal'
         ),
         '&:hover': !disabled
           ? {
               backgroundColor: genColor(
                 'action',
-                checked ? 'primary' : 'neutral',
+                checked ? color : 'neutral',
                 checked ? 'hover' : 'subtleHover'
               ),
             }
@@ -62,7 +66,7 @@ export const Toggle: FC<ToggleProps> = ({
           ? {
               backgroundColor: genColor(
                 'action',
-                checked ? 'primary' : 'neutral',
+                checked ? color : 'neutral',
                 checked ? 'active' : 'subtleActive'
               ),
             }
@@ -70,7 +74,7 @@ export const Toggle: FC<ToggleProps> = ({
         '&:focus': !disabled
           ? {
               outline: '1px solid',
-              outlineColor: genColor('action', 'primary', 'selected'),
+              outlineColor: genColor('action', color, 'selected'),
 
               outlineOffset: '1px',
             }

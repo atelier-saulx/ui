@@ -13,6 +13,7 @@ import {
   Checkbox,
   AlertBanner,
   Slider,
+  Toggle,
 } from '../src'
 import * as ui from '../src'
 import props from './props.json'
@@ -388,6 +389,29 @@ export const components: ComponentDef[] = [
           placeholder: 'placeholder',
           beforeIcon: () => <IconBolt />,
           type: 'text',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Toggle',
+    component: Toggle,
+    description: 'Toggle button',
+    properties: props.props.ToggleProps.props,
+    examples: [
+      {
+        props: {
+          size: 'large',
+          active: true,
+          disabled: false,
+        },
+      },
+      {
+        props: {
+          size: 'medium',
+          active: true,
+          onClick: (v) => console.log(v),
+          color: 'neutral',
         },
       },
     ],
