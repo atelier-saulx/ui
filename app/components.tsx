@@ -12,6 +12,7 @@ import {
   Avatar,
   Checkbox,
   AlertBanner,
+  RadioButtons,
   Slider,
   Toggle,
 } from '../src'
@@ -311,6 +312,23 @@ export const components: ComponentDef[] = [
       {
         props: {
           type: 'file',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Radiobuttons',
+    component: RadioButtons,
+    description: 'Radiobuttons',
+    properties: props.props.RadioButtonsProps.props,
+    examples: [
+      {
+        props: {
+          data: [
+            { label: 'Radio1', value: 1, description: 'hwlloe 1' },
+            { label: 'Radio2', value: 2, description: 'hwlloe 2' },
+          ],
+          onChange: (v) => console.log(v),
         },
       },
     ],

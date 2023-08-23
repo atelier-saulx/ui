@@ -23,29 +23,6 @@ export type AlertBannerProps = {
 
 export type BreadcrumbsProps = {}
 
-export type CheckboxProps = {
-  active?: boolean
-  indeterminate?: boolean
-  onClick?: (e) => void | (() => void)
-  style?: Style
-  warning?: boolean
-  disabled?: boolean
-}
-
-// this is combination of text and checkbox
-export type CheckboxItemProps = {
-  label?: string
-  description?: string
-  style?: Style
-} & CheckboxProps
-
-export type ClickableIconProps = {
-  icon?: ReactNode
-  onClick?: () => void | ((e) => void)
-  size?: 'large' | 'small'
-  style?: Style
-}
-
 export type CounterProps = {
   color?: Exclude<
     ColorBackgroundColors | ColorNonSemanticBackgroundColors,
@@ -155,24 +132,6 @@ export type ProgressCircleProps = {
   value?: number
 }
 
-export type RadioButtonProps = {
-  active?: boolean
-  onClick?: () => void
-  style?: Style
-  warning?: boolean
-  disabled?: boolean
-  value: {
-    label?: string
-    value: string | boolean | number
-    description?: string
-  }
-}
-
-export type RadioButtonItemProps = {
-  disabled?: boolean
-  label?: string
-} & RadioButtonProps
-
 export type ScrollAreaProps = {}
 
 type SelectOption = {
@@ -228,14 +187,6 @@ export type TagProps = {
   label?: string
   onClick?: () => void
   style?: Style
-}
-
-export type ToggleProps = {
-  active?: boolean
-  disabled?: boolean
-  onClick?: (e) => void | (() => void)
-  style?: Style
-  size?: 'large' | 'medium'
 }
 
 export type TooltipProps = {

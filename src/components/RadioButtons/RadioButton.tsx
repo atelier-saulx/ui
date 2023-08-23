@@ -1,70 +1,50 @@
 import React, { FC } from 'react'
-import { color as genColor, styled } from '../..'
-import { RadioButtonProps } from '../../types'
+import { ColorActionColors, color as genColor, styled } from '../..'
+
+type RadioButtonProps = {
+  disabled?: boolean
+  color?: ColorActionColors
+  active?: boolean
+  onClick?: () => void
+  value: any
+}
 
 export const RadioButton: FC<RadioButtonProps> = ({
-  warning,
   disabled,
+  color,
   active,
   onClick,
   value,
 }) => {
-  console.log(value)
-
   return (
-    <styled.input
+    <styled.div
       value={value}
-      checked={active}
-      onChange={onClick}
-      type="radio"
+      onClick={onClick}
       disabled={disabled}
       style={{
         position: 'relative',
         cursor: 'pointer',
-        width: 20,
-        height: 20,
+        width: 16,
+        height: 16,
         borderRadius: '50%',
-        marginRight: 12,
-        border: '1px solid',
+        border: active ? `5px solid` : `1px solid `,
+        boxSizing: 'border-box',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: genColor(
-          'action',
-          warning ? 'alert' : 'neutral',
-          warning ? 'normal' : 'subtleNormal'
-        ),
+        borderColor: active
+          ? genColor('action', color as ColorActionColors, 'normal')
+          : genColor('inputBorder', 'neutralNormal', 'default'),
         '&:hover': {
-          borderColor: genColor(
-            'action',
-            warning ? 'alert' : 'neutral',
-            warning ? 'hover' : 'subtleHover'
-          ),
+          borderColor: active
+            ? genColor('action', color as ColorActionColors, 'hover')
+            : genColor('inputBorder', 'neutralNormal', 'default'),
         },
         '&:focus': {
           outline: '3px solid',
-          outlineColor: genColor('action', 'primary', 'selected'),
-
+          outlineColor: genColor('action', 'primary', 'normal'),
           outlineOffset: '1px',
         },
-        '&:checked': {
-          backgroundColor: genColor('action', 'primary', 'normal'),
-          borderColor: 'transparent',
-          '&:hover': {
-            backgroundColor: genColor('action', 'primary', 'hover'),
-          },
-          '&:before': {
-            backgroundColor: genColor('action', 'inverted', 'normal'),
-
-            width: '6px',
-            height: '6px',
-            borderRadius: '5px',
-            content: `''`,
-            display: 'block',
-            //   backgroundColor: color('background'),
-          },
-        },
-        opacity: disabled ? 0.4 : 1,
       }}
     />
   )
