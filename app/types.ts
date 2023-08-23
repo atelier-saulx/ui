@@ -7,6 +7,15 @@ export type PropType = {
   type: PropTypeAtomic | PropTypeAtomic[]
 }
 
+export type Example = {
+  description?: string
+  name?: string
+  customRenderer?: FC<any>
+  props: {
+    [key: string]: any
+  }
+}
+
 export type ComponentDef = {
   name: string
   properties: {
@@ -14,10 +23,5 @@ export type ComponentDef = {
   }
   description: string
   component: FC<any>
-  examples: {
-    description?: string
-    name?: string
-    customRenderer?: FC<any>
-    [key: string]: any
-  }[]
+  examples: Example[]
 }
