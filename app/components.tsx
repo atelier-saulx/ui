@@ -240,6 +240,8 @@ export const components: ComponentDef[] = [
       {
         props: {
           children: 'Hello badge',
+          color: 'informative',
+          light: false,
         },
       },
     ],
