@@ -1,15 +1,17 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { styled, Style } from 'inlines'
 import { Text } from '../Text'
 import { color as genColor } from '../../varsUtilities'
-import { IconClose } from '../../icons'
+import { IconSmallClose } from '../../icons'
 import { ColorActionColors } from '../../varsTypes'
+import { ClickHandler } from '../../types'
 
 type TagProps = {
   color?: ColorActionColors
   disabled?: boolean
-  onClick?: () => void
-  label?: string
+  onClick?: ClickHandler
+  onClose?: () => void
+  children?: ReactNode
   style?: Style
 }
 
@@ -17,7 +19,8 @@ export const Tag: FC<TagProps> = ({
   color = 'neutral',
   disabled,
   onClick,
-  label,
+  onClose,
+  children,
   style,
 }) => {
   return (
@@ -43,9 +46,9 @@ export const Tag: FC<TagProps> = ({
       }}
     >
       <Text size={14} weight="medium" style={{ marginRight: 4 }}>
-        {label}
+        {children}
       </Text>
-      <IconClose />
+      <IconSmallClose onClick={onClose} />
     </styled.div>
   )
 }

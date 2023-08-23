@@ -1,18 +1,23 @@
 import React from 'react'
 import '../src/fonts.css'
 import {
+  AlertBanner,
+  Avatar,
   Badge,
   Button,
+  Checkbox,
+  Counter,
+  DatePicker,
+  DateRange,
+  Divider,
   IconBolt,
   IconClipboard,
   Input,
-  Text,
-  DatePicker,
-  DateRange,
-  Avatar,
-  Checkbox,
-  AlertBanner,
+  RadioButtons,
   Slider,
+  Tag,
+  Text,
+  Toggle,
 } from '../src'
 import * as ui from '../src'
 import props from './props.json'
@@ -30,16 +35,16 @@ export const components: ComponentDef[] = [
       {
         props: {
           color: 'negative',
-          label: 'WARNING BREAKING',
+          children: 'Alert text',
+          action: { label: 'Action', onClick: () => console.log('Reaction') },
+          style: { width: 374 },
         },
       },
       {
         props: {
           color: 'warning',
-          label: 'Warning Resolve',
+          children: 'Warning Resolve',
           action: { label: 'RESOLVE', onClick: () => console.log('oppa ') },
-          name: 'Warning with button',
-          description: 'Click to resolve',
         },
       },
     ],
@@ -55,7 +60,6 @@ export const components: ComponentDef[] = [
           color: 'raspberry',
           children: 'sd',
           size: 'large',
-          light: true,
           squared: true,
         },
       },
@@ -239,6 +243,13 @@ export const components: ComponentDef[] = [
       {
         props: {
           children: 'Hello badge',
+          color: 'informative',
+          light: false,
+        },
+      },
+      {
+        props: {
+          icon: () => React.createElement(ui.IconSmallBolt),
         },
       },
     ],
@@ -252,6 +263,10 @@ export const components: ComponentDef[] = [
       {
         props: {
           children: 'Click me',
+          description: 'Little description text',
+          label: 'Label',
+          value: true,
+          onClick: (v) => console.log(v),
         },
       },
 
@@ -265,6 +280,17 @@ export const components: ComponentDef[] = [
         },
         name: 'Warning',
         description: 'Visual indication of errors ',
+      },
+    ],
+  },
+  {
+    name: 'Counter',
+    properties: props.props.CounterProps.props,
+    description: '',
+    component: Counter,
+    examples: [
+      {
+        props: { color: 'brand', children: 32, light: true },
       },
     ],
   },
@@ -291,6 +317,13 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Divider',
+    properties: props.props.DividerProps.props,
+    description: '',
+    component: Divider,
+    examples: [{ props: { style: { width: '342px' } } }],
+  },
+  {
     name: 'FileInput',
     component: Input,
     description: 'Single file input',
@@ -304,6 +337,23 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Radiobuttons',
+    component: RadioButtons,
+    description: 'Radiobuttons',
+    properties: props.props.RadioButtonsProps.props,
+    examples: [
+      {
+        props: {
+          data: [
+            { label: 'Radio1', value: 1, description: 'hwlloe 1' },
+            { label: 'Radio2', value: 2, description: 'hwlloe 2' },
+          ],
+          onChange: (v) => console.log(v),
+        },
+      },
+    ],
+  },
+  {
     name: 'Slider',
     component: Slider,
     description: 'Range Slider',
@@ -311,11 +361,20 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
-          items: [
-            { id: 'flip', title: '1', index: 0 },
+          data: [
+            { id: 'flip', title: 'Flippie', index: 0 },
             { id: 'flap', title: 'Flap', index: 1 },
             { id: 'Flurp', title: 'Flupr', index: 2 },
           ],
+        },
+      },
+      {
+        props: {
+          min: 0,
+          max: 60,
+          steps: 5,
+          onChange: (v) => console.log(v),
+          color: 'alert',
         },
       },
     ],
@@ -354,6 +413,20 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Tag',
+    component: Tag,
+    description: 'Tags',
+    properties: props.props.TagProps.props,
+    examples: [
+      {
+        props: {
+          children: 'Tag',
+          onClose: () => console.log('close??'),
+        },
+      },
+    ],
+  },
+  {
     name: 'Text',
     component: Text,
     description: 'Text including typeography',
@@ -379,6 +452,29 @@ export const components: ComponentDef[] = [
           placeholder: 'placeholder',
           beforeIcon: () => <IconBolt />,
           type: 'text',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Toggle',
+    component: Toggle,
+    description: 'Toggle button',
+    properties: props.props.ToggleProps.props,
+    examples: [
+      {
+        props: {
+          size: 'large',
+          active: true,
+          disabled: false,
+        },
+      },
+      {
+        props: {
+          size: 'medium',
+          active: true,
+          onClick: (v) => console.log(v),
+          color: 'neutral',
         },
       },
     ],

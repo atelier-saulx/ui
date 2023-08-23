@@ -7,95 +7,125 @@ import {
   color as genColor,
   usePropState,
   Style,
+  Text,
 } from '../..'
 
 export type CheckboxProps = {
-  active?: boolean
+  value?: boolean
+  description?: string
+  disabled?: boolean
   indeterminate?: boolean
+  label?: string
   onClick?: (e) => void | (() => void)
   style?: Style
   warning?: boolean
-  disabled?: boolean
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
-  active,
+  value,
+  description,
+  disabled,
   indeterminate,
+  label,
   onClick,
   style,
   warning,
-  disabled,
 }) => {
-  const [checked, setChecked] = usePropState(active)
+  const [checked, setChecked] = usePropState(value)
 
   return (
-    <styled.button
-      disabled={disabled}
-      onClick={(e) => {
-        e.stopPropagation()
-        e.preventDefault()
-        const newChecked = !checked
-        setChecked(newChecked)
-        onClick?.(newChecked)
-      }}
+    <styled.div
       style={{
-        width: '16px',
-        height: '16px',
-        borderRadius: '4px',
-        border: '1px solid',
-        borderColor: genColor(
-          'action',
-          checked ? 'primary' : warning ? 'alert' : 'neutral',
-          checked || warning ? 'normal' : 'subtleNormal'
-        ),
-        backgroundColor: checked
-          ? genColor('action', 'primary', 'normal')
-          : 'transparent',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        position: 'relative',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        '&:hover': !disabled
-          ? {
-              borderColor: genColor(
-                'action',
-                checked ? 'primary' : warning ? 'alert' : 'neutral',
-                checked || warning ? 'hover' : 'subtleHover'
-              ),
-              backgroundColor: checked
-                ? genColor('action', 'primary', 'hover')
-                : null,
-            }
-          : null,
-        '&:active': !disabled
-          ? {
-              borderColor: 'transparent',
-              backgroundColor: genColor(
-                'action',
-                checked ? 'primary' : 'neutral',
-                checked ? 'active' : 'subtleActive'
-              ),
-            }
-          : null,
-        '&:focus': !disabled
-          ? {
-              outline: '1px solid',
-              outlineColor: genColor('action', 'primary', 'selected'),
-              outlineOffset: '1px',
-            }
-          : null,
-        transition: 'all 0.2s',
-        ...style,
+        pointerEvents: disabled ? 'none' : 'auto',
+        opacity: disabled ? 0.6 : 1,
       }}
     >
-      {checked ? (
-        indeterminate ? (
-          <IconMinus color="inverted" />
-        ) : (
-          <IconCheckSmall color="inverted" />
-        )
-      ) : null}
-    </styled.button>
+      <styled.button
+        disabled={disabled}
+        onClick={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          setChecked(!checked)
+          onClick?.(!checked)
+        }}
+        style={{
+          width: '16px',
+          height: '16px',
+          borderRadius: '4px',
+          border: '1px solid',
+          borderColor: genColor(
+            'action',
+            checked ? 'primary' : warning ? 'alert' : 'neutral',
+            checked || warning ? 'normal' : 'subtleNormal'
+          ),
+          backgroundColor: checked
+            ? genColor('action', 'primary', 'normal')
+            : 'transparent',
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          '&:hover': !disabled
+            ? {
+                borderColor: genColor(
+                  'action',
+                  checked ? 'primary' : warning ? 'alert' : 'neutral',
+                  checked || warning ? 'hover' : 'subtleHover'
+                ),
+                backgroundColor: checked
+                  ? genColor('action', 'primary', 'hover')
+                  : null,
+              }
+            : null,
+          '&:active': !disabled
+            ? {
+                borderColor: 'transparent',
+                backgroundColor: genColor(
+                  'action',
+                  checked ? 'primary' : 'neutral',
+                  checked ? 'active' : 'subtleActive'
+                ),
+              }
+            : null,
+          '&:focus': !disabled
+            ? {
+                outline: '1px solid',
+                outlineColor: genColor('action', 'primary', 'selected'),
+                outlineOffset: '1px',
+              }
+            : null,
+          transition: 'all 0.2s',
+          ...style,
+        }}
+      >
+        {checked ? (
+          indeterminate ? (
+            <IconMinus color="inverted" />
+          ) : (
+            <IconCheckSmall color="inverted" />
+          )
+        ) : null}
+      </styled.button>
+      {label && (
+        <styled.div
+          style={{ marginLeft: 12, marginTop: '-3px', cursor: 'pointer' }}
+          onClick={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            setChecked(!checked)
+            onClick?.(!checked)
+          }}
+        >
+          <Text size={14} weight="medium">
+            {label}
+          </Text>
+          <Text style={{ color: genColor('content', 'default', 'secondary') }}>
+            {description}
+          </Text>
+        </styled.div>
+      )}
+    </styled.div>
   )
 }

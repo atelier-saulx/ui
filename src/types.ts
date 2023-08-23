@@ -13,49 +13,7 @@ export type ClickHandler =
 
 export type ActionItemProps = {}
 
-export type AlertBannerProps = {
-  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
-  icon?: ReactNode
-  label?: string
-  onClick?: () => void
-  style?: Style
-}
-
 export type BreadcrumbsProps = {}
-
-export type CheckboxProps = {
-  active?: boolean
-  indeterminate?: boolean
-  onClick?: (e) => void | (() => void)
-  style?: Style
-  warning?: boolean
-  disabled?: boolean
-}
-
-// this is combination of text and checkbox
-export type CheckboxItemProps = {
-  label?: string
-  description?: string
-  style?: Style
-} & CheckboxProps
-
-export type ClickableIconProps = {
-  icon?: ReactNode
-  onClick?: () => void | ((e) => void)
-  size?: 'large' | 'small'
-  style?: Style
-}
-
-export type CounterProps = {
-  color?: Exclude<
-    ColorBackgroundColors | ColorNonSemanticBackgroundColors,
-    'default'
-  >
-  label?: number
-  onClick?: () => void
-  style?: Style
-  subtle?: boolean
-}
 
 export type DatePickerProps = {
   // what to do for ranged
@@ -76,10 +34,6 @@ export type DefaultItemProps = {
   expand: boolean
   icon?: ReactNode
   label?: string
-}
-
-export type DividerProps = {
-  style?: Style
 }
 
 export type DropdownProps = {}
@@ -148,31 +102,6 @@ export type MultiSelectProps = {}
 
 export type OtherItemsProps = {}
 
-export type ProgressCircleProps = {
-  color?: ColorActionColors
-  style?: Style
-  // value is progress in decimal 1 === complete
-  value?: number
-}
-
-export type RadioButtonProps = {
-  active?: boolean
-  onClick?: () => void
-  style?: Style
-  warning?: boolean
-  disabled?: boolean
-  value: {
-    label?: string
-    value: string | boolean | number
-    description?: string
-  }
-}
-
-export type RadioButtonItemProps = {
-  disabled?: boolean
-  label?: string
-} & RadioButtonProps
-
 export type ScrollAreaProps = {}
 
 type SelectOption = {
@@ -221,21 +150,6 @@ export type TabProps = {
   active?: boolean
   label?: string
   onClick?: () => void
-}
-
-export type TagProps = {
-  disabled?: boolean
-  label?: string
-  onClick?: () => void
-  style?: Style
-}
-
-export type ToggleProps = {
-  active?: boolean
-  disabled?: boolean
-  onClick?: (e) => void | (() => void)
-  style?: Style
-  size?: 'large' | 'medium'
 }
 
 export type TooltipProps = {

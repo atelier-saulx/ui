@@ -1,31 +1,30 @@
 import React, { FC } from 'react'
 import { usePropState } from '../../hooks/usePropState'
-import { styled, Text, color as genColor } from '../../'
+import { styled, Text, color as genColor, ColorActionColors } from '../../'
 import { RadioButton } from './RadioButton'
 
 type RadioButtonsProps = {
-  value?: string | boolean | number
+  color?: ColorActionColors
   data?: Array<{
     label?: string
     value: string | boolean | number
     description?: string
   }>
-  label?: string
-  description?: string
   direction?: 'horizontal' | 'vertical'
-  indent?: boolean
   disabled?: boolean
-  descriptionBottom?: string
   onChange?: (value: string | number | boolean) => void
+  value?: string | boolean | number
 }
 
 //TODO
 
 export const RadioButtons: FC<RadioButtonsProps> = ({
-  direction,
+  color = 'primary',
   data,
-  value,
+  direction,
+  disabled,
   onChange,
+  value,
 }) => {
   const selectedIndex = data?.findIndex((item) => item.value === value)
   const [active, setActive] = usePropState(selectedIndex)
@@ -35,8 +34,9 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
       style={{
         display: 'flex',
         flexDirection: direction === 'horizontal' ? 'row' : 'column',
-        marginBottom: 8,
-        marginTop: 8,
+        gap: direction === 'horizontal' ? 16 : 0,
+        pointerEvents: disabled ? 'none' : 'auto',
+        opacity: disabled ? 0.6 : 1,
       }}
     >
       {data?.map((item, index) => {
@@ -45,26 +45,36 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
           onChange?.(data[index].value)
         }
         return (
-          <label
+          <styled.div
             key={index}
             style={{
               display: 'flex',
-              alignItems: 'center',
-              marginBottom: 4,
-              marginTop: 4,
-              marginRight: 16,
-              cursor: 'pointer',
-              borderRadius: 8,
-              border: '1px solid red',
+              marginBottom: 8,
+              marginTop: 8,
             }}
           >
             <RadioButton
               active={active === index}
+              color={color}
               value={data[active]}
               onClick={onClick}
-              key={index}
             />
-          </label>
+            {item.label && (
+              <styled.div
+                style={{ marginLeft: 12, marginTop: '-5px', cursor: 'pointer' }}
+                onClick={onClick}
+              >
+                <Text size={14} weight="medium">
+                  {item.label}
+                </Text>
+                <Text
+                  style={{ color: genColor('content', 'default', 'secondary') }}
+                >
+                  {item.description}
+                </Text>
+              </styled.div>
+            )}
+          </styled.div>
         )
       })}
     </styled.div>

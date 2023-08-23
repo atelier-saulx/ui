@@ -14,31 +14,22 @@ import {
 
 export type AlertBannerProps = {
   color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
-  icon?: ReactNode
-  label?: string
+  children?: ReactNode
   style?: Style
-  // onClick?: () => void
-  // actionLabel?: string
   action?: { onClick: () => void; label: string }
 }
 
 export const AlertBanner: FC<AlertBannerProps> = ({
   color = 'brand',
-  label,
+  children,
   style,
-  // onClick,
-  // actionLabel,
   action,
 }) => {
   return (
     <Center
-      // onClick={onClick}
       style={{
         width: '100%',
-        height: '100%',
-        maxHeight: '48px',
-        padding: action ? '8px 0px' : '12px 0px',
-        // cursor: !actionLabel && onClick ? 'pointer' : 'default',
+        padding: action ? '8px' : '12px',
         backgroundColor: genColor('background', color, 'strong'),
         ...style,
       }}
@@ -46,7 +37,7 @@ export const AlertBanner: FC<AlertBannerProps> = ({
       <styled.div
         style={{
           display: 'flex',
-          marginRight: label ? 8 : 0,
+          marginRight: children ? 8 : 0,
           width: 16,
           height: 16,
           maxWidth: '100%',
@@ -63,8 +54,12 @@ export const AlertBanner: FC<AlertBannerProps> = ({
           <IconInfoFill />
         )}
       </styled.div>
-      <Text size={14} color={color === 'warning' ? 'default' : 'inverted'}>
-        {label}
+      <Text
+        size={14}
+        weight="strong"
+        color={color === 'warning' ? 'default' : 'inverted'}
+      >
+        {children}
       </Text>
       {action && (
         <Button
@@ -72,14 +67,7 @@ export const AlertBanner: FC<AlertBannerProps> = ({
           underline={true}
           size="xsmall"
           color={color === 'warning' ? 'neutral' : 'inverted'}
-          style={{
-            marginLeft: '9px',
-            // color: genColor(
-            //   'content',
-            //   color === 'warning' ? 'inverted' : 'inverted',
-            //   'primary'
-            // ),
-          }}
+          style={{ marginLeft: '9px' }}
         >
           {action.label}
         </Button>
