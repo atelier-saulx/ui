@@ -193,7 +193,86 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
   const [files, setFiles] = useState<File[]>([])
 
   return (
-    <styled.div style={{ '& > * + *': { marginTop: '8px' } }}>
+    <>
+      <styled.div style={{ '& > * + *': { marginTop: '8px' } }}>
+        {files.map((file, index) => (
+          <FileListItem
+            key={file.name}
+            file={file}
+            onDelete={() => {
+              setFiles((p) => p.filter((_, i) => i !== index))
+
+              if (inputRef.current) {
+                inputRef.current.value = ''
+              }
+            }}
+          />
+        ))}
+
+        {(multiple || (!multiple && !files.length)) && (
+          <styled.div
+            onClick={() => {
+              if (!inputRef.current) return
+
+              inputRef.current.click()
+            }}
+            onDrop={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+
+              const files = e.dataTransfer.files
+              if (!files?.length) return
+
+              setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
+            }}
+            onDragOver={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+            }}
+            style={{
+              height: 40,
+              boxSizing: 'border-box',
+              borderRadius: 8,
+              padding: '8px 12px',
+              display: 'flex',
+              justifyContent: 'start',
+              alignItems: 'center',
+              '& > * + *': {
+                marginLeft: '8px',
+              },
+              cursor: 'pointer',
+              border: `1px dashed ${color(
+                'inputBorder',
+                'neutralNormal',
+                'default'
+              )}`,
+              '&:hover': {
+                border: `1px dashed ${color(
+                  'inputBorder',
+                  'neutralHover',
+                  'default'
+                )}`,
+              },
+              '&:active': {
+                border: `1px dashed ${color(
+                  'inputBorder',
+                  'active',
+                  'default'
+                )}`,
+                backgroundColor: color('background', 'brand', 'surface'),
+              },
+              ...(disabled
+                ? {
+                    opacity: '50%',
+                  }
+                : {}),
+            }}
+          >
+            <IconUpload />
+            <Text weight="medium">Upload new file</Text>
+          </styled.div>
+        )}
+      </styled.div>
       <input
         style={{ display: 'none' }}
         type="file"
@@ -206,80 +285,6 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
           setFiles((p) => [...p, ...files])
         }}
       />
-
-      {files.map((file, index) => (
-        <FileListItem
-          key={file.name}
-          file={file}
-          onDelete={() => {
-            setFiles((p) => p.filter((_, i) => i !== index))
-
-            if (inputRef.current) {
-              inputRef.current.value = ''
-            }
-          }}
-        />
-      ))}
-
-      {(multiple || (!multiple && !files.length)) && (
-        <styled.div
-          onClick={() => {
-            if (!inputRef.current) return
-
-            inputRef.current.click()
-          }}
-          onDrop={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-
-            const files = e.dataTransfer.files
-            if (!files?.length) return
-
-            setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
-          }}
-          onDragOver={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-          }}
-          style={{
-            height: 40,
-            boxSizing: 'border-box',
-            borderRadius: 8,
-            padding: '8px 12px',
-            display: 'flex',
-            justifyContent: 'start',
-            alignItems: 'center',
-            '& > * + *': {
-              marginLeft: '8px',
-            },
-            cursor: 'pointer',
-            border: `1px dashed ${color(
-              'inputBorder',
-              'neutralNormal',
-              'default'
-            )}`,
-            '&:hover': {
-              border: `1px dashed ${color(
-                'inputBorder',
-                'neutralHover',
-                'default'
-              )}`,
-            },
-            '&:active': {
-              border: `1px dashed ${color('inputBorder', 'active', 'default')}`,
-              backgroundColor: color('background', 'brand', 'surface'),
-            },
-            ...(disabled
-              ? {
-                  opacity: '50%',
-                }
-              : {}),
-          }}
-        >
-          <IconUpload />
-          <Text weight="medium">Upload new file</Text>
-        </styled.div>
-      )}
-    </styled.div>
+    </>
   )
 }
