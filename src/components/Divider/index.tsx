@@ -2,6 +2,10 @@ import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
 import { color } from '../../varsUtilities'
 
+export type DividerProps = {
+  style?: Style
+}
+
 export const Divider: FC<{
   style?: Style
 }> = ({ style }) => {

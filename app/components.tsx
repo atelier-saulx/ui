@@ -9,6 +9,7 @@ import {
   Counter,
   DatePicker,
   DateRange,
+  Divider,
   IconBolt,
   IconClipboard,
   Input,
@@ -34,16 +35,16 @@ export const components: ComponentDef[] = [
       {
         props: {
           color: 'negative',
-          label: 'WARNING BREAKING',
+          children: 'Alert text',
+          action: { label: 'Action', onClick: () => console.log('Reaction') },
+          style: { width: 374 },
         },
       },
       {
         props: {
           color: 'warning',
-          label: 'Warning Resolve',
+          children: 'Warning Resolve',
           action: { label: 'RESOLVE', onClick: () => console.log('oppa ') },
-          name: 'Warning with button',
-          description: 'Click to resolve',
         },
       },
     ],
@@ -315,6 +316,13 @@ export const components: ComponentDef[] = [
         props: { onChange: (e) => console.log(e) },
       },
     ],
+  },
+  {
+    name: 'Divider',
+    properties: props.props.DividerProps.props,
+    description: '',
+    component: Divider,
+    examples: [{ props: { style: { width: '342px' } } }],
   },
   {
     name: 'FileInput',

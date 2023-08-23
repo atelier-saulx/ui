@@ -635,6 +635,17 @@
       "code": "type RangeTillPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
       "file": "/components/DateRange/TillRangePicker.tsx"
     },
+    "DividerProps": {
+      "name": "DividerProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type DividerProps = {\n  style?: Style\n}",
+      "file": "/components/Divider/index.tsx"
+    },
     "DropDownProps": {
       "name": "DropDownProps",
       "props": {
