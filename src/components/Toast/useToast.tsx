@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef } from 'react'
 import { ToastContext, ToastContextType } from './ToastContext'
 
 export const useToast = ({ attached = false } = {}) => {
+  //@ts-expect-error
   const toast = useContext<ToastContextType>(ToastContext)
   const attachedIds = useRef<Set<number>>(new Set())
 
@@ -35,7 +36,7 @@ export const useToast = ({ attached = false } = {}) => {
 
       return extendedToast
     }
-
+    console.log('asdasd')
     return toast
   }
 

@@ -1,5 +1,5 @@
 import { render } from 'react-dom'
-import React from 'react'
+import React, { FC } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
@@ -21,6 +21,8 @@ import {
   Avatar,
   Checkbox,
   AlertBanner,
+  useToast,
+  Toast,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -60,6 +62,7 @@ const components: ComponentDef[] = [
         action: { label: 'RESOLVE', onClick: () => console.log('oppa ') },
         name: 'Warning with button',
         description: 'Click to resolve',
+        // customRenderer: <AlertBanner />
       },
     ],
   },
@@ -252,6 +255,21 @@ const App = () => {
   const filtered = components.filter((c) => {
     return c.name === component
   })
+  const toast = useToast()
+  const amount = toast.useCount()
+  const notify = () => {
+    toast.add(
+      <Toast
+        color="informative"
+        label="Toastable"
+        strong
+        closeable
+        action={{ label: 'ACTION', onClick: () => console.log('oppa') }}
+      >
+        Bonjour dudes <br /> yo test
+      </Toast>
+    )
+  }
 
   return (
     <styled.div
@@ -295,6 +313,14 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
+        <Button
+          onClick={() => {
+            notify()
+            console.log('aaaaaaaa')
+          }}
+        >
+          ASdasdasd
+        </Button>
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}
