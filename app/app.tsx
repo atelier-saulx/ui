@@ -252,6 +252,7 @@ const components: ComponentDef[] = [
     examples: [
       {
         type: 'file',
+        multiple: true,
       },
     ],
   },
