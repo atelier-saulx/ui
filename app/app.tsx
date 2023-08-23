@@ -17,21 +17,6 @@ const App = () => {
   const filtered = components.filter((c) => {
     return c.name === component
   })
-  const toast = useToast()
-  const amount = toast.useCount()
-  const notify = () => {
-    toast.add(
-      <Toast
-        color="informative"
-        label="Toastable"
-        strong
-        closeable
-        action={{ label: 'ACTION', onClick: () => console.log('oppa') }}
-      >
-        Bonjour dudes <br /> yo test
-      </Toast>
-    )
-  }
 
   return (
     <styled.div
@@ -74,19 +59,7 @@ const App = () => {
           flexGrow: 1,
           flexDirection: 'column',
         }}
-      >
-        <Button
-          onClick={() => {
-            notify()
-            console.log('aaaaaaaa')
-          }}
-        >
-          ASdasdasd
-        </Button>
-        {filtered.map((c) => {
-          return <OverviewComponent component={c} key={c.name} />
-        })}
-      </ScrollArea>
+      ></ScrollArea>
     </styled.div>
   )
 }
