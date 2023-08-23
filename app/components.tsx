@@ -262,6 +262,7 @@ export const components: ComponentDef[] = [
           children: 'Click me',
           description: 'Little description text',
           label: 'Label',
+          value: true,
           onClick: (v) => console.log(v),
         },
       },

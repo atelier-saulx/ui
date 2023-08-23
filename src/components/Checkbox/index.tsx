@@ -11,7 +11,7 @@ import {
 } from '../..'
 
 export type CheckboxProps = {
-  active?: boolean
+  value?: boolean
   description?: string
   disabled?: boolean
   indeterminate?: boolean
@@ -22,7 +22,7 @@ export type CheckboxProps = {
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
-  active,
+  value,
   description,
   disabled,
   indeterminate,
@@ -31,10 +31,16 @@ export const Checkbox: FC<CheckboxProps> = ({
   style,
   warning,
 }) => {
-  const [checked, setChecked] = usePropState(active)
+  const [checked, setChecked] = usePropState(value)
 
   return (
-    <styled.div style={{ display: 'flex' }}>
+    <styled.div
+      style={{
+        display: 'flex',
+        pointerEvents: disabled ? 'none' : 'auto',
+        opacity: disabled ? 0.6 : 1,
+      }}
+    >
       <styled.button
         disabled={disabled}
         onClick={(e) => {

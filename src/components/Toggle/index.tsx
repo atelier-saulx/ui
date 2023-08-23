@@ -4,7 +4,7 @@ import { ColorActionColors, color as genColor } from '../../../src'
 import { usePropState } from '../../hooks/usePropState'
 
 export type ToggleProps = {
-  active?: boolean
+  value?: boolean
   color?: ColorActionColors
   disabled?: boolean
   onClick?: (e) => void | (() => void)
@@ -13,14 +13,14 @@ export type ToggleProps = {
 }
 
 export const Toggle: FC<ToggleProps> = ({
-  active,
+  value,
   color = 'primary',
   disabled,
   onClick,
   size = 'large',
   style,
 }) => {
-  const [checked, setChecked] = usePropState(active)
+  const [checked, setChecked] = usePropState(value)
 
   const width = size === 'large' ? '36px' : '28px'
   const height = size === 'large' ? '20px' : '16px'
