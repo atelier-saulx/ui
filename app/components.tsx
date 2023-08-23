@@ -13,6 +13,7 @@ import {
   Checkbox,
   AlertBanner,
   Slider,
+  Toggle,
 } from '../src'
 import * as ui from '../src'
 import props from './props.json'
@@ -239,6 +240,13 @@ export const components: ComponentDef[] = [
       {
         props: {
           children: 'Hello badge',
+          color: 'informative',
+          light: false,
+        },
+      },
+      {
+        props: {
+          icon: () => React.createElement(ui.IconSmallBolt),
         },
       },
     ],
@@ -252,6 +260,10 @@ export const components: ComponentDef[] = [
       {
         props: {
           children: 'Click me',
+          description: 'Little description text',
+          label: 'Label',
+          value: true,
+          onClick: (v) => console.log(v),
         },
       },
 
@@ -312,10 +324,19 @@ export const components: ComponentDef[] = [
       {
         props: {
           items: [
-            { id: 'flip', title: '1', index: 0 },
+            { id: 'flip', title: 'Flippie', index: 0 },
             { id: 'flap', title: 'Flap', index: 1 },
             { id: 'Flurp', title: 'Flupr', index: 2 },
           ],
+        },
+      },
+      {
+        props: {
+          min: 0,
+          max: 60,
+          steps: 5,
+          onChange: (v) => console.log(v),
+          color: 'alert',
         },
       },
     ],
@@ -379,6 +400,29 @@ export const components: ComponentDef[] = [
           placeholder: 'placeholder',
           beforeIcon: () => <IconBolt />,
           type: 'text',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Toggle',
+    component: Toggle,
+    description: 'Toggle button',
+    properties: props.props.ToggleProps.props,
+    examples: [
+      {
+        props: {
+          size: 'large',
+          active: true,
+          disabled: false,
+        },
+      },
+      {
+        props: {
+          size: 'medium',
+          active: true,
+          onClick: (v) => console.log(v),
+          color: 'neutral',
         },
       },
     ],

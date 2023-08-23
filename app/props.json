@@ -621,9 +621,26 @@
         "disabled": {
           "optional": true,
           "type": "boolean"
+        },
+        "multiple": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type FileInputProps = {\n  disabled?: boolean\n}",
+      "code": "type FileInputProps = {\n  disabled?: boolean\n  multiple?: boolean\n}",
+      "file": "/components/Input/FileInput.tsx"
+    },
+    "FileListItemProps": {
+      "name": "FileListItemProps",
+      "props": {
+        "file": {
+          "type": "File"
+        },
+        "onDelete": {
+          "type": "function"
+        }
+      },
+      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n}",
       "file": "/components/Input/FileInput.tsx"
     },
     "SelectInputProps": {
@@ -1025,10 +1042,14 @@
     "SliderProps": {
       "name": "SliderProps",
       "props": {
+        "color": {
+          "optional": true,
+          "type": "ColorActionColors"
+        },
         "items": {
           "optional": true,
           "type": {
-            "array": "TSTypeLiteral"
+            "array": "Item"
           }
         },
         "min": {
@@ -1055,10 +1076,11 @@
           "type": "Style"
         },
         "onChange": {
+          "optional": true,
           "type": "function"
         }
       },
-      "code": "type SliderProps = {\n  items?: { id: string; title: string; index: number }[]\n  min?: number\n  max?: number\n  value?: number | { id: string; title: string; index: number }\n  steps?: number\n  style?: Style\n  onChange: (value: number) => void\n}",
+      "code": "type SliderProps = {\n  color?: ColorActionColors\n  items?: Item[]\n  min?: number\n  max?: number\n  value?: number | { id: string; title: string; index: number }\n  steps?: number\n  style?: Style\n  onChange?: (value: number) => void\n}",
       "file": "/components/Slider/index.tsx"
     },
     "TagProps": {
@@ -1170,6 +1192,10 @@
             "ReactNode"
           ]
         },
+        "color": {
+          "optional": true,
+          "type": "ColorBackgroundColors"
+        },
         "description": {
           "optional": true,
           "type": "string"
@@ -1182,22 +1208,20 @@
           "optional": true,
           "type": "CSSProperties"
         },
-        "type": {
+        "closeable": {
           "optional": true,
-          "type": [
-            {
-              "value": "success"
-            },
-            {
-              "value": "error"
-            },
-            {
-              "value": "warning"
-            }
-          ]
+          "type": "boolean"
+        },
+        "strong": {
+          "optional": true,
+          "type": "Boolean"
+        },
+        "action": {
+          "optional": true,
+          "type": "TSTypeLiteral"
         }
       },
-      "code": "type ToastProps = {\n  label?: string\n  icon?: FunctionComponent | ReactNode\n  // topLeft?: ReactNode\n  // topRight?: ReactNode\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n  type?: 'success' | 'error' | 'warning'\n}",
+      "code": "type ToastProps = {\n  label?: string\n  icon?: FunctionComponent | ReactNode\n  // topLeft?: ReactNode\n  // topRight?: ReactNode\n  color?: ColorBackgroundColors\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n  closeable?: boolean\n  strong?: Boolean\n  // type?: 'success' | 'error' | 'warning'\n  action?: { onClick: () => void; label: string }\n}",
       "file": "/components/Toast/Toast.tsx"
     },
     "PositionStyleProps": {

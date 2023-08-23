@@ -5,7 +5,14 @@ import React, {
   TouchEventHandler,
   useEffect,
 } from 'react'
-import { styled, Style, Text, color as genColor, useWindowResize } from '../..'
+import {
+  styled,
+  Style,
+  Text,
+  color as genColor,
+  useWindowResize,
+  ColorActionColors,
+} from '../..'
 
 const StyledBgSlider = styled('div', {
   backgroundColor: genColor('action', 'neutral', 'subtleNormal'),
@@ -65,8 +72,15 @@ const StyledLabel = styled('div', {
   },
 })
 
+type Item = {
+  id: string
+  title: string
+  index: number
+}
+
 type SliderProps = {
-  items?: { id: string; title: string; index: number }[]
+  color?: ColorActionColors
+  items?: Item[]
   min?: number
   max?: number
   value?: number | { id: string; title: string; index: number }
@@ -109,22 +123,36 @@ const getClosestIndex = (
 
 export const Slider: FC<SliderProps> = ({
   items,
-  min,
+  min = 0,
   max,
   value,
   onChange,
-  steps,
+  color = 'primary',
+  steps = 1,
   style,
 }) => {
+  if (steps && max === undefined) {
+    max = 10
+  }
+
+  if (steps !== 1 && !items && max) {
+    items = []
+    let counter = 0
+    for (let i = min; i <= max; i += steps) {
+      items.push({ id: `blah${i}`, index: counter, title: i.toString() })
+      counter++
+    }
+  }
+
   const [containerWidth, setContainerWidth] = useState(0)
   //  const [leftContainerSide, setLeftContainerSide] = useState(0)
   const [isUpdating, setIsUpdating] = useState(false)
   const [index, setIndex] = useState(value || 0)
   const [percentageX, setPercentageX] = useState(0)
 
-  const refRangeContainer = useRef(null)
-  const refLeftPart = useRef(null)
-  const refThumb = useRef(null)
+  const refRangeContainer = useRef<HTMLDivElement>(null)
+  const refLeftPart = useRef<HTMLDivElement>(null)
+  const refThumb = useRef<HTMLDivElement>(null)
 
   const windowSize = useWindowResize()
 
@@ -136,8 +164,12 @@ export const Slider: FC<SliderProps> = ({
   }, [windowSize])
 
   // split number of items
-  const splitUpRange = items ? 100 / (items.length - 1) : max - min
-  const xPosArray = []
+  const splitUpRange: any = items
+    ? 100 / (items.length - 1)
+    : max
+    ? max - min
+    : undefined
+  const xPosArray: number[] = []
 
   if (items) {
     for (let i = 0; i < items.length; i++) {
@@ -151,10 +183,10 @@ export const Slider: FC<SliderProps> = ({
   useEffect(() => {
     if (max) {
       if (value !== undefined && !isUpdating) {
-        setPercentageX((value / max) * 100)
+        setPercentageX(((value as number) / max) * 100)
       }
     } else if (value !== undefined && !isUpdating) {
-      setPercentageX(xPosArray[index])
+      setPercentageX(xPosArray[index as number])
     }
   }, [isUpdating, value, max])
 
@@ -166,7 +198,7 @@ export const Slider: FC<SliderProps> = ({
 
   const setValue = (newPercentage: number, snap?: boolean) => {
     if (xPosArray.length) {
-      if (snap) {
+      if (snap && refLeftPart.current !== null) {
         refLeftPart.current.style.transition = 'width 0.4s ease'
         if (refThumb.current) {
           refThumb.current.style.transition =
@@ -180,7 +212,7 @@ export const Slider: FC<SliderProps> = ({
       }
     } else {
       setPercentageX(newPercentage)
-      const newValue = (newPercentage * (max - min)) / 100 + min
+      const newValue = max && (newPercentage * (max - min)) / 100 + min
       if (value !== newValue) {
         onChange(Math.trunc(newValue))
       }
@@ -188,49 +220,62 @@ export const Slider: FC<SliderProps> = ({
   }
 
   const moveHandler = (x: number) => {
-    refRangeContainer.current.style.cursor = 'grabbing'
-    refThumb.current.style.cursor = 'grabbing'
-    refLeftPart.current.style.transition = 'width 0s'
-    if (refThumb.current) {
-      refThumb.current.style.transition = 'transform 0s, opacity 0.2s'
-    }
+    if (
+      refRangeContainer.current !== null &&
+      refThumb.current !== null &&
+      refLeftPart.current !== null
+    ) {
+      refRangeContainer.current.style.cursor = 'grabbing'
+      refThumb.current.style.cursor = 'grabbing'
+      refLeftPart.current.style.transition = 'width 0s'
+      if (refThumb.current) {
+        refThumb.current.style.transition = 'transform 0s, opacity 0.2s'
+      }
 
-    if (x > 0 && x < containerWidth) {
-      refRangeContainer.current.style.cursor = 'pointer'
+      if (x > 0 && x < containerWidth) {
+        refRangeContainer.current.style.cursor = 'pointer'
 
-      setValue(Math.round(x / percentage))
+        setValue(Math.round(x / percentage))
+      }
     }
   }
 
   const mouseMoveHandler = (e) => {
-    moveHandler(
-      e.clientX - refRangeContainer.current?.getBoundingClientRect().left
-    )
+    if (refRangeContainer.current !== null) {
+      moveHandler(
+        e.clientX - refRangeContainer.current?.getBoundingClientRect().left
+      )
+    }
   }
 
   const mouseUpHandler = () => {
-    refRangeContainer.current.style.cursor = 'pointer'
-    refThumb.current.style.cursor = 'pointer'
-    window.removeEventListener('mousemove', mouseMoveHandler)
-    window.removeEventListener('mouseup', mouseUpHandler)
+    if (refRangeContainer.current !== null && refThumb.current !== null) {
+      refRangeContainer.current.style.cursor = 'pointer'
+      refThumb.current.style.cursor = 'pointer'
+      window.removeEventListener('mousemove', mouseMoveHandler)
+      window.removeEventListener('mouseup', mouseUpHandler)
 
-    setContainerWidth(
-      refRangeContainer.current?.getBoundingClientRect().width || 0
-    )
+      setContainerWidth(
+        refRangeContainer.current?.getBoundingClientRect().width || 0
+      )
 
-    setIsUpdating(false)
-    // if (onEndSliding) {
-    //   onEndSliding()
-    // }
+      setIsUpdating(false)
+      // if (onEndSliding) {
+      //   onEndSliding()
+      // }
+    }
   }
 
   const onMouseDownHandler = () => {
     setIsUpdating(true)
 
+    if (refRangeContainer.current !== null) {
+      refRangeContainer.current.style.cursor = 'grabbing'
+    }
     // if (onStartSliding) {
     //   onStartSliding()
     // }
-    refRangeContainer.current.style.cursor = 'grabbing'
+
     window.addEventListener('mouseup', mouseUpHandler)
     window.addEventListener('mousemove', mouseMoveHandler)
   }
@@ -255,22 +300,28 @@ export const Slider: FC<SliderProps> = ({
   // Touch functions
   const onTouchMoveHandler: TouchEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
-    moveHandler(
-      e.touches[0].clientX -
-        refRangeContainer.current?.getBoundingClientRect().left
-    )
+
+    if (refRangeContainer.current !== null) {
+      moveHandler(
+        e.touches[0].clientX -
+          refRangeContainer.current?.getBoundingClientRect().left
+      )
+    }
   }
 
   const onClickSnap = (e) => {
     const correctedMouseXPos =
       e.clientX - refRangeContainer.current?.getBoundingClientRect().left
+
     if (correctedMouseXPos > 0 && correctedMouseXPos < containerWidth) {
       setValue(Math.round(correctedMouseXPos / percentage), true)
     }
   }
 
   return (
-    <styled.div style={{ width: '100%', position: 'relative', minWidth: 340 }}>
+    <styled.div
+      style={{ width: '100%', position: 'relative', minWidth: 340, ...style }}
+    >
       <styled.div
         onMouseDown={onMouseDownHandler}
         onClick={onClickSnap}
@@ -281,16 +332,28 @@ export const Slider: FC<SliderProps> = ({
       >
         <StyledLabel style={{ left: `${percentageX}%` }}>
           <Text color="inverted" weight="strong">
-            {items[index]?.title}
+            {items
+              ? items[index as number]?.title
+              : max
+              ? (percentageX * max) / 100
+              : ''}
           </Text>
         </StyledLabel>
 
         <StyledBgSlider />
         <StyledStepProgress
           ref={refLeftPart}
-          style={{ width: `${percentageX}%` }}
+          style={{
+            width: `${percentageX}%`,
+            backgroundColor: genColor('action', color, 'normal'),
+          }}
         >
-          <StyledThumb ref={refThumb} />
+          <StyledThumb
+            ref={refThumb}
+            style={{
+              border: `5px solid ${genColor('action', color, 'normal')} `,
+            }}
+          />
         </StyledStepProgress>
       </styled.div>
     </styled.div>

@@ -1,73 +1,103 @@
-import React, { FC, ReactNode, CSSProperties, FunctionComponent } from 'react'
-import { Text } from '../Text'
-import { color } from '../../varsUtilities'
-import { renderOrCreateElement } from '../../utils/renderOrCreateElement'
-import { IconCheckCircle, IconClose, IconWarning } from '../../icons'
+import React, {
+  FC,
+  ReactNode,
+  CSSProperties,
+  FunctionComponent,
+  useContext,
+} from 'react'
+import {
+  ColorBackgroundColors,
+  Text,
+  styled,
+  color as genColor,
+  Button,
+  IconAlert,
+  IconClose,
+  IconError,
+  IconInfoFill,
+} from '../..'
+import { ToastContext, ToastContextType } from './ToastContext'
 
 type ToastProps = {
   label?: string
   icon?: FunctionComponent | ReactNode
   // topLeft?: ReactNode
   // topRight?: ReactNode
+  color?: ColorBackgroundColors
   description?: string
   children?: ReactNode
   style?: CSSProperties
-  type?: 'success' | 'error' | 'warning'
+  closeable?: boolean
+  strong?: Boolean
+  // type?: 'success' | 'error' | 'warning'
+  action?: { onClick: () => void; label: string }
 }
 
 export const Toast: FC<ToastProps> = ({
   label,
   icon,
+  action,
+  closeable,
+  color = 'default',
   // topLeft,
   // topRight,
   description,
   children,
   style,
-  type,
+  // type,
+  strong,
   ...props
 }) => {
   return (
-    <div
+    <styled.div
       style={{
         borderRadius: 8,
-        backgroundColor: color('background', 'default', 'surface'),
+        backgroundColor: genColor(
+          strong ? 'background' : 'standalone',
+          strong ? color : 'modal',
+          strong ? 'strong' : 'default'
+        ),
         boxShadow: 'rgb(0 0 0 / 12%) 0px 8px 20px',
         cursor: 'pointer',
-        padding: '12px 16px',
-        paddingBottom: label && !description && !children ? '8px' : '12px',
-        width: 400,
-        ...style,
+        padding: '0px 16px',
+        height: '48px',
+        // width: '400px',
+        display: 'flex',
+        alignItems: 'center',
       }}
       {...props}
     >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          // justifyContent: topRight ? 'space-between' : 'flex-start',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-          marginBottom: 4,
-        }}
+      {color === 'negative' ? (
+        <IconError color="inverted" />
+      ) : color === 'warning' ? (
+        <IconAlert color="inverted" />
+      ) : (
+        <IconInfoFill color={strong ? 'inverted' : 'default'} />
+      )}
+      <Text
+        style={{ marginLeft: '16px' }}
+        color={strong ? 'inverted' : 'default'}
       >
-        {/* {topLeft && !icon && <div style={{ marginRight: 12 }}>{topLeft}</div>} */}
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {icon && renderOrCreateElement(icon)}
-          {type === 'success' && <IconCheckCircle />}
-          {type === 'error' && <IconClose color="negative" />}
-          {type === 'warning' && <IconWarning color="warning" />}
-
-          {label && <Text size={14}>{label}</Text>}
-        </div>
-        {description && (
-          <Text color="informative" style={{ marginTop: 6 }}>
-            {description}
-          </Text>
-        )}
-
-        {children}
-      </div>
-    </div>
+        {label}
+      </Text>
+      {action && (
+        <Button
+          style={{ marginLeft: '16px' }}
+          size="xsmall"
+          underline
+          color={strong ? 'inverted' : 'system'}
+          onClick={action.onClick}
+        >
+          {action.label}
+        </Button>
+      )}
+      {closeable && (
+        <IconClose
+          style={{ marginLeft: '21px' }}
+          color={strong ? 'inverted' : 'default'}
+        />
+      )}
+      {/* {children} */}
+    </styled.div>
   )
 }

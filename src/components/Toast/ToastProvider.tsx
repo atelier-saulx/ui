@@ -7,7 +7,7 @@ import { color } from '../../varsUtilities'
 export const ToastContainer = ({
   id,
   children,
-  onClick = null,
+  onClick = () => null,
   toast,
   first = false,
   style,
@@ -31,22 +31,29 @@ export const ToastContainer = ({
   }, [])
 
   return (
-    <div
+    <styled.div
       style={{
         opacity: fade ? 0 : 1,
-        transition: `opacity 300ms`,
+        transition: `all 300ms`,
         cursor: 'pointer',
         borderRadius: 8,
+        '@keyframes': {
+          '0%': { transform: 'translateY(20px)', opacity: 0 },
+          // '50%': { transform: 'translateY(200px)', opacity: 0 },
+          '100%': { transform: 'translateY(0px)', opacity: 1 },
+        },
+        animationDuration: '0.5s',
+        animationEffect: 'ease-in',
         ...style,
       }}
       onTransitionEnd={fade ? close : null}
       onClick={() => {
         close()
-        onClick?.()
+        onClick()
       }}
     >
       {children}
-    </div>
+    </styled.div>
   )
 }
 
@@ -77,7 +84,7 @@ export const ToastProvider = ({
   const toastsRef = useRef<Toast[]>()
 
   const toastyRef = useRef(null)
-  const toastHolderRef = useRef(null)
+  const toastHolderRef = useRef<any>(null)
 
   const toastRef = useRef<ToastContextType>()
   if (!toastRef.current) {
@@ -91,34 +98,35 @@ export const ToastProvider = ({
 
     const toast = (child) => {
       const id = count++
+      if (toastsRef.current) {
+        update(
+          toastsRef.current.unshift({
+            id,
+            children: (
+              <ToastContainer
+                id={id}
+                toast={toast}
+                first={!toastsRef.current.length}
+                style={{
+                  marginBottom: 16,
+                  boxShadow: !positionFlipped
+                    ? 'rgb(0 0 0 / 12%) 0px 8px 20px'
+                    : 'none',
+                }}
+              >
+                {child}
+              </ToastContainer>
+            ),
+          })
+        )
 
-      update(
-        toastsRef.current.unshift({
-          id,
-          children: (
-            <ToastContainer
-              id={id}
-              toast={toast}
-              first={!toastsRef.current.length}
-              style={{
-                marginBottom: 16,
-                boxShadow: !positionFlipped
-                  ? 'rgb(0 0 0 / 12%) 0px 8px 20px'
-                  : 'none',
-              }}
-            >
-              {child}
-            </ToastContainer>
-          ),
-        })
-      )
-
-      return id
+        return id
+      }
     }
 
     toast.add = toast
     toast.close = (id?: number) => {
-      if (typeof id === 'number') {
+      if (typeof id === 'number' && typeof toastsRef.current !== 'undefined') {
         const index = toastsRef.current.findIndex(
           ({ id: toastId }) => toastId === id
         )
@@ -144,7 +152,7 @@ export const ToastProvider = ({
 
       return toastCount
     }
-
+    //@ts-ignore
     toastRef.current = toast
     toastsRef.current = []
   }
@@ -185,14 +193,14 @@ export const ToastProvider = ({
     //   boxShadow: boxShadow('small'),
   })
 
-  const toasts = toastsRef.current.map(({ id, children }, index) => {
+  const toasts = toastsRef.current?.map(({ id, children }, index) => {
     return (
       <div
         key={id}
         ref={toastyRef}
         onClick={() => {
           // close all toasts if more then 8
-          positionFlipped && toastRef.current.close()
+          positionFlipped && toastRef.current?.close()
         }}
         style={{
           // TODO FIX THIS
@@ -231,7 +239,7 @@ export const ToastProvider = ({
       setToastHeightY(toasts[0]?.ref?.current?.clientHeight)
     }
 
-    if (positionFlipped) {
+    if (positionFlipped && toastHolderRef) {
       for (let i = 0; i < toastHolderRef.current.childNodes.length; i++) {
         if (i === toastHolderRef.current.childNodes.length - 1) {
           toastHolderRef.current.childNodes[
@@ -251,6 +259,7 @@ export const ToastProvider = ({
   }, [toasts])
 
   return (
+    //@ts-ignore
     <ToastContext.Provider value={toastRef.current}>
       {children}
       <styled.div
@@ -258,14 +267,22 @@ export const ToastProvider = ({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          width: 400,
+          // width: 400,
           position: 'absolute',
           bottom: !positionFlipped ? 16 : '',
           right: positionFlipped ? 0 : 16,
           top: positionFlipped ? 0 : '',
           minHeight: positionFlipped && toastHeightY,
+          // '@keyframes': {
+          //   '0%': { transform: 'translateY(20px)', opacity: 0 },
+          //   '50%': { transform: 'translateY(200px)', opacity: 0 },
+          //   '100%': { transform: 'translateY(0px)', opacity: 1 },
+          // },
+          // animationDuration: '1.5s',
+          // animationEffect: 'ease-in',
         }}
       >
+        {/*@ts-ignore*/}
         {toasts.reverse()}
       </styled.div>
     </ToastContext.Provider>

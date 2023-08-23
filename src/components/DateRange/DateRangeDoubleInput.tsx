@@ -129,12 +129,6 @@ export const DateRangeDoubleInput = ({
     FromRangePicker,
     { setValue: setFromValue, timeString, stringToMilliseconds },
     { width: '100%', position: 'bottom' }
-    //   width?: number | '100%' | 'target' | 'auto'
-    // position?: 'left' | 'right' | 'top' | 'bottom'
-    // placement?: 'center' | 'left' | 'right'
-    // variant?: 'over' | 'detached'
-    // offset?: { x: number; y: number }
-    // selectTarget?: SelectTarget
   )
 
   // if is range
