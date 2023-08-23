@@ -3,15 +3,13 @@ import React from 'react'
 import { TextInput, TextInputProps } from './TextInput'
 import { SelectInput, SelectInputProps } from './SelectInput'
 import { SearchInput, SearchInputProps } from './SearchInput'
-
-const expectNever = (value: never): never => {
-  throw new TypeError('Unexpected value: ' + value)
-}
+import { FileInput, FileInputProps } from './FileInput'
 
 type InputProps =
   | ({ type: 'text' } & TextInputProps)
   | ({ type: 'search' } & SearchInputProps)
   | ({ type: 'select' } & SelectInputProps)
+  | ({ type: 'file' } & FileInputProps)
 
 export function Input(props: InputProps) {
   switch (props.type) {
@@ -27,7 +25,15 @@ export function Input(props: InputProps) {
       const { type, ...narrowedProps } = props
       return <SelectInput {...narrowedProps} />
     }
+    case 'file': {
+      const { type, ...narrowedProps } = props
+      return <FileInput {...narrowedProps} />
+    }
     default:
       expectNever(props)
   }
+}
+
+const expectNever = (value: never): never => {
+  throw new TypeError('Unexpected value: ' + value)
 }

@@ -10,6 +10,7 @@ import {
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
 } from '../..'
+import { ClickHandler } from '../../types'
 
 const COLORGUARD = [
   'default',
@@ -27,9 +28,9 @@ export type BadgeProps = {
   color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
   icon?: ReactNode
   children?: ReactNode
-  onClick?: (e: MouseEvent) => void | (() => void)
+  onClick?: ClickHandler
   style?: Style
-  subtle?: boolean
+  light?: boolean
 }
 
 // export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
@@ -60,23 +61,22 @@ export const Badge: FC<BadgeProps> = ({
   icon,
   style,
   onClick,
-  subtle,
+  light,
   children,
   afterIcon,
   color = 'neutral',
 }) => {
-  const contentColor: ColorContentColors | ColorNonSemanticContentColors =
-    subtle
-      ? color === 'neutral'
-        ? 'default'
-        : color
-      : COLORGUARD.includes(color)
-      ? color === 'warning'
-        ? 'default'
-        : 'inverted'
-      : color === 'orange'
-      ? 'grey'
-      : 'white'
+  const contentColor: ColorContentColors | ColorNonSemanticContentColors = light
+    ? color === 'neutral'
+      ? 'default'
+      : color
+    : COLORGUARD.includes(color)
+    ? color === 'warning'
+      ? 'default'
+      : 'inverted'
+    : color === 'orange'
+    ? 'grey'
+    : 'white'
 
   return (
     <styled.div
@@ -102,7 +102,7 @@ export const Badge: FC<BadgeProps> = ({
         backgroundColor: genColor(
           COLORGUARD.includes(color) ? 'background' : 'nonSemanticBackground',
           color,
-          subtle ? 'muted' : 'strong'
+          light ? 'muted' : 'strong'
         ),
         ...style,
       }}
