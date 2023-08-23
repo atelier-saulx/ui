@@ -244,6 +244,11 @@ export const components: ComponentDef[] = [
           light: false,
         },
       },
+      {
+        props: {
+          icon: () => React.createElement(ui.IconSmallBolt),
+        },
+      },
     ],
   },
   {
@@ -255,6 +260,9 @@ export const components: ComponentDef[] = [
       {
         props: {
           children: 'Click me',
+          description: 'Little description text',
+          label: 'Label',
+          onClick: (v) => console.log(v),
         },
       },
 
