@@ -18,7 +18,6 @@ export const SchemaMain: FC = () => {
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const client = useClient()
 
-
   if (loading) {
     return null
   }
@@ -31,12 +30,10 @@ export const SchemaMain: FC = () => {
     )
   }
 
-
   const typeDef: BasedSchemaType =
     type === 'root' ? schema.rootType : types[type] || { fields: {} }
   const { fields } = typeDef
   // const { name } = meta
-
 
   if (!fields) {
     console.error('[InvalidSchema] No fields on type', type)

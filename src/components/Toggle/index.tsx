@@ -16,6 +16,7 @@ type ToggleProps = {
   style?: CSSProperties
   color?: Color
   onChange?: (value: boolean) => void
+  isRequired?: boolean
 }
 
 export const Toggle: FC<ToggleProps> = ({
@@ -29,6 +30,7 @@ export const Toggle: FC<ToggleProps> = ({
   color: colorProp = 'accent',
   style,
   onChange,
+  isRequired,
   ...props
 }) => {
   const [checked, setChecked] = usePropState(value)
@@ -39,6 +41,7 @@ export const Toggle: FC<ToggleProps> = ({
       value=""
       descriptionBottom={descriptionBottom}
       disabled={disabled}
+      hideClearButton
       color={colorProp}
       style={{
         width: 'fit-content',
@@ -56,6 +59,7 @@ export const Toggle: FC<ToggleProps> = ({
         label={label}
         description={description}
         style={{ marginRight: 12 }}
+        isRequired={isRequired}
       />
 
       <div {...props} style={{ ...style }}>

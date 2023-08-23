@@ -12,11 +12,15 @@ import {
   SearchIcon,
   Table,
   AddIcon,
+  Page,
+  Badge,
+  color,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { parseProps } from '../propsParser'
 import useLocalStorage from '@based/use-local-storage'
 import { ContentConfig, View } from '../../types'
+import { ContentEditor } from './Modal/ContentEditor'
 
 export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   view,
@@ -29,6 +33,7 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   const [target, setTarget] = useContextState<any>('target')
   const [, setOverlayTarget] = useContextState<any>('overlay-target')
   const isTable = view.config.view === 'table'
+  const isContentEditor = view.config.view === 'content-editor'
   const ref = useRef<ReturnType<typeof setTimeout>>()
   const typing = useRef<boolean>()
 
@@ -58,14 +63,17 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
       }
     },
   }
+
   const payload = parseProps(view.config.function?.payload, ctx)
 
   const { data } = useQuery(view.config.function?.name, payload)
 
-  console.log(data, payload)
-
   ctx.data = data
   const props = parseProps(view.config.props ?? {}, ctx)
+
+  // console.log('view', view)
+  // console.log(' propss??', props)
+
   return (
     <ScrollArea
       style={{
@@ -134,7 +142,12 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
           ) : null}
 
           {props.button ? (
-            <Button ghost color="accent" icon={AddIcon} {...props.button} />
+            <Button
+              ghost={!isContentEditor}
+              color="accent"
+              icon={!isContentEditor && AddIcon}
+              {...props.button}
+            />
           ) : null}
         </Row>
         <styled.div
@@ -145,6 +158,28 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
           }}
         >
           {!typing.current && isTable && <Table {...props} />}
+          {!typing.current && isContentEditor && (
+            <Page
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderRadius: 8,
+                marginLeft: 16,
+                marginRight: 16,
+              }}
+            >
+              <Badge color="accent">
+                <Text color="accent" typography="caption600">
+                  {data?.id}
+                </Text>
+              </Badge>
+              <ContentEditor
+                data={ctx.data}
+                fields={props?.fields}
+                state={state}
+                setState={setState}
+              />
+            </Page>
+          )}
         </styled.div>
       </styled.div>
     </ScrollArea>

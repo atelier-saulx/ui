@@ -16,8 +16,6 @@ export const AddTypeModal: FC = () => {
   const [db] = useContextState('db', 'default')
   const { schema } = useSchema(db)
 
-  console.log('--> use Schema hook called db', schema)
-
   useEffect(() => {
     if (name !== '') {
       setFilled(true)
@@ -77,7 +75,7 @@ export const AddTypeModal: FC = () => {
         />
       </Dialog.Body>
       <Dialog.Buttons border>
-        <Dialog.Cancel>Cancel (Esc)</Dialog.Cancel>
+        <Dialog.Cancel>Cancel</Dialog.Cancel>
         <div style={filled ? {} : { cursor: 'not-allowed' }}>
           <Dialog.Confirm
             style={
@@ -116,7 +114,7 @@ export const AddTypeModal: FC = () => {
               setType(type)
             }}
           >
-            Create Model (Enter)
+            Create Model
           </Dialog.Confirm>
         </div>
       </Dialog.Buttons>

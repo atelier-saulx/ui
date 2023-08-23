@@ -75,6 +75,8 @@ export const FileUpload: FC<FileUploadProps> = ({
     uploadedFiles = uploadedFiles ? [uploadedFiles] : []
   }
 
+  console.log(uploadedFiles, '🛸')
+
   const dialog = useDialog()
   const { prompt } = useDialog()
   const fullScreenDialog = useDialog()
@@ -181,6 +183,8 @@ export const FileUpload: FC<FileUploadProps> = ({
       ? [...uploadedFiles, ...e.target.files]
       : [e.target.files[0]]
 
+    console.log(newValue, 'from changehandler ??')
+
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
@@ -191,7 +195,7 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles((uploadedFiles) =>
       Array.isArray(uploadedFiles)
         ? uploadedFiles?.filter((_, index) => index !== id)
-        : onChange(undefined)
+        : onChange(null)
     )
     setClearCount((clearCount) => clearCount + 1)
   }
@@ -259,15 +263,26 @@ export const FileUpload: FC<FileUploadProps> = ({
     // const renameArr = [...uploadedFiles]
 
     const ok = await prompt('Rename file')
+
+    const newFile = { ...uploadedFiles }
+
     if (ok && ok !== undefined) {
-      // setFileName(ok + '.' + extension)
+      setFileName(ok + '.' + extension)
 
       file.name = ok + '.' + extension
 
+      console.log('???', file.name)
+      console.log('uploaded files?->', uploadedFiles)
+
+      newFile.name = file.name
+
       // renameArr[idx].name = ok + '.' + extension
       // setUploadedFiles([...renameArr])
+      //  setUploadedFiles({ ...uploadedFiles, uploadedFiles.name = ok })
     }
-    // onChange([...renameArr])
+    //  onChange(uploadedFiles)
+    console.log('🔥')
+    onChange(newFile)
   }
 
   const fullScreenView = (file) => {
@@ -331,7 +346,8 @@ export const FileUpload: FC<FileUploadProps> = ({
               large
               color="text"
               onClick={() => {
-                fullScreenDialog.close()
+                //  fullScreenDialog.close()
+                removeOverlay()
               }}
             >
               Close

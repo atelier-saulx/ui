@@ -45,6 +45,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   }
 
   const targetDefaults = overlayData?.config?.target ?? {}
+
   const ctx = {
     data: {},
     state,
@@ -62,6 +63,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
       }
     },
   }
+
   const { data, loading } = useQuery(
     overlayData?.config?.function?.name,
     parseProps(overlayData?.config?.function?.payload ?? {}, ctx)
@@ -112,7 +114,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
                 padding: '24px 32px',
               }}
             >
-              <Text typography="subtitle500">{props.name}</Text>
+              <Text typography="subtitle500">{props.data.type}</Text>
             </styled.div>
             <styled.div>
               <ContentEditor
@@ -147,7 +149,9 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
               }}
               icon={<CloseIcon color="text2" />}
               color="border"
-              onClick={() => removeOverlay()}
+              onClick={() => {
+                removeOverlay()
+              }}
             />
             <styled.div
               style={{

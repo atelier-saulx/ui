@@ -39,11 +39,20 @@ const EditMenu: FC<{
   const client = useClient()
   const { open } = useDialog()
 
+  console.log('path from edit menu ??', path)
+
   return (
     <>
       <ContextItem
         onClick={() => {
-          open(<FieldModal type={type} field={field} template={template} />)
+          open(
+            <FieldModal
+              type={type}
+              field={field}
+              template={template}
+              //  path={path}
+            />
+          )
         }}
       >
         Settings
@@ -207,6 +216,9 @@ export const Field = ({
       ? [...path, 'items', 'properties']
       : [...path, 'properties']
     : path
+
+  // console.log('object path -->', objectPath)
+  // console.log(title, format)
 
   const [, setPath] = useContextState('field', [])
 

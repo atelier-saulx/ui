@@ -6,7 +6,7 @@ import {
   BasedSchemaField,
   BasedSchemaFieldShared,
 } from '@based/schema'
-
+import { transformOldToNew } from '../transformOldSchema'
 
 const addTitle = (
   obj: BasedSchemaType | BasedSchemaFieldShared,
@@ -24,6 +24,10 @@ const walkField = (
   addTitle(obj as any, key)
   const target = 'items' in obj ? obj.items : 'values' in obj ? obj.values : obj
 
+  // if (obj.type === 'int') {
+  //   console.log('flap 🚢')
+  // }
+
   if ('properties' in target) {
     target.properties = sortFields(target.properties).reduce(
       (properties, key) => {
@@ -39,6 +43,7 @@ const walkField = (
 
 const walkType = (obj: BasedSchemaType, key: string) => {
   addTitle(obj, key)
+
   if (obj.fields) {
     obj.fields = sortFields(obj.fields).reduce((fields, key) => {
       const field = obj.fields[key]
@@ -52,13 +57,18 @@ const walkType = (obj: BasedSchemaType, key: string) => {
 export const useSchema = (
   db = 'default'
 ): { schema: BasedSchema; loading: boolean } => {
+  // incoming
+
   const { data, loading } = useQuery('db:schema', { db }, { persistent: true })
-  // console.log(data)
+
   if (!loading) {
     walkType(data.rootType, 'root')
     for (const key in data.types) {
       walkType(data.types[key], key)
     }
   }
+
+  // const parsedSchema = data ? transformOldToNew(data) : undefined
+
   return { loading, schema: data || { types: {} } }
 }

@@ -32,6 +32,7 @@ type SingleLogProps = {
   ts?: number
   type?: string
   idx?: number
+  status?: string
 }
 
 const VerticalLine = styled('div', {
@@ -64,8 +65,6 @@ const StatusDot = styled('div', {
 
 // groupby -> groupbytime, type, status,
 // if within time and is same type... group m
-// TODO: Scroll direction bottom to top, top to bottom
-// TODO: counter for logs per block.
 
 const orderBy = (arr, props, orders) =>
   [...arr].sort((a, b) =>
@@ -112,6 +111,8 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
     }
   }
 
+  // console.log(pairs, 'pairs??')
+
   const result = []
 
   let item
@@ -129,7 +130,11 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
     }
   }
 
+  // console.log('results', result)
+
   const finalArr = []
+
+  // console.log('final arr', finalArr)
 
   for (let i = 0; i < result.length; i++) {
     finalArr.splice(result[i][0], result[i][1] + 1)
@@ -150,7 +155,9 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
       }, 0)
     )
 
-  const finalFinalOrderedArr = finalOrderBy(finalArr, ['ts'], ['desc'])
+  const finalFinalOrderedArr = finalOrderBy(finalArr, ['ts'], ['asc'])
+
+  console.log(finalFinalOrderedArr)
 
   return (
     <styled.div style={{ width: '100%' }}>
@@ -286,13 +293,14 @@ const GroupedLogs = ({ ts, msg, color, type, status, subType, subItems }) => {
               ) : null}
               <ScrollArea>
                 {subItems.map((item, idx) =>
-                  idx !== 0 ? (
+                  idx > 0 ? (
                     <SingleLog
                       msg={item.msg}
                       key={idx}
                       ts={item.ts}
                       type={item.type}
                       idx={idx}
+                      status={item.status}
                     />
                   ) : null
                 )}
@@ -320,7 +328,7 @@ const GroupedLogs = ({ ts, msg, color, type, status, subType, subItems }) => {
                 size={12}
               />
               <Text color="accent" typography="caption600">
-                Show {subItems.length - 1} more logs
+                Show all {subItems.length} logs
               </Text>
             </styled.div>
           ) : null}
@@ -408,6 +416,7 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
           color={status === 'error' ? 'red' : 'text'}
         >
           {msg.split('\n')[0].substring(0, 74)}
+          {msg.length > 74 ? '...' : ''}
         </Text>
       )}
 
@@ -426,76 +435,170 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
   )
 }
 
-const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
+const SingleLog = ({ msg, style, ts, type, idx, status }: SingleLogProps) => {
   return (
-    <styled.div
-      style={{
-        background: colorFn('background'),
-        marginBottom: 8,
-        ...style,
-      }}
-      onClick={(e) => {
-        e.stopPropagation()
-      }}
-    >
-      {idx === 0 && ts && (
-        <styled.div style={{ display: 'flex' }}>
+    <>
+      {idx > 0 && (
+        <styled.div style={{ display: 'flex', alignItems: 'center' }}>
+          <styled.div
+            style={{
+              height: 1,
+              width: 22,
+              backgroundColor: colorFn('border'),
+              position: 'absolute',
+              left: 12,
+            }}
+          />
           <styled.div
             style={{
               display: 'flex',
               backgroundColor: colorFn('background2'),
-              padding: '2px 8px',
-              borderRadius: ' 12px 0px 0px 12px',
-              borderRight: `1px solid ${colorFn('border')}`,
+              padding: '2px 6px 2px 10px',
+              borderRadius: status ? '12px 0px 0px 12px' : '12px',
+              maxWidth: 70,
             }}
           >
             <Text typography="caption500">{dayjs(ts).format('HH:mm:ss')} </Text>
-            <Text
-              typography="caption500"
-              color="text2"
-              style={{ marginLeft: 4 }}
+          </styled.div>
+          {status ? (
+            <styled.div
+              style={{
+                display: 'flex',
+                backgroundColor: colorFn('background2'),
+                padding: '2px 10px 2px 6px',
+                borderRadius: '0px 12px 12px 0px',
+                borderLeft: `1px solid ${colorFn('border')}`,
+                maxWidth: 70,
+              }}
             >
-              {dayjs(ts).format('DD/MM/YYYY')}
-            </Text>
-          </styled.div>
-          <styled.div
-            style={{
-              display: 'flex',
-              backgroundColor: colorFn('background2'),
-              padding: '2px 8px',
-              borderRadius: ' 0px 12px 12px 0px',
-            }}
-          >
-            <Text typography="caption500">{type}</Text>
-          </styled.div>
+              <Text typography="caption500">{status}</Text>
+            </styled.div>
+          ) : null}
         </styled.div>
       )}
+      <pre
+        style={{
+          color: colorFn('text2'),
+          boxSizing: 'inherit',
+          display: 'inherit',
+          userSelect: 'text',
+          padding: 0,
+          margin: 0,
+          marginLeft: 8,
+          marginBottom: 9,
+          marginTop: 6,
+          border: undefined,
+          lineHeight: '18px',
+          fontSize: 14,
+          fontFamily: 'Fira Code',
+          wordBreak: 'break-all',
+          whiteSpace: 'break-spaces',
+          overflowWrap: 'break-word',
+          position: 'relative',
+        }}
+        // dangerouslySetInnerHTML={{ __html: msg }}
+      >
+        {msg}
+      </pre>
+    </>
 
-      {idx !== 0 && msg[0] !== '{' && (
-        <pre
-          style={{
-            color: colorFn('text2'),
-            boxSizing: 'inherit',
-            display: 'inherit',
-            userSelect: 'text',
-            padding: 0,
-            margin: 0,
-            marginLeft: 8,
-            marginTop: 10,
-            border: undefined,
-            lineHeight: '18px',
-            fontSize: 14,
-            fontFamily: 'Fira Code',
-            wordBreak: 'break-all',
-            whiteSpace: 'break-spaces',
-            overflowWrap: 'break-word',
-            position: 'relative',
-          }}
-          // dangerouslySetInnerHTML={{ __html: msg }}
-        >
-          {msg}
-        </pre>
-      )}
-    </styled.div>
+    // <styled.div
+    //   style={{
+    //     background: colorFn('background'),
+    //     marginBottom: 8,
+    //     ...style,
+    //   }}
+    //   onClick={(e) => {
+    //     e.stopPropagation()
+    //   }}
+    // >
+    //   {idx === 0 && ts && (
+    //     <styled.div style={{ display: 'flex' }}>
+    //       <styled.div
+    //         style={{
+    //           display: 'flex',
+    //           backgroundColor: colorFn('background2'),
+    //           padding: '2px 8px',
+    //           borderRadius: ' 12px 0px 0px 12px',
+    //           borderRight: `1px solid ${colorFn('border')}`,
+    //         }}
+    //       >
+    //         <Text typography="caption500">{dayjs(ts).format('HH:mm:ss')} </Text>
+    //         <Text
+    //           typography="caption500"
+    //           color="text2"
+    //           style={{ marginLeft: 4 }}
+    //         >
+    //           {dayjs(ts).format('DD/MM/YYYY')}
+    //         </Text>
+    //       </styled.div>
+    //       <styled.div
+    //         style={{
+    //           display: 'flex',
+    //           backgroundColor: colorFn('background2'),
+    //           padding: '2px 8px',
+    //           borderRadius: ' 0px 12px 12px 0px',
+    //         }}
+    //       >
+    //         <Text typography="caption500">{type}</Text>
+    //       </styled.div>
+    //     </styled.div>
+    //   )}
+
+    //   {idx !== 0 && msg[0] !== '{' && (
+    //     <>
+    //       {idx > 0 && (
+    //         <styled.div style={{ display: 'flex', alignItems: 'center' }}>
+    //           <styled.div
+    //             style={{
+    //               height: 1,
+    //               width: 22,
+    //               backgroundColor: colorFn('border'),
+    //               position: 'absolute',
+    //               left: 12,
+    //             }}
+    //           />
+    //           <styled.div
+    //             style={{
+    //               display: 'flex',
+    //               backgroundColor: colorFn('background2'),
+    //               padding: '3px 6px 1px 8px',
+    //               borderRadius: '12px',
+    //               maxWidth: 70,
+    //             }}
+    //           >
+    //             <Text typography="caption500">
+    //               {dayjs(ts).format('HH:mm:ss')}{' '}
+    //             </Text>
+    //           </styled.div>
+    //         </styled.div>
+    //       )}
+    //       <pre
+    //         style={{
+    //           color: colorFn('text2'),
+    //           boxSizing: 'inherit',
+    //           display: 'inherit',
+    //           userSelect: 'text',
+    //           padding: 0,
+    //           margin: 0,
+    //           marginLeft: 8,
+    //           marginBottom: 9,
+    //           marginTop: 6,
+    //           border: undefined,
+    //           lineHeight: '18px',
+    //           fontSize: 14,
+    //           fontFamily: 'Fira Code',
+    //           wordBreak: 'break-all',
+    //           whiteSpace: 'break-spaces',
+    //           overflowWrap: 'break-word',
+    //           position: 'relative',
+    //         }}
+    //         // dangerouslySetInnerHTML={{ __html: msg }}
+    //       >
+    //         {msg}
+    //       </pre>
+    //     </>
+    //   )}
+    // </styled.div>
   )
 }

@@ -99,8 +99,8 @@ export const SelectFieldTypeModal: FC<{
         placeholder="Search and discover"
         value={searchValue}
         onChange={(e) => {
-          setSearchValue(e)
-          searchFilterHandler(e)
+          setSearchValue(e as string)
+          searchFilterHandler(e as string)
         }}
         onKeyDown={(e) => {
           if (e.key === 'Backspace' && searchValue.length <= 1) {

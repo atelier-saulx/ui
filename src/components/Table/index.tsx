@@ -3,8 +3,6 @@ import React, {
   createElement,
   ReactNode,
   useState,
-  Dispatch,
-  SetStateAction,
   useRef,
   useMemo,
   useEffect,
@@ -17,10 +15,10 @@ import {
   Badge,
   AttachmentIcon,
   ThumbnailFile,
-  IdIcon,
+  SetIcon,
+  SquareBracketsIcon,
   CheckIcon,
-  Row,
-  pathReader,
+  CurlyBracesIcon,
   useCopyToClipboard,
   Toggle,
 } from '~'
@@ -31,6 +29,8 @@ import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { prettyDate } from '@based/pretty-date'
 import { useClient } from '@based/react'
+
+import { getByPath } from '@saulx/utils'
 
 export * from './types'
 
@@ -52,6 +52,7 @@ const BooleanToggle: FC<{
   return (
     <Toggle
       value={itemData}
+      //  disabled
       onChange={
         item.id
           ? (v) => {
@@ -108,8 +109,8 @@ const Header: FC<{
   headerWidth: number
   width: number
   headers: TableHeader<any>[]
-  setSortOptions: Dispatch<SetStateAction<SortOptions>>
-  sortOptions: SortOptions
+  // setSortOptions: Dispatch<SetStateAction<SortOptions>>
+  // sortOptions: SortOptions
   outline: boolean
 }> = ({ headers, width, headerWidth, outline }) => {
   const children: ReactNode[] = []
@@ -169,17 +170,19 @@ const Cell = (props) => {
   let itemData
   if (Array.isArray(key)) {
     for (const k of key) {
-      itemData = pathReader(rowData, k.split('.'))
+      itemData = getByPath(rowData, k.split('.'))
       if (itemData) {
         break
       }
     }
   } else {
-    itemData = pathReader(rowData, header.key.split('.'))
+    itemData = getByPath(rowData, header.key.split('.'))
   }
 
   const onClick = header.onClick ?? props.data.onClick
   const type = header.type
+
+  // Array.isArray(itemData) && console.log('itemDATA??', itemData)
 
   // Make this into a map /  a bit nicer
   const body = header.customComponent ? (
@@ -192,11 +195,11 @@ const Cell = (props) => {
     })
   ) : type === 'boolean' ? (
     <BooleanToggle item={rowData} itemData={itemData} k={key} />
-  ) : type === 'file' || type == 'reference' ? (
+  ) : type === 'file' || type === 'reference' ? (
     <ThumbnailFile
       mimeType={
         header?.mimeType ?? header.mimeTypeKey
-          ? pathReader(rowData, header.mimeTypeKey.split('.'))
+          ? getByPath(rowData, header.mimeTypeKey.split('.'))
           : undefined
       }
       src={typeof itemData === 'object' ? itemData?.src : itemData}
@@ -213,6 +216,31 @@ const Cell = (props) => {
         {prettyNumber(itemData?.length || 0, 'number-short')}
       </Text>
     </Badge>
+  ) : type === 'array' ? (
+    <Badge color="accent" icon={<SquareBracketsIcon />}>
+      <Text typography="caption600" color="accent">
+        {itemData ? itemData.length : '0'}
+      </Text>
+    </Badge>
+  ) : type === 'set' ? (
+    <Badge color="accent" icon={<SetIcon />}>
+      <Text typography="caption600" color="accent">
+        {itemData ? itemData.length : '0'}
+      </Text>
+    </Badge>
+  ) : type === 'object' ? (
+    // @ts-ignore
+    <Badge
+      style={{ '&:hover': { backgroundColor: color('lightaccent:active') } }}
+      color="accent"
+      icon={
+        <CurlyBracesIcon
+          style={{
+            marginLeft: 8,
+          }}
+        />
+      }
+    />
   ) : (
     <Text selectable typography={type === 'bytes' ? 'caption500' : 'body500'}>
       {type === 'bytes'
@@ -321,7 +349,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     }
   }
 
-  const [sortOptions, setSortOpts] = useState<SortOptions>(
+  const [sortOptions] = useState<SortOptions>(
     defaultSortOptions ?? {
       $field: 'createdAt',
       $order: 'desc',
@@ -381,8 +409,8 @@ const SizedGrid: FC<TableProps> = (props) => {
         ref={headerWrapper}
       >
         <Header
-          sortOptions={sortOptions}
-          setSortOptions={setSortOpts}
+          // sortOptions={sortOptions}
+          // setSortOptions={setSortOpts}
           width={width}
           headers={headers}
           headerWidth={defW}

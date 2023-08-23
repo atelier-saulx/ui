@@ -1,12 +1,13 @@
 import React, { FC } from 'react'
-import { FileUpload, pathReader, Input } from '~'
-import { BOTTOMSPACE } from './constants'
+import { FileUpload, styled, Style, Badge } from '~'
+
+import { getByPath } from '@saulx/utils'
 
 export const FileUploadContentEditor: FC<{
   item: {
-    name?: string
+    title?: string
     type: string
-    meta?: any
+    //  meta?: any
     key: string
     mimeTypeKey?: string
   }
@@ -14,30 +15,37 @@ export const FileUploadContentEditor: FC<{
   data: any
   state: any
   onChange: (fields: any) => void
+  style?: Style
 }> = ({
   name,
   data,
-  item: { type, meta, key, mimeTypeKey },
+  item: { type, key, mimeTypeKey },
   onChange,
   state,
+  style,
 }) => {
   // const [progress, setProgress] = useState(null)
 
   const mimeType: string = mimeTypeKey
-    ? pathReader(data, mimeTypeKey.split('.'))
+    ? getByPath(data, mimeTypeKey.split('.'))
     : undefined
 
   return (
-    <div>
+    <styled.div style={{ ...style }}>
+      {/* <Badge>
+        {state[key] && typeof state[key] === 'string'
+          ? state[key]
+          : data[key]?.id}
+      </Badge> */}
       <FileUpload
         label={name}
         descriptionBottom="Drag and drop or click to upload"
-        description={
-          meta?.description ??
-          (meta?.mime?.length > 0
-            ? `Allowed types: ${meta?.mime?.join(', ')}`
-            : null)
-        }
+        // description={
+        //   meta?.description ??
+        //   (meta?.mime?.length > 0
+        //     ? `Allowed types: ${meta?.mime?.join(', ')}`
+        //     : null)
+        // }
         looseMime
         // progress={progress}
         onChange={(files) => {
@@ -72,10 +80,10 @@ export const FileUploadContentEditor: FC<{
                   ]
                 : null)
         }
-        mime={mimeType ? [mimeType] : meta?.mime}
+        mime={mimeType ? [mimeType] : []}
         style={{ marginBottom: 16 }}
       />
-      {type === 'file' || type === 'reference' ? (
+      {/* {type === 'file' || type === 'reference' ? (
         <Input
           style={{ marginBottom: BOTTOMSPACE, width: 150 }}
           type="text"
@@ -89,7 +97,7 @@ export const FileUploadContentEditor: FC<{
             onChange(v)
           }}
         />
-      ) : null}
-    </div>
+      ) : null} */}
+    </styled.div>
   )
 }

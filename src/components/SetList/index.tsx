@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Label, Button, AddIcon, Input, Dialog } from '~'
+import React, { useState, useEffect } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
+import { Button, AddIcon, Label, styled, Style, Text, Dialog, Input } from '~'
 import { useDialog } from '~/components/Dialog'
-
 import { SingleSetListItem } from './SingleSetListItem'
 
 type SetListProps = {
@@ -11,7 +10,9 @@ type SetListProps = {
   indent?: boolean
   onChange?(items: {}): void
   value?: any
-  schema?: any
+  setType?: any
+  style?: Style
+  label?: string
 }
 
 export const SetList = ({
@@ -20,21 +21,29 @@ export const SetList = ({
   disabled,
   indent,
   value,
-  schema,
+  setType,
+  label,
+  style,
   ...props
 }: SetListProps) => {
-  const itemType = schema?.items.type
-  const [arr, setArr] = useState(value)
-  const [set, setSet] = useState<any>(new Set(arr))
+  const itemType = setType
+
+  const [arr, setArr] = useState(value || [])
   const { open } = useDialog()
   const [inputVal] = useState('')
-
   const [errorMessage, setErrorMessage] = useState('')
 
-  useEffect(() => {
-    setArr(value)
-    setSet(new Set(value))
-  }, [value])
+  if (itemType === 'string') {
+    arr.sort()
+  } else {
+    arr.sort((a, b) => a - b)
+  }
+
+  // console.log('INCOMING ARR', arr)
+
+  // useEffect(() => {
+  //   console.log('ARR from Component --> ', arr)
+  // }, [arr])
 
   const addItemHandler = async () => {
     let inputVAL: number | string = ''
@@ -64,15 +73,14 @@ export const SetList = ({
               } else if (itemType === 'float') {
                 inputVAL = parseFloat(inputVAL)
               }
-              if (set.has(inputVAL)) {
+              if (arr?.includes(inputVAL)) {
                 setErrorMessage(
                   'This item already exists in the set, none item was added'
                 )
               } else {
                 setErrorMessage('')
-                set.add(inputVAL)
-                setArr(Array.from(set))
-                onChange(Array.from(set))
+                setArr([...arr, inputVAL])
+                onChange([...arr, inputVAL])
               }
             }}
           />
@@ -81,18 +89,21 @@ export const SetList = ({
     )
   }
 
-  const deleteSpecificItem = (item, id, set) => {
-    const newSet = new Set(set)
-    newSet.delete(item)
-    setArr(Array.from(newSet))
-    setSet(newSet)
-    onChange(Array.from(newSet))
+  const deleteSpecificItem = (item, id) => {
+    const index = arr.indexOf(item)
+
+    console.log('🏵', item, index)
+
+    const newArr = [...arr]
+    newArr.splice(index, 1)
+    setArr([...newArr])
+    onChange(newArr)
   }
 
-  const editSpecificItem = async (item, idx, set) => {
+  const editSpecificItem = async (item, id) => {
     let inputVAL: number | string = ''
     await open(
-      <Dialog label={`Edit ${arr[idx]} `}>
+      <Dialog label={`Edit ${arr[id]} `}>
         <Input
           type={
             itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
@@ -107,47 +118,22 @@ export const SetList = ({
           <Dialog.Cancel />
           <Dialog.Confirm
             onConfirm={() => {
-              if (inputVAL) {
-                if (itemType === 'string') {
-                  const editTempSet = set.map((item, id) => {
-                    if (idx === id && item === arr[idx]) {
-                      return inputVAL
-                    }
-                    return item
-                  })
-                  onChange(editTempSet)
-                  setArr(editTempSet)
-                } else if (itemType === 'int') {
-                  const editTempSet = arr.map((item, id) => {
-                    if (idx === id && item === arr[idx]) {
-                      // @ts-ignore
-                      return parseInt(inputVAL)
-                    }
-                    return item
-                  })
-                  onChange(editTempSet)
-                  setArr(editTempSet)
-                } else if (itemType === 'float') {
-                  const editTempSet = arr.map((item, id) => {
-                    if (idx === id && item === arr[idx]) {
-                      // @ts-ignore
-                      return parseFloat(inputVAL)
-                    }
-                    return item
-                  })
-                  onChange(editTempSet)
-                  setArr(editTempSet)
-                } else if (itemType === 'digest') {
-                  const editTempSet = arr.map((item, id) => {
-                    if (idx === id && item === arr[idx]) {
-                      // @ts-ignore
-                      return inputVAL
-                    }
-                    return item
-                  })
-                  onChange(editTempSet)
-                  setArr(editTempSet)
-                }
+              if (arr.includes(inputVAL)) {
+                setErrorMessage(
+                  'This item already exists in the set, none item was added'
+                )
+              } else if (inputVAL && !arr.includes(inputVAL)) {
+                setErrorMessage('')
+                const index = arr.indexOf(item)
+
+                const newArr = [...arr]
+                newArr.splice(index, 1)
+                newArr.push(inputVAL)
+
+                console.log(' edit this inputValue --> id', index, inputVAL)
+
+                setArr([...newArr])
+                onChange(newArr)
               }
             }}
           />
@@ -158,8 +144,9 @@ export const SetList = ({
 
   return (
     <InputWrapper
+      label={label}
       indent={indent}
-      style={{ marginBottom: 24 }}
+      style={{ ...style }}
       disabled={disabled}
       descriptionBottom={description}
       errorMessage={errorMessage}

@@ -59,9 +59,7 @@ type InputType =
   | 'digest'
   | 'url'
 
-type OnChange<T extends InputType> = (
-  value: T extends 'number' ? number : string
-) => void
+type OnChange = (value: number | string) => void
 
 export const Input = <T extends InputType>({
   autoFocus,
@@ -73,11 +71,13 @@ export const Input = <T extends InputType>({
   disabled,
   error,
   forceSuggestion,
+  format,
   ghost,
   icon,
   iconRight,
   indent,
   inputRef,
+  isRequired,
   label,
   large,
   maxChars,
@@ -91,15 +91,16 @@ export const Input = <T extends InputType>({
   type,
   min,
   max,
-  multipleOf = 1,
+  // multipleOf = 1,
   time,
-  exclusiveMinimum,
-  exclusiveMaximum,
+  // exclusiveMinimum,
+  // exclusiveMaximum,
   value: valueProp,
+  integer,
   ...otherProps
 }: {
   type: T // <--- this is it
-  onChange?: OnChange<T>
+  onChange?: OnChange
   style?: Style
   label?: ReactNode
   pattern?: string
@@ -108,6 +109,7 @@ export const Input = <T extends InputType>({
   value?: string | number
   icon?: FunctionComponent<Icon> | ReactNode
   iconRight?: FunctionComponent<Icon> | ReactNode
+  isRequired?: boolean
   indent?: boolean
   defaultValue?: string | number
   placeholder?: ReactNode
@@ -118,9 +120,10 @@ export const Input = <T extends InputType>({
   name?: string
   min?: number
   max?: number
-  multipleOf?: number
-  exclusiveMinimum?: boolean
-  exclusiveMaximum?: boolean
+  // multipleOf?: number
+  // exclusiveMinimum?: boolean
+  // exclusiveMaximum?: boolean
+  format?: string
   inputRef?: RefObject<HTMLDivElement>
   large?: boolean
   disabled?: boolean
@@ -133,6 +136,7 @@ export const Input = <T extends InputType>({
   onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   onBlur?: ReactEventHandler
   time?: boolean
+  integer?: boolean
 }) => {
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
@@ -153,70 +157,13 @@ export const Input = <T extends InputType>({
   const onChange = useCallback(
     (e: { target: { value: string } }) => {
       const newValue = transform ? transform(e.target.value) : e.target.value
-      if (type === 'number') {
-        // All this for NUMBER rules /////
-        // TODO: Multiple of add in here
-        if (!(+e.target.value % multipleOf)) {
-          if (max && !min) {
-            if (!exclusiveMaximum && +e.target.value <= max) {
-              setValue(+e.target.value)
-              // @ts-ignore
-              onChangeProp?.(+newValue)
-            } else if (+e.target.value < max) {
-              setValue(+e.target.value)
-              // @ts-ignore
-              onChangeProp?.(+newValue)
-            }
-          } else if (!max && min) {
-            if (!exclusiveMinimum && +e.target.value >= min) {
-              setValue(+e.target.value)
-              // @ts-ignore
-              onChangeProp?.(+newValue)
-            } else if (+e.target.value > min) {
-              setValue(+e.target.value)
-              // @ts-ignore
-              onChangeProp?.(+newValue)
-            }
-          } else if (max && min) {
-            if (
-              !exclusiveMinimum &&
-              +e.target.value >= min &&
-              !exclusiveMaximum &&
-              +e.target.value <= max
-            ) {
-              setValue(+e.target.value)
-              // @ts-ignore
-              onChangeProp?.(+newValue)
-            } else if (
-              exclusiveMinimum &&
-              +e.target.value > min &&
-              !exclusiveMaximum &&
-              +e.target.value <= max
-            ) {
-              setValue(+e.target.value)
-              // @ts-ignore
-              onChangeProp?.(+newValue)
-            } else if (
-              !exclusiveMinimum &&
-              +e.target.value >= min &&
-              exclusiveMaximum &&
-              +e.target.value < max
-            ) {
-              setValue(+e.target.value)
-              // @ts-ignore
-              onChangeProp?.(+newValue)
-            } else if (
-              exclusiveMinimum &&
-              +e.target.value > min &&
-              exclusiveMaximum &&
-              +e.target.value < max
-            ) {
-              setValue(+e.target.value)
-              // @ts-ignore
-              onChangeProp?.(+newValue)
-            }
-          }
-        }
+      if (type === 'number' && integer) {
+        setValue(Math.round(+e.target.value))
+        onChangeProp?.(Math.round(+newValue))
+      } else if (type === 'number') {
+        setValue(+e.target.value)
+        // @ts-ignore
+        onChangeProp?.(+newValue)
       } else {
         setValue(newValue)
         // @ts-ignore
@@ -225,6 +172,86 @@ export const Input = <T extends InputType>({
     },
     [onChangeProp]
   )
+
+  // const onChange = useCallback(
+  //   (e: { target: { value: string } }) => {
+  //     const newValue = transform ? transform(e.target.value) : e.target.value
+
+  //     // All this for NUMBER rules /////
+  //     if (type === 'number') {
+  //       if (+e.target.value % multipleOf) {
+  //         if (max && !min) {
+  //           if (!exclusiveMaximum && +e.target.value <= max) {
+  //             setValue(+e.target.value)
+  //             // @ts-ignore
+  //             onChangeProp?.(+newValue)
+  //           } else if (+e.target.value < max) {
+  //             setValue(+e.target.value)
+  //             // @ts-ignore
+  //             onChangeProp?.(+newValue)
+  //           }
+  //         } else if (!max && min) {
+  //           if (!exclusiveMinimum && +e.target.value >= min) {
+  //             setValue(+e.target.value)
+  //             // @ts-ignore
+  //             onChangeProp?.(+newValue)
+  //           } else if (+e.target.value > min) {
+  //             setValue(+e.target.value)
+  //             // @ts-ignore
+  //             onChangeProp?.(+newValue)
+  //           }
+  //         } else if (max && min) {
+  //           if (
+  //             !exclusiveMinimum &&
+  //             +e.target.value >= min &&
+  //             !exclusiveMaximum &&
+  //             +e.target.value <= max
+  //           ) {
+  //             setValue(+e.target.value)
+  //             // @ts-ignore
+  //             onChangeProp?.(+newValue)
+  //           } else if (
+  //             exclusiveMinimum &&
+  //             +e.target.value > min &&
+  //             !exclusiveMaximum &&
+  //             +e.target.value <= max
+  //           ) {
+  //             setValue(+e.target.value)
+  //             // @ts-ignore
+  //             onChangeProp?.(+newValue)
+  //           } else if (
+  //             !exclusiveMinimum &&
+  //             +e.target.value >= min &&
+  //             exclusiveMaximum &&
+  //             +e.target.value < max
+  //           ) {
+  //             setValue(+e.target.value)
+  //             // @ts-ignore
+  //             onChangeProp?.(+newValue)
+  //           } else if (
+  //             exclusiveMinimum &&
+  //             +e.target.value > min &&
+  //             exclusiveMaximum &&
+  //             +e.target.value < max
+  //           ) {
+  //             setValue(+e.target.value)
+  //             // @ts-ignore
+  //             onChangeProp?.(+newValue)
+  //           }
+  //         }
+  //       } else {
+  //         setValue(+e.target.value)
+  //         // @ts-ignore
+  //         onChangeProp?.(+newValue)
+  //       }
+  //     } else {
+  //       setValue(newValue)
+  //       // @ts-ignore
+  //       onChangeProp?.(newValue)
+  //     }
+  //   },
+  //   [onChangeProp]
+  // )
 
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
@@ -290,7 +317,9 @@ export const Input = <T extends InputType>({
     <InputWrapper
       style={style}
       indent={indent}
+      format={format}
       label={label}
+      isRequired={isRequired}
       description={description}
       descriptionBottom={descriptionBottom}
       errorMessage={errorMessage}
@@ -301,6 +330,10 @@ export const Input = <T extends InputType>({
         onChangeProp?.(e.target.value)
       }}
       maxChars={maxChars}
+      // for numbers
+      min={min}
+      max={max}
+      // multipleOf={multipleOf}
     >
       {type === 'color' ? (
         <ColorInput
@@ -321,7 +354,11 @@ export const Input = <T extends InputType>({
       ) : type === 'password' ? (
         <PasswordInput {...props} large={large} disabled={!!valueProp} />
       ) : type === 'date' ? (
-        <DateWidget onChange={() => onChange} value={value} time={time} />
+        <DateWidget
+          onChange={(e) => onChangeProp?.(e)}
+          value={value}
+          time={time}
+        />
       ) : type === 'url' ? (
         <UrlInput
           onChange={(e) => onChangeProp?.(e.target.value)}
@@ -357,56 +394,57 @@ export const Input = <T extends InputType>({
                 e.preventDefault()
               }
 
-              if (e.key === '-' && min >= 0) {
+              if (
+                e.key === '-' &&
+                typeof min === 'number' &&
+                min >= 0 &&
+                type === 'number'
+              ) {
                 e.preventDefault()
               }
 
-              if (e.key === 'ArrowDown' && type === 'number') {
-                if (!exclusiveMinimum && typeof min === 'number' && min === 0) {
-                  if (+e.target.value <= 0) {
-                    setValue(0)
-                    e.preventDefault()
-                  }
-                } else if (
-                  exclusiveMinimum &&
-                  typeof min === 'number' &&
-                  min === 0
-                ) {
-                  if (+e.target.value <= 1) {
-                    setValue(1)
-                    e.preventDefault()
-                  }
-                }
+              // if (e.key === 'ArrowDown' && type === 'number') {
+              //   e.preventDefault()
 
-                if (
-                  typeof min === 'number' &&
-                  +e.target.value <= min &&
-                  !exclusiveMinimum
-                ) {
-                  e.preventDefault()
-                } else if (
-                  typeof min === 'number' &&
-                  +e.target.value < min &&
-                  exclusiveMinimum
-                ) {
-                  e.preventDefault()
-                }
-              }
-              if (e.key === 'ArrowUp' && type === 'number') {
-                if (
-                  typeof max === 'number' &&
-                  +e.target.value >= max &&
-                  !exclusiveMaximum
-                ) {
-                  e.preventDefault()
-                } else if (
-                  typeof max === 'number' &&
-                  +e.target.value > max &&
-                  exclusiveMaximum
-                ) {
-                  e.preventDefault()
-                }
-              }
+              //   if (exclusiveMinimum && +value - multipleOf <= min) {
+              //     setValue(+value)
+              //     onChangeProp?.(value)
+              //   } else if (
+              //     multipleOf &&
+              //     typeof min === 'number' &&
+              //     +value - multipleOf >= min
+              //   ) {
+              //     setValue(+value - multipleOf)
+              //     // @ts-ignore
+              //     onChangeProp?.(value - multipleOf)
+              //   } else if (multipleOf && isNaN(min) && !exclusiveMinimum) {
+              //     setValue(+value - multipleOf)
+              //     // @ts-ignore
+              //     onChangeProp?.(value - multipleOf)
+              //   } else {
+              //     setValue(+value)
+              //     onChangeProp?.(value)
+              //   }
+              // }
+
+              // if (e.key === 'ArrowUp' && type === 'number') {
+              //   e.preventDefault()
+
+              //   if (exclusiveMaximum && +value + multipleOf >= max) {
+              //     setValue(+value)
+              //     onChangeProp?.(value)
+              //   } else if (multipleOf && max && +value + multipleOf <= max) {
+              //     setValue(+value + multipleOf)
+              //     onChangeProp?.(value + multipleOf)
+              //   } else if (multipleOf && !max && !exclusiveMaximum) {
+              //     setValue(+value + multipleOf)
+              //     onChangeProp?.(value + multipleOf)
+              //   } else {
+              //     setValue(+value)
+              //     onChangeProp?.(value)
+              //   }
+              // }
+
               props.onKeyDown?.(e)
             }}
             style={props.style}
@@ -415,11 +453,12 @@ export const Input = <T extends InputType>({
             icon={icon}
             iconRight={iconRight}
             setErrorMessage={setErrorMessage}
-            min={min}
-            max={max}
-            multipleOf={multipleOf}
-            exclusiveMinimum={exclusiveMinimum}
-            exclusiveMaximum={exclusiveMaximum}
+
+            // min={min}
+            // max={max}
+            // multipleOf={multipleOf}
+            // exclusiveMinimum={exclusiveMinimum}
+            // exclusiveMaximum={exclusiveMaximum}
           />
         </MaybeSuggest>
       )}

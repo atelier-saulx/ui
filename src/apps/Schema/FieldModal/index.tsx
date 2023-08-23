@@ -22,6 +22,9 @@ const specificFieldSettings = {
   integer: fieldSettings.NumberSettings,
   reference: fieldSettings.ReferenceSettings,
   references: fieldSettings.ReferenceSettings,
+  array: fieldSettings.ArrayGeneral,
+  set: fieldSettings.SetGeneral,
+  record: fieldSettings.RecordGeneral,
 }
 
 export const FieldModal: FC<{
@@ -39,6 +42,9 @@ export const FieldModal: FC<{
   if (loading) {
     return null
   }
+
+  // console.log('PATh??', path)
+  // console.log('FIELD>', field)
 
   const types = schema.types
 
@@ -79,8 +85,22 @@ export const FieldModal: FC<{
 
   const options = optionsRef.current
 
+  const getValue = (path, obj) =>
+    path?.split('.').reduce((acc, c) => acc && acc[c], obj)
+
+  // if it is nested in a object
+  if (field?.split('.').length > 1) {
+    const currentFieldInObject = getValue(field, schema.types[type].fields)
+    console.log('currentField in Object 🧔🏻‍♀️', currentFieldInObject)
+
+    Object.assign(options, currentFieldInObject)
+  }
+
+  // console.log('🚑 new options --> here', options)
+
   const { label, icon, color, description } = templates[template]
   const TypeSpecificGeneral = specificFieldSettings[template]
+
   return (
     <Dialog>
       <Dialog.Body>
@@ -124,6 +144,7 @@ export const FieldModal: FC<{
                   setDisabled={setSpecificDisabled}
                   field={field}
                   types={types}
+                  templates={templates}
                 />
               </styled.div>
             </Tab>

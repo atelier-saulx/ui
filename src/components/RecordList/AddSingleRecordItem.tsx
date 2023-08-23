@@ -46,16 +46,18 @@ export const addSingleRecordItem = async (
             if (inputKey && typeof ok !== 'boolean') {
               if (itemType === 'string') {
                 setTempObj({ ...tempObj, [inputKey]: inputValue })
-                onChange({ ...ok, [inputKey]: inputValue })
+                onChange({ ...tempObj, [inputKey]: inputValue })
+                console.log({ ...tempObj, [inputKey]: inputValue })
+                console.log('tempObj>??', tempObj)
               } else if (itemType === 'int') {
                 setTempObj({ ...tempObj, [inputKey]: parseInt(inputValue) })
-                onChange({ ...ok, [inputKey]: parseInt(inputValue) })
+                onChange({ ...tempObj, [inputKey]: parseInt(inputValue) })
               } else if (itemType === 'float') {
                 setTempObj({ ...tempObj, [inputKey]: parseFloat(inputValue) })
-                onChange({ ...ok, [inputKey]: parseFloat(inputValue) })
+                onChange({ ...tempObj, [inputKey]: parseFloat(inputValue) })
               } else if (itemType === 'digest') {
                 setTempObj({ ...tempObj, [inputKey]: inputValue })
-                onChange({ ...ok, [inputKey]: inputValue })
+                onChange({ ...tempObj, [inputKey]: inputValue })
               }
             }
           }}

@@ -4,8 +4,11 @@ import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
+import { transformOldToNew, metaFieldRemover } from '../transformOldSchema'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
+  console.log('PROPS 📀 =-->', options, type, children, 'Path 🛣', path)
+
   const [db] = useContextState('db', 'default')
 
   const { schema } = useSchema(db)
@@ -13,16 +16,20 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
   const toast = useToast({ attached: true })
   const client = useClient()
 
-  // filter the null and empty strings
+  const arrayFromField = options?.field?.split('.')
 
   return (
     <Dialog.Confirm
       disabled={disabled}
       onConfirm={async () => {
         try {
-          const { field, ...schema } = options
+          let { field, ...schema } = options
 
-          // console.log(options, '?? 🥬')
+          // this is for updating, editing nested object fields
+          if (arrayFromField?.length > 1) {
+            field = arrayFromField.pop()
+            path = arrayFromField
+          }
 
           if (!schema.title) {
             throw Error('Title is required')
@@ -33,6 +40,7 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
           }
           const currentFields =
             type === 'root' ? rootType.fields : types[type].fields
+
           const fields = {}
           let from = currentFields
           let dest = fields
@@ -62,6 +70,18 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
               ? delete dest[field][k]
               : null
           )
+
+          /// remove meta from eiter object field or field
+          // might need some beautifiying 🧚🏻
+          if (path?.length <= 1) {
+            Object.assign(fields, transformOldToNew({ ...dest }))
+          } else {
+            // console.log('❇️🟡', dest)
+            // metaFieldRemover({ ...dest })
+            for (const key in dest) {
+              dest[key] = metaFieldRemover(dest[key])
+            }
+          }
 
           if (type === 'root') {
             return client.call('db:set-schema', {

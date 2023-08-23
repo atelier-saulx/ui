@@ -11,7 +11,6 @@ import {
   styled,
   LoadingIcon,
   Row,
-  Container,
 } from '~'
 import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'
@@ -32,6 +31,7 @@ const AnimatedWrapper = styled('div', {
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
   const client = useClient()
+
   return (
     <>
       <ContextItem
@@ -96,11 +96,11 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
 
   const { schema, loading: loadingSchema } = useSchema()
 
-  const [animate, setanimate] = useState(false)
+  const [animate, setAnimate] = useState(false)
   useEffect(() => {
-    setanimate(true)
+    setAnimate(true)
     const timer = setTimeout(() => {
-      setanimate(false)
+      setAnimate(false)
     }, 0)
     return () => {
       clearTimeout(timer)
@@ -200,5 +200,6 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
       </AnimatedWrapper>
     )
   }
+
   return null
 }

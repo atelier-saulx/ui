@@ -23,14 +23,14 @@ export const SharedGeneral: FC<{
       !options.field ||
       options.field.length < 3
     ) {
-      setDisabled(true)
+      setDisabled(false)
+      // setDisabled(true)
     } else {
       setDisabled(false)
     }
   }, [options.field, options.title])
 
   useEffect(() => {
-    console.log('from shared general', options)
     update()
   }, [JSON.stringify(options)])
 
@@ -53,13 +53,25 @@ export const SharedGeneral: FC<{
         style={{ marginTop: 24, marginBottom: 24 }}
       />
 
+      {/* <Input
+        type="text"
+        style={{ background: 'lightgreen' }}
+        ghost
+        value={options.field}
+        onChange={(value: string) => {
+          options.field = value
+
+          update()
+        }}
+      /> */}
+
       <Input
         type="multiline"
         label="Description (Optional)"
         description="Displays a hint for content editors"
         value={options.description}
         onChange={(value) => {
-          options.description = value
+          options.description = value as string
           update()
         }}
       />
