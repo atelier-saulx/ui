@@ -60,7 +60,6 @@ export const components: ComponentDef[] = [
           color: 'raspberry',
           children: 'sd',
           size: 'large',
-          light: true,
           squared: true,
         },
       },
@@ -362,7 +361,7 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
-          items: [
+          data: [
             { id: 'flip', title: 'Flippie', index: 0 },
             { id: 'flap', title: 'Flap', index: 1 },
             { id: 'Flurp', title: 'Flupr', index: 2 },

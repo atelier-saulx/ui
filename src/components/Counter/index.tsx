@@ -10,6 +10,7 @@ import {
   Center,
   Style,
 } from '../..'
+import { ClickHandler } from '../../types'
 
 export type CounterProps = {
   color?: Exclude<
@@ -17,7 +18,7 @@ export type CounterProps = {
     'default'
   >
   children?: ReactNode
-  onClick?: () => void
+  onClick?: ClickHandler
   style?: Style
   light?: boolean
 }

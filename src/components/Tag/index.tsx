@@ -4,11 +4,12 @@ import { Text } from '../Text'
 import { color as genColor } from '../../varsUtilities'
 import { IconSmallClose } from '../../icons'
 import { ColorActionColors } from '../../varsTypes'
+import { ClickHandler } from '../../types'
 
 type TagProps = {
   color?: ColorActionColors
   disabled?: boolean
-  onClick?: () => void
+  onClick?: ClickHandler
   onClose?: () => void
   children?: ReactNode
   style?: Style

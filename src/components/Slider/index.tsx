@@ -80,7 +80,7 @@ type Item = {
 
 type SliderProps = {
   color?: ColorActionColors
-  items?: Item[]
+  data?: Item[]
   min?: number
   max?: number
   value?: number | { id: string; title: string; index: number }
@@ -122,7 +122,7 @@ const getClosestIndex = (
 }
 
 export const Slider: FC<SliderProps> = ({
-  items,
+  data: items,
   min = 0,
   max,
   value,
