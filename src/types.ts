@@ -74,38 +74,10 @@ export type MenuProps = {
   style?: Style
 }
 
-export type ModalProps = {
-  children: ReactNode
-  description?: string
-  label?: string
-}
-
 export type ModalBottomBarProps = {
   // primary action
   // secondary action
   // steps
-}
-
-export type ModalContentProps = {}
-
-export type MultiSelectProps = {}
-
-export type OtherItemsProps = {}
-
-export type ScrollAreaProps = {}
-
-type SelectOption = {
-  value: string | number | undefined
-  label?: string
-  icon?: ReactNode
-}
-
-export type SelectProps = {
-  disabled?: boolean
-  onChange?: (value: SelectOption) => void
-  items?: SelectOption[]
-  placeholder?: string | SelectOption
-  value?: SelectOption
 }
 
 export type SelectableItemProps = {}

@@ -854,20 +854,13 @@
     "ModalProps": {
       "name": "ModalProps",
       "props": {
-        "children": {
-          "type": "ReactNode"
-        },
-        "description": {
+        "style": {
           "optional": true,
-          "type": "string"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
+          "type": "Style"
         }
       },
-      "code": "type ModalProps = {\n  children: ReactNode\n  description?: string\n  label?: string\n}",
-      "file": "/types.ts"
+      "code": "type ModalProps = {\n  style?: Style\n}",
+      "file": "/components/Modal/index.tsx"
     },
     "ModalWarningProps": {
       "name": "ModalWarningProps",
@@ -1165,34 +1158,71 @@
     "SelectProps": {
       "name": "SelectProps",
       "props": {
-        "disabled": {
+        "value": {
           "optional": true,
-          "type": "boolean"
+          "type": "Value"
+        },
+        "options": {
+          "type": {
+            "array": "SelectOption"
+          }
         },
         "onChange": {
           "optional": true,
           "type": "function"
         },
-        "items": {
+        "filterable": {
           "optional": true,
-          "type": {
-            "array": "SelectOption"
-          }
+          "type": [
+            "boolean",
+            {
+              "value": "create"
+            }
+          ]
         },
         "placeholder": {
           "optional": true,
-          "type": [
-            "string",
-            "SelectOption"
-          ]
+          "type": "string"
         },
-        "value": {
+        "overlay": {
           "optional": true,
-          "type": "SelectOption"
+          "type": "PositionProps"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "name": {
+          "optional": true,
+          "type": "string"
+        },
+        "color": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "id": {
+          "optional": true,
+          "type": "string"
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SelectProps = {\n  disabled?: boolean\n  onChange?: (value: SelectOption) => void\n  items?: SelectOption[]\n  placeholder?: string | SelectOption\n  value?: SelectOption\n}",
-      "file": "/types.ts"
+      "code": "type SelectProps = {\n  value?: Value\n  options: SelectOption[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: ReactNode\n  name?: string\n  color?: any\n  style?: Style\n  id?: string\n  ghost?: boolean\n  onClick?: () => void\n  disabled?: boolean\n}",
+      "file": "/components/Select/index.tsx"
     },
     "SliderProps": {
       "name": "SliderProps",
@@ -1672,30 +1702,6 @@
       "name": "ModalBottomBarProps",
       "props": {},
       "code": "type ModalBottomBarProps = {\n  // primary action\n  // secondary action\n  // steps\n}",
-      "file": "/types.ts"
-    },
-    "ModalContentProps": {
-      "name": "ModalContentProps",
-      "props": {},
-      "code": "type ModalContentProps = {}",
-      "file": "/types.ts"
-    },
-    "MultiSelectProps": {
-      "name": "MultiSelectProps",
-      "props": {},
-      "code": "type MultiSelectProps = {}",
-      "file": "/types.ts"
-    },
-    "OtherItemsProps": {
-      "name": "OtherItemsProps",
-      "props": {},
-      "code": "type OtherItemsProps = {}",
-      "file": "/types.ts"
-    },
-    "ScrollAreaProps": {
-      "name": "ScrollAreaProps",
-      "props": {},
-      "code": "type ScrollAreaProps = {}",
       "file": "/types.ts"
     },
     "SelectableItemProps": {

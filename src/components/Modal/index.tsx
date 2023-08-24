@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import { Dialog, Style, styled, Text } from '../..'
+import { ModalWarning } from './warning'
 
 export type ModalProps = {
   style?: Style
@@ -13,7 +14,11 @@ export const Modal: FC<ModalProps> = ({ style }) => {
           Add custom view
         </Dialog.Label>
         <Dialog.Body>
-          <Text>Flipei</Text>
+          <Text size={14}>
+            Reference site about Lorem Ipsum, giving information on its origins,
+            as well as a random Lipsum generator.
+          </Text>
+          <ModalWarning />
         </Dialog.Body>
         <Dialog.Buttons>
           <Dialog.Cancel />

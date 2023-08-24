@@ -50,6 +50,7 @@ const ScrollBody = styled('div', {
 })
 
 const StyledButtons = styled('div', {
+  borderTop: `1px solid ${color('border', 'default', 'strong')}`,
   position: 'sticky',
   bottom: 0,
   display: 'flex',
