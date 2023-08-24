@@ -243,7 +243,11 @@ export const components: ComponentDef[] = [
               label: 'Option more',
               icon: () => <IconEmojiSmile />,
               caption: 'More',
-              data: [{ label: 'SubOption 1' }, { label: 'SubOption 2' }],
+              data: [
+                { label: 'SubOption 1' },
+                { label: 'SubOption 2' },
+                { label: 'SubOption 3', caption: 'Caption' },
+              ],
             },
           ],
         },

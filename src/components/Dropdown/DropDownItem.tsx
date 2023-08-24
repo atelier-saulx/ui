@@ -73,9 +73,13 @@ export const DropDownItem: FC<DropDownItemProps> = ({
         ''
       )}
 
-      {data && (
+      {(data || caption) && (
         <styled.div
-          style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginLeft: 'auto',
+          }}
         >
           <Text
             size={12}
@@ -85,7 +89,7 @@ export const DropDownItem: FC<DropDownItemProps> = ({
           >
             {caption}
           </Text>
-          <IconChevronRightSmall style={{ marginLeft: 10 }} />
+          {data && <IconChevronRightSmall style={{ marginLeft: 10 }} />}
         </styled.div>
       )}
     </styled.div>
