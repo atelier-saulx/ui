@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties } from 'react'
+import React, { FC, CSSProperties, useState, useEffect } from 'react'
 import {
   ColorBackgroundColors,
   Text,
@@ -9,9 +9,10 @@ import {
   IconClose,
   IconError,
   IconInfoFill,
+  useToast,
 } from '../..'
 
-type ToastProps = {
+export type ToastProps = {
   label?: string
   color?: ColorBackgroundColors
   description?: string
@@ -33,8 +34,23 @@ export const Toast: FC<ToastProps> = ({
   id,
   ...props
 }) => {
+  const { remove } = useToast()
+  const [closeState, setCloseState] = useState(false)
+  const closeFunc = () => {
+    setCloseState(true)
+    setTimeout(() => remove(id), 200)
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!closeable) closeFunc()
+    }, 5e3)
+    return () => clearTimeout(timeout)
+  })
+
   return (
     <styled.div
+      onClick={closeable ? () => null : () => remove(id)}
       style={{
         borderRadius: 8,
         backgroundColor: genColor(
@@ -47,6 +63,8 @@ export const Toast: FC<ToastProps> = ({
         padding: '0px 16px',
         height: '48px',
         // width: '400px',
+        opacity: closeState ? 0 : 1,
+        transition: 'all 0.2s',
         display: 'flex',
         alignItems: 'center',
         '@keyframes': {
@@ -56,6 +74,7 @@ export const Toast: FC<ToastProps> = ({
         },
         animationDuration: '0.5s',
         animationEffect: 'ease-in',
+        ...style,
       }}
       {...props}
     >
@@ -85,6 +104,7 @@ export const Toast: FC<ToastProps> = ({
       )}
       {closeable && (
         <IconClose
+          onClick={closeFunc}
           style={{ marginLeft: '21px' }}
           color={strong ? 'inverted' : 'default'}
         />

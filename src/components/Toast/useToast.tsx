@@ -16,59 +16,47 @@ type ToastProps = {
 }
 
 const ToastContainer = ({ toasts }) => {
-  let lastOne = toasts.length - 1
   return createPortal(
     <styled.div
       style={{
         position: 'fixed',
-        top: lastOne > 4 ? 24 : 'auto',
-        bottom: lastOne > 4 ? null : 24,
+        minWidth: toasts.length < 4 ? null : '194px',
+        top: toasts.length >= 4 ? 24 : 'auto',
+        bottom: toasts.length >= 4 ? null : 24,
+        left: 'auto',
         right: 24,
         display: 'flex',
         flexDirection: 'column',
-        border: '1px solid red',
         gap: 12,
       }}
     >
-      {toasts.length < 4 ? (
-        toasts.map(
-          ({
-            label,
-            action,
-            closeable,
-            color,
-            description,
-            style,
-            strong,
-            id,
-          }) => (
-            <Toast
-              key={id}
-              id={id}
-              label={label}
-              action={action}
-              closeable={closeable}
-              color={color}
-              description={description}
-              strong={strong}
-              style={style}
-            />
-          )
-        )
-      ) : (
-        <styled.div style={{}}>
+      {toasts.map(
+        ({
+          label,
+          action,
+          closeable,
+          color,
+          description,
+          style,
+          strong,
+          id,
+        }) => (
           <Toast
-            key={toasts[lastOne].id}
-            id={toasts[lastOne].id}
-            label={toasts[lastOne].label}
-            action={toasts[lastOne].action}
-            closeable={toasts[lastOne].closeable}
-            color={toasts[lastOne].color}
-            description={toasts[lastOne].description}
-            strong={toasts[lastOne].strong}
-            style={toasts[lastOne].style}
+            key={id}
+            id={id}
+            label={label}
+            action={action}
+            closeable={closeable}
+            color={color}
+            description={description}
+            strong={strong}
+            style={
+              toasts.length < 4
+                ? style
+                : { ...style, position: 'absolute', top: 0, left: 0 }
+            }
           />
-        </styled.div>
+        )
       )}
     </styled.div>,
     document.body
@@ -90,7 +78,7 @@ export const ToastProvider = ({ children }) => {
     description,
     style,
     strong,
-  }) => {
+  }: ToastProps) => {
     setToasts([
       ...toasts,
       {
