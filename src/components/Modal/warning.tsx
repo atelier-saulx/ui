@@ -26,7 +26,6 @@ export const ModalWarning: FC<ModalWarningProps> = ({
         backgroundColor: genColor('background', color, 'subtle'),
         display: 'flex',
         alignItems: 'center',
-        width: '100%',
         maxHeight: '48px',
         padding: '12px 16px',
         borderRadius: '4px',

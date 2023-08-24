@@ -6,10 +6,15 @@ export type ModalProps = {
   style?: Style
 }
 
+// dialog props
+// label, description -> REactNodes
+// onCancel , onConfirm -> give you buttons
+// children -> whatever you put here will be in body
+
 export const Modal: FC<ModalProps> = ({ style }) => {
   return (
     <styled.div style={{ ...style }}>
-      <Dialog>
+      <Dialog label="yo bitch" description="">
         <Dialog.Label style={{ marginBottom: 16 }}>
           Add custom view
         </Dialog.Label>

@@ -32,23 +32,6 @@ const Container = styled('div', {
   backgroundColor: color('background', 'default', 'surface'),
 })
 
-const ScrollBody = styled('div', {
-  paddingTop: '16px',
-  paddingLeft: '32px',
-  paddingRight: '32px',
-  '--dialogPadding': `32px`,
-  '@media only screen and (max-width: 680px)': {
-    '--dialogPadding': `16px`,
-    paddingLeft: '16px',
-    paddingRight: '16px',
-  },
-  paddingBottom: '0px',
-  // width: '100%',
-  '&>:last-child': {
-    paddingBottom: 'var(--dialogPadding) !important',
-  },
-})
-
 const StyledButtons = styled('div', {
   borderTop: `1px solid ${color('border', 'default', 'strong')}`,
   position: 'sticky',
@@ -59,37 +42,7 @@ const StyledButtons = styled('div', {
   '@media only screen and (max-width: 680px)': {
     justifyContent: 'space-between',
   },
-  paddingTop: 'var(--dialogPadding)',
   backgroundColor: color('background', 'default', 'surface'),
-  paddingBottom: 'var(--dialogPadding)',
-})
-
-const ButtonsWithBorder = styled(StyledButtons, {
-  borderTop: `1px solid ${color('border', 'default', 'strong')}`,
-  marginTop: 48,
-  paddingLeft: '32px',
-  paddingRight: '32px',
-  marginLeft: 'calc(-32px)',
-  marginRight: 'calc(-39px)',
-  '@media only screen and (max-width: 680px)': {
-    paddingLeft: '16px',
-    paddingRight: '16px',
-    marginLeft: 'calc(-16px)',
-    marginRight: 'calc(-16px)',
-  },
-  borderBottomLeftRadius: 8,
-  borderBottomRightRadius: 8,
-})
-
-const ButtonSpacer = styled('div', {
-  width: 16,
-})
-
-const BodySpacer = styled('div', {
-  // . height: 24,
-  '&:first-child': {
-    display: 'none',
-  },
 })
 
 const Label = (props) => {
@@ -115,33 +68,23 @@ const Body = ({ children }) => {
       </>
     )
   } else {
-    return (
-      <>
-        <BodySpacer />
-        {children}
-      </>
-    )
+    return <>{children}</>
   }
 }
 
-const Buttons = ({ children, border = null }) => {
+const Buttons = ({ children }) => {
   if (Array.isArray(children)) {
     children = children.map((child, index) => {
       return index ? (
-        <Fragment key={index}>
-          <ButtonSpacer />
+        <styled.div style={{ marginLeft: 24 }} key={index}>
           {child}
-        </Fragment>
+        </styled.div>
       ) : (
         child
       )
     })
   }
-  return border ? (
-    <ButtonsWithBorder>{children}</ButtonsWithBorder>
-  ) : (
-    <StyledButtons>{children}</StyledButtons>
-  )
+  return <StyledButtons>{children}</StyledButtons>
 }
 
 const Confirm: FC<
@@ -259,7 +202,7 @@ export const Dialog = Object.assign(
             children
           ) : (
             <ScrollArea style={{ overflowY: go ? null : 'hidden' }}>
-              <ScrollBody>{children}</ScrollBody>
+              {children}
             </ScrollArea>
           )}
         </Container>
