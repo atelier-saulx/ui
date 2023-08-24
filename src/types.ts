@@ -88,14 +88,6 @@ export type ModalBottomBarProps = {
 
 export type ModalContentProps = {}
 
-export type ModalWarningProps = {
-  color?: Exclude<
-    ColorBackgroundColors,
-    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'
-  >
-  label?: string
-}
-
 export type MultiSelectProps = {}
 
 export type OtherItemsProps = {}

@@ -8,10 +8,10 @@ import React, {
 import { StateContext } from '../../hooks/ContextState'
 
 import { DialogProvider } from '../Dialog'
+
 import { OverlayProvider } from '../Overlay'
 import { Provider as BasedProvider, useClient } from '@based/react'
 import { BasedClient } from '@based/client'
-
 import { ToastProvider } from '../Toast/'
 // import { baseTheme } from '~/theme/baseTheme'
 // import { updateTheme } from '~/theme'

@@ -851,6 +851,39 @@
       "code": "type MenuProps = {\n  items?: MenuItemProps[]\n  style?: Style\n}",
       "file": "/types.ts"
     },
+    "ModalProps": {
+      "name": "ModalProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type ModalProps = {\n  children: ReactNode\n  description?: string\n  label?: string\n}",
+      "file": "/types.ts"
+    },
+    "ModalWarningProps": {
+      "name": "ModalWarningProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "Exclude"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type ModalWarningProps = {\n  color?: Exclude<\n    ColorBackgroundColors,\n    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'\n  >\n  label?: string\n}",
+      "file": "/components/Modal/warning.tsx"
+    },
     "PositionProps": {
       "name": "PositionProps",
       "props": {
@@ -1635,24 +1668,6 @@
       "code": "type MenuItemProps = {\n  active?: boolean\n  icon?: ReactNode\n  label?: string\n  onClick?: (e) => void\n  // or path maybe??\n  value?: string\n  style?: Style\n  children?: ReactNode | FC\n}",
       "file": "/types.ts"
     },
-    "ModalProps": {
-      "name": "ModalProps",
-      "props": {
-        "children": {
-          "type": "ReactNode"
-        },
-        "description": {
-          "optional": true,
-          "type": "string"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
-        }
-      },
-      "code": "type ModalProps = {\n  children: ReactNode\n  description?: string\n  label?: string\n}",
-      "file": "/types.ts"
-    },
     "ModalBottomBarProps": {
       "name": "ModalBottomBarProps",
       "props": {},
@@ -1663,21 +1678,6 @@
       "name": "ModalContentProps",
       "props": {},
       "code": "type ModalContentProps = {}",
-      "file": "/types.ts"
-    },
-    "ModalWarningProps": {
-      "name": "ModalWarningProps",
-      "props": {
-        "color": {
-          "optional": true,
-          "type": "Exclude"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
-        }
-      },
-      "code": "type ModalWarningProps = {\n  color?: Exclude<\n    ColorBackgroundColors,\n    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'\n  >\n  label?: string\n}",
       "file": "/types.ts"
     },
     "MultiSelectProps": {

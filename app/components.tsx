@@ -15,6 +15,7 @@ import {
   IconClipboard,
   IconEmojiSmile,
   Input,
+  Modal,
   RadioButtons,
   SegmentedControl,
   Slider,
@@ -376,6 +377,13 @@ export const components: ComponentDef[] = [
         },
       },
     ],
+  },
+  {
+    name: 'Modal',
+    properties: props.props.ModalProps.props,
+    component: Modal,
+    description: '',
+    examples: [{ props: {} }],
   },
   {
     name: 'Radiobuttons',

@@ -19,6 +19,7 @@ const App = () => {
   const filtered = components.filter((c) => {
     return c.name === component
   })
+
   const toast = useToast()
   const amount = toast.useCount()
   const notify = () => {
@@ -75,6 +76,7 @@ const App = () => {
         }}
       >
         <Button onClick={notify}>asdasd</Button>
+
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}

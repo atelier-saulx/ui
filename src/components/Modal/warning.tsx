@@ -1,10 +1,20 @@
 import React, { FC } from 'react'
-import { ModalWarningProps } from '../types'
-import { styled } from 'inlines'
-import { color as genColor } from '../../../src'
-import { Text } from '../Text'
-import { IconAlertFill } from '../../../src'
-import { Center } from '../Styled'
+import {
+  IconAlertFill,
+  color as genColor,
+  Text,
+  styled,
+  Center,
+  ColorBackgroundColors,
+} from '../..'
+
+export type ModalWarningProps = {
+  color?: Exclude<
+    ColorBackgroundColors,
+    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'
+  >
+  label?: string
+}
 
 export const ModalWarning: FC<ModalWarningProps> = ({
   color = 'warning',
