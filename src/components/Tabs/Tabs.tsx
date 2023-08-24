@@ -44,7 +44,7 @@ const TabWrapper: FC<{
       style={{
         borderTop: '1px solid transparent',
         height: 40,
-        padding: '12px',
+        padding: '12px 12px 14px 12px',
         display: 'flex',
         cursor: 'pointer',
         alignItems: 'center',
@@ -97,7 +97,7 @@ export const Tabs: FC<TabsProps> = ({
 }) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
   let activeTabState: number = activeTab
-  let setActiveTabInternal: (index: number) => void = setActiveTab
+  let setActiveTabInternal = setActiveTab
   if (!setActiveTab) {
     ;[activeTabState, setActiveTabInternal] = useState(activeTab)
   } else {
@@ -106,7 +106,7 @@ export const Tabs: FC<TabsProps> = ({
   const [hoverTab, setHoverTab] = useState(-1)
   const elem = useRef<HTMLElement>(null)
 
-  const tabRef = useRef(null)
+  const tabRef = useRef<HTMLDivElement>(null)
   const tabRefHeight = tabRef.current?.clientHeight
 
   return (
@@ -134,7 +134,7 @@ export const Tabs: FC<TabsProps> = ({
               index={index}
               activeTabState={activeTabState}
               setHoverTab={setHoverTab}
-              setActiveTabInternal={setActiveTabInternal}
+              setActiveTabInternal={setActiveTabInternal as any}
             >
               {child}
             </TabWrapper>
@@ -150,7 +150,7 @@ export const Tabs: FC<TabsProps> = ({
           display: 'flex',
         }}
       >
-        {children[activeTabState]}
+        {children?.[activeTabState]}
       </styled.div>
     </>
   )
