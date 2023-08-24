@@ -3,13 +3,11 @@ import React, { FC } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { Button, color, Menu, Provider, ScrollArea, Toggle } from '../src'
+import { color, Menu, Provider, ScrollArea } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
-import { useToast } from '../src'
-import { Toast } from '../src'
 
 export const client = based(basedConfig)
 
@@ -19,18 +17,6 @@ const App = () => {
   const filtered = components.filter((c) => {
     return c.name === component
   })
-  const toast = useToast()
-  const amount = toast.useCount()
-  const notify = () => {
-    toast.add({
-      label: 'asdasd',
-      // action: ,
-      closeable: true,
-      color: 'informative',
-      description: 'asdasd',
-      strong: true,
-    })
-  }
 
   return (
     <styled.div
@@ -74,7 +60,6 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        <Button onClick={notify}>asdasd</Button>
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}

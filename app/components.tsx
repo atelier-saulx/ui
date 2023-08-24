@@ -30,6 +30,7 @@ import props from './props.json'
 import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
+import { MultiSelect } from '../src/components/MultiSelect'
 
 export const components: ComponentDef[] = [
   {
@@ -425,6 +426,25 @@ export const components: ComponentDef[] = [
   {
     name: 'SelectInput',
     component: Input,
+    description: 'Select input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        props: {
+          placeholder: 'Select something',
+          options: [
+            { label: 'Item one', value: 'value1' },
+            { label: 'Item two', value: 'value2' },
+            { label: 'Item three', value: 'value3' },
+          ],
+          type: 'select',
+        },
+      },
+    ],
+  },
+  {
+    name: 'MutliSelect',
+    component: MultiSelect,
     description: 'Select input',
     properties: props.props.InputProps.props,
     examples: [
