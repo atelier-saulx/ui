@@ -36,8 +36,6 @@ export type DefaultItemProps = {
   label?: string
 }
 
-export type DropdownProps = {}
-
 export type FilterPillProps = {}
 
 // text field in figma

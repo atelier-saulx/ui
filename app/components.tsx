@@ -10,8 +10,10 @@ import {
   DatePicker,
   DateRange,
   Divider,
+  Dropdown,
   IconBolt,
   IconClipboard,
+  IconEmojiSmile,
   Input,
   RadioButtons,
   Slider,
@@ -72,105 +74,6 @@ export const components: ComponentDef[] = [
           size: 'large',
           light: true,
           imgsrc: 'https://robohash.org/G2J.png?set=set1',
-        },
-      },
-    ],
-  },
-  {
-    name: 'Icon',
-    properties: props.props.IconProps.props,
-    component: Icon,
-    description: 'Icons are generated from figma directly',
-    examples: [
-      {
-        name: 'Large Icons',
-        customRenderer: (props) => {
-          const icons = []
-          for (const key in ui) {
-            if (key.startsWith('Icon') && !key.startsWith('IconSmall')) {
-              icons.push(
-                // @ts-ignore
-                <div
-                  key={key}
-                  style={{
-                    display: 'flex',
-                    width: 300,
-                    alignItems: 'center',
-                  }}
-                >
-                  {React.createElement(ui[key], props)}
-                  <Text light style={{ marginLeft: 20 }}>
-                    {key}
-                  </Text>
-                </div>
-              )
-            }
-          }
-          return (
-            <div
-              style={{
-                gap: 12,
-                display: 'flex',
-                flexWrap: 'wrap',
-              }}
-            >
-              {icons}
-            </div>
-          )
-        },
-        props: {
-          color: 'brand',
-        },
-      },
-      {
-        name: 'Small icons',
-        customRenderer: (props) => {
-          const icons = []
-          for (const key in ui) {
-            if (key.startsWith('IconSmall')) {
-              icons.push(
-                // @ts-ignore
-                <div
-                  key={key}
-                  style={{
-                    display: 'flex',
-                    width: 300,
-                    alignItems: 'center',
-                  }}
-                >
-                  {React.createElement(ui[key], props)}
-                  <Text light style={{ marginLeft: 20 }}>
-                    {key}
-                  </Text>
-                </div>
-              )
-            }
-          }
-          return (
-            <div
-              style={{
-                gap: 12,
-                display: 'flex',
-                flexWrap: 'wrap',
-              }}
-            >
-              {icons}
-            </div>
-          )
-        },
-        props: {
-          color: 'brand',
-        },
-      },
-      {
-        name: 'Clickable Icon',
-        description:
-          'When onClick is provided will add a hover state and larger hitbox',
-        customRenderer: IconBolt,
-        props: {
-          onClick: () => {
-            alert('bla')
-          },
         },
       },
     ],
@@ -324,6 +227,30 @@ export const components: ComponentDef[] = [
     examples: [{ props: { style: { width: '342px' } } }],
   },
   {
+    name: 'Dropdown',
+    properties: props.props.DropDownProps.props,
+    description: '',
+    component: Dropdown,
+    examples: [
+      {
+        props: {
+          data: [
+            { label: 'Option uno', icon: () => <IconEmojiSmile /> },
+            { label: 'Option dos', icon: () => <IconEmojiSmile /> },
+            { label: 'Option trois', type: 'checkbox', value: true },
+            // { label: 'Option trois', type: 'radio', value: false },
+            {
+              label: 'Option more',
+              icon: () => <IconEmojiSmile />,
+              caption: 'More',
+              data: [{ label: 'SubOption 1' }, { label: 'SubOption 2' }],
+            },
+          ],
+        },
+      },
+    ],
+  },
+  {
     name: 'FileInput',
     component: Input,
     description: 'Single file input',
@@ -332,6 +259,105 @@ export const components: ComponentDef[] = [
       {
         props: {
           type: 'file',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Icon',
+    properties: props.props.IconProps.props,
+    component: Icon,
+    description: 'Icons are generated from figma directly',
+    examples: [
+      {
+        name: 'Large Icons',
+        customRenderer: (props) => {
+          const icons = []
+          for (const key in ui) {
+            if (key.startsWith('Icon') && !key.startsWith('IconSmall')) {
+              icons.push(
+                // @ts-ignore
+                <div
+                  key={key}
+                  style={{
+                    display: 'flex',
+                    width: 300,
+                    alignItems: 'center',
+                  }}
+                >
+                  {React.createElement(ui[key], props)}
+                  <Text light style={{ marginLeft: 20 }}>
+                    {key}
+                  </Text>
+                </div>
+              )
+            }
+          }
+          return (
+            <div
+              style={{
+                gap: 12,
+                display: 'flex',
+                flexWrap: 'wrap',
+              }}
+            >
+              {icons}
+            </div>
+          )
+        },
+        props: {
+          color: 'brand',
+        },
+      },
+      {
+        name: 'Small icons',
+        customRenderer: (props) => {
+          const icons = []
+          for (const key in ui) {
+            if (key.startsWith('IconSmall')) {
+              icons.push(
+                // @ts-ignore
+                <div
+                  key={key}
+                  style={{
+                    display: 'flex',
+                    width: 300,
+                    alignItems: 'center',
+                  }}
+                >
+                  {React.createElement(ui[key], props)}
+                  <Text light style={{ marginLeft: 20 }}>
+                    {key}
+                  </Text>
+                </div>
+              )
+            }
+          }
+          return (
+            <div
+              style={{
+                gap: 12,
+                display: 'flex',
+                flexWrap: 'wrap',
+              }}
+            >
+              {icons}
+            </div>
+          )
+        },
+        props: {
+          color: 'brand',
+        },
+      },
+      {
+        name: 'Clickable Icon',
+        description:
+          'When onClick is provided will add a hover state and larger hitbox',
+        customRenderer: IconBolt,
+        props: {
+          onClick: () => {
+            alert('bla')
+          },
         },
       },
     ],
@@ -349,32 +375,6 @@ export const components: ComponentDef[] = [
             { label: 'Radio2', value: 2, description: 'hwlloe 2' },
           ],
           onChange: (v) => console.log(v),
-        },
-      },
-    ],
-  },
-  {
-    name: 'Slider',
-    component: Slider,
-    description: 'Range Slider',
-    properties: props.props.SliderProps.props,
-    examples: [
-      {
-        props: {
-          data: [
-            { id: 'flip', title: 'Flippie', index: 0 },
-            { id: 'flap', title: 'Flap', index: 1 },
-            { id: 'Flurp', title: 'Flupr', index: 2 },
-          ],
-        },
-      },
-      {
-        props: {
-          min: 0,
-          max: 60,
-          steps: 5,
-          onChange: (v) => console.log(v),
-          color: 'alert',
         },
       },
     ],
@@ -412,6 +412,33 @@ export const components: ComponentDef[] = [
       },
     ],
   },
+
+  {
+    name: 'Slider',
+    component: Slider,
+    description: 'Range Slider',
+    properties: props.props.SliderProps.props,
+    examples: [
+      {
+        props: {
+          data: [
+            { id: 'flip', title: 'Flippie', index: 0 },
+            { id: 'flap', title: 'Flap', index: 1 },
+            { id: 'Flurp', title: 'Flupr', index: 2 },
+          ],
+        },
+      },
+      {
+        props: {
+          min: 0,
+          max: 60,
+          steps: 5,
+          onChange: (v) => console.log(v),
+          color: 'alert',
+        },
+      },
+    ],
+  },
   {
     name: 'Tag',
     component: Tag,
@@ -440,6 +467,7 @@ export const components: ComponentDef[] = [
       },
     ],
   },
+
   {
     name: 'TextInput',
     component: Input,

@@ -1,13 +1,14 @@
 import React, { FC, ReactNode } from 'react'
-import { Style, styled } from 'inlines'
-import { color } from '../../varsUtilities'
+import { color, Style, styled } from '../..'
+import { DropDownItem, DropDownItemProps } from './DropDownItem'
 
-type DropDownProps = {
+export type DropDownProps = {
   style?: Style
   children?: ReactNode
+  data?: DropDownItemProps[]
 }
 
-export const Dropdown: FC<DropDownProps> = ({ style, children }) => {
+export const Dropdown: FC<DropDownProps> = ({ style, children, data }) => {
   return (
     <styled.div
       style={{
@@ -16,12 +17,23 @@ export const Dropdown: FC<DropDownProps> = ({ style, children }) => {
         borderRadius: 8,
         boxShadow:
           '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
-        minHeight: 120,
-        maxWidth: 258,
+        minHeight: 40,
+        minWidth: 258,
         ...style,
       }}
     >
       {children}
+      {data?.map((item, idx) => (
+        <DropDownItem
+          key={idx}
+          label={item.label}
+          caption={item.caption}
+          icon={item.icon}
+          type={item.type}
+          value={item.value}
+          data={item.data}
+        />
+      ))}
     </styled.div>
   )
 }
