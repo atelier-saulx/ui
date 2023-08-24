@@ -16,9 +16,13 @@ import {
   IconEmojiSmile,
   Input,
   RadioButtons,
+  SegmentedControl,
   Slider,
+  Tab,
+  Tabs,
   Tag,
   Text,
+  styled,
   Toggle,
 } from '../src'
 import * as ui from '../src'
@@ -245,8 +249,15 @@ export const components: ComponentDef[] = [
               caption: 'More',
               data: [
                 { label: 'SubOption 1' },
-                { label: 'SubOption 2' },
-                { label: 'SubOption 3', caption: 'Caption' },
+                { label: 'SubOption 2', type: 'checkbox' },
+                {
+                  label: 'SubOption 3',
+                  caption: 'Caption',
+                  data: [
+                    { label: 'SupperdeSup 1' },
+                    { label: 'SupperdeSup 2' },
+                  ],
+                },
               ],
             },
           ],
@@ -398,6 +409,20 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'SegmentedControl',
+    component: SegmentedControl,
+    description: '',
+    properties: props.props.SegmentedControlProps.props,
+    examples: [
+      {
+        props: {
+          data: [2, '15d', 'Option', 'Option 2'],
+          onChange: (v) => console.log(v),
+        },
+      },
+    ],
+  },
+  {
     name: 'SelectInput',
     component: Input,
     description: 'Select input',
@@ -439,6 +464,24 @@ export const components: ComponentDef[] = [
           steps: 5,
           onChange: (v) => console.log(v),
           color: 'alert',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Tabs',
+    component: Tabs,
+    description: 'Tabs',
+    properties: props.props.TabsProps.props,
+    examples: [
+      {
+        props: {
+          activeTab: 1,
+          children: () => [
+            <Tab label="Apple" children="🍎" />,
+            <Tab label="Bear" children="🐻" />,
+            <Tab label="Crescendo" children="🎵" />,
+          ],
         },
       },
     ],

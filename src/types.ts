@@ -118,17 +118,6 @@ export type SelectProps = {
 
 export type SelectableItemProps = {}
 
-type SegmentedControlOption = {
-  label?: string
-  active?: boolean
-}
-
-export type SegmentedControlOptionsProps = {
-  onChange?: (value: SegmentedControlOption) => void
-  items?: SegmentedControlOption[]
-  value?: SegmentedControlOption
-}
-
 export type SidebarNavigationHolderProps = {}
 
 export type SpotlightSearchProps = {
