@@ -3,13 +3,11 @@ import React, { FC } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { Button, color, Menu, Provider, ScrollArea, Toggle } from '../src'
+import { color, Menu, Provider, ScrollArea } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
-import { useToast } from '../src'
-import { Toast } from '../src'
 
 export const client = based(basedConfig)
 
