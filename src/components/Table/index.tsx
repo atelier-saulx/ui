@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import {
   styled,
-  border,
+  Style,
   Text,
   color,
   Badge,
@@ -57,6 +57,7 @@ export type TableProps<T extends any = any> = {
   outline?: boolean
   onClick?: (e: MouseEvent, data: any) => void
   calcRowHeight?: (data: any, index: number) => number
+  style?: Style
 }
 
 const BooleanToggle: FC<{
@@ -288,8 +289,8 @@ const Cell = (props) => {
           : null
       }
       style={{
-        padding: 16,
-        borderBottom: `1px solid ${color('inputBorder', 'normal', 'default')}`,
+        padding: 4,
+        borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
         cursor: onClick ? 'pointer' : 'default',
         ...style,
       }}
@@ -314,7 +315,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     data = [],
     defaultSortOptions,
     calcRowHeight,
-    rowHeight = 56,
+    rowHeight = 42,
     width,
     queryId,
     itemCount = data.length,
@@ -395,11 +396,7 @@ const SizedGrid: FC<TableProps> = (props) => {
         style={{
           width: width,
           overflowX: 'hidden',
-          borderBottom: `1px solid ${color(
-            'inputBorder',
-            'normal',
-            'default'
-          )}`,
+          borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
           backgroundColor: props.outline
             ? color('background', 'neutral', 'soft')
             : '',
@@ -458,9 +455,9 @@ export const Table: FC<TableProps> = (props) => {
         minHeight: height,
         height: '100%',
         width: '100%',
-        maxWidth: width,
+        minWidth: width,
         border: props.outline
-          ? `1px solid ${color('inputBorder', 'normal', 'default')}`
+          ? `1px solid ${color('border', 'default', 'strong')}`
           : 'none',
         borderRadius: props.outline ? 8 : 0,
       }}

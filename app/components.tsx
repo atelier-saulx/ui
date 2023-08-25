@@ -519,7 +519,21 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
-          data: [],
+          headers: [
+            { key: 'title', label: 'title', width: 132 },
+            { key: 'author', label: 'author' },
+            { key: 'number', label: 'number' },
+          ],
+          data: [
+            {
+              title: 'Jip & Janneke',
+              author: 'Annie M.G. Schmidt',
+              number: 243545,
+            },
+            { title: 'Harry Potter', author: 'J.K. Rowling', number: 5345432 },
+          ],
+          width: 456,
+          outline: true,
         },
       },
     ],

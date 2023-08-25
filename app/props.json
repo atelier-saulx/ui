@@ -1328,7 +1328,7 @@
     "TableProps": {
       "name": "TableProps",
       "props": {
-        "headers": {
+        "header": {
           "optional": true,
           "type": {
             "array": "TableHeader"
@@ -1404,7 +1404,7 @@
           "type": "function"
         }
       },
-      "code": "type TableProps<T extends any = any> = {\n  headers?: TableHeader<T>[]\n  query?: (start: number, limit: number) => BasedQuery\n  getQueryItems?: (data: any) => any[]\n  data?: T[]\n  width?: number\n  itemCount?: number\n  height?: number\n  context?: any\n  queryId?: number | string\n  rowCount?: number\n  defaultSortOptions?: SortOptions\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  outline?: boolean\n  onClick?: (e: MouseEvent, data: any) => void\n  calcRowHeight?: (data: any, index: number) => number\n}",
+      "code": "type TableProps<T extends any = any> = {\n  header?: TableHeader<T>[]\n  query?: (start: number, limit: number) => BasedQuery\n  getQueryItems?: (data: any) => any[]\n  data?: T[]\n  width?: number\n  itemCount?: number\n  height?: number\n  context?: any\n  queryId?: number | string\n  rowCount?: number\n  defaultSortOptions?: SortOptions\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  outline?: boolean\n  onClick?: (e: MouseEvent, data: any) => void\n  calcRowHeight?: (data: any, index: number) => number\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
