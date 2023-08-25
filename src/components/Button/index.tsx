@@ -70,7 +70,10 @@ export const getButtonStyle = (
   const style: Style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
     pointerEvents: disabled ? 'none' : 'auto',
-    border: `1px solid transparent`,
+    border:
+      colorProp === 'system'
+        ? `1px solid ${genColor('inputBorder', 'neutralNormal', 'default')}`
+        : `1px solid transparent`,
     cursor: disabled ? 'not-allowed' : 'pointer',
     backgroundColor: isGhost
       ? 'transparent'
