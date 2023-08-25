@@ -1317,13 +1317,95 @@
           "optional": true,
           "type": "Style"
         },
-        "subtle": {
+        "light": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type StatusProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  ghost?: boolean\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  subtle?: boolean\n}",
+      "code": "type StatusProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  ghost?: boolean\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
       "file": "/components/Status/index.tsx"
+    },
+    "TableProps": {
+      "name": "TableProps",
+      "props": {
+        "headers": {
+          "optional": true,
+          "type": {
+            "array": "TableHeader"
+          }
+        },
+        "query": {
+          "optional": true,
+          "type": "function"
+        },
+        "getQueryItems": {
+          "optional": true,
+          "type": "function"
+        },
+        "data": {
+          "optional": true,
+          "type": {
+            "array": "T"
+          }
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "itemCount": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        },
+        "context": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "queryId": {
+          "optional": true,
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "rowCount": {
+          "optional": true,
+          "type": "number"
+        },
+        "defaultSortOptions": {
+          "optional": true,
+          "type": "SortOptions"
+        },
+        "rowHeight": {
+          "optional": true,
+          "type": "number"
+        },
+        "columnCount": {
+          "optional": true,
+          "type": "number"
+        },
+        "columnWidth": {
+          "optional": true,
+          "type": "number"
+        },
+        "outline": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "calcRowHeight": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type TableProps<T extends any = any> = {\n  headers?: TableHeader<T>[]\n  query?: (start: number, limit: number) => BasedQuery\n  getQueryItems?: (data: any) => any[]\n  data?: T[]\n  width?: number\n  itemCount?: number\n  height?: number\n  context?: any\n  queryId?: number | string\n  rowCount?: number\n  defaultSortOptions?: SortOptions\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  outline?: boolean\n  onClick?: (e: MouseEvent, data: any) => void\n  calcRowHeight?: (data: any, index: number) => number\n}",
+      "file": "/components/Table/index.tsx"
     },
     "TabProps": {
       "name": "TabProps",

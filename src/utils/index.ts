@@ -1,3 +1,4 @@
+export * from './copyToClipboard'
 export * from './isMac'
 export * from './isSemanticColor'
 export * from './isTouchDevice'

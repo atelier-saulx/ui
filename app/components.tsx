@@ -21,6 +21,7 @@ import {
   SegmentedControl,
   Slider,
   Status,
+  Table,
   Tab,
   Tabs,
   Tag,
@@ -486,6 +487,19 @@ export const components: ComponentDef[] = [
         props: {
           children: 'Status Text',
           color: 'informative',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Table',
+    component: Table,
+    description: '',
+    properties: props.props.TableProps.props,
+    examples: [
+      {
+        props: {
+          data: [],
         },
       },
     ],
