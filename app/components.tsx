@@ -104,7 +104,6 @@ export const components: ComponentDef[] = [
           },
           color: 'primary',
           children: 'Do something async',
-
           light: true,
         },
       },
@@ -116,17 +115,16 @@ export const components: ComponentDef[] = [
           },
           children: 'Throw an error!',
           size: 'small',
-          light: true,
+          light: false,
         },
       },
       {
         name: 'Colors',
         props: {
-          children: 'System color',
+          children: 'Neutral color',
           icon: () => <IconClipboard />,
-          color: 'neutral',
+          color: 'inverted',
           size: 'small',
-          ghost: true,
         },
       },
       {
