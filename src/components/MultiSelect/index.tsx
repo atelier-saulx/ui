@@ -50,8 +50,9 @@ export function MultiSelect({
     <styled.div
       style={{
         position: 'relative',
-        height: 40,
+        minHeight: 40,
         width: '100%',
+        maxWidth: '320px',
         padding: '0 12px',
         borderRadius: 8,
         display: 'flex',
@@ -91,7 +92,8 @@ export function MultiSelect({
           background: 'transparent',
           fontSize: 'inherit',
           lineHeight: 'inherit',
-          padding: 0,
+          padding: '8px 10px',
+
           textAlign: 'left',
           color: color('content', 'default', 'primary'),
           display: 'flex',
@@ -108,17 +110,29 @@ export function MultiSelect({
           setOpen(true)
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'row', gap: 4 }}>
+        <div
+          style={{
+            display: 'flex',
+            height: '100%',
+            flexDirection: 'row',
+            gap: 4,
+            flexWrap: 'wrap',
+          }}
+        >
           {value === null
             ? placeholder
-            : activeLabel.map((i) => (
+            : activeLabel.map((i, index) => (
                 <Tag
                   onClick={() => {
                     setActiveLabel(activeLabel.filter((t) => i !== t))
-                    setValue(value.filter((t) => i !== t))
-                    console.log(i)
+                    setValue((oldValue) =>
+                      oldValue.filter((t) => oldValue.indexOf(t) !== index)
+                    )
+
+                    console.log('---->', value)
                   }}
                   key={i}
+                  style={{ flexShrink: 0 }}
                 >
                   {i}
                 </Tag>
@@ -135,7 +149,7 @@ export function MultiSelect({
       </styled.button>
 
       {open && (
-        <>
+        <div style={{}}>
           <div
             style={{
               position: 'fixed',
@@ -153,7 +167,7 @@ export function MultiSelect({
               position: 'absolute',
               left: 0,
               right: 0,
-              top: 48,
+              top: 'calc(100% + 8px)',
               background: color('background', 'default', 'surface'),
               border: `1px solid ${color(
                 'inputBorder',
@@ -218,7 +232,7 @@ export function MultiSelect({
                 </styled.div>
               ))}
           </styled.div>
-        </>
+        </div>
       )}
     </styled.div>
   )
