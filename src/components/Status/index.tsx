@@ -19,7 +19,7 @@ export type StatusProps = {
   children?: ReactNode
   onClick?: ClickHandler
   style?: Style
-  subtle?: boolean
+  light?: boolean
 }
 
 export const Status: FC<StatusProps> = ({
@@ -28,10 +28,10 @@ export const Status: FC<StatusProps> = ({
   children,
   onClick,
   style,
-  subtle,
+  light,
 }) => {
   const contentColor: ColorContentColors | ColorNonSemanticContentColors =
-    subtle || ghost
+    light || ghost
       ? color === 'neutral'
         ? 'default'
         : color
@@ -53,7 +53,7 @@ export const Status: FC<StatusProps> = ({
           : genColor(
               isSemanticColor(color) ? 'background' : 'nonSemanticBackground',
               color,
-              subtle ? 'muted' : 'strong'
+              light ? 'muted' : 'strong'
             ),
         color:
           color === 'default'
@@ -71,7 +71,6 @@ export const Status: FC<StatusProps> = ({
         height: '24px',
         display: 'flex',
         alignItems: 'center',
-
         ...style,
       }}
     >

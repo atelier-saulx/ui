@@ -1,4 +1,5 @@
 export * from './ContextState'
+export * from './useCopyToClipboard'
 export * from './useKeyboard'
 export * from './useOverlay'
 export * from './useOverlayPosition'

@@ -21,6 +21,7 @@ import {
   SegmentedControl,
   Slider,
   Status,
+  Table,
   Tab,
   Tabs,
   Tag,
@@ -506,6 +507,33 @@ export const components: ComponentDef[] = [
         props: {
           children: 'Status Text',
           color: 'informative',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Table',
+    component: Table,
+    description: '',
+    properties: props.props.TableProps.props,
+    examples: [
+      {
+        props: {
+          headers: [
+            { key: 'title', label: 'title', width: 132 },
+            { key: 'author', label: 'author' },
+            { key: 'number', label: 'number' },
+          ],
+          data: [
+            {
+              title: 'Jip & Janneke',
+              author: 'Annie M.G. Schmidt',
+              number: 243545,
+            },
+            { title: 'Harry Potter', author: 'J.K. Rowling', number: 5345432 },
+          ],
+          width: 456,
+          outline: true,
         },
       },
     ],
