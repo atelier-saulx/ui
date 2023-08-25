@@ -1,19 +1,31 @@
-import React, { FC } from 'react'
-import { StatusProps } from '../types'
-import { Center } from '../Styled'
+import React, { FC, ReactNode } from 'react'
+
 import {
   ColorContentColors,
   ColorNonSemanticContentColors,
-} from '../../varsTypes'
-import { isSemanticColor } from '../../utils/isSemanticColor'
-import { color as genColor } from '../../../src'
-import { styled } from 'inlines'
-import { Text } from '../Text'
+  ColorBackgroundColors,
+  ColorNonSemanticBackgroundColors,
+  isSemanticColor,
+  color as genColor,
+  styled,
+  Style,
+  Text,
+} from '../..'
+import { ClickHandler } from '../../types'
+
+export type StatusProps = {
+  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
+  ghost?: boolean
+  children?: ReactNode
+  onClick?: ClickHandler
+  style?: Style
+  subtle?: boolean
+}
 
 export const Status: FC<StatusProps> = ({
   color = 'default',
   ghost,
-  label,
+  children,
   onClick,
   style,
   subtle,
@@ -96,7 +108,7 @@ export const Status: FC<StatusProps> = ({
           lineHeight: '23px',
         }}
       >
-        {label}
+        {children}
       </Text>
     </styled.div>
   )

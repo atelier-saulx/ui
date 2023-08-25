@@ -74,46 +74,10 @@ export type MenuProps = {
   style?: Style
 }
 
-export type ModalProps = {
-  children: ReactNode
-  description?: string
-  label?: string
-}
-
 export type ModalBottomBarProps = {
   // primary action
   // secondary action
   // steps
-}
-
-export type ModalContentProps = {}
-
-export type ModalWarningProps = {
-  color?: Exclude<
-    ColorBackgroundColors,
-    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'
-  >
-  label?: string
-}
-
-export type MultiSelectProps = {}
-
-export type OtherItemsProps = {}
-
-export type ScrollAreaProps = {}
-
-type SelectOption = {
-  value: string | number | undefined
-  label?: string
-  icon?: ReactNode
-}
-
-export type SelectProps = {
-  disabled?: boolean
-  onChange?: (value: SelectOption) => void
-  items?: SelectOption[]
-  placeholder?: string | SelectOption
-  value?: SelectOption
 }
 
 export type SelectableItemProps = {}
@@ -122,15 +86,6 @@ export type SidebarNavigationHolderProps = {}
 
 export type SpotlightSearchProps = {
   onChange?: (value: string) => void
-}
-
-export type StatusProps = {
-  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
-  ghost?: boolean
-  label?: string
-  onClick?: () => void
-  style?: Style
-  subtle?: boolean
 }
 
 export type TabProps = {

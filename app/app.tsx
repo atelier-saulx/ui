@@ -18,6 +18,19 @@ const App = () => {
     return c.name === component
   })
 
+  // const toast = useToast()
+  // const amount = toast.useCount()
+  // const notify = () => {
+  //   toast.add({
+  //     label: 'asdasd',
+  //     // action: ,
+  //     closeable: true,
+  //     color: 'informative',
+  //     description: 'asdasd',
+  //     strong: true,
+  //   })
+  // }
+
   return (
     <styled.div
       style={{
@@ -60,6 +73,8 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
+        {/* <Button onClick={notify}>asdasd</Button> */}
+
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}

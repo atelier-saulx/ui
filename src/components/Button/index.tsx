@@ -70,7 +70,10 @@ export const getButtonStyle = (
   const style: Style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
     pointerEvents: disabled ? 'none' : 'auto',
-    border: `1px solid transparent`,
+    border:
+      colorProp === 'system'
+        ? `1px solid ${genColor('inputBorder', 'neutralNormal', 'default')}`
+        : `1px solid transparent`,
     cursor: disabled ? 'not-allowed' : 'pointer',
     backgroundColor: isGhost
       ? 'transparent'
@@ -194,13 +197,21 @@ export const Button: FC<ButtonProps> = (props) => {
 
   let contentColor: ColorContentColors =
     props.color === 'inverted'
-      ? 'inverted'
+      ? 'default'
       : (isLight || isGhost) && props.color === 'alert'
       ? 'negative'
       : (isLight || isGhost) && props.color === 'neutral'
       ? 'default'
-      : isLight || isGhost
+      : (isLight || isGhost) && props.color === 'primary'
       ? 'brand'
+      : isLight || isGhost
+      ? 'default'
+      : props.color === 'alert'
+      ? 'inverted'
+      : props.color === 'system'
+      ? 'default'
+      : props.color === 'primary'
+      ? 'default'
       : 'inverted'
 
   return (
