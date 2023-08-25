@@ -88,15 +88,6 @@ export type SpotlightSearchProps = {
   onChange?: (value: string) => void
 }
 
-export type StatusProps = {
-  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
-  ghost?: boolean
-  label?: string
-  onClick?: () => void
-  style?: Style
-  subtle?: boolean
-}
-
 export type TabProps = {
   active?: boolean
   label?: string

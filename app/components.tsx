@@ -9,6 +9,7 @@ import {
   Counter,
   DatePicker,
   DateRange,
+  Dialog,
   Divider,
   Dropdown,
   IconBolt,
@@ -19,6 +20,7 @@ import {
   RadioButtons,
   SegmentedControl,
   Slider,
+  Status,
   Tab,
   Tabs,
   Tag,
@@ -380,7 +382,7 @@ export const components: ComponentDef[] = [
     name: 'Modal',
     properties: props.props.ModalProps.props,
     component: Modal,
-    description: '',
+    description: 'Must be a dialog example here',
     examples: [{ props: {} }],
   },
   {
@@ -470,6 +472,20 @@ export const components: ComponentDef[] = [
           steps: 5,
           onChange: (v) => console.log(v),
           color: 'alert',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Status',
+    component: Status,
+    description: '',
+    properties: props.props.StatusProps.props,
+    examples: [
+      {
+        props: {
+          children: 'Status Text',
+          color: 'informative',
         },
       },
     ],

@@ -22,7 +22,10 @@ For example, you can use the name of your company or department."
         <Dialog.Body>
           <Text size={14}>Flip flap</Text>
           <Input type="text" />
-          <ModalWarning label="You are about to update the default view Sequence for all users" />
+          <ModalWarning
+            color="negative"
+            label="You are about to update the default view Sequence for all users"
+          />
         </Dialog.Body>
 
         <Dialog.Buttons>
