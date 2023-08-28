@@ -74,12 +74,6 @@ export type MenuProps = {
   style?: Style
 }
 
-export type ModalBottomBarProps = {
-  // primary action
-  // secondary action
-  // steps
-}
-
 export type SelectableItemProps = {}
 
 export type SidebarNavigationHolderProps = {}

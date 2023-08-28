@@ -142,14 +142,17 @@ const Header: FC<{
           position: 'absolute',
           left: total,
           top: 0,
-          height: 46,
+          height: 40,
           width: w,
         }}
       >
         {header.customLabelComponent ? (
           <header.customLabelComponent />
         ) : (
-          <Text weight="strong" color={outline ? 'default' : 'brand'}>
+          <Text
+            weight="medium"
+            style={{ color: color('content', 'default', 'secondary') }}
+          >
             {header.label ?? header.key}
           </Text>
         )}
@@ -161,9 +164,7 @@ const Header: FC<{
     <styled.div
       style={{
         width,
-        borderTopRightRadius: 8,
-        borderTopLeftRadius: 8,
-        height: 46,
+        height: 40,
         position: 'relative',
       }}
     >
@@ -289,9 +290,12 @@ const Cell = (props) => {
           : null
       }
       style={{
-        padding: 4,
-        borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft: 16,
         cursor: onClick ? 'pointer' : 'default',
+        borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
+        boxSizing: 'border-box',
         ...style,
       }}
       onClick={
@@ -315,11 +319,11 @@ const SizedGrid: FC<TableProps> = (props) => {
     data = [],
     defaultSortOptions,
     calcRowHeight,
-    rowHeight = 42,
+    rowHeight = 60,
     width,
     queryId,
     itemCount = data.length,
-    height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
+    height = itemCount < 20 ? data.length * rowHeight + 60 : 200,
     columnCount = headers?.length ??
       (data && data.length && Object.keys(data[0]).length),
   } = props
@@ -370,7 +374,7 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   const parsedData = query ? result.items : data
 
-  defW = Math.max(Math.floor((width - w - 8) / nonAllocated), 100)
+  defW = Math.max(Math.floor((width - w) / nonAllocated), 100)
 
   const timer = useRef<ReturnType<typeof setTimeout>>()
 
@@ -397,11 +401,9 @@ const SizedGrid: FC<TableProps> = (props) => {
           width: width,
           overflowX: 'hidden',
           borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
-          backgroundColor: props.outline
-            ? color('background', 'neutral', 'soft')
-            : '',
-          borderTopRightRadius: props.outline ? 8 : 0,
-          borderTopLeftRadius: props.outline ? 8 : 0,
+          //     backgroundColor: color('background', 'default', 'strong'),
+          // borderTopRightRadius: props.outline ? 8 : 0,
+          // borderTopLeftRadius: props.outline ? 8 : 0,
         }}
         ref={headerWrapper}
       >
@@ -425,7 +427,7 @@ const SizedGrid: FC<TableProps> = (props) => {
         columnWidth={(colIndex) => {
           return headers[colIndex].width ?? defW
         }}
-        height={height - 56}
+        height={height - 40}
         rowCount={itemCount}
         rowHeight={rowH}
         width={width}
@@ -445,13 +447,14 @@ export const Table: FC<TableProps> = (props) => {
     data = [],
     width,
     itemCount = data.length,
-    rowHeight = 56,
-    height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
+    rowHeight = 60,
+    height = itemCount < 20 ? data.length * rowHeight + 40 : 200,
   } = props
 
   return (
     <styled.div
       style={{
+        backgroundColor: color('background', 'default', 'strong'),
         minHeight: height,
         height: '100%',
         width: '100%',
@@ -459,7 +462,8 @@ export const Table: FC<TableProps> = (props) => {
         border: props.outline
           ? `1px solid ${color('border', 'default', 'strong')}`
           : 'none',
-        borderRadius: props.outline ? 8 : 0,
+        borderBottom: 'none',
+        // borderRadius: props.outline ? 8 : 0,
       }}
     >
       <AutoSizer>

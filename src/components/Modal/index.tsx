@@ -1,9 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { Dialog, Style, styled, Text, Input } from '../..'
-import { ModalWarning } from './warning'
+import { ModalWarning } from './ModalWarning'
 
 export type ModalProps = {
   style?: Style
+  children?: ReactNode
 }
 
 // dialog props
@@ -20,15 +21,13 @@ export const Modal: FC<ModalProps> = ({ style }) => {
 For example, you can use the name of your company or department."
       >
         <Dialog.Body>
-          <Text size={14}>Flip flap</Text>
-          <Input type="text" />
-          <ModalWarning
-            color="negative"
-            label="You are about to update the default view Sequence for all users"
-          />
+          <Input type="text" style={{ marginBottom: 24 }} />
+          <ModalWarning color="negative" style={{ marginBottom: 24 }}>
+            You are about to update the default view Sequence for all users
+          </ModalWarning>
         </Dialog.Body>
 
-        <Dialog.Buttons>
+        <Dialog.Buttons border>
           <Dialog.Cancel />
           <Dialog.Confirm>Primary Action</Dialog.Confirm>
         </Dialog.Buttons>

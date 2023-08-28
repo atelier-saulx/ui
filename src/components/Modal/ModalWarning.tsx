@@ -4,6 +4,7 @@ import {
   color as genColor,
   Text,
   styled,
+  Style,
   Center,
   ColorBackgroundColors,
 } from '../..'
@@ -13,12 +14,14 @@ export type ModalWarningProps = {
     ColorBackgroundColors,
     'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'
   >
-  label?: string
+  children?: string
+  style?: Style
 }
 
 export const ModalWarning: FC<ModalWarningProps> = ({
   color = 'warning',
-  label,
+  children,
+  style,
 }) => {
   return (
     <styled.div
@@ -29,14 +32,13 @@ export const ModalWarning: FC<ModalWarningProps> = ({
         maxHeight: '48px',
         padding: '12px 16px',
         borderRadius: '4px',
+        ...style,
       }}
     >
       <Center style={{ height: '20px', width: '20px', marginRight: '8px' }}>
         <IconAlertFill color={color} />
       </Center>
-      <Text size={14} color="default">
-        {label}
-      </Text>
+      <Text>{children}</Text>
     </styled.div>
   )
 }
