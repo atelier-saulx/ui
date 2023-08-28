@@ -24,10 +24,10 @@ import { TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
-import { prettyDate } from '@based/pretty-date'
-import { useClient } from '@based/react'
+
 import { BasedQuery } from '@based/client'
 import { getByPath } from '@saulx/utils'
+import { TableHeaderTypes } from './TableHeaderTypes'
 
 export * from './types'
 
@@ -38,6 +38,10 @@ const TYPE_WIDTHS = {
   references: 130,
   bytes: 130,
   boolean: 100,
+}
+
+const sortBasedBasedOnHeaderItem = (keyName, data) => {
+  console.log(data.sort((a, b) => (a[keyName] > b[keyName] ? 1 : -1)))
 }
 
 export type TableProps<T extends any = any> = {
@@ -61,59 +65,6 @@ export type TableProps<T extends any = any> = {
   style?: Style
 }
 
-const BooleanToggle: FC<{
-  item: any
-  k: string
-  itemData: boolean
-}> = ({ item, k, itemData }) => {
-  const client = useClient()
-  return (
-    <Toggle
-      value={itemData}
-      //  disabled
-      onClick={
-        item.id
-          ? (v) => {
-              const s: any = { $id: item.id }
-              if (Array.isArray(k)) {
-                let t = s
-                for (let i = 0; i < k.length; i++) {
-                  if (i === k.length - 1) {
-                    t[k[i]] = v
-                  } else if (!t[k[i]]) {
-                    t = t[k[i]] = {}
-                  }
-                }
-              } else {
-                s[k] = v
-              }
-              return client.call('db:set', s)
-            }
-          : null
-      }
-    />
-  )
-}
-
-const IdBadge: FC<{
-  itemData: string
-}> = ({ itemData }) => {
-  const [copied, copy] = useCopyToClipboard(itemData)
-  return (
-    <Badge
-      onClick={(e) => {
-        e.stopPropagation()
-        e.preventDefault()
-        copy()
-      }}
-      light
-      icon={copied ? <IconCheckLarge /> : ''}
-    >
-      {itemData}
-    </Badge>
-  )
-}
-
 const Header: FC<{
   headerWidth: number
   width: number
@@ -121,7 +72,10 @@ const Header: FC<{
   // setSortOptions: Dispatch<SetStateAction<SortOptions>>
   // sortOptions: SortOptions
   outline: boolean
-}> = ({ headers, width, headerWidth, outline }) => {
+  // performance??
+  data: any
+  setSortKey: (k) => void
+}> = ({ headers, width, headerWidth, outline, data, setSortKey }) => {
   const children: ReactNode[] = []
   let total = 16
   for (const header of headers) {
@@ -143,6 +97,7 @@ const Header: FC<{
           <header.customLabelComponent />
         ) : (
           <Text
+            onClick={() => setSortKey(header.key)}
             weight="medium"
             style={{ color: color('content', 'default', 'secondary') }}
           >
@@ -203,40 +158,13 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
-  ) : type === 'boolean' ? (
-    <BooleanToggle item={rowData} itemData={itemData} k={key} />
-  ) : type === 'file' || type === 'reference' ? (
-    <></>
-  ) : // <ThumbnailFile
-  //   mimeType={
-  //     header?.mimeType ?? header.mimeTypeKey
-  //       ? getByPath(rowData, header.mimeTypeKey.split('.'))
-  //       : undefined
-  //   }
-  //   src={typeof itemData === 'object' ? itemData?.src : itemData}
-  // />
-  type === 'id' ? (
-    <IdBadge itemData={itemData} />
-  ) : type === 'timestamp' ? (
-    <Text>{prettyDate(itemData, 'date-time-human')} </Text>
-  ) : type === 'references' ? (
-    <Badge color="brand" icon={<IconAttachment />}>
-      {prettyNumber(itemData?.length || 0, 'number-short')}
-    </Badge>
-  ) : type === 'array' ? (
-    <Badge color="brand">{itemData ? itemData.length : '0'}</Badge>
-  ) : type === 'set' ? (
-    <Badge color="brand">{itemData ? itemData.length : '0'}</Badge>
-  ) : type === 'object' ? (
-    // @ts-ignore
-    <Badge color="brand" />
-  ) : type === 'author' ? (
-    <>
-      <Avatar size="small">{itemData}</Avatar>
-      <Text weight="medium" style={{ marginLeft: 8 }}>
-        {itemData}
-      </Text>
-    </>
+  ) : type ? (
+    <TableHeaderTypes
+      type={type}
+      rowData={rowData}
+      itemData={itemData}
+      key={key}
+    />
   ) : (
     <Text weight="medium">
       {type === 'bytes'
@@ -330,6 +258,9 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   const headerWrapper = useRef(null)
 
+  const [sortKey, setSortKey] = useState(null)
+  const [renderCounter, setRenderCounter] = useState(1)
+
   let w = 0
   let defW = 0
   let nonAllocated = 0
@@ -372,7 +303,14 @@ const SizedGrid: FC<TableProps> = (props) => {
     height: height - rowHeight,
   })
 
-  const parsedData = query ? result.items : data
+  let parsedData = query ? result.items : data
+
+  useEffect(() => {
+    if (sortKey) {
+      parsedData = sortBasedBasedOnHeaderItem(sortKey, data)
+      setRenderCounter(renderCounter + 1)
+    }
+  }, [sortKey])
 
   defW = Math.max(Math.floor((width - w) / nonAllocated), 100)
 
@@ -414,30 +352,34 @@ const SizedGrid: FC<TableProps> = (props) => {
           headers={headers}
           headerWidth={defW}
           outline={props.outline}
+          data={parsedData}
+          setSortKey={setSortKey}
         />
       </styled.div>
       {/* TODO: wrap in styled and share froms scroll area */}
-      <Grid
-        className="go2015383901 go3565260572 go2201354693 go4127164290"
-        onScroll={(e) => {
-          result.onScrollY(e.scrollTop)
-          headerWrapper.current.scrollLeft = e.scrollLeft
-        }}
-        columnCount={columnCount}
-        columnWidth={(colIndex) => {
-          return headers[colIndex].width ?? defW
-        }}
-        height={height - 40}
-        rowCount={itemCount}
-        rowHeight={rowH}
-        width={width}
-        itemData={{
-          ...props,
-          data: parsedData,
-        }}
-      >
-        {Cell}
-      </Grid>
+      {renderCounter && (
+        <Grid
+          className="go2015383901 go3565260572 go2201354693 go4127164290"
+          onScroll={(e) => {
+            result.onScrollY(e.scrollTop)
+            headerWrapper.current.scrollLeft = e.scrollLeft
+          }}
+          columnCount={columnCount}
+          columnWidth={(colIndex) => {
+            return headers[colIndex].width ?? defW
+          }}
+          height={height - 40}
+          rowCount={itemCount}
+          rowHeight={rowH}
+          width={width}
+          itemData={{
+            ...props,
+            data: parsedData,
+          }}
+        >
+          {Cell}
+        </Grid>
+      )}
     </>
   )
 }
@@ -450,6 +392,8 @@ export const Table: FC<TableProps> = (props) => {
     rowHeight = 60,
     height = itemCount < 20 ? data.length * rowHeight + 40 : 200,
   } = props
+
+  console.log('🟪', data)
 
   return (
     <styled.div

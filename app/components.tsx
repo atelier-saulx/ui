@@ -521,20 +521,48 @@ export const components: ComponentDef[] = [
         props: {
           headers: [
             { key: 'title', label: 'Title' },
-            { key: 'author', label: 'Author', type: 'author' },
+            { key: 'author', label: 'Author', type: 'author', width: 200 },
+            { key: 'cover', label: 'Cover', type: 'img' },
             { key: 'number', label: 'Number', type: 'id' },
+            { key: 'boolie', label: 'Boolean', type: 'boolean' },
+            { key: 'time', label: 'Time', type: 'timestamp' },
           ],
           data: [
             {
               title: 'Jip & Janneke',
               author: 'Annie M.G. Schmidt',
+              cover:
+                'https://img.parool.nl/aab6c754847bb34777c45ab7592473abca9b12ea/jip-en-janneke-voor-hema-niet-meer-heilig',
               number: 243545,
+              boolie: false,
+              time: 32454645454,
             },
-            { title: 'Harry Potter', author: 'J.K. Rowling', number: 5345432 },
-            { title: 'Snurpie', author: 'P. Snurp', number: 53445432 },
-            { title: 'Flurpie', author: 'P. Snurp', number: 11222111 },
+            {
+              title: 'Harry Potter',
+              author: 'J.K. Rowling',
+              cover:
+                'https://www.manners.nl/wp-content/uploads/2023/03/harry-potter.png',
+              number: 5345432,
+              boolie: true,
+              time: 1113241133333,
+            },
+            {
+              title: 'Snurpie',
+              author: 'P. Snurp',
+              cover:
+                'https://64.media.tumblr.com/ee50e3ad64c22072c845097b2fe728e2/ad8bfb7892283c6d-0a/s1280x1920/14c9a1d48c9b8499e5107476bfd68e97fd05e823.png',
+              number: 53445432,
+              boolie: false,
+            },
+            {
+              title: 'Flurpie',
+              author: 'P. Snurp',
+              cover:
+                'https://i1.sndcdn.com/artworks-H999wKziGSquPTzr-Xy5zjA-t500x500.jpg',
+              number: 11222111,
+            },
           ],
-          width: 600,
+          width: 800,
           outline: true,
         },
       },
