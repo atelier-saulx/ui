@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useImperativeHandle } from 'react'
 import { Style, styled } from 'inlines'
 import { color } from '../../varsUtilities'
 import { Badge } from '../Badge'
+//@ts-ignore
 import { BadgeProps } from '../types'
+import { IconClose } from '../../icons'
 
 export type TextInputOwnProps = {
   prefix?: BadgeProps
@@ -10,7 +12,10 @@ export type TextInputOwnProps = {
   beforeIcon?: React.ReactNode
   afterIcon?: React.ReactNode
   style?: Style
+  clearButton?: boolean
 }
+
+// TODO controlled vs uncontrrolled?
 
 export type TextInputProps = TextInputOwnProps &
   Omit<React.ComponentPropsWithoutRef<'input'>, 'prefix'>
@@ -21,9 +26,11 @@ export function TextInput({
   beforeIcon,
   afterIcon,
   style,
+  clearButton,
   ...props
 }: TextInputProps) {
   const [isEmpty, setIsEmpty] = useState(!(props.value || props.defaultValue))
+  const [value, setValue] = useState((props.value || props.defaultValue) ?? '')
 
   return (
     <styled.div
@@ -66,9 +73,10 @@ export function TextInput({
       {beforeIcon && <div style={{ flexShrink: 0 }}>{beforeIcon}</div>}
       {prefix && <Badge {...prefix}>{prefix}</Badge>}
       <styled.input
+        value={value}
         onChange={(e) => {
           setIsEmpty(e.target.value === '')
-
+          setValue(e.target.value)
           props?.onChange?.(e)
         }}
         style={{
@@ -90,7 +98,15 @@ export function TextInput({
         {...props}
       />
       {suffix && <Badge {...suffix}>{suffix}</Badge>}
-      {afterIcon && <div style={{ flexShrink: 0 }}>{afterIcon}</div>}
+      {clearButton ? (
+        <IconClose
+          onClick={() => {
+            setValue('')
+          }}
+        />
+      ) : (
+        afterIcon && <div style={{ flexShrink: 0 }}>{afterIcon}</div>
+      )}
     </styled.div>
   )
 }

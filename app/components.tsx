@@ -412,6 +412,7 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
+          clearButton: true,
           placeholder: 'Search & navigate',
           type: 'search',
         },
@@ -599,6 +600,7 @@ export const components: ComponentDef[] = [
           placeholder: 'placeholder',
           beforeIcon: () => <IconBolt />,
           type: 'text',
+          clearButton: 'true',
         },
       },
     ],

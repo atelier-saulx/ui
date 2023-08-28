@@ -1,6 +1,6 @@
 import React from 'react'
 import { TextInput, TextInputProps } from './TextInput'
-import { IconSearch } from '../../icons'
+import { IconClose, IconSearch } from '../../icons'
 import { color } from '../../varsUtilities'
 
 export type SearchInputProps = Omit<TextInputProps, 'beforeIcon'>
