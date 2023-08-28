@@ -529,8 +529,8 @@ export const components: ComponentDef[] = [
           ],
           data: [
             {
-              title: 'Jip & Janneke',
-              author: 'Annie M.G. Schmidt',
+              title: 'AAA',
+              author: 'CCCC',
               cover:
                 'https://img.parool.nl/aab6c754847bb34777c45ab7592473abca9b12ea/jip-en-janneke-voor-hema-niet-meer-heilig',
               number: 243545,
@@ -538,8 +538,8 @@ export const components: ComponentDef[] = [
               time: 32454645454,
             },
             {
-              title: 'Harry Potter',
-              author: 'J.K. Rowling',
+              title: 'CCC',
+              author: 'BBBB',
               cover:
                 'https://www.manners.nl/wp-content/uploads/2023/03/harry-potter.png',
               number: 5345432,
@@ -547,16 +547,16 @@ export const components: ComponentDef[] = [
               time: 1113241133333,
             },
             {
-              title: 'Snurpie',
-              author: 'P. Snurp',
+              title: 'DDD',
+              author: 'AAAA',
               cover:
                 'https://64.media.tumblr.com/ee50e3ad64c22072c845097b2fe728e2/ad8bfb7892283c6d-0a/s1280x1920/14c9a1d48c9b8499e5107476bfd68e97fd05e823.png',
               number: 53445432,
               boolie: false,
             },
             {
-              title: 'Flurpie',
-              author: 'P. Snurp',
+              title: 'BBB',
+              author: 'DDDD',
               cover:
                 'https://i1.sndcdn.com/artworks-H999wKziGSquPTzr-Xy5zjA-t500x500.jpg',
               number: 11222111,

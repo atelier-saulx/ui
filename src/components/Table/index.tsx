@@ -7,24 +7,12 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import {
-  styled,
-  Style,
-  Text,
-  color,
-  Badge,
-  useCopyToClipboard,
-  Toggle,
-  IconCheckLarge,
-  IconAttachment,
-  Avatar,
-} from '../..'
+import { styled, Style, Text, color, IconSort } from '../..'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
-
 import { BasedQuery } from '@based/client'
 import { getByPath } from '@saulx/utils'
 import { TableHeaderTypes } from './TableHeaderTypes'
@@ -41,7 +29,7 @@ const TYPE_WIDTHS = {
 }
 
 const sortBasedBasedOnHeaderItem = (keyName, data) => {
-  console.log(data.sort((a, b) => (a[keyName] > b[keyName] ? 1 : -1)))
+  return data.sort((a, b) => (a[keyName] > b[keyName] ? 1 : -1))
 }
 
 export type TableProps<T extends any = any> = {
@@ -63,6 +51,8 @@ export type TableProps<T extends any = any> = {
   onClick?: (e: MouseEvent, data: any) => void
   calcRowHeight?: (data: any, index: number) => number
   style?: Style
+  sortKey: any
+  setSortKey: any
 }
 
 const Header: FC<{
@@ -73,9 +63,9 @@ const Header: FC<{
   // sortOptions: SortOptions
   outline: boolean
   // performance??
-  data: any
+  sortKey: any
   setSortKey: (k) => void
-}> = ({ headers, width, headerWidth, outline, data, setSortKey }) => {
+}> = ({ headers, width, headerWidth, outline, sortKey, setSortKey }) => {
   const children: ReactNode[] = []
   let total = 16
   for (const header of headers) {
@@ -96,13 +86,25 @@ const Header: FC<{
         {header.customLabelComponent ? (
           <header.customLabelComponent />
         ) : (
-          <Text
-            onClick={() => setSortKey(header.key)}
-            weight="medium"
-            style={{ color: color('content', 'default', 'secondary') }}
-          >
-            {header.label ?? header.key}
-          </Text>
+          <>
+            {header.key === sortKey && (
+              <IconSort color="brand" style={{ marginRight: 8 }} />
+            )}
+            <Text
+              onClick={() => {
+                setSortKey(header.key)
+              }}
+              weight={header.key === sortKey ? 'strong' : 'medium'}
+              style={{
+                color:
+                  header.key === sortKey
+                    ? color('content', 'brand', 'primary')
+                    : color('content', 'default', 'secondary'),
+              }}
+            >
+              {header.label ?? header.key}
+            </Text>
+          </>
         )}
       </styled.div>
     )
@@ -246,6 +248,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     headers = [],
     data = [],
     defaultSortOptions,
+
     calcRowHeight,
     rowHeight = 60,
     width,
@@ -254,12 +257,11 @@ const SizedGrid: FC<TableProps> = (props) => {
     height = itemCount < 20 ? data.length * rowHeight + 60 : 200,
     columnCount = headers?.length ??
       (data && data.length && Object.keys(data[0]).length),
+    setSortKey,
+    sortKey,
   } = props
 
   const headerWrapper = useRef(null)
-
-  const [sortKey, setSortKey] = useState(null)
-  const [renderCounter, setRenderCounter] = useState(1)
 
   let w = 0
   let defW = 0
@@ -305,13 +307,6 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   let parsedData = query ? result.items : data
 
-  useEffect(() => {
-    if (sortKey) {
-      parsedData = sortBasedBasedOnHeaderItem(sortKey, data)
-      setRenderCounter(renderCounter + 1)
-    }
-  }, [sortKey])
-
   defW = Math.max(Math.floor((width - w) / nonAllocated), 100)
 
   const timer = useRef<ReturnType<typeof setTimeout>>()
@@ -346,40 +341,37 @@ const SizedGrid: FC<TableProps> = (props) => {
         ref={headerWrapper}
       >
         <Header
-          // sortOptions={sortOptions}
           // setSortOptions={setSortOpts}
           width={width}
           headers={headers}
           headerWidth={defW}
           outline={props.outline}
-          data={parsedData}
           setSortKey={setSortKey}
         />
       </styled.div>
       {/* TODO: wrap in styled and share froms scroll area */}
-      {renderCounter && (
-        <Grid
-          className="go2015383901 go3565260572 go2201354693 go4127164290"
-          onScroll={(e) => {
-            result.onScrollY(e.scrollTop)
-            headerWrapper.current.scrollLeft = e.scrollLeft
-          }}
-          columnCount={columnCount}
-          columnWidth={(colIndex) => {
-            return headers[colIndex].width ?? defW
-          }}
-          height={height - 40}
-          rowCount={itemCount}
-          rowHeight={rowH}
-          width={width}
-          itemData={{
-            ...props,
-            data: parsedData,
-          }}
-        >
-          {Cell}
-        </Grid>
-      )}
+
+      <Grid
+        className="go2015383901 go3565260572 go2201354693 go4127164290"
+        onScroll={(e) => {
+          result.onScrollY(e.scrollTop)
+          headerWrapper.current.scrollLeft = e.scrollLeft
+        }}
+        columnCount={columnCount}
+        columnWidth={(colIndex) => {
+          return headers[colIndex].width ?? defW
+        }}
+        height={height - 40}
+        rowCount={itemCount}
+        rowHeight={rowH}
+        width={width}
+        itemData={{
+          ...props,
+          data: parsedData,
+        }}
+      >
+        {Cell}
+      </Grid>
     </>
   )
 }
@@ -393,6 +385,11 @@ export const Table: FC<TableProps> = (props) => {
     height = itemCount < 20 ? data.length * rowHeight + 40 : 200,
   } = props
 
+  const [sortKey, setSortKey] = useState(null)
+
+  let newData = sortKey ? sortBasedBasedOnHeaderItem(sortKey, data) : props.data
+
+  console.log(sortKey)
   console.log('🟪', data)
 
   return (
@@ -412,7 +409,16 @@ export const Table: FC<TableProps> = (props) => {
     >
       <AutoSizer>
         {({ width, height }) => {
-          return <SizedGrid {...props} height={height} width={width} />
+          return (
+            <SizedGrid
+              {...props}
+              data={newData}
+              height={height}
+              width={width}
+              sortKey={sortKey}
+              setSortKey={setSortKey}
+            />
+          )
         }}
       </AutoSizer>
     </styled.div>
