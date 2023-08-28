@@ -10,6 +10,7 @@ import {
   styled,
   Style,
   Text,
+  IconSmallDot,
 } from '../..'
 import { ClickHandler } from '../../types'
 
@@ -74,21 +75,10 @@ export const Status: FC<StatusProps> = ({
         ...style,
       }}
     >
-      <styled.div
+      <IconSmallDot
         style={{
-          height: '8px',
-          width: '8px',
-          //   marginLeft: '4px',
           marginRight: '4px',
-          backgroundColor:
-            color === 'default'
-              ? genColor('content', 'default', 'primary')
-              : genColor(
-                  isSemanticColor(color) ? 'content' : 'nonSemanticContent',
-                  contentColor,
-                  'primary'
-                ),
-          borderRadius: '50%',
+          color: 'inherit',
         }}
       />
 
@@ -104,7 +94,7 @@ export const Status: FC<StatusProps> = ({
                   'primary'
                 ),
           height: '24px',
-          lineHeight: '23px',
+          lineHeight: '24px',
         }}
       >
         {children}
