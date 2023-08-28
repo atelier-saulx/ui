@@ -17,6 +17,7 @@ import {
   Toggle,
   IconCheckLarge,
   IconAttachment,
+  Avatar,
 } from '../..'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableHeader, SortOptions } from './types'
@@ -105,18 +106,10 @@ const IdBadge: FC<{
         e.preventDefault()
         copy()
       }}
+      light
       icon={copied ? <IconCheckLarge /> : ''}
-      style={{
-        display: 'flex',
-        paddingLeft: 8,
-        paddingRight: 8,
-        borderRadius: 32,
-        justifyContent: 'center',
-      }}
     >
-      <Text color="brand" weight="strong">
-        {itemData}
-      </Text>
+      {itemData}
     </Badge>
   )
 }
@@ -237,6 +230,13 @@ const Cell = (props) => {
   ) : type === 'object' ? (
     // @ts-ignore
     <Badge color="brand" />
+  ) : type === 'author' ? (
+    <>
+      <Avatar size="small">{itemData}</Avatar>
+      <Text weight="medium" style={{ marginLeft: 8 }}>
+        {itemData}
+      </Text>
+    </>
   ) : (
     <Text weight="medium">
       {type === 'bytes'

@@ -521,8 +521,8 @@ export const components: ComponentDef[] = [
         props: {
           headers: [
             { key: 'title', label: 'Title' },
-            { key: 'author', label: 'Author' },
-            { key: 'number', label: 'Number' },
+            { key: 'author', label: 'Author', type: 'author' },
+            { key: 'number', label: 'Number', type: 'id' },
           ],
           data: [
             {
