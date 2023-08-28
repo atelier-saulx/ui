@@ -346,6 +346,7 @@ const SizedGrid: FC<TableProps> = (props) => {
           headers={headers}
           headerWidth={defW}
           outline={props.outline}
+          sortKey={sortKey}
           setSortKey={setSortKey}
         />
       </styled.div>
