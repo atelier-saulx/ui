@@ -15,9 +15,7 @@ const StyledSegmentOption = styled('div', {
   cursor: 'pointer',
   display: 'flex',
   padding: '4px 12px',
-  '&:hover': {
-    backgroundColor: genColor('action', 'neutral', 'subtleHover'),
-  },
+
   '&:focus': {
     backgroundColor: genColor('action', 'neutral', 'subtleActive'),
   },
@@ -38,6 +36,7 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
         borderRadius: 8,
         display: 'flex',
         padding: 4,
+        gap: '4px',
         width: 'fit-content',
         ...style,
       }}
@@ -59,6 +58,11 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
               activeOption === idx
                 ? '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)'
                 : 'none',
+            '&:hover': {
+              backgroundColor:
+                activeOption !== idx &&
+                genColor('action', 'neutral', 'subtleHover'),
+            },
           }}
         >
           <Text size={14} weight="medium">
