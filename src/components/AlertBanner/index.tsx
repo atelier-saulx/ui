@@ -67,7 +67,9 @@ export const AlertBanner: FC<AlertBannerProps> = ({
           underline={true}
           size="xsmall"
           color={color === 'warning' ? 'neutral' : 'inverted'}
-          style={{ marginLeft: '9px' }}
+          style={{
+            marginLeft: '9px',
+          }}
         >
           {action.label}
         </Button>

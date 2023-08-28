@@ -18,7 +18,6 @@ export const Icon: FC<IconProps> = ({ color, style, children, onClick }) => {
     <styled.div
       onClick={onClick}
       style={{
-        ...style,
         display: 'flex',
         cursor: onClick ? 'pointer' : 'default',
         borderRadius: onClick ? 4 : 0,
@@ -33,6 +32,7 @@ export const Icon: FC<IconProps> = ({ color, style, children, onClick }) => {
               ),
             }
           : null,
+        ...style,
       }}
     >
       {children}

@@ -38,6 +38,7 @@ export const Checkbox: FC<CheckboxProps> = ({
       style={{
         display: 'flex',
         pointerEvents: disabled ? 'none' : 'auto',
+
         opacity: disabled ? 0.6 : 1,
       }}
     >
@@ -62,7 +63,8 @@ export const Checkbox: FC<CheckboxProps> = ({
           backgroundColor: checked
             ? genColor('action', 'primary', 'normal')
             : 'transparent',
-          cursor: disabled ? 'not-allowed' : 'pointer',
+          // cursor: disabled ? 'not-allowed' : 'pointer',
+          cursor: 'pointer',
           position: 'relative',
           display: 'flex',
           justifyContent: 'center',
@@ -102,9 +104,9 @@ export const Checkbox: FC<CheckboxProps> = ({
       >
         {checked ? (
           indeterminate ? (
-            <IconMinus color="inverted" />
+            <IconMinus color="inverted" style={{ cursor: 'pointer' }} />
           ) : (
-            <IconCheckSmall color="inverted" />
+            <IconCheckSmall color="inverted" style={{ cursor: 'pointer' }} />
           )
         ) : null}
       </styled.button>
