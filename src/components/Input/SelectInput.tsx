@@ -30,7 +30,24 @@ export function SelectInput({
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string | null>(incomingValue)
   const [activeLabel, setActiveLabel] = useState<string | null>(null)
+  const [focus, setFocus] = useState(0)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+  const keyDown = (e: any) => {
+    console.log(options.length)
+    if (e.keyCode === 38 && focus !== 0) {
+      setFocus(focus - 1)
+    }
+    if (e.keyCode === 40 && focus !== options.length - 1) {
+      setFocus(focus + 1)
+    }
+    if (e.keyCode === 13 && open) {
+      setValue(options[focus].value)
+      setActiveLabel(options[focus].label)
+      setOpen(false)
+      onChange?.(options[focus].value)
+    }
+  }
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -46,6 +63,7 @@ export function SelectInput({
 
   return (
     <styled.div
+      onKeyUp={(e) => keyDown(e)}
       style={{
         position: 'relative',
         height: 40,
@@ -150,10 +168,15 @@ export function SelectInput({
               },
             }}
           >
-            {options.map((option) => (
+            {options.map((option, index) => (
               <styled.div
+                idx={index}
                 key={option.value}
+                onMouseEnter={() => {
+                  setFocus(index)
+                }}
                 onClick={() => {
+                  setFocus(index)
                   setValue(option.value)
                   setActiveLabel(option.label)
                   setOpen(false)
@@ -164,15 +187,18 @@ export function SelectInput({
                   userSelect: 'none',
                   cursor: 'pointer',
                   height: 32,
-                  background: color('background', 'default', 'surface'),
+                  background:
+                    index === focus
+                      ? color('action', 'system', 'hover')
+                      : color('background', 'default', 'surface'),
                   display: 'flex',
                   justifyContent: 'start',
                   alignItems: 'center',
                   padding: '0 12px 0 42px',
                   borderRadius: 8,
-                  '&:hover': {
-                    background: color('action', 'system', 'hover'),
-                  },
+                  // '&:hover': {
+                  //   background: color('action', 'system', 'hover'),
+                  // },
                   '&:active': {
                     background: color('action', 'system', 'active'),
                   },
