@@ -520,9 +520,9 @@ export const components: ComponentDef[] = [
       {
         props: {
           headers: [
-            { key: 'title', label: 'title', width: 132 },
-            { key: 'author', label: 'author' },
-            { key: 'number', label: 'number' },
+            { key: 'title', label: 'Title' },
+            { key: 'author', label: 'Author', type: 'author' },
+            { key: 'number', label: 'Number', type: 'id' },
           ],
           data: [
             {
@@ -531,8 +531,10 @@ export const components: ComponentDef[] = [
               number: 243545,
             },
             { title: 'Harry Potter', author: 'J.K. Rowling', number: 5345432 },
+            { title: 'Snurpie', author: 'P. Snurp', number: 53445432 },
+            { title: 'Flurpie', author: 'P. Snurp', number: 11222111 },
           ],
-          width: 456,
+          width: 600,
           outline: true,
         },
       },

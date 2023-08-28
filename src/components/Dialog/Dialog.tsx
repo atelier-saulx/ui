@@ -10,16 +10,14 @@ import React, {
   useEffect,
 } from 'react'
 import { useDialog } from './useDialog'
-
 import {
-  ButtonProps,
-  Button,
   styled,
-  Style,
   Text,
+  Button,
+  ButtonProps,
   ScrollArea,
   color,
-  renderOrCreateElement,
+  Style,
 } from '../..'
 
 const Container = styled('div', {
@@ -30,21 +28,53 @@ const Container = styled('div', {
   flexDirection: 'column',
   borderRadius: 8,
   boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.12)',
-  backgroundColor: color('background', 'default', 'surface'),
+  backgroundColor: color('content', 'inverted', 'primary'),
+})
+
+const ScrollBody = styled('div', {
+  paddingTop: '16px',
+  paddingLeft: '32px',
+  paddingRight: '32px',
+  '--dialogPadding': `32px`,
+  '@media only screen and (max-width: 680px)': {
+    '--dialogPadding': `16px`,
+    paddingLeft: '16px',
+    paddingRight: '16px',
+  },
+  paddingBottom: '0px',
+
+  '&>:last-child': {
+    paddingBottom: 'var(--dialogPadding) !important',
+  },
 })
 
 const StyledButtons = styled('div', {
-  borderTop: `1px solid ${color('border', 'default', 'strong')}`,
   position: 'sticky',
   bottom: 0,
   display: 'flex',
   alignItems: 'center',
-  padding: 24,
   justifyContent: 'flex-end',
   '@media only screen and (max-width: 680px)': {
     justifyContent: 'space-between',
   },
-  backgroundColor: color('background', 'default', 'surface'),
+  paddingTop: 'var(--dialogPadding)',
+  backgroundColor: color('content', 'inverted', 'primary'),
+  paddingBottom: 'var(--dialogPadding)',
+})
+
+const ButtonsWithBorder = styled(StyledButtons, {
+  borderTop: `1px solid ${color('border', 'default', 'strong')}`,
+  marginTop: 48,
+  paddingLeft: '32px',
+  paddingRight: '32px',
+  marginLeft: 'calc(-32px)',
+  marginRight: 'calc(-39px)',
+  '@media only screen and (max-width: 680px)': {
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    marginLeft: 'calc(-16px)',
+    marginRight: 'calc(-16px)',
+  },
   borderBottomLeftRadius: 8,
   borderBottomRightRadius: 8,
 })
@@ -54,32 +84,28 @@ const Body = ({ children }) => {
     return <div>{children}</div>
   } else if (Array.isArray(children)) {
     return (
-      <ScrollArea style={{ overflowY: 'hidden', padding: '24px 32px' }}>
+      <>
         {children.map((child, index) => (
-          <styled.div key={index} style={{ marginBottom: 16 }}>
-            {child}
-          </styled.div>
+          <Body key={index}>{child}</Body>
         ))}
-      </ScrollArea>
+      </>
     )
   } else {
     return <>{children}</>
   }
 }
 
-const Buttons = ({ children }) => {
+const Buttons = ({ children, border = null }) => {
   if (Array.isArray(children)) {
     children = children.map((child, index) => {
-      return index ? (
-        <styled.div style={{ marginLeft: 24 }} key={index}>
-          {child}
-        </styled.div>
-      ) : (
-        child
-      )
+      return index ? <Fragment key={index}>{child}</Fragment> : child
     })
   }
-  return <StyledButtons>{children}</StyledButtons>
+  return border ? (
+    <ButtonsWithBorder>{children}</ButtonsWithBorder>
+  ) : (
+    <StyledButtons>{children}</StyledButtons>
+  )
 }
 
 const Confirm: FC<
@@ -106,9 +132,10 @@ const Confirm: FC<
 
   return (
     <Button
-      //   onClick={onClick}
-      //   keyboardShortcut="Enter"
-      //   displayShortcut
+      onClick={onClick}
+      keyboardShortcut="Enter"
+      displayShortcut
+      style={{ marginLeft: 24 }}
       {...props}
     >
       {children}
@@ -140,10 +167,11 @@ const Cancel: FC<
   return (
     <Button
       onClick={onClick}
-      //   keyboardShortcut="Esc"
-      //   displayShortcut
-      color="system"
+      light
+      keyboardShortcut="Esc"
+      displayShortcut
       style={{
+        borderColor: color('border', 'default', 'strong'),
         ...style,
       }}
       {...props}
@@ -153,16 +181,26 @@ const Cancel: FC<
   )
 }
 
-export type DialogProps = {
+export interface DialogProps extends ComponentProps<typeof Container> {
   children?: ReactNode
-  label?: string
+  label?: ReactNode
   description?: ReactNode
+  pure?: boolean
   style?: Style
 }
 
 export const Dialog = Object.assign(
   forwardRef<ElementRef<typeof Container>, DialogProps>(
-    ({ children, label, description, style, ...props }, forwardedRef) => {
+    ({ children, label, description, style, pure, ...props }, forwardedRef) => {
+      if (typeof children === 'string') {
+        if (!label) {
+          label = children
+          children = null
+        } else {
+          children = <Body>{children}</Body>
+        }
+      }
+
       const [go, setgo] = useState(false)
       useEffect(() => {
         const x = requestAnimationFrame(() => {
@@ -172,8 +210,6 @@ export const Dialog = Object.assign(
           cancelAnimationFrame(x)
         }
       }, [])
-
-      console.log(children)
 
       return (
         <Container
@@ -187,30 +223,38 @@ export const Dialog = Object.assign(
           {...props}
         >
           {label && (
-            <Text
-              size={18}
-              weight="strong"
-              style={{ marginTop: 24, marginLeft: 32, marginRight: 32 }}
-            >
-              {label}
-            </Text>
-          )}
-          {description && (
-            <Text
-              size={14}
-              weight="medium"
+            <styled.div
               style={{
-                marginTop: 16,
-                marginLeft: 32,
-                marginRight: 32,
-                color: color('content', 'default', 'secondary'),
+                padding: '24px 32px 8px 32px',
+                '@media only screen and (max-width: 680px)': {
+                  padding: '24px 16px 8px 16px',
+                },
               }}
             >
-              {description}
-            </Text>
+              <Text size={18} weight="strong">
+                {label}
+              </Text>
+              {description && (
+                <Text
+                  weight="medium"
+                  style={{
+                    color: color('content', 'default', 'secondary'),
+                    marginTop: 24,
+                  }}
+                >
+                  {description}
+                </Text>
+              )}
+            </styled.div>
           )}
 
-          {children}
+          {pure ? (
+            children
+          ) : (
+            <ScrollArea style={{ overflowY: go ? null : 'hidden' }}>
+              <ScrollBody>{children}</ScrollBody>
+            </ScrollArea>
+          )}
         </Container>
       )
     }

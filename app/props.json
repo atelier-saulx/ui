@@ -631,29 +631,6 @@
       "code": "type RangeTillPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
       "file": "/components/DateRange/TillRangePicker.tsx"
     },
-    "DialogProps": {
-      "name": "DialogProps",
-      "props": {
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
-        "description": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        }
-      },
-      "code": "type DialogProps = {\n  children?: ReactNode\n  label?: string\n  description?: ReactNode\n  style?: Style\n}",
-      "file": "/components/Dialog/Dialog.tsx"
-    },
     "DividerProps": {
       "name": "DividerProps",
       "props": {
@@ -874,17 +851,6 @@
       "code": "type MenuProps = {\n  items?: MenuItemProps[]\n  style?: Style\n}",
       "file": "/types.ts"
     },
-    "ModalProps": {
-      "name": "ModalProps",
-      "props": {
-        "style": {
-          "optional": true,
-          "type": "Style"
-        }
-      },
-      "code": "type ModalProps = {\n  style?: Style\n}",
-      "file": "/components/Modal/index.tsx"
-    },
     "ModalWarningProps": {
       "name": "ModalWarningProps",
       "props": {
@@ -892,13 +858,32 @@
           "optional": true,
           "type": "Exclude"
         },
-        "label": {
+        "children": {
           "optional": true,
           "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         }
       },
-      "code": "type ModalWarningProps = {\n  color?: Exclude<\n    ColorBackgroundColors,\n    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'\n  >\n  label?: string\n}",
-      "file": "/components/Modal/warning.tsx"
+      "code": "type ModalWarningProps = {\n  color?: Exclude<\n    ColorBackgroundColors,\n    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'\n  >\n  children?: string\n  style?: Style\n}",
+      "file": "/components/Modal/ModalWarning.tsx"
+    },
+    "ModalProps": {
+      "name": "ModalProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type ModalProps = {\n  style?: Style\n  children?: ReactNode\n}",
+      "file": "/components/Modal/index.tsx"
     },
     "PositionProps": {
       "name": "PositionProps",
@@ -1328,7 +1313,7 @@
     "TableProps": {
       "name": "TableProps",
       "props": {
-        "header": {
+        "headers": {
           "optional": true,
           "type": {
             "array": "TableHeader"
@@ -1402,9 +1387,13 @@
         "calcRowHeight": {
           "optional": true,
           "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         }
       },
-      "code": "type TableProps<T extends any = any> = {\n  header?: TableHeader<T>[]\n  query?: (start: number, limit: number) => BasedQuery\n  getQueryItems?: (data: any) => any[]\n  data?: T[]\n  width?: number\n  itemCount?: number\n  height?: number\n  context?: any\n  queryId?: number | string\n  rowCount?: number\n  defaultSortOptions?: SortOptions\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  outline?: boolean\n  onClick?: (e: MouseEvent, data: any) => void\n  calcRowHeight?: (data: any, index: number) => number\n}",
+      "code": "type TableProps<T extends any = any> = {\n  headers?: TableHeader<T>[]\n  query?: (start: number, limit: number) => BasedQuery\n  getQueryItems?: (data: any) => any[]\n  data?: T[]\n  width?: number\n  itemCount?: number\n  height?: number\n  context?: any\n  queryId?: number | string\n  rowCount?: number\n  defaultSortOptions?: SortOptions\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  outline?: boolean\n  onClick?: (e: MouseEvent, data: any) => void\n  calcRowHeight?: (data: any, index: number) => number\n  style?: Style\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
