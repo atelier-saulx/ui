@@ -172,7 +172,6 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
         <styled.div
           style={{
             // padding: 4,
-
             width: '100%',
             transition: 'height 0.2s',
             borderTop: objState.expanded ? '1px solid transparent' : border(1),

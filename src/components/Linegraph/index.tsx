@@ -8,7 +8,7 @@ import { genPaths } from './genPath'
 import XAxis from './XAxis'
 import Labels from './Labels'
 import OverlayWrapper from './OverlayWrapper'
-import { Text } from '../..'
+import { Style, styled, Text } from '../..'
 
 const Graph = ({
   width,
@@ -17,6 +17,7 @@ const Graph = ({
   xFormat,
   label,
   valueFormat,
+  style,
 }: {
   width: number
   height: number
@@ -24,6 +25,7 @@ const Graph = ({
   xFormat?: LineXGraphFormat
   label?: string
   valueFormat?: NumberFormat | string
+  style?: Style
 }) => {
   const labelRef = useRef<any>()
   const [labelWidth, updateLabelWidth] = useState(0)
@@ -50,7 +52,7 @@ const Graph = ({
   const { labels, labelHeight } = genLabels(svgHeight, ySpread, globalMaxY)
 
   return (
-    <div
+    <styled.div
       style={{
         width,
         height,
@@ -111,7 +113,7 @@ const Graph = ({
           />
         </div>
       ) : null}
-    </div>
+    </styled.div>
   )
 }
 
@@ -120,6 +122,8 @@ export type LineGraphProps = {
   xFormat?: LineXGraphFormat
   valueFormat?: NumberFormat | string
   label?: string
+  width?: number
+  height?: number
 }
 export const LineGraph: FunctionComponent<LineGraphProps> = ({
   data,

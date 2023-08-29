@@ -17,6 +17,7 @@ import {
   IconClipboard,
   IconEmojiSmile,
   Input,
+  LineGraph,
   Modal,
   RadioButtons,
   ScrollArea,
@@ -38,6 +39,19 @@ import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
 import { MultiSelect } from '../src/components/MultiSelect'
+
+const genRandomPoints = (
+  formula: (i: number) => { x: number; y: number },
+  start: number = 0,
+  end: number = 50,
+  step: number = 1
+) => {
+  const points: { x: number; y: number }[] = []
+  for (let i = start; i <= end; i = i + step) {
+    points.push(formula(i))
+  }
+  return points
+}
 
 export const components: ComponentDef[] = [
   {
@@ -400,6 +414,30 @@ export const components: ComponentDef[] = [
           onClick: () => {
             alert('bla')
           },
+        },
+      },
+    ],
+  },
+  {
+    name: 'LineGraph',
+    component: LineGraph,
+    properties: props.props.LineGraphProps.props,
+    description: '',
+    examples: [
+      {
+        props: {
+          data: {
+            en: {
+              data: () =>
+                genRandomPoints(
+                  (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
+                  0,
+                  50
+                ),
+              minMax: true,
+            },
+          },
+          label: 'single line 50000',
         },
       },
     ],

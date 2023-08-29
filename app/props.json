@@ -859,6 +859,31 @@
       "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'search' } & SearchInputProps)\n  | ({ type: 'select' } & SelectInputProps)\n  | ({ type: 'file' } & FileInputProps)",
       "file": "/components/Input/index.tsx"
     },
+    "LineGraphProps": {
+      "name": "LineGraphProps",
+      "props": {
+        "data": {
+          "type": "LineGraphDataInput"
+        },
+        "xFormat": {
+          "optional": true,
+          "type": "LineXGraphFormat"
+        },
+        "valueFormat": {
+          "optional": true,
+          "type": [
+            "NumberFormat",
+            "string"
+          ]
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n}",
+      "file": "/components/Linegraph/index.tsx"
+    },
     "MenuHeaderProps": {
       "name": "MenuHeaderProps",
       "props": {
