@@ -7,7 +7,16 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import { styled, Style, Text, color, IconSort, Button, IconDelete } from '../..'
+import {
+  styled,
+  Style,
+  Text,
+  color,
+  IconSort,
+  Button,
+  IconDelete,
+  Checkbox,
+} from '../..'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
@@ -72,11 +81,26 @@ const Header: FC<{
   // performance??
   sortKey: any
   setSortKey: (k) => void
-}> = ({ headers, width, headerWidth, outline, sortKey, setSortKey }) => {
+  clearAllRows: any
+  selectAllRows: any
+  selectedRows?: any
+  data?: any
+}> = ({
+  headers,
+  width,
+  headerWidth,
+  outline,
+  sortKey,
+  setSortKey,
+  clearAllRows,
+  selectAllRows,
+  selectedRows,
+  data,
+}) => {
   const children: ReactNode[] = []
   let total = 16
 
-  console.log('headers--> ❇️', headers)
+  // console.log('headers--> ❇️', headers)
 
   for (const header of headers) {
     const w = header.width ?? headerWidth
@@ -95,15 +119,27 @@ const Header: FC<{
       >
         {header.customLabelComponent ? (
           <header.customLabelComponent />
+        ) : header.key === 'selected' ? (
+          <Checkbox
+            value={selectedRows.length === data.length}
+            onClick={() => {
+              if (selectedRows.length === data.length) {
+                clearAllRows()
+              } else {
+                selectAllRows()
+              }
+            }}
+          />
         ) : (
           <styled.div
             style={{ display: 'flex' }}
             onClick={() => {
               // if it is a checkbox though select all the rows
-              if (header.key === 'selected') {
-                setSortKey((prev) => prev)
-                console.log('selectedo 🎇 --> select all rows')
-              } else if (sortKey.key !== header.key) {
+              // if (header.key === 'selected') {
+              //   setSortKey((prev) => prev)
+              //   console.log('selectedo 🎇 --> select all rows')
+              // } else
+              if (sortKey.key !== header.key) {
                 setSortKey({
                   key: header.key,
                   counter: sortKey.counter + 1,
@@ -152,14 +188,7 @@ const Header: FC<{
 }
 
 const Cell = (props) => {
-  const {
-    columnIndex,
-    rowIndex,
-    style,
-    data,
-    renderCounter,
-    setRenderCounter,
-  } = props
+  const { columnIndex, rowIndex, style, data } = props
   const header = data.headers[columnIndex]
   const colls = data.headers.length
   const rowData = data.data[rowIndex]
@@ -297,9 +326,10 @@ const SizedGrid: FC<TableProps> = (props) => {
     sortKey,
     renderCounter,
     setRenderCounter,
+    selectAllRows,
+    clearAllRows,
+    selectedRows,
   } = props
-
-  console.log('props??', setRenderCounter)
 
   const headerWrapper = useRef(null)
 
@@ -385,6 +415,10 @@ const SizedGrid: FC<TableProps> = (props) => {
           outline={props.outline}
           sortKey={sortKey}
           setSortKey={setSortKey}
+          selectAllRows={selectAllRows}
+          clearAllRows={clearAllRows}
+          selectedRows={selectedRows}
+          data={data}
         />
       </styled.div>
       {/* TODO: wrap in styled and share froms scroll area */}
@@ -437,8 +471,8 @@ export const Table: FC<TableProps> = (props) => {
       ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
       : props.data
 
-  console.log('✅', props)
-  console.log('💚', newData)
+  // console.log('✅', props)
+  // console.log('💚', newData)
 
   // if selectable is true, the first columns of data should be checkboxes
   const [renderCounter, setRenderCounter] = useState(1)
@@ -446,13 +480,10 @@ export const Table: FC<TableProps> = (props) => {
 
   // check all object if meta selected is true
   const testRow = newData.filter((item, idx) => item?.meta?.selected)
-
-  console.log(testRow, '🛤')
-
   useEffect(() => {
     if (selectable) {
       setSelectedRows(testRow)
-      console.log(testRow, '🛤')
+      // console.log(testRow, '🛤')
     }
   }, [renderCounter])
 
@@ -465,9 +496,19 @@ export const Table: FC<TableProps> = (props) => {
       key: 'selected',
       label: 'checkie?',
       type: 'checkbox',
-      width: 100,
+      width: 42,
     })
     newData.map((item, idx) => (item.meta = { selected: false }))
+  }
+
+  const selectAllRows = () => {
+    newData.map((item) => (item.meta.selected = true))
+    setRenderCounter(renderCounter + 1)
+  }
+
+  const clearAllRows = () => {
+    newData.map((item) => (item.meta.selected = false))
+    setRenderCounter(renderCounter + 1)
   }
 
   return (
@@ -513,8 +554,7 @@ export const Table: FC<TableProps> = (props) => {
                 ghost
                 style={{ marginLeft: 18 }}
                 onClick={() => {
-                  newData.map((item) => (item.meta.selected = false))
-                  setRenderCounter(renderCounter + 1)
+                  clearAllRows()
                 }}
               >
                 Clear Selection
@@ -543,6 +583,9 @@ export const Table: FC<TableProps> = (props) => {
                 setSortKey={setSortKey}
                 renderCounter={renderCounter}
                 setRenderCounter={setRenderCounter}
+                selectAllRows={selectAllRows}
+                clearAllRows={clearAllRows}
+                selectedRows={selectedRows}
               />
             )
           }}
