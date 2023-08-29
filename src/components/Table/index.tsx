@@ -132,13 +132,8 @@ const Header: FC<{
           />
         ) : (
           <styled.div
-            style={{ display: 'flex' }}
+            style={{ display: 'flex', cursor: 'pointer' }}
             onClick={() => {
-              // if it is a checkbox though select all the rows
-              // if (header.key === 'selected') {
-              //   setSortKey((prev) => prev)
-              //   console.log('selectedo 🎇 --> select all rows')
-              // } else
               if (sortKey.key !== header.key) {
                 setSortKey({
                   key: header.key,

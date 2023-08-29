@@ -800,9 +800,13 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "clearButton": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type TextInputOwnProps = {\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  beforeIcon?: React.ReactNode\n  afterIcon?: React.ReactNode\n  style?: Style\n}",
+      "code": "type TextInputOwnProps = {\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  beforeIcon?: React.ReactNode\n  afterIcon?: React.ReactNode\n  style?: Style\n  clearButton?: boolean\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "InputProps": {
@@ -884,6 +888,25 @@
       },
       "code": "type ModalProps = {\n  style?: Style\n  children?: ReactNode\n}",
       "file": "/components/Modal/index.tsx"
+    },
+    "TagProps": {
+      "name": "TagProps",
+      "props": {
+        "onClose": {
+          "optional": true,
+          "type": "function"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type TagProps = {\n  onClose?: () => void\n  children?: ReactNode\n  style?: Style\n}",
+      "file": "/components/MultiSelect/index.tsx"
     },
     "PositionProps": {
       "name": "PositionProps",
@@ -1142,6 +1165,17 @@
       "code": "type RadioButtonsProps = {\n  color?: ColorActionColors\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  direction?: 'horizontal' | 'vertical'\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  value?: string | boolean | number\n}",
       "file": "/components/RadioButtons/index.tsx"
     },
+    "ScrollAreaProps": {
+      "name": "ScrollAreaProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type ScrollAreaProps = {\n  style?: Style\n}",
+      "file": "/components/ScrollArea/index.tsx"
+    },
     "SegmentedControlProps": {
       "name": "SegmentedControlProps",
       "props": {
@@ -1310,22 +1344,68 @@
       "code": "type StatusProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  ghost?: boolean\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
       "file": "/components/Status/index.tsx"
     },
+    "TableHeaderTypesProps": {
+      "name": "TableHeaderTypesProps",
+      "props": {
+        "type": {
+          "type": [
+            {
+              "value": "author"
+            },
+            {
+              "value": "boolean"
+            },
+            {
+              "value": "checkbox"
+            },
+            {
+              "value": "id"
+            },
+            {
+              "value": "img"
+            },
+            {
+              "value": "timestamp"
+            }
+          ]
+        },
+        "itemData": {
+          "type": "TSAnyKeyword"
+        },
+        "rowData": {
+          "type": "TSTypeLiteral"
+        },
+        "key": {
+          "type": "TSAnyKeyword"
+        },
+        "renderCounter": {
+          "type": "TSAnyKeyword"
+        },
+        "setRenderCounter": {
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type TableHeaderTypesProps = {\n  type: 'author' | 'boolean' | 'checkbox' | 'id' | 'img' | 'timestamp'\n  itemData: any\n  rowData: {}\n  key: any\n  renderCounter: any\n  setRenderCounter: any\n}",
+      "file": "/components/Table/TableHeaderTypes.tsx"
+    },
     "TableProps": {
       "name": "TableProps",
       "props": {
-        "headers": {
-          "optional": true,
-          "type": {
-            "array": "TableHeader"
-          }
-        },
-        "query": {
+        "calcRowHeight": {
           "optional": true,
           "type": "function"
         },
-        "getQueryItems": {
+        "columnCount": {
           "optional": true,
-          "type": "function"
+          "type": "number"
+        },
+        "columnWidth": {
+          "optional": true,
+          "type": "number"
+        },
+        "context": {
+          "optional": true,
+          "type": "TSAnyKeyword"
         },
         "data": {
           "optional": true,
@@ -1333,7 +1413,21 @@
             "array": "T"
           }
         },
-        "width": {
+        "defaultSortOptions": {
+          "optional": true,
+          "type": "SortOptions"
+        },
+        "getQueryItems": {
+          "optional": true,
+          "type": "function"
+        },
+        "headers": {
+          "optional": true,
+          "type": {
+            "array": "TableHeader"
+          }
+        },
+        "height": {
           "optional": true,
           "type": "number"
         },
@@ -1341,13 +1435,17 @@
           "optional": true,
           "type": "number"
         },
-        "height": {
+        "onClick": {
           "optional": true,
-          "type": "number"
+          "type": "function"
         },
-        "context": {
+        "outline": {
           "optional": true,
-          "type": "TSAnyKeyword"
+          "type": "boolean"
+        },
+        "query": {
+          "optional": true,
+          "type": "function"
         },
         "queryId": {
           "optional": true,
@@ -1360,40 +1458,38 @@
           "optional": true,
           "type": "number"
         },
-        "defaultSortOptions": {
-          "optional": true,
-          "type": "SortOptions"
-        },
         "rowHeight": {
           "optional": true,
           "type": "number"
         },
-        "columnCount": {
-          "optional": true,
-          "type": "number"
-        },
-        "columnWidth": {
-          "optional": true,
-          "type": "number"
-        },
-        "outline": {
+        "selectable": {
           "optional": true,
           "type": "boolean"
         },
-        "onClick": {
-          "optional": true,
-          "type": "function"
+        "setSortKey": {
+          "type": "TSAnyKeyword"
         },
-        "calcRowHeight": {
-          "optional": true,
-          "type": "function"
+        "sortKey": {
+          "type": "TSAnyKeyword"
         },
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "renderCounter": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "setRenderCounter": {
+          "optional": true,
+          "type": "TSAnyKeyword"
         }
       },
-      "code": "type TableProps<T extends any = any> = {\n  headers?: TableHeader<T>[]\n  query?: (start: number, limit: number) => BasedQuery\n  getQueryItems?: (data: any) => any[]\n  data?: T[]\n  width?: number\n  itemCount?: number\n  height?: number\n  context?: any\n  queryId?: number | string\n  rowCount?: number\n  defaultSortOptions?: SortOptions\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  outline?: boolean\n  onClick?: (e: MouseEvent, data: any) => void\n  calcRowHeight?: (data: any, index: number) => number\n  style?: Style\n}",
+      "code": "type TableProps<T extends any = any> = {\n  calcRowHeight?: (data: any, index: number) => number\n  columnCount?: number\n  columnWidth?: number\n  context?: any\n  data?: T[]\n  defaultSortOptions?: SortOptions\n  getQueryItems?: (data: any) => any[]\n  headers?: TableHeader<T>[]\n  height?: number\n  itemCount?: number\n  onClick?: (e: MouseEvent, data: any) => void\n  outline?: boolean\n  query?: (start: number, limit: number) => BasedQuery\n  queryId?: number | string\n  rowCount?: number\n  rowHeight?: number\n  selectable?: boolean\n  setSortKey: any\n  sortKey: any\n  style?: Style\n  width?: number\n  renderCounter?: any\n  setRenderCounter?: any\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
@@ -1440,37 +1536,6 @@
       },
       "code": "type TabsProps = {\n  children: ReactNode\n  style?: Style\n  activeTab?: number\n  setActiveTab?: (index: number) => void\n  sameHeight?: boolean\n}",
       "file": "/components/Tabs/Tabs.tsx"
-    },
-    "TagProps": {
-      "name": "TagProps",
-      "props": {
-        "color": {
-          "optional": true,
-          "type": "ColorActionColors"
-        },
-        "disabled": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "onClick": {
-          "optional": true,
-          "type": "ClickHandler"
-        },
-        "onClose": {
-          "optional": true,
-          "type": "function"
-        },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        }
-      },
-      "code": "type TagProps = {\n  color?: ColorActionColors\n  disabled?: boolean\n  onClick?: ClickHandler\n  onClose?: () => void\n  children?: ReactNode\n  style?: Style\n}",
-      "file": "/components/Tag/index.tsx"
     },
     "TextProps": {
       "name": "TextProps",
@@ -1547,9 +1612,13 @@
     "ToastProps": {
       "name": "ToastProps",
       "props": {
-        "label": {
+        "action": {
           "optional": true,
-          "type": "string"
+          "type": "TSTypeLiteral"
+        },
+        "closeable": {
+          "optional": true,
+          "type": "boolean"
         },
         "color": {
           "optional": true,
@@ -1559,28 +1628,24 @@
           "optional": true,
           "type": "string"
         },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "closeable": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "strong": {
-          "optional": true,
-          "type": "Boolean"
-        },
-        "action": {
-          "optional": true,
-          "type": "TSTypeLiteral"
-        },
         "id": {
           "optional": true,
           "type": "TSAnyKeyword"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "strong": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         }
       },
-      "code": "type ToastProps = {\n  label?: string\n  color?: ColorBackgroundColors\n  description?: string\n  style?: CSSProperties\n  closeable?: boolean\n  strong?: Boolean\n  action?: { onClick: () => void; label: string }\n  id?: any\n}",
+      "code": "type ToastProps = {\n  action?: { onClick: () => void; label: string }\n  closeable?: boolean\n  color?: ColorBackgroundColors\n  description?: string\n  id?: any\n  label?: string\n  strong?: boolean\n  style?: Style\n}",
       "file": "/components/Toast/Toast.tsx"
     },
     "ToggleProps": {
@@ -1600,7 +1665,7 @@
         },
         "onClick": {
           "optional": true,
-          "type": "function"
+          "type": "ClickHandler"
         },
         "style": {
           "optional": true,
@@ -1618,7 +1683,7 @@
           ]
         }
       },
-      "code": "type ToggleProps = {\n  value?: boolean\n  color?: ColorActionColors\n  disabled?: boolean\n  onClick?: (e) => void | (() => void)\n  style?: Style\n  size?: 'large' | 'medium'\n}",
+      "code": "type ToggleProps = {\n  value?: boolean\n  color?: ColorActionColors\n  disabled?: boolean\n  onClick?: ClickHandler\n  style?: Style\n  size?: 'large' | 'medium'\n}",
       "file": "/components/Toggle/index.tsx"
     },
     "IconProps": {
@@ -1824,12 +1889,6 @@
         }
       },
       "code": "type MenuItemProps = {\n  active?: boolean\n  icon?: ReactNode\n  label?: string\n  onClick?: (e) => void\n  // or path maybe??\n  value?: string\n  style?: Style\n  children?: ReactNode | FC\n}",
-      "file": "/types.ts"
-    },
-    "ModalBottomBarProps": {
-      "name": "ModalBottomBarProps",
-      "props": {},
-      "code": "type ModalBottomBarProps = {\n  // primary action\n  // secondary action\n  // steps\n}",
       "file": "/types.ts"
     },
     "SelectableItemProps": {

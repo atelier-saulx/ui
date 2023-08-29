@@ -1,8 +1,9 @@
-import React, { FC, CSSProperties, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import {
   ColorBackgroundColors,
   Text,
   styled,
+  Style,
   color as genColor,
   Button,
   IconAlert,
@@ -13,14 +14,14 @@ import {
 } from '../..'
 
 export type ToastProps = {
-  label?: string
+  action?: { onClick: () => void; label: string }
+  closeable?: boolean
   color?: ColorBackgroundColors
   description?: string
-  style?: CSSProperties
-  closeable?: boolean
-  strong?: Boolean
-  action?: { onClick: () => void; label: string }
   id?: any
+  label?: string
+  strong?: boolean
+  style?: Style
 }
 
 export const Toast: FC<ToastProps> = ({

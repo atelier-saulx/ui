@@ -1,7 +1,7 @@
 import { render } from 'react-dom'
 import React, { FC } from 'react'
 import { styled } from 'inlines'
-import { Status } from '../src'
+
 import '../src/fonts.css'
 import based from '@based/client'
 import { color, Menu, Provider, ScrollArea } from '../src'
