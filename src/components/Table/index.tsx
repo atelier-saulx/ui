@@ -415,7 +415,7 @@ export const Table: FC<TableProps> = (props) => {
       ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
       : props.data
 
-  // console.log(sortKey)
+  // console.log(sortKey) afa
   // console.log('🟪', data)
 
   return (
