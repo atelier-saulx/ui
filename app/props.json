@@ -132,9 +132,21 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "data": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "active": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type BreadcrumbsProps = {\n  style?: Style\n}",
+      "code": "type BreadcrumbsProps = {\n  style?: Style\n  data?: {\n    [key: string]: ReactNode | ((e: MouseEvent<HTMLDivElement>) => void)\n  }\n  active?: string\n  onChange?: (key: string) => void\n}",
       "file": "/components/Breadcrumbs/index.tsx"
     },
     "ButtonProps": {
@@ -529,8 +541,8 @@
       "code": "type PickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
       "file": "/components/DatePicker/Picker.tsx"
     },
-    "DateWidgetProps": {
-      "name": "DateWidgetProps",
+    "DatePickerProps": {
+      "name": "DatePickerProps",
       "props": {
         "value": {
           "optional": true,
@@ -548,7 +560,7 @@
           "type": "Style"
         }
       },
-      "code": "type DateWidgetProps = {\n  value?: number // milliseconds\n  onChange: (value: number) => void\n  time?: boolean\n  style?: Style\n}",
+      "code": "type DatePickerProps = {\n  value?: number // milliseconds\n  onChange: (value: number) => void\n  time?: boolean\n  style?: Style\n}",
       "file": "/components/DatePicker/index.tsx"
     },
     "DateRangeDoubleInputProps": {
@@ -641,6 +653,23 @@
       },
       "code": "type RangeTillPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
       "file": "/components/DateRange/TillRangePicker.tsx"
+    },
+    "DateRangeProps": {
+      "name": "DateRangeProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": {
+            "array": "number"
+          }
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type DateRangeProps = {\n  value?: number[]\n  onChange?: (v) => void\n}",
+      "file": "/components/DateRange/index.tsx"
     },
     "DividerProps": {
       "name": "DividerProps",

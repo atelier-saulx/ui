@@ -115,7 +115,13 @@ export const components: ComponentDef[] = [
     properties: props.props.BreadcrumbsProps.props,
     component: Breadcrumbs,
     description: '',
-    examples: [{ props: {} }],
+    examples: [
+      {
+        props: {
+          data: { flip: 'flip', flap: 'flap', flup: 'flup' },
+        },
+      },
+    ],
   },
   {
     name: 'Button',
@@ -227,7 +233,7 @@ export const components: ComponentDef[] = [
   },
   {
     name: 'Date Range',
-    properties: {}, // props.props.DateRangeProps.props,
+    properties: props.props.DateRangeProps.props,
     description: 'Range of date picker',
     component: DateRange,
     examples: [
