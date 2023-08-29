@@ -8,13 +8,16 @@ import {
   IconCheckLarge,
   useCopyToClipboard,
   Toggle,
+  Checkbox,
 } from '../..'
 
 type TableHeaderTypesProps = {
-  type: 'author' | 'boolean' | 'id' | 'img' | 'timestamp'
+  type: 'author' | 'boolean' | 'checkbox' | 'id' | 'img' | 'timestamp'
   itemData: any
   rowData: {}
   key: any
+  renderCounter: any
+  setRenderCounter: any
 }
 
 const IdBadge: FC<{
@@ -70,11 +73,29 @@ const BooleanToggle: FC<{
   )
 }
 
+const CheckboxItem: FC<{
+  rowData?: any
+  renderCounter?: any
+  setRenderCounter?: any
+}> = ({ rowData, renderCounter, setRenderCounter }) => {
+  return (
+    <Checkbox
+      value={rowData.meta.selected}
+      onClick={(v) => {
+        v ? (rowData.meta.selected = true) : (rowData.meta.selected = false)
+        setRenderCounter(renderCounter + 1)
+      }}
+    />
+  )
+}
+
 export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   type,
   rowData,
   itemData,
   key,
+  renderCounter,
+  setRenderCounter,
 }) => {
   //   console.log(type)
   //   console.log('Row', rowData)
@@ -89,6 +110,12 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
     </>
   ) : type === 'boolean' ? (
     <BooleanToggle item={rowData} itemData={itemData} k={key} />
+  ) : type === 'checkbox' ? (
+    <CheckboxItem
+      rowData={rowData}
+      renderCounter={renderCounter}
+      setRenderCounter={setRenderCounter}
+    />
   ) : type === 'id' ? (
     <IdBadge>{itemData}</IdBadge>
   ) : type === 'img' ? (

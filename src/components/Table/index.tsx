@@ -7,14 +7,14 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import { styled, Style, Text, color, IconSort } from '../..'
+import { styled, Style, Text, color, IconSort, Button, IconDelete } from '../..'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { BasedQuery } from '@based/client'
-import { deepEqual, getByPath } from '@saulx/utils'
+import { getByPath } from '@saulx/utils'
 import { TableHeaderTypes } from './TableHeaderTypes'
 
 export * from './types'
@@ -37,26 +37,29 @@ const sortBasedBasedOnHeaderItem = (keyName, data, order) => {
 }
 
 export type TableProps<T extends any = any> = {
-  headers?: TableHeader<T>[]
-  query?: (start: number, limit: number) => BasedQuery
-  getQueryItems?: (data: any) => any[]
-  data?: T[]
-  width?: number
-  itemCount?: number
-  height?: number
-  context?: any
-  queryId?: number | string
-  rowCount?: number
-  defaultSortOptions?: SortOptions
-  rowHeight?: number
+  calcRowHeight?: (data: any, index: number) => number
   columnCount?: number
   columnWidth?: number
-  outline?: boolean
+  context?: any
+  data?: T[]
+  defaultSortOptions?: SortOptions
+  getQueryItems?: (data: any) => any[]
+  headers?: TableHeader<T>[]
+  height?: number
+  itemCount?: number
   onClick?: (e: MouseEvent, data: any) => void
-  calcRowHeight?: (data: any, index: number) => number
-  style?: Style
-  sortKey: any
+  outline?: boolean
+  query?: (start: number, limit: number) => BasedQuery
+  queryId?: number | string
+  rowCount?: number
+  rowHeight?: number
+  selectable?: boolean
   setSortKey: any
+  sortKey: any
+  style?: Style
+  width?: number
+  renderCounter?: any
+  setRenderCounter?: any
 }
 
 const Header: FC<{
@@ -72,6 +75,9 @@ const Header: FC<{
 }> = ({ headers, width, headerWidth, outline, sortKey, setSortKey }) => {
   const children: ReactNode[] = []
   let total = 16
+
+  console.log('headers--> ❇️', headers)
+
   for (const header of headers) {
     const w = header.width ?? headerWidth
     children.push(
@@ -93,7 +99,11 @@ const Header: FC<{
           <styled.div
             style={{ display: 'flex' }}
             onClick={() => {
-              if (sortKey.key !== header.key) {
+              // if it is a checkbox though select all the rows
+              if (header.key === 'selected') {
+                setSortKey((prev) => prev)
+                console.log('selectedo 🎇 --> select all rows')
+              } else if (sortKey.key !== header.key) {
                 setSortKey({
                   key: header.key,
                   counter: sortKey.counter + 1,
@@ -142,7 +152,14 @@ const Header: FC<{
 }
 
 const Cell = (props) => {
-  const { columnIndex, rowIndex, style, data } = props
+  const {
+    columnIndex,
+    rowIndex,
+    style,
+    data,
+    renderCounter,
+    setRenderCounter,
+  } = props
   const header = data.headers[columnIndex]
   const colls = data.headers.length
   const rowData = data.data[rowIndex]
@@ -184,6 +201,8 @@ const Cell = (props) => {
       rowData={rowData}
       itemData={itemData}
       key={key}
+      renderCounter={data.renderCounter}
+      setRenderCounter={data.setRenderCounter}
     />
   ) : (
     <Text weight="medium">
@@ -266,7 +285,6 @@ const SizedGrid: FC<TableProps> = (props) => {
     headers = [],
     data = [],
     defaultSortOptions,
-
     calcRowHeight,
     rowHeight = 60,
     width,
@@ -277,7 +295,11 @@ const SizedGrid: FC<TableProps> = (props) => {
       (data && data.length && Object.keys(data[0]).length),
     setSortKey,
     sortKey,
+    renderCounter,
+    setRenderCounter,
   } = props
+
+  console.log('props??', setRenderCounter)
 
   const headerWrapper = useRef(null)
 
@@ -352,9 +374,6 @@ const SizedGrid: FC<TableProps> = (props) => {
           width: width,
           overflowX: 'hidden',
           borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
-          //     backgroundColor: color('background', 'default', 'strong'),
-          // borderTopRightRadius: props.outline ? 8 : 0,
-          // borderTopLeftRadius: props.outline ? 8 : 0,
         }}
         ref={headerWrapper}
       >
@@ -388,6 +407,8 @@ const SizedGrid: FC<TableProps> = (props) => {
           ...props,
           data: parsedData,
         }}
+        renderCounter={renderCounter}
+        setRenderCounter={setRenderCounter}
       >
         {Cell}
       </Grid>
@@ -402,6 +423,7 @@ export const Table: FC<TableProps> = (props) => {
     itemCount = data.length,
     rowHeight = 60,
     height = itemCount < 20 ? data.length * rowHeight + 40 : 200,
+    selectable,
   } = props
 
   const [sortKey, setSortKey] = useState({
@@ -415,38 +437,117 @@ export const Table: FC<TableProps> = (props) => {
       ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
       : props.data
 
-  // console.log(sortKey) afa
-  // console.log('🟪', data)
+  console.log('✅', props)
+  console.log('💚', newData)
+
+  // if selectable is true, the first columns of data should be checkboxes
+  const [renderCounter, setRenderCounter] = useState(1)
+  const [selectedRows, setSelectedRows] = useState([])
+
+  // check all object if meta selected is true
+  const testRow = newData.filter((item, idx) => item?.meta?.selected)
+
+  console.log(testRow, '🛤')
+
+  useEffect(() => {
+    if (selectable) {
+      setSelectedRows(testRow)
+      console.log(testRow, '🛤')
+    }
+  }, [renderCounter])
+
+  if (
+    selectable &&
+    props.headers &&
+    !Object.values(props.headers[0]).includes('selected')
+  ) {
+    props?.headers?.unshift({
+      key: 'selected',
+      label: 'checkie?',
+      type: 'checkbox',
+      width: 100,
+    })
+    newData.map((item, idx) => (item.meta = { selected: false }))
+  }
 
   return (
-    <styled.div
-      style={{
-        backgroundColor: color('background', 'default', 'strong'),
-        minHeight: height,
-        height: '100%',
-        width: '100%',
-        minWidth: width,
-        border: props.outline
-          ? `1px solid ${color('border', 'default', 'strong')}`
-          : 'none',
-        borderBottom: 'none',
-        // borderRadius: props.outline ? 8 : 0,
-      }}
-    >
-      <AutoSizer>
-        {({ width, height }) => {
-          return (
-            <SizedGrid
-              {...props}
-              data={newData}
-              height={height}
-              width={width}
-              sortKey={sortKey}
-              setSortKey={setSortKey}
-            />
-          )
+    <>
+      <styled.div
+        style={{
+          backgroundColor: color('background', 'default', 'strong'),
+          minHeight: height,
+          height: '100%',
+          width: '100%',
+          minWidth: width,
+          border: props.outline
+            ? `1px solid ${color('border', 'default', 'strong')}`
+            : 'none',
+          borderBottom: 'none',
+          // borderRadius: props.outline ? 8 : 0,
         }}
-      </AutoSizer>
-    </styled.div>
+      >
+        {selectedRows.length > 0 && (
+          <styled.div
+            style={{
+              maxHeight: 64,
+              backgroundColor: color('background', 'default', 'strong'),
+              borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
+              padding: '12px 16px',
+            }}
+          >
+            <styled.div
+              style={{
+                border: `1px solid ${color('border', 'default', 'strong')}`,
+                borderRadius: 4,
+                display: 'flex',
+                alignItems: 'center',
+                padding: '8px 16px',
+                width: 'fit-content',
+              }}
+            >
+              <Text weight="strong" color="brand">
+                {selectedRows.length + ' Selected'}
+              </Text>
+              <Button
+                size="xsmall"
+                ghost
+                style={{ marginLeft: 18 }}
+                onClick={() => {
+                  newData.map((item) => (item.meta.selected = false))
+                  setRenderCounter(renderCounter + 1)
+                }}
+              >
+                Clear Selection
+              </Button>
+              <Button
+                size="xsmall"
+                ghost
+                color="alert"
+                icon={<IconDelete />}
+                style={{ marginLeft: 18 }}
+              >
+                Delete
+              </Button>
+            </styled.div>
+          </styled.div>
+        )}
+        <AutoSizer>
+          {({ width, height }) => {
+            return (
+              <SizedGrid
+                {...props}
+                data={newData}
+                height={height}
+                width={width}
+                sortKey={sortKey}
+                setSortKey={setSortKey}
+                renderCounter={renderCounter}
+                setRenderCounter={setRenderCounter}
+              />
+            )
+          }}
+        </AutoSizer>
+      </styled.div>
+    </>
   )
 }
