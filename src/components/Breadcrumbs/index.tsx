@@ -46,39 +46,39 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
                   onChange(key)
                 }
               }
-        const label =
-          typeof el === 'function' ? (
-            <Text style={{ marginLeft: 16 }}>{key}</Text>
-          ) : typeof el === 'string' ? (
-            <Text
-              size={16}
-              weight="strong"
-              style={{
-                padding: '2px 8px',
-                color:
-                  index === Object.keys(data).length - 1
-                    ? color('content', 'default', 'secondary')
-                    : color('content', 'default', 'primary'),
-                borderRadius: 4,
-                '&:hover': {
-                  backgroundColor: color('action', 'system', 'hover'),
-                },
-                '&:focus': {
-                  backgroundColor: color('action', 'system', 'active'),
-                },
-              }}
-            >
-              {el}
-            </Text>
-          ) : (
-            el
-          )
-        return (
+
+        const label = (
+          <Text
+            size={16}
+            weight="strong"
+            style={{
+              padding: '2px 8px',
+              color:
+                index === Object.keys(data).length - 1
+                  ? color('content', 'default', 'secondary')
+                  : color('content', 'default', 'primary'),
+              borderRadius: 4,
+              '&:hover': {
+                backgroundColor: color('action', 'system', 'hover'),
+              },
+              '&:focus': {
+                backgroundColor: color('action', 'system', 'active'),
+              },
+            }}
+          >
+            {typeof el === 'function' ? key : el}
+          </Text>
+        )
+
+        return (Object.keys(data).length > 4 && index < 3) ||
+          (Object.keys(data).length > 4 &&
+            index === Object.keys(data).length - 1) ? (
           <StyledLink key={index} onClick={onClick}>
             {label}
             {Object.keys(data).length - 1 !== index && (
               <Text
                 size={16}
+                weight="strong"
                 style={{
                   marginLeft: 12,
                   marginRight: 12,
@@ -89,7 +89,41 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
               </Text>
             )}
           </StyledLink>
-        )
+        ) : Object.keys(data).length > 4 && index === 3 ? (
+          <>
+            <Text size={16} weight="strong" style={{ padding: '2px 8px' }}>
+              ...
+            </Text>
+            <Text
+              size={16}
+              weight="strong"
+              style={{
+                marginLeft: 12,
+                marginRight: 12,
+                color: color('content', 'default', 'secondary'),
+              }}
+            >
+              /
+            </Text>
+          </>
+        ) : Object.keys(data).length < 5 ? (
+          <StyledLink key={index} onClick={onClick}>
+            {label}
+            {Object.keys(data).length - 1 !== index && (
+              <Text
+                size={16}
+                weight="strong"
+                style={{
+                  marginLeft: 12,
+                  marginRight: 12,
+                  color: color('content', 'default', 'secondary'),
+                }}
+              >
+                /
+              </Text>
+            )}
+          </StyledLink>
+        ) : null
       })}
     </styled.div>
   )

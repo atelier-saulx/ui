@@ -114,11 +114,19 @@ export const components: ComponentDef[] = [
     name: 'Breadcrumbs',
     properties: props.props.BreadcrumbsProps.props,
     component: Breadcrumbs,
-    description: '',
+    description: 'set onchange value in route',
     examples: [
       {
         props: {
-          data: { flip: 'flip', flap: 'flap', flup: 'flup' },
+          data: {
+            flip: 'flip',
+            flap: 'flap',
+            flup: 'flup',
+            snip: 'snip',
+            snap: 'snap',
+            snurp: 'snurp',
+          },
+          onChange: (v) => console.log(v),
         },
       },
     ],
