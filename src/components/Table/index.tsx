@@ -14,7 +14,7 @@ import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { BasedQuery } from '@based/client'
-import { getByPath } from '@saulx/utils'
+import { deepEqual, getByPath } from '@saulx/utils'
 import { TableHeaderTypes } from './TableHeaderTypes'
 
 export * from './types'
@@ -28,8 +28,12 @@ const TYPE_WIDTHS = {
   boolean: 100,
 }
 
-const sortBasedBasedOnHeaderItem = (keyName, data) => {
-  return data.sort((a, b) => (a[keyName] > b[keyName] ? 1 : -1))
+const sortBasedBasedOnHeaderItem = (keyName, data, order) => {
+  if (!order) {
+    return data.sort((a, b) => (a[keyName] > b[keyName] ? -1 : 1))
+  } else {
+    return data.sort((a, b) => (a[keyName] > b[keyName] ? 1 : -1))
+  }
 }
 
 export type TableProps<T extends any = any> = {
@@ -86,25 +90,39 @@ const Header: FC<{
         {header.customLabelComponent ? (
           <header.customLabelComponent />
         ) : (
-          <>
-            {header.key === sortKey && (
+          <styled.div
+            style={{ display: 'flex' }}
+            onClick={() => {
+              if (sortKey.key !== header.key) {
+                setSortKey({
+                  key: header.key,
+                  counter: sortKey.counter + 1,
+                  ascOrder: true,
+                })
+              } else {
+                setSortKey({
+                  key: header.key,
+                  counter: sortKey.counter + 1,
+                  ascOrder: !sortKey.ascOrder,
+                })
+              }
+            }}
+          >
+            {header.key === sortKey.key && (
               <IconSort color="brand" style={{ marginRight: 8 }} />
             )}
             <Text
-              onClick={() => {
-                setSortKey(header.key)
-              }}
-              weight={header.key === sortKey ? 'strong' : 'medium'}
+              weight={header.key === sortKey.key ? 'strong' : 'medium'}
               style={{
                 color:
-                  header.key === sortKey
+                  header.key === sortKey.key
                     ? color('content', 'brand', 'primary')
                     : color('content', 'default', 'secondary'),
               }}
             >
               {header.label ?? header.key}
             </Text>
-          </>
+          </styled.div>
         )}
       </styled.div>
     )
@@ -386,12 +404,19 @@ export const Table: FC<TableProps> = (props) => {
     height = itemCount < 20 ? data.length * rowHeight + 40 : 200,
   } = props
 
-  const [sortKey, setSortKey] = useState(null)
+  const [sortKey, setSortKey] = useState({
+    counter: 1,
+    key: '',
+    ascOrder: true,
+  })
 
-  let newData = sortKey ? sortBasedBasedOnHeaderItem(sortKey, data) : props.data
+  let newData =
+    sortKey.key && sortKey.counter
+      ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
+      : props.data
 
-  console.log(sortKey)
-  console.log('🟪', data)
+  // console.log(sortKey)
+  // console.log('🟪', data)
 
   return (
     <styled.div
