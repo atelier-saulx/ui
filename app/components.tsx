@@ -4,6 +4,7 @@ import {
   AlertBanner,
   Avatar,
   Badge,
+  Breadcrumbs,
   Button,
   Checkbox,
   Counter,
@@ -90,6 +91,33 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Badge',
+    properties: props.props.BadgeProps.props,
+    component: Badge,
+    description: 'Badge component',
+    examples: [
+      {
+        props: {
+          children: 'Hello badge',
+          color: 'informative',
+          light: false,
+        },
+      },
+      {
+        props: {
+          icon: () => React.createElement(ui.IconSmallBolt),
+        },
+      },
+    ],
+  },
+  {
+    name: 'Breadcrumbs',
+    properties: props.props.BreadcrumbsProps.props,
+    component: Breadcrumbs,
+    description: '',
+    examples: [{ props: {} }],
+  },
+  {
     name: 'Button',
     properties: props.props.ButtonProps.props,
     component: Button,
@@ -142,26 +170,6 @@ export const components: ComponentDef[] = [
           onClick: async () => {
             await wait(1000)
           },
-        },
-      },
-    ],
-  },
-  {
-    name: 'Badge',
-    properties: props.props.BadgeProps.props,
-    component: Badge,
-    description: 'Badge component',
-    examples: [
-      {
-        props: {
-          children: 'Hello badge',
-          color: 'informative',
-          light: false,
-        },
-      },
-      {
-        props: {
-          icon: () => React.createElement(ui.IconSmallBolt),
         },
       },
     ],
@@ -455,7 +463,7 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'MutliSelect',
+    name: 'MultiSelect',
     component: MultiSelect,
     description: 'Select input',
     properties: props.props.InputProps.props,

@@ -5,7 +5,7 @@ import { SelectInput, SelectInputProps } from './SelectInput'
 import { SearchInput, SearchInputProps } from './SearchInput'
 import { FileInput, FileInputProps } from './FileInput'
 
-type InputProps =
+export type InputProps =
   | ({ type: 'text' } & TextInputProps)
   | ({ type: 'search' } & SearchInputProps)
   | ({ type: 'select' } & SelectInputProps)

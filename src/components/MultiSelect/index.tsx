@@ -14,13 +14,9 @@ import {
   styled,
   color,
   Text,
+  TagProps,
 } from '../..'
-
-type TagProps = {
-  onClose?: () => void
-  children?: ReactNode
-  style?: Style
-}
+import { SelectInputProps } from '../Input/SelectInput'
 
 const Tag: FC<TagProps> = ({ onClose, children, style }) => {
   return (
@@ -68,15 +64,6 @@ export type SelectInputOption = {
   value: string
   beforeIcon?: React.ReactNode
   afterIcon?: React.ReactNode
-}
-
-export type SelectInputProps = {
-  options: SelectInputOption[]
-  value: SelectInputOption[] | null[]
-  onChange?: (newValue: string) => void
-  beforeIcon?: React.ReactNode
-  disabled?: boolean
-  placeholder?: string
 }
 
 export function MultiSelect({
