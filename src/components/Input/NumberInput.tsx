@@ -91,6 +91,7 @@ export const NumberInput: FC<NumberInputProps> = ({
           '&:focus': {
             outline: 'none',
           },
+          '&::-webkit-inner-spin-button': {},
         }}
         {...props}
       />
