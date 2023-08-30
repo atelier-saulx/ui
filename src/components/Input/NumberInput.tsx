@@ -36,7 +36,6 @@ export const NumberInput: FC<NumberInputProps> = ({
   const [isEmpty, setIsEmpty] = useState(!(props.value || props.defaultValue))
   const [value, setValue] = useState((props.value || props.defaultValue) ?? '')
 
-  const { listeners, hover } = useHover()
 
   return (
     <styled.div
@@ -75,7 +74,6 @@ export const NumberInput: FC<NumberInputProps> = ({
           : {}),
         ...style,
       }}
-      {...listeners}
     >
       {icon && <styled.div style={{ flexShrink: 0 }}>{icon}</styled.div>}
       {prefix && <Badge {...prefix}>{prefix}</Badge>}
@@ -108,7 +106,7 @@ export const NumberInput: FC<NumberInputProps> = ({
         }}
         {...props}
       />
-     {hover && <styled.div>
+   <styled.div>
         <styled.div
           style={{
             alignItems: 'center',
@@ -149,7 +147,7 @@ export const NumberInput: FC<NumberInputProps> = ({
         >
           <IconSmallArrowheadDownSmall />
         </styled.div>
-      </styled.div>}
+      </styled.div>
       {suffix && <Badge {...suffix}>{suffix}</Badge>}
       {clearButton ? (
         <IconClose

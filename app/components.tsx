@@ -476,9 +476,8 @@ export const components: ComponentDef[] = [
         props: {
           type: 'number',
           placeholder: 'type a number',
-          // suffix: 'suf',
-          // prefix: 'pre',
-          // clearButton: true,
+          prefix: 'pre',
+          clearButton: true,
         },
       },
     ],
