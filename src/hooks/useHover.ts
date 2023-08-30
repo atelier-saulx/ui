@@ -1,5 +1,5 @@
 import { useRef, useState, MouseEventHandler, TouchEventHandler } from 'react'
-import { isTouchDevice } from '../'
+import { isTouchDevice } from '../utils'
 
 type HoverState = {
   hover: boolean
