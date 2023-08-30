@@ -7,12 +7,12 @@ import { Header } from './Header'
 import { Cell } from './Cell'
 
 const TYPE_WIDTHS = {
-  file: 100,
-  reference: 100,
-  id: 140,
-  references: 130,
-  bytes: 130,
-  boolean: 100,
+  //   file: 100,
+  //   reference: 100,
+  //   id: 140,
+  //   references: 130,
+  //   bytes: 130,
+  //   boolean: 100,
 }
 
 export const SizedGrid: FC<TableProps> = (props) => {
