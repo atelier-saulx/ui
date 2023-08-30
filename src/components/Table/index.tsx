@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect } from 'react'
-import { styled, Style, color } from '../..'
+import { styled, Style, color, useOverlay, Button, IconPlus } from '../..'
+import { HeaderOverlay } from './HeaderOverlay'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableHeader, SortOptions } from './types'
 import { BasedQuery } from '@based/client'
@@ -64,30 +65,9 @@ export const Table: FC<TableProps> = (props) => {
       ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
       : props.data
 
-  if (headers) {
-    for (const header of headers) {
-      if (!header?.meta?.hasOwnProperty('visible')) {
-        header.meta = { visible: true }
-      }
-    }
-
-    // for (const header of headers) {
-    //   if (!header.meta.visible) {
-    //     // newData.forEach((object) => (object[header.key] = null))
-
-    //   }
-    // }
-  }
-
-  let filteredHeaders = headers?.filter((item) => item.meta.visible)
-
-  console.log('✅', props)
-  console.log('💚', newData)
-
   // if selectable is true, the first columns of data should be checkboxes
   const [renderCounter, setRenderCounter] = useState(1)
   const [selectedRows, setSelectedRows] = useState([])
-  const [headerRenderCounter, setHeaderRenderCounter] = useState(1)
 
   // check all object if meta selected is true
   const testRow = newData.filter((item, idx) => item?.meta?.selected)
@@ -97,10 +77,6 @@ export const Table: FC<TableProps> = (props) => {
       // console.log(testRow, '🛤')
     }
   }, [renderCounter])
-
-  useEffect(() => {
-    console.log('🆙 🚼')
-  }, [headers, headerRenderCounter])
 
   if (
     selectable &&
@@ -126,6 +102,43 @@ export const Table: FC<TableProps> = (props) => {
     setRenderCounter(renderCounter + 1)
   }
 
+  // headers selecting and ordering
+  if (headers) {
+    for (const header of headers) {
+      if (!header?.meta?.hasOwnProperty('visible')) {
+        header.meta = { visible: true }
+      }
+    }
+
+    // for (const header of headers) {
+    //   if (!header.meta.visible) {
+    //     // newData.forEach((object) => (object[header.key] = null))
+
+    //   }
+    // }
+  }
+
+  const [filteredHeaders, setFilteredHeaders] = useState(
+    headers?.filter((item) => item.meta.visible)
+  )
+
+  useEffect(() => {
+    console.log('snupr 💚')
+  }, [filteredHeaders])
+
+  const openHeaderOverlay = useOverlay(
+    HeaderOverlay,
+    { headers, setFilteredHeaders },
+    { width: '100%', position: 'bottom' },
+    undefined,
+    undefined,
+    { style: { scrollbarGutter: 'auto', border: 'none', boxShadow: 'none' } }
+  )
+
+  console.log('✅', props)
+  console.log('💚', newData)
+  console.log('filtered headers??? ', filteredHeaders)
+
   return (
     <>
       <styled.div
@@ -141,6 +154,15 @@ export const Table: FC<TableProps> = (props) => {
           borderBottom: 'none',
         }}
       >
+        <Button
+          icon={<IconPlus />}
+          size="small"
+          color="neutral"
+          light
+          style={{ position: 'absolute', right: 12, top: 5 }}
+          // @ts-ignore
+          onClick={openHeaderOverlay}
+        />
         {selectedRows.length > 0 && (
           <SelectedRowOptions
             clearAllRows={clearAllRows}
@@ -163,9 +185,7 @@ export const Table: FC<TableProps> = (props) => {
                 selectAllRows={selectAllRows}
                 clearAllRows={clearAllRows}
                 selectedRows={selectedRows}
-                filteredHeaders={filteredHeaders}
-                headerRenderCounter={headerRenderCounter}
-                setHeaderRenderCounter={setHeaderRenderCounter}
+                headers={filteredHeaders}
               />
             )
           }}

@@ -1,12 +1,10 @@
 import React from 'react'
 import { styled, Checkbox, color } from '../..'
 
-export const HeaderOverlay = ({
-  headers,
-  headerRenderCounter,
-  setHeaderRenderCounter,
-}) => {
+export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
   console.log('headers?? ', headers)
+
+  let headersCopy = [...headers]
 
   return (
     <styled.div
@@ -20,7 +18,7 @@ export const HeaderOverlay = ({
         minWidth: 216,
       }}
     >
-      {headers.map((item, idx) =>
+      {headersCopy.map((item, idx) =>
         item.key !== 'selected' ? (
           <>
             <Checkbox
@@ -29,7 +27,11 @@ export const HeaderOverlay = ({
               label={item.label}
               onClick={() => {
                 item.meta.visible = !item.meta.visible
-                setHeaderRenderCounter(headerRenderCounter + 1)
+
+                console.log(headersCopy, '???')
+                setFilteredHeaders(
+                  headersCopy.filter((item) => item.meta.visible)
+                )
               }}
             />
           </>

@@ -26,10 +26,10 @@ export const SizedGrid: FC<TableProps> = (props) => {
     rowHeight = 60,
     width,
     queryId,
-    filteredHeaders,
+
     itemCount = data.length,
     height = itemCount < 20 ? data.length * rowHeight + 60 : 200,
-    columnCount = filteredHeaders?.length ??
+    columnCount = headers?.length ??
       (data && data.length && Object.keys(data[0]).length),
     setSortKey,
     sortKey,
@@ -38,8 +38,6 @@ export const SizedGrid: FC<TableProps> = (props) => {
     selectAllRows,
     clearAllRows,
     selectedRows,
-    headerRenderCounter,
-    setHeaderRenderCounter,
   } = props
 
   const headerWrapper = useRef(null)
@@ -122,7 +120,7 @@ export const SizedGrid: FC<TableProps> = (props) => {
           // setSortOptions={setSortOpts}
           width={width}
           headers={headers}
-          filteredHeaders={filteredHeaders}
+          //  filteredHeaders={filteredHeaders}
           headerWidth={defW}
           outline={props.outline}
           sortKey={sortKey}
@@ -133,8 +131,6 @@ export const SizedGrid: FC<TableProps> = (props) => {
           data={data}
           renderCounter={renderCounter}
           setRenderCounter={setRenderCounter}
-          headerRenderCounter={headerRenderCounter}
-          setHeaderRenderCounter={setHeaderRenderCounter}
         />
       </styled.div>
       {/* TODO: wrap in styled and share froms scroll area */}
@@ -147,7 +143,7 @@ export const SizedGrid: FC<TableProps> = (props) => {
         }}
         columnCount={columnCount}
         columnWidth={(colIndex) => {
-          return filteredHeaders[colIndex].width ?? defW
+          return headers[colIndex].width ?? defW
         }}
         height={height - 40}
         rowCount={itemCount}

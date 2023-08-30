@@ -32,7 +32,6 @@ export const Header: FC<{
   setRenderCounter?: any
 }> = ({
   headers,
-  filteredHeaders,
   width,
   headerWidth,
   outline,
@@ -42,24 +41,13 @@ export const Header: FC<{
   selectAllRows,
   selectedRows,
   data,
-  headerRenderCounter,
-  setHeaderRenderCounter,
 }) => {
   const children: ReactNode[] = []
   let total = 16
 
   // console.log('headers--> ❇️', headers)
 
-  const openHeaderOverlay = useOverlay(
-    HeaderOverlay,
-    { headers, headerRenderCounter, setHeaderRenderCounter },
-    { width: '100%', position: 'bottom' },
-    undefined,
-    undefined,
-    { style: { scrollbarGutter: 'auto', border: 'none', boxShadow: 'none' } }
-  )
-
-  for (const header of filteredHeaders) {
+  for (const header of headers) {
     const w = header.width ?? headerWidth
     children.push(
       <styled.div
@@ -138,16 +126,6 @@ export const Header: FC<{
       }}
     >
       {children}
-
-      <Button
-        icon={<IconPlus />}
-        size="small"
-        color="neutral"
-        light
-        style={{ position: 'absolute', right: 12, top: 5 }}
-        // @ts-ignore
-        onClick={openHeaderOverlay}
-      />
     </styled.div>
   )
 }

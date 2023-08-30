@@ -632,7 +632,12 @@ export const components: ComponentDef[] = [
         props: {
           headers: [
             { key: 'title', label: 'Title' },
-            { key: 'author', label: 'Author', type: 'author' },
+            {
+              key: 'author',
+              label: 'Author',
+              type: 'author',
+              meta: { visible: false },
+            },
             { key: 'cover', label: 'Cover', type: 'img' },
             { key: 'number', label: 'Number', type: 'id' },
             { key: 'boolie', label: 'Boolean', type: 'boolean' },
