@@ -787,6 +787,36 @@
       "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n}",
       "file": "/components/Input/FileInput.tsx"
     },
+    "NumberInputOwnProps": {
+      "name": "NumberInputOwnProps",
+      "props": {
+        "clearButton": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "afterIcon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "BadgeProps"
+        },
+        "style": {
+          "type": "Style"
+        },
+        "suffix": {
+          "optional": true,
+          "type": "BadgeProps"
+        }
+      },
+      "code": "type NumberInputOwnProps = {\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  style: Style\n  suffix?: BadgeProps\n}",
+      "file": "/components/Input/NumberInput.tsx"
+    },
     "SelectInputProps": {
       "name": "SelectInputProps",
       "props": {
@@ -835,7 +865,7 @@
           "optional": true,
           "type": "BadgeProps"
         },
-        "beforeIcon": {
+        "icon": {
           "optional": true
         },
         "afterIcon": {
@@ -850,13 +880,13 @@
           "type": "boolean"
         }
       },
-      "code": "type TextInputOwnProps = {\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  beforeIcon?: React.ReactNode\n  afterIcon?: React.ReactNode\n  style?: Style\n  clearButton?: boolean\n}",
+      "code": "type TextInputOwnProps = {\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  afterIcon?: React.ReactNode\n  style?: Style\n  clearButton?: boolean\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "InputProps": {
       "name": "InputProps",
       "props": {},
-      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'search' } & SearchInputProps)\n  | ({ type: 'select' } & SelectInputProps)\n  | ({ type: 'file' } & FileInputProps)",
+      "code": "type InputProps =\n  | ({ type: 'text' } & TextInputProps)\n  | ({ type: 'search' } & SearchInputProps)\n  | ({ type: 'select' } & SelectInputProps)\n  | ({ type: 'number' } & NumberInputProps)\n  | ({ type: 'file' } & FileInputProps)",
       "file": "/components/Input/index.tsx"
     },
     "LineGraphProps": {
@@ -879,9 +909,17 @@
         "label": {
           "optional": true,
           "type": "string"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n}",
+      "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n  width?: number\n  height?: number\n}",
       "file": "/components/Linegraph/index.tsx"
     },
     "MenuHeaderProps": {

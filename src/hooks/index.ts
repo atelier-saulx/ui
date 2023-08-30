@@ -1,6 +1,7 @@
 export * from './ContextState'
 export * from './useCopyToClipboard'
 export * from './useGraphHover'
+export * from './useHover'
 export * from './useKeyboard'
 export * from './useOverlay'
 export * from './useOverlayPosition'

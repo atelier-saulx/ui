@@ -1,24 +1,30 @@
-import React, { useState, useRef, useImperativeHandle } from 'react'
-import { Style, styled, color, Badge, IconClose } from '../..'
+import React, { useState, FC, ReactNode } from 'react'
+import {
+  styled,
+  Style,
+  color,
+  Badge,
+  IconClose,
+  IconSmallArrowheadDownSmall,
+  useHover,
+} from '../..'
 
-//@ts-ignore
+// @ts-ignore
 import { BadgeProps } from '../types'
 
-export type TextInputOwnProps = {
-  prefix?: BadgeProps
-  suffix?: BadgeProps
-  icon?: React.ReactNode
-  afterIcon?: React.ReactNode
-  style?: Style
+export type NumberInputOwnProps = {
   clearButton?: boolean
+  icon?: ReactNode
+  afterIcon?: ReactNode
+  prefix?: BadgeProps
+  style: Style
+  suffix?: BadgeProps
 }
 
-// TODO controlled vs uncontrrolled?
-
-export type TextInputProps = TextInputOwnProps &
+export type NumberInputProps = NumberInputOwnProps &
   Omit<React.ComponentPropsWithoutRef<'input'>, 'prefix'>
 
-export function TextInput({
+export const NumberInput: FC<NumberInputProps> = ({
   prefix,
   suffix,
   icon,
@@ -26,9 +32,10 @@ export function TextInput({
   style,
   clearButton,
   ...props
-}: TextInputProps) {
+}) => {
   const [isEmpty, setIsEmpty] = useState(!(props.value || props.defaultValue))
   const [value, setValue] = useState((props.value || props.defaultValue) ?? '')
+
 
   return (
     <styled.div
@@ -77,6 +84,7 @@ export function TextInput({
           setValue(e.target.value)
           props?.onChange?.(e)
         }}
+        type="number"
         style={{
           width: '100%',
           appearance: 'none',
@@ -92,9 +100,54 @@ export function TextInput({
           '&:focus': {
             outline: 'none',
           },
+          '&::-webkit-inner-spin-button': {
+            opacity: 0,
+          },
         }}
         {...props}
       />
+   <styled.div>
+        <styled.div
+          style={{
+            alignItems: 'center',
+            border: `1px solid ${color(
+              'inputBorder',
+              'neutralNormal',
+              'default'
+            )}`,
+            borderRadius: 4,
+            display: 'flex',
+            maxHeight: 12,
+            marginBottom: 1,
+            '&:hover': {
+              backgroundColor: color('action', 'system', 'hover'),
+            },
+          }}
+          onClick={() => setValue((prev) => +prev + 1)}
+        >
+          <IconSmallArrowheadDownSmall style={{ transform: 'scaleY(-1)' }} />
+        </styled.div>
+        <styled.div
+          style={{
+            alignItems: 'center',
+            border: `1px solid ${color(
+              'inputBorder',
+              'neutralNormal',
+              'default'
+            )}`,
+            borderRadius: 4,
+            display: 'flex',
+            maxHeight: 12,
+            marginTop: 1,
+            '&:hover': {
+              backgroundColor: color('action', 'system', 'hover'),
+            },
+          }}
+          onClick={() => setValue((prev) => +prev - 1)}
+        >
+          <IconSmallArrowheadDownSmall />
+        </styled.div>
+      </styled.div>
       {suffix && <Badge {...suffix}>{suffix}</Badge>}
       {clearButton ? (
         <IconClose
@@ -103,7 +156,9 @@ export function TextInput({
           }}
         />
       ) : (
-        afterIcon && <div style={{ flexShrink: 0 }}>{afterIcon}</div>
+        afterIcon && (
+          <styled.div style={{ flexShrink: 0 }}>{afterIcon}</styled.div>
+        )
       )}
     </styled.div>
   )
