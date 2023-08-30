@@ -128,14 +128,26 @@ export const DateRangeDoubleInput = ({
   const openFromRangePicker = useOverlay(
     FromRangePicker,
     { setValue: setFromValue, timeString, stringToMilliseconds },
-    { width: '100%', position: 'bottom' }
+    { width: '100%', position: 'bottom' },
+    undefined,
+    undefined,
+    {
+      style: { scrollbarGutter: 'unset' },
+      transparent: true,
+    }
   )
 
   // if is range
   const openTillRangePicker = useOverlay(
     TillRangePicker,
     { setValue: setTillValue, timeString, stringToMilliseconds },
-    { width: '100%', position: 'bottom' }
+    { width: '100%', position: 'bottom' },
+    undefined,
+    undefined,
+    {
+      style: { scrollbarGutter: 'unset' },
+      transparent: true,
+    }
   )
 
   const daysInMonth = (month, year) => {
