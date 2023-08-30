@@ -40,19 +40,6 @@ import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
 
-const genRandomPoints = (
-  formula: (i: number) => { x: number; y: number },
-  start: number = 0,
-  end: number = 50,
-  step: number = 1
-) => {
-  const points: { x: number; y: number }[] = []
-  for (let i = start; i <= end; i = i + step) {
-    points.push(formula(i))
-  }
-  return points
-}
-
 export const components: ComponentDef[] = [
   {
     name: 'Alert Banner',
@@ -425,19 +412,39 @@ export const components: ComponentDef[] = [
     description: '',
     examples: [
       {
-        props: {
-          data: {
-            en: {
-              data: () =>
-                genRandomPoints(
+        props: { label: 'single line' },
+        customRenderer: (props) => {
+          const genRandomPoints = (
+            formula: (i: number) => { x: number; y: number },
+            start: number = 0,
+            end: number = 50,
+            step: number = 1
+          ) => {
+            const points: { x: number; y: number }[] = []
+            for (let i = start; i <= end; i = i + step) {
+              points.push(formula(i))
+            }
+            return points
+          }
+
+          return (
+            <styled.div
+              style={{
+                width: 600,
+                height: 364,
+                marginBottom: 24,
+              }}
+            >
+              <LineGraph
+                data={genRandomPoints(
                   (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
                   0,
                   50
-                ),
-              minMax: true,
-            },
-          },
-          label: 'single line 50000',
+                )}
+                label="Single Line"
+              />
+            </styled.div>
+          )
         },
       },
     ],
