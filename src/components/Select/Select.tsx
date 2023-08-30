@@ -10,6 +10,7 @@ import {
   boxShadow,
   color,
   ChevronDownIcon,
+  CloseIcon,
 } from '~'
 import { SelectLabel } from './shared'
 
@@ -72,7 +73,7 @@ export const Select: FC<SelectProps> = ({
   onClick,
   disabled,
 }) => {
-  const [currentValue, open] = useSelect(options, value, onChange, {
+  const [currentValue, open, setValues] = useSelect(options, value, onChange, {
     variant: 'over',
     filterable,
     placement: 'left',
@@ -102,6 +103,16 @@ export const Select: FC<SelectProps> = ({
       <Text color={labelValue ? 'text' : 'text2'}>
         {labelValue || placeholder}
       </Text>
+      {currentValue && (
+        <CloseIcon
+          style={{ marginLeft: 'auto' }}
+          onClick={(e) => {
+            e.stopPropagation()
+            setValues(null)
+            onChange(null)
+          }}
+        />
+      )}
       <ChevronDownIcon color={color} size={16} style={{ marginLeft: 8 }} />
     </>
   )

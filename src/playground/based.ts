@@ -2,7 +2,7 @@ import based, { BasedClient } from '@based/client'
 
 export const cluster = 'production'
 
-export const project = 'basoon'
+export const project = 'test'
 export const org = 'saulx'
 export const env = 'production'
 
@@ -31,7 +31,3 @@ export const adminClient = based({
 adminClient.on('connect', () => {
   console.info('admin hub connected')
 })
-
-// adminClient.on('debug', (x) => {
-//   console.info('based platform hub', x)
-// })

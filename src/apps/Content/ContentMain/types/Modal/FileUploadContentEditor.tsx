@@ -1,13 +1,13 @@
-import React, { FC, useState } from 'react'
-import { FileUpload, pathReader } from '~'
-import { useClient } from '@based/react'
-import { BOTTOMSPACE } from './constants'
+import React, { FC } from 'react'
+import { FileUpload, styled, Style, Badge } from '~'
+
+import { getByPath } from '@saulx/utils'
 
 export const FileUploadContentEditor: FC<{
   item: {
-    name?: string
+    title?: string
     type: string
-    meta?: any
+    //  meta?: any
     key: string
     mimeTypeKey?: string
   }
@@ -15,33 +15,39 @@ export const FileUploadContentEditor: FC<{
   data: any
   state: any
   onChange: (fields: any) => void
+  style?: Style
 }> = ({
   name,
   data,
-  item: { type, meta, key, mimeTypeKey },
+  item: { type, key, mimeTypeKey },
   onChange,
   state,
+  style,
 }) => {
-  const client = useClient()
-
-  const [progress, setProgress] = useState(null)
+  // const [progress, setProgress] = useState(null)
 
   const mimeType: string = mimeTypeKey
-    ? pathReader(data, mimeTypeKey.split('.'))
+    ? getByPath(data, mimeTypeKey.split('.'))
     : undefined
 
   return (
-    <div>
+    <styled.div style={{ ...style }}>
+      {/* <Badge>
+        {state[key] && typeof state[key] === 'string'
+          ? state[key]
+          : data[key]?.id}
+      </Badge> */}
       <FileUpload
         label={name}
         descriptionBottom="Drag and drop or click to upload"
-        description={
-          meta?.description ??
-          (meta?.mime?.length > 0
-            ? `Allowed types: ${meta?.mime?.join(', ')}`
-            : null)
-        }
-        progress={progress}
+        // description={
+        //   meta?.description ??
+        //   (meta?.mime?.length > 0
+        //     ? `Allowed types: ${meta?.mime?.join(', ')}`
+        //     : null)
+        // }
+        looseMime
+        // progress={progress}
         onChange={(files) => {
           if (files.length === 0) {
             onChange('')
@@ -69,14 +75,29 @@ export const FileUploadContentEditor: FC<{
                     {
                       src: data[key],
                       type: mimeType,
-                      name: data[key]?.name ?? data[key]?.title,
+                      name: data[key],
                     },
                   ]
                 : null)
         }
-        style={{ marginBottom: BOTTOMSPACE }}
-        mime={mimeType ? [mimeType] : meta?.mime}
+        mime={mimeType ? [mimeType] : []}
+        style={{ marginBottom: 16 }}
       />
-    </div>
+      {/* {type === 'file' || type === 'reference' ? (
+        <Input
+          style={{ marginBottom: BOTTOMSPACE, width: 150 }}
+          type="text"
+          placeholder="Referenced ID"
+          value={
+            state[key] && typeof state[key] === 'string'
+              ? state[key]
+              : data[key]?.id
+          }
+          onChange={(v) => {
+            onChange(v)
+          }}
+        />
+      ) : null} */}
+    </styled.div>
   )
 }

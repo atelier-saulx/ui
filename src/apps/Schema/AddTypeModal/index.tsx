@@ -1,13 +1,14 @@
-import { Input, Dialog, useSchema, useContextState } from '~'
+import { Input, Dialog, useContextState } from '~'
 import React, { useState, FC, useEffect } from 'react'
 import safeTypeName from './safeTypeName'
-import { generatePlural } from '~/utils'
+// import { generatePlural } from '~/utils'
 import { useClient } from '@based/react'
+import { useSchema } from '../hooks/useSchema'
 
 export const AddTypeModal: FC = () => {
   const client = useClient()
   const [name, setName] = useState('')
-  const [pluralName, setPluralName] = useState<string>('')
+  // const [pluralName, setPluralName] = useState<string>('')
   const [typeName, setTypeName] = useState('')
   const [description, setDescription] = useState('')
   const [filled, setFilled] = useState(false)
@@ -38,7 +39,7 @@ export const AddTypeModal: FC = () => {
           }}
           value={name}
         />
-        <Input
+        {/* <Input
           style={{ marginBottom: 24 }}
           type="text"
           placeholder="Type something here"
@@ -51,7 +52,7 @@ export const AddTypeModal: FC = () => {
             pluralName ||
             (name || typeName ? generatePlural(name || typeName) : undefined)
           }
-        />
+        /> */}
         <Input
           style={{ marginBottom: 24 }}
           type="text"
@@ -74,7 +75,7 @@ export const AddTypeModal: FC = () => {
         />
       </Dialog.Body>
       <Dialog.Buttons border>
-        <Dialog.Cancel>Cancel (Esc)</Dialog.Cancel>
+        <Dialog.Cancel>Cancel</Dialog.Cancel>
         <div style={filled ? {} : { cursor: 'not-allowed' }}>
           <Dialog.Confirm
             style={
@@ -89,11 +90,13 @@ export const AddTypeModal: FC = () => {
               const type = typeName || safeTypeName(name)
               const typeSchema = {
                 fields: {},
-                meta: {
-                  name: name,
-                  description,
-                  pluralName,
-                },
+                title: name,
+                description: description,
+                // meta: {
+                //   name: name,
+                //   description,
+                //   pluralName,
+                // },
               }
               if (schema) {
                 schema.types[type] = typeSchema
@@ -111,7 +114,7 @@ export const AddTypeModal: FC = () => {
               setType(type)
             }}
           >
-            Create Model (Enter)
+            Create Model
           </Dialog.Confirm>
         </div>
       </Dialog.Buttons>

@@ -4,8 +4,8 @@ import { SchemaLeft } from './SchemaLeft'
 import { Style } from 'inlines'
 import { StateProvider, Row } from '~'
 
-export * from './hooks/useSchema'
-export * from './templates'
+// export * from './hooks/useSchema'
+// export * from './templates'
 
 export const Schema: FC<{
   style?: Style

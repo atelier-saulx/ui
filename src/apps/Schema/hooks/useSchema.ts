@@ -1,20 +1,34 @@
 import { useQuery } from '@based/react'
-import { FieldSchema, BasedSchema, TypeSchema } from '../types'
 import { sortFields } from '../fieldParsers'
+import {
+  BasedSchema,
+  BasedSchemaType,
+  BasedSchemaField,
+  BasedSchemaFieldShared,
+} from '@based/schema'
+import { transformOldToNew } from '../transformOldSchema'
 
-const addMeta = (obj: FieldSchema | TypeSchema, key: string) => {
-  if (!('meta' in obj)) {
-    obj.meta = {}
-  }
-  if (!('name' in obj.meta)) {
-    obj.meta.name = key[0].toUpperCase() + key.slice(1)
+const addTitle = (
+  obj: BasedSchemaType | BasedSchemaFieldShared,
+  key: string
+) => {
+  if (!('title' in obj)) {
+    obj.title = key
   }
 }
 
-const walkField = (obj: FieldSchema, key: string) => {
-  addMeta(obj, key)
-  const target = obj.items || obj.values || obj
-  if (target.properties) {
+const walkField = (
+  obj: BasedSchemaField | BasedSchemaFieldShared,
+  key: string
+) => {
+  addTitle(obj as any, key)
+  const target = 'items' in obj ? obj.items : 'values' in obj ? obj.values : obj
+
+  // if (obj.type === 'int') {
+  //   console.log('flap 🚢')
+  // }
+
+  if ('properties' in target) {
     target.properties = sortFields(target.properties).reduce(
       (properties, key) => {
         const property = target.properties[key]
@@ -27,8 +41,9 @@ const walkField = (obj: FieldSchema, key: string) => {
   }
 }
 
-const walkType = (obj: TypeSchema, key: string) => {
-  addMeta(obj, key)
+const walkType = (obj: BasedSchemaType, key: string) => {
+  addTitle(obj, key)
+
   if (obj.fields) {
     obj.fields = sortFields(obj.fields).reduce((fields, key) => {
       const field = obj.fields[key]
@@ -42,13 +57,18 @@ const walkType = (obj: TypeSchema, key: string) => {
 export const useSchema = (
   db = 'default'
 ): { schema: BasedSchema; loading: boolean } => {
+  // incoming
+
   const { data, loading } = useQuery('db:schema', { db }, { persistent: true })
-  // console.log(data)
+
   if (!loading) {
     walkType(data.rootType, 'root')
     for (const key in data.types) {
       walkType(data.types[key], key)
     }
   }
+
+  // const parsedSchema = data ? transformOldToNew(data) : undefined
+
   return { loading, schema: data || { types: {} } }
 }

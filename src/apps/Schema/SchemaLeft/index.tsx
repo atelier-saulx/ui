@@ -46,6 +46,8 @@ export const SchemaLeft: FC = () => {
 
   const { schema, loading } = useSchema(db)
 
+  // console.log('from schemaLeft??', schema)
+
   if (loading) {
     return (
       <div
@@ -117,6 +119,7 @@ export const SchemaLeft: FC = () => {
             .sort()
             .map((key) => {
               return {
+                // TODO look into this
                 label: types[key]?.meta?.name || key,
                 value: key,
               }

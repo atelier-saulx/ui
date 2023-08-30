@@ -1,4 +1,4 @@
-import { Field } from '../types'
+import { Field } from './index'
 import { IdIcon, ListIcon } from '~/icons'
 
 export const system: { [key: string]: Field } = {

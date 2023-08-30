@@ -182,6 +182,7 @@ const MachineConfig: FC<{
       style={style}
       onClick={() => {
         setInfra(configName)
+        // TODO set url here
       }}
       label={configName}
       description={

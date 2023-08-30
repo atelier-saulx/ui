@@ -27,7 +27,7 @@ type ArrayListProps = {
   style?: CSSProperties
   onChange?(ids: string[] | number[]): void
   value?: any[]
-  schema?: any
+  arrayType?: any
   label?: string
 }
 
@@ -38,6 +38,7 @@ export const ArrayList = ({
   onChange,
   value = [],
   style,
+  arrayType,
   ...props
 }: ArrayListProps) => {
   const { open } = useDialog()
@@ -48,6 +49,8 @@ export const ArrayList = ({
   const idsRef = useRef<any[]>()
   const [inputVal] = useState('')
   const [renderCounter, setRenderCounter] = useState(1)
+
+  console.log(value, onChange, arrayType, 'from array')
 
   if (ref.current !== id) {
     // if the external value changed
@@ -114,7 +117,7 @@ export const ArrayList = ({
     setDraggingIndex(-1)
   }
 
-  const itemType = props.schema?.items.type
+  const itemType = arrayType
 
   const addItemHandler = async () => {
     let inputChanged: string | number = ''
@@ -256,6 +259,7 @@ export const ArrayList = ({
       disabled={disabled}
       descriptionBottom={description}
       style={style}
+      hideClearButton
     >
       <Label label={props.label} style={{ marginBottom: 12 }} />
       {renderCounter ? (

@@ -1,0 +1,57 @@
+{
+  "type": "content",
+  "view": "content-editor",
+  "target": {
+    "id": "root",
+    "type": "flap",
+    "name": "Snupr",
+    "filter": ""
+  },
+  "showFilter": false,
+  "function": {
+    "name": "db",
+    "type": "query",
+    "payload": {
+      "$language": "en",
+      "$id": "20d3d44f37",
+      "id": true,
+      "testje": true,
+      "faaaa": true,
+      "objeaa": true,
+      "testjesss": true
+    }
+  },
+  "props": {
+    "name": ["$target.name"],
+    "data": "$data.descendants",
+    "fields": [
+      {
+        "title": "testje",
+        "type": "string",
+        "key": "testje",
+        "index": 1000000
+      },
+      {
+        "type": "number",
+        "title": "faaaa",
+        "format": "mobilePhoneLocales",
+        "key": "faaaa",
+        "index": 1000000
+      }
+    ],
+    "button": {
+      "onClick": {
+        "function": {
+          "name": "db:set",
+          "payload": {
+            "$language": "en",
+            "$id": "$data.id",
+            "type": "$target.type",
+            "...": "$state"
+          }
+        }
+      },
+      "children": ["publish"]
+    }
+  }
+}

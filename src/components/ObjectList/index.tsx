@@ -1,6 +1,13 @@
 import React, { CSSProperties, useState } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
-import { Label, Button, EditIcon, Badge } from '~'
+import {
+  Label,
+  Button,
+  EditIcon,
+  styled,
+  ChevronUpIcon,
+  ChevronDownIcon,
+} from '~'
 
 type ObjectListProps = {
   label?: string
@@ -8,7 +15,7 @@ type ObjectListProps = {
   descriptionBottom?: string
   style?: CSSProperties
   indent?: boolean
-  schema?: any
+  objectProperties?: any
   onClick?: () => void
 }
 
@@ -18,11 +25,13 @@ export const ObjectList = ({
   descriptionBottom,
   indent,
   style,
-  schema,
+  objectProperties,
   onClick,
 }: /// ...props
 ObjectListProps) => {
-  const [insideObjectFields] = useState(schema.properties)
+  // console.log(objectProperties, 'NANI>>')
+
+  const [expanded, setExpanded] = useState(false)
 
   return (
     <>
@@ -30,29 +39,49 @@ ObjectListProps) => {
         indent={indent}
         style={style}
         descriptionBottom={descriptionBottom}
+        hideClearButton
       >
-        <Label
-          label={label}
-          description={description}
-          style={{ marginBottom: 12 }}
-        />
+        <styled.div
+          style={{
+            display: 'flex',
+            marginBottom: 12,
+            alignItems: 'center',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            onClick()
+            setExpanded(!expanded)
+          }}
+        >
+          <Label
+            label={label}
+            description={description}
+            style={{ marginRight: 8 }}
+          />
 
-        <InputWrapper indent={indent} style={{ marginBottom: 8 }}>
+          {expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+        </styled.div>
+
+        {/* <InputWrapper
+          indent={indent}
+          style={{ marginBottom: 12 }}
+          hideClearButton
+        >
           {/* some small indication of what is in the object let say one level deep per object 
           may need to set limit after certain amount ?? TODO */}
-          {Object.keys(insideObjectFields).map((objectKey, idx) => (
+        {/* {Object.keys(insideObjectFields).map((objectKey, idx) => (
             <div key={idx} style={{ display: 'flex', marginBottom: 4 }}>
               {objectKey}
               <Badge style={{ marginLeft: 8 }} boxed ghost outline>
                 {insideObjectFields[objectKey].type}
               </Badge>
             </div>
-          ))}
-        </InputWrapper>
+          ))} 
+        </InputWrapper> */}
 
-        <Button icon={EditIcon} ghost onClick={onClick}>
+        {/* <Button icon={EditIcon} ghost onClick={onClick} color="accent">
           Edit object
-        </Button>
+        </Button> */}
       </InputWrapper>
     </>
   )

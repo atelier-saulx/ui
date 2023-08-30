@@ -211,7 +211,7 @@ const filterItems = (
 
   if (values) {
     items = items.filter((opt) => {
-      return !values.includes(
+      return !values?.includes(
         (typeof opt.label === 'string' && opt.label) || opt.value
       )
     })

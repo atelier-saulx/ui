@@ -10,7 +10,7 @@ import {
   useDialog,
   styled,
   LoadingIcon,
-  useSchema,
+  Row,
 } from '~'
 import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'
@@ -20,6 +20,7 @@ import { Content } from './types/Content'
 import { Components } from './types/Custom'
 import { Modal } from './types/Modal'
 import { createRootEditor, createTypeTable } from './types/schema'
+import { useSchema } from '~/apps/Schema/hooks/useSchema'
 
 const AnimatedWrapper = styled('div', {
   height: '100%',
@@ -30,6 +31,7 @@ const AnimatedWrapper = styled('div', {
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
   const client = useClient()
+
   return (
     <>
       <ContextItem
@@ -94,21 +96,16 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
 
   const { schema, loading: loadingSchema } = useSchema()
 
-  const [animate, setanimate] = useState(false)
+  const [animate, setAnimate] = useState(false)
   useEffect(() => {
-    setanimate(true)
+    setAnimate(true)
     const timer = setTimeout(() => {
-      setanimate(false)
+      setAnimate(false)
     }, 0)
     return () => {
       clearTimeout(timer)
     }
   }, [view])
-
-  // full view
-  // if view === schema:type
-  // if overlay === shchema:overlay
-  // then auto generate them!
 
   const [, setOverlayTarget] = useContextState<string>('overlay-target')
 
@@ -142,6 +139,27 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     $id: view,
     $all: true,
   })
+
+  if (!view) {
+    return (
+      <Row
+        style={{
+          justifyContent: 'center',
+          width: '100%',
+        }}
+      >
+        <Row
+          style={{
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '100%',
+          }}
+        >
+          <EditIcon size={24} color="lightaccent" />
+        </Row>
+      </Row>
+    )
+  }
 
   if (isType && !loadingSchema) {
     const type = view.replace(/^type-/, '')
@@ -182,5 +200,6 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
       </AnimatedWrapper>
     )
   }
+
   return null
 }

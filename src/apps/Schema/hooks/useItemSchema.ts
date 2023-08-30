@@ -1,5 +1,5 @@
-import { TypeSchema, BasedSchema } from '~/apps/Schema'
 import { useSchema } from '~/apps/Schema/hooks/useSchema'
+import { BasedSchema, BasedSchemaType } from '@based/schema'
 
 export const useItemSchema = (
   id: string
@@ -8,7 +8,7 @@ export const useItemSchema = (
       schema: BasedSchema
       loading: boolean
       type: string
-    } & TypeSchema => {
+    } & BasedSchemaType => {
   const { schema, loading } = useSchema()
   if (loading || !id) {
     return { loading, schema, fields: {}, type: '' }

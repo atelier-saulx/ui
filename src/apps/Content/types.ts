@@ -28,8 +28,9 @@ export type ViewComponent = {
 
 export type ContentConfig = {
   type: 'content'
+  showFilter?: boolean
   target?: { [key: string]: any }
-  view: 'table' | 'grid'
+  view: 'table' | 'grid' | 'content-editor'
   function?: { payload?: any; name: string }
   props: any // fix
 }

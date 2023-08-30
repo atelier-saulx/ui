@@ -1473,6 +1473,10 @@
           "optional": true,
           "type": "boolean"
         },
+        "looseMime": {
+          "optional": true,
+          "type": "boolean"
+        },
         "mime": {
           "optional": true,
           "type": {
@@ -1488,7 +1492,7 @@
           "type": "TSTupleType"
         }
       },
-      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (file: File[]) => void\n  style?: Style\n  progress?: number\n  disabled?: boolean\n  mime?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
+      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (file: File[]) => void\n  style?: Style\n  progress?: number\n  disabled?: boolean\n  looseMime?: boolean\n  mime?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
       "file": "/components/FileUpload/index.tsx"
     },
     "FooterProps": {
@@ -2045,7 +2049,7 @@
         },
         "onClick": {
           "optional": true,
-          "type": "function"
+          "type": "MouseEventHandler"
         },
         "onBlur": {
           "optional": true,
@@ -2072,7 +2076,7 @@
           "type": "boolean"
         }
       },
-      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  label?: ReactNode\n  description?: string\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n  color?: Color\n  onClick?: () => void\n  onBlur?: () => void\n  value?: any\n  setValue?: (e) => void\n  maxChars?: number\n  onChange?: (e) => void\n  hideClearButton?: boolean\n}",
+      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  label?: ReactNode\n  description?: string\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n  color?: Color\n  onClick?: MouseEventHandler\n  onBlur?: () => void\n  value?: any\n  setValue?: (e) => void\n  maxChars?: number\n  onChange?: (e) => void\n  hideClearButton?: boolean\n}",
       "file": "/components/Input/InputWrapper.tsx"
     },
     "JsonInputProps": {

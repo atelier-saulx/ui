@@ -17,19 +17,19 @@ import {
   AddIcon,
   useContextState,
 } from '~'
-
-import { FieldTemplates, systemFields, templates } from '../templates'
+import { systemFields, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
-import { useSchema } from '~/apps/Schema/hooks/useSchema'
 import { Dialog } from '~/components/Dialog'
 import { WarningIcon } from '~/icons/WarningIcon'
+import { BasedSchemaFieldType } from '@based/schema'
+import { useSchema } from '../hooks/useSchema'
 
 const EditMenu: FC<{
   type: string
   field: string
-  template: FieldTemplates
+  template: BasedSchemaFieldType
   isObject: boolean
   path: string[]
   setPath: (path: string[]) => void
@@ -39,11 +39,20 @@ const EditMenu: FC<{
   const client = useClient()
   const { open } = useDialog()
 
+  console.log('path from edit menu ??', path)
+
   return (
     <>
       <ContextItem
         onClick={() => {
-          open(<FieldModal type={type} field={field} template={template} />)
+          open(
+            <FieldModal
+              type={type}
+              field={field}
+              template={template}
+              //  path={path}
+            />
+          )
         }}
       >
         Settings
@@ -183,6 +192,7 @@ const AddObjectFieldButton = ({ type, path }) => {
     </Button>
   )
 }
+
 export const Field = ({
   type,
   field,
@@ -193,12 +203,12 @@ export const Field = ({
 }) => {
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
-  const { meta, type: fieldType } = fieldSchema
-  const template = meta?.format || fieldType
+  const { title, format, type: fieldType } = fieldSchema
+  const template = fieldType.format || fieldType
   const { icon, color: iconColor } = templates[template] || {}
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
-  const lastIndex = path.length - 1
+  // const lastIndex = path.length - 1
   const objectPath: string[] = isObject
     ? fieldType === 'record'
       ? [...path, 'values', 'properties']
@@ -206,6 +216,9 @@ export const Field = ({
       ? [...path, 'items', 'properties']
       : [...path, 'properties']
     : path
+
+  // console.log('object path -->', objectPath)
+  // console.log(title, format)
 
   const [, setPath] = useContextState('field', [])
 
@@ -263,16 +276,18 @@ export const Field = ({
           style={{ flexShrink: 0 }}
         />
         <Text weight={600} style={{ marginLeft: 12, marginRight: 5 }}>
-          {meta?.name}
-        </Text>
-        <Text color="text2" weight={400}>
-          - {path[lastIndex]}
+          {title}
         </Text>
         <Badge color="text" style={{ marginLeft: 12 }}>
           {fieldType}
         </Badge>
+        {format && (
+          <Badge color="accent" style={{ marginLeft: 12 }}>
+            {format}
+          </Badge>
+        )}
         {systemFields.has(field) && (
-          <Badge color="text" style={{ marginLeft: 12 }}>
+          <Badge color="text" ghost outline style={{ marginLeft: 12 }}>
             System Field
           </Badge>
         )}

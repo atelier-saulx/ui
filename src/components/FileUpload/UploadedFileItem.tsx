@@ -16,6 +16,7 @@ import {
   FileIcon,
   ZoomInIcon,
   TextIcon,
+  resizeImage,
 } from '~'
 
 const StyledUploadedFile = styled('div', {
@@ -57,8 +58,10 @@ const CacheBackground = ({ file }) => {
     <div
       style={{
         height: 62,
+        flexShrink: 0,
         width: 62 + 4,
-        backgroundImage: `url(${url})`,
+        backgroundPosition: 'center',
+        backgroundImage: `url(${resizeImage(url, 64)})`,
         backgroundSize: 'cover',
       }}
     >
@@ -179,8 +182,8 @@ export const UploadedFileItem = ({
           marginTop: 6,
           marginBottom: 6,
           marginLeft: 12,
-          // maxWidth: '25vw',
-          maxWidth: '90%',
+          marginRight: 64,
+          maxWidth: 'calc(90% - 64px)',
           flexShrink: 0,
         }}
         typography="body500"

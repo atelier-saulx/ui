@@ -17,6 +17,8 @@ import {
   color,
   renderOrCreateElement,
   boxShadow,
+  resizeImage,
+  border,
 } from '~'
 import { Text } from '../Text'
 import { styled } from 'inlines'
@@ -85,9 +87,10 @@ export const ThumbnailFile: FC<ThumbnailFileProps> = ({
           width: 32,
           borderRadius: 4,
           height: 32,
+          backgroundPosition: 'center',
           backgroundColor: color('accent', true),
           backgroundSize: 'cover',
-          backgroundImage: `url(${src}?width=64&height=64)`,
+          backgroundImage: `url(${resizeImage(src, 32)})`,
         }}
       />
     </styled.div>

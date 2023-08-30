@@ -5,9 +5,9 @@ import { Checkbox, Text, ScrollArea, useContextState, Page, Column } from '~'
 import { Fields } from './Fields'
 import { Header } from './Header'
 import { Footer } from './Footer'
-import { getMeta } from './getMeta'
-import { TypeSchema } from '../types'
+// import { TypeSchema } from '../types'
 import { styled } from 'inlines'
+import { BasedSchema, BasedSchemaType } from '@based/schema'
 
 export const SchemaMain: FC = () => {
   const [type] = useContextState('type', '')
@@ -30,30 +30,23 @@ export const SchemaMain: FC = () => {
     )
   }
 
-  const typeDef: TypeSchema =
-    type === 'root' ? schema.rootType : types[type] || { meta: {}, fields: {} }
-  const { meta = {}, fields } = typeDef
-  const { name } = meta
+  const typeDef: BasedSchemaType =
+    type === 'root' ? schema.rootType : types[type] || { fields: {} }
+  const { fields } = typeDef
+  // const { name } = meta
 
   if (!fields) {
     console.error('[InvalidSchema] No fields on type', type)
     return null
   }
 
-  const typeName = name || type
-
   let header: ReactNode
   let footer: ReactNode
 
   if (field.length) {
-    header = (
-      <Header back>
-        {getMeta(field, typeDef)?.name || field[field.length - 1]}
-      </Header>
-    )
-    footer = <Footer name={typeName} />
+    footer = <Footer name={type} />
   } else {
-    header = <Header>{typeName}</Header>
+    header = <Header>{type}</Header>
   }
 
   return (
@@ -103,7 +96,6 @@ export const SchemaMain: FC = () => {
                   Object.assign(dest, val)
 
                   if (type === 'root') {
-                    console.log('duss......')
                     return client
                       .call('db:set-schema', {
                         db,
@@ -116,7 +108,6 @@ export const SchemaMain: FC = () => {
                       })
                       .catch((e) => console.error('error updating schema', e))
                   } else {
-                    console.log('duss.afeafewaf.....')
                     return client
                       .call('db:set-schema', {
                         db,

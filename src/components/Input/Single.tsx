@@ -40,7 +40,6 @@ export const Single: FC<SingleProps> = ({
   iconRight,
   setErrorMessage,
   error,
-  // onChange,
   ...props
 }) => {
   useEffect(() => {

@@ -16,9 +16,10 @@ import {
 } from '@dnd-kit/sortable'
 import { Draggable } from './Draggable'
 import { Field } from './Field'
-import { useSchema } from '~/apps/Schema/hooks/useSchema'
+import { useSchema } from '../hooks/useSchema'
 import { useContextState } from '~/hooks/ContextState'
-import { TypeSchema } from '../types'
+import { BasedSchemaType } from '@based/schema'
+
 import { useFieldsEvents } from './useFieldsEvents'
 
 export const Fields: FC<{
@@ -40,10 +41,10 @@ export const Fields: FC<{
     return null
   }
 
-  const typeDef: TypeSchema =
-    type === 'root'
-      ? schema.rootType
-      : schema.types[type] || { meta: {}, fields: {} }
+  const typeDef: BasedSchemaType =
+    type === 'root' ? schema.rootType : schema.types[type] || { fields: {} }
+
+  console.log('hellow??', typeDef)
 
   const {
     onDragStart,

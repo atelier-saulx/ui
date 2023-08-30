@@ -1,19 +1,18 @@
-import { BasedSchema, alwaysIgnore, IdIcon, systemFields } from '~'
-import React from 'react'
+import { IdIcon } from '~'
+import { alwaysIgnore, systemFields } from '~/apps/Schema/templates'
+import { BasedSchemaFieldShared, BasedSchema } from '@based/schema'
 
 export const createRootEditor = (schema: BasedSchema): any => {
   const typeSchema = schema.types.root
-  const prettyName = 'Root'
-
   const getFields: any = {}
-  // let mimeType
-  let fields = []
+  const fields: BasedSchemaFieldShared[] = []
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore.has(field)) {
-      const f = typeSchema.fields[field]
+      const f: BasedSchemaFieldShared = typeSchema.fields[field]
       fields.push({
-        name: f.meta.name ?? field,
-        key: field,
+        title: f?.title ?? field,
+        $id: field,
+        // key: field,
         type: f.type,
       })
     }
@@ -22,22 +21,48 @@ export const createRootEditor = (schema: BasedSchema): any => {
     return a.index > b.index ? 1 : a.index < b.index ? -1 : 0
   })
   for (const f of fields) {
-    getFields[f.key] = true
+    //  getFields[f.key] = true
+    getFields[f.$id] = true
   }
+  return {}
 }
 
 export const createTypeTable = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
-  const MAX_FIELDS = 5
-  const prettyName =
-    typeSchema.meta?.name || type[0].toUpperCase() + type.slice(1)
+
+  if (!typeSchema) {
+    return {
+      id: 'type-' + type,
+      name: type,
+      description: typeSchema?.description || '',
+      category: 'default',
+      hidden: false,
+      config: {},
+    }
+  }
+
+  const MAX_FIELDS = 6
+  const prettyName = typeSchema?.title || type[0].toUpperCase() + type.slice(1)
   let idKey: string
   const getFields: any = {}
-  // let mimeType
   let fields = []
+
+  // 1 ADD FIELD TYPE FOR CONTENT EDITOR
+  // wich fields you want to show in content editor
+
+  // 1.1 { expandable: Field[] }[]
+
+  // 2 EXTRACT HEADER TYPE FOR TABLE
+  // base them of table  header type
+
   for (const field in typeSchema.fields) {
-    if (!alwaysIgnore.has(field)) {
-      const f = typeSchema.fields[field]
+    if (!alwaysIgnore?.has(field)) {
+      const f: BasedSchemaFieldShared = typeSchema.fields[field]
+
+      if (!f) {
+        console.info(field)
+        continue
+      }
 
       if (!idKey && field === 'name') {
         idKey = 'name'
@@ -56,10 +81,17 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
           f.meta?.refTypes[0] === 'file')
 
       const fType = isFile && type === 'file'
-      const isBytes = f.meta?.format === 'bytes'
+      const isBytes = f.format === 'bytes'
 
+      let d = false
       let mimeTypeKey = ''
       if (f.type === 'reference') {
+        getFields[field] = {
+          src: true,
+          id: true,
+          mimeType: true,
+        }
+        d = true
         mimeTypeKey = `${field}.mimeType`
       } else if (fType) {
         mimeTypeKey = 'mimeType'
@@ -67,11 +99,18 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
       }
 
       fields.push({
-        index: f.meta?.index ?? 1e6,
-        label: f.meta?.name || field,
+        // index: f.meta?.index ?? systemFields?.has(field) ? 1e6 : 100,
+        index: f.index ?? systemFields?.has(field) ? 1e6 : 100,
+        label: field === 'src' && type === 'file' ? 'Src' : f?.title || field,
         key: field,
         customLabelComponent: field === 'id' ? IdIcon : undefined,
-        type: isBytes ? 'bytes' : field === 'id' ? 'id' : f.type,
+        type: isFile
+          ? 'file'
+          : isBytes
+          ? 'bytes'
+          : field === 'id'
+          ? 'id'
+          : f.type,
         mimeTypeKey,
       })
     }
@@ -84,15 +123,7 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
   fields = fields.slice(0, MAX_FIELDS)
 
   for (const f of fields) {
-    if (f.type === 'reference') {
-      const k = f.key
-      f.key = [`${k}.src`]
-      getFields[k] = {
-        mimeType: true,
-        id: true,
-        src: true,
-      }
-    } else {
+    if (!getFields[f.key]) {
       getFields[f.key] = true
     }
   }
@@ -100,16 +131,18 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
   return {
     id: 'type-' + type,
     name: prettyName,
-    description: typeSchema.meta?.description || '',
+    description: typeSchema?.description || '',
     category: 'default',
     hidden: false,
     config: {
+      showFilter: !!idKey,
       type: 'content',
       view: 'table',
       target: {
         id: 'root',
         type: type,
         name: type[0].toUpperCase() + type.slice(1),
+        filter: '',
       },
       function: {
         name: 'db',
@@ -120,11 +153,25 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
           descendants: {
             $list: {
               $find: {
-                $filter: {
-                  $field: 'type',
-                  $value: '$target.type',
-                  $operator: '=',
-                },
+                $filter: idKey
+                  ? [
+                      {
+                        $field: 'type',
+                        $value: '$target.type',
+                        $operator: '=',
+                      },
+
+                      {
+                        $field: idKey,
+                        $value: '$target.filter',
+                        $operator: 'includes',
+                      },
+                    ]
+                  : {
+                      $field: 'type',
+                      $value: '$target.type',
+                      $operator: '=',
+                    },
               },
               $sort: {
                 $field: 'createdAt',
@@ -172,42 +219,56 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
 
 export const createTypeModal = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
-  const prettyName =
-    typeSchema.meta?.name || type[0].toUpperCase() + type.slice(1)
+
+  if (!typeSchema) {
+    console.error('no typeschema', type)
+    return
+  }
+
+  const prettyName = typeSchema?.title || type[0].toUpperCase() + type.slice(1)
   const getFields: any = {
     id: true,
     type: true,
   }
-  let fields = []
+  // add type
+  const fields = []
   for (const field in typeSchema.fields) {
-    if (!alwaysIgnore.has(field) && !systemFields.has(field)) {
-      const f = typeSchema.fields[field]
+    if (!alwaysIgnore?.has(field) && !systemFields?.has(field)) {
+      const f: BasedSchemaFieldShared = typeSchema.fields[field]
+
+      if (!f) {
+        continue
+      }
+
       // mime
       let mField: string
       // @ts-ignore
+      // type file && contentType
       if (type === 'file' && f.meta?.ui === 'file' && f.type === 'string') {
         mField = 'mimeType'
       } else if (
         f.type === 'reference' &&
-        (f.meta?.format === 'file' ||
-          (f.meta?.refTypes &&
-            f.meta?.refTypes.length === 1 &&
-            f.meta?.refTypes[0] === 'file'))
+        (f.allowedTypes?.includes('file') || f.allowedTypes?.type === 'file')
       ) {
         mField = `${field}.mimeType`
+
+        // nested fields
 
         getFields[field] = {
           src: true,
           id: true,
           mimeType: true,
           name: true,
+          // nestedFields Fields[]
         }
       }
 
       fields.push({
-        name: f.meta.name ?? field,
+        ...f,
+        title: f.title ?? field,
         key: field,
         type: f.type,
+        index: f?.index ?? 1e6,
         mimeTypeKey: mField,
       })
     }
@@ -223,11 +284,10 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
     }
   }
 
-  // target langiahe
   return {
     id: 'type-' + type,
     name: prettyName,
-    description: typeSchema.meta?.description || '',
+    description: typeSchema?.description || '',
     category: 'default',
     hidden: false,
     config: {
@@ -281,22 +341,3 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
     },
   }
 }
-
-/*
- {
-            name: 'Picture',
-            key: 'picture',
-            type: 'reference',
-            meta: {
-              type: 'file',
-              mime: [
-                'video/mp4',
-                'image/png',
-                'image/jpg',
-                'audio/*',
-                'text/*',
-                'font/*',
-              ],
-            },
-          },
-*/

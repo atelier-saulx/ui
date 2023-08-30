@@ -5,19 +5,20 @@ import { useDialog } from '~/components/Dialog'
 import { sortAndFlatten, filteredFields } from '../fieldParsers'
 import { UniqueIdentifier, DragStartEvent, DragEndEvent } from '@dnd-kit/core'
 import { useContextState } from '~/hooks/ContextState'
-import { FieldSchema, TypeSchema } from '../types'
+
+import { BasedSchema, BasedSchemaType } from '@based/schema'
 
 export const useFieldsEvents = (
   includeSystemFields: boolean,
   overIdRef: RefObject<UniqueIdentifier>,
-  typeDef: TypeSchema,
+  typeDef: BasedSchemaType,
   onChange: (v: any) => void
 ): {
   onDragStart: (e: DragStartEvent) => void
   toggleExpand: (field: string) => void
   onDragEnd: (e: DragEndEvent) => void
   draggingField: UniqueIdentifier | false
-  properties: { [key: string]: FieldSchema }
+  properties: { [key: string]: BasedSchema }
   collapsed: Set<string>
   objects: any
   filtered: string[]
@@ -112,10 +113,10 @@ export const useFieldsEvents = (
       const setIndex = (field, index) => {
         const path = field.split('.')
         const targetFields = path.reduce((fields, key) => fields[key], fields)
-        if ('meta' in targetFields) {
-          targetFields.meta.index = index
+        if (!('index' in targetFields)) {
+          targetFields.index = index
         } else {
-          targetFields.meta = { index }
+          targetFields.index = index
         }
       }
 

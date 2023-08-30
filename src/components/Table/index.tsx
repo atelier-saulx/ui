@@ -3,8 +3,6 @@ import React, {
   createElement,
   ReactNode,
   useState,
-  Dispatch,
-  SetStateAction,
   useRef,
   useMemo,
   useEffect,
@@ -17,7 +15,12 @@ import {
   Badge,
   AttachmentIcon,
   ThumbnailFile,
-  pathReader,
+  SetIcon,
+  SquareBracketsIcon,
+  CheckIcon,
+  CurlyBracesIcon,
+  useCopyToClipboard,
+  Toggle,
 } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
@@ -25,15 +28,89 @@ import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { prettyDate } from '@based/pretty-date'
+import { useClient } from '@based/react'
+
+import { getByPath } from '@saulx/utils'
 
 export * from './types'
+
+const TYPE_WIDTHS = {
+  file: 100,
+  reference: 100,
+  id: 140,
+  references: 130,
+  bytes: 130,
+  boolean: 100,
+}
+
+const BooleanToggle: FC<{
+  item: any
+  k: string
+  itemData: boolean
+}> = ({ item, k, itemData }) => {
+  const client = useClient()
+  return (
+    <Toggle
+      value={itemData}
+      //  disabled
+      onChange={
+        item.id
+          ? (v) => {
+              const s: any = { $id: item.id }
+              if (Array.isArray(k)) {
+                let t = s
+                for (let i = 0; i < k.length; i++) {
+                  if (i === k.length - 1) {
+                    t[k[i]] = v
+                  } else if (!t[k[i]]) {
+                    t = t[k[i]] = {}
+                  }
+                }
+              } else {
+                s[k] = v
+              }
+              return client.call('db:set', s)
+            }
+          : null
+      }
+    />
+  )
+}
+
+const IdBadge: FC<{
+  itemData: string
+}> = ({ itemData }) => {
+  const [copied, copy] = useCopyToClipboard(itemData)
+  return (
+    <Badge
+      color="accent"
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        copy()
+      }}
+      icon={copied ? <CheckIcon color="accent" /> : ''}
+      style={{
+        display: 'flex',
+        paddingLeft: 8,
+        paddingRight: 8,
+        borderRadius: 32,
+        justifyContent: 'center',
+      }}
+    >
+      <Text color="accent" typography="caption600">
+        {itemData}
+      </Text>
+    </Badge>
+  )
+}
 
 const Header: FC<{
   headerWidth: number
   width: number
   headers: TableHeader<any>[]
-  setSortOptions: Dispatch<SetStateAction<SortOptions>>
-  sortOptions: SortOptions
+  // setSortOptions: Dispatch<SetStateAction<SortOptions>>
+  // sortOptions: SortOptions
   outline: boolean
 }> = ({ headers, width, headerWidth, outline }) => {
   const children: ReactNode[] = []
@@ -93,17 +170,19 @@ const Cell = (props) => {
   let itemData
   if (Array.isArray(key)) {
     for (const k of key) {
-      itemData = pathReader(rowData, k.split('.'))
+      itemData = getByPath(rowData, k.split('.'))
       if (itemData) {
         break
       }
     }
   } else {
-    itemData = pathReader(rowData, header.key.split('.'))
+    itemData = getByPath(rowData, header.key.split('.'))
   }
 
   const onClick = header.onClick ?? props.data.onClick
   const type = header.type
+
+  // Array.isArray(itemData) && console.log('itemDATA??', itemData)
 
   // Make this into a map /  a bit nicer
   const body = header.customComponent ? (
@@ -114,17 +193,19 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
-  ) : type === 'file' || type == 'reference' ? (
+  ) : type === 'boolean' ? (
+    <BooleanToggle item={rowData} itemData={itemData} k={key} />
+  ) : type === 'file' || type === 'reference' ? (
     <ThumbnailFile
       mimeType={
         header?.mimeType ?? header.mimeTypeKey
-          ? pathReader(rowData, header.mimeTypeKey.split('.'))
+          ? getByPath(rowData, header.mimeTypeKey.split('.'))
           : undefined
       }
-      src={itemData}
+      src={typeof itemData === 'object' ? itemData?.src : itemData}
     />
   ) : type === 'id' ? (
-    <Badge color="accent">{itemData}</Badge>
+    <IdBadge itemData={itemData} />
   ) : type === 'timestamp' ? (
     <Text selectable typography="body400">
       {prettyDate(itemData, 'date-time-human')}{' '}
@@ -135,6 +216,31 @@ const Cell = (props) => {
         {prettyNumber(itemData?.length || 0, 'number-short')}
       </Text>
     </Badge>
+  ) : type === 'array' ? (
+    <Badge color="accent" icon={<SquareBracketsIcon />}>
+      <Text typography="caption600" color="accent">
+        {itemData ? itemData.length : '0'}
+      </Text>
+    </Badge>
+  ) : type === 'set' ? (
+    <Badge color="accent" icon={<SetIcon />}>
+      <Text typography="caption600" color="accent">
+        {itemData ? itemData.length : '0'}
+      </Text>
+    </Badge>
+  ) : type === 'object' ? (
+    // @ts-ignore
+    <Badge
+      style={{ '&:hover': { backgroundColor: color('lightaccent:active') } }}
+      color="accent"
+      icon={
+        <CurlyBracesIcon
+          style={{
+            marginLeft: 8,
+          }}
+        />
+      }
+    />
   ) : (
     <Text selectable typography={type === 'bytes' ? 'caption500' : 'body500'}>
       {type === 'bytes'
@@ -206,14 +312,6 @@ const Cell = (props) => {
   )
 }
 
-const typeWidths = {
-  file: 100,
-  reference: 100,
-  id: 130,
-  references: 130,
-  bytes: 130,
-}
-
 const SizedGrid: FC<TableProps> = (props) => {
   const {
     query,
@@ -240,7 +338,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     if (h.width) {
       w += h.width
     } else {
-      const typeWidth = typeWidths[h.type]
+      const typeWidth = TYPE_WIDTHS[h.type]
 
       if (typeWidth) {
         h.width = typeWidth
@@ -251,7 +349,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     }
   }
 
-  const [sortOptions, setSortOpts] = useState<SortOptions>(
+  const [sortOptions] = useState<SortOptions>(
     defaultSortOptions ?? {
       $field: 'createdAt',
       $order: 'desc',
@@ -311,8 +409,8 @@ const SizedGrid: FC<TableProps> = (props) => {
         ref={headerWrapper}
       >
         <Header
-          sortOptions={sortOptions}
-          setSortOptions={setSortOpts}
+          // sortOptions={sortOptions}
+          // setSortOptions={setSortOpts}
           width={width}
           headers={headers}
           headerWidth={defW}
