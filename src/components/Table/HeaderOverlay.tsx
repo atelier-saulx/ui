@@ -23,6 +23,7 @@ export const HeaderOverlay = ({ headers }) => {
               value={item.meta.visible}
               key={item.key}
               label={item.label}
+              onClick={() => (item.meta.visible = !item.meta.visible)}
             />
           </>
         ) : null

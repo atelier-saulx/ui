@@ -17,6 +17,7 @@ export const Header: FC<{
   headerWidth: number
   width: number
   headers: TableHeader<any>[]
+  filteredHeaders: TableHeader<any>[]
   // setSortOptions: Dispatch<SetStateAction<SortOptions>>
   // sortOptions: SortOptions
   outline: boolean
@@ -29,6 +30,7 @@ export const Header: FC<{
   data?: any
 }> = ({
   headers,
+  filteredHeaders,
   width,
   headerWidth,
   outline,
@@ -53,7 +55,7 @@ export const Header: FC<{
     { style: { scrollbarGutter: 'auto', border: 'none', boxShadow: 'none' } }
   )
 
-  for (const header of headers) {
+  for (const header of filteredHeaders) {
     const w = header.width ?? headerWidth
     children.push(
       <styled.div

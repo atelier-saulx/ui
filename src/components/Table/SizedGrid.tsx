@@ -37,6 +37,7 @@ export const SizedGrid: FC<TableProps> = (props) => {
     selectAllRows,
     clearAllRows,
     selectedRows,
+    filteredHeaders,
   } = props
 
   const headerWrapper = useRef(null)
@@ -119,6 +120,7 @@ export const SizedGrid: FC<TableProps> = (props) => {
           // setSortOptions={setSortOpts}
           width={width}
           headers={headers}
+          filteredHeaders={filteredHeaders}
           headerWidth={defW}
           outline={props.outline}
           sortKey={sortKey}

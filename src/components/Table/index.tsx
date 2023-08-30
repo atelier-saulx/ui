@@ -59,7 +59,10 @@ export const Table: FC<TableProps> = (props) => {
     ascOrder: true,
   })
 
-  let setOfDontDisplayTheseColumns = new Set()
+  let newData =
+    sortKey.key && sortKey.counter
+      ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
+      : props.data
 
   if (headers) {
     for (const header of headers) {
@@ -69,36 +72,16 @@ export const Table: FC<TableProps> = (props) => {
     }
 
     for (const header of headers) {
-      if (
-        !header.meta.visible &&
-        !Array.from(setOfDontDisplayTheseColumns).includes(header.key)
-      ) {
-        setOfDontDisplayTheseColumns.add(header.key)
-      } else if (
-        header.meta.visible &&
-        Array.from(setOfDontDisplayTheseColumns).includes(header.key)
-      ) {
-        setOfDontDisplayTheseColumns.delete(header.key)
+      if (!header.meta.visible) {
+        newData.forEach((object) => (object[header.key] = null))
       }
     }
   }
 
-  let newData =
-    sortKey.key && sortKey.counter
-      ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
-      : props.data
+  let filteredHeaders = headers?.filter((item) => item.meta.visible)
 
   console.log('✅', props)
   console.log('💚', newData)
-
-  console.log('Damned Set ☻', setOfDontDisplayTheseColumns)
-
-  // filter non displayed headers items
-  if (headers) {
-    newData.filter((item, idx) =>
-      headers[item.key]?.meta?.visible ? item : null
-    )
-  }
 
   // if selectable is true, the first columns of data should be checkboxes
   const [renderCounter, setRenderCounter] = useState(1)
@@ -173,6 +156,7 @@ export const Table: FC<TableProps> = (props) => {
                 selectAllRows={selectAllRows}
                 clearAllRows={clearAllRows}
                 selectedRows={selectedRows}
+                filteredHeaders={filteredHeaders}
               />
             )
           }}
