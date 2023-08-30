@@ -35,7 +35,7 @@ export const DropDownItem: FC<DropDownItemProps> = ({
   const openNewDropDown = useOverlay(
     Dropdown,
     { data },
-    { width: '100%', position: 'right', offset: { x: -40, y: 0 } },
+    { width: '100%', position: 'right', offset: { x: -20, y: 0 } },
     undefined,
     undefined,
     { style: { scrollbarGutter: 'auto', border: 'none', boxShadow: 'none' } }
