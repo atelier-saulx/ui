@@ -147,7 +147,7 @@ export const Table: FC<TableProps> = (props) => {
           icon={<IconPlus />}
           size="small"
           color="neutral"
-          light
+          ghost
           style={{
             position: 'absolute',
             right: 12,
