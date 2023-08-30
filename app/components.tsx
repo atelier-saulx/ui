@@ -19,6 +19,7 @@ import {
   Input,
   LineGraph,
   Modal,
+  MultiSelect,
   RadioButtons,
   ScrollArea,
   SegmentedControl,
@@ -38,7 +39,6 @@ import props from './props.json'
 import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
-import { MultiSelect } from '../src/components/MultiSelect'
 
 const genRandomPoints = (
   formula: (i: number) => { x: number; y: number },
@@ -462,6 +462,20 @@ export const components: ComponentDef[] = [
             { label: 'Radio2', value: 2, description: 'hwlloe 2' },
           ],
           onChange: (v) => console.log(v),
+        },
+      },
+    ],
+  },
+  {
+    name: 'NumberInput',
+    component: Input,
+    description: 'Number input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        props: {
+          type: 'number',
+          placeholder: 'type a number',
         },
       },
     ],

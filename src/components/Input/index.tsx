@@ -4,11 +4,13 @@ import { TextInput, TextInputProps } from './TextInput'
 import { SelectInput, SelectInputProps } from './SelectInput'
 import { SearchInput, SearchInputProps } from './SearchInput'
 import { FileInput, FileInputProps } from './FileInput'
+import { NumberInput, NumberInputProps } from './NumberInput'
 
 export type InputProps =
   | ({ type: 'text' } & TextInputProps)
   | ({ type: 'search' } & SearchInputProps)
   | ({ type: 'select' } & SelectInputProps)
+  | ({ type: 'number' } & NumberInputProps)
   | ({ type: 'file' } & FileInputProps)
 
 export function Input(props: InputProps) {
@@ -24,6 +26,10 @@ export function Input(props: InputProps) {
     case 'select': {
       const { type, ...narrowedProps } = props
       return <SelectInput {...narrowedProps} />
+    }
+    case 'number': {
+      const { type, ...narrowedProps } = props
+      return <NumberInput {...narrowedProps} />
     }
     case 'file': {
       const { type, ...narrowedProps } = props
