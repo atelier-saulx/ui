@@ -627,7 +627,12 @@ export const components: ComponentDef[] = [
             { key: 'cover', label: 'Cover', type: 'img' },
             { key: 'number', label: 'Number', type: 'id' },
             { key: 'boolie', label: 'Boolean', type: 'boolean' },
-            { key: 'time', label: 'Time', type: 'timestamp' },
+            {
+              key: 'time',
+              label: 'Time',
+              type: 'timestamp',
+              meta: { visible: false },
+            },
           ],
           data: [
             {
