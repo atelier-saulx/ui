@@ -1,19 +1,8 @@
 import React, { useState, createContext, useContext } from 'react'
 
 import { createPortal } from 'react-dom'
-import { Toast } from './Toast'
+import { Toast, ToastProps } from './Toast'
 import { Style, styled, ColorBackgroundColors, color as genColor } from '../..'
-
-type ToastProps = {
-  label?: string
-  color?: ColorBackgroundColors
-  description?: string
-  style?: Style
-  closeable?: boolean
-  strong?: Boolean
-  action?: { onClick: () => void; label: string }
-  id?: any
-}
 
 const ToastContainer = ({ toasts }) => {
   return createPortal(

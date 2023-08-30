@@ -3,7 +3,7 @@ import { StateProvider, styled, Style } from '../../'
 import { NewDateInput } from './NewDateInput'
 // import { DatePickerProps } from '../../'
 
-type DateWidgetProps = {
+type DatePickerProps = {
   value?: number // milliseconds
   onChange: (value: number) => void
   time?: boolean
@@ -13,7 +13,7 @@ type DateWidgetProps = {
 // TODO: when error message
 // TODO: hover range ??
 
-export const DatePicker: FC<DateWidgetProps> = ({
+export const DatePicker: FC<DatePickerProps> = ({
   value = Date.now(),
   onChange,
   time,

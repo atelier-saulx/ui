@@ -2,12 +2,13 @@ import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
 import { ColorActionColors, color as genColor } from '../../../src'
 import { usePropState } from '../../hooks/usePropState'
+import { ClickHandler } from '../../types'
 
 export type ToggleProps = {
   value?: boolean
   color?: ColorActionColors
   disabled?: boolean
-  onClick?: (e) => void | (() => void)
+  onClick?: ClickHandler
   style?: Style
   size?: 'large' | 'medium'
 }

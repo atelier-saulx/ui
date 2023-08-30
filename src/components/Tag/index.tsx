@@ -6,7 +6,7 @@ import { IconSmallClose } from '../../icons'
 import { ColorActionColors } from '../../varsTypes'
 import { ClickHandler } from '../../types'
 
-type TagProps = {
+export type TagProps = {
   color?: ColorActionColors
   disabled?: boolean
   onClick?: ClickHandler

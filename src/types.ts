@@ -1,92 +1,8 @@
-import { ReactNode, FC } from 'react'
-import {
-  ColorActionColors,
-  ColorBackgroundColors,
-  ColorContentColors,
-  ColorNonSemanticBackgroundColors,
-} from './varsTypes'
 import { Style } from 'inlines'
 
 export type ClickHandler =
   | ((e: MouseEvent) => void)
   | ((e: MouseEvent) => Promise<void>)
-
-export type ActionItemProps = {}
-
-export type BreadcrumbsProps = {}
-
-export type DatePickerProps = {
-  // what to do for ranged
-  onChange?: (value: number) => void
-  style?: Style
-  value?: number
-}
-export type DateRangeProps = {
-  // what to do for ranged
-  onChange?: (value: number[]) => void
-  style?: Style
-  value?: number[]
-}
-
-export type DefaultItemProps = {
-  description?: string // caption
-  disabled?: boolean
-  expand: boolean
-  icon?: ReactNode
-  label?: string
-}
-
-export type FilterPillProps = {}
-
-// text field in figma
-
-export type InputWarningProps = {
-  active?: boolean
-  icon?: ReactNode
-  label?: string
-}
-
-export type ListItemProps = {
-  icon?: ReactNode
-  label?: string
-  onClick?: () => void
-  // value ??
-}
-
-export type ListProps = {
-  items?: ListItemProps[]
-  style?: Style
-}
-
-export type MenuItemProps = {
-  active?: boolean
-  icon?: ReactNode
-  label?: string
-  onClick?: (e) => void
-  // or path maybe??
-  value?: string
-  style?: Style
-  children?: ReactNode | FC
-}
-
-export type MenuProps = {
-  items?: MenuItemProps[]
-  style?: Style
-}
-
-export type SelectableItemProps = {}
-
-export type SidebarNavigationHolderProps = {}
-
-export type SpotlightSearchProps = {
-  onChange?: (value: string) => void
-}
-
-export type TabProps = {
-  active?: boolean
-  label?: string
-  onClick?: () => void
-}
 
 export type TooltipProps = {
   label?: string
@@ -101,5 +17,3 @@ export type TooltipProps = {
     | 'top'
     | 'top-right'
 }
-
-export type TopNavigationProps = {}

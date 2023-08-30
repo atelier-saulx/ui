@@ -1,7 +1,6 @@
 import { render } from 'react-dom'
 import React, { FC } from 'react'
 import { styled } from 'inlines'
-import { Status } from '../src'
 import '../src/fonts.css'
 import based from '@based/client'
 import { color, Menu, Provider, ScrollArea } from '../src'
@@ -18,19 +17,6 @@ const App = () => {
   const filtered = components.filter((c) => {
     return c.name === component
   })
-
-  // const toast = useToast()
-  // const amount = toast.useCount()
-  // const notify = () => {
-  //   toast.add({
-  //     label: 'asdasd',
-  //     // action: ,
-  //     closeable: true,
-  //     color: 'informative',
-  //     description: 'asdasd',
-  //     strong: true,
-  //   })
-  // }
 
   return (
     <styled.div
@@ -74,8 +60,6 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        {/* <Button onClick={notify}>asdasd</Button> */}
-
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}

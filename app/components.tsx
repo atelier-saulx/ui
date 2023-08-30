@@ -4,6 +4,7 @@ import {
   AlertBanner,
   Avatar,
   Badge,
+  Breadcrumbs,
   Button,
   Checkbox,
   Counter,
@@ -16,8 +17,10 @@ import {
   IconClipboard,
   IconEmojiSmile,
   Input,
+  LineGraph,
   Modal,
   RadioButtons,
+  ScrollArea,
   SegmentedControl,
   Slider,
   Status,
@@ -27,6 +30,7 @@ import {
   Tag,
   Text,
   styled,
+  Toast,
   Toggle,
 } from '../src'
 import * as ui from '../src'
@@ -35,6 +39,19 @@ import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
 import { MultiSelect } from '../src/components/MultiSelect'
+
+const genRandomPoints = (
+  formula: (i: number) => { x: number; y: number },
+  start: number = 0,
+  end: number = 50,
+  step: number = 1
+) => {
+  const points: { x: number; y: number }[] = []
+  for (let i = start; i <= end; i = i + step) {
+    points.push(formula(i))
+  }
+  return points
+}
 
 export const components: ComponentDef[] = [
   {
@@ -83,6 +100,47 @@ export const components: ComponentDef[] = [
           size: 'large',
           light: true,
           imgsrc: 'https://robohash.org/G2J.png?set=set1',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Badge',
+    properties: props.props.BadgeProps.props,
+    component: Badge,
+    description: 'Badge component',
+    examples: [
+      {
+        props: {
+          children: 'Hello badge',
+          color: 'informative',
+          light: false,
+        },
+      },
+      {
+        props: {
+          icon: () => React.createElement(ui.IconSmallBolt),
+        },
+      },
+    ],
+  },
+  {
+    name: 'Breadcrumbs',
+    properties: props.props.BreadcrumbsProps.props,
+    component: Breadcrumbs,
+    description: 'set onchange value in route',
+    examples: [
+      {
+        props: {
+          data: {
+            flip: 'flip',
+            flap: 'flap',
+            flup: 'flup',
+            snip: 'snip',
+            snap: 'snap',
+            snurp: 'snurp',
+          },
+          onChange: (v) => console.log(v),
         },
       },
     ],
@@ -145,26 +203,6 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'Badge',
-    properties: props.props.BadgeProps.props,
-    component: Badge,
-    description: 'Badge component',
-    examples: [
-      {
-        props: {
-          children: 'Hello badge',
-          color: 'informative',
-          light: false,
-        },
-      },
-      {
-        props: {
-          icon: () => React.createElement(ui.IconSmallBolt),
-        },
-      },
-    ],
-  },
-  {
     name: 'Checkbox',
     properties: props.props.CheckboxProps.props,
     component: Checkbox,
@@ -217,7 +255,7 @@ export const components: ComponentDef[] = [
   },
   {
     name: 'Date Range',
-    properties: {}, // props.props.DateRangeProps.props,
+    properties: props.props.DateRangeProps.props,
     description: 'Range of date picker',
     component: DateRange,
     examples: [
@@ -381,6 +419,30 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'LineGraph',
+    component: LineGraph,
+    properties: props.props.LineGraphProps.props,
+    description: '',
+    examples: [
+      {
+        props: {
+          data: {
+            en: {
+              data: () =>
+                genRandomPoints(
+                  (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
+                  0,
+                  50
+                ),
+              minMax: true,
+            },
+          },
+          label: 'single line 50000',
+        },
+      },
+    ],
+  },
+  {
     name: 'Modal',
     properties: props.props.ModalProps.props,
     component: Modal,
@@ -453,7 +515,7 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'MutliSelect',
+    name: 'MultiSelect',
     component: MultiSelect,
     description: 'Select input',
     properties: props.props.InputProps.props,
@@ -471,7 +533,23 @@ export const components: ComponentDef[] = [
       },
     ],
   },
-
+  {
+    name: 'ScrollArea',
+    component: ScrollArea,
+    description: '',
+    props: props.props.ScrollAreaProps.props,
+    examples: [
+      {
+        props: {
+          style: { width: 300, height: 300 },
+          children: `What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                     Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                     Where does it come from? Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                     The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by Eng`,
+        },
+      },
+    ],
+  },
   {
     name: 'Slider',
     component: Slider,
@@ -523,20 +601,49 @@ export const components: ComponentDef[] = [
           headers: [
             { key: 'title', label: 'Title' },
             { key: 'author', label: 'Author', type: 'author' },
+            { key: 'cover', label: 'Cover', type: 'img' },
             { key: 'number', label: 'Number', type: 'id' },
+            { key: 'boolie', label: 'Boolean', type: 'boolean' },
+            { key: 'time', label: 'Time', type: 'timestamp' },
           ],
           data: [
             {
-              title: 'Jip & Janneke',
-              author: 'Annie M.G. Schmidt',
+              title: 'AAA',
+              author: 'CCCC',
+              cover:
+                'https://img.parool.nl/aab6c754847bb34777c45ab7592473abca9b12ea/jip-en-janneke-voor-hema-niet-meer-heilig',
               number: 243545,
+              boolie: false,
+              time: 32454645454,
             },
-            { title: 'Harry Potter', author: 'J.K. Rowling', number: 5345432 },
-            { title: 'Snurpie', author: 'P. Snurp', number: 53445432 },
-            { title: 'Flurpie', author: 'P. Snurp', number: 11222111 },
+            {
+              title: 'CCC',
+              author: 'BBBB',
+              cover:
+                'https://www.manners.nl/wp-content/uploads/2023/03/harry-potter.png',
+              number: 5345432,
+              boolie: true,
+              time: 1113241133333,
+            },
+            {
+              title: 'DDD',
+              author: 'AAAA',
+              cover:
+                'https://64.media.tumblr.com/ee50e3ad64c22072c845097b2fe728e2/ad8bfb7892283c6d-0a/s1280x1920/14c9a1d48c9b8499e5107476bfd68e97fd05e823.png',
+              number: 53445432,
+              boolie: false,
+            },
+            {
+              title: 'BBB',
+              author: 'DDDD',
+              cover:
+                'https://i1.sndcdn.com/artworks-H999wKziGSquPTzr-Xy5zjA-t500x500.jpg',
+              number: 11222111,
+            },
           ],
-          width: 600,
+          width: 800,
           outline: true,
+          selectable: true,
         },
       },
     ],
@@ -601,6 +708,25 @@ export const components: ComponentDef[] = [
           beforeIcon: () => <IconBolt />,
           type: 'text',
           clearButton: 'true',
+          suffix: 'flap',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Toast',
+    component: Toast,
+    description: '',
+    properties: props.props.ToastProps.props,
+    examples: [
+      {
+        props: {
+          label: 'Toast text',
+          closeable: true,
+          color: 'informative',
+          description: 'Hellow',
+          strong: true,
+          action: { onClick: () => alert('snurp'), label: 'Action' },
         },
       },
     ],

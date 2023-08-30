@@ -12,7 +12,7 @@ export type SelectInputOption = {
 
 export type SelectInputProps = {
   options: SelectInputOption[]
-  value: string | null
+  value: SelectInputOption[] | null[]
   onChange?: (newValue: string) => void
   beforeIcon?: React.ReactNode
   disabled?: boolean
