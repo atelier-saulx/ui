@@ -91,26 +91,48 @@ export const NewDateInput = ({
   const openPicker = useOverlay(
     Picker,
     { setValue, timeString, stringToMilliseconds },
-    { width: 'target' }
+    { width: '100%', position: 'bottom' },
+    undefined,
+    undefined,
+    {
+      style: { scrollbarGutter: 'unset' },
+      transparent: true,
+    }
   )
 
   // if is range
   const openFromRangePicker = useOverlay(
     FromRangePicker,
-    { setValue, timeString, stringToMilliseconds },
-    { width: 'target' }
+    {
+      setValue,
+      timeString,
+      stringToMilliseconds,
+    },
+    { width: '100%', position: 'bottom' },
+    undefined,
+    undefined,
+    {
+      style: { scrollbarGutter: 'unset' },
+      transparent: true,
+    }
   )
   const openTillRangePicker = useOverlay(
     TillRangePicker,
     { setValue, timeString, stringToMilliseconds },
-    { width: 'target' }
+    { width: '100%', position: 'bottom' },
+    undefined,
+    undefined,
+    {
+      style: { scrollbarGutter: 'unset' },
+      transparent: true,
+    }
   )
 
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
   }
 
-  // console.log('Days in this month', daysInMonth(newMonth, newYear))
+  console.log('Days in this month', daysInMonth(newMonth, newYear))
 
   return (
     <styled.div style={{ display: 'flex' }}>

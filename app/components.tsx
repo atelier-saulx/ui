@@ -172,8 +172,17 @@ export const components: ComponentDef[] = [
         props: {
           children: 'Neutral color',
           icon: () => <IconClipboard />,
-          color: 'inverted',
+          color: 'alert',
           size: 'small',
+        },
+      },
+      {
+        name: 'Icon Button',
+        props: {
+          // children: 'Neutral color',
+          icon: () => <IconClipboard />,
+          color: 'neutral',
+          size: 'large',
         },
       },
       {

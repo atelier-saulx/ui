@@ -44,7 +44,11 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
         display: 'flex',
         justifyContent: 'start',
         alignItems: 'center',
-        border: `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`,
+        border: `1px solid ${color(
+          'inputBorder',
+          file ? 'active' : 'neutralNormal',
+          'default'
+        )}`,
         backgroundColor: 'transparent',
         '& > * + *': {
           paddingLeft: imagePreviewURL ? '12px' : '8px',
@@ -66,7 +70,10 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
         ) : (
           <IconAttachment />
         )}
-        <Text weight="medium">{file.name}</Text>
+        <Text weight="medium">
+          {/* TODO how long can name be? */}
+          {file.name.length > 12 ? file.name.slice(0, 24) + '...' : file.name}
+        </Text>
         <div
           style={{
             position: 'relative',
@@ -202,9 +209,6 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
       setDragState(false)
     }
   }
-  useEffect(() => {
-    console.log(files)
-  })
 
   return (
     <>
@@ -262,16 +266,13 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
                 marginLeft: '8px',
               },
               cursor: 'pointer',
-              border:
-                files.length > 0
-                  ? `1px solid ${color('inputBorder', 'active', 'default')}`
-                  : dragState
-                  ? `1px dashed ${color('inputBorder', 'active', 'default')}`
-                  : `1px dashed ${color(
-                      'inputBorder',
-                      'neutralNormal',
-                      'default'
-                    )}`,
+              border: dragState
+                ? `1px dashed ${color('inputBorder', 'active', 'default')}`
+                : `1px dashed ${color(
+                    'inputBorder',
+                    'neutralNormal',
+                    'default'
+                  )}`,
               // '&:hover': {
               //   border: `1px dashed ${color(
               //     'inputBorder',

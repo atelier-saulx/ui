@@ -16,7 +16,8 @@ import {
   Text,
   TagProps,
 } from '../..'
-import { SelectInputProps } from '../Input/SelectInput'
+
+import { SelectInputOption } from '../Input/SelectInput'
 
 const Tag: FC<TagProps> = ({ onClose, children, style }) => {
   return (
@@ -37,7 +38,11 @@ const Tag: FC<TagProps> = ({ onClose, children, style }) => {
         {children}
       </Text>
       <styled.div
-        onClick={onClose}
+        onClick={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          onClose?.()
+        }}
         style={{
           width: '16px',
           height: '16px',
@@ -59,11 +64,13 @@ const Tag: FC<TagProps> = ({ onClose, children, style }) => {
   )
 }
 
-export type SelectInputOption = {
-  label: string
-  value: string
+type MultiSelectInputProps = {
+  options: SelectInputOption[]
+  value: SelectInputOption[] | null[]
+  onChange?: (newValue: string) => void
   beforeIcon?: React.ReactNode
-  afterIcon?: React.ReactNode
+  disabled?: boolean
+  placeholder?: string
 }
 
 export function MultiSelect({
@@ -73,7 +80,7 @@ export function MultiSelect({
   placeholder,
   value: incomingValue = [],
   onChange,
-}: SelectInputProps) {
+}: MultiSelectInputProps) {
   const [open, setOpen] = useState(false)
   const [value, setValue] =
     useState<Array<SelectInputOption | null>>(incomingValue)
