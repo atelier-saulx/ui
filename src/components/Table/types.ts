@@ -18,6 +18,7 @@ export type TableHeader<T> = {
   showColumnCheckbox?: boolean
   customComponent?: TableCustomComponent<T>
   customLabelComponent?: FC
+  meta?: any
 }
 
 export type SortOptions = {
