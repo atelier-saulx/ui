@@ -191,6 +191,20 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
 export function FileInput({ disabled, multiple }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [files, setFiles] = useState<File[]>([])
+  const [dragState, setDragState] = useState(false)
+
+  const handleDrag = function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragState(true)
+    } else if (e.type === 'dragleave') {
+      setDragState(false)
+    }
+  }
+  useEffect(() => {
+    console.log(files)
+  })
 
   return (
     <>
@@ -228,7 +242,14 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
             onDragOver={(e) => {
               e.preventDefault()
               e.stopPropagation()
+              handleDrag(e)
             }}
+            onDragLeave={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              handleDrag(e)
+            }}
+            onDragEnter={(e) => {}}
             style={{
               height: 40,
               boxSizing: 'border-box',
@@ -241,26 +262,31 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
                 marginLeft: '8px',
               },
               cursor: 'pointer',
-              border: `1px dashed ${color(
-                'inputBorder',
-                'neutralNormal',
-                'default'
-              )}`,
-              '&:hover': {
-                border: `1px dashed ${color(
-                  'inputBorder',
-                  'neutralHover',
-                  'default'
-                )}`,
-              },
-              '&:active': {
-                border: `1px dashed ${color(
-                  'inputBorder',
-                  'active',
-                  'default'
-                )}`,
-                backgroundColor: color('background', 'brand', 'surface'),
-              },
+              border:
+                files.length > 0
+                  ? `1px solid ${color('inputBorder', 'active', 'default')}`
+                  : dragState
+                  ? `1px dashed ${color('inputBorder', 'active', 'default')}`
+                  : `1px dashed ${color(
+                      'inputBorder',
+                      'neutralNormal',
+                      'default'
+                    )}`,
+              // '&:hover': {
+              //   border: `1px dashed ${color(
+              //     'inputBorder',
+              //     'neutralHover',
+              //     'default'
+              //   )}`,
+              // },
+              // '&:active': {
+              // border: `1px dashed ${color(
+              //   'inputBorder',
+              //   'active',
+              //   'default'
+              // )}`,
+              //   backgroundColor: color('background', 'brand', 'surface'),
+              // },
               ...(disabled
                 ? {
                     opacity: '50%',
