@@ -1,5 +1,5 @@
 import { render } from 'react-dom'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
@@ -8,6 +8,8 @@ import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
+import { MarkdownInput } from '../src/components/Input/MarkdownInput'
+import { PillWrapper } from '../src/components/Pill'
 export const client = based(basedConfig)
 
 const App = () => {
