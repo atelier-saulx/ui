@@ -1,7 +1,11 @@
 import React from 'react'
 import { styled, Checkbox, color } from '../..'
 
-export const HeaderOverlay = ({ headers }) => {
+export const HeaderOverlay = ({
+  headers,
+  headerRenderCounter,
+  setHeaderRenderCounter,
+}) => {
   console.log('headers?? ', headers)
 
   return (
@@ -23,7 +27,10 @@ export const HeaderOverlay = ({ headers }) => {
               value={item.meta.visible}
               key={item.key}
               label={item.label}
-              onClick={() => (item.meta.visible = !item.meta.visible)}
+              onClick={() => {
+                item.meta.visible = !item.meta.visible
+                setHeaderRenderCounter(headerRenderCounter + 1)
+              }}
             />
           </>
         ) : null

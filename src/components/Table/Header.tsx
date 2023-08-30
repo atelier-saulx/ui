@@ -28,6 +28,8 @@ export const Header: FC<{
   selectAllRows: any
   selectedRows?: any
   data?: any
+  renderCounter?: number
+  setRenderCounter?: any
 }> = ({
   headers,
   filteredHeaders,
@@ -40,6 +42,8 @@ export const Header: FC<{
   selectAllRows,
   selectedRows,
   data,
+  headerRenderCounter,
+  setHeaderRenderCounter,
 }) => {
   const children: ReactNode[] = []
   let total = 16
@@ -48,7 +52,7 @@ export const Header: FC<{
 
   const openHeaderOverlay = useOverlay(
     HeaderOverlay,
-    { headers },
+    { headers, headerRenderCounter, setHeaderRenderCounter },
     { width: '100%', position: 'bottom' },
     undefined,
     undefined,

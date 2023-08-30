@@ -71,11 +71,12 @@ export const Table: FC<TableProps> = (props) => {
       }
     }
 
-    for (const header of headers) {
-      if (!header.meta.visible) {
-        newData.forEach((object) => (object[header.key] = null))
-      }
-    }
+    // for (const header of headers) {
+    //   if (!header.meta.visible) {
+    //     // newData.forEach((object) => (object[header.key] = null))
+
+    //   }
+    // }
   }
 
   let filteredHeaders = headers?.filter((item) => item.meta.visible)
@@ -86,6 +87,7 @@ export const Table: FC<TableProps> = (props) => {
   // if selectable is true, the first columns of data should be checkboxes
   const [renderCounter, setRenderCounter] = useState(1)
   const [selectedRows, setSelectedRows] = useState([])
+  const [headerRenderCounter, setHeaderRenderCounter] = useState(1)
 
   // check all object if meta selected is true
   const testRow = newData.filter((item, idx) => item?.meta?.selected)
@@ -95,6 +97,10 @@ export const Table: FC<TableProps> = (props) => {
       // console.log(testRow, '🛤')
     }
   }, [renderCounter])
+
+  useEffect(() => {
+    console.log('🆙 🚼')
+  }, [headers, headerRenderCounter])
 
   if (
     selectable &&
@@ -141,6 +147,7 @@ export const Table: FC<TableProps> = (props) => {
             selectedRowsLength={selectedRows.length}
           />
         )}
+
         <AutoSizer>
           {({ width, height }) => {
             return (
@@ -157,6 +164,8 @@ export const Table: FC<TableProps> = (props) => {
                 clearAllRows={clearAllRows}
                 selectedRows={selectedRows}
                 filteredHeaders={filteredHeaders}
+                headerRenderCounter={headerRenderCounter}
+                setHeaderRenderCounter={setHeaderRenderCounter}
               />
             )
           }}
