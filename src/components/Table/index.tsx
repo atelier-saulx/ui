@@ -74,7 +74,6 @@ export const Table: FC<TableProps> = (props) => {
   useEffect(() => {
     if (selectable) {
       setSelectedRows(testRow)
-      // console.log(testRow, '🛤')
     }
   }, [renderCounter])
 
@@ -109,22 +108,11 @@ export const Table: FC<TableProps> = (props) => {
         header.meta = { visible: true }
       }
     }
-
-    // for (const header of headers) {
-    //   if (!header.meta.visible) {
-    //     // newData.forEach((object) => (object[header.key] = null))
-
-    //   }
-    // }
   }
 
   const [filteredHeaders, setFilteredHeaders] = useState(
     headers?.filter((item) => item.meta.visible)
   )
-
-  useEffect(() => {
-    console.log('snupr 💚')
-  }, [filteredHeaders])
 
   const openHeaderOverlay = useOverlay(
     HeaderOverlay,
@@ -147,6 +135,7 @@ export const Table: FC<TableProps> = (props) => {
           minHeight: height,
           height: '100%',
           width: '100%',
+          position: 'relative',
           minWidth: width,
           border: props.outline
             ? `1px solid ${color('border', 'default', 'strong')}`
@@ -158,8 +147,14 @@ export const Table: FC<TableProps> = (props) => {
           icon={<IconPlus />}
           size="small"
           color="neutral"
-          light
-          style={{ position: 'absolute', right: 12, top: 5 }}
+          ghost
+          style={{
+            position: 'absolute',
+            right: 12,
+            top: 6,
+            padding: 3,
+            zIndex: 1,
+          }}
           // @ts-ignore
           onClick={openHeaderOverlay}
         />

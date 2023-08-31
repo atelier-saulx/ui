@@ -1,10 +1,12 @@
 import React from 'react'
 import { styled, Checkbox, color } from '../..'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
   console.log('headers?? ', headers)
 
-  let headersCopy = [...headers]
+  const headersCopy = [...headers]
 
   return (
     <styled.div
