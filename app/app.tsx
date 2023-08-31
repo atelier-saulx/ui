@@ -8,8 +8,7 @@ import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
-import { MarkdownInput } from '../src/components/Input/MarkdownInput'
-import { PillWrapper } from '../src/components/Pill'
+
 export const client = based(basedConfig)
 
 const App = () => {

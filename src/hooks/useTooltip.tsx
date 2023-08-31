@@ -5,6 +5,7 @@ import {
   Text,
   color as genColor,
   styled,
+  PositionProps,
 } from '../../src'
 
 export const useTooltip = (
@@ -26,7 +27,10 @@ export const useTooltip = (
       </Text>
     ),
     null,
-    { variant: 'detached', position: position.split('-')[0] },
+    {
+      variant: 'detached',
+      position: position.split('-')[0] as PositionProps['position'],
+    },
     undefined,
     undefined,
     {
