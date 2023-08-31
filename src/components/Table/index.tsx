@@ -157,7 +157,7 @@ export const Table: FC<TableProps> = (props) => {
           style={{
             position: 'absolute',
             right: 12,
-            top: 6,
+            top: selectedRows.length > 0 ? 74 : 6,
             padding: 3,
             zIndex: 1,
           }}

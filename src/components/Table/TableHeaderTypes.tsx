@@ -63,6 +63,7 @@ const BooleanToggle: FC<{
       onClick={
         item.id
           ? (v) => {
+              console.log('hellow??')
               const s: any = { $id: item.id }
               if (Array.isArray(k)) {
                 let t = s
@@ -117,24 +118,24 @@ const StringItem: FC<{
       onChange={
         item.id
           ? (v) => {
-              console.log(v)
-              const s: any = { $id: item.id }
-
-              console.log(s)
-
-              if (Array.isArray(k)) {
-                let t = s
-                for (let i = 0; i < k.length; i++) {
-                  if (i === k.length - 1) {
-                    t[k[i]] = v
-                  } else if (!t[k[i]]) {
-                    t = t[k[i]] = {}
-                  }
-                }
-              } else {
-                s[k] = v
-              }
-              return client.call('db:set', s)
+              // Check this logic
+              // console.log(v)
+              // const s: any = { $id: item.id }
+              // console.log(s)
+              // if (Array.isArray(k)) {
+              //   let t = s
+              //   for (let i = 0; i < k.length; i++) {
+              //     if (i === k.length - 1) {
+              //       t[k[i]] = v
+              //     } else if (!t[k[i]]) {
+              //       t = t[k[i]] = {}
+              //     }
+              //   }
+              // } else {
+              //   console.log('reach this', v)
+              //   s[k] = v
+              // }
+              // return client.call('db:set', s)
             }
           : null
       }
