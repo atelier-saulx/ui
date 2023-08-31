@@ -787,6 +787,25 @@
       "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n}",
       "file": "/components/Input/FileInput.tsx"
     },
+    "MarkdownInputProps": {
+      "name": "MarkdownInputProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type MarkdownInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n}",
+      "file": "/components/Input/MarkdownInput.tsx"
+    },
     "NumberInputOwnProps": {
       "name": "NumberInputOwnProps",
       "props": {
@@ -827,12 +846,8 @@
         },
         "value": {
           "type": [
-            {
-              "array": "SelectInputOption"
-            },
-            {
-              "array": "null"
-            }
+            "string",
+            "null"
           ]
         },
         "onChange": {
@@ -851,7 +866,7 @@
           "type": "string"
         }
       },
-      "code": "type SelectInputProps = {\n  options: SelectInputOption[]\n  value: SelectInputOption[] | null[]\n  onChange?: (newValue: string) => void\n  beforeIcon?: React.ReactNode\n  disabled?: boolean\n  placeholder?: string\n}",
+      "code": "type SelectInputProps = {\n  options: SelectInputOption[]\n  value: string | null\n  onChange?: (newValue: string) => void\n  beforeIcon?: React.ReactNode\n  disabled?: boolean\n  placeholder?: string\n}",
       "file": "/components/Input/SelectInput.tsx"
     },
     "TextInputOwnProps": {
@@ -1028,6 +1043,43 @@
       "code": "type ModalProps = {\n  style?: Style\n  children?: ReactNode\n}",
       "file": "/components/Modal/index.tsx"
     },
+    "MultiSelectInputProps": {
+      "name": "MultiSelectInputProps",
+      "props": {
+        "options": {
+          "type": {
+            "array": "SelectInputOption"
+          }
+        },
+        "value": {
+          "type": [
+            {
+              "array": "SelectInputOption"
+            },
+            {
+              "array": "null"
+            }
+          ]
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "beforeIcon": {
+          "optional": true
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type MultiSelectInputProps = {\n  options: SelectInputOption[]\n  value: SelectInputOption[] | null[]\n  onChange?: (newValue: string) => void\n  beforeIcon?: React.ReactNode\n  disabled?: boolean\n  placeholder?: string\n}",
+      "file": "/components/MultiSelect/index.tsx"
+    },
     "PositionProps": {
       "name": "PositionProps",
       "props": {
@@ -1122,6 +1174,25 @@
       },
       "code": "type OverlayProps<P = any> = {\n  Component: ComponentType<P>\n  props: P\n  target: Target\n  positionProps: PositionProps\n  style?: CSSProperties\n}",
       "file": "/components/Overlay/index.tsx"
+    },
+    "ConditionalProps": {
+      "name": "ConditionalProps",
+      "props": {},
+      "code": "type ConditionalProps =\n  | {\n      value?: boolean\n      options?: never\n      onChange?: () => void | Dispatch<SetStateAction<Boolean>>\n    }\n  | {\n      options?: PillOption[]\n      value?: PillOption\n      onChange?: (e) => void\n    }",
+      "file": "/components/Pill/index.tsx"
+    },
+    "PillProps": {
+      "name": "PillProps",
+      "props": {
+        "style": {
+          "type": "Style"
+        },
+        "string": {
+          "type": "string"
+        }
+      },
+      "code": "type PillProps = {\n  style: Style\n  string: string\n}",
+      "file": "/components/Pill/index.tsx"
     },
     "ControlsProps": {
       "name": "ControlsProps",
@@ -1463,6 +1534,19 @@
       },
       "code": "type StatusProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  ghost?: boolean\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
       "file": "/components/Status/index.tsx"
+    },
+    "SelectedRowOptionsProps": {
+      "name": "SelectedRowOptionsProps",
+      "props": {
+        "clearAllRows": {
+          "type": "function"
+        },
+        "selectedRowsLength": {
+          "type": "number"
+        }
+      },
+      "code": "type SelectedRowOptionsProps = {\n  clearAllRows: () => void\n  selectedRowsLength: number\n}",
+      "file": "/components/Table/SelectedRowOptions.tsx"
     },
     "TableHeaderTypesProps": {
       "name": "TableHeaderTypesProps",
