@@ -78,7 +78,7 @@ export const Counter: FC<CounterProps> = ({
         ...style,
       }}
     >
-      <Text style={{ color: 'inherit' }} weight="strong">
+      <Text style={{ color: 'inherit' }} weight="strong" size={12}>
         {children}
       </Text>
     </Center>

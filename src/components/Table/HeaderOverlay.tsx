@@ -1,34 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled, Checkbox, color, IconDragDropHorizontal } from '../..'
 
-export const HeaderOverlay = ({
-  headers,
-  setFilteredHeaders,
-  setHeaders,
-  selectable,
-}) => {
+export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
   // console.log('headers?? ', headers)
 
   const [dragStartItem, setDragStartItem] = useState<Number>()
   const [dropItem, setDropItem] = useState<Number>()
   const [draggedOverItem, setDraggedOverItem] = useState('')
   const [dragging, setDragging] = useState(false)
+  const [half, setHalf] = useState('')
 
   const reOrderTheHeadersArr = (startItemIdx, newPlaceIdx) => {
     const theStartItem = headers[startItemIdx]
 
-    console.log('🐸', theStartItem)
+    // console.log('🐸', theStartItem)
 
+    half === 'lowerhalf' ? newPlaceIdx + 1 : null
     // remove 1 item
     headers.splice(startItemIdx, 1)
-    console.log('oh god put it back! at -->', newPlaceIdx)
+    // console.log('oh god put it back! at -->', newPlaceIdx)
     // add back item
     headers.splice(newPlaceIdx, 0, theStartItem)
 
     setHeaders([...headers])
     setFilteredHeaders(headers.filter((item) => item.meta.visible))
-    console.log('And the ARR?? 👘 👒 🥼', headers)
+    // console.log('And the ARR?? 👘 👒 🥼', headers)
   }
+
+  // useEffect(() => {
+  //   console.log('half ', half)
+  // }, [half])
 
   return (
     <styled.div
@@ -52,8 +53,13 @@ export const HeaderOverlay = ({
               opacity: dragStartItem === idx ? 0.4 : 1,
               padding: '8px 12px',
               boxSizing: 'border-box',
+              backgroundColor: color('background', 'default', 'surface'),
               borderTop:
-                draggedOverItem === item.key
+                draggedOverItem === item.key && half === 'upperhalf'
+                  ? `3px solid ${color('action', 'primary', 'normal')}`
+                  : '',
+              borderBottom:
+                draggedOverItem === item.key && half === 'lowerhalf'
                   ? `3px solid ${color('action', 'primary', 'normal')}`
                   : '',
             }}
@@ -63,10 +69,15 @@ export const HeaderOverlay = ({
               setDragging(true)
             }}
             onDragOver={(e) => {
+              e.nativeEvent.offsetY < 16
+                ? setHalf('upperhalf')
+                : setHalf('lowerhalf')
+
               e.stopPropagation()
               e.preventDefault()
               setDraggedOverItem(item.key)
-              //   console.log('drag over', item.key)
+
+              // console.log('drag over', item.key)
             }}
             onDrop={(e) => {
               setDropItem(idx)
@@ -75,8 +86,8 @@ export const HeaderOverlay = ({
             onDragEnd={() => {
               setDragging(false)
 
-              console.log(' 🩸START ITEM -->', dragStartItem)
-              console.log(' 🐛drop item --> ', dropItem)
+              // console.log(' 🩸START ITEM -->', dragStartItem)
+              // console.log(' 🐛drop item --> ', dropItem)
               //   console.log('🌡DRopped on -->', draggedOverItem)
 
               // now adjust the Array
@@ -89,7 +100,6 @@ export const HeaderOverlay = ({
             }}
             draggable
           >
-            {idx}
             <IconDragDropHorizontal style={{ marginRight: 10 }} />
             <Checkbox
               value={item.meta.visible}
@@ -97,8 +107,7 @@ export const HeaderOverlay = ({
               label={item.label}
               onClick={() => {
                 item.meta.visible = !item.meta.visible
-
-                console.log(headers, '???')
+                // console.log(headers, '???')
                 setFilteredHeaders(headers.filter((item) => item.meta.visible))
               }}
             />

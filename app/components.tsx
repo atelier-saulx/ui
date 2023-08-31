@@ -235,7 +235,7 @@ export const components: ComponentDef[] = [
     component: Counter,
     examples: [
       {
-        props: { color: 'brand', children: 32, light: true },
+        props: { color: 'informative', children: 24 },
       },
     ],
   },

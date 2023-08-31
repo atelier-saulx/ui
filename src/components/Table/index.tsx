@@ -118,7 +118,7 @@ export const Table: FC<TableProps> = (props) => {
 
   const openHeaderOverlay = useOverlay(
     HeaderOverlay,
-    { headers, setFilteredHeaders, setHeaders, selectable },
+    { headers, setFilteredHeaders, setHeaders },
     { width: '100%', position: 'bottom' },
     undefined,
     undefined,
