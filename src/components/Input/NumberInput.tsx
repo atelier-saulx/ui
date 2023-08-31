@@ -6,7 +6,6 @@ import {
   Badge,
   IconClose,
   IconSmallArrowheadDownSmall,
-  useHover,
 } from '../..'
 
 // @ts-ignore
@@ -35,7 +34,6 @@ export const NumberInput: FC<NumberInputProps> = ({
 }) => {
   const [isEmpty, setIsEmpty] = useState(!(props.value || props.defaultValue))
   const [value, setValue] = useState((props.value || props.defaultValue) ?? '')
-
 
   return (
     <styled.div
@@ -106,7 +104,7 @@ export const NumberInput: FC<NumberInputProps> = ({
         }}
         {...props}
       />
-   <styled.div>
+      <styled.div>
         <styled.div
           style={{
             alignItems: 'center',

@@ -115,7 +115,7 @@ export const Header: FC<{
     total += w
   }
 
-  console.log('💷', children)
+  // console.log('💷', children)
 
   return (
     <styled.div

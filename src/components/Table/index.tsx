@@ -51,7 +51,6 @@ export const Table: FC<TableProps> = (props) => {
     rowHeight = 60,
     height = itemCount < 20 ? data.length * rowHeight + 40 : 200,
     selectable,
-    headers,
   } = props
 
   const [sortKey, setSortKey] = useState({
@@ -67,7 +66,14 @@ export const Table: FC<TableProps> = (props) => {
 
   // if selectable is true, the first columns of data should be checkboxes
   const [renderCounter, setRenderCounter] = useState(1)
+
   const [selectedRows, setSelectedRows] = useState([])
+
+  const [headers, setHeaders] = useState(props.headers)
+
+  useEffect(() => {
+    console.log('HEADERS CHANGED??')
+  }, [headers])
 
   // check all object if meta selected is true
   const testRow = newData.filter((item, idx) => item?.meta?.selected)
@@ -116,16 +122,16 @@ export const Table: FC<TableProps> = (props) => {
 
   const openHeaderOverlay = useOverlay(
     HeaderOverlay,
-    { headers, setFilteredHeaders },
+    { headers, setFilteredHeaders, setHeaders },
     { width: '100%', position: 'bottom' },
     undefined,
     undefined,
     { style: { scrollbarGutter: 'auto', border: 'none', boxShadow: 'none' } }
   )
 
-  console.log('✅', props)
-  console.log('💚', newData)
-  console.log('filtered headers??? ', filteredHeaders)
+  // console.log('✅', props)
+  // console.log('💚', newData)
+  // console.log('filtered headers??? ', filteredHeaders)
 
   return (
     <>
@@ -151,7 +157,7 @@ export const Table: FC<TableProps> = (props) => {
           style={{
             position: 'absolute',
             right: 12,
-            top: 6,
+            top: selectedRows.length > 0 ? 74 : 6,
             padding: 3,
             zIndex: 1,
           }}

@@ -8,6 +8,7 @@ import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
+import { Input } from '../src'
 
 export const client = based(basedConfig)
 

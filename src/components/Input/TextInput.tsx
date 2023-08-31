@@ -1,5 +1,10 @@
-import React, { useState, useRef, useImperativeHandle } from 'react'
-import { Style, styled, color, Badge, IconClose } from '../..'
+import React, {
+  useState,
+  useRef,
+  useImperativeHandle,
+  useCallback,
+} from 'react'
+import { Style, styled, color, Badge, IconClose, usePropState } from '../..'
 
 //@ts-ignore
 import { BadgeProps } from '../types'
@@ -11,8 +16,10 @@ export type TextInputOwnProps = {
   afterIcon?: React.ReactNode
   style?: Style
   clearButton?: boolean
+  onChange?: OnChange
 }
 
+type OnChange = (value: number | string) => void
 // TODO controlled vs uncontrrolled?
 
 export type TextInputProps = TextInputOwnProps &
@@ -25,10 +32,22 @@ export function TextInput({
   afterIcon,
   style,
   clearButton,
+  onChange: onChangeProp,
   ...props
 }: TextInputProps) {
   const [isEmpty, setIsEmpty] = useState(!(props.value || props.defaultValue))
-  const [value, setValue] = useState((props.value || props.defaultValue) ?? '')
+  const [value, setValue] = usePropState(
+    (props.value || props.defaultValue) ?? ''
+  )
+
+  const onChange = useCallback(
+    (e: { target: { value: string } }) => {
+      const newVal = e.target.value
+      setValue(newVal)
+      onChangeProp?.(newVal)
+    },
+    [onChangeProp]
+  )
 
   return (
     <styled.div
@@ -73,9 +92,9 @@ export function TextInput({
       <styled.input
         value={value}
         onChange={(e) => {
-          setIsEmpty(e.target.value === '')
+          // setIsEmpty(e.target.value === '')
           setValue(e.target.value)
-          props?.onChange?.(e)
+          onChangeProp?.(e)
         }}
         style={{
           width: '100%',

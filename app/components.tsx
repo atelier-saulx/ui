@@ -661,7 +661,7 @@ export const components: ComponentDef[] = [
       {
         props: {
           headers: [
-            { key: 'title', label: 'Title' },
+            { key: 'title', label: 'Title', type: 'string', editable: true },
             {
               key: 'author',
               label: 'Author',
@@ -670,7 +670,12 @@ export const components: ComponentDef[] = [
             },
             { key: 'cover', label: 'Cover', type: 'img' },
             { key: 'number', label: 'Number', type: 'id' },
-            { key: 'boolie', label: 'Boolean', type: 'boolean' },
+            {
+              key: 'boolie',
+              label: 'Boolean',
+              type: 'boolean',
+              editable: true,
+            },
             {
               key: 'time',
               label: 'Time',
@@ -680,8 +685,8 @@ export const components: ComponentDef[] = [
           ],
           data: [
             {
-              title: 'AAA',
-              author: 'CCCC',
+              title: 'Adventures',
+              author: 'Cici Top',
               cover:
                 'https://img.parool.nl/aab6c754847bb34777c45ab7592473abca9b12ea/jip-en-janneke-voor-hema-niet-meer-heilig',
               number: 243545,
@@ -689,8 +694,8 @@ export const components: ComponentDef[] = [
               time: 32454645454,
             },
             {
-              title: 'CCC',
-              author: 'BBBB',
+              title: 'Crazy stories',
+              author: 'Bernard Smit',
               cover:
                 'https://www.manners.nl/wp-content/uploads/2023/03/harry-potter.png',
               number: 5345432,
@@ -698,16 +703,16 @@ export const components: ComponentDef[] = [
               time: 1113241133333,
             },
             {
-              title: 'DDD',
-              author: 'AAAA',
+              title: 'Double Dragon',
+              author: 'Arnold Arm',
               cover:
                 'https://64.media.tumblr.com/ee50e3ad64c22072c845097b2fe728e2/ad8bfb7892283c6d-0a/s1280x1920/14c9a1d48c9b8499e5107476bfd68e97fd05e823.png',
               number: 53445432,
               boolie: false,
             },
             {
-              title: 'BBB',
-              author: 'DDDD',
+              title: 'Batman',
+              author: 'Del Boy',
               cover:
                 'https://i1.sndcdn.com/artworks-H999wKziGSquPTzr-Xy5zjA-t500x500.jpg',
               number: 11222111,
@@ -764,6 +769,12 @@ export const components: ComponentDef[] = [
           weight: 'medium',
         },
       },
+      {
+        props: {
+          children: 'Light text, for descriptions.',
+          light: true,
+        },
+      },
     ],
   },
 
@@ -780,7 +791,8 @@ export const components: ComponentDef[] = [
           beforeIcon: () => <IconBolt />,
           type: 'text',
           clearButton: 'true',
-          suffix: 'flap',
+          //   suffix: 'flap',
+          onChange: (e) => console.log(e.target.value),
         },
       },
     ],

@@ -29,6 +29,7 @@ export const Cell = (props) => {
 
   const onClick = header.onClick ?? props.data.onClick
   const type = header.type
+  const editable = header.editable
 
   // Array.isArray(itemData) && console.log('itemDATA??', itemData)
 
@@ -49,6 +50,7 @@ export const Cell = (props) => {
       key={key}
       renderCounter={data.renderCounter}
       setRenderCounter={data.setRenderCounter}
+      editable={editable}
     />
   ) : (
     <Text weight="medium">
