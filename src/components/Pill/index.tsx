@@ -4,6 +4,7 @@ import React, {
   FunctionComponent,
   ReactNode,
   SetStateAction,
+  useEffect,
   useState,
 } from 'react'
 import {
@@ -25,7 +26,6 @@ type Common = {
   prefix?: string
   label?: string
   icon?: FunctionComponent<any> | ReactNode
-  filled?: boolean
 }
 
 type ConditionalProps =
@@ -51,21 +51,21 @@ export const Pill: FC<PillPropss> = ({
   value,
   icon,
   options,
-  filled,
   onChange,
 }) => {
   const [thisValue, setThisValue] = useState<any>(value)
   const [open, setOpen] = useState<boolean>(false)
-
-  const handleChange = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (typeof value === 'boolean') {
-      onChange?.()
+  const [filled, setFilled] = useState(false)
+  useEffect(() => {
+    if (typeof value === 'boolean' && value) {
+      setFilled(true)
+    } else if (typeof thisValue === 'object') {
+      setFilled(true)
     } else {
-      onChange?.(e)
+      setFilled(false)
     }
-  }
+  }, [thisValue])
+
   const colorStyle = {
     backgroundColor: filled
       ? genColor('background', 'default', 'strong')
@@ -98,6 +98,7 @@ export const Pill: FC<PillPropss> = ({
       }}
     >
       <styled.div
+        //@ts-ignore
         onClick={typeof value === 'boolean' ? () => onChange?.(!value) : null}
         style={{
           display: 'inline-flex',
@@ -106,7 +107,8 @@ export const Pill: FC<PillPropss> = ({
           width: 'fit-content',
           gap: '8px',
           borderRadius: '4px',
-          border: !filled ? '0px solid' : '1px solid',
+          borderStyle: 'solid',
+          borderWidth: !filled ? '0px' : '1px',
           borderColor: genColor('inputBorder', 'neutralNormal', 'default'),
           ...colorStyle,
         }}
@@ -127,7 +129,7 @@ export const Pill: FC<PillPropss> = ({
           <IconClose
             onClick={() => {
               setOpen(false)
-              setThisValue(null)
+              setThisValue(false)
             }}
           />
         ) : (
