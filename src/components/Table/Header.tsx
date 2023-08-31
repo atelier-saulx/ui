@@ -85,12 +85,7 @@ export const Header: FC<{
             )}
             <Text
               weight={header.key === sortKey.key ? 'strong' : 'medium'}
-              style={{
-                color:
-                  header.key === sortKey.key
-                    ? color('content', 'brand', 'primary')
-                    : color('content', 'default', 'secondary'),
-              }}
+              light={header.key === sortKey.key ? false : true}
             >
               {header.label ?? header.key}
             </Text>

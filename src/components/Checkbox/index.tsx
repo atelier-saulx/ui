@@ -123,9 +123,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           <Text size={14} weight="medium">
             {label}
           </Text>
-          <Text style={{ color: genColor('content', 'default', 'secondary') }}>
-            {description}
-          </Text>
+          <Text light>{description}</Text>
         </styled.div>
       )}
     </styled.div>

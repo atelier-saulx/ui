@@ -79,10 +79,10 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
               <Text
                 size={16}
                 weight="strong"
+                light
                 style={{
                   marginLeft: 12,
                   marginRight: 12,
-                  color: color('content', 'default', 'secondary'),
                 }}
               >
                 /
@@ -96,11 +96,11 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
             </Text>
             <Text
               size={16}
+              light
               weight="strong"
               style={{
                 marginLeft: 12,
                 marginRight: 12,
-                color: color('content', 'default', 'secondary'),
               }}
             >
               /
