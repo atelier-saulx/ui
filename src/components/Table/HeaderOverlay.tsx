@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { styled, Checkbox, color, IconDragDropHorizontal } from '../..'
 
-export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
+export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
   console.log('headers?? ', headers)
-
-  const [headersCopy, setHeadersCopy] = useState([...headers])
 
   const [dragStartItem, setDragStartItem] = useState<Number>()
   const [dropItem, setDropItem] = useState<Number>()
@@ -13,19 +11,21 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
 
   const reOrderTheHeadersArr = (startItemIdx, newPlaceIdx, Arr) => {
     const littleArrCopy = [...Arr]
-    const theStartItem = Arr[startItemIdx]
+    const theStartItem = headers[startItemIdx]
 
     console.log('🐸', theStartItem)
     console.log('oh god put it back! at -->', newPlaceIdx)
 
     // remove 1 item
-    littleArrCopy.splice(startItemIdx, 1)
+    headers.splice(startItemIdx, 1)
 
     // add back item
-    littleArrCopy.splice(newPlaceIdx - 1, 0, theStartItem)
+    headers.splice(newPlaceIdx - 1, 0, theStartItem)
 
-    setHeadersCopy([...littleArrCopy])
-    console.log('And the ARR??', littleArrCopy)
+    setHeaders([...headers])
+    setFilteredHeaders(headers.filter((item) => item.meta.visible))
+
+    console.log('And the ARR?? 👘 👒 🥼', headers)
   }
 
   return (
@@ -40,7 +40,7 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
         minWidth: 216,
       }}
     >
-      {headersCopy.map((item, idx) =>
+      {headers.map((item, idx) =>
         item.key !== 'selected' ? (
           <styled.div
             key={idx}
@@ -92,10 +92,8 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
               onClick={() => {
                 item.meta.visible = !item.meta.visible
 
-                console.log(headersCopy, '???')
-                setFilteredHeaders(
-                  headersCopy.filter((item) => item.meta.visible)
-                )
+                console.log(headers, '???')
+                setFilteredHeaders(headers.filter((item) => item.meta.visible))
               }}
             />
           </styled.div>
