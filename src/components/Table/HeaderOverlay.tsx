@@ -1,11 +1,5 @@
-import React, { useState, useRef } from 'react'
-import {
-  styled,
-  Checkbox,
-  color,
-  IconDragDropHorizontal,
-  useHover,
-} from '../..'
+import React, { useState } from 'react'
+import { styled, Checkbox, color, IconDragDropHorizontal } from '../..'
 
 export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
   console.log('headers?? ', headers)
@@ -13,10 +7,9 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
   const headersCopy = [...headers]
 
   const [dragStartItem, setDragStartItem] = useState('')
+  const [dropItem, setDropItem] = useState('')
   const [draggedOverItem, setDraggedOverItem] = useState('')
   const [dragging, setDragging] = useState(false)
-
-  const { listener, hover } = useHover()
 
   return (
     <styled.div
@@ -29,22 +22,11 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
         padding: 8,
         minWidth: 216,
       }}
-      onDragLeave={(e) => {
-        e.preventDefault()
-        setDraggedOverItem('')
-        console.log('Elvis left the building 🫄🏻')
-      }}
-      onMouseOver={() => console.log('🐭')}
-      {...listener}
     >
-      <div style={{ border: '1px solid red' }}>
-        {dragging ? 'DRAGGING' : 'NOT'}
-        {hover ? 'HOvering' : 'not '}
-        {/* {'start item --> ' + dragStartItem} */}
-      </div>
       {headersCopy.map((item, idx) =>
         item.key !== 'selected' ? (
           <styled.div
+            key={idx}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -54,22 +36,33 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
                 draggedOverItem === item.key ? 'yellow' : 'white',
             }}
             onDragStart={(e) => {
-              //  console.log('start dragging', item.key)
+              console.log('start Item', item.key, idx)
               setDragStartItem(item.key)
               setDragging(true)
             }}
             onDragOver={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
               setDraggedOverItem(item.key)
               console.log('drag over', item.key)
             }}
-            onDragEnd={(e) => {
-              setDragging(false)
-              console.log(e)
-              console.log(' 🩸START ITEM -->', dragStartItem)
-              console.log('🌡DRopped on -->', draggedOverItem)
+            onDrop={(e) => {
+              setDropItem(item.key)
+              console.log('DRopped IN ', item.key, idx)
             }}
-            onDragExit={() => {
-              console.log('BREXIT ☎️')
+            onDragEnd={() => {
+              setDragging(false)
+              console.log()
+              console.log(' 🩸START ITEM -->', dragStartItem)
+              console.log(' 🐛drop item --> ', dropItem)
+              //   console.log('🌡DRopped on -->', draggedOverItem)
+
+              // now adjust the Array
+
+              // clear these again
+              setDragStartItem('')
+              setDraggedOverItem('')
+              setDropItem('')
             }}
             draggable
           >
