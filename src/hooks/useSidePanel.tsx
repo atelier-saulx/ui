@@ -13,15 +13,7 @@ import {
 
 export const useSidePanel = (
   children: ReactNode | ReactNode[],
-  position:
-    | 'top'
-    | 'top-right'
-    | 'top-left'
-    | 'bottom'
-    | 'bottom-right'
-    | 'bottom-left'
-    | 'left'
-    | 'right' = 'bottom',
+  position: 'left' | 'right',
   style?: Style,
   title?: string,
   cancel: { onClick: () => void; label: string } = {
@@ -39,7 +31,7 @@ export const useSidePanel = (
         style={{
           height: '100%',
           maxHeight: 'calc(100vh - 48px)',
-          width: '400px',
+          width: '902px',
           backgroundColor: genColor('standalone', 'modal', 'default'),
           borderRadius: '12px',
           marginLeft: position === 'left' ? 0 : 'auto',

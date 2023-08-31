@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { styled } from '../../'
+import { Button, styled } from '../../'
 import { useSidePanel } from '../../hooks/useSidePanel'
 
 export const SidePanel = () => {
@@ -11,15 +11,11 @@ export const SidePanel = () => {
     >
       asdfasdf
     </styled.div>,
-    'left',
+    'right',
     { textTransform: 'uppercase' },
     'Title asdasdasd',
     { onClick: () => console.log('ligma'), label: 'asdasd' }
   )
-
-  return (
-    <styled.div onClick={open} style={{ backgroundColor: 'yellow' }}>
-      flap flip
-    </styled.div>
-  )
+  //@ts-ignore
+  return <Button onClick={open}>Open SidePanel</Button>
 }

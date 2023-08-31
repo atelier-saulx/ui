@@ -64,6 +64,7 @@ export const Pill: FC<PillPropss> = ({
     } else {
       setFilled(false)
     }
+    console.log(filled)
   }, [thisValue])
 
   const colorStyle = {
@@ -103,13 +104,14 @@ export const Pill: FC<PillPropss> = ({
         style={{
           display: 'inline-flex',
           alignItems: 'center',
-          padding: '4px 8px',
+          padding: !filled ? '4px 8px' : '3px 7px',
           width: 'fit-content',
           gap: '8px',
           borderRadius: '4px',
           borderStyle: 'solid',
           borderWidth: !filled ? '0px' : '1px',
           borderColor: genColor('inputBorder', 'neutralNormal', 'default'),
+          boxSizing: 'border-box',
           ...colorStyle,
         }}
       >
@@ -140,12 +142,20 @@ export const Pill: FC<PillPropss> = ({
         <styled.div
           style={{
             position: 'absolute',
-            top: 40,
-            display: 'flex',
-            flexDirection: 'column',
             left: 0,
-            width: '100%',
-            gap: 4,
+            right: 0,
+            top: 48,
+            background: genColor('background', 'default', 'surface'),
+            border: `1px solid ${genColor(
+              'inputBorder',
+              'neutralNormal',
+              'default'
+            )}`,
+            borderRadius: 8,
+            padding: 8,
+            '& > * + *': {
+              marginTop: '2px',
+            },
           }}
         >
           {options?.map((option, index) => (
@@ -157,7 +167,27 @@ export const Pill: FC<PillPropss> = ({
               }}
               key={option.value + index}
               color="default"
-              style={{ padding: '4px', ...colorStyle }}
+              style={{
+                position: 'relative',
+                userSelect: 'none',
+                cursor: 'pointer',
+                height: 32,
+                background:
+                  // index === focus
+                  // ? color('action', 'system', 'hover')
+                  genColor('background', 'default', 'surface'),
+                display: 'flex',
+                justifyContent: 'start',
+                alignItems: 'center',
+                padding: '0 12px 0 42px',
+                borderRadius: 8,
+                '&:hover': {
+                  background: genColor('action', 'system', 'hover'),
+                },
+                '&:active': {
+                  background: genColor('action', 'system', 'active'),
+                },
+              }}
             >
               {option.label}
             </Text>

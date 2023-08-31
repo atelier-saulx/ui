@@ -34,6 +34,8 @@ import {
   Pill,
   Toast,
   Toggle,
+  Popover,
+  SidePanel,
 } from '../src'
 import * as ui from '../src'
 import props from './props.json'
@@ -596,6 +598,13 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Popover',
+    component: Popover,
+    description: 'PopoverTest',
+    properties: props.props.PillProps.props,
+    examples: [{}],
+  },
+  {
     name: 'ScrollArea',
     component: ScrollArea,
     description: '',
@@ -611,6 +620,13 @@ export const components: ComponentDef[] = [
         },
       },
     ],
+  },
+  {
+    name: 'SidePanel',
+    component: SidePanel,
+    description: 'SidePaneltest',
+    properties: props.props.PillProps.props,
+    examples: [{}],
   },
   {
     name: 'Slider',
