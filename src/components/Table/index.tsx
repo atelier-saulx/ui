@@ -71,10 +71,6 @@ export const Table: FC<TableProps> = (props) => {
 
   const [headers, setHeaders] = useState(props.headers)
 
-  useEffect(() => {
-    console.log('HEADERS CHANGED??')
-  }, [headers])
-
   // check all object if meta selected is true
   const testRow = newData.filter((item, idx) => item?.meta?.selected)
   useEffect(() => {
@@ -122,12 +118,17 @@ export const Table: FC<TableProps> = (props) => {
 
   const openHeaderOverlay = useOverlay(
     HeaderOverlay,
-    { headers, setFilteredHeaders, setHeaders },
+    { headers, setFilteredHeaders, setHeaders, selectable },
     { width: '100%', position: 'bottom' },
     undefined,
     undefined,
     { style: { scrollbarGutter: 'auto', border: 'none', boxShadow: 'none' } }
   )
+
+  useEffect(() => {
+    console.log('Filtered HEADERS CHANGED??')
+    setRenderCounter(renderCounter + 1)
+  }, [filteredHeaders])
 
   // console.log('✅', props)
   // console.log('💚', newData)

@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import { styled, Checkbox, color, IconDragDropHorizontal } from '../..'
 
-export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
+export const HeaderOverlay = ({
+  headers,
+  setFilteredHeaders,
+  setHeaders,
+  selectable,
+}) => {
   // console.log('headers?? ', headers)
 
   const [dragStartItem, setDragStartItem] = useState<Number>()
@@ -18,7 +23,7 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
     headers.splice(startItemIdx, 1)
     console.log('oh god put it back! at -->', newPlaceIdx)
     // add back item
-    headers.splice(newPlaceIdx - 1, 0, theStartItem)
+    headers.splice(newPlaceIdx, 0, theStartItem)
 
     setHeaders([...headers])
     setFilteredHeaders(headers.filter((item) => item.meta.visible))
@@ -84,6 +89,7 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
             }}
             draggable
           >
+            {idx}
             <IconDragDropHorizontal style={{ marginRight: 10 }} />
             <Checkbox
               value={item.meta.visible}

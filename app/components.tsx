@@ -666,7 +666,7 @@ export const components: ComponentDef[] = [
               key: 'author',
               label: 'Author',
               type: 'author',
-              meta: { visible: false },
+              meta: { visible: true },
             },
             { key: 'cover', label: 'Cover', type: 'img' },
             { key: 'number', label: 'Number', type: 'id' },
