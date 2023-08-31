@@ -129,9 +129,9 @@ export const Table: FC<TableProps> = (props) => {
     { style: { scrollbarGutter: 'auto', border: 'none', boxShadow: 'none' } }
   )
 
-  console.log('✅', props)
-  console.log('💚', newData)
-  console.log('filtered headers??? ', filteredHeaders)
+  // console.log('✅', props)
+  // console.log('💚', newData)
+  // console.log('filtered headers??? ', filteredHeaders)
 
   return (
     <>

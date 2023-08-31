@@ -2,29 +2,26 @@ import React, { useState } from 'react'
 import { styled, Checkbox, color, IconDragDropHorizontal } from '../..'
 
 export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
-  console.log('headers?? ', headers)
+  // console.log('headers?? ', headers)
 
   const [dragStartItem, setDragStartItem] = useState<Number>()
   const [dropItem, setDropItem] = useState<Number>()
   const [draggedOverItem, setDraggedOverItem] = useState('')
   const [dragging, setDragging] = useState(false)
 
-  const reOrderTheHeadersArr = (startItemIdx, newPlaceIdx, Arr) => {
-    const littleArrCopy = [...Arr]
+  const reOrderTheHeadersArr = (startItemIdx, newPlaceIdx) => {
     const theStartItem = headers[startItemIdx]
 
     console.log('🐸', theStartItem)
-    console.log('oh god put it back! at -->', newPlaceIdx)
 
     // remove 1 item
     headers.splice(startItemIdx, 1)
-
+    console.log('oh god put it back! at -->', newPlaceIdx)
     // add back item
     headers.splice(newPlaceIdx - 1, 0, theStartItem)
 
     setHeaders([...headers])
     setFilteredHeaders(headers.filter((item) => item.meta.visible))
-
     console.log('And the ARR?? 👘 👒 🥼', headers)
   }
 
@@ -37,7 +34,7 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
         boxShadow:
           '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
         padding: 8,
-        minWidth: 216,
+        width: 216,
       }}
     >
       {headers.map((item, idx) =>
@@ -47,10 +44,13 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              padding: 4,
+              opacity: dragStartItem === idx ? 0.4 : 1,
+              padding: '8px 12px',
               boxSizing: 'border-box',
-              backgroundColor:
-                draggedOverItem === item.key ? 'yellow' : 'white',
+              borderTop:
+                draggedOverItem === item.key
+                  ? `3px solid ${color('action', 'primary', 'normal')}`
+                  : '',
             }}
             onDragStart={(e) => {
               console.log('start Item', item.key, idx)
@@ -75,7 +75,7 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
               //   console.log('🌡DRopped on -->', draggedOverItem)
 
               // now adjust the Array
-              reOrderTheHeadersArr(dragStartItem, dropItem, headers)
+              reOrderTheHeadersArr(dragStartItem, dropItem)
 
               // clear these again
               setDragStartItem(undefined)
@@ -84,7 +84,7 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
             }}
             draggable
           >
-            <IconDragDropHorizontal />
+            <IconDragDropHorizontal style={{ marginRight: 10 }} />
             <Checkbox
               value={item.meta.visible}
               key={item.key}

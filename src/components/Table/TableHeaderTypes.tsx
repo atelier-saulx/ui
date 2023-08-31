@@ -4,20 +4,30 @@ import { prettyDate } from '@based/pretty-date'
 import {
   Avatar,
   Badge,
-  Text,
-  IconCheckLarge,
-  useCopyToClipboard,
-  Toggle,
   Checkbox,
+  IconCheckLarge,
+  Input,
+  Text,
+  Toggle,
+  useCopyToClipboard,
 } from '../..'
 
 type TableHeaderTypesProps = {
-  type: 'author' | 'boolean' | 'checkbox' | 'id' | 'img' | 'timestamp'
+  type:
+    | 'author'
+    | 'boolean'
+    | 'checkbox'
+    | 'id'
+    | 'img'
+    | 'number'
+    | 'string'
+    | 'timestamp'
   itemData: any
   rowData: {}
   key: any
   renderCounter: any
   setRenderCounter: any
+  editable?: boolean
 }
 
 const IdBadge: FC<{
@@ -43,12 +53,13 @@ const BooleanToggle: FC<{
   item: any
   k: string
   itemData: boolean
-}> = ({ item, k, itemData }) => {
+  disabled?: boolean
+}> = ({ item, k, itemData, disabled }) => {
   const client = useClient()
   return (
     <Toggle
       value={itemData}
-      //  disabled
+      disabled={disabled}
       onClick={
         item.id
           ? (v) => {
@@ -89,6 +100,48 @@ const CheckboxItem: FC<{
   )
 }
 
+const StringItem: FC<{
+  item: any
+  k: string
+  itemData: string
+  editable?: boolean
+}> = ({ item, k, itemData, editable }) => {
+  const client = useClient()
+
+  return !editable ? (
+    <Text weight="medium">{itemData}</Text>
+  ) : (
+    <Input
+      type="text"
+      defaultValue={itemData}
+      onChange={
+        item.id
+          ? (v) => {
+              console.log(v)
+              const s: any = { $id: item.id }
+
+              console.log(s)
+
+              if (Array.isArray(k)) {
+                let t = s
+                for (let i = 0; i < k.length; i++) {
+                  if (i === k.length - 1) {
+                    t[k[i]] = v
+                  } else if (!t[k[i]]) {
+                    t = t[k[i]] = {}
+                  }
+                }
+              } else {
+                s[k] = v
+              }
+              return client.call('db:set', s)
+            }
+          : null
+      }
+    />
+  )
+}
+
 export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   type,
   rowData,
@@ -96,6 +149,7 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   key,
   renderCounter,
   setRenderCounter,
+  editable,
 }) => {
   //   console.log(type)
   //   console.log('Row', rowData)
@@ -109,7 +163,12 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
       </Text>
     </>
   ) : type === 'boolean' ? (
-    <BooleanToggle item={rowData} itemData={itemData} k={key} />
+    <BooleanToggle
+      item={rowData}
+      itemData={itemData}
+      k={key}
+      disabled={!editable}
+    />
   ) : type === 'checkbox' ? (
     <CheckboxItem
       rowData={rowData}
@@ -120,6 +179,13 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
     <IdBadge>{itemData}</IdBadge>
   ) : type === 'img' ? (
     <Avatar imgsrc={itemData} squared size="large" />
+  ) : type === 'string' ? (
+    <StringItem
+      item={rowData}
+      itemData={itemData}
+      k={key}
+      editable={editable}
+    />
   ) : type === 'timestamp' ? (
     <Text>{prettyDate(itemData, 'date-time-human')}</Text>
   ) : (
