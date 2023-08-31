@@ -1,25 +1,12 @@
 import React, { FC, ReactNode } from 'react'
 import { TableHeader } from './types'
-import {
-  styled,
-  Style,
-  Checkbox,
-  IconSort,
-  Text,
-  color,
-  Button,
-  IconPlus,
-  useOverlay,
-} from '../..'
-import { HeaderOverlay } from './HeaderOverlay'
+import { styled, Checkbox, IconSort, Text, color } from '../..'
 
 export const Header: FC<{
   headerWidth: number
   width: number
   headers: TableHeader<any>[]
   filteredHeaders: TableHeader<any>[]
-  // setSortOptions: Dispatch<SetStateAction<SortOptions>>
-  // sortOptions: SortOptions
   outline: boolean
   // performance??
   sortKey: any
@@ -34,7 +21,6 @@ export const Header: FC<{
   headers,
   width,
   headerWidth,
-  outline,
   sortKey,
   setSortKey,
   clearAllRows,
@@ -99,12 +85,7 @@ export const Header: FC<{
             )}
             <Text
               weight={header.key === sortKey.key ? 'strong' : 'medium'}
-              style={{
-                color:
-                  header.key === sortKey.key
-                    ? color('content', 'brand', 'primary')
-                    : color('content', 'default', 'secondary'),
-              }}
+              light={header.key === sortKey.key ? false : true}
             >
               {header.label ?? header.key}
             </Text>

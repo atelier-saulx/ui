@@ -79,12 +79,7 @@ export const DropDownItem: FC<DropDownItemProps> = ({
             marginLeft: 'auto',
           }}
         >
-          <Text
-            size={12}
-            style={{
-              color: genColor('content', 'default', 'secondary'),
-            }}
-          >
+          <Text size={12} light>
             {caption}
           </Text>
           {data && <IconChevronRightSmall style={{ marginLeft: 10 }} />}

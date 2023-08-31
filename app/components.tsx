@@ -237,7 +237,7 @@ export const components: ComponentDef[] = [
     component: Counter,
     examples: [
       {
-        props: { color: 'brand', children: 32, light: true },
+        props: { color: 'informative', children: 24 },
       },
     ],
   },
@@ -682,7 +682,7 @@ export const components: ComponentDef[] = [
               key: 'author',
               label: 'Author',
               type: 'author',
-              meta: { visible: false },
+              meta: { visible: true },
             },
             { key: 'cover', label: 'Cover', type: 'img' },
             { key: 'number', label: 'Number', type: 'id' },

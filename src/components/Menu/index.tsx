@@ -34,11 +34,10 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
           weight="strong"
           color="default"
           size={12}
+          light
           style={{
             // marginBottom: 16,
             textTransform: 'uppercase',
-            color: color('content', 'default', 'secondary'),
-            ...style,
           }}
         >
           {children}

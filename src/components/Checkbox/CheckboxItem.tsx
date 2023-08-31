@@ -30,13 +30,7 @@ export const CheckboxItem: FC<CheckboxItemProps> = ({
         }}
       >
         <Text color="default">{label}</Text>
-        <Text
-          style={{
-            color: genColor('content', 'default', 'secondary'),
-          }}
-        >
-          {description}
-        </Text>
+        <Text light>{description}</Text>
       </styled.div>
     </styled.div>
   )

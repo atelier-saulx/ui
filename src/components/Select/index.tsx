@@ -96,14 +96,7 @@ export const Select: FC<SelectProps> = ({
           name={name}
         />
       )}
-      <Text
-        size={14}
-        style={{
-          color: labelValue
-            ? genColor('content', 'default', 'primary')
-            : genColor('content', 'default', 'secondary'),
-        }}
-      >
+      <Text size={14} light={labelValue ? false : true}>
         {labelValue || placeholder}
       </Text>
       {/* {currentValue && (
