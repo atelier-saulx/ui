@@ -4,12 +4,29 @@ import { styled, Checkbox, color, IconDragDropHorizontal } from '../..'
 export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
   console.log('headers?? ', headers)
 
-  const headersCopy = [...headers]
+  const [headersCopy, setHeadersCopy] = useState([...headers])
 
-  const [dragStartItem, setDragStartItem] = useState('')
-  const [dropItem, setDropItem] = useState('')
+  const [dragStartItem, setDragStartItem] = useState<Number>()
+  const [dropItem, setDropItem] = useState<Number>()
   const [draggedOverItem, setDraggedOverItem] = useState('')
   const [dragging, setDragging] = useState(false)
+
+  const reOrderTheHeadersArr = (startItemIdx, newPlaceIdx, Arr) => {
+    const littleArrCopy = [...Arr]
+    const theStartItem = Arr[startItemIdx]
+
+    console.log('🐸', theStartItem)
+    console.log('oh god put it back! at -->', newPlaceIdx)
+
+    // remove 1 item
+    littleArrCopy.splice(startItemIdx, 1)
+
+    // add back item
+    littleArrCopy.splice(newPlaceIdx - 1, 0, theStartItem)
+
+    setHeadersCopy([...littleArrCopy])
+    console.log('And the ARR??', littleArrCopy)
+  }
 
   return (
     <styled.div
@@ -37,32 +54,33 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
             }}
             onDragStart={(e) => {
               console.log('start Item', item.key, idx)
-              setDragStartItem(item.key)
+              setDragStartItem(idx)
               setDragging(true)
             }}
             onDragOver={(e) => {
               e.stopPropagation()
               e.preventDefault()
               setDraggedOverItem(item.key)
-              console.log('drag over', item.key)
+              //   console.log('drag over', item.key)
             }}
             onDrop={(e) => {
-              setDropItem(item.key)
+              setDropItem(idx)
               console.log('DRopped IN ', item.key, idx)
             }}
             onDragEnd={() => {
               setDragging(false)
-              console.log()
+
               console.log(' 🩸START ITEM -->', dragStartItem)
               console.log(' 🐛drop item --> ', dropItem)
               //   console.log('🌡DRopped on -->', draggedOverItem)
 
               // now adjust the Array
+              reOrderTheHeadersArr(dragStartItem, dropItem, headers)
 
               // clear these again
-              setDragStartItem('')
+              setDragStartItem(undefined)
               setDraggedOverItem('')
-              setDropItem('')
+              setDropItem(undefined)
             }}
             draggable
           >

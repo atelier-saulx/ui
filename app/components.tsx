@@ -715,7 +715,7 @@ export const components: ComponentDef[] = [
           ],
           width: 800,
           outline: true,
-          selectable: true,
+          //  selectable: true,
         },
       },
     ],
