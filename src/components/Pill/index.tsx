@@ -21,7 +21,7 @@ type PillOption = {
   value: string
 }
 
-interface Common {
+type Common = {
   prefix?: string
   label?: string
   icon?: FunctionComponent<any> | ReactNode
@@ -39,9 +39,13 @@ type ConditionalProps =
       value?: PillOption
       onChange?: (e) => void
     }
-type PillProps = Common & ConditionalProps
+export type PillPropss = Common & ConditionalProps
+export type PillProps = {
+  thisIs: Style
+  broken: string
+}
 
-export const PillWrapper = ({
+export const Pill: FC<PillPropss> = ({
   prefix,
   label,
   value,
@@ -49,7 +53,7 @@ export const PillWrapper = ({
   options,
   filled,
   onChange,
-}: PillProps) => {
+}) => {
   const [thisValue, setThisValue] = useState<any>(value)
   const [open, setOpen] = useState<boolean>(false)
 
