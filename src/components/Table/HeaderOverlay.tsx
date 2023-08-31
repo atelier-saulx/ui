@@ -1,5 +1,11 @@
 import React, { useState, useRef } from 'react'
-import { styled, Checkbox, color, IconDragDropHorizontal } from '../..'
+import {
+  styled,
+  Checkbox,
+  color,
+  IconDragDropHorizontal,
+  useHover,
+} from '../..'
 
 export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
   console.log('headers?? ', headers)
@@ -9,6 +15,8 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
   const [dragStartItem, setDragStartItem] = useState('')
   const [draggedOverItem, setDraggedOverItem] = useState('')
   const [dragging, setDragging] = useState(false)
+
+  const { listener, hover } = useHover()
 
   return (
     <styled.div
@@ -27,9 +35,11 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
         console.log('Elvis left the building 🫄🏻')
       }}
       onMouseOver={() => console.log('🐭')}
+      {...listener}
     >
       <div style={{ border: '1px solid red' }}>
         {dragging ? 'DRAGGING' : 'NOT'}
+        {hover ? 'HOvering' : 'not '}
         {/* {'start item --> ' + dragStartItem} */}
       </div>
       {headersCopy.map((item, idx) =>
