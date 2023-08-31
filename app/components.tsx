@@ -734,6 +734,12 @@ export const components: ComponentDef[] = [
           weight: 'medium',
         },
       },
+      {
+        props: {
+          children: 'Light text, for descriptions.',
+          light: true,
+        },
+      },
     ],
   },
 

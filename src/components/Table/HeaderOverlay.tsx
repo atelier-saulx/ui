@@ -1,12 +1,14 @@
-import React from 'react'
-import { styled, Checkbox, color } from '../..'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
+import React, { useState, useRef } from 'react'
+import { styled, Checkbox, color, IconDragDropHorizontal } from '../..'
 
 export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
   console.log('headers?? ', headers)
 
   const headersCopy = [...headers]
+
+  const [dragStartItem, setDragStartItem] = useState('')
+  const [draggedOverItem, setDraggedOverItem] = useState('')
+  const [dragging, setDragging] = useState(false)
 
   return (
     <styled.div
@@ -19,10 +21,49 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
         padding: 8,
         minWidth: 216,
       }}
+      onDragLeave={(e) => {
+        e.preventDefault()
+        setDraggedOverItem('')
+        console.log('Elvis left the building 🫄🏻')
+      }}
+      onMouseOver={() => console.log('🐭')}
     >
+      <div style={{ border: '1px solid red' }}>
+        {dragging ? 'DRAGGING' : 'NOT'}
+        {/* {'start item --> ' + dragStartItem} */}
+      </div>
       {headersCopy.map((item, idx) =>
         item.key !== 'selected' ? (
-          <>
+          <styled.div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: 4,
+              boxSizing: 'border-box',
+              backgroundColor:
+                draggedOverItem === item.key ? 'yellow' : 'white',
+            }}
+            onDragStart={(e) => {
+              //  console.log('start dragging', item.key)
+              setDragStartItem(item.key)
+              setDragging(true)
+            }}
+            onDragOver={(e) => {
+              setDraggedOverItem(item.key)
+              console.log('drag over', item.key)
+            }}
+            onDragEnd={(e) => {
+              setDragging(false)
+              console.log(e)
+              console.log(' 🩸START ITEM -->', dragStartItem)
+              console.log('🌡DRopped on -->', draggedOverItem)
+            }}
+            onDragExit={() => {
+              console.log('BREXIT ☎️')
+            }}
+            draggable
+          >
+            <IconDragDropHorizontal />
             <Checkbox
               value={item.meta.visible}
               key={item.key}
@@ -36,7 +77,7 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders }) => {
                 )
               }}
             />
-          </>
+          </styled.div>
         ) : null
       )}
     </styled.div>
