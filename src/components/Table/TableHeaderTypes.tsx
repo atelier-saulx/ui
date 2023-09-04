@@ -12,24 +12,6 @@ import {
   useCopyToClipboard,
 } from '../..'
 
-type TableHeaderTypesProps = {
-  type:
-    | 'author'
-    | 'boolean'
-    | 'checkbox'
-    | 'id'
-    | 'img'
-    | 'number'
-    | 'string'
-    | 'timestamp'
-  itemData: any
-  rowData: {}
-  key: any
-  renderCounter: any
-  setRenderCounter: any
-  editable?: boolean
-}
-
 const IdBadge: FC<{
   children: string
 }> = ({ children }) => {
@@ -87,14 +69,32 @@ const BooleanToggle: FC<{
 
 const CheckboxItem: FC<{
   rowData?: any
+  rowIndex?: number
   renderCounter?: any
   setRenderCounter?: any
-}> = ({ rowData, renderCounter, setRenderCounter }) => {
+  shiftKeyIsDown?: boolean
+  setPrevSelectedRowNumber?: () => number[] | undefined
+}> = ({
+  rowData,
+  rowIndex,
+  renderCounter,
+  setRenderCounter,
+  shiftKeyIsDown,
+  setPrevSelectedRowNumber,
+}) => {
+  rowData.meta.selectedIndex = rowIndex
   return (
     <Checkbox
       value={rowData.meta.selected}
       onChange={(v) => {
         v ? (rowData.meta.selected = true) : (rowData.meta.selected = false)
+
+        if (shiftKeyIsDown) {
+          console.log('pressed while shift was down ⛱', rowIndex)
+          // @ts-ignore
+          setPrevSelectedRowNumber((prevState) => [prevState[1], rowIndex])
+        }
+
         setRenderCounter(renderCounter + 1)
       }}
     />
@@ -143,14 +143,38 @@ const StringItem: FC<{
   )
 }
 
+type TableHeaderTypesProps = {
+  type:
+    | 'author'
+    | 'boolean'
+    | 'checkbox'
+    | 'id'
+    | 'img'
+    | 'number'
+    | 'string'
+    | 'timestamp'
+  itemData: any
+  rowData: {}
+  rowIndex: number
+  key: any
+  renderCounter: any
+  setRenderCounter: any
+  editable?: boolean
+  shiftKeyIsDown?: boolean
+  setPrevSelectedRowNumber?: () => number[] | undefined
+}
+
 export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   type,
   rowData,
+  rowIndex,
   itemData,
   key,
   renderCounter,
   setRenderCounter,
   editable,
+  shiftKeyIsDown,
+  setPrevSelectedRowNumber,
 }) => {
   //   console.log(type)
   //   console.log('Row', rowData)
@@ -173,8 +197,11 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   ) : type === 'checkbox' ? (
     <CheckboxItem
       rowData={rowData}
+      rowIndex={rowIndex}
       renderCounter={renderCounter}
       setRenderCounter={setRenderCounter}
+      shiftKeyIsDown={shiftKeyIsDown}
+      setPrevSelectedRowNumber={setPrevSelectedRowNumber}
     />
   ) : type === 'id' ? (
     <IdBadge>{itemData}</IdBadge>

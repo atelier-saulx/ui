@@ -689,7 +689,7 @@ export const components: ComponentDef[] = [
               key: 'title',
               label: 'Title',
               type: 'string',
-              editable: true,
+              editable: false,
             },
             {
               key: 'author',
@@ -745,6 +745,21 @@ export const components: ComponentDef[] = [
               cover:
                 'https://i1.sndcdn.com/artworks-H999wKziGSquPTzr-Xy5zjA-t500x500.jpg',
               number: 11222111,
+            },
+            {
+              title: 'Fire Fire',
+              author: 'EEEEE',
+              cover:
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Large_bonfire.jpg/500px-Large_bonfire.jpg',
+              number: 53445432,
+              boolie: false,
+            },
+            {
+              title: 'Argh said the pirate',
+              author: 'FFFFF',
+              cover:
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Edward_England.svg/600px-Flag_of_Edward_England.svg.png',
+              number: 1124442111,
             },
           ],
           selectable: true,

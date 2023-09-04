@@ -34,6 +34,8 @@ export const SizedGrid: FC<TableProps> = (props) => {
     sortKey,
     renderCounter,
     setRenderCounter,
+    shiftKeyIsDown,
+    setPrevSelectedRowNumber,
     selectAllRows,
     clearAllRows,
     selectedRows,
@@ -169,6 +171,8 @@ export const SizedGrid: FC<TableProps> = (props) => {
         }}
         renderCounter={renderCounter}
         setRenderCounter={setRenderCounter}
+        shiftKeyIsDown={shiftKeyIsDown}
+        setPrevSelectedRowNumber={setPrevSelectedRowNumber}
         ref={gridRef}
       >
         {Cell}

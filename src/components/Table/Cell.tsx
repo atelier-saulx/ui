@@ -31,6 +31,7 @@ export const Cell = (props) => {
   const type = header.type
   const editable = header.editable
 
+  // console.log('props', props)
   // Array.isArray(itemData) && console.log('itemDATA??', itemData)
 
   // Make this into a map /  a bit nicer
@@ -46,11 +47,14 @@ export const Cell = (props) => {
     <TableHeaderTypes
       type={type}
       rowData={rowData}
+      rowIndex={props.rowIndex}
       itemData={itemData}
       key={key}
       renderCounter={data.renderCounter}
       setRenderCounter={data.setRenderCounter}
       editable={editable}
+      shiftKeyIsDown={data.shiftKeyIsDown}
+      setPrevSelectedRowNumber={data.setPrevSelectedRowNumber}
     />
   ) : (
     <Text weight="medium">

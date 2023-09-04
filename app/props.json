@@ -1043,6 +1043,31 @@
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n  width?: number\n  height?: number\n}",
       "file": "/components/Linegraph/index.tsx"
     },
+    "MenuItemProps": {
+      "name": "MenuItemProps",
+      "props": {
+        "active": {
+          "type": "boolean"
+        },
+        "onClick": {
+          "type": "function"
+        },
+        "children": {
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            },
+            "TSParenthesizedType"
+          ]
+        },
+        "style": {
+          "type": "Style"
+        }
+      },
+      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: () => void | ((e) => void)\n  children: ReactNode | ReactNode[] | ((e) => void)\n  style: Style\n}",
+      "file": "/components/Menu/MenuItem.tsx"
+    },
     "MenuHeaderProps": {
       "name": "MenuHeaderProps",
       "props": {
@@ -1707,6 +1732,9 @@
         "rowData": {
           "type": "TSTypeLiteral"
         },
+        "rowIndex": {
+          "type": "number"
+        },
         "key": {
           "type": "TSAnyKeyword"
         },
@@ -1721,7 +1749,7 @@
           "type": "boolean"
         }
       },
-      "code": "type TableHeaderTypesProps = {\n  type:\n    | 'author'\n    | 'boolean'\n    | 'checkbox'\n    | 'id'\n    | 'img'\n    | 'number'\n    | 'string'\n    | 'timestamp'\n  itemData: any\n  rowData: {}\n  key: any\n  renderCounter: any\n  setRenderCounter: any\n  editable?: boolean\n}",
+      "code": "type TableHeaderTypesProps = {\n  type:\n    | 'author'\n    | 'boolean'\n    | 'checkbox'\n    | 'id'\n    | 'img'\n    | 'number'\n    | 'string'\n    | 'timestamp'\n  itemData: any\n  rowData: {}\n  rowIndex: number\n  key: any\n  renderCounter: any\n  setRenderCounter: any\n  editable?: boolean\n}",
       "file": "/components/Table/TableHeaderTypes.tsx"
     },
     "TableProps": {
@@ -2022,9 +2050,44 @@
             "number",
             "boolean"
           ]
+        },
+        "selectable": {
+          "optional": true,
+          "type": [
+            {
+              "value": "none"
+            },
+            {
+              "value": "auto"
+            },
+            {
+              "value": "text"
+            },
+            {
+              "value": "contain"
+            },
+            {
+              "value": "all"
+            },
+            {
+              "value": "inherit"
+            },
+            {
+              "value": "initial"
+            },
+            {
+              "value": "revert"
+            },
+            {
+              "value": "revert-layer"
+            },
+            {
+              "value": "unset"
+            }
+          ]
         }
       },
-      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n}",
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n}",
       "file": "/components/Text/index.tsx"
     },
     "ToastProps": {
