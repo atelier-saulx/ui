@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Checkbox, Text } from '../src'
+import { Checkbox, Input, Text } from '../src'
 import { parseProps } from './parseProps'
 
 const Prop: FC<{
@@ -19,6 +19,29 @@ const Prop: FC<{
     const options = []
     // will do with select
     return <styled.div>{/* <Text>{name}</Text> */}</styled.div>
+  }
+
+  if (name === 'children' || prop.type === 'string' || prop.type === 'number') {
+    return (
+      <styled.div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
+          marginLeft: 16,
+        }}
+      >
+        <Text weight="strong">{name}</Text>
+        <Input
+          value={parsedProps[name]}
+          style={{ marginLeft: 16, maxWidth: 400 }}
+          type={prop.type === 'number' ? 'number' : 'text'}
+          onChange={(v) => {
+            update(v.target.value)
+          }}
+        />
+      </styled.div>
+    )
   }
 
   if (prop.type === 'boolean') {
@@ -43,7 +66,6 @@ export const PropsEditor: FC<{
   index: number
   updateState: (fields: { [key: string]: any }) => void
 }> = ({ component, state, index, updateState }) => {
-  console.info(component)
   const example = component.examples[index]
   const propsFromExample = example.props
 
