@@ -1,23 +1,48 @@
 import React, { FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Text } from '../src'
+import { Checkbox, Text } from '../src'
 
 const Prop: FC<{
   name: string
   prop: PropType
+  example: any
   state: any
-}> = ({ name, prop, state }) => {
+  update: (value: any) => void
+}> = ({ name, prop, state, update, example }) => {
   if (Array.isArray(prop.type)) {
     //options
     const options = []
 
     console.info(name, state)
 
-    return <styled.div>: {state[name]}</styled.div>
+    return <styled.div>{/* <Text>{name}</Text> */}</styled.div>
   }
 
-  return <styled.div>This is a prop</styled.div>
+  console.info(example)
+
+  if (prop.type === 'boolean') {
+    return (
+      <styled.div
+        style={{
+          margin: 16,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <Checkbox
+          label={name}
+          value={example.props?.[name]}
+          onChange={update}
+        />
+      </styled.div>
+    )
+
+    // a boolean
+  }
+  return null
+
+  //   return <styled.div>This is a prop</styled.div>
 }
 
 export const PropsEditor: FC<{
@@ -30,13 +55,20 @@ export const PropsEditor: FC<{
   const example = component.examples[index]
   const propsFromExample = example.props
 
-  // color exclude
-
   const parsedProps: ReactNode[] = []
 
   for (const p in component.properties) {
     parsedProps.push(
-      <Prop state={state} name={p} key={p} prop={component.properties[p]} />
+      <Prop
+        example={example}
+        update={(value) => {
+          updateState({ [p]: value })
+        }}
+        state={state}
+        name={p}
+        key={p}
+        prop={component.properties[p]}
+      />
     )
   }
 
@@ -46,7 +78,6 @@ export const PropsEditor: FC<{
         padding: 12,
         display: 'flex',
         flexWrap: 'wrap',
-        gap: 12,
       }}
     >
       {parsedProps}

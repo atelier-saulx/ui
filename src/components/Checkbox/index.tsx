@@ -16,7 +16,7 @@ export type CheckboxProps = {
   disabled?: boolean
   indeterminate?: boolean
   label?: string
-  onClick?: (e) => void | (() => void)
+  onChange?: (value: boolean) => void
   style?: Style
   warning?: boolean
 }
@@ -27,7 +27,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   disabled,
   indeterminate,
   label,
-  onClick,
+  onChange,
   style,
   warning,
 }) => {
@@ -48,7 +48,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           e.stopPropagation()
           e.preventDefault()
           setChecked(!checked)
-          onClick?.(!checked)
+          onChange?.(!checked)
         }}
         style={{
           width: '16px',
@@ -117,7 +117,7 @@ export const Checkbox: FC<CheckboxProps> = ({
             e.stopPropagation()
             e.preventDefault()
             setChecked(!checked)
-            onClick?.(!checked)
+            onChange?.(!checked)
           }}
         >
           <Text size={14} weight="medium">
