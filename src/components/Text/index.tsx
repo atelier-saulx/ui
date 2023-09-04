@@ -10,6 +10,9 @@ type TextProps = {
   light?: boolean
   weight?: 'strong' | 'medium' | 'normal'
   onClick?: ClickHandler
+  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'
+  align?: 'left' | 'center' | 'right'
+  truncate?: number | boolean
 }
 
 export const Text: FC<TextProps> = ({
@@ -20,6 +23,9 @@ export const Text: FC<TextProps> = ({
   light,
   weight = 'normal',
   onClick,
+  transform = 'none',
+  align = 'left',
+  truncate = false,
 }) => {
   const newLineHeight =
     size === 10
@@ -46,8 +52,7 @@ export const Text: FC<TextProps> = ({
     <styled.div
       onClick={onClick}
       style={{
-        display: 'flex',
-        flexWrap: 'wrap',
+        display: truncate ? '-webkit-box' : 'initial',
         color: genColor('content', color, light ? 'secondary' : 'primary'),
         fontSize: size,
         fontFamily:
@@ -57,6 +62,15 @@ export const Text: FC<TextProps> = ({
             ? 'Inter-Medium'
             : 'Inter-Regular',
         lineHeight: newLineHeight,
+        transform: transform,
+        textAlign: align,
+        overflow: truncate ? 'hidden' : 'visible',
+        WebkitLineClamp:
+          typeof truncate === 'number' ? truncate : truncate ? 1 : null,
+        WebkitBoxOrient: 'vertical',
+        '& b': {
+          fontFamily: 'Inter-SemiBold',
+        },
         ...style,
       }}
     >
