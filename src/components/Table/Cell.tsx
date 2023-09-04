@@ -33,6 +33,8 @@ export const Cell = (props) => {
 
   // Array.isArray(itemData) && console.log('itemDATA??', itemData)
 
+  console.log('Cell props -->', props)
+
   // Make this into a map /  a bit nicer
   const body = header.customComponent ? (
     createElement(header.customComponent, {

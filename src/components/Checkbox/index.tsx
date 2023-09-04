@@ -11,24 +11,24 @@ import {
 } from '../..'
 
 export type CheckboxProps = {
-  value?: boolean
   description?: string
   disabled?: boolean
   indeterminate?: boolean
   label?: string
   onChange?: (value: boolean) => void
   style?: Style
+  value?: boolean
   warning?: boolean
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
-  value,
   description,
   disabled,
   indeterminate,
   label,
   onChange,
   style,
+  value,
   warning,
 }) => {
   const [checked, setChecked] = usePropState(value)
