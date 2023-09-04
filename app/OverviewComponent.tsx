@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { FC } from 'react'
 import { styled } from 'inlines'
 import { ComponentDef, PropType } from './types'
@@ -8,19 +8,14 @@ import {
   border,
   color,
   Code,
-  IconArrowUpRight,
-  IconArrowDownLeft,
-  Menu,
-  IconArrowDown,
   Button,
-  IconChevronDown,
-  IconChevronRight,
   IconChevronRightSmall,
   IconChevronDownSmall,
 } from '../src'
 import { parseProps } from './parseProps'
 import { deepCopy, deepMerge } from '@saulx/utils'
 import { propsToCode, toComponent } from './objectToCode'
+import { PropsEditor } from './PropsEditor'
 
 const displayType = (propType: PropType): string | number | ReactNode => {
   if (typeof propType.type === 'object') {
@@ -41,14 +36,11 @@ const displayType = (propType: PropType): string | number | ReactNode => {
         </>
       ))
     }
-
     return <Text color="brand">{propType.type.value}</Text>
   }
-
   if (propType.type === 'TSAnyKeyword') {
     propType.type = '*'
   }
-
   return (
     <Text light color="default" style={{ marginLeft: 4, marginRight: 4 }}>
       {propType.type}
@@ -97,7 +89,6 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
       <Text size={18} weight="strong">
         Props
       </Text>
-
       <styled.div
         style={{
           marginTop: 12,
@@ -125,10 +116,15 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
 }) => {
   const example = component.examples[index]
   const [state, setState] = useLocalStorage('c-' + component.name + '-' + index)
+  const updateState = (fields: { [key: string]: any }) => {
+    const x = deepCopy(objState)
+    deepMerge(x, fields)
+    setState(x)
+  }
 
   let objState = state ?? {}
-  const parsedProps = parseProps(example.props)
-
+  const sProps = objState.props ? JSON.parse(objState.props) : example.props
+  const parsedProps = parseProps(sProps)
   return (
     <>
       {example.name ? (
@@ -154,7 +150,7 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
           borderRadius: 8,
           flexDirection: 'column',
           display: 'flex',
-          backgroundColor: color('background', 'neutral', 'surface'), // add extra bg color...
+          backgroundColor: color('background', 'neutral', 'surface'),
           alignItems: 'center',
           justifyContent: 'center',
         }}
@@ -171,7 +167,6 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
         </styled.div>
         <styled.div
           style={{
-            // padding: 4,
             width: '100%',
             transition: 'height 0.2s',
             borderTop: objState.expanded ? '1px solid transparent' : border(1),
@@ -192,11 +187,7 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
               size="xsmall"
               color="neutral"
               light
-              onClick={() => {
-                const x = deepCopy(objState)
-                deepMerge(x, { expanded: !objState.expanded })
-                setState(x)
-              }}
+              onClick={() => updateState({ expanded: !objState.expanded })}
               style={{ margin: 4 }}
               icon={
                 objState.expanded ? (
@@ -206,18 +197,24 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
                 )
               }
             >
-              Code editor
+              Editor
             </Button>
           </styled.div>
           {objState.expanded ? (
-            <Code
-              value={toComponent(
-                component.name,
-                example.props,
-                propsToCode(component.name, parsedProps).propsHeader
-              )}
+            <PropsEditor
+              component={component}
+              index={index}
+              updateState={updateState}
+              state={objState}
             />
-          ) : null}
+          ) : // <Code
+          //   value={toComponent(
+          //     component.name,
+          //     example.props,
+          //     propsToCode(component.name, parsedProps).propsHeader
+          //   )}
+          // />
+          null}
         </styled.div>
       </styled.div>
     </>
