@@ -17,29 +17,24 @@ const Prop: FC<{
 
   if (Array.isArray(prop.type)) {
     const options = []
+    // will do with select
     return <styled.div>{/* <Text>{name}</Text> */}</styled.div>
   }
 
-  console.info(parsedProps)
-
   if (prop.type === 'boolean') {
     return (
-      <styled.div
+      <Checkbox
         style={{
           margin: 16,
-          display: 'flex',
-          alignItems: 'center',
         }}
-      >
-        <Checkbox label={name} value={parsedProps?.[name]} onChange={update} />
-      </styled.div>
+        label={name}
+        value={parsedProps?.[name]}
+        onChange={update}
+      />
     )
-
-    // a boolean
   }
-  return null
 
-  //   return <styled.div>This is a prop</styled.div>
+  return null
 }
 
 export const PropsEditor: FC<{
