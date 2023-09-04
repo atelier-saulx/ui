@@ -199,7 +199,7 @@ export const FromRangePicker = ({
           padding: '12px 16px',
         }}
       >
-        <Text>
+        <Text style={{ display: 'flex' }}>
           {(months[+valueAsString?.split('/')[1]] || '') +
             ' ' +
             (valueAsString?.split('/')[2] || '')}
@@ -232,6 +232,7 @@ export const FromRangePicker = ({
           '@media (hover: hover)': {
             '& div': {
               '&:hover': { cursor: 'pointer' },
+              display: 'flex',
             },
           },
         }}
@@ -250,15 +251,18 @@ export const FromRangePicker = ({
                 : `${dateObj.getDate()}`
             )
           }}
-          style={{ marginBottom: 4 }}
+          style={{ marginBottom: 4, display: 'flex' }}
         >
           Today
         </Text>
-        <Text style={{ marginBottom: 4 }} onClick={() => dayChanger('forward')}>
+        <Text
+          style={{ marginBottom: 4, display: 'flex' }}
+          onClick={() => dayChanger('forward')}
+        >
           Select next date
         </Text>
         <Text
-          style={{ marginBottom: 4 }}
+          style={{ marginBottom: 4, display: 'flex' }}
           onClick={() => dayChanger('backward')}
         >
           Select previous date
@@ -270,7 +274,7 @@ export const FromRangePicker = ({
         }}
       />
       <Text
-        style={{ padding: '8px 16px', cursor: 'pointer' }}
+        style={{ padding: '8px 16px', cursor: 'pointer', display: 'flex' }}
         onClick={() => {
           setValue(0)
           removeAllOverlays()

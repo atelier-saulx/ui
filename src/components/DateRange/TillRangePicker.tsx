@@ -250,15 +250,18 @@ export const TillRangePicker = ({
                 : `${dateObj.getDate()}`
             )
           }}
-          style={{ marginBottom: 4 }}
+          style={{ display: 'flex', marginBottom: 4 }}
         >
           Today
         </Text>
-        <Text style={{ marginBottom: 4 }} onClick={() => dayChanger('forward')}>
+        <Text
+          style={{ display: 'flex', marginBottom: 4 }}
+          onClick={() => dayChanger('forward')}
+        >
           Select next date
         </Text>
         <Text
-          style={{ marginBottom: 4 }}
+          style={{ display: 'flex', marginBottom: 4 }}
           onClick={() => dayChanger('backward')}
         >
           Select previous date
@@ -270,7 +273,7 @@ export const TillRangePicker = ({
         }}
       />
       <Text
-        style={{ padding: '8px 16px', cursor: 'pointer' }}
+        style={{ display: 'flex', padding: '8px 16px', cursor: 'pointer' }}
         onClick={() => {
           setValue(0)
           removeAllOverlays()
