@@ -118,14 +118,19 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
   const example = component.examples[index]
   const [state, setState] = useLocalStorage('c-' + component.name + '-' + index)
   const updateState = (fields: { [key: string]: any }) => {
+    if (!objState.props) {
+      objState.props = example.props
+    }
     const x = deepCopy(objState)
     deepMerge(x, fields)
     setState(x)
   }
 
   let objState = state ?? {}
-  const sProps = objState.props ? JSON.parse(objState.props) : example.props
+  const sProps = objState.props ?? example.props
+
   const parsedProps = parseProps(sProps)
+
   return (
     <>
       {example.name ? (

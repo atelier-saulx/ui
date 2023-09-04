@@ -2,6 +2,7 @@ import React, { FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
 import { Checkbox, Text } from '../src'
+import { parseProps } from './parseProps'
 
 const Prop: FC<{
   name: string
@@ -10,16 +11,16 @@ const Prop: FC<{
   state: any
   update: (value: any) => void
 }> = ({ name, prop, state, update, example }) => {
+  let objState = state ?? {}
+  const sProps = objState.props ?? example.props
+  const parsedProps = parseProps(sProps)
+
   if (Array.isArray(prop.type)) {
-    //options
     const options = []
-
-    console.info(name, state)
-
     return <styled.div>{/* <Text>{name}</Text> */}</styled.div>
   }
 
-  console.info(example)
+  console.info(parsedProps)
 
   if (prop.type === 'boolean') {
     return (
@@ -30,11 +31,7 @@ const Prop: FC<{
           alignItems: 'center',
         }}
       >
-        <Checkbox
-          label={name}
-          value={example.props?.[name]}
-          onChange={update}
-        />
+        <Checkbox label={name} value={parsedProps?.[name]} onChange={update} />
       </styled.div>
     )
 
@@ -62,7 +59,7 @@ export const PropsEditor: FC<{
       <Prop
         example={example}
         update={(value) => {
-          updateState({ [p]: value })
+          updateState({ props: { [p]: value } })
         }}
         state={state}
         name={p}
