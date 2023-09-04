@@ -509,9 +509,9 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
-          clearButton: true,
-          placeholder: 'Search & navigate',
+          placeholder: 'Search for something',
           type: 'search',
+          label: 'This is a label',
         },
       },
     ],
@@ -833,12 +833,11 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
-          defaultValue: 'hello world',
           placeholder: 'placeholder',
-          beforeIcon: () => <IconBolt />,
           type: 'text',
-          clearButton: 'true',
-          //   suffix: 'flap',
+          label: 'This is a label',
+          error: 'This is an error message',
+          value: 'This is a text input',
           onChange: (e) => console.log(e.target.value),
         },
       },

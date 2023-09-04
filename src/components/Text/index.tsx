@@ -13,6 +13,17 @@ type TextProps = {
   transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'
   align?: 'left' | 'center' | 'right'
   truncate?: number | boolean
+  selectable?:
+    | 'none'
+    | 'auto'
+    | 'text'
+    | 'contain'
+    | 'all'
+    | 'inherit'
+    | 'initial'
+    | 'revert'
+    | 'revert-layer'
+    | 'unset'
 }
 
 export const Text: FC<TextProps> = ({
@@ -26,6 +37,7 @@ export const Text: FC<TextProps> = ({
   transform = 'none',
   align = 'left',
   truncate = false,
+  selectable = 'text',
 }) => {
   const newLineHeight =
     size === 10
@@ -65,6 +77,7 @@ export const Text: FC<TextProps> = ({
         transform: transform,
         textAlign: align,
         overflow: truncate ? 'hidden' : 'visible',
+        userSelect: selectable,
         WebkitLineClamp:
           typeof truncate === 'number' ? truncate : truncate ? 1 : null,
         WebkitBoxOrient: 'vertical',

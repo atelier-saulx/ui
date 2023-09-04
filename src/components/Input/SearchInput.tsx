@@ -1,19 +1,18 @@
 import React from 'react'
 import { TextInput, TextInputProps } from './TextInput'
-import { IconClose, IconSearch } from '../../icons'
-import { color } from '../../varsUtilities'
+import { IconSearch, color } from '../..'
 
-export type SearchInputProps = Omit<TextInputProps, 'beforeIcon'>
+export type SearchInputProps = Omit<TextInputProps, 'icon'>
 
 export function SearchInput(props: SearchInputProps) {
   return (
     <TextInput
       style={{
         backgroundColor: color('action', 'neutral', 'subtleNormal'),
-        border: 'none',
+        border: '1px solid transparent',
         '&:hover': {
           backgroundColor: color('action', 'neutral', 'subtleHover'),
-          border: 'none',
+          border: '1px solid transparent',
         },
         '&:focus-within': {
           border: `1px solid ${color('inputBorder', 'active', 'default')}`,
@@ -21,7 +20,7 @@ export function SearchInput(props: SearchInputProps) {
           backgroundColor: 'transparent',
         },
       }}
-      beforeIcon={<IconSearch />}
+      icon={<IconSearch />}
       {...props}
     />
   )

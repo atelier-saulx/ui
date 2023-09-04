@@ -72,17 +72,32 @@ export const Table: FC<TableProps> = (props) => {
   // if selectable is true, the first columns of data should be checkboxes
   const [renderCounter, setRenderCounter] = useState(1)
   const [selectedRows, setSelectedRows] = useState([])
+  const [shiftKeyIsDown, setShiftKeyIsDown] = useState(false)
+  const [prevSelectRowNumber, setPrevSelectedRowNumber] = useState([0, 0])
 
   const [headers, setHeaders] = useState(props.headers)
 
   // check all object if meta selected is true
 
   const mappedAndFiltered = newData?.filter((item, idx) => item?.meta?.selected)
+  // if shift down either select or deselect items
+
+  if (shiftKeyIsDown && prevSelectRowNumber[0] !== prevSelectRowNumber[1]) {
+    newData.forEach((item) =>
+      item.meta.selectedIndex >= prevSelectRowNumber[0] &&
+      item.meta.selectedIndex < prevSelectRowNumber[1]
+        ? (item.meta.selected = true)
+        : null
+    )
+
+    // put all from 0 to selectedrowNumber to selected eihter selected or not
+  }
 
   useEffect(() => {
     if (selectable) {
       setSelectedRows(mappedAndFiltered)
       console.log('--> 🚨??', mappedAndFiltered)
+      console.log('flipper', prevSelectRowNumber)
     }
   }, [renderCounter])
 
@@ -142,7 +157,6 @@ export const Table: FC<TableProps> = (props) => {
   // console.log('✅', props)
   // console.log('💚', newData)
   // console.log('filtered headers??? ', filteredHeaders)
-  const [shiftKeyIsDown, setShiftKeyIsDown] = useState(false)
 
   useEffect(() => {
     console.log('🐄 cow')
@@ -161,6 +175,7 @@ export const Table: FC<TableProps> = (props) => {
     if (e.key === 'Shift') {
       console.log('shift is released', e)
       setShiftKeyIsDown(false)
+      setPrevSelectedRowNumber([0, 0])
     }
   }
 
@@ -215,6 +230,7 @@ export const Table: FC<TableProps> = (props) => {
                 renderCounter={renderCounter}
                 setRenderCounter={setRenderCounter}
                 shiftKeyIsDown={shiftKeyIsDown}
+                setPrevSelectedRowNumber={setPrevSelectedRowNumber}
                 selectAllRows={selectAllRows}
                 clearAllRows={clearAllRows}
                 selectedRows={selectedRows}

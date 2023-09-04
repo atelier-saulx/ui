@@ -70,10 +70,11 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 }}
                 onClick={onClick}
               >
-                <Text size={14} weight="medium">
+                <Text selectable="none" size={14} weight="medium">
                   {item.label}
                 </Text>
                 <Text
+                  selectable="none"
                   style={{ color: genColor('content', 'default', 'secondary') }}
                 >
                   {item.description}

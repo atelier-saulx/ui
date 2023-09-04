@@ -953,9 +953,31 @@
       "code": "type SelectInputProps = {\n  options: SelectInputOption[]\n  value: string | null\n  onChange?: (newValue: string) => void\n  beforeIcon?: React.ReactNode\n  disabled?: boolean\n  placeholder?: string\n}",
       "file": "/components/Input/SelectInput.tsx"
     },
-    "TextInputOwnProps": {
-      "name": "TextInputOwnProps",
+    "TextInputProps": {
+      "name": "TextInputProps",
       "props": {
+        "value": {
+          "type": "string"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "error": {
+          "optional": true,
+          "type": "string"
+        },
         "prefix": {
           "optional": true,
           "type": "BadgeProps"
@@ -967,23 +989,19 @@
         "icon": {
           "optional": true
         },
-        "afterIcon": {
-          "optional": true
-        },
         "style": {
           "optional": true,
           "type": "Style"
         },
+        "afterIcon": {
+          "optional": true
+        },
         "clearButton": {
           "optional": true,
           "type": "boolean"
-        },
-        "onChange": {
-          "optional": true,
-          "type": "OnChange"
         }
       },
-      "code": "type TextInputOwnProps = {\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  afterIcon?: React.ReactNode\n  style?: Style\n  clearButton?: boolean\n  onChange?: OnChange\n}",
+      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  label?: string\n  error?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "InputProps": {
@@ -1714,6 +1732,9 @@
         "rowData": {
           "type": "TSTypeLiteral"
         },
+        "rowIndex": {
+          "type": "number"
+        },
         "key": {
           "type": "TSAnyKeyword"
         },
@@ -1728,7 +1749,7 @@
           "type": "boolean"
         }
       },
-      "code": "type TableHeaderTypesProps = {\n  type:\n    | 'author'\n    | 'boolean'\n    | 'checkbox'\n    | 'id'\n    | 'img'\n    | 'number'\n    | 'string'\n    | 'timestamp'\n  itemData: any\n  rowData: {}\n  key: any\n  renderCounter: any\n  setRenderCounter: any\n  editable?: boolean\n}",
+      "code": "type TableHeaderTypesProps = {\n  type:\n    | 'author'\n    | 'boolean'\n    | 'checkbox'\n    | 'id'\n    | 'img'\n    | 'number'\n    | 'string'\n    | 'timestamp'\n  itemData: any\n  rowData: {}\n  rowIndex: number\n  key: any\n  renderCounter: any\n  setRenderCounter: any\n  editable?: boolean\n}",
       "file": "/components/Table/TableHeaderTypes.tsx"
     },
     "TableProps": {
@@ -2029,9 +2050,44 @@
             "number",
             "boolean"
           ]
+        },
+        "selectable": {
+          "optional": true,
+          "type": [
+            {
+              "value": "none"
+            },
+            {
+              "value": "auto"
+            },
+            {
+              "value": "text"
+            },
+            {
+              "value": "contain"
+            },
+            {
+              "value": "all"
+            },
+            {
+              "value": "inherit"
+            },
+            {
+              "value": "initial"
+            },
+            {
+              "value": "revert"
+            },
+            {
+              "value": "revert-layer"
+            },
+            {
+              "value": "unset"
+            }
+          ]
         }
       },
-      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n}",
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n}",
       "file": "/components/Text/index.tsx"
     },
     "ToastProps": {

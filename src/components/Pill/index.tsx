@@ -117,10 +117,10 @@ export const Pill: FC<PillPropss> = ({
       >
         {typeof value === 'boolean' && value && <IconCheckLarge />}
         <styled.div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Text color="default" light>
+          <Text selectable="none" color="default" light>
             {prefix}:
           </Text>
-          <Text color="default">
+          <Text selectable="none" color="default">
             {typeof value !== 'boolean' ? thisValue?.label ?? label : label}
           </Text>
         </styled.div>
@@ -160,6 +160,7 @@ export const Pill: FC<PillPropss> = ({
         >
           {options?.map((option, index) => (
             <Text
+              selectable="none"
               onClick={() => {
                 onChange?.(option.value)
                 setThisValue(option)

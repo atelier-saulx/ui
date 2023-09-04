@@ -125,10 +125,12 @@ export const Checkbox: FC<CheckboxProps> = ({
             onChange?.(!checked)
           }}
         >
-          <Text size={14} weight="medium">
+          <Text selectable="none" size={14} weight="medium">
             {label}
           </Text>
-          <Text light>{description}</Text>
+          <Text selectable="none" light>
+            {description}
+          </Text>
         </styled.div>
       )}
     </styled.div>
