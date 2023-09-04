@@ -53,7 +53,7 @@ export const Header: FC<{
         ) : header.key === 'selected' ? (
           <Checkbox
             value={selectedRows.length === data.length}
-            onClick={() => {
+            onChange={() => {
               if (selectedRows.length === data.length) {
                 clearAllRows()
               } else {
@@ -81,9 +81,10 @@ export const Header: FC<{
             }}
           >
             {header.key === sortKey.key && (
-              <IconSort color="brand" style={{ marginRight: 8 }} />
+              <IconSort style={{ marginRight: 8 }} />
             )}
             <Text
+              color={header.key === sortKey.key ? 'brand' : 'default'}
               weight={header.key === sortKey.key ? 'strong' : 'medium'}
               light={header.key === sortKey.key ? false : true}
             >

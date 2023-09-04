@@ -105,7 +105,7 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
               value={item.meta.visible}
               key={item.key}
               label={item.label}
-              onClick={() => {
+              onChange={() => {
                 item.meta.visible = !item.meta.visible
                 // console.log(headers, '???')
                 setFilteredHeaders(headers.filter((item) => item.meta.visible))

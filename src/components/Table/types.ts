@@ -10,15 +10,16 @@ export type TableCustomComponent<T> = FC<{
 }>
 
 export type TableHeader<T> = {
-  key: string
-  width?: number
-  label?: ReactNode
-  mimeTypeKey?: string
-  type?: string
-  showColumnCheckbox?: boolean
   customComponent?: TableCustomComponent<T>
   customLabelComponent?: FC
+  editable?: boolean
+  key: string
+  label?: ReactNode
   meta?: any
+  mimeTypeKey?: string
+  showColumnCheckbox?: boolean
+  type?: string
+  width?: number
 }
 
 export type SortOptions = {

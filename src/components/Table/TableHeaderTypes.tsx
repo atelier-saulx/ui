@@ -93,7 +93,7 @@ const CheckboxItem: FC<{
   return (
     <Checkbox
       value={rowData.meta.selected}
-      onClick={(v) => {
+      onChange={(v) => {
         v ? (rowData.meta.selected = true) : (rowData.meta.selected = false)
         setRenderCounter(renderCounter + 1)
       }}

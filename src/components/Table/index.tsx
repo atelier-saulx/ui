@@ -35,8 +35,8 @@ export type TableProps<T extends any = any> = {
   rowCount?: number
   rowHeight?: number
   selectable?: boolean
-  setSortKey: any
-  sortKey: any
+  setSortKey?: any
+  sortKey?: any
   style?: Style
   width?: number
   renderCounter?: any
@@ -53,6 +53,8 @@ export const Table: FC<TableProps> = (props) => {
     selectable,
   } = props
 
+  console.log('Table props --> ', props)
+
   const [sortKey, setSortKey] = useState({
     counter: 1,
     key: '',
@@ -64,6 +66,10 @@ export const Table: FC<TableProps> = (props) => {
       ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
       : props.data
 
+  console.log('NewDATA --->', newData)
+
+  console.log('props header-->', props?.headers)
+
   // if selectable is true, the first columns of data should be checkboxes
   const [renderCounter, setRenderCounter] = useState(1)
 
@@ -72,7 +78,7 @@ export const Table: FC<TableProps> = (props) => {
   const [headers, setHeaders] = useState(props.headers)
 
   // check all object if meta selected is true
-  const testRow = newData.filter((item, idx) => item?.meta?.selected)
+  const testRow = newData?.filter((item, idx) => item?.meta?.selected)
   useEffect(() => {
     if (selectable) {
       setSelectedRows(testRow)
@@ -126,7 +132,7 @@ export const Table: FC<TableProps> = (props) => {
   )
 
   useEffect(() => {
-    console.log('Filtered HEADERS CHANGED??')
+    console.log('Filtered HEADERS CHANGED?🐦?')
     setRenderCounter(renderCounter + 1)
   }, [filteredHeaders])
 
@@ -158,17 +164,17 @@ export const Table: FC<TableProps> = (props) => {
           style={{
             position: 'absolute',
             right: 12,
-            top: selectedRows.length > 0 ? 74 : 6,
+            top: selectedRows?.length > 0 ? 74 : 6,
             padding: 3,
             zIndex: 1,
           }}
           // @ts-ignore
           onClick={openHeaderOverlay}
         />
-        {selectedRows.length > 0 && (
+        {selectedRows?.length > 0 && (
           <SelectedRowOptions
             clearAllRows={clearAllRows}
-            selectedRowsLength={selectedRows.length}
+            selectedRowsLength={selectedRows?.length}
           />
         )}
 
