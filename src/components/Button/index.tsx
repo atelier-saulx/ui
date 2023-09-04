@@ -221,16 +221,25 @@ export const Button: FC<ButtonProps> = (props) => {
       onClick={onClick && extendedOnClick}
       onPointerDown={onPointerDown || stopPropagation}
       style={{
-        padding:
-          size === 'large'
-            ? '10px 16px'
+        padding: !children
+          ? size === 'large'
+            ? '16px'
             : size === 'medium'
-            ? '6px 16px'
+            ? '10px'
             : size === 'small'
-            ? '4px 12px'
-            : '0px',
-        borderRadius: size === 'large' || size === 'medium' ? 8 : 4,
-        width: fill ? '100%' : null,
+            ? '6px'
+            : '6px'
+          : size === 'large'
+          ? '10px 16px'
+          : size === 'medium'
+          ? '6px 16px'
+          : size === 'small'
+          ? '4px 12px'
+          : '0px',
+        borderRadius:
+          size === 'large' || size === 'medium' || !children ? 8 : 4,
+        width: !children ? '20px' : fill ? '100%' : null,
+
         position: 'relative',
         ...getButtonStyle(props, true),
         ...style,
@@ -253,7 +262,7 @@ export const Button: FC<ButtonProps> = (props) => {
         {icon &&
           renderOrCreateElement(icon, {
             color: contentColor,
-            style: { marginRight: 8 },
+            style: children ? { marginRight: 8 } : undefined,
           })}
         <Text
           style={{

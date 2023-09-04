@@ -12,6 +12,10 @@ export const Dropdown: FC<DropDownProps> = ({ style, children, data }) => {
   return (
     <styled.div
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        padding: '8px',
         backgroundColor: color('background', 'default', 'surface'),
         border: `1px solid ${color('border', 'default', 'strong')}`,
         borderRadius: 8,

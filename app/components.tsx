@@ -19,6 +19,7 @@ import {
   Input,
   LineGraph,
   Modal,
+  MultiSelect,
   RadioButtons,
   ScrollArea,
   SegmentedControl,
@@ -30,28 +31,17 @@ import {
   Tag,
   Text,
   styled,
+  Pill,
   Toast,
   Toggle,
+  Popover,
+  SidePanel,
 } from '../src'
 import * as ui from '../src'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
-import { MultiSelect } from '../src/components/MultiSelect'
-
-const genRandomPoints = (
-  formula: (i: number) => { x: number; y: number },
-  start: number = 0,
-  end: number = 50,
-  step: number = 1
-) => {
-  const points: { x: number; y: number }[] = []
-  for (let i = start; i <= end; i = i + step) {
-    points.push(formula(i))
-  }
-  return points
-}
 
 export const components: ComponentDef[] = [
   {
@@ -185,8 +175,17 @@ export const components: ComponentDef[] = [
         props: {
           children: 'Neutral color',
           icon: () => <IconClipboard />,
-          color: 'inverted',
+          color: 'alert',
           size: 'small',
+        },
+      },
+      {
+        name: 'Icon Button',
+        props: {
+          // children: 'Neutral color',
+          icon: () => <IconClipboard />,
+          color: 'neutral',
+          size: 'large',
         },
       },
       {
@@ -238,7 +237,7 @@ export const components: ComponentDef[] = [
     component: Counter,
     examples: [
       {
-        props: { color: 'brand', children: 32, light: true },
+        props: { color: 'informative', children: 24 },
       },
     ],
   },
@@ -425,19 +424,39 @@ export const components: ComponentDef[] = [
     description: '',
     examples: [
       {
-        props: {
-          data: {
-            en: {
-              data: () =>
-                genRandomPoints(
+        props: { label: 'single line' },
+        customRenderer: (props) => {
+          const genRandomPoints = (
+            formula: (i: number) => { x: number; y: number },
+            start: number = 0,
+            end: number = 50,
+            step: number = 1
+          ) => {
+            const points: { x: number; y: number }[] = []
+            for (let i = start; i <= end; i = i + step) {
+              points.push(formula(i))
+            }
+            return points
+          }
+
+          return (
+            <styled.div
+              style={{
+                width: 600,
+                height: 364,
+                marginBottom: 24,
+              }}
+            >
+              <LineGraph
+                data={genRandomPoints(
                   (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
                   0,
                   50
-                ),
-              minMax: true,
-            },
-          },
-          label: 'single line 50000',
+                )}
+                label="Single Line"
+              />
+            </styled.div>
+          )
         },
       },
     ],
@@ -462,6 +481,22 @@ export const components: ComponentDef[] = [
             { label: 'Radio2', value: 2, description: 'hwlloe 2' },
           ],
           onChange: (v) => console.log(v),
+        },
+      },
+    ],
+  },
+  {
+    name: 'NumberInput',
+    component: Input,
+    description: 'Number input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        props: {
+          type: 'number',
+          placeholder: 'type a number',
+          prefix: 'pre',
+          clearButton: true,
         },
       },
     ],
@@ -534,6 +569,42 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Pill',
+    component: Pill,
+    description: 'Pill',
+    properties: props.props.PillProps.props,
+    examples: [
+      {
+        props: {
+          prefix: 'Select',
+          label: 'something',
+          options: [
+            { label: 'Item one', value: 'value1' },
+            { label: 'Item two', value: 'value2' },
+            { label: 'Item three', value: 'value3' },
+          ],
+          type: 'select',
+        },
+      },
+      {
+        props: {
+          filled: true,
+          prefix: 'Yes??',
+          label: 'YEs?',
+          value: true,
+          type: 'select',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Popover',
+    component: Popover,
+    description: 'PopoverTest',
+    properties: props.props.PillProps.props,
+    examples: [{}],
+  },
+  {
     name: 'ScrollArea',
     component: ScrollArea,
     description: '',
@@ -549,6 +620,13 @@ export const components: ComponentDef[] = [
         },
       },
     ],
+  },
+  {
+    name: 'SidePanel',
+    component: SidePanel,
+    description: 'SidePaneltest',
+    properties: props.props.PillProps.props,
+    examples: [{}],
   },
   {
     name: 'Slider',
@@ -599,17 +677,32 @@ export const components: ComponentDef[] = [
       {
         props: {
           headers: [
-            { key: 'title', label: 'Title' },
-            { key: 'author', label: 'Author', type: 'author' },
+            { key: 'title', label: 'Title', type: 'string', editable: true },
+            {
+              key: 'author',
+              label: 'Author',
+              type: 'author',
+              meta: { visible: true },
+            },
             { key: 'cover', label: 'Cover', type: 'img' },
             { key: 'number', label: 'Number', type: 'id' },
-            { key: 'boolie', label: 'Boolean', type: 'boolean' },
-            { key: 'time', label: 'Time', type: 'timestamp' },
+            {
+              key: 'boolie',
+              label: 'Boolean',
+              type: 'boolean',
+              editable: true,
+            },
+            {
+              key: 'time',
+              label: 'Time',
+              type: 'timestamp',
+              meta: { visible: false },
+            },
           ],
           data: [
             {
-              title: 'AAA',
-              author: 'CCCC',
+              title: 'Adventures',
+              author: 'Cici Top',
               cover:
                 'https://img.parool.nl/aab6c754847bb34777c45ab7592473abca9b12ea/jip-en-janneke-voor-hema-niet-meer-heilig',
               number: 243545,
@@ -617,8 +710,8 @@ export const components: ComponentDef[] = [
               time: 32454645454,
             },
             {
-              title: 'CCC',
-              author: 'BBBB',
+              title: 'Crazy stories',
+              author: 'Bernard Smit',
               cover:
                 'https://www.manners.nl/wp-content/uploads/2023/03/harry-potter.png',
               number: 5345432,
@@ -626,16 +719,16 @@ export const components: ComponentDef[] = [
               time: 1113241133333,
             },
             {
-              title: 'DDD',
-              author: 'AAAA',
+              title: 'Double Dragon',
+              author: 'Arnold Arm',
               cover:
                 'https://64.media.tumblr.com/ee50e3ad64c22072c845097b2fe728e2/ad8bfb7892283c6d-0a/s1280x1920/14c9a1d48c9b8499e5107476bfd68e97fd05e823.png',
               number: 53445432,
               boolie: false,
             },
             {
-              title: 'BBB',
-              author: 'DDDD',
+              title: 'Batman',
+              author: 'Del Boy',
               cover:
                 'https://i1.sndcdn.com/artworks-H999wKziGSquPTzr-Xy5zjA-t500x500.jpg',
               number: 11222111,
@@ -692,6 +785,12 @@ export const components: ComponentDef[] = [
           weight: 'medium',
         },
       },
+      {
+        props: {
+          children: 'Light text, for descriptions.',
+          light: true,
+        },
+      },
     ],
   },
 
@@ -708,7 +807,8 @@ export const components: ComponentDef[] = [
           beforeIcon: () => <IconBolt />,
           type: 'text',
           clearButton: 'true',
-          suffix: 'flap',
+          //   suffix: 'flap',
+          onChange: (e) => console.log(e.target.value),
         },
       },
     ],

@@ -34,11 +34,10 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
           weight="strong"
           color="default"
           size={12}
+          light
           style={{
             // marginBottom: 16,
             textTransform: 'uppercase',
-            color: color('content', 'default', 'secondary'),
-            ...style,
           }}
         >
           {children}
@@ -300,6 +299,7 @@ export const Menu: FC<MenuProps> = ({
       <MenuHeader>{header}</MenuHeader>
       {items}
       {children}
+      <styled.div style={{ height: '24px' }} />
     </ScrollArea>
   )
 }

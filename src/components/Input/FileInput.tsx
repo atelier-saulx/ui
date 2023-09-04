@@ -44,7 +44,11 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
         display: 'flex',
         justifyContent: 'start',
         alignItems: 'center',
-        border: `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`,
+        border: `1px solid ${color(
+          'inputBorder',
+          file ? 'active' : 'neutralNormal',
+          'default'
+        )}`,
         backgroundColor: 'transparent',
         '& > * + *': {
           paddingLeft: imagePreviewURL ? '12px' : '8px',
@@ -66,7 +70,10 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
         ) : (
           <IconAttachment />
         )}
-        <Text weight="medium">{file.name}</Text>
+        <Text weight="medium">
+          {/* TODO how long can name be? */}
+          {file.name.length > 12 ? file.name.slice(0, 24) + '...' : file.name}
+        </Text>
         <div
           style={{
             position: 'relative',
@@ -191,6 +198,17 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
 export function FileInput({ disabled, multiple }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [files, setFiles] = useState<File[]>([])
+  const [dragState, setDragState] = useState(false)
+
+  const handleDrag = function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragState(true)
+    } else if (e.type === 'dragleave') {
+      setDragState(false)
+    }
+  }
 
   return (
     <>
@@ -228,7 +246,14 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
             onDragOver={(e) => {
               e.preventDefault()
               e.stopPropagation()
+              handleDrag(e)
             }}
+            onDragLeave={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              handleDrag(e)
+            }}
+            onDragEnter={(e) => {}}
             style={{
               height: 40,
               boxSizing: 'border-box',
@@ -241,26 +266,28 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
                 marginLeft: '8px',
               },
               cursor: 'pointer',
-              border: `1px dashed ${color(
-                'inputBorder',
-                'neutralNormal',
-                'default'
-              )}`,
-              '&:hover': {
-                border: `1px dashed ${color(
-                  'inputBorder',
-                  'neutralHover',
-                  'default'
-                )}`,
-              },
-              '&:active': {
-                border: `1px dashed ${color(
-                  'inputBorder',
-                  'active',
-                  'default'
-                )}`,
-                backgroundColor: color('background', 'brand', 'surface'),
-              },
+              border: dragState
+                ? `1px dashed ${color('inputBorder', 'active', 'default')}`
+                : `1px dashed ${color(
+                    'inputBorder',
+                    'neutralNormal',
+                    'default'
+                  )}`,
+              // '&:hover': {
+              //   border: `1px dashed ${color(
+              //     'inputBorder',
+              //     'neutralHover',
+              //     'default'
+              //   )}`,
+              // },
+              // '&:active': {
+              // border: `1px dashed ${color(
+              //   'inputBorder',
+              //   'active',
+              //   'default'
+              // )}`,
+              //   backgroundColor: color('background', 'brand', 'surface'),
+              // },
               ...(disabled
                 ? {
                     opacity: '50%',

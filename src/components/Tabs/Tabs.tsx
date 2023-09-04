@@ -57,6 +57,11 @@ const TabWrapper: FC<{
             index !== activeTabState &&
             `3px solid ${genColor('action', 'neutral', 'subtleHover')}`,
         },
+        '&:active': {
+          borderBottom:
+            index !== activeTabState &&
+            `3px solid ${genColor('action', 'neutral', 'subtleActive')}`,
+        },
       }}
       onClick={() => {
         setHoverTab(-1)
@@ -81,7 +86,9 @@ const TabWrapper: FC<{
           {children}
         </Text>
       ) : (
-        <>{children.props.label}</>
+        <Text weight={index === activeTabState ? 'strong' : 'medium'}>
+          {children.props.label}
+        </Text>
       )}
     </styled.div>
   )

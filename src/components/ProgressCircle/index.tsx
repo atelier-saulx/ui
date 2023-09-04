@@ -27,25 +27,8 @@ export const ProgressCircle: FC<ProgressCircleProps> = ({
 }) => {
   const [newValue, setNewValue] = useState(value)
 
-  const barProg = newValue * 100
+  const barProg = loading ? 66 : newValue * 100
   const inverted = color === 'inverted'
-
-  // non stop loading animation
-  const [loadingCounter, setLoadingCounter] = useState<number>(0)
-
-  if (loading) {
-    if (loadingCounter < 1) {
-      setTimeout(() => {
-        setLoadingCounter(loadingCounter + 0.04)
-      }, 24)
-    } else {
-      setLoadingCounter(0)
-    }
-  }
-
-  useEffect(() => {
-    setNewValue(loadingCounter)
-  }, [loadingCounter])
 
   return (
     <styled.div
@@ -62,6 +45,18 @@ export const ProgressCircle: FC<ProgressCircleProps> = ({
             width: '16px',
             height: '16px',
           },
+          '@keyframes': {
+            from: {
+              transform: 'rotate(0deg)',
+            },
+            to: {
+              transform: loading ? 'rotate(360deg)' : 'rotate(0deg)',
+            },
+          },
+          animationDuration: loading ? '0.45s' : 'unset',
+          animationFillMode: loading ? 'forwards' : 'unset',
+          animationTimingFunction: loading ? 'linear' : 'unset',
+          animationIterationCount: loading ? 'infinite' : 'unset',
         }}
       >
         <svg

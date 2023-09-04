@@ -237,8 +237,8 @@ export const Dialog = Object.assign(
               {description && (
                 <Text
                   weight="medium"
+                  light
                   style={{
-                    color: color('content', 'default', 'secondary'),
                     marginTop: 24,
                   }}
                 >

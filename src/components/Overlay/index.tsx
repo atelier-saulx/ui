@@ -1,4 +1,3 @@
-import { styled } from 'inlines'
 import React, {
   FC,
   PropsWithChildren,
@@ -12,6 +11,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react'
+import { styled, Style } from '../../'
 import { useOverlayPosition } from '../../hooks/useOverlayPosition'
 import { color } from '../../varsUtilities'
 import { ScrollArea } from '../ScrollArea'
@@ -51,7 +51,7 @@ export type OverlayProps<P = any> = {
   props: P
   target: Target
   positionProps: PositionProps
-  style?: CSSProperties
+  style?: Style
 }
 
 export const GenericOverlay: FC<OverlayProps> = ({
@@ -111,7 +111,7 @@ export type OnClose = () => void
 export type OverlayOptions = {
   overlay?: boolean
   transparent?: boolean
-  style?: CSSProperties
+  style?: Style
 }
 
 export type Overlays = [ReactNode, OnClose, OverlayOptions][]
