@@ -61,7 +61,13 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
             />
             {item.label && (
               <styled.div
-                style={{ marginLeft: 12, marginTop: '-5px', cursor: 'pointer' }}
+                style={{
+                  marginLeft: 12,
+                  marginTop: '-5px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
                 onClick={onClick}
               >
                 <Text size={14} weight="medium">
