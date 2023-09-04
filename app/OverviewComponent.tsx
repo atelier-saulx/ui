@@ -54,6 +54,7 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
     const prop = component.properties[key]
     p.push(
       <styled.div
+        key={key}
         style={{
           padding: 16,
           display: 'flex',
@@ -251,7 +252,13 @@ export const OverviewComponent: FC<{
       <ComponentViewer index={0} component={component} />
       <Props component={component} />
       {component.examples.slice(1).map((_, index) => {
-        return <ComponentViewer index={index + 1} component={component} />
+        return (
+          <ComponentViewer
+            key={index}
+            index={index + 1}
+            component={component}
+          />
+        )
       })}
     </styled.div>
   )
