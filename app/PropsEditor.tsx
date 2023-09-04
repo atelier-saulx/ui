@@ -1,7 +1,8 @@
 import React, { FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Checkbox, Text } from '../src'
+import { Checkbox, Input, Text } from '../src'
+import { parseProps } from './parseProps'
 
 const Prop: FC<{
   name: string
@@ -10,39 +11,53 @@ const Prop: FC<{
   state: any
   update: (value: any) => void
 }> = ({ name, prop, state, update, example }) => {
+  let objState = state ?? {}
+  const sProps = objState.props ?? example.props
+  const parsedProps = parseProps(sProps)
+
   if (Array.isArray(prop.type)) {
-    //options
     const options = []
-
-    console.info(name, state)
-
+    // will do with select
     return <styled.div>{/* <Text>{name}</Text> */}</styled.div>
   }
 
-  console.info(example)
-
-  if (prop.type === 'boolean') {
+  if (name === 'children' || prop.type === 'string' || prop.type === 'number') {
     return (
       <styled.div
         style={{
-          margin: 16,
           display: 'flex',
           alignItems: 'center',
+          width: '100%',
+          marginLeft: 16,
         }}
       >
-        <Checkbox
-          label={name}
-          value={example.props?.[name]}
-          onChange={update}
+        <Text weight="strong">{name}</Text>
+        <Input
+          value={parsedProps[name]}
+          style={{ marginLeft: 16, maxWidth: 400 }}
+          type={prop.type === 'number' ? 'number' : 'text'}
+          onChange={(v) => {
+            update(v.target.value)
+          }}
         />
       </styled.div>
     )
-
-    // a boolean
   }
-  return null
 
-  //   return <styled.div>This is a prop</styled.div>
+  if (prop.type === 'boolean') {
+    return (
+      <Checkbox
+        style={{
+          margin: 16,
+        }}
+        label={name}
+        value={parsedProps?.[name]}
+        onChange={update}
+      />
+    )
+  }
+
+  return null
 }
 
 export const PropsEditor: FC<{
@@ -51,7 +66,6 @@ export const PropsEditor: FC<{
   index: number
   updateState: (fields: { [key: string]: any }) => void
 }> = ({ component, state, index, updateState }) => {
-  console.info(component)
   const example = component.examples[index]
   const propsFromExample = example.props
 
@@ -62,7 +76,7 @@ export const PropsEditor: FC<{
       <Prop
         example={example}
         update={(value) => {
-          updateState({ [p]: value })
+          updateState({ props: { [p]: value } })
         }}
         state={state}
         name={p}

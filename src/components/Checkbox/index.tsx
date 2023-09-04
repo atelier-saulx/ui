@@ -38,7 +38,7 @@ export const Checkbox: FC<CheckboxProps> = ({
       style={{
         display: 'flex',
         pointerEvents: disabled ? 'none' : 'auto',
-
+        ...style,
         opacity: disabled ? 0.6 : 1,
       }}
     >
@@ -99,7 +99,6 @@ export const Checkbox: FC<CheckboxProps> = ({
               }
             : null,
           transition: 'all 0.2s',
-          ...style,
         }}
       >
         {checked ? (
