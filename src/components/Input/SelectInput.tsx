@@ -3,6 +3,7 @@ import {
   IconCheckLarge,
   IconChevronDownSmall,
   IconEmojiSad,
+  IconSmallClose,
   color,
   styled,
 } from '../..'
@@ -16,12 +17,13 @@ export type SelectInputOption = {
 
 export type SelectInputProps = {
   options: SelectInputOption[]
-  value: string
-  onChange: (newValue: string) => void
   beforeIcon?: React.ReactNode
   disabled?: boolean
   placeholder?: string
-}
+} & (
+  | { multiple: false; value: string; onChange: (newValue: string) => void }
+  | { multiple: true; value: string[]; onChange: (newValues: string[]) => void }
+)
 
 export function SelectInput({
   options,
@@ -30,17 +32,20 @@ export function SelectInput({
   placeholder,
   value,
   onChange,
+  multiple,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
   const [focus, setFocus] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const [filter, setFilter] = useState<null | string>(null)
 
-  function handleChange(newValue: string) {
-    setOpen(false)
-    setFilter(null)
-    onChange(newValue)
-  }
+  const filteredOptions = options
+    .filter((e) =>
+      filter
+        ? e.label.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+        : true
+    )
+    .filter((e) => (multiple ? value.includes(e.value) === false : true))
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -50,7 +55,7 @@ export function SelectInput({
         e.preventDefault()
         setFocus(focus - 1)
       }
-      if (e.key === 'ArrowDown' && focus < options.length - 1) {
+      if (e.key === 'ArrowDown' && focus < filteredOptions.length - 1) {
         e.preventDefault()
         setFocus(focus + 1)
       }
@@ -60,7 +65,12 @@ export function SelectInput({
       if (e.key === 'Enter') {
         e.preventDefault()
 
-        handleChange(options[focus].value)
+        setOpen(false)
+        setFilter(null)
+        setFocus(0)
+        multiple
+          ? onChange([...value, filteredOptions[focus].value])
+          : onChange(filteredOptions[focus].value)
       }
     }
 
@@ -69,13 +79,7 @@ export function SelectInput({
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [open, focus])
-
-  const filteredOptions = options.filter((e) =>
-    filter
-      ? e.label.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
-      : true
-  )
+  }, [open, focus, filteredOptions])
 
   return (
     <styled.div
@@ -90,6 +94,7 @@ export function SelectInput({
         lineHeight: '24px',
         cursor: 'pointer',
         boxSizing: 'border-box',
+        maxWidth: 320,
         ...(open
           ? {
               border: `1px solid ${color('inputBorder', 'active', 'default')}`,
@@ -137,6 +142,7 @@ export function SelectInput({
           if (disabled) return
 
           setOpen(true)
+          setFocus(0)
           inputRef.current?.select()
         }}
       >
@@ -150,39 +156,92 @@ export function SelectInput({
             {beforeIcon}
           </div>
         )}
-        <styled.input
-          ref={inputRef}
-          style={{
-            padding: 0,
-            appearance: 'none',
-            height: '100%',
-            width: '100%',
-            border: 'none',
-            '&:focus': {
-              outline: 'none',
-            },
-            minHeight: 24,
-            lineHeight: '24px',
-            fontSize: '14px',
-            cursor: 'pointer',
-          }}
-          value={
-            filter === null
-              ? value === ''
-                ? ''
-                : options.find((e) => e.value === value)!.label
-              : filter
+        <div
+          style={
+            multiple
+              ? {
+                  flex: '1 1 0%',
+                  display: 'flex',
+                  gap: 8,
+                  flexWrap: 'wrap',
+                  padding: '7px 0',
+                }
+              : {}
           }
-          onChange={(e) => {
-            setOpen(true)
-            setFilter(e.target.value)
-          }}
-          onFocus={() => {
-            setOpen(true)
-            inputRef.current?.select()
-          }}
-          placeholder={placeholder}
-        />
+        >
+          {multiple &&
+            value.map((v) => (
+              <styled.div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 24,
+                  padding: '0 8px',
+                  borderRadius: 4,
+                  backgroundColor: color('action', 'neutral', 'subtleActive'),
+                  whiteSpace: 'nowrap',
+                }}
+                key={v}
+              >
+                <span style={{ whiteSpace: 'nowrap', cursor: 'default' }}>
+                  {options.find((e) => e.value === v)!.label}
+                </span>
+                <button
+                  style={{
+                    marginLeft: 4,
+                    appearance: 'none',
+                    border: 'none',
+                    padding: '0',
+                    background: 'transparent',
+                    height: 16,
+                    width: 16,
+                    cursor: 'pointer',
+                  }}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    onChange(value.filter((e) => e !== v))
+                  }}
+                >
+                  <IconSmallClose style={{ cursor: 'pointer' }} />
+                </button>
+              </styled.div>
+            ))}
+          <styled.input
+            ref={inputRef}
+            style={{
+              height: 24,
+              padding: 0,
+              appearance: 'none',
+              border: 'none',
+              '&:focus': {
+                outline: 'none',
+              },
+              lineHeight: '24px',
+              fontSize: '14px',
+              cursor: 'pointer',
+            }}
+            value={
+              multiple
+                ? filter || ''
+                : filter === null
+                ? value === ''
+                  ? ''
+                  : options.find((e) => e.value === value)!.label
+                : filter
+            }
+            onChange={(e) => {
+              setOpen(true)
+              setFocus(0)
+              setFilter(e.target.value)
+            }}
+            onFocus={() => {
+              setOpen(true)
+              inputRef.current?.select()
+            }}
+            placeholder={placeholder}
+          />
+        </div>
         <div
           style={{
             flexShrink: 0,
@@ -213,8 +272,9 @@ export function SelectInput({
               position: 'absolute',
               left: 0,
               right: 0,
-              top: 48,
+              bottom: 0,
               background: color('background', 'default', 'surface'),
+              transform: 'translateY(calc(100% + 8px))',
               border: `1px solid ${color(
                 'inputBorder',
                 'neutralNormal',
@@ -225,6 +285,7 @@ export function SelectInput({
               '& > * + *': {
                 marginTop: '2px',
               },
+              zIndex: 50,
             }}
           >
             {filteredOptions.length === 0 ? (
@@ -249,7 +310,12 @@ export function SelectInput({
                     setFocus(index)
                   }}
                   onClick={() => {
-                    handleChange(option.value)
+                    setOpen(false)
+                    setFilter(null)
+                    setFocus(0)
+                    multiple
+                      ? onChange([...value, option.value])
+                      : onChange(option.value)
                   }}
                   style={{
                     position: 'relative',
