@@ -4,6 +4,7 @@ import {
   AlertBanner,
   Avatar,
   Badge,
+  BarGraph,
   Breadcrumbs,
   Button,
   Checkbox,
@@ -113,6 +114,13 @@ export const components: ComponentDef[] = [
         },
       },
     ],
+  },
+  {
+    name: 'BargraphBrokenDonotclick',
+    properties: props.props.BadgeProps.props,
+    component: BarGraph,
+    description: 'Testing Place BarGraph',
+    examples: [{}],
   },
   {
     name: 'Breadcrumbs',
