@@ -331,7 +331,7 @@ export const Slider: FC<SliderProps> = ({
         onTouchEnd={onTouchEnd}
       >
         <StyledLabel style={{ left: `${percentageX}%` }}>
-          <Text color="inverted" weight="strong">
+          <Text color="inverted" selectable="none" weight="strong">
             {items
               ? items[index as number]?.title
               : max

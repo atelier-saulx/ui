@@ -265,6 +265,7 @@ export const Button: FC<ButtonProps> = (props) => {
             style: children ? { marginRight: 8 } : undefined,
           })}
         <Text
+          selectable="none"
           style={{
             display: 'flex',
             alignItems: 'center',

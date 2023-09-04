@@ -82,11 +82,17 @@ const TabWrapper: FC<{
       )}
 
       {typeof children === 'string' ? (
-        <Text weight={index === activeTabState ? 'strong' : 'medium'}>
+        <Text
+          selectable="none"
+          weight={index === activeTabState ? 'strong' : 'medium'}
+        >
           {children}
         </Text>
       ) : (
-        <Text weight={index === activeTabState ? 'strong' : 'medium'}>
+        <Text
+          selectable="none"
+          weight={index === activeTabState ? 'strong' : 'medium'}
+        >
           {children.props.label}
         </Text>
       )}

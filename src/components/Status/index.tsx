@@ -83,8 +83,8 @@ export const Status: FC<StatusProps> = ({
       />
 
       <Text
+        selectable="none"
         style={{
-          userSelect: 'none',
           color:
             color === 'default'
               ? genColor('content', 'default', 'primary')

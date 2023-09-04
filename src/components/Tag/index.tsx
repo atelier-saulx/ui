@@ -45,7 +45,12 @@ export const Tag: FC<TagProps> = ({
         ...style,
       }}
     >
-      <Text size={14} weight="medium" style={{ marginRight: 4 }}>
+      <Text
+        selectable="none"
+        size={14}
+        weight="medium"
+        style={{ marginRight: 4 }}
+      >
         {children}
       </Text>
       <IconSmallClose onClick={onClose} />
