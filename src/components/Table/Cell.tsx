@@ -46,11 +46,13 @@ export const Cell = (props) => {
     <TableHeaderTypes
       type={type}
       rowData={rowData}
+      rowIndex={props.rowIndex}
       itemData={itemData}
       key={key}
       renderCounter={data.renderCounter}
       setRenderCounter={data.setRenderCounter}
       editable={editable}
+      shiftKeyIsDown={props.shiftKeyIsDown}
     />
   ) : (
     <Text weight="medium">

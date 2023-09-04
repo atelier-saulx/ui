@@ -229,6 +229,8 @@ export const Dialog = Object.assign(
                 '@media only screen and (max-width: 680px)': {
                   padding: '24px 16px 8px 16px',
                 },
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
               <Text size={18} weight="strong">

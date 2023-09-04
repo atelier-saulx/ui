@@ -12,24 +12,6 @@ import {
   useCopyToClipboard,
 } from '../..'
 
-type TableHeaderTypesProps = {
-  type:
-    | 'author'
-    | 'boolean'
-    | 'checkbox'
-    | 'id'
-    | 'img'
-    | 'number'
-    | 'string'
-    | 'timestamp'
-  itemData: any
-  rowData: {}
-  key: any
-  renderCounter: any
-  setRenderCounter: any
-  editable?: boolean
-}
-
 const IdBadge: FC<{
   children: string
 }> = ({ children }) => {
@@ -87,14 +69,18 @@ const BooleanToggle: FC<{
 
 const CheckboxItem: FC<{
   rowData?: any
+  rowIndex?: number
   renderCounter?: any
   setRenderCounter?: any
-}> = ({ rowData, renderCounter, setRenderCounter }) => {
+  shiftKeyIsDown?: boolean
+}> = ({ rowData, rowIndex, renderCounter, setRenderCounter }) => {
+  rowData.meta.selectedIndex = rowIndex
   return (
     <Checkbox
       value={rowData.meta.selected}
       onChange={(v) => {
         v ? (rowData.meta.selected = true) : (rowData.meta.selected = false)
+
         setRenderCounter(renderCounter + 1)
       }}
     />
@@ -143,9 +129,29 @@ const StringItem: FC<{
   )
 }
 
+type TableHeaderTypesProps = {
+  type:
+    | 'author'
+    | 'boolean'
+    | 'checkbox'
+    | 'id'
+    | 'img'
+    | 'number'
+    | 'string'
+    | 'timestamp'
+  itemData: any
+  rowData: {}
+  rowIndex: number
+  key: any
+  renderCounter: any
+  setRenderCounter: any
+  editable?: boolean
+}
+
 export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   type,
   rowData,
+  rowIndex,
   itemData,
   key,
   renderCounter,
@@ -173,6 +179,7 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   ) : type === 'checkbox' ? (
     <CheckboxItem
       rowData={rowData}
+      rowIndex={rowIndex}
       renderCounter={renderCounter}
       setRenderCounter={setRenderCounter}
     />
