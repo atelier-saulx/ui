@@ -111,7 +111,13 @@ export const Checkbox: FC<CheckboxProps> = ({
       </styled.button>
       {label && (
         <styled.div
-          style={{ marginLeft: 12, marginTop: '-3px', cursor: 'pointer' }}
+          style={{
+            marginLeft: 12,
+            marginTop: '-3px',
+            cursor: 'pointer',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()

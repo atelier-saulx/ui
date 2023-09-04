@@ -1,14 +1,24 @@
 import React, { FC } from 'react'
 import { Checkbox } from '.'
-import { Text, styled, color as genColor } from '../..'
-import { CheckboxItemProps } from '../../types'
+import { Text, styled, color as genColor, Style } from '../..'
+
+export type CheckboxItemProps = {
+  value?: boolean
+  description?: string
+  disabled?: boolean
+  indeterminate?: boolean
+  label?: string
+  onChange?: (value: boolean) => void
+  style?: Style
+  warning?: boolean
+}
 
 export const CheckboxItem: FC<CheckboxItemProps> = ({
   label,
+  value,
   description,
-  active,
   indeterminate,
-  onClick,
+  onChange,
   style,
   warning,
   disabled,
@@ -16,9 +26,9 @@ export const CheckboxItem: FC<CheckboxItemProps> = ({
   return (
     <styled.div style={{ display: 'flex', ...style }}>
       <Checkbox
-        active={active}
+        value={value}
         indeterminate={indeterminate}
-        onClick={onClick}
+        onChange={onChange}
         warning={warning}
         disabled={disabled}
         style={{ marginTop: '4px', marginRight: '12px' }}
@@ -27,10 +37,15 @@ export const CheckboxItem: FC<CheckboxItemProps> = ({
         style={{
           display: 'flex',
           flexDirection: 'column',
+          border: '1px solid red',
         }}
       >
-        <Text color="default">{label}</Text>
-        <Text light>{description}</Text>
+        <Text style={{ display: 'flex' }} color="default">
+          {label}
+        </Text>
+        <Text style={{ display: 'flex' }} light>
+          {description}
+        </Text>
       </styled.div>
     </styled.div>
   )
