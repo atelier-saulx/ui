@@ -41,6 +41,7 @@ const App = () => {
               value: c.name,
             }
           }),
+          hooks: {},
         }}
         active={component}
         onChange={(v) => {

@@ -62,7 +62,7 @@ export const components: ComponentDef[] = [
         props: {
           color: 'warning',
           children: 'Warning Resolve',
-          action: { label: 'RESOLVE', onClick: () => console.log('oppa ') },
+          action: { label: 'RESOLVE', onClick: () => console.log('oppa') },
         },
       },
     ],
