@@ -689,8 +689,16 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
+          collapse: true,
           data: {
             Label: {
+              flyp: {
+                value: 'yow1',
+                label: 'Menu Text',
+                icon: () => <IconHome />,
+              },
+            },
+            title: {
               flyp: {
                 value: 'yow1',
                 label: 'Menu Text',
@@ -705,6 +713,7 @@ export const components: ComponentDef[] = [
                 value: 'yow3',
                 label: 'Menu Text',
                 icon: () => <IconHome />,
+                items: [{ value: 'yow4', label: 'flipe' }],
               },
               flap: 'Menu Text',
             },

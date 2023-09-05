@@ -37,6 +37,8 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
           light
           style={{
             // marginBottom: 16,
+            display: 'flex',
+            position: 'relative',
             textTransform: 'uppercase',
           }}
         >
@@ -67,9 +69,12 @@ const HideableStyledDiv = styled('div', {
   },
 })
 
-const StyledChevron = styled(IconChevronDown, {
+const StyledChevron = styled('div', {
   transition: 'transform 0.2s',
-  '&.closed': {
+  position: 'absolute',
+
+  right: 12,
+  '&.closed ': {
     transform: 'rotate(180deg)',
   },
 })
@@ -200,8 +205,8 @@ export const Menu: FC<MenuProps> = ({
               style={{
                 marginTop: i && 36,
                 justifyContent: collapse ? 'space-between' : 'unset',
-                display: collapse ? 'flex' : 'unset',
-                alignItems: 'center',
+                display: collapse ? 'flex' : 'flex',
+
                 marginBottom: '12px',
               }}
               onClick={(e) => {
@@ -216,8 +221,14 @@ export const Menu: FC<MenuProps> = ({
                   e.currentTarget.parentNode.nextSibling.classList.toggle(
                     'hidden'
                   )
+
                   // @ts-ignore FIX THIS
-                  e.currentTarget.parentNode?.childNodes[0]?.childNodes[1]?.classList.toggle(
+                  console.log(
+                    e.currentTarget.parentNode?.childNodes[0].childNodes[0]
+                      ?.childNodes[1]
+                  )
+                  // @ts-ignore FIX THIS
+                  e.currentTarget.parentNode?.childNodes[0]?.childNodes[0]?.childNodes[1]?.classList.toggle(
                     'closed'
                   )
                 }
@@ -227,7 +238,11 @@ export const Menu: FC<MenuProps> = ({
                 <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
               ) : null}
               {label}
-              {collapse && <StyledChevron id={`${i}-menuchevron`} />}
+              {collapse && (
+                <StyledChevron id={`${i}-menuchevron`}>
+                  <IconChevronDown />
+                </StyledChevron>
+              )}
             </MenuHeader>
             <HideableStyledDiv id={`${i}-menuitems`}>
               {items.map(({ value, label, onClick, icon }, index: number) => {
@@ -242,6 +257,11 @@ export const Menu: FC<MenuProps> = ({
                       if (onClick) {
                         onClick(e)
                       }
+                    }}
+                    style={{
+                      display: 'flex',
+                      position: 'relative',
+                      alignItems: 'center',
                     }}
                     active={isActive ? isActive(value) : active === value}
                   >
