@@ -954,14 +954,14 @@ export const components: ComponentDef[] = [
       {
         props: {
           size: 'large',
-          active: true,
+          value: true,
           disabled: false,
         },
       },
       {
         props: {
           size: 'medium',
-          active: true,
+          value: true,
           onClick: (v) => console.log(v),
           color: 'neutral',
         },

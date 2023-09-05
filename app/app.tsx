@@ -3,12 +3,20 @@ import React, { FC, useEffect, useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { color, Menu, Provider, ScrollArea, Slider } from '../src'
+import {
+  color,
+  IconRefresh,
+  Menu,
+  Provider,
+  ScrollArea,
+  Slider,
+  useTooltip,
+} from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
-import { Input, Text } from '../src'
+import { Input, Text, Button } from '../src'
 import { BarGraph } from '../src/components/BarGraph'
 
 export const client = based(basedConfig)
@@ -20,6 +28,11 @@ const App = () => {
     return c.name === component
   })
 
+  const toolTipLocalStorageBtn = useTooltip(
+    'Clear localstorage',
+    'bottom-right'
+  )
+
   return (
     <styled.div
       style={{
@@ -30,7 +43,16 @@ const App = () => {
       }}
     >
       <Menu
-        // header={'HEADER'}
+        header={
+          <Button
+            color="system"
+            icon={<IconRefresh />}
+            onClick={() => localStorage.clear()}
+            size="small"
+            style={{ marginBottom: 16 }}
+            {...toolTipLocalStorageBtn}
+          />
+        }
         data={{
           Dashboard: {
             Content: 'Content',
