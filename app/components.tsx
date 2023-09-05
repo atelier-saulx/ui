@@ -22,6 +22,7 @@ import {
   LineGraph,
   Logs,
   Menu,
+  MetricsWidget,
   Modal,
   RadioButtons,
   ScrollArea,
@@ -491,6 +492,21 @@ export const components: ComponentDef[] = [
             { msg: '🪵 Log 1', ts: 21241425 },
             { msg: '🪵 Log 2', ts: 2143241425 },
           ],
+        },
+      },
+    ],
+  },
+  {
+    name: 'MetricsWidget',
+    // TODO  yves ,change to LogsProps once genprops works again
+    properties: props.props.ModalProps.props,
+    description: '',
+    component: MetricsWidget,
+    examples: [
+      {
+        props: {},
+        customRenderer: () => {
+          return <MetricsWidget label="Technology" />
         },
       },
     ],

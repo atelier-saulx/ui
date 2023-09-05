@@ -5,6 +5,7 @@ import '../src/fonts.css'
 import based from '@based/client'
 import {
   color,
+  Button,
   IconRefresh,
   Menu,
   Provider,
@@ -15,7 +16,6 @@ import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
-import { Button } from '../src'
 
 export const client = based(basedConfig)
 
