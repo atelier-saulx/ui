@@ -68,7 +68,6 @@ export const PropsEditor: FC<{
 }> = ({ component, state, index, updateState }) => {
   const example = component.examples[index]
   const propsFromExample = example.props
-
   const parsedProps: ReactNode[] = []
 
   for (const p in component.properties) {
