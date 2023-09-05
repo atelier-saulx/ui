@@ -499,22 +499,22 @@ export const components: ComponentDef[] = [
       },
     ],
   },
-  {
-    name: 'NumberInput',
-    component: Input,
-    description: 'Number input',
-    properties: props.props.InputProps.props,
-    examples: [
-      {
-        props: {
-          type: 'number',
-          placeholder: 'type a number',
-          prefix: 'pre',
-          clearButton: true,
-        },
-      },
-    ],
-  },
+  // {
+  //   name: 'NumberInput',
+  //   component: Input,
+  //   description: 'Number input',
+  //   properties: props.props.InputProps.props,
+  //   examples: [
+  //     {
+  //       props: {
+  //         type: 'number',
+  //         placeholder: 'type a number',
+  //         prefix: 'pre',
+  //         clearButton: true,
+  //       },
+  //     },
+  //   ],
+  // },
   {
     name: 'SearchInput',
     component: Input,
