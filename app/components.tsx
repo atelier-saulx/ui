@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../src/fonts.css'
 import {
   AlertBanner,
@@ -20,7 +20,6 @@ import {
   Input,
   LineGraph,
   Modal,
-  MultiSelect,
   RadioButtons,
   ScrollArea,
   SegmentedControl,
@@ -545,33 +544,42 @@ export const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        props: {
-          placeholder: 'Select something',
-          options: [
-            { label: 'Item one', value: 'value1' },
-            { label: 'Item two', value: 'value2' },
-            { label: 'Item three', value: 'value3' },
-          ],
-          type: 'select',
-        },
-      },
-    ],
-  },
-  {
-    name: 'MultiSelect',
-    component: MultiSelect,
-    description: 'Select input',
-    properties: props.props.InputProps.props,
-    examples: [
-      {
-        props: {
-          placeholder: 'Select something',
-          options: [
-            { label: 'Item one', value: 'value1' },
-            { label: 'Item two', value: 'value2' },
-            { label: 'Item three', value: 'value3' },
-          ],
-          type: 'select',
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+          const [multiValue, setMultiValue] = useState<string[]>([])
+          return (
+            <styled.div style={{ '& > * + *': { marginTop: '24px' } }}>
+              <Input
+                type="select"
+                multiple={false}
+                value={value}
+                onChange={(v) => {
+                  setValue(v)
+                }}
+                placeholder="Select one"
+                options={[
+                  { label: 'Item one', value: 'value1' },
+                  { label: 'Item two', value: 'value2' },
+                  { label: 'Item three', value: 'value3' },
+                ]}
+              />
+              <Input
+                type="select"
+                multiple
+                value={multiValue}
+                onChange={(v) => {
+                  setMultiValue(v)
+                }}
+                placeholder="Select multiple"
+                options={[
+                  { label: 'Item one', value: 'value1' },
+                  { label: 'Item two', value: 'value2' },
+                  { label: 'Item three', value: 'value3' },
+                ]}
+              />
+            </styled.div>
+          )
         },
       },
     ],

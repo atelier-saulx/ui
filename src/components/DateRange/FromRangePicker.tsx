@@ -196,10 +196,10 @@ export const FromRangePicker = ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '12px 16px',
+          padding: '16px',
         }}
       >
-        <Text style={{ display: 'flex' }}>
+        <Text style={{ display: 'flex' }} weight="strong">
           {(months[+valueAsString?.split('/')[1]] || '') +
             ' ' +
             (valueAsString?.split('/')[2] || '')}

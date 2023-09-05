@@ -444,8 +444,9 @@ export const DateRangeDoubleInput = ({
               'primary',
               'subtleNormal'
             )}`,
+            marginRight: '-2px',
             height: 36,
-            paddingLeft: 8,
+            paddingLeft: 12,
             paddingRight: 12,
             alignItems: 'center',
             width: '100%',
@@ -460,11 +461,12 @@ export const DateRangeDoubleInput = ({
         >
           {/* @ts-ignore*/}
           {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
-          <IconCalendar />
+          <IconCalendar style={{ marginRight: 8 }} />
           {/* </ClickableIcon> */}
           <styled.div
             style={{
               padding: '0px 1px',
+              fontSize: 14,
               backgroundColor:
                 focusField === 'dayFromFocus'
                   ? genColor('action', 'neutral', 'subtleActive')
@@ -483,6 +485,7 @@ export const DateRangeDoubleInput = ({
           <styled.div
             style={{
               padding: '0px 1px',
+              fontSize: 14,
               backgroundColor:
                 focusField === 'monthFromFocus'
                   ? genColor('action', 'neutral', 'subtleActive')
@@ -505,6 +508,7 @@ export const DateRangeDoubleInput = ({
           <styled.div
             style={{
               padding: '0px 1px',
+              fontSize: 14,
               backgroundColor:
                 focusField === 'yearFromFocus'
                   ? genColor('action', 'neutral', 'subtleActive')
@@ -535,7 +539,7 @@ export const DateRangeDoubleInput = ({
             )}`,
             height: 36,
             boxSizing: 'content-box',
-            paddingLeft: 8,
+            paddingLeft: 12,
             paddingRight: 12,
             alignItems: 'center',
             width: '100%',
@@ -552,10 +556,11 @@ export const DateRangeDoubleInput = ({
         >
           {/* @ts-ignore*/}
           {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
-          <IconCalendar />
+          <IconCalendar style={{ marginRight: 8 }} />
           <styled.div
             style={{
               padding: '0px 1px',
+              fontSize: 14,
               backgroundColor:
                 focusField === 'dayTillFocus'
                   ? genColor('action', 'neutral', 'subtleActive')
@@ -574,6 +579,7 @@ export const DateRangeDoubleInput = ({
           <styled.div
             style={{
               padding: '0px 1px',
+              fontSize: 14,
               backgroundColor:
                 focusField === 'monthTillFocus'
                   ? genColor('action', 'neutral', 'subtleActive')
@@ -596,6 +602,7 @@ export const DateRangeDoubleInput = ({
           <styled.div
             style={{
               padding: '0px 1px',
+              fontSize: 14,
               backgroundColor:
                 focusField === 'yearTillFocus'
                   ? genColor('action', 'neutral', 'subtleActive')

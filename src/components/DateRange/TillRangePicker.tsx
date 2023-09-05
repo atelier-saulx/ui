@@ -196,10 +196,10 @@ export const TillRangePicker = ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '12px 16px',
+          padding: '16px',
         }}
       >
-        <Text>
+        <Text weight="strong">
           {(months[+valueAsString?.split('/')[1]] || '') +
             ' ' +
             (valueAsString?.split('/')[2] || '')}

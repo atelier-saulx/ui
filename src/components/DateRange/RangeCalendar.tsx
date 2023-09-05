@@ -145,6 +145,8 @@ export const RangeCalendar = ({
           textAlign: 'center',
           color: genColor('content', 'default', 'secondary'),
           padding: '0px 20px',
+          marginTop: 4,
+          marginBottom: '-8px',
           justifyContent: 'center',
           '& div': {
             width: '26px',
@@ -269,6 +271,30 @@ export const RangeCalendar = ({
                       ? genColor('action', 'primary', 'subtleSelected')
                       : genColor('action', 'neutral', 'subtleHover'),
                 },
+                borderTopLeftRadius:
+                  val.day === tillDay &&
+                  +selectedMonth === tillMonth &&
+                  +selectedYear === tillYear
+                    ? 0
+                    : 4,
+                borderBottomLeftRadius:
+                  val.day === tillDay &&
+                  +selectedMonth === tillMonth &&
+                  +selectedYear === tillYear
+                    ? 0
+                    : 4,
+                borderTopRightRadius:
+                  val.day === fromDay &&
+                  +selectedMonth === fromMonth &&
+                  +selectedYear === fromYear
+                    ? 0
+                    : 4,
+                borderBottomRightRadius:
+                  val.day === fromDay &&
+                  +selectedMonth === fromMonth &&
+                  +selectedYear === fromYear
+                    ? 0
+                    : 4,
               }}
               key={i}
               onClick={() => {

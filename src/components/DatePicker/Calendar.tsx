@@ -81,6 +81,8 @@ export const Calendar = ({
           textAlign: 'center',
           color: genColor('content', 'default', 'secondary'),
           padding: '0px 20px',
+          marginTop: 4,
+          marginBottom: '-10px',
           justifyContent: 'center',
           '& div': {
             width: '26px',
