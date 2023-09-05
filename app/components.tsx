@@ -20,6 +20,7 @@ import {
   IconHome,
   Input,
   LineGraph,
+  Logs,
   Menu,
   Modal,
   RadioButtons,
@@ -476,6 +477,14 @@ export const components: ComponentDef[] = [
         },
       },
     ],
+  },
+  {
+    name: 'Logs',
+    description: '',
+    // TODO  yves ,change to LogsProps once genprops works again
+    properties: props.props.ScrollAreaProps.props,
+    component: Logs,
+    examples: [{ props: {} }],
   },
   {
     name: 'Modal',
