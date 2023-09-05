@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../src/fonts.css'
 import {
   AlertBanner,
@@ -20,7 +20,6 @@ import {
   Input,
   LineGraph,
   Modal,
-  MultiSelect,
   RadioButtons,
   ScrollArea,
   SegmentedControl,
@@ -324,6 +323,13 @@ export const components: ComponentDef[] = [
           type: 'file',
         },
       },
+      {
+        props: {
+          type: 'file',
+          multiple: true,
+          label: 'Add multiple fiels',
+        },
+      },
     ],
   },
   {
@@ -493,22 +499,22 @@ export const components: ComponentDef[] = [
       },
     ],
   },
-  {
-    name: 'NumberInput',
-    component: Input,
-    description: 'Number input',
-    properties: props.props.InputProps.props,
-    examples: [
-      {
-        props: {
-          type: 'number',
-          placeholder: 'type a number',
-          prefix: 'pre',
-          clearButton: true,
-        },
-      },
-    ],
-  },
+  // {
+  //   name: 'NumberInput',
+  //   component: Input,
+  //   description: 'Number input',
+  //   properties: props.props.InputProps.props,
+  //   examples: [
+  //     {
+  //       props: {
+  //         type: 'number',
+  //         placeholder: 'type a number',
+  //         prefix: 'pre',
+  //         clearButton: true,
+  //       },
+  //     },
+  //   ],
+  // },
   {
     name: 'SearchInput',
     component: Input,
@@ -516,10 +522,39 @@ export const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        props: {
-          placeholder: 'Search for something',
-          type: 'search',
-          label: 'This is a label',
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="search"
+              placeholder="Search"
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="search"
+              label="You can add a label"
+              error="and an error if you really want"
+              placeholder="Search"
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
         },
       },
     ],
@@ -545,33 +580,48 @@ export const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        props: {
-          placeholder: 'Select something',
-          options: [
-            { label: 'Item one', value: 'value1' },
-            { label: 'Item two', value: 'value2' },
-            { label: 'Item three', value: 'value3' },
-          ],
-          type: 'select',
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+          return (
+            <Input
+              type="select"
+              multiple={false}
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+              placeholder="Select one"
+              options={[
+                { label: 'Item one', value: 'value1' },
+                { label: 'Item two', value: 'value2' },
+                { label: 'Item three', value: 'value3' },
+              ]}
+            />
+          )
         },
       },
-    ],
-  },
-  {
-    name: 'MultiSelect',
-    component: MultiSelect,
-    description: 'Select input',
-    properties: props.props.InputProps.props,
-    examples: [
       {
-        props: {
-          placeholder: 'Select something',
-          options: [
-            { label: 'Item one', value: 'value1' },
-            { label: 'Item two', value: 'value2' },
-            { label: 'Item three', value: 'value3' },
-          ],
-          type: 'select',
+        props: {},
+        customRenderer: () => {
+          const [multiValue, setMultiValue] = useState<string[]>([])
+          return (
+            <Input
+              type="select"
+              multiple
+              value={multiValue}
+              label="This is a label"
+              onChange={(v) => {
+                setMultiValue(v)
+              }}
+              placeholder="Select multiple"
+              options={[
+                { label: 'Item one', value: 'value1' },
+                { label: 'Item two', value: 'value2' },
+                { label: 'Item three', value: 'value3' },
+              ]}
+            />
+          )
         },
       },
     ],
@@ -840,13 +890,39 @@ export const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        props: {
-          placeholder: 'placeholder',
-          type: 'text',
-          label: 'This is a label',
-          error: 'This is an error message',
-          value: 'This is a text input',
-          onChange: (e) => console.log(e.target.value),
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="text"
+              value={value}
+              placeholder="Simple"
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="text"
+              label="This is a label"
+              placeholder="Advanced"
+              error="This is an error"
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
         },
       },
     ],
