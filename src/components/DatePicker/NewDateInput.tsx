@@ -282,10 +282,10 @@ export const NewDateInput = ({
               'subtleNormal'
             )}`,
             height: 36,
-            paddingLeft: 8,
+            paddingLeft: 12,
             paddingRight: 12,
             alignItems: 'center',
-            width: 292,
+            width: 260,
             ...style,
           }}
           onClick={(e) => {
@@ -301,10 +301,11 @@ export const NewDateInput = ({
         >
           {/* @ts-ignore*/}
           {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
-          <IconCalendar />
+          <IconCalendar style={{ marginRight: 8 }} />
           <styled.div
             style={{
               padding: '0px 1px',
+              fontSize: 14,
               backgroundColor:
                 focusField === 'dayFocus'
                   ? genColor('action', 'neutral', 'subtleActive')
@@ -323,6 +324,7 @@ export const NewDateInput = ({
           <styled.div
             style={{
               padding: '0px 1px',
+              fontSize: 14,
               backgroundColor:
                 focusField === 'monthFocus'
                   ? genColor('action', 'neutral', 'subtleActive')
@@ -340,6 +342,7 @@ export const NewDateInput = ({
           <styled.div>/</styled.div>
           <styled.div
             style={{
+              fontSize: 14,
               padding: '0px 1px',
               backgroundColor:
                 focusField === 'yearFocus'
