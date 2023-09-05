@@ -8,6 +8,9 @@ import {
   removeOverlay,
   IconChartLine,
   IconChartPie,
+  IconHash,
+  IconPercentage,
+  IconChartBarHorizontal,
 } from '../..'
 
 const StyledSelectItem = styled('div', {
@@ -46,7 +49,7 @@ export const CalculateOptionsOverlay = ({
             opacity: calculationOption === 'numbers' ? 1 : 0,
           }}
         />
-        <IconChartBar />
+        <IconHash />
         <Text weight="medium">Total count</Text>
       </StyledSelectItem>
       <StyledSelectItem
@@ -58,7 +61,7 @@ export const CalculateOptionsOverlay = ({
         <IconCheckLarge
           style={{ opacity: calculationOption === 'percentage' ? 1 : 0 }}
         />
-        <IconChartLine />
+        <IconPercentage />
         <Text weight="medium">Percentage</Text>
       </StyledSelectItem>
     </styled.div>
@@ -85,7 +88,7 @@ export const ChartOptionsOverlay = ({ chartOption, setChartOption }) => {
             opacity: chartOption === 'bar' ? 1 : 0,
           }}
         />
-        <IconChartBar />
+        <IconChartBarHorizontal />
         <Text weight="medium">Bar</Text>
       </StyledSelectItem>
       <StyledSelectItem

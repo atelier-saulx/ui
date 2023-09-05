@@ -9,6 +9,11 @@ import {
   IconEmojiSmile,
   IconChartLine,
   useOverlay,
+  IconPercentage,
+  IconChartBar,
+  IconChartBarHorizontal,
+  IconChartPie,
+  IconHash,
 } from '../..'
 import { ChartOptionsOverlay, CalculateOptionsOverlay } from './overlays'
 
@@ -97,7 +102,13 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
             }}
           />
           <Button
-            icon={<IconEmojiSmile />}
+            icon={
+              calculationOption === 'numbers' ? (
+                <IconHash />
+              ) : (
+                <IconPercentage />
+              )
+            }
             size="small"
             color="system"
             light
@@ -106,7 +117,17 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
             // {...changeCalculation}
           />
           <Button
-            icon={<IconChartLine />}
+            icon={
+              chartOption === 'bar' ? (
+                <IconChartBarHorizontal />
+              ) : chartOption === 'line' ? (
+                <IconChartLine />
+              ) : chartOption === 'pie' ? (
+                <IconChartPie />
+              ) : (
+                <IconChartBarHorizontal />
+              )
+            }
             size="small"
             color="system"
             light
