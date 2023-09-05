@@ -702,10 +702,9 @@ export const components: ComponentDef[] = [
               flyp: {
                 value: 'yow1',
                 label: 'Menu Text',
-                icon: () => <IconHome />,
+                icon: () => <IconEmojiSmile />,
               },
               flip: {
-                value: 'yow2',
                 label: 'Menu Text',
                 icon: () => <IconHome />,
               },
@@ -713,6 +712,10 @@ export const components: ComponentDef[] = [
                 value: 'yow3',
                 label: 'Menu Text',
                 icon: () => <IconHome />,
+              },
+              test: {
+                value: 'x',
+                label: 'more0',
                 items: [{ value: 'yow4', label: 'flipe' }],
               },
               flap: 'Menu Text',
