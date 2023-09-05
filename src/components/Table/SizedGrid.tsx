@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState, useEffect, useMemo } from 'react'
-import { TableProps, SortOptions } from '.'
+import { TableProps, SortOptions } from './types'
 import { styled, color } from '../..'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { useInfiniteQuery } from './useInfiniteQuery'
@@ -7,15 +7,21 @@ import { Header } from './Header'
 import { Cell } from './Cell'
 
 const TYPE_WIDTHS = {
-  //   file: 100,
-  //   reference: 100,
-  //   id: 140,
-  //   references: 130,
-  //   bytes: 130,
-  //   boolean: 100,
+  // file: 100,
+  // reference: 100,
+  // id: 140,
+  // references: 130,
+  // bytes: 130,
+  // boolean: 100,
 }
 
-export const SizedGrid: FC<TableProps> = (props) => {
+type RowSelectTypes = {
+  selectAllRows?: () => void
+  clearAllRows?: () => void
+  selectedRows?: {}
+}
+
+export const SizedGrid: FC<TableProps & RowSelectTypes> = (props) => {
   const {
     query,
     getQueryItems,
@@ -24,7 +30,7 @@ export const SizedGrid: FC<TableProps> = (props) => {
     defaultSortOptions,
     calcRowHeight,
     rowHeight = 60,
-    width,
+    width = 100,
     queryId,
     itemCount = data.length,
     height = itemCount < 20 ? data.length * rowHeight + 60 : 200,
@@ -34,14 +40,14 @@ export const SizedGrid: FC<TableProps> = (props) => {
     sortKey,
     renderCounter,
     setRenderCounter,
-    shiftKeyIsDown,
-    setPrevSelectedRowNumber,
     selectAllRows,
     clearAllRows,
     selectedRows,
   } = props
 
-  const headerWrapper = useRef(null)
+  const headerWrapper = useRef<HTMLDivElement>(
+    null
+  ) as React.MutableRefObject<HTMLDivElement>
   const gridRef = useRef(null)
 
   // this here makes column width change if you view/select more or less
@@ -63,11 +69,11 @@ export const SizedGrid: FC<TableProps> = (props) => {
     if (h.width) {
       w += h.width
     } else {
-      const typeWidth = TYPE_WIDTHS[h.type]
+      const typeWidth = TYPE_WIDTHS[h.type ?? 0]
 
       if (typeWidth) {
         h.width = typeWidth
-        w += h.width
+        w += h.width ?? 0
       } else {
         nonAllocated++
       }
@@ -134,11 +140,10 @@ export const SizedGrid: FC<TableProps> = (props) => {
       >
         <Header
           // setSortOptions={setSortOpts}
-          width={width}
+          width={width ?? 0}
           headers={headers}
-          //  filteredHeaders={filteredHeaders}
           headerWidth={defW}
-          outline={props.outline}
+          outline={props.outline ?? false}
           sortKey={sortKey}
           setSortKey={setSortKey}
           selectAllRows={selectAllRows}
@@ -169,10 +174,6 @@ export const SizedGrid: FC<TableProps> = (props) => {
           ...props,
           data: parsedData,
         }}
-        renderCounter={renderCounter}
-        setRenderCounter={setRenderCounter}
-        shiftKeyIsDown={shiftKeyIsDown}
-        setPrevSelectedRowNumber={setPrevSelectedRowNumber}
         ref={gridRef}
       >
         {Cell}

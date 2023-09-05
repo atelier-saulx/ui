@@ -53,8 +53,6 @@ export const Cell = (props) => {
       renderCounter={data.renderCounter}
       setRenderCounter={data.setRenderCounter}
       editable={editable}
-      shiftKeyIsDown={data.shiftKeyIsDown}
-      setPrevSelectedRowNumber={data.setPrevSelectedRowNumber}
     />
   ) : (
     <Text weight="medium">

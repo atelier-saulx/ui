@@ -6,7 +6,6 @@ export const Header: FC<{
   headerWidth: number
   width: number
   headers: TableHeader<any>[]
-  filteredHeaders: TableHeader<any>[]
   outline: boolean
   // performance??
   sortKey: any
@@ -30,8 +29,6 @@ export const Header: FC<{
 }) => {
   const children: ReactNode[] = []
   let total = 16
-
-  // console.log('headers--> ❇️', headers)
 
   for (const header of headers) {
     const w = header.width ?? headerWidth
