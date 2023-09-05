@@ -225,6 +225,8 @@ export const Dialog = Object.assign(
           {label && (
             <styled.div
               style={{
+                display: 'flex',
+                flexDirection: 'column',
                 padding: '24px 32px 8px 32px',
                 '@media only screen and (max-width: 680px)': {
                   padding: '24px 16px 8px 16px',

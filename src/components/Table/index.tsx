@@ -35,8 +35,8 @@ export type TableProps<T extends any = any> = {
   rowCount?: number
   rowHeight?: number
   selectable?: boolean
-  setSortKey: any
-  sortKey: any
+  setSortKey?: any
+  sortKey?: any
   style?: Style
   width?: number
   renderCounter?: any
@@ -53,6 +53,8 @@ export const Table: FC<TableProps> = (props) => {
     selectable,
   } = props
 
+  // console.log('Table props --> ', props)
+
   const [sortKey, setSortKey] = useState({
     counter: 1,
     key: '',
@@ -64,18 +66,38 @@ export const Table: FC<TableProps> = (props) => {
       ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
       : props.data
 
+  console.log('NewDATA --->', newData)
+  // console.log('props header-->', props?.headers)
+
   // if selectable is true, the first columns of data should be checkboxes
   const [renderCounter, setRenderCounter] = useState(1)
-
   const [selectedRows, setSelectedRows] = useState([])
+  const [shiftKeyIsDown, setShiftKeyIsDown] = useState(false)
+  const [prevSelectRowNumber, setPrevSelectedRowNumber] = useState([0, 0])
 
   const [headers, setHeaders] = useState(props.headers)
 
   // check all object if meta selected is true
-  const testRow = newData.filter((item, idx) => item?.meta?.selected)
+
+  const mappedAndFiltered = newData?.filter((item, idx) => item?.meta?.selected)
+  // if shift down either select or deselect items
+
+  if (shiftKeyIsDown && prevSelectRowNumber[0] !== prevSelectRowNumber[1]) {
+    newData.forEach((item) =>
+      item.meta.selectedIndex >= prevSelectRowNumber[0] &&
+      item.meta.selectedIndex < prevSelectRowNumber[1]
+        ? (item.meta.selected = true)
+        : null
+    )
+
+    // put all from 0 to selectedrowNumber to selected eihter selected or not
+  }
+
   useEffect(() => {
     if (selectable) {
-      setSelectedRows(testRow)
+      setSelectedRows(mappedAndFiltered)
+      console.log('--> 🚨??', mappedAndFiltered)
+      console.log('flipper', prevSelectRowNumber)
     }
   }, [renderCounter])
 
@@ -90,7 +112,9 @@ export const Table: FC<TableProps> = (props) => {
       type: 'checkbox',
       width: 42,
     })
-    newData.map((item, idx) => (item.meta = { selected: false }))
+    newData.map(
+      (item, idx) => (item.meta = { selected: false, selectedIndex: null })
+    )
   }
 
   const selectAllRows = () => {
@@ -126,13 +150,34 @@ export const Table: FC<TableProps> = (props) => {
   )
 
   useEffect(() => {
-    console.log('Filtered HEADERS CHANGED??')
+    //  console.log('Filtered HEADERS CHANGED?🐦?')
     setRenderCounter(renderCounter + 1)
   }, [filteredHeaders])
 
   // console.log('✅', props)
   // console.log('💚', newData)
   // console.log('filtered headers??? ', filteredHeaders)
+
+  useEffect(() => {
+    console.log('🐄 cow')
+    window.addEventListener('keydown', (e) => shiftKeyDown(e))
+    window.addEventListener('keyup', (e) => shiftKeyUp(e))
+  }, [])
+
+  const shiftKeyDown = (e) => {
+    if (e.key === 'Shift') {
+      console.log('shift is down 🚁', e)
+      setShiftKeyIsDown(true)
+    }
+  }
+
+  const shiftKeyUp = (e) => {
+    if (e.key === 'Shift') {
+      console.log('shift is released', e)
+      setShiftKeyIsDown(false)
+      setPrevSelectedRowNumber([0, 0])
+    }
+  }
 
   return (
     <>
@@ -158,17 +203,17 @@ export const Table: FC<TableProps> = (props) => {
           style={{
             position: 'absolute',
             right: 12,
-            top: selectedRows.length > 0 ? 74 : 6,
+            top: selectedRows?.length > 0 ? 74 : 6,
             padding: 3,
             zIndex: 1,
           }}
           // @ts-ignore
           onClick={openHeaderOverlay}
         />
-        {selectedRows.length > 0 && (
+        {selectedRows?.length > 0 && (
           <SelectedRowOptions
             clearAllRows={clearAllRows}
-            selectedRowsLength={selectedRows.length}
+            selectedRowsLength={selectedRows?.length}
           />
         )}
 
@@ -184,6 +229,8 @@ export const Table: FC<TableProps> = (props) => {
                 setSortKey={setSortKey}
                 renderCounter={renderCounter}
                 setRenderCounter={setRenderCounter}
+                shiftKeyIsDown={shiftKeyIsDown}
+                setPrevSelectedRowNumber={setPrevSelectedRowNumber}
                 selectAllRows={selectAllRows}
                 clearAllRows={clearAllRows}
                 selectedRows={selectedRows}

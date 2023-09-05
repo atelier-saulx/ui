@@ -35,7 +35,7 @@ export const SelectedRowOptions = ({
         <Button
           size="xsmall"
           ghost
-          style={{ marginLeft: 18 }}
+          style={{ marginLeft: 22 }}
           onClick={() => {
             clearAllRows()
           }}
@@ -47,7 +47,7 @@ export const SelectedRowOptions = ({
           ghost
           color="alert"
           icon={<IconDelete />}
-          style={{ marginLeft: 18 }}
+          style={{ marginLeft: 22 }}
         >
           Delete
         </Button>

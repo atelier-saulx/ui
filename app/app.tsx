@@ -3,12 +3,13 @@ import React, { FC, useEffect, useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { color, Menu, Provider, ScrollArea } from '../src'
+import { color, Menu, Provider, ScrollArea, Slider } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
-import { Input } from '../src'
+import { Input, Text } from '../src'
+import { BarGraph } from '../src/components/BarGraph'
 
 export const client = based(basedConfig)
 
@@ -41,6 +42,7 @@ const App = () => {
               value: c.name,
             }
           }),
+          hooks: {},
         }}
         active={component}
         onChange={(v) => {

@@ -249,15 +249,18 @@ export const Picker = ({
                 : `${dateObj.getDate()}`
             )
           }}
-          style={{ marginBottom: 4 }}
+          style={{ marginBottom: 4, display: 'flex' }}
         >
           Today
         </Text>
-        <Text style={{ marginBottom: 4 }} onClick={() => dayChanger('forward')}>
+        <Text
+          style={{ marginBottom: 4, display: 'flex' }}
+          onClick={() => dayChanger('forward')}
+        >
           Select next date
         </Text>
         <Text
-          style={{ marginBottom: 4 }}
+          style={{ marginBottom: 4, display: 'flex' }}
           onClick={() => dayChanger('backward')}
         >
           Select previous date
@@ -269,7 +272,7 @@ export const Picker = ({
         }}
       />
       <Text
-        style={{ padding: '8px 16px', cursor: 'pointer' }}
+        style={{ padding: '8px 16px', cursor: 'pointer', display: 'flex' }}
         onClick={() => {
           setValue(0)
           removeAllOverlays()

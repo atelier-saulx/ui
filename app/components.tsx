@@ -4,6 +4,7 @@ import {
   AlertBanner,
   Avatar,
   Badge,
+  BarGraph,
   Breadcrumbs,
   Button,
   Checkbox,
@@ -62,7 +63,7 @@ export const components: ComponentDef[] = [
         props: {
           color: 'warning',
           children: 'Warning Resolve',
-          action: { label: 'RESOLVE', onClick: () => console.log('oppa ') },
+          action: { label: 'RESOLVE', onClick: () => console.log('oppa') },
         },
       },
     ],
@@ -113,6 +114,13 @@ export const components: ComponentDef[] = [
         },
       },
     ],
+  },
+  {
+    name: 'BargraphBrokenDonotclick',
+    properties: props.props.BadgeProps.props,
+    component: BarGraph,
+    description: 'Testing Place BarGraph',
+    examples: [{}],
   },
   {
     name: 'Breadcrumbs',
@@ -509,9 +517,9 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
-          clearButton: true,
-          placeholder: 'Search & navigate',
+          placeholder: 'Search for something',
           type: 'search',
+          label: 'This is a label',
         },
       },
     ],
@@ -677,7 +685,12 @@ export const components: ComponentDef[] = [
       {
         props: {
           headers: [
-            { key: 'title', label: 'Title', type: 'string', editable: true },
+            {
+              key: 'title',
+              label: 'Title',
+              type: 'string',
+              editable: false,
+            },
             {
               key: 'author',
               label: 'Author',
@@ -702,7 +715,7 @@ export const components: ComponentDef[] = [
           data: [
             {
               title: 'Adventures',
-              author: 'Cici Top',
+              author: 'CCCC',
               cover:
                 'https://img.parool.nl/aab6c754847bb34777c45ab7592473abca9b12ea/jip-en-janneke-voor-hema-niet-meer-heilig',
               number: 243545,
@@ -711,7 +724,7 @@ export const components: ComponentDef[] = [
             },
             {
               title: 'Crazy stories',
-              author: 'Bernard Smit',
+              author: 'BBBBB',
               cover:
                 'https://www.manners.nl/wp-content/uploads/2023/03/harry-potter.png',
               number: 5345432,
@@ -720,7 +733,7 @@ export const components: ComponentDef[] = [
             },
             {
               title: 'Double Dragon',
-              author: 'Arnold Arm',
+              author: 'AAAAA',
               cover:
                 'https://64.media.tumblr.com/ee50e3ad64c22072c845097b2fe728e2/ad8bfb7892283c6d-0a/s1280x1920/14c9a1d48c9b8499e5107476bfd68e97fd05e823.png',
               number: 53445432,
@@ -728,15 +741,30 @@ export const components: ComponentDef[] = [
             },
             {
               title: 'Batman',
-              author: 'Del Boy',
+              author: 'DDDDDD',
               cover:
                 'https://i1.sndcdn.com/artworks-H999wKziGSquPTzr-Xy5zjA-t500x500.jpg',
               number: 11222111,
             },
+            {
+              title: 'Fire Fire',
+              author: 'EEEEE',
+              cover:
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Large_bonfire.jpg/500px-Large_bonfire.jpg',
+              number: 53445432,
+              boolie: false,
+            },
+            {
+              title: 'Argh said the pirate',
+              author: 'FFFFF',
+              cover:
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Edward_England.svg/600px-Flag_of_Edward_England.svg.png',
+              number: 1124442111,
+            },
           ],
+          selectable: true,
           width: 800,
           outline: true,
-          selectable: true,
         },
       },
     ],
@@ -750,11 +778,22 @@ export const components: ComponentDef[] = [
       {
         props: {
           activeTab: 1,
-          children: () => [
-            <Tab label="Apple" children="🍎" />,
-            <Tab label="Bear" children="🐻" />,
-            <Tab label="Crescendo" children="🎵" />,
-          ],
+        },
+        customRenderer: (props) => {
+          return (
+            <styled.div
+              style={{
+                width: 600,
+                marginBottom: 24,
+              }}
+            >
+              <Tabs>
+                <Tab label="Apple" children="🍎" />
+                <Tab label="Bear" children="🐻" />
+                <Tab label="Crescendo" children="🎵" />
+              </Tabs>
+            </styled.div>
+          )
         },
       },
     ],
@@ -802,12 +841,11 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
-          defaultValue: 'hello world',
           placeholder: 'placeholder',
-          beforeIcon: () => <IconBolt />,
           type: 'text',
-          clearButton: 'true',
-          //   suffix: 'flap',
+          label: 'This is a label',
+          error: 'This is an error message',
+          value: 'This is a text input',
           onChange: (e) => console.log(e.target.value),
         },
       },

@@ -61,13 +61,20 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
             />
             {item.label && (
               <styled.div
-                style={{ marginLeft: 12, marginTop: '-5px', cursor: 'pointer' }}
+                style={{
+                  marginLeft: 12,
+                  marginTop: '-5px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
                 onClick={onClick}
               >
-                <Text size={14} weight="medium">
+                <Text selectable="none" size={14} weight="medium">
                   {item.label}
                 </Text>
                 <Text
+                  selectable="none"
                   style={{ color: genColor('content', 'default', 'secondary') }}
                 >
                   {item.description}

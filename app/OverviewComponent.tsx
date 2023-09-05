@@ -63,9 +63,16 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
         <Text size={12} style={{ minWidth: 200 }} weight="strong">
           {key}
         </Text>
-        <Text size={12} style={{ flexGrow: 1 }}>
+        <styled.div
+          size={12}
+          style={{
+            display: 'flex',
+            flexGrow: 1,
+            flexWrap: 'wrap',
+          }}
+        >
           {displayType(prop)}
-        </Text>
+        </styled.div>
         <Text
           size={12}
           color="default"

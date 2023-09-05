@@ -11,24 +11,24 @@ import {
 } from '../..'
 
 export type CheckboxProps = {
-  value?: boolean
   description?: string
   disabled?: boolean
   indeterminate?: boolean
   label?: string
   onChange?: (value: boolean) => void
   style?: Style
+  value?: boolean
   warning?: boolean
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
-  value,
   description,
   disabled,
   indeterminate,
   label,
   onChange,
   style,
+  value,
   warning,
 }) => {
   const [checked, setChecked] = usePropState(value)
@@ -111,7 +111,13 @@ export const Checkbox: FC<CheckboxProps> = ({
       </styled.button>
       {label && (
         <styled.div
-          style={{ marginLeft: 12, marginTop: '-3px', cursor: 'pointer' }}
+          style={{
+            marginLeft: 12,
+            marginTop: '-3px',
+            cursor: 'pointer',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
           onClick={(e) => {
             e.stopPropagation()
             e.preventDefault()
@@ -119,10 +125,12 @@ export const Checkbox: FC<CheckboxProps> = ({
             onChange?.(!checked)
           }}
         >
-          <Text size={14} weight="medium">
+          <Text selectable="none" size={14} weight="medium">
             {label}
           </Text>
-          <Text light>{description}</Text>
+          <Text selectable="none" light>
+            {description}
+          </Text>
         </styled.div>
       )}
     </styled.div>

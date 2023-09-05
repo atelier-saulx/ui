@@ -1,13 +1,16 @@
-import React, { FC } from 'react'
-import { Text, styled, color as genColor } from '../..'
-import { MenuItemProps } from '../../types'
+import React, { FC, ReactNode } from 'react'
+import { Text, styled, color as genColor, Style } from '../..'
+
+type MenuItemProps = {
+  active: boolean
+  onClick: () => void | ((e) => void)
+  children: ReactNode | ReactNode[] | ((e) => void)
+  style: Style
+}
 
 export const MenuItem: FC<MenuItemProps> = ({
   active,
-  icon,
-  label,
-  onClick = () => {},
-  value,
+  onClick = (e) => {},
   children,
   style,
 }) => {
@@ -17,7 +20,6 @@ export const MenuItem: FC<MenuItemProps> = ({
       weight={!active ? 'medium' : 'strong'}
       //   wrap
       style={{
-        marginBottom: 8,
         ...style,
       }}
     >
@@ -26,6 +28,7 @@ export const MenuItem: FC<MenuItemProps> = ({
         style={{
           padding: '8px 12px',
           margin: '-4px -4px 4px -2px',
+          marginBottom: '8px',
           boxSizing: 'content-box',
           width: '200px',
           height: '24px',

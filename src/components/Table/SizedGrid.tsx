@@ -26,7 +26,6 @@ export const SizedGrid: FC<TableProps> = (props) => {
     rowHeight = 60,
     width,
     queryId,
-
     itemCount = data.length,
     height = itemCount < 20 ? data.length * rowHeight + 60 : 200,
     columnCount = headers?.length ??
@@ -35,12 +34,27 @@ export const SizedGrid: FC<TableProps> = (props) => {
     sortKey,
     renderCounter,
     setRenderCounter,
+    shiftKeyIsDown,
+    setPrevSelectedRowNumber,
     selectAllRows,
     clearAllRows,
     selectedRows,
   } = props
 
   const headerWrapper = useRef(null)
+  const gridRef = useRef(null)
+
+  // this here makes column width change if you view/select more or less
+  useEffect(() => {
+    if (gridRef.current) {
+      // @ts-ignore
+      gridRef.current.resetAfterIndices({
+        columnIndex: 0,
+        rowIndex: 0,
+        shouldForceUpdate: true,
+      })
+    }
+  }, [columnCount])
 
   let w = 0
   let defW = 0
@@ -91,12 +105,14 @@ export const SizedGrid: FC<TableProps> = (props) => {
   const timer = useRef<ReturnType<typeof setTimeout>>()
 
   const [force, setForce] = useState(0)
+
   useEffect(() => {
     clearTimeout(timer.current)
     timer.current = setTimeout(() => {
       setForce(0)
     }, 100)
     setForce(width)
+
     return () => {
       clearTimeout(timer.current)
     }
@@ -155,6 +171,9 @@ export const SizedGrid: FC<TableProps> = (props) => {
         }}
         renderCounter={renderCounter}
         setRenderCounter={setRenderCounter}
+        shiftKeyIsDown={shiftKeyIsDown}
+        setPrevSelectedRowNumber={setPrevSelectedRowNumber}
+        ref={gridRef}
       >
         {Cell}
       </Grid>
