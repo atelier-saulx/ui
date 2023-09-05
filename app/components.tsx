@@ -484,7 +484,16 @@ export const components: ComponentDef[] = [
     // TODO  yves ,change to LogsProps once genprops works again
     properties: props.props.ScrollAreaProps.props,
     component: Logs,
-    examples: [{ props: {} }],
+    examples: [
+      {
+        props: {
+          data: [
+            { msg: '🪵 Log 1', ts: 21241425 },
+            { msg: '🪵 Log 2', ts: 2143241425 },
+          ],
+        },
+      },
+    ],
   },
   {
     name: 'Modal',
