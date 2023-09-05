@@ -249,8 +249,8 @@ export const Menu: FC<MenuProps> = ({
                       <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
                     ) : null}
                     <Text
-                      weight="strong"
                       color={active === value ? 'brand' : 'default'}
+                      weight={active === value ? 'strong' : 'medium'}
                     >
                       {label}
                     </Text>

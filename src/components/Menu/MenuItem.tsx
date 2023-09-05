@@ -15,46 +15,47 @@ export const MenuItem: FC<MenuItemProps> = ({
   style,
 }) => {
   return (
-    <Text
-      color={active ? 'brand' : 'default'}
-      weight={!active ? 'medium' : 'strong'}
-      //   wrap
+    <styled.div
+      onClick={(e) => onClick(e)}
       style={{
-        ...style,
+        padding: '8px 12px',
+        margin: '-4px -4px 4px -2px',
+        marginBottom: '8px',
+        boxSizing: 'content-box',
+        width: '200px',
+        height: '24px',
+        borderRadius: 8,
+
+        WebkitUserSelect: 'none',
+        MsUserSelect: 'none',
+        userSelect: 'none',
+        backgroundColor: active
+          ? genColor('action', 'primary', 'subtleSelected')
+          : null,
+        '@media (hover: hover)': {
+          '&:hover': !active
+            ? {
+                backgroundColor: genColor('action', 'system', 'subtleHover'),
+                //   color: `${color('text')} !important`,
+              }
+            : null,
+        },
+        '&:active': !active
+          ? {
+              backgroundColor: genColor('action', 'system', 'subtleActive'),
+            }
+          : null,
       }}
     >
-      <styled.div
-        onClick={(e) => onClick(e)}
+      <Text
+        color={active ? 'brand' : 'default'}
+        weight={active ? 'strong' : 'medium'}
+        //   wrap
         style={{
-          padding: '8px 12px',
-          margin: '-4px -4px 4px -2px',
-          marginBottom: '8px',
-          boxSizing: 'content-box',
-          width: '200px',
-          height: '24px',
-          borderRadius: 8,
           display: 'flex',
           alignItems: 'center',
           cursor: 'pointer',
-          WebkitUserSelect: 'none',
-          MsUserSelect: 'none',
-          userSelect: 'none',
-          backgroundColor: active
-            ? genColor('action', 'primary', 'subtleSelected')
-            : null,
-          '@media (hover: hover)': {
-            '&:hover': !active
-              ? {
-                  backgroundColor: genColor('action', 'neutral', 'subtleHover'),
-                  //   color: `${color('text')} !important`,
-                }
-              : null,
-          },
-          '&:active': !active
-            ? {
-                backgroundColor: genColor('action', 'neutral', 'subtleActive'),
-              }
-            : null,
+          ...style,
         }}
       >
         {typeof children === 'function'
@@ -62,7 +63,7 @@ export const MenuItem: FC<MenuItemProps> = ({
               active,
             })
           : children}
-      </styled.div>
-    </Text>
+      </Text>
+    </styled.div>
   )
 }

@@ -17,8 +17,10 @@ import {
   IconBolt,
   IconClipboard,
   IconEmojiSmile,
+  IconHome,
   Input,
   LineGraph,
+  Menu,
   Modal,
   RadioButtons,
   ScrollArea,
@@ -114,13 +116,13 @@ export const components: ComponentDef[] = [
       },
     ],
   },
-  {
-    name: 'BargraphBrokenDonotclick',
-    properties: props.props.BadgeProps.props,
-    component: BarGraph,
-    description: 'Testing Place BarGraph',
-    examples: [{}],
-  },
+  // {
+  //   name: 'BargraphBrokenDonotclick',
+  //   properties: props.props.BadgeProps.props,
+  //   component: BarGraph,
+  //   description: 'Testing Place BarGraph',
+  //   examples: [{}],
+  // },
   {
     name: 'Breadcrumbs',
     properties: props.props.BreadcrumbsProps.props,
@@ -680,6 +682,38 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Sidebar Navigation',
+    component: Menu,
+    description: '',
+    props: props.props.MenuProps.props,
+    examples: [
+      {
+        props: {
+          data: {
+            Label: {
+              flyp: {
+                value: 'yow1',
+                label: 'Menu Text',
+                icon: () => <IconHome />,
+              },
+              flip: {
+                value: 'yow2',
+                label: 'Menu Text',
+                icon: () => <IconHome />,
+              },
+              flop: {
+                value: 'yow3',
+                label: 'Menu Text',
+                icon: () => <IconHome />,
+              },
+              flap: 'Menu Text',
+            },
+          },
+        },
+      },
+    ],
+  },
+  {
     name: 'SidePanel',
     component: SidePanel,
     description: 'SidePaneltest',
@@ -837,7 +871,7 @@ export const components: ComponentDef[] = [
                 marginBottom: 24,
               }}
             >
-              <Tabs>
+              <Tabs activeTab={1}>
                 <Tab label="Apple" children="🍎" />
                 <Tab label="Bear" children="🐻" />
                 <Tab label="Crescendo" children="🎵" />

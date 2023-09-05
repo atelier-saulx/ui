@@ -9,15 +9,13 @@ import {
   Menu,
   Provider,
   ScrollArea,
-  Slider,
   useTooltip,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
-import { Input, Text, Button } from '../src'
-import { BarGraph } from '../src/components/BarGraph'
+import { Button } from '../src'
 
 export const client = based(basedConfig)
 
