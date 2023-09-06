@@ -602,16 +602,19 @@ export const components: ComponentDef[] = [
         customRenderer: () => {
           const data = [
             {
-              label: 'Yes sure if you like ugly shit',
-              value: 1280,
+              label: 'Yes sure ',
+              value: 2766,
+              color: 'violet',
             },
             {
               label: 'No sorry',
               value: 637,
+              color: 'magenta',
             },
             {
               label: 'What logo?',
-              value: 146,
+              value: 405,
+              color: 'grey',
             },
             {
               label: 'Mmm ?',

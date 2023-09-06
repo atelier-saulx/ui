@@ -1,17 +1,53 @@
-import React, { FC } from 'react'
-import { styled, Style, color } from '../..'
+import React, { FC, useState } from 'react'
+import {
+  styled,
+  Style,
+  color,
+  Text,
+  ColorNonSemanticBackgroundColors,
+} from '../..'
 
-type PieGraphProps = {
-  data?: any
+type PieGraphSingleItem = {
+  label: string
+  value: number
+  color?: ColorNonSemanticBackgroundColors
+  [key: string]: any
 }
 
-export const PieGraph: FC<PieGraphProps> = ({ data }) => {
+type PieGraphProps = {
+  data: PieGraphSingleItem[]
+  style?: Style
+}
+
+const colorArray: ColorNonSemanticBackgroundColors[] = [
+  'grey',
+  'white',
+  'red',
+  'raspberry',
+  'magenta',
+  'purple',
+  'grape',
+  'violet',
+  'blue',
+  'cyan',
+  'teal',
+  'aquamarine',
+  'green',
+  'emerald',
+  'orange',
+]
+
+export const PieGraph: FC<PieGraphProps> = ({ data, style }) => {
+  const [featured, setFeatured] = useState<{
+    label: string
+    percentage: number
+  }>()
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
 
   // percentages
   data = data.map((item) => ({
     ...item,
-    percentage: Math.round((item.value / totalValue) * 100),
+    percentage: (item.value / totalValue) * 100,
     degrees: 0,
   }))
 
@@ -24,102 +60,126 @@ export const PieGraph: FC<PieGraphProps> = ({ data }) => {
     }
   }
 
-  console.log(totalValue)
+  const objectWithLargestValue = data.reduce(function (prev, current) {
+    return prev.value > current.value ? prev : current
+  })
 
-  console.log('🍰', data)
+  // if biggest strokeWidth = 32 and smallest 22
+  const onePercentSmallestStrokeWidth = objectWithLargestValue.value / 100
 
-  let colorTest = ['blue', 'red', 'emerald', 'orange']
+  data = data.map((item) => ({
+    ...item,
+    strokeWidth:
+      Math.round(item.value / onePercentSmallestStrokeWidth) / 10 + 22,
+  }))
 
   return (
-    <styled.div
-      style={{
-        margin: '0 auto',
-        width: '100%',
-        display: 'flex',
-        '& svg': {
-          width: '200px',
-          height: '200px',
-        },
-      }}
-    >
-      <svg
-        width="200"
-        height="200"
-        viewBox="0 0 142 142"
+    <>
+      <styled.div
         style={{
-          overflow: 'visible',
+          margin: '0 auto',
+          textAlign: 'center',
+          position: 'relative',
+          width: 264,
+          height: 264,
+          ...style,
         }}
       >
-        <circle
-          cx="60"
-          cy="60"
-          r="64"
-          fill="none"
-          // stroke={color('action', 'primary', 'normal')}
-          stroke="#FFF"
-          strokeWidth="32"
-          pathLength="100"
-        />
+        <svg
+          width="200"
+          height="200"
+          viewBox="0 0 120 120"
+          style={{
+            overflow: 'visible',
+          }}
+        >
+          {data.map((item, idx) => {
+            return (
+              <circle
+                onMouseEnter={() => {
+                  setFeatured({
+                    label: item.label,
+                    percentage: item.percentage,
+                  })
+                }}
+                onMouseLeave={() =>
+                  setFeatured({
+                    label: objectWithLargestValue.label,
+                    percentage: objectWithLargestValue.percentage,
+                  })
+                }
+                key={idx}
+                cx="60"
+                cy="60"
+                r="64"
+                fill="none"
+                stroke={color(
+                  'nonSemanticBackground',
+                  item?.color || colorArray[idx] || 'violet',
+                  'strong'
+                )}
+                strokeWidth={item.strokeWidth}
+                strokeDasharray={100}
+                pathLength="100"
+                strokeDashoffset={100 - item.percentage}
+                style={{
+                  transform: `rotate(${item.degrees}deg)`,
+                  transformOrigin: '60px 60px',
+                }}
+              />
+            )
+          })}
+        </svg>
+        <styled.div
+          style={{
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            inset: '0px',
+            pointerEvents: 'none',
+            position: 'absolute',
+            top: '50%',
+            transform: 'translateY(-50%)',
+          }}
+        >
+          <Text weight="strong" size={32}>
+            {featured
+              ? featured?.percentage.toFixed(1)
+              : objectWithLargestValue.percentage.toFixed(1)}
+            %
+          </Text>
+          <Text weight="strong" size={12}>
+            {featured ? featured?.label : objectWithLargestValue.label}
+          </Text>
+        </styled.div>
+      </styled.div>
 
-        {data.map((item, idx) => {
-          return (
-            <circle
-              key={idx}
-              cx="60"
-              cy="60"
-              r="64"
-              fill="none"
-              stroke={color('nonSemanticBackground', colorTest[idx], 'strong')}
-              strokeWidth="24"
-              strokeDasharray={100}
-              pathLength="100"
-              strokeDashoffset={100 - item.percentage}
+      <styled.div
+        style={{ display: 'flex', gap: 20, justifyContent: 'center' }}
+      >
+        {data.map((item, idx) => (
+          <styled.div
+            style={{ display: 'flex', gap: 6, alignItems: 'center' }}
+            key={idx}
+          >
+            <styled.div
               style={{
-                transform: `rotate(${item.degrees}deg)`,
-                transformOrigin: '60px 60px',
+                width: 12,
+                height: 12,
+                borderRadius: 6,
+                backgroundColor: color(
+                  'nonSemanticBackground',
+                  item?.color || colorArray[idx] || 'violet',
+                  'strong'
+                ),
               }}
             />
-          )
-        })}
-
-        {/* <circle
-          cx="60"
-          cy="60"
-          r="64"
-          fill="none"
-          stroke={color('action', 'primary', 'normal')}
-          strokeWidth="32"
-          strokeDasharray={100}
-          pathLength="100"
-          strokeDashoffset={50}
-        />
-
-        <circle
-          cx="60"
-          cy="60"
-          r="64"
-          fill="none"
-          stroke={color('nonSemanticBackground', 'magenta', 'strong')}
-          strokeWidth="24"
-          strokeDasharray={100}
-          pathLength="100"
-          strokeDashoffset={75}
-          style={{ transform: 'rotate(-90deg)', transformOrigin: '60px 60px' }}
-        />
-
-        <circle
-          cx="60"
-          cy="60"
-          r="64"
-          fill="none"
-          stroke={color('nonSemanticBackground', 'emerald', 'strong')}
-          strokeWidth="24"
-          strokeDasharray={100}
-          pathLength="100"
-          strokeDashoffset={75}
-          style={{ transform: 'rotate(180deg)', transformOrigin: '60px 60px' }}
-        /> */}
-      </svg>
-    </styled.div>
+            <Text size={12} weight="medium">
+              {item.label}
+            </Text>
+          </styled.div>
+        ))}
+      </styled.div>
+    </>
   )
 }
