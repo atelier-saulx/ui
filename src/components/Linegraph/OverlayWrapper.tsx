@@ -52,7 +52,7 @@ const Legend = ({
             position: 'absolute',
             borderRadius: '50%',
             width: 15,
-            border: `2px solid ${color('inputBorder', 'normal', 'default')} `,
+            border: `2px solid ${color('border', 'default', 'strong')} `,
             backgroundColor: color('content', 'brand', 'primary'),
             //   backgroundColor: color(values[0].color || 'content','brand','default'),
             height: 15,
@@ -82,7 +82,7 @@ const Legend = ({
             left: isFlippedX ? -110 : 24,
             padding: 8,
             backgroundColor: color('background', 'default', 'muted'),
-            border: `1px solid ${color('inputBorder', 'normal', 'default')}`,
+            border: `1px solid ${color('border', 'default', 'strong')}`,
             boxShadow: 'rgb(0 0 0 / 12%) 0px 4px 10px',
             borderRadius: 4,
             width: 'auto',
@@ -316,7 +316,7 @@ export default ({
       >
         <path
           d={`M0,0L${width},1`}
-          stroke={color('background', 'default', 'strong')}
+          stroke={color('border', 'default', 'strong')}
         />
         {labels.map((v, i) => {
           const y = (i + 1) * labelHeight
@@ -324,7 +324,7 @@ export default ({
             <path
               key={i}
               d={`M0,${y}L${width},${y}`}
-              stroke={color('background', 'default', 'strong')}
+              stroke={color('border', 'default', 'strong')}
             />
           )
         })}

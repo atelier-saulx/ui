@@ -6,37 +6,55 @@ import {
   Text,
   Button,
   Input,
-  IconEmojiSmile,
   IconChartLine,
   useOverlay,
   IconPercentage,
-  IconChartBar,
   IconChartBarHorizontal,
   IconChartPie,
   IconHash,
+  LineGraph,
+  useTooltip,
 } from '../..'
 import { ChartOptionsOverlay, CalculateOptionsOverlay } from './overlays'
 
 type MetricsWidgetProps = {
-  label?: string
-  data?: any
-  chart?: 'bar' | 'line' | 'pie'
   calcOption?: 'percentage' | 'numbers'
+  chart?: 'bar' | 'line' | 'pie'
+  // TODO fix this TS type
+  data?: { [key: string]: { x: number; y: number }[] }
+  height?: number
   style?: Style
 }
 
+// TODO find a way to pass Chart Specific props // ??
+// pass select options  ??
+
 export const MetricsWidget: FC<MetricsWidgetProps> = ({
-  label,
-  data,
   calcOption,
   chart,
+  data,
+  height = 296,
   style,
 }) => {
+  const [selected, setSelected] = useState('')
   const [chartOption, setChartOption] = useState(chart)
   const [calculationOption, setCalculationOption] = useState(calcOption)
 
-  //   const changeChartTooltip = useTooltip('Change chart type', 'top')
-  //   const changeCalculation = useTooltip('Change calculation', 'top')
+  // const changeChartTooltip = useTooltip('Change chart type', 'top')
+  // const changeCalculation = useTooltip('Change calculation', 'top')
+
+  console.log(data)
+
+  const selectOptions = Object.keys(data).map((item, idx) => ({
+    label: item,
+    value: item,
+  }))
+
+  console.log(selectOptions)
+
+  if (!selected) {
+    setSelected(selectOptions[0]?.value)
+  }
 
   const openChartOptions = useOverlay(
     ChartOptionsOverlay,
@@ -63,6 +81,7 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
         border: `1px solid ${color('border', 'default', 'strong')}`,
         borderRadius: 8,
         width: 588,
+        height: 430,
         ...style,
       }}
     >
@@ -75,24 +94,21 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
           padding: '16px 16px 16px 20px',
         }}
       >
-        <Text weight="strong" size={16}>
-          {label}
+        <Text weight="strong" size={16} transform="capitalize">
+          {selected}
         </Text>
         <styled.div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <Input
             type="select"
             multiple={false}
-            value={''}
+            value={selected}
             onChange={(v) => {
               console.log(v)
+              setSelected(v)
             }}
             style={{ maxWidth: '110px' }}
             placeholder="Select one"
-            options={[
-              { label: 'Item one', value: 'value1' },
-              { label: 'Item two', value: 'value2' },
-              { label: 'Item three', value: 'value3' },
-            ]}
+            options={selectOptions}
           />
           <styled.div
             style={{
@@ -113,7 +129,7 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
             color="system"
             light
             style={{ border: '0px solid transparent' }}
-            onClick={openCalculateOptions}
+            onClick={openCalculateOptions as () => void}
             // {...changeCalculation}
           />
           <Button
@@ -132,14 +148,22 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
             color="system"
             light
             style={{ border: '0px solid transparent' }}
-            onClick={openChartOptions}
+            onClick={openChartOptions as () => void}
             // {...changeChartTooltip}
           />
         </styled.div>
       </styled.div>
-      <styled.div style={{ padding: '16px 16px 16px 20px' }}>
-        Show this chart: {chartOption} <br />
-        Calculate option: {calculationOption}
+      <styled.div
+        style={{
+          position: 'relative',
+          height: height,
+          padding: '16px 16px 16px 20px',
+        }}
+      >
+        {chartOption === 'bar' && <div>Bar Graph here</div>}
+        {chartOption === 'line' && <LineGraph data={data[selected]} />}
+        {chartOption === 'pie' && <div>pie</div>}
+        {/* Calculate option: {calculationOption} */}
       </styled.div>
     </styled.div>
   )

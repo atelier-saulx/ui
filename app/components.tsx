@@ -506,7 +506,79 @@ export const components: ComponentDef[] = [
       {
         props: {},
         customRenderer: () => {
-          return <MetricsWidget label="Technology" />
+          // generate some random data
+          const genRandomPoints = (
+            formula: (i: number) => { x: number; y: number },
+            start: number = 0,
+            end: number = 50,
+            step: number = 1
+          ) => {
+            const points: { x: number; y: number }[] = []
+            for (let i = start; i <= end; i = i + step) {
+              points.push(formula(i))
+            }
+            return points
+          }
+
+          const testData = {
+            technology: genRandomPoints(
+              (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
+              0,
+              50
+            ),
+            science: genRandomPoints(
+              (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
+              0,
+              100
+            ),
+            voters: genRandomPoints(
+              (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
+              0,
+              150
+            ),
+            pietest: [
+              {
+                label: 'Yes sure if you like ugly shit',
+                value: 1280,
+              },
+              {
+                label: 'No sorry',
+                value: 637,
+              },
+              {
+                label: 'What logo?',
+                value: 146,
+              },
+              {
+                label: 'Mmm ?',
+                value: 126,
+              },
+            ],
+            pietestTwo: [
+              {
+                x: 1,
+                //   value: 1280,
+                y: 1280,
+                label: 'snrup',
+              },
+              {
+                x: 2,
+                y: 677,
+                label: 'flark',
+              },
+              {
+                x: 3,
+                y: 832,
+                label: 'hallow',
+              },
+              {
+                x: 'Mmm ?',
+                y: 77,
+              },
+            ],
+          }
+
+          return <MetricsWidget label="Technology" data={testData} style={{}} />
         },
       },
     ],
