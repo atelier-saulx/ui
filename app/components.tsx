@@ -554,28 +554,6 @@ export const components: ComponentDef[] = [
                 value: 126,
               },
             ],
-            pietestTwo: [
-              {
-                x: 1,
-                //   value: 1280,
-                y: 1280,
-                label: 'snrup',
-              },
-              {
-                x: 2,
-                y: 677,
-                label: 'flark',
-              },
-              {
-                x: 3,
-                y: 832,
-                label: 'hallow',
-              },
-              {
-                x: 'Mmm ?',
-                y: 77,
-              },
-            ],
           }
 
           return <MetricsWidget label="Technology" data={testData} style={{}} />

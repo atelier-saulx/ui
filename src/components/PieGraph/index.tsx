@@ -21,18 +21,18 @@ type PieGraphProps = {
 
 const colorArray: ColorNonSemanticBackgroundColors[] = [
   'grey',
-  'white',
+  'violet',
   'red',
   'raspberry',
   'magenta',
   'purple',
   'grape',
-  'violet',
   'blue',
   'cyan',
   'teal',
   'aquamarine',
   'green',
+  'white',
   'emerald',
   'orange',
 ]
@@ -82,6 +82,7 @@ export const PieGraph: FC<PieGraphProps> = ({ data, style }) => {
           position: 'relative',
           width: 264,
           height: 264,
+          marginTop: 32,
           ...style,
         }}
       >
@@ -121,7 +122,7 @@ export const PieGraph: FC<PieGraphProps> = ({ data, style }) => {
                 strokeWidth={item.strokeWidth}
                 strokeDasharray={100}
                 pathLength="100"
-                strokeDashoffset={100 - item.percentage}
+                strokeDashoffset={100 - item.percentage + 0.5}
                 style={{
                   transform: `rotate(${item.degrees}deg)`,
                   transformOrigin: '60px 60px',
@@ -174,7 +175,7 @@ export const PieGraph: FC<PieGraphProps> = ({ data, style }) => {
                 ),
               }}
             />
-            <Text size={12} weight="medium">
+            <Text size={12} weight="medium" truncate>
               {item.label}
             </Text>
           </styled.div>
