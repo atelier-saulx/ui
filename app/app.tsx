@@ -1,3 +1,5 @@
+import '../src/colors.css'
+
 import { render } from 'react-dom'
 import React, { FC, useEffect, useState } from 'react'
 import { styled } from 'inlines'
@@ -11,11 +13,13 @@ import {
   Provider,
   ScrollArea,
   useTooltip,
+  IconPlaceholder,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
+import { ThemeSwitch } from './ThemeSwitch'
 
 export const client = based(basedConfig)
 
@@ -42,14 +46,17 @@ const App = () => {
     >
       <Menu
         header={
-          <Button
-            color="system"
-            icon={<IconRefresh />}
-            onClick={() => localStorage.clear()}
-            size="small"
-            style={{ marginBottom: 16 }}
-            {...toolTipLocalStorageBtn}
-          />
+          <>
+            <Button
+              color="system"
+              icon={<IconRefresh />}
+              onClick={() => localStorage.clear()}
+              size="small"
+              style={{ marginBottom: 16 }}
+              {...toolTipLocalStorageBtn}
+            />
+            <ThemeSwitch />
+          </>
         }
         data={{
           Dashboard: {
@@ -95,5 +102,5 @@ render(
   <Provider>
     <App />
   </Provider>,
-  document.body
+  document.getElementById('root')
 )

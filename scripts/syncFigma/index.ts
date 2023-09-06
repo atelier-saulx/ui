@@ -220,7 +220,7 @@ const parseVars = async () => {
   const modeFiles: { [mode: string]: string } = {}
 
   for (const mode in modes) {
-    modeFiles[modes[mode]] = `:root {\n`
+    modeFiles[modes[mode]] = ``
   }
 
   const vars: any = {}
@@ -314,16 +314,20 @@ const parseVars = async () => {
     '\nexport type ColorGroupsOptions = ' +
     JSON.stringify(colorGroupsOptions, null, 2).replace(/"/g, '')
 
-  for (const mode in modes) {
-    modeFiles[modes[mode]] += `}`
+  const [defaultMode, ...otherModes] = Object.keys(modeFiles)
+
+  let colorsCSSFile = `:root {\n`
+  colorsCSSFile += modeFiles[defaultMode]
+  colorsCSSFile += `}\n`
+
+  for (const otherMode of otherModes) {
+    colorsCSSFile += `\n[data-theme="${camelCase(otherMode, {})}"] {\n`
+    colorsCSSFile += modeFiles[otherMode]
+    colorsCSSFile += `}`
   }
 
-  for (const mode in modeFiles) {
-    await fs.writeFile(
-      join(__dirname, `../../src/${camelCase(mode, {})}.css`),
-      modeFiles[mode]
-    )
-  }
+  await fs.writeFile(join(__dirname, `../../src/colors.css`), colorsCSSFile)
+
   await fs.writeFile(
     join(__dirname, '../../src/vars.ts'),
     `export const vars = ${JSON.stringify(vars)}`
