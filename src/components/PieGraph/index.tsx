@@ -107,11 +107,12 @@ export const PieGraph: FC<PieGraphProps> = ({ data, display, style }) => {
                   })
                 }}
                 onMouseLeave={() =>
-                  setFeatured({
-                    label: objectWithLargestValue.label,
-                    percentage: objectWithLargestValue.percentage,
-                    value: item.value,
-                  })
+                  // setFeatured({
+                  //   label: objectWithLargestValue.label,
+                  //   percentage: objectWithLargestValue.percentage,
+                  //   value: item.value,
+                  // })
+                  setFeatured(undefined)
                 }
                 key={idx}
                 cx="60"
@@ -130,6 +131,7 @@ export const PieGraph: FC<PieGraphProps> = ({ data, display, style }) => {
                 style={{
                   transform: `rotate(${item.degrees}deg)`,
                   transformOrigin: '60px 60px',
+                  opacity: featured && item.label !== featured.label ? 0.4 : 1,
                 }}
               />
             )

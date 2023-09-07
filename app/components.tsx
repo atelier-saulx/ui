@@ -128,7 +128,34 @@ export const components: ComponentDef[] = [
       {
         props: {
           style: { width: 540 },
-          //   display: 'values',
+          display: 'values',
+          data: [
+            {
+              label: 'Moose 🦆',
+              value: 160000,
+              color: 'violet',
+            },
+            {
+              label: 'Caribou 🦌',
+              value: 576000,
+            },
+            {
+              label: 'Bears 🐻',
+              value: 43000,
+              color: 'green',
+            },
+            {
+              label: 'Wolves 🐺',
+              value: 62000,
+              color: 'blue',
+            },
+          ],
+        },
+      },
+      {
+        props: {
+          style: { width: 540 },
+          direction: 'vertical',
           data: [
             {
               label: 'Moose 🦆',
