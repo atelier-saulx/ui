@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { styled, Checkbox, color, IconDragDropHorizontal } from '../..'
+import { styled, Input, color, IconDragDropHorizontal } from '../..'
 
 export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
   // console.log('headers?? ', headers)
@@ -101,10 +101,11 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
             draggable
           >
             <IconDragDropHorizontal style={{ marginRight: 10 }} />
-            <Checkbox
+            <Input
+              type="checkbox"
               value={item.meta.visible}
               key={item.key}
-              label={item.label}
+              title={item.label}
               onChange={() => {
                 item.meta.visible = !item.meta.visible
                 // console.log(headers, '???')

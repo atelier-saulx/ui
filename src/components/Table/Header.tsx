@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react'
 import { TableHeader } from './types'
-import { styled, Checkbox, IconSort, Text, color } from '../..'
+import { styled, Input, IconSort, Text, color } from '../..'
 
 export const Header: FC<{
   headerWidth: number
@@ -48,7 +48,8 @@ export const Header: FC<{
         {header.customLabelComponent ? (
           <header.customLabelComponent />
         ) : header.key === 'selected' ? (
-          <Checkbox
+          <Input
+            type="checkbox"
             value={selectedRows.length === data.length}
             onChange={() => {
               if (selectedRows.length === data.length) {
