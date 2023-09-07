@@ -646,23 +646,24 @@ export const components: ComponentDef[] = [
         customRenderer: () => {
           const data = [
             {
-              label: 'Yes sure ',
-              value: 2766,
+              label: 'Apples',
+              value: 25455,
               color: 'violet',
             },
             {
-              label: 'No sorry',
-              value: 637,
+              label: 'Sugar',
+              value: 5484,
               color: 'magenta',
             },
             {
-              label: 'What logo?',
-              value: 405,
+              label: 'Flour',
+              value: 2566,
               color: 'grey',
             },
             {
-              label: 'Mmm ?',
-              value: 126,
+              label: 'Cinnamon',
+              value: 2566,
+              color: 'blue',
             },
           ]
 

@@ -56,7 +56,7 @@ export const PieGraph: FC<PieGraphProps> = ({ data, display, style }) => {
   // rotating degrees
   for (let i = 0; i < data.length; i++) {
     if (i === 0) {
-      data[i].degrees = 0
+      data[i].degrees = -90
     } else {
       data[i].degrees = data[i - 1].percentage * 3.6 + data[i - 1].degrees
     }
@@ -106,14 +106,7 @@ export const PieGraph: FC<PieGraphProps> = ({ data, display, style }) => {
                     value: item.value,
                   })
                 }}
-                onMouseLeave={() =>
-                  // setFeatured({
-                  //   label: objectWithLargestValue.label,
-                  //   percentage: objectWithLargestValue.percentage,
-                  //   value: item.value,
-                  // })
-                  setFeatured(undefined)
-                }
+                onMouseLeave={() => setFeatured(undefined)}
                 key={idx}
                 cx="60"
                 cy="60"
