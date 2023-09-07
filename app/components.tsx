@@ -541,10 +541,15 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
-          data: [
-            { msg: '🪵 Log 1', ts: 21241425 },
-            { msg: '🪵 Log 2', ts: 2143241425 },
-          ],
+          // data: [
+          //   { msg: '🪵 Log 1', ts: 21241425 },
+          //   { msg: '🪵 Log 2', ts: 2143241425 },
+          // ],
+        },
+        customRenderer: () => {
+          let logData = [{ msg: '🪵 Log 1', ts: 21241425 }]
+
+          return <Logs data={logData} />
         },
       },
     ],

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { ScrollArea, Style, styled, Text, color } from '../..'
 import dayjs from 'dayjs'
 
@@ -7,6 +7,10 @@ type LogsProps = {
   style?: Style
   // top to bottom // reverse order
   // autoscroll?
+  // infinite scroll ,
+  // behaviour to start at bottom
+  //  clear logs option
+  // group per time --> and type
 }
 
 type SingleLogItemProps = {
@@ -41,10 +45,10 @@ const SingleLogItem: FC<SingleLogItemProps> = ({
 }
 
 export const Logs: FC<LogsProps> = ({ data, style }) => {
-  console.log('logdata --> ', data)
-
   return (
-    <ScrollArea style={{ ...style }}>
+    <ScrollArea
+      style={{ maxHeight: 500, width: 600, border: '1px solid red', ...style }}
+    >
       Work in progress 🌲
       {data?.map((item, idx) => (
         <SingleLogItem

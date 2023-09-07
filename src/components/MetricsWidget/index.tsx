@@ -130,7 +130,12 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
             size="small"
             color="system"
             light
-            style={{ border: '0px solid transparent' }}
+            style={{
+              border: '0px solid transparent',
+              '&:focus': {
+                boxShadow: 'none',
+              },
+            }}
             onClick={openCalculateOptions as () => void}
             // {...changeCalculation}
           />
@@ -149,7 +154,12 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
             size="small"
             color="system"
             light
-            style={{ border: '0px solid transparent' }}
+            style={{
+              border: '0px solid transparent',
+              '&:focus': {
+                boxShadow: 'none',
+              },
+            }}
             onClick={openChartOptions as () => void}
             // {...changeChartTooltip}
           />

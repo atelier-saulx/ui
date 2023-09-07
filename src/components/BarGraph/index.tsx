@@ -113,7 +113,7 @@ const VerticalBar = ({ display, label, value, percentage, color }) => {
 export const BarGraph: FC<BarGraphProps> = ({
   data,
   display,
-  direction = 'horizontal',
+  direction,
   style,
 }) => {
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)

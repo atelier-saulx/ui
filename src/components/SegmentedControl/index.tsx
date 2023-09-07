@@ -65,7 +65,11 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
             },
           }}
         >
-          <Text size={14} weight="medium">
+          <Text
+            size={14}
+            weight="medium"
+            style={{ color: activeOption === idx ? '#1b242c' : 'inherit' }}
+          >
             {item}
           </Text>
         </StyledSegmentOption>
