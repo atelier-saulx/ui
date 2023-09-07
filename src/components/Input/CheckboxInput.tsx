@@ -98,8 +98,11 @@ export function CheckboxInput({
                 } !important`,
               },
               '.checkbox-group:focus-within &': {
-                outline: `1px solid white`,
-                boxShadow: `0 0 0 3px ${color('border', 'brand', 'subtle')}`,
+                boxShadow: `0 0 0 1px white,0 0 0 3px ${color(
+                  'border',
+                  'brand',
+                  'subtle'
+                )}`,
               },
             }}
           >
