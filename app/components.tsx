@@ -118,13 +118,39 @@ export const components: ComponentDef[] = [
       },
     ],
   },
-  // {
-  //   name: 'BargraphBrokenDonotclick',
-  //   properties: props.props.BadgeProps.props,
-  //   component: BarGraph,
-  //   description: 'Testing Place BarGraph',
-  //   examples: [{}],
-  // },
+  {
+    name: 'BarGraph',
+    // TODO yves change these props
+    properties: props.props.BadgeProps.props,
+    component: BarGraph,
+    description: '100 bars for breakfast',
+    examples: [
+      {
+        props: {
+          style: { width: 540 },
+          //   display: 'values',
+          data: [
+            {
+              label: 'Moose 🦆',
+              value: 160000,
+            },
+            {
+              label: 'Caribou 🦌',
+              value: 576000,
+            },
+            {
+              label: 'Bears 🐻',
+              value: 43000,
+            },
+            {
+              label: 'Wolves 🐺',
+              value: 62000,
+            },
+          ],
+        },
+      },
+    ],
+  },
   {
     name: 'Breadcrumbs',
     properties: props.props.BreadcrumbsProps.props,
@@ -531,11 +557,24 @@ export const components: ComponentDef[] = [
               0,
               100
             ),
-            voters: genRandomPoints(
-              (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
-              0,
-              150
-            ),
+            'Alaskan wildlife': [
+              {
+                label: 'Moose 🦆',
+                value: 160000,
+              },
+              {
+                label: 'Caribou 🦌',
+                value: 576000,
+              },
+              {
+                label: 'Bears 🐻',
+                value: 43000,
+              },
+              {
+                label: 'Wolves 🐺',
+                value: 62000,
+              },
+            ],
             pietest: [
               {
                 label: 'Yes sure if you like ugly shit',

@@ -1,41 +1,88 @@
-import React, { useState } from 'react'
-import { styled, Slider } from '../../'
+import React, { FC } from 'react'
+import {
+  ColorNonSemanticBackgroundColors,
+  styled,
+  Style,
+  Text,
+  color,
+} from '../..'
 
-export const BarGraph = () => {
-  const [data, setData] = useState(61)
-  const [data1, setData1] = useState(19)
-  const [data2, setData2] = useState(15)
+type BarGraphSingleItem = {
+  label: string
+  value: number
+  color?: ColorNonSemanticBackgroundColors
+  [key: string]: any
+}
 
-  const barData = [
-    {
-      label: 'Wow lavel 1',
-      value: data1,
-    },
-    {
-      label: 'Wow label 2????',
-      value: data,
-    },
-    {
-      label: 'Wow label 3?????',
-      value: data2,
-    },
-  ]
+type BarGraphProps = {
+  data: BarGraphSingleItem[]
+  display?: 'percentages' | 'values'
+  direction?: 'horizontal' | 'vertical'
+  style?: Style
+}
+
+export const BarGraph: FC<BarGraphProps> = ({
+  data,
+  display,
+  direction = 'horizontal',
+  style,
+}) => {
+  const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
+  // percentages
+  data = data.map((item) => ({
+    ...item,
+    percentage: (item.value / totalValue) * 100,
+  }))
+
+  const HorizontalBar = ({ label, value, percentage }) => {
+    return (
+      <styled.div
+        style={{ display: 'flex', marginBottom: 4, alignItems: 'center' }}
+      >
+        <styled.div style={{ width: '100%' }}>
+          <styled.div
+            style={{
+              borderRadius: 3,
+              backgroundColor: color(
+                'nonSemanticBackground',
+                'magenta',
+                'muted'
+              ),
+              padding: '4px 8px',
+              whiteSpace: 'nowrap',
+              width: `${percentage.toFixed()}%`,
+            }}
+          >
+            <Text weight="medium">{label}</Text>
+          </styled.div>
+        </styled.div>
+        <styled.div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginLeft: 26,
+            whiteSpace: 'nowrap',
+            width: 28,
+          }}
+        >
+          <Text weight="medium">
+            {display === 'values' ? value : percentage.toFixed(1) + '%'}
+          </Text>
+        </styled.div>
+      </styled.div>
+    )
+  }
 
   return (
-    <styled.div>
-      <BarGraph data={barData} color="magenta" />
-      <styled.div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 30,
-          marginTop: '300px',
-        }}
-      >
-        <Slider onChange={setData1} max={100} min={0} steps={1} />
-        <Slider onChange={setData} max={100} min={0} steps={1} />
-        <Slider onChange={setData2} max={100} min={0} steps={1} />
-      </styled.div>
+    <styled.div style={{ width: '100%', ...style }}>
+      {data.map((item, idx) => (
+        <HorizontalBar
+          key={idx}
+          label={item.label}
+          value={item.value}
+          percentage={item.percentage}
+        />
+      ))}
     </styled.div>
   )
 }

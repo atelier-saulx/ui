@@ -15,6 +15,7 @@ import {
   LineGraph,
   useTooltip,
   PieGraph,
+  BarGraph,
 } from '../..'
 import { ChartOptionsOverlay, CalculateOptionsOverlay } from './overlays'
 
@@ -161,9 +162,19 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
           padding: '16px 16px 16px 20px',
         }}
       >
-        {chartOption === 'bar' && <div>Bar Graph here</div>}
+        {chartOption === 'bar' && (
+          <BarGraph
+            data={data[selected]}
+            display={calculationOption === 'numbers' ? 'values' : 'percentages'}
+          />
+        )}
         {chartOption === 'line' && <LineGraph data={data[selected]} />}
-        {chartOption === 'pie' && <PieGraph data={data[selected]} />}
+        {chartOption === 'pie' && (
+          <PieGraph
+            data={data[selected]}
+            display={calculationOption === 'numbers' ? 'values' : 'percentages'}
+          />
+        )}
         {/* Calculate option: {calculationOption} */}
       </styled.div>
     </styled.div>

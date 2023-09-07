@@ -16,6 +16,7 @@ type PieGraphSingleItem = {
 
 type PieGraphProps = {
   data: PieGraphSingleItem[]
+  display?: 'values' | 'percentages'
   style?: Style
 }
 
@@ -37,10 +38,11 @@ const colorArray: ColorNonSemanticBackgroundColors[] = [
   'orange',
 ]
 
-export const PieGraph: FC<PieGraphProps> = ({ data, style }) => {
+export const PieGraph: FC<PieGraphProps> = ({ data, display, style }) => {
   const [featured, setFeatured] = useState<{
     label: string
     percentage: number
+    value: number
   }>()
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
 
@@ -101,12 +103,14 @@ export const PieGraph: FC<PieGraphProps> = ({ data, style }) => {
                   setFeatured({
                     label: item.label,
                     percentage: item.percentage,
+                    value: item.value,
                   })
                 }}
                 onMouseLeave={() =>
                   setFeatured({
                     label: objectWithLargestValue.label,
                     percentage: objectWithLargestValue.percentage,
+                    value: item.value,
                   })
                 }
                 key={idx}
@@ -145,9 +149,12 @@ export const PieGraph: FC<PieGraphProps> = ({ data, style }) => {
         >
           <Text weight="strong" size={32}>
             {featured
-              ? featured?.percentage.toFixed(1)
-              : objectWithLargestValue.percentage.toFixed(1)}
-            %
+              ? display === 'values'
+                ? featured.value
+                : featured?.percentage.toFixed(1) + '%'
+              : display === 'values'
+              ? objectWithLargestValue.value
+              : objectWithLargestValue.percentage.toFixed(1) + '%'}
           </Text>
           <Text weight="strong" size={12}>
             {featured ? featured?.label : objectWithLargestValue.label}
