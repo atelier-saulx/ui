@@ -7,7 +7,6 @@ import {
   BarGraph,
   Breadcrumbs,
   Button,
-  Checkbox,
   Counter,
   DatePicker,
   DateRange,
@@ -262,35 +261,6 @@ export const components: ComponentDef[] = [
             await wait(1000)
           },
         },
-      },
-    ],
-  },
-  {
-    name: 'Checkbox',
-    properties: props.props.CheckboxProps.props,
-    component: Checkbox,
-    description: 'Simple checkbox component',
-    examples: [
-      {
-        props: {
-          children: 'Click me',
-          description: 'Little description text',
-          label: 'Label',
-          value: true,
-          onClick: (v) => console.log(v),
-        },
-      },
-
-      {
-        props: {
-          onClick: async () => {
-            await wait(1000)
-          },
-          warning: true,
-          children: 'Do something async',
-        },
-        name: 'Warning',
-        description: 'Visual indication of errors ',
       },
     ],
   },
@@ -832,6 +802,85 @@ export const components: ComponentDef[] = [
                 { label: 'Item two', value: 'value2' },
                 { label: 'Item three', value: 'value3' },
               ]}
+            />
+          )
+        },
+      },
+    ],
+  },
+  {
+    name: 'CheckboxInput',
+    component: Input,
+    description: 'Checkbox input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(false)
+          return (
+            <Input
+              type="checkbox"
+              title="Subscribe to our newsletter"
+              value={checked}
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(false)
+          return (
+            <Input
+              type="checkbox"
+              intermediate
+              title="Intermediate checkbox"
+              description="Lorem ipusm asd 123"
+              value={checked}
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(true)
+          return (
+            <Input
+              type="checkbox"
+              disabled
+              title="Disabled checkbox"
+              description="Lorem ipusm asd 123"
+              value={checked}
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(false)
+          return (
+            <Input
+              type="checkbox"
+              title="Title"
+              description="Description"
+              value={checked}
+              label="This is a label"
+              error="This is an error"
+              onChange={(v) => {
+                setChecked(v)
+              }}
             />
           )
         },

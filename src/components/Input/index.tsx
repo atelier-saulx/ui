@@ -6,6 +6,7 @@ import { SearchInput, SearchInputProps } from './SearchInput'
 import { FileInput, FileInputProps } from './FileInput'
 import { NumberInput, NumberInputProps } from './NumberInput'
 import { IconAlert, color } from '../..'
+import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
 
 export type CommonInputProps = {
   label?: string
@@ -19,6 +20,7 @@ export type InputProps = CommonInputProps &
     | ({ type: 'select' } & SelectInputProps)
     // | ({ type: 'number' } & NumberInputProps)
     | ({ type: 'file' } & FileInputProps)
+    | ({ type: 'checkbox' } & CheckboxInputProps)
   )
 
 export function Input(props: InputProps) {
@@ -57,6 +59,14 @@ export function Input(props: InputProps) {
       return (
         <LabelAndErrorWrapper label={props.label} error={props.error}>
           <FileInput {...narrowedProps} />
+        </LabelAndErrorWrapper>
+      )
+    }
+    case 'checkbox': {
+      const { type, ...narrowedProps } = props
+      return (
+        <LabelAndErrorWrapper label={props.label} error={props.error}>
+          <CheckboxInput {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
     }

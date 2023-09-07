@@ -4,11 +4,11 @@ import {
   styled,
   Style,
   renderOrCreateElement,
-  Checkbox,
   color as genColor,
   IconChevronRightSmall,
   useOverlay,
   Dropdown,
+  Input,
 } from '../..'
 
 export type DropDownItemProps = {
@@ -63,7 +63,14 @@ export const DropDownItem: FC<DropDownItemProps> = ({
           </Text>
         </>
       ) : type === 'checkbox' ? (
-        <Checkbox label={label} value={value as boolean} />
+        <Input
+          type="checkbox"
+          title={label}
+          value={value as boolean}
+          onChange={() => {
+            // TODO
+          }}
+        />
       ) : (
         //   : type === 'radio' ? (
         //     <RadioButtons data={[{ label: label, value: value  }]} />

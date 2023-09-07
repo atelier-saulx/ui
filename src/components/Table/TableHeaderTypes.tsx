@@ -4,7 +4,6 @@ import { prettyDate } from '@based/pretty-date'
 import {
   Avatar,
   Badge,
-  Checkbox,
   IconCheckLarge,
   Input,
   Text,
@@ -75,7 +74,8 @@ const CheckboxItem: FC<{
 }> = ({ rowData, rowIndex, renderCounter, setRenderCounter }) => {
   rowData.meta.selectedIndex = rowIndex
   return (
-    <Checkbox
+    <Input
+      type="checkbox"
       value={rowData.meta.selected}
       onChange={(v) => {
         v ? (rowData.meta.selected = true) : (rowData.meta.selected = false)
