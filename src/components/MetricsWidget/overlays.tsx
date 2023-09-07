@@ -34,7 +34,7 @@ export const CalculateOptionsOverlay = ({
     <styled.div
       style={{
         padding: 8,
-        backgroundColor: color('standalone', 'foreground', 'default'),
+        backgroundColor: color('background', 'default', 'surface'),
         width: 210,
       }}
     >
@@ -42,6 +42,12 @@ export const CalculateOptionsOverlay = ({
         onClick={() => {
           setCalculationOption('numbers')
           removeOverlay()
+        }}
+        style={{
+          backgroundColor:
+            calculationOption === 'numbers'
+              ? color('action', 'primary', 'subtleSelected')
+              : '',
         }}
       >
         <IconCheckLarge
@@ -56,6 +62,12 @@ export const CalculateOptionsOverlay = ({
         onClick={() => {
           setCalculationOption('percentage')
           removeOverlay()
+        }}
+        style={{
+          backgroundColor:
+            calculationOption === 'percentage'
+              ? color('action', 'primary', 'subtleSelected')
+              : '',
         }}
       >
         <IconCheckLarge
@@ -73,14 +85,21 @@ export const ChartOptionsOverlay = ({ chartOption, setChartOption }) => {
     <styled.div
       style={{
         padding: 8,
-        backgroundColor: color('standalone', 'foreground', 'default'),
+        backgroundColor: color('background', 'default', 'surface'),
         width: 210,
       }}
     >
+      {/* bar */}
       <StyledSelectItem
         onClick={() => {
           setChartOption('bar')
           removeOverlay()
+        }}
+        style={{
+          backgroundColor:
+            chartOption === 'bar'
+              ? color('action', 'primary', 'subtleSelected')
+              : '',
         }}
       >
         <IconCheckLarge
@@ -91,20 +110,34 @@ export const ChartOptionsOverlay = ({ chartOption, setChartOption }) => {
         <IconChartBarHorizontal />
         <Text weight="medium">Bar</Text>
       </StyledSelectItem>
+      {/* line */}
       <StyledSelectItem
         onClick={() => {
           setChartOption('line')
           removeOverlay()
+        }}
+        style={{
+          backgroundColor:
+            chartOption === 'line'
+              ? color('action', 'primary', 'subtleSelected')
+              : '',
         }}
       >
         <IconCheckLarge style={{ opacity: chartOption === 'line' ? 1 : 0 }} />
         <IconChartLine />
         <Text weight="medium">Line</Text>
       </StyledSelectItem>
+      {/* pie */}
       <StyledSelectItem
         onClick={() => {
           setChartOption('pie')
           removeOverlay()
+        }}
+        style={{
+          backgroundColor:
+            chartOption === 'pie'
+              ? color('action', 'primary', 'subtleSelected')
+              : '',
         }}
       >
         <IconCheckLarge style={{ opacity: chartOption === 'pie' ? 1 : 0 }} />
