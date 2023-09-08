@@ -102,8 +102,8 @@ export const Table: FC<TableProps> = (props) => {
 
   // on Shift Click you want the rowIndex and use that as a guide
   const [shiftKeyIsDown, setShiftKeyIsDown] = useState(false)
-  const [shiftKeyIndex, setShiftKeyIndex] = useState()
-  const [lastShifKeyIndex, setLastShiftKeyIndex] = useState()
+  const [shiftKeyIndex, setShiftKeyIndex] = useState(undefined)
+  const [lastShifKeyIndex, setLastShiftKeyIndex] = useState(undefined)
 
   const ShiftKeySelectionRows = (firstIndex, lastIndex) => {
     let smallerIndex = firstIndex > lastIndex ? lastIndex : firstIndex
@@ -145,7 +145,7 @@ export const Table: FC<TableProps> = (props) => {
   }, [])
 
   useEffect(() => {
-    if (lastShifKeyIndex) {
+    if (typeof lastShifKeyIndex === 'number') {
       ShiftKeySelectionRows(shiftKeyIndex, lastShifKeyIndex)
     }
   }, [lastShifKeyIndex])
