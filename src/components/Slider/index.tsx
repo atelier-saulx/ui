@@ -126,7 +126,7 @@ export const Slider: FC<SliderProps> = ({
   min = 0,
   max,
   value,
-  onChange,
+  onChange = () => null,
   color = 'primary',
   steps = 1,
   style,
@@ -318,11 +318,25 @@ export const Slider: FC<SliderProps> = ({
     }
   }
 
+  const keyDownHandler = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const index = getClosestIndex(xPosArray, percentageX)
+    if (e.key === 'ArrowRight' && percentageX !== 100) {
+      setValue(xPosArray[index + 1])
+    }
+    if (e.key === 'ArrowLeft') {
+      setValue(xPosArray[index - 1])
+    }
+  }
+
   return (
     <styled.div
       style={{ width: '100%', position: 'relative', minWidth: 340, ...style }}
     >
       <styled.div
+        tabIndex={0}
+        onKeyDown={keyDownHandler}
         onMouseDown={onMouseDownHandler}
         onClick={onClickSnap}
         ref={refRangeContainer}
