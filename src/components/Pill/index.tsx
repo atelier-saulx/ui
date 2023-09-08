@@ -109,7 +109,11 @@ export const Pill: FC<PillPropss> = ({
     >
       <styled.div
         //@ts-ignore
-        onClick={typeof value === 'boolean' ? () => onChange?.(!value) : null}
+        onClick={
+          typeof value === 'boolean'
+            ? () => onChange?.(!value)
+            : () => setOpen(true)
+        }
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -138,7 +142,9 @@ export const Pill: FC<PillPropss> = ({
         )}
         {(options && thisValue) || open ? (
           <IconClose
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
               setOpen(false)
               setThisValue(false)
             }}

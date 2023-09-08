@@ -83,7 +83,6 @@ export const useSidePanel = (
           style={{
             marginTop: 'auto',
             marginBottom: '0px',
-            height: '40px',
             padding: '24px',
             display: 'flex',
             justifyContent: 'flex-end',
@@ -93,6 +92,7 @@ export const useSidePanel = (
         >
           <Button
             color="system"
+            // style={{ minHeight: '40px' }}
             onClick={() => {
               cancel?.onClick()
               removeOverlay()

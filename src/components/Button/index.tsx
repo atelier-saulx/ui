@@ -252,8 +252,8 @@ export const Button: FC<ButtonProps> = (props) => {
         width: !children ? '20px' : fill ? '100%' : null,
 
         position: 'relative',
-        ...style,
         ...getButtonStyle(props, true),
+        ...style,
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
