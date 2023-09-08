@@ -37,6 +37,7 @@ import {
   Pill,
   Toast,
   Toggle,
+  TooltipTest,
   Popover,
   SidePanel,
 } from '../src'
@@ -260,6 +261,85 @@ export const components: ComponentDef[] = [
           onClick: async () => {
             await wait(1000)
           },
+        },
+      },
+    ],
+  },
+  {
+    name: 'CheckboxInput',
+    component: Input,
+    description: 'Checkbox input',
+    properties: props.props.InputProps.props,
+    examples: [
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(false)
+          return (
+            <Input
+              type="checkbox"
+              title="Subscribe to our newsletter"
+              value={checked}
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(false)
+          return (
+            <Input
+              type="checkbox"
+              intermediate
+              title="Intermediate checkbox"
+              description="Lorem ipusm asd 123"
+              value={checked}
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(true)
+          return (
+            <Input
+              type="checkbox"
+              disabled
+              title="Disabled checkbox"
+              description="Lorem ipusm asd 123"
+              value={checked}
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(false)
+          return (
+            <Input
+              type="checkbox"
+              title="Title"
+              description="Description"
+              value={checked}
+              label="This is a label"
+              error="This is an error"
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
         },
       },
     ],
@@ -814,85 +894,6 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'CheckboxInput',
-    component: Input,
-    description: 'Checkbox input',
-    properties: props.props.InputProps.props,
-    examples: [
-      {
-        props: {},
-        customRenderer: () => {
-          const [checked, setChecked] = useState(false)
-          return (
-            <Input
-              type="checkbox"
-              title="Subscribe to our newsletter"
-              value={checked}
-              onChange={(v) => {
-                setChecked(v)
-              }}
-            />
-          )
-        },
-      },
-      {
-        props: {},
-        customRenderer: () => {
-          const [checked, setChecked] = useState(false)
-          return (
-            <Input
-              type="checkbox"
-              intermediate
-              title="Intermediate checkbox"
-              description="Lorem ipusm asd 123"
-              value={checked}
-              onChange={(v) => {
-                setChecked(v)
-              }}
-            />
-          )
-        },
-      },
-      {
-        props: {},
-        customRenderer: () => {
-          const [checked, setChecked] = useState(true)
-          return (
-            <Input
-              type="checkbox"
-              disabled
-              title="Disabled checkbox"
-              description="Lorem ipusm asd 123"
-              value={checked}
-              onChange={(v) => {
-                setChecked(v)
-              }}
-            />
-          )
-        },
-      },
-      {
-        props: {},
-        customRenderer: () => {
-          const [checked, setChecked] = useState(false)
-          return (
-            <Input
-              type="checkbox"
-              title="Title"
-              description="Description"
-              value={checked}
-              label="This is a label"
-              error="This is an error"
-              onChange={(v) => {
-                setChecked(v)
-              }}
-            />
-          )
-        },
-      },
-    ],
-  },
-  {
     name: 'Pill',
     component: Pill,
     description: 'Pill',
@@ -1298,5 +1299,12 @@ export const components: ComponentDef[] = [
         },
       },
     ],
+  },
+  {
+    name: 'TooltipTest',
+    component: TooltipTest,
+    description: 'just a teset',
+    properties: props.props.ScrollAreaProps.props,
+    examples: [{ props: {} }],
   },
 ]
