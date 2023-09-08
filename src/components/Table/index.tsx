@@ -48,7 +48,7 @@ export const Table: FC<TableProps> = (props) => {
     props?.headers?.unshift({
       key: 'selected',
       label: '',
-      type: 'checkbox',
+      type: 'CheckboxSelectItem',
       width: 42,
     })
     newData.map(
@@ -98,8 +98,26 @@ export const Table: FC<TableProps> = (props) => {
     }
   }, [renderCounter])
 
+  console.log('newdata --->', newData)
+
+  // on Shift Click you want the rowIndex and use that as a guide
+  const [shiftKeyIsDown, setShiftKeyIsDown] = useState(false)
+  const [shiftKeyIndex, setShiftKeyIndex] = useState()
+
+  useEffect(() => {
+    console.log('add listener')
+    window.addEventListener('keydown', (e) =>
+      e.key === 'Shift' ? setShiftKeyIsDown(true) : null
+    )
+    window.addEventListener('keyup', (e) =>
+      e.key === 'Shift' ? setShiftKeyIsDown(false) : null
+    )
+  }, [])
+
   return (
     <>
+      {'is shift key down: ' + shiftKeyIsDown}
+      {'shiftkey index' + shiftKeyIndex}
       <styled.div
         style={{
           backgroundColor: color('background', 'default', 'strong'),
@@ -152,6 +170,8 @@ export const Table: FC<TableProps> = (props) => {
                 clearAllRows={clearAllRows}
                 selectedRows={selectedRows}
                 headers={filteredHeaders}
+                shiftKeyIsDown={shiftKeyIsDown}
+                setShiftKeyIndex={setShiftKeyIndex}
               />
             )
           }}

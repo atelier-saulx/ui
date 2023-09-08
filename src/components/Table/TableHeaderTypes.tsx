@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useEffect } from 'react'
 import { useClient } from '@based/react'
 import { prettyDate } from '@based/pretty-date'
 import {
@@ -66,19 +66,32 @@ const BooleanToggle: FC<{
   )
 }
 
-const CheckboxItem: FC<{
+const CheckboxSelectItem: FC<{
   rowData?: any
   rowIndex?: number
   renderCounter?: any
   setRenderCounter?: any
-}> = ({ rowData, rowIndex, renderCounter, setRenderCounter }) => {
-  rowData.meta.selectedIndex = rowIndex
+  shiftKeyIsDown?: boolean
+  setShiftKeyIndex?: number
+}> = ({
+  rowData,
+  rowIndex,
+  renderCounter,
+  setRenderCounter,
+  shiftKeyIsDown,
+  setShiftKeyIndex,
+}) => {
+  // rowData.meta.selectedIndex = rowIndex
+
   return (
     <Input
       type="checkbox"
       value={rowData.meta.selected}
       onChange={(v) => {
         v ? (rowData.meta.selected = true) : (rowData.meta.selected = false)
+
+        // if shift key is down
+        shiftKeyIsDown ? setShiftKeyIndex(rowIndex) : null
 
         setRenderCounter(renderCounter + 1)
       }}
@@ -91,11 +104,14 @@ const StringItem: FC<{
   k: string
   itemData: string
   editable?: boolean
-}> = ({ item, k, itemData, editable }) => {
+  rowIndex: number
+}> = ({ item, k, itemData, editable, rowIndex }) => {
   const client = useClient()
 
   return !editable ? (
-    <Text weight="medium">{itemData}</Text>
+    <Text weight="medium">
+      {itemData} - {rowIndex}
+    </Text>
   ) : (
     <Input
       type="text"
@@ -133,6 +149,7 @@ type TableHeaderTypesProps = {
     | 'author'
     | 'boolean'
     | 'checkbox'
+    | 'CheckboxSelectItem'
     | 'id'
     | 'img'
     | 'number'
@@ -145,6 +162,8 @@ type TableHeaderTypesProps = {
   renderCounter: any
   setRenderCounter: any
   editable?: boolean
+  shiftKeyIsDown?: boolean
+  setShiftKeyIndex?: () => void
 }
 
 export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
@@ -156,6 +175,8 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   renderCounter,
   setRenderCounter,
   editable,
+  shiftKeyIsDown,
+  setShiftKeyIndex,
 }) => {
   //   console.log(type)
   //   console.log('Row', rowData)
@@ -175,12 +196,14 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
       k={key}
       disabled={!editable}
     />
-  ) : type === 'checkbox' ? (
-    <CheckboxItem
+  ) : type === 'CheckboxSelectItem' ? (
+    <CheckboxSelectItem
       rowData={rowData}
       rowIndex={rowIndex}
       renderCounter={renderCounter}
       setRenderCounter={setRenderCounter}
+      shiftKeyIsDown={shiftKeyIsDown}
+      setShiftKeyIndex={setShiftKeyIndex}
     />
   ) : type === 'id' ? (
     <IdBadge>{itemData}</IdBadge>
@@ -192,6 +215,7 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
       itemData={itemData}
       k={key}
       editable={editable}
+      rowIndex={rowIndex}
     />
   ) : type === 'timestamp' ? (
     <Text>{prettyDate(itemData, 'date-time-human')}</Text>
