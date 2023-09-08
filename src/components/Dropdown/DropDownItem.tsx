@@ -10,6 +10,7 @@ import {
   Dropdown,
   Input,
 } from '../..'
+import { BpTablet } from '../../utils/breakpoints'
 
 export type DropDownItemProps = {
   caption?: string
@@ -51,6 +52,11 @@ export const DropDownItem: FC<DropDownItemProps> = ({
         alignItems: 'center',
         '&:hover': {
           backgroundColor: genColor('action', 'system', 'hover'),
+        },
+        [BpTablet]: {
+          '&:hover': {
+            backgroundColor: genColor('action', 'system', 'normal'),
+          },
         },
       }}
       onClick={data ? openNewDropDown : null}

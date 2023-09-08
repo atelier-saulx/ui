@@ -78,6 +78,7 @@ export const Text: FC<TextProps> = ({
         textAlign: align,
         overflow: truncate ? 'hidden' : 'visible',
         userSelect: selectable,
+        WebkitUserSelect: selectable,
         WebkitLineClamp:
           typeof truncate === 'number' ? truncate : truncate ? 1 : null,
         WebkitBoxOrient: 'vertical',

@@ -3,6 +3,7 @@ import { styled, Style } from 'inlines'
 import { ColorActionColors, color as genColor } from '../../../src'
 import { usePropState } from '../../hooks/usePropState'
 import { ClickHandler } from '../../types'
+import { BpTablet } from '../../utils/breakpoints'
 
 export type ToggleProps = {
   value?: boolean
@@ -63,6 +64,15 @@ export const Toggle: FC<ToggleProps> = ({
               ),
             }
           : null,
+        [BpTablet]: {
+          '&:hover': {
+            backgroundColor: genColor(
+              'action',
+              checked ? color : 'neutral',
+              checked ? 'normal' : 'subtleNormal'
+            ),
+          },
+        },
         '&:active': !disabled
           ? {
               backgroundColor: genColor(

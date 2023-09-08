@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
+import React, { FC, Fragment, ReactNode, MouseEvent, useState } from 'react'
 import {
   IconChevronDown,
   color,
@@ -169,6 +169,7 @@ export const Menu: FC<MenuProps> = ({
   collapse,
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
+  const [open, setOpen] = useState(true)
 
   if (isMenuDataObject(data)) {
     for (const key in data) {
@@ -248,13 +249,14 @@ export const Menu: FC<MenuProps> = ({
               {items.map(({ value, label, onClick, icon }, index: number) => {
                 return (
                   <MenuItem
-                    value={value}
+                    // value={value}
                     key={index}
                     onClick={(e) => {
                       if (onChange) {
                         onChange(value, topValue)
                       }
                       if (onClick) {
+                        //@ts-ignore
                         onClick(e)
                       }
                     }}
@@ -291,6 +293,7 @@ export const Menu: FC<MenuProps> = ({
               onChange(value)
             }
             if (onClick) {
+              //@ts-ignore
               onClick(e)
             }
           }}
@@ -305,21 +308,41 @@ export const Menu: FC<MenuProps> = ({
   )
 
   return (
-    <ScrollArea
-      style={{
-        flexShrink: 0,
-        backgroundColor: color('background', 'default', 'muted'),
-        borderRight: border(1),
-        padding: '24px 20px 20px 20px',
-        height: '100%',
-        width: 224,
-        ...style,
-      }}
-    >
-      <MenuHeader>{header}</MenuHeader>
-      {items}
-      {children}
-      <styled.div style={{ height: '24px' }} />
-    </ScrollArea>
+    <span style={{ position: 'relative' }}>
+      <ScrollArea
+        style={{
+          flexShrink: 0,
+          backgroundColor: color('background', 'default', 'muted'),
+          // borderRight: border(1),
+          // position: 'relative',
+          padding: '24px 20px 20px 20px',
+          height: '100%',
+          width: open ? 224 : 0,
+          ...style,
+        }}
+      >
+        <MenuHeader>{header}</MenuHeader>
+        {items}
+        {children}
+        <styled.div style={{ height: '24px' }} />
+      </ScrollArea>
+      <styled.div
+        onClick={() => setOpen(!open)}
+        style={{
+          position: 'absolute',
+          border: '1px solid',
+          borderColor: color('inputBorder', 'neutralNormal', 'default'),
+          '&:hover': {
+            borderColor: color('inputBorder', 'neutralHover', 'default'),
+          },
+          '&:active': {
+            borderColor: color('inputBorder', 'neutralActive', 'default'),
+          },
+          right: 0,
+          top: 0,
+          bottom: 0,
+        }}
+      ></styled.div>
+    </span>
   )
 }

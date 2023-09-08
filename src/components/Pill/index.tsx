@@ -16,6 +16,7 @@ import {
   IconChevronDown,
   IconClose,
 } from '../../'
+import { BpTablet } from '../../utils/breakpoints'
 
 type PillOption = {
   label: string
@@ -77,6 +78,14 @@ export const Pill: FC<PillPropss> = ({
         : genColor('action', 'neutral', 'subtleHover'),
       borderColor: genColor('inputBorder', 'neutralHover', 'default'),
     },
+    [BpTablet]: {
+      '&:hover': {
+        backgroundColor: filled
+          ? genColor('background', 'default', 'strong')
+          : genColor('action', 'neutral', 'subtleNormal'),
+        borderColor: genColor('inputBorder', 'neutralNormal', 'default'),
+      },
+    },
     '&:active': {
       backgroundColor: filled
         ? genColor('background', 'default', 'strong')
@@ -100,7 +109,11 @@ export const Pill: FC<PillPropss> = ({
     >
       <styled.div
         //@ts-ignore
-        onClick={typeof value === 'boolean' ? () => onChange?.(!value) : null}
+        onClick={
+          typeof value === 'boolean'
+            ? () => onChange?.(!value)
+            : () => setOpen(true)
+        }
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -129,7 +142,9 @@ export const Pill: FC<PillPropss> = ({
         )}
         {(options && thisValue) || open ? (
           <IconClose
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
               setOpen(false)
               setThisValue(false)
             }}
