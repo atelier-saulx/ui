@@ -23,6 +23,7 @@ import {
   useKeyboardShortcut,
 } from '../..'
 import { ClickHandler } from '../../types'
+import { BpTablet } from '../../utils/breakpoints'
 
 const stopPropagation = (e) => e.stopPropagation()
 
@@ -78,11 +79,7 @@ export const getButtonStyle = (
     backgroundColor: isGhost
       ? 'transparent'
       : genColor('action', colorProp, isLight ? 'subtleNormal' : 'normal'),
-    '&:active': {
-      backgroundColor: isGhost
-        ? 'transparent'
-        : genColor('action', colorProp, isLight ? 'subtleActive' : 'active'),
-    },
+
     '&:focus': {
       backgroundColor: isGhost
         ? 'transparent'
@@ -104,6 +101,20 @@ export const getButtonStyle = (
       backgroundColor: isGhost
         ? 'transparent'
         : genColor('action', colorProp, isLight ? 'subtleHover' : 'hover'),
+    },
+    [BpTablet]: {
+      '&:hover': {
+        backgroundColor: genColor(
+          'action',
+          colorProp,
+          isLight ? 'subtleNormal' : 'normal'
+        ),
+      },
+    },
+    '&:active': {
+      backgroundColor: isGhost
+        ? 'transparent'
+        : genColor('action', colorProp, isLight ? 'subtleActive' : 'active'),
     },
     width: 'fit-content',
     opacity: disabled ? 0.6 : 1,
@@ -241,8 +252,8 @@ export const Button: FC<ButtonProps> = (props) => {
         width: !children ? '20px' : fill ? '100%' : null,
 
         position: 'relative',
-        ...getButtonStyle(props, true),
         ...style,
+        ...getButtonStyle(props, true),
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

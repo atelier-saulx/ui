@@ -16,6 +16,7 @@ import {
   IconChevronDown,
   IconClose,
 } from '../../'
+import { BpTablet } from '../../utils/breakpoints'
 
 type PillOption = {
   label: string
@@ -76,6 +77,14 @@ export const Pill: FC<PillPropss> = ({
         ? genColor('background', 'default', 'strong')
         : genColor('action', 'neutral', 'subtleHover'),
       borderColor: genColor('inputBorder', 'neutralHover', 'default'),
+    },
+    [BpTablet]: {
+      '&:hover': {
+        backgroundColor: filled
+          ? genColor('background', 'default', 'strong')
+          : genColor('action', 'neutral', 'subtleNormal'),
+        borderColor: genColor('inputBorder', 'neutralNormal', 'default'),
+      },
     },
     '&:active': {
       backgroundColor: filled

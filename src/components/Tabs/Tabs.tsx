@@ -15,6 +15,7 @@ import {
   color as genColor,
   renderOrCreateElement,
 } from '../..'
+import { BpTablet } from '../../utils/breakpoints'
 
 export type TabsProps = {
   children: ReactNode
@@ -56,6 +57,14 @@ const TabWrapper: FC<{
           borderBottom:
             index !== activeTabState &&
             `3px solid ${genColor('action', 'neutral', 'subtleHover')}`,
+        },
+        [BpTablet]: {
+          '&:hover': {
+            borderBottom:
+              index === activeTabState
+                ? `3px solid ${genColor('action', 'primary', 'normal')}`
+                : '3px solid transparent',
+          },
         },
         '&:active': {
           borderBottom:

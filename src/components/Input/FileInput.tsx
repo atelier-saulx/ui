@@ -70,9 +70,10 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
         ) : (
           <IconAttachment />
         )}
-        <Text weight="medium">
+        <Text weight="medium" truncate>
           {/* TODO how long can name be? */}
-          {file.name.length > 12 ? file.name.slice(0, 24) + '...' : file.name}
+          {/* {file.name.length > 12 ? file.name.slice(0, 24) + '...' : file.name} */}
+          {file.name}
         </Text>
         <div
           style={{
@@ -256,6 +257,7 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
             onDragEnter={(e) => {}}
             style={{
               height: 40,
+              whiteSpace: 'nowrap',
               boxSizing: 'border-box',
               borderRadius: 8,
               padding: '8px 12px',

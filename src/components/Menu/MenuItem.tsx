@@ -1,11 +1,13 @@
 import React, { FC, ReactNode } from 'react'
 import { Text, styled, color as genColor, Style } from '../..'
+import { ClickHandler } from '../../types'
+import { BpTablet } from '../../utils/breakpoints'
 
 type MenuItemProps = {
   active: boolean
-  onClick: () => void | ((e) => void)
+  onClick: ClickHandler
   children: ReactNode | ReactNode[] | ((e) => void)
-  style: Style
+  style?: Style
 }
 
 export const MenuItem: FC<MenuItemProps> = ({
@@ -25,7 +27,6 @@ export const MenuItem: FC<MenuItemProps> = ({
         width: '200px',
         height: '24px',
         borderRadius: 8,
-
         WebkitUserSelect: 'none',
         MsUserSelect: 'none',
         userSelect: 'none',
@@ -39,6 +40,13 @@ export const MenuItem: FC<MenuItemProps> = ({
                 //   color: `${color('text')} !important`,
               }
             : null,
+        },
+        [BpTablet]: {
+          '&:hover': {
+            backgroundColor: active
+              ? genColor('action', 'primary', 'subtleSelected')
+              : 'transparent',
+          },
         },
         '&:active': !active
           ? {
@@ -58,6 +66,7 @@ export const MenuItem: FC<MenuItemProps> = ({
           ...style,
         }}
       >
+        {/*@ts-ignore*/}
         {typeof children === 'function'
           ? children({
               active,
