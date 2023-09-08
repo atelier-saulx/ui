@@ -98,33 +98,63 @@ export const Table: FC<TableProps> = (props) => {
     }
   }, [renderCounter])
 
-  console.log('newdata --->', newData)
+  // console.log('newdata --->', newData)
 
-  // on Shift Click you want the rowIndex and use that as a guide
-  const [shiftKeyIsDown, setShiftKeyIsDown] = useState(false)
-  const [shiftKeyIndex, setShiftKeyIndex] = useState(undefined)
-  const [lastShifKeyIndex, setLastShiftKeyIndex] = useState(undefined)
+  // ShiftClick to multiSelect Logic here
+  const [shiftKeyIsDown, setShiftKeyIsDown] = useState<boolean>(false)
+  const [shiftKeyIndex, setShiftKeyIndex] = useState<number | undefined>(
+    undefined
+  )
+  const [lastShifKeyIndex, setLastShiftKeyIndex] = useState<number | undefined>(
+    undefined
+  )
 
   const ShiftKeySelectionRows = (firstIndex, lastIndex) => {
     let smallerIndex = firstIndex > lastIndex ? lastIndex : firstIndex
     let largerIndex = firstIndex < lastIndex ? lastIndex : firstIndex
 
-    // set selected row indexes renew??
+    // set selected row indexes anew
     newData.map(
       (item, idx) =>
         (item.meta = { selectedIndex: idx, selected: item.meta.selected })
     )
 
     console.log('smaller -->', smallerIndex, 'bigger --> ', largerIndex)
-    newData
-      .filter(
-        (item) =>
-          item.meta.selectedIndex >= smallerIndex &&
-          item.meta.selectedIndex <= largerIndex
-      )
-      .map((item) => (item.meta.selected = true))
 
-    // count the selected items ??
+    // check if they are allready selected , if thats the case they should unselect
+    if (
+      !newData[firstIndex].meta.selected &&
+      !newData[lastIndex].meta.selected
+    ) {
+      const areAllInBetweenSelected = newData
+        .filter(
+          (item) =>
+            item.meta.selectedIndex > smallerIndex &&
+            item.meta.selectedIndex < largerIndex
+        )
+        .every((item) => item.meta.selected)
+
+      if (areAllInBetweenSelected) {
+        newData
+          .filter(
+            (item) =>
+              item.meta.selectedIndex > smallerIndex &&
+              item.meta.selectedIndex < largerIndex
+          )
+          .map((item) => (item.meta.selected = false))
+      }
+
+      // console.log('🦈🦀', areAllInBetweenSelected)
+    } else {
+      newData
+        .filter(
+          (item) =>
+            item.meta.selectedIndex >= smallerIndex &&
+            item.meta.selectedIndex <= largerIndex
+        )
+        .map((item) => (item.meta.selected = true))
+    }
+    // count selected row items
     setSelectedRows(newData?.filter((item, idx) => item?.meta?.selected))
   }
 
@@ -152,12 +182,12 @@ export const Table: FC<TableProps> = (props) => {
 
   return (
     <>
-      {'is shift key down: ' + shiftKeyIsDown}
+      {/* {'is shift key down: ' + shiftKeyIsDown}
       <br />
       {'shiftkey index' + shiftKeyIndex}
       <br />
       {'last shiftkey index' + lastShifKeyIndex}
-      <br />
+      <br /> */}
       <styled.div
         style={{
           backgroundColor: color('background', 'default', 'strong'),

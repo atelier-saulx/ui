@@ -72,9 +72,9 @@ const CheckboxSelectItem: FC<{
   renderCounter?: any
   setRenderCounter?: any
   shiftKeyIsDown?: boolean
-  setShiftKeyIndex?: () => void
+  setShiftKeyIndex: (n: number | undefined) => void | undefined
   shiftKeyIndex?: number
-  setLastShiftKeyIndex?: () => void
+  setLastShiftKeyIndex: (n: number | undefined) => void | undefined
 }> = ({
   rowData,
   rowIndex,
@@ -99,7 +99,7 @@ const CheckboxSelectItem: FC<{
           ? setShiftKeyIndex(rowIndex)
           : shiftKeyIsDown && typeof shiftKeyIndex === 'number'
           ? setLastShiftKeyIndex(rowIndex)
-          : null
+          : setShiftKeyIndex(rowIndex)
 
         setRenderCounter(renderCounter + 1)
       }}
@@ -112,14 +112,11 @@ const StringItem: FC<{
   k: string
   itemData: string
   editable?: boolean
-  rowIndex: number
-}> = ({ item, k, itemData, editable, rowIndex }) => {
+}> = ({ item, k, itemData, editable }) => {
   const client = useClient()
 
   return !editable ? (
-    <Text weight="medium">
-      {itemData} - {rowIndex}
-    </Text>
+    <Text weight="medium">{itemData}</Text>
   ) : (
     <Input
       type="text"
@@ -171,9 +168,9 @@ type TableHeaderTypesProps = {
   setRenderCounter: any
   editable?: boolean
   shiftKeyIsDown?: boolean
-  setShiftKeyIndex?: () => void
+  setShiftKeyIndex?: (num: number | undefined) => void | undefined
   shiftKeyIndex?: number
-  setLastShiftKeyIndex?: () => void
+  setLastShiftKeyIndex?: (num: number | undefined) => void | undefined
 }
 
 export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
@@ -229,7 +226,6 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
       itemData={itemData}
       k={key}
       editable={editable}
-      rowIndex={rowIndex}
     />
   ) : type === 'timestamp' ? (
     <Text>{prettyDate(itemData, 'date-time-human')}</Text>
