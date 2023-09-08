@@ -55,6 +55,8 @@ export const Cell = (props) => {
       editable={editable}
       shiftKeyIsDown={data.shiftKeyIsDown}
       setShiftKeyIndex={data.setShiftKeyIndex}
+      shiftKeyIndex={data.shiftKeyIndex}
+      setLastShiftKeyIndex={data.setLastShiftKeyIndex}
     />
   ) : (
     <Text weight="medium">

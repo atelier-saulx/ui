@@ -72,7 +72,9 @@ const CheckboxSelectItem: FC<{
   renderCounter?: any
   setRenderCounter?: any
   shiftKeyIsDown?: boolean
-  setShiftKeyIndex?: number
+  setShiftKeyIndex?: () => void
+  shiftKeyIndex?: number
+  setLastShiftKeyIndex?: () => void
 }> = ({
   rowData,
   rowIndex,
@@ -80,6 +82,8 @@ const CheckboxSelectItem: FC<{
   setRenderCounter,
   shiftKeyIsDown,
   setShiftKeyIndex,
+  shiftKeyIndex,
+  setLastShiftKeyIndex,
 }) => {
   // rowData.meta.selectedIndex = rowIndex
 
@@ -91,7 +95,11 @@ const CheckboxSelectItem: FC<{
         v ? (rowData.meta.selected = true) : (rowData.meta.selected = false)
 
         // if shift key is down
-        shiftKeyIsDown ? setShiftKeyIndex(rowIndex) : null
+        shiftKeyIndex === undefined
+          ? setShiftKeyIndex(rowIndex)
+          : shiftKeyIsDown && typeof shiftKeyIndex === 'number'
+          ? setLastShiftKeyIndex(rowIndex)
+          : null
 
         setRenderCounter(renderCounter + 1)
       }}
@@ -164,6 +172,8 @@ type TableHeaderTypesProps = {
   editable?: boolean
   shiftKeyIsDown?: boolean
   setShiftKeyIndex?: () => void
+  shiftKeyIndex?: number
+  setLastShiftKeyIndex?: () => void
 }
 
 export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
@@ -177,6 +187,8 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   editable,
   shiftKeyIsDown,
   setShiftKeyIndex,
+  shiftKeyIndex,
+  setLastShiftKeyIndex,
 }) => {
   //   console.log(type)
   //   console.log('Row', rowData)
@@ -204,6 +216,8 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
       setRenderCounter={setRenderCounter}
       shiftKeyIsDown={shiftKeyIsDown}
       setShiftKeyIndex={setShiftKeyIndex}
+      shiftKeyIndex={shiftKeyIndex}
+      setLastShiftKeyIndex={setLastShiftKeyIndex}
     />
   ) : type === 'id' ? (
     <IdBadge>{itemData}</IdBadge>

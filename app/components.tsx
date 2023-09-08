@@ -1121,6 +1121,27 @@ export const components: ComponentDef[] = [
                 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Edward_England.svg/600px-Flag_of_Edward_England.svg.png',
               number: 1124442111,
             },
+            {
+              title: 'Snurpies',
+              author: 'ZZZZZ',
+              cover:
+                'https://www.moviemeter.nl/series/images/photo/3000/3510.jpg?cb=1547213378',
+              number: 112111,
+            },
+            {
+              title: 'How to Avoid Huge Ships',
+              author: 'J. Trimmer',
+              cover:
+                'https://m.media-amazon.com/images/I/714PH4X5FRL._SX311_BO1,204,203,200_.gif',
+              number: 1124442111,
+            },
+            {
+              title: 'Flap',
+              author: 'XXXXX',
+              cover:
+                'https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Flap_%28film%29.jpg/220px-Flap_%28film%29.jpg',
+              number: 2324,
+            },
           ],
           selectable: true,
           width: 800,

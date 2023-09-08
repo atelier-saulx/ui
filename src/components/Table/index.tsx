@@ -103,21 +103,61 @@ export const Table: FC<TableProps> = (props) => {
   // on Shift Click you want the rowIndex and use that as a guide
   const [shiftKeyIsDown, setShiftKeyIsDown] = useState(false)
   const [shiftKeyIndex, setShiftKeyIndex] = useState()
+  const [lastShifKeyIndex, setLastShiftKeyIndex] = useState()
+
+  const ShiftKeySelectionRows = (firstIndex, lastIndex) => {
+    let smallerIndex = firstIndex > lastIndex ? lastIndex : firstIndex
+    let largerIndex = firstIndex < lastIndex ? lastIndex : firstIndex
+
+    // set selected row indexes renew??
+    newData.map(
+      (item, idx) =>
+        (item.meta = { selectedIndex: idx, selected: item.meta.selected })
+    )
+
+    console.log('smaller -->', smallerIndex, 'bigger --> ', largerIndex)
+    newData
+      .filter(
+        (item) =>
+          item.meta.selectedIndex >= smallerIndex &&
+          item.meta.selectedIndex <= largerIndex
+      )
+      .map((item) => (item.meta.selected = true))
+
+    // count the selected items ??
+    setSelectedRows(newData?.filter((item, idx) => item?.meta?.selected))
+  }
 
   useEffect(() => {
     console.log('add listener')
     window.addEventListener('keydown', (e) =>
       e.key === 'Shift' ? setShiftKeyIsDown(true) : null
     )
-    window.addEventListener('keyup', (e) =>
-      e.key === 'Shift' ? setShiftKeyIsDown(false) : null
-    )
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'Shift') {
+        setShiftKeyIsDown(false)
+        setShiftKeyIndex(undefined)
+        setLastShiftKeyIndex(undefined)
+      } else {
+        return null
+      }
+    })
   }, [])
+
+  useEffect(() => {
+    if (lastShifKeyIndex) {
+      ShiftKeySelectionRows(shiftKeyIndex, lastShifKeyIndex)
+    }
+  }, [lastShifKeyIndex])
 
   return (
     <>
       {'is shift key down: ' + shiftKeyIsDown}
+      <br />
       {'shiftkey index' + shiftKeyIndex}
+      <br />
+      {'last shiftkey index' + lastShifKeyIndex}
+      <br />
       <styled.div
         style={{
           backgroundColor: color('background', 'default', 'strong'),
@@ -130,6 +170,7 @@ export const Table: FC<TableProps> = (props) => {
             ? `1px solid ${color('border', 'default', 'strong')}`
             : 'none',
           borderBottom: 'none',
+          userSelect: shiftKeyIsDown ? 'none' : 'default',
         }}
       >
         <Button
@@ -172,6 +213,8 @@ export const Table: FC<TableProps> = (props) => {
                 headers={filteredHeaders}
                 shiftKeyIsDown={shiftKeyIsDown}
                 setShiftKeyIndex={setShiftKeyIndex}
+                shiftKeyIndex={shiftKeyIndex}
+                setLastShiftKeyIndex={setLastShiftKeyIndex}
               />
             )
           }}

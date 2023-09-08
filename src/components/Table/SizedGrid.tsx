@@ -21,6 +21,8 @@ type RowSelectTypes = {
   selectedRows?: {}
   shiftKeyIsDown?: boolean
   setShiftKeyIndex?: () => void
+  shiftKeyIndex?: number
+  setLastShiftKeyIndex?: () => void
 }
 
 export const SizedGrid: FC<TableProps & RowSelectTypes> = (props) => {
@@ -47,6 +49,8 @@ export const SizedGrid: FC<TableProps & RowSelectTypes> = (props) => {
     selectedRows,
     shiftKeyIsDown,
     setShiftKeyIndex,
+    shiftKeyIndex,
+    setLastShiftKeyIndex,
   } = props
 
   const headerWrapper = useRef<HTMLDivElement>(
@@ -175,7 +179,9 @@ export const SizedGrid: FC<TableProps & RowSelectTypes> = (props) => {
         rowHeight={rowH}
         width={width}
         shiftKeyIsDown={shiftKeyIsDown}
+        shiftKeyIndex={shiftKeyIndex}
         setShiftKeyIndex={setShiftKeyIndex}
+        setLastShiftKeyIndex={setLastShiftKeyIndex}
         itemData={{
           ...props,
           data: parsedData,
