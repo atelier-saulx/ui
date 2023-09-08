@@ -47,6 +47,7 @@ export * from './components/Tag'
 export * from './components/Text'
 export * from './components/Toast'
 export * from './components/Toggle'
+export * from './components/Tooltip'
 
 export * from './utils'
 export * from './hooks'
