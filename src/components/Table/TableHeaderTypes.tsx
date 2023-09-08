@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useEffect } from 'react'
 import { useClient } from '@based/react'
 import { prettyDate } from '@based/pretty-date'
 import {
@@ -66,19 +66,40 @@ const BooleanToggle: FC<{
   )
 }
 
-const CheckboxItem: FC<{
+const CheckboxSelectItem: FC<{
   rowData?: any
   rowIndex?: number
   renderCounter?: any
   setRenderCounter?: any
-}> = ({ rowData, rowIndex, renderCounter, setRenderCounter }) => {
-  rowData.meta.selectedIndex = rowIndex
+  shiftKeyIsDown?: boolean
+  setShiftKeyIndex: (n: number | undefined) => void | undefined
+  shiftKeyIndex?: number
+  setLastShiftKeyIndex: (n: number | undefined) => void | undefined
+}> = ({
+  rowData,
+  rowIndex,
+  renderCounter,
+  setRenderCounter,
+  shiftKeyIsDown,
+  setShiftKeyIndex,
+  shiftKeyIndex,
+  setLastShiftKeyIndex,
+}) => {
+  // rowData.meta.selectedIndex = rowIndex
+
   return (
     <Input
       type="checkbox"
       value={rowData.meta.selected}
       onChange={(v) => {
         v ? (rowData.meta.selected = true) : (rowData.meta.selected = false)
+
+        // if shift key is down
+        shiftKeyIndex === undefined
+          ? setShiftKeyIndex(rowIndex)
+          : shiftKeyIsDown && typeof shiftKeyIndex === 'number'
+          ? setLastShiftKeyIndex(rowIndex)
+          : setShiftKeyIndex(rowIndex)
 
         setRenderCounter(renderCounter + 1)
       }}
@@ -133,6 +154,7 @@ type TableHeaderTypesProps = {
     | 'author'
     | 'boolean'
     | 'checkbox'
+    | 'CheckboxSelectItem'
     | 'id'
     | 'img'
     | 'number'
@@ -145,6 +167,10 @@ type TableHeaderTypesProps = {
   renderCounter: any
   setRenderCounter: any
   editable?: boolean
+  shiftKeyIsDown?: boolean
+  setShiftKeyIndex?: (num: number | undefined) => void | undefined
+  shiftKeyIndex?: number
+  setLastShiftKeyIndex?: (num: number | undefined) => void | undefined
 }
 
 export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
@@ -156,6 +182,10 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   renderCounter,
   setRenderCounter,
   editable,
+  shiftKeyIsDown,
+  setShiftKeyIndex,
+  shiftKeyIndex,
+  setLastShiftKeyIndex,
 }) => {
   //   console.log(type)
   //   console.log('Row', rowData)
@@ -175,12 +205,16 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
       k={key}
       disabled={!editable}
     />
-  ) : type === 'checkbox' ? (
-    <CheckboxItem
+  ) : type === 'CheckboxSelectItem' ? (
+    <CheckboxSelectItem
       rowData={rowData}
       rowIndex={rowIndex}
       renderCounter={renderCounter}
       setRenderCounter={setRenderCounter}
+      shiftKeyIsDown={shiftKeyIsDown}
+      setShiftKeyIndex={setShiftKeyIndex}
+      shiftKeyIndex={shiftKeyIndex}
+      setLastShiftKeyIndex={setLastShiftKeyIndex}
     />
   ) : type === 'id' ? (
     <IdBadge>{itemData}</IdBadge>
