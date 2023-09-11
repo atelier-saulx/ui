@@ -18,7 +18,7 @@ export type InputProps = CommonInputProps &
     | ({ type: 'text' } & TextInputProps)
     | ({ type: 'search' } & SearchInputProps)
     | ({ type: 'select' } & SelectInputProps)
-    // | ({ type: 'number' } & NumberInputProps)
+    | ({ type: 'number' } & NumberInputProps)
     | ({ type: 'file' } & FileInputProps)
     | ({ type: 'checkbox' } & CheckboxInputProps)
   )
@@ -50,10 +50,10 @@ export function Input(props: InputProps) {
       )
     }
     // TODO no official design for this just yet
-    // case 'number': {
-    //   const { type, ...narrowedProps } = props
-    //   return <NumberInput {...narrowedProps} />
-    // }
+    case 'number': {
+      const { type, ...narrowedProps } = props
+      return <NumberInput {...narrowedProps} />
+    }
     case 'file': {
       const { type, ...narrowedProps } = props
       return (
@@ -132,5 +132,5 @@ function LabelAndErrorWrapper({
 }
 
 const expectNever = (value: never): never => {
-  throw new TypeError('Unexpected value: ' + value)
+  throw new TypeError('Unexpected value: ' + JSON.stringify(value))
 }

@@ -62,7 +62,6 @@ const App = () => {
         data={{
           Dashboard: {
             Content: 'Content',
-            Morestuff: 'morestuff',
           },
           components: components.map((c) => {
             return {
