@@ -1000,7 +1000,7 @@ export const components: ComponentDef[] = [
   {
     name: 'Slider',
     component: Slider,
-    description: 'Range Slider',
+    description: 'Range Slider you can also use keyboard arrow keys',
     properties: props.props.SliderProps.props,
     examples: [
       {

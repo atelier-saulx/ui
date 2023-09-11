@@ -213,7 +213,7 @@ export const Slider: FC<SliderProps> = ({
     } else {
       setPercentageX(newPercentage)
       const newValue = max && (newPercentage * (max - min)) / 100 + min
-      if (value !== newValue) {
+      if (value !== newValue && typeof newValue === 'number') {
         onChange(Math.trunc(newValue))
       }
     }
@@ -243,7 +243,7 @@ export const Slider: FC<SliderProps> = ({
   const mouseMoveHandler = (e) => {
     if (refRangeContainer.current !== null) {
       moveHandler(
-        e.clientX - refRangeContainer.current?.getBoundingClientRect().left
+        e.clientX - refRangeContainer.current.getBoundingClientRect().left
       )
     }
   }
@@ -310,11 +310,12 @@ export const Slider: FC<SliderProps> = ({
   }
 
   const onClickSnap = (e) => {
-    const correctedMouseXPos =
-      e.clientX - refRangeContainer.current?.getBoundingClientRect().left
-
-    if (correctedMouseXPos > 0 && correctedMouseXPos < containerWidth) {
-      setValue(Math.round(correctedMouseXPos / percentage), true)
+    if (refRangeContainer.current) {
+      const correctedMouseXPos =
+        e.clientX - refRangeContainer.current?.getBoundingClientRect().left
+      if (correctedMouseXPos > 0 && correctedMouseXPos < containerWidth) {
+        setValue(Math.round(correctedMouseXPos / percentage), true)
+      }
     }
   }
 
