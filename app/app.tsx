@@ -1,15 +1,26 @@
+import '../src/colors.css'
+
 import { render } from 'react-dom'
 import React, { FC, useEffect, useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { color, Menu, Provider, ScrollArea, Slider } from '../src'
+import {
+  color,
+  Button,
+  IconRefresh,
+  Menu,
+  Provider,
+  ScrollArea,
+  useTooltip,
+  IconPlaceholder,
+} from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
-import { Input, Text } from '../src'
-import { BarGraph } from '../src/components/BarGraph'
+import { ThemeSwitch } from './ThemeSwitch'
+import { BpTablet } from '../src/utils/breakpoints'
 
 export const client = based(basedConfig)
 
@@ -19,6 +30,11 @@ const App = () => {
   const filtered = components.filter((c) => {
     return c.name === component
   })
+
+  const toolTipLocalStorageBtn = useTooltip(
+    'Clear localstorage',
+    'bottom-right'
+  )
 
   return (
     <styled.div
@@ -30,11 +46,22 @@ const App = () => {
       }}
     >
       <Menu
-        // header={'HEADER'}
+        header={
+          <>
+            <Button
+              color="system"
+              icon={<IconRefresh />}
+              onClick={() => localStorage.clear()}
+              size="small"
+              style={{ marginBottom: 16 }}
+              {...toolTipLocalStorageBtn}
+            />
+            <ThemeSwitch />
+          </>
+        }
         data={{
           Dashboard: {
             Content: 'Content',
-            Morestuff: 'morestuff',
           },
           components: components.map((c) => {
             return {
@@ -56,6 +83,10 @@ const App = () => {
           backgroundColor: color('background', 'default', 'muted'),
           paddingLeft: '64px',
           paddingRight: '64px',
+          [BpTablet]: {
+            paddingLeft: '0px',
+            paddingRight: '0px',
+          },
           paddingTop: '24px',
           paddingBottom: '24px',
           display: 'flex',
@@ -75,5 +106,5 @@ render(
   <Provider>
     <App />
   </Provider>,
-  document.body
+  document.getElementById('root')
 )

@@ -1,5 +1,6 @@
 import React, { FC, ReactNode, MouseEvent } from 'react'
 import { styled, Style, color, Text } from '../..'
+import { BpTablet } from '../../utils/breakpoints'
 
 type BreadcrumbsProps = {
   style?: Style
@@ -17,7 +18,7 @@ const StyledLink = styled('div', {
   height: 32,
   cursor: 'pointer',
 })
-
+// TODO: maybe mobile sizes?
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   data,
   style,
@@ -49,6 +50,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
 
         const label = (
           <Text
+            selectable="none"
             size={16}
             weight="strong"
             style={{
@@ -60,6 +62,11 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
               borderRadius: 4,
               '&:hover': {
                 backgroundColor: color('action', 'system', 'hover'),
+              },
+              [BpTablet]: {
+                '&:hover': {
+                  backgroundColor: color('action', 'system', 'normal'),
+                },
               },
               '&:focus': {
                 backgroundColor: color('action', 'system', 'active'),
@@ -77,6 +84,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
             {label}
             {Object.keys(data).length - 1 !== index && (
               <Text
+                selectable="none"
                 size={16}
                 weight="strong"
                 light
@@ -91,10 +99,16 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
           </StyledLink>
         ) : Object.keys(data).length > 4 && index === 3 ? (
           <>
-            <Text size={16} weight="strong" style={{ padding: '2px 8px' }}>
+            <Text
+              selectable="none"
+              size={16}
+              weight="strong"
+              style={{ padding: '2px 8px' }}
+            >
               ...
             </Text>
             <Text
+              selectable="none"
               size={16}
               light
               weight="strong"
@@ -111,6 +125,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
             {label}
             {Object.keys(data).length - 1 !== index && (
               <Text
+                selectable="none"
                 size={16}
                 weight="strong"
                 style={{

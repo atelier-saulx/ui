@@ -4,12 +4,13 @@ import {
   styled,
   Style,
   renderOrCreateElement,
-  Checkbox,
   color as genColor,
   IconChevronRightSmall,
   useOverlay,
   Dropdown,
+  Input,
 } from '../..'
+import { BpTablet } from '../../utils/breakpoints'
 
 export type DropDownItemProps = {
   caption?: string
@@ -52,6 +53,11 @@ export const DropDownItem: FC<DropDownItemProps> = ({
         '&:hover': {
           backgroundColor: genColor('action', 'system', 'hover'),
         },
+        [BpTablet]: {
+          '&:hover': {
+            backgroundColor: genColor('action', 'system', 'normal'),
+          },
+        },
       }}
       onClick={data ? openNewDropDown : null}
     >
@@ -63,7 +69,14 @@ export const DropDownItem: FC<DropDownItemProps> = ({
           </Text>
         </>
       ) : type === 'checkbox' ? (
-        <Checkbox label={label} value={value as boolean} />
+        <Input
+          type="checkbox"
+          title={label}
+          value={value as boolean}
+          onChange={() => {
+            // TODO
+          }}
+        />
       ) : (
         //   : type === 'radio' ? (
         //     <RadioButtons data={[{ label: label, value: value  }]} />

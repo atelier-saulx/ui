@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Checkbox, Input, Text } from '../src'
+import { Input, Text } from '../src'
 import { parseProps } from './parseProps'
 
 const Prop: FC<{
@@ -46,11 +46,12 @@ const Prop: FC<{
 
   if (prop.type === 'boolean') {
     return (
-      <Checkbox
+      <Input
+        type="checkbox"
         style={{
           margin: 16,
         }}
-        label={name}
+        title={name}
         value={parsedProps?.[name]}
         onChange={update}
       />

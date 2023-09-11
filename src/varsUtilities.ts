@@ -1,6 +1,3 @@
-// auto ofc...
-import './light.css'
-
 import {
   ColorBorderColors,
   ColorBorderOptions,

@@ -84,6 +84,7 @@ export const Badge: FC<BadgeProps> = ({
       style={{
         flexShrink: 0,
         height: 24,
+        whiteSpace: 'nowrap',
         minWidth: 'fit-content',
         borderRadius: '24px',
         cursor: onClick ? 'pointer' : null,

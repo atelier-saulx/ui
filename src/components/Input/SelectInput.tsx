@@ -220,6 +220,8 @@ export function SelectInput({
               lineHeight: '24px',
               fontSize: '14px',
               cursor: 'pointer',
+              background: 'transparent',
+              color: 'inherit',
             }}
             value={
               multiple

@@ -21,6 +21,7 @@ import { AuthProvider } from '../Auth/AuthProvider'
 import { Router, RouterContext } from 'kabouter'
 
 import { color } from '../../varsUtilities'
+import { ThemeProvider } from '../../hooks/useTheme'
 
 type ProviderProps = {
   children?: ReactNode
@@ -139,7 +140,9 @@ export const Provider: FC<ProviderProps> = ({
         <Router path={path || ''}>
           <ToastProvider>
             <DialogProvider>
-              <AuthProvider>{children}</AuthProvider>
+              <AuthProvider>
+                <ThemeProvider>{children}</ThemeProvider>
+              </AuthProvider>
               <OverlayProvider />
             </DialogProvider>
           </ToastProvider>

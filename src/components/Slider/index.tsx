@@ -126,7 +126,7 @@ export const Slider: FC<SliderProps> = ({
   min = 0,
   max,
   value,
-  onChange,
+  onChange = () => null,
   color = 'primary',
   steps = 1,
   style,
@@ -213,7 +213,7 @@ export const Slider: FC<SliderProps> = ({
     } else {
       setPercentageX(newPercentage)
       const newValue = max && (newPercentage * (max - min)) / 100 + min
-      if (value !== newValue) {
+      if (value !== newValue && typeof newValue === 'number') {
         onChange(Math.trunc(newValue))
       }
     }
@@ -243,7 +243,7 @@ export const Slider: FC<SliderProps> = ({
   const mouseMoveHandler = (e) => {
     if (refRangeContainer.current !== null) {
       moveHandler(
-        e.clientX - refRangeContainer.current?.getBoundingClientRect().left
+        e.clientX - refRangeContainer.current.getBoundingClientRect().left
       )
     }
   }
@@ -310,11 +310,24 @@ export const Slider: FC<SliderProps> = ({
   }
 
   const onClickSnap = (e) => {
-    const correctedMouseXPos =
-      e.clientX - refRangeContainer.current?.getBoundingClientRect().left
+    if (refRangeContainer.current) {
+      const correctedMouseXPos =
+        e.clientX - refRangeContainer.current?.getBoundingClientRect().left
+      if (correctedMouseXPos > 0 && correctedMouseXPos < containerWidth) {
+        setValue(Math.round(correctedMouseXPos / percentage), true)
+      }
+    }
+  }
 
-    if (correctedMouseXPos > 0 && correctedMouseXPos < containerWidth) {
-      setValue(Math.round(correctedMouseXPos / percentage), true)
+  const keyDownHandler = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const index = getClosestIndex(xPosArray, percentageX)
+    if (e.key === 'ArrowRight' && percentageX !== 100) {
+      setValue(xPosArray[index + 1])
+    }
+    if (e.key === 'ArrowLeft') {
+      setValue(xPosArray[index - 1])
     }
   }
 
@@ -323,6 +336,8 @@ export const Slider: FC<SliderProps> = ({
       style={{ width: '100%', position: 'relative', minWidth: 340, ...style }}
     >
       <styled.div
+        tabIndex={0}
+        onKeyDown={keyDownHandler}
         onMouseDown={onMouseDownHandler}
         onClick={onClickSnap}
         ref={refRangeContainer}

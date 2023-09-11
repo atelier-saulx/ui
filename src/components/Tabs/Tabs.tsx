@@ -15,6 +15,7 @@ import {
   color as genColor,
   renderOrCreateElement,
 } from '../..'
+import { BpTablet } from '../../utils/breakpoints'
 
 export type TabsProps = {
   children: ReactNode
@@ -22,6 +23,7 @@ export type TabsProps = {
   activeTab?: number
   setActiveTab?: (index: number) => void
   sameHeight?: boolean
+  borderColor?: 'primary' | 'neutral'
 }
 
 const TabWrapper: FC<{
@@ -30,12 +32,14 @@ const TabWrapper: FC<{
   index: number
   setActiveTabInternal: Dispatch<SetStateAction<number>>
   setHoverTab: Dispatch<SetStateAction<number>>
+  borderColor?: 'primary' | 'neutral'
 }> = ({
   children,
   index,
   activeTabState,
   setHoverTab,
   setActiveTabInternal,
+  borderColor = 'primary',
 }) => {
   const icon = children?.props?.icon
 
@@ -43,19 +47,27 @@ const TabWrapper: FC<{
     <styled.div
       style={{
         borderTop: '1px solid transparent',
-        height: 40,
+        height: '28px',
         padding: '12px 12px 14px 12px',
         display: 'flex',
         cursor: 'pointer',
         alignItems: 'center',
         borderBottom:
           index === activeTabState
-            ? `3px solid ${genColor('action', 'primary', 'normal')}`
+            ? `3px solid ${genColor('action', borderColor, 'normal')}`
             : '3px solid transparent',
         '&:hover': {
           borderBottom:
             index !== activeTabState &&
             `3px solid ${genColor('action', 'neutral', 'subtleHover')}`,
+        },
+        [BpTablet]: {
+          '&:hover': {
+            borderBottom:
+              index === activeTabState
+                ? `3px solid ${genColor('action', 'primary', 'normal')}`
+                : '3px solid transparent',
+          },
         },
         '&:active': {
           borderBottom:
@@ -90,6 +102,7 @@ const TabWrapper: FC<{
         </Text>
       ) : (
         <Text
+          size={16}
           selectable="none"
           weight={index === activeTabState ? 'strong' : 'medium'}
         >
@@ -106,6 +119,7 @@ export const Tabs: FC<TabsProps> = ({
   activeTab = 0,
   setActiveTab,
   sameHeight,
+  borderColor = 'primary',
   ...props
 }) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
@@ -143,6 +157,7 @@ export const Tabs: FC<TabsProps> = ({
         >
           {arrayChildren.map((child, index) => (
             <TabWrapper
+              borderColor={borderColor}
               key={index}
               index={index}
               activeTabState={activeTabState}

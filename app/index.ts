@@ -1,5 +1,6 @@
 import { BasedAppFunction } from '@based/functions'
 import { color } from '../src/'
+import { SCRIPT_SRC } from '../src/hooks/useTheme'
 
 const app: BasedAppFunction = async (_based, { css, js, favicon }) => {
   return `<!DOCTYPE html>
@@ -23,6 +24,7 @@ const app: BasedAppFunction = async (_based, { css, js, favicon }) => {
         'surface'
       )};">
         <div id="root"></div>
+        ${SCRIPT_SRC}
         <script>
           ${await js.text}
         </script>

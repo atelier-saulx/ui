@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
+import React, { FC, Fragment, ReactNode, MouseEvent, useState } from 'react'
 import {
   IconChevronDown,
   color,
@@ -8,6 +8,9 @@ import {
   border,
   Style,
   styled,
+  useWindowResize,
+  IconMenu,
+  IconClose,
 } from '../..'
 import { MenuItem } from './MenuItem'
 
@@ -37,6 +40,8 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
           light
           style={{
             // marginBottom: 16,
+            display: 'flex',
+            position: 'relative',
             textTransform: 'uppercase',
           }}
         >
@@ -67,9 +72,12 @@ const HideableStyledDiv = styled('div', {
   },
 })
 
-const StyledChevron = styled(IconChevronDown, {
+const StyledChevron = styled('div', {
   transition: 'transform 0.2s',
-  '&.closed': {
+  position: 'absolute',
+
+  right: 12,
+  '&.closed ': {
     transform: 'rotate(180deg)',
   },
 })
@@ -151,6 +159,7 @@ type MenuProps = {
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
+  tempProp?: boolean
 }
 
 export const Menu: FC<MenuProps> = ({
@@ -162,8 +171,11 @@ export const Menu: FC<MenuProps> = ({
   header,
   isActive,
   collapse,
+  tempProp,
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
+  const { width } = useWindowResize()
+  const [open, setOpen] = useState(width > 800)
 
   if (isMenuDataObject(data)) {
     for (const key in data) {
@@ -200,8 +212,8 @@ export const Menu: FC<MenuProps> = ({
               style={{
                 marginTop: i && 36,
                 justifyContent: collapse ? 'space-between' : 'unset',
-                display: collapse ? 'flex' : 'unset',
-                alignItems: 'center',
+                display: collapse ? 'flex' : 'flex',
+
                 marginBottom: '12px',
               }}
               onClick={(e) => {
@@ -216,8 +228,14 @@ export const Menu: FC<MenuProps> = ({
                   e.currentTarget.parentNode.nextSibling.classList.toggle(
                     'hidden'
                   )
+
                   // @ts-ignore FIX THIS
-                  e.currentTarget.parentNode?.childNodes[0]?.childNodes[1]?.classList.toggle(
+                  console.log(
+                    e.currentTarget.parentNode?.childNodes[0].childNodes[0]
+                      ?.childNodes[1]
+                  )
+                  // @ts-ignore FIX THIS
+                  e.currentTarget.parentNode?.childNodes[0]?.childNodes[0]?.childNodes[1]?.classList.toggle(
                     'closed'
                   )
                 }
@@ -227,21 +245,31 @@ export const Menu: FC<MenuProps> = ({
                 <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
               ) : null}
               {label}
-              {collapse && <StyledChevron id={`${i}-menuchevron`} />}
+              {collapse && (
+                <StyledChevron id={`${i}-menuchevron`}>
+                  <IconChevronDown />
+                </StyledChevron>
+              )}
             </MenuHeader>
             <HideableStyledDiv id={`${i}-menuitems`}>
               {items.map(({ value, label, onClick, icon }, index: number) => {
                 return (
                   <MenuItem
-                    value={value}
+                    // value={value}
                     key={index}
                     onClick={(e) => {
                       if (onChange) {
                         onChange(value, topValue)
                       }
                       if (onClick) {
+                        //@ts-ignore
                         onClick(e)
                       }
+                    }}
+                    style={{
+                      display: 'flex',
+                      position: 'relative',
+                      alignItems: 'center',
                     }}
                     active={isActive ? isActive(value) : active === value}
                   >
@@ -249,8 +277,8 @@ export const Menu: FC<MenuProps> = ({
                       <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
                     ) : null}
                     <Text
-                      weight="strong"
                       color={active === value ? 'brand' : 'default'}
+                      weight={active === value ? 'strong' : 'medium'}
                     >
                       {label}
                     </Text>
@@ -271,6 +299,7 @@ export const Menu: FC<MenuProps> = ({
               onChange(value)
             }
             if (onClick) {
+              //@ts-ignore
               onClick(e)
             }
           }}
@@ -283,23 +312,92 @@ export const Menu: FC<MenuProps> = ({
       )
     }
   )
-
-  return (
-    <ScrollArea
-      style={{
-        flexShrink: 0,
-        backgroundColor: color('background', 'default', 'muted'),
-        borderRight: border(1),
-        padding: '24px 20px 20px 20px',
-        height: '100%',
-        width: 224,
-        ...style,
-      }}
-    >
-      <MenuHeader>{header}</MenuHeader>
-      {items}
-      {children}
-      <styled.div style={{ height: '24px' }} />
-    </ScrollArea>
-  )
+  if (tempProp) console.log('adfla;sdkfjsld;fkj')
+  if (width > 800 || tempProp)
+    return (
+      <span style={{ position: 'relative' }}>
+        <ScrollArea
+          onClick={open ? null : () => setOpen(true)}
+          style={{
+            flexShrink: 0,
+            backgroundColor: color('background', 'default', 'muted'),
+            // borderRight: border(1),
+            // position: 'relative',
+            padding: open ? '24px 20px 20px 20px' : 10,
+            height: '100%',
+            width: open ? 224 : 0,
+            overflowX: 'clip',
+            ...style,
+          }}
+        >
+          <MenuHeader>{header}</MenuHeader>
+          {items}
+          {children}
+          <styled.div style={{ height: '40px' }} />
+        </ScrollArea>
+        <styled.div
+          onClick={() => setOpen(!open)}
+          style={{
+            position: 'absolute',
+            border: '1px solid',
+            borderColor: color('inputBorder', 'neutralNormal', 'default'),
+            '&:hover': {
+              borderColor: color('inputBorder', 'neutralHover', 'default'),
+            },
+            '&:active': {
+              borderColor: color('inputBorder', 'neutralActive', 'default'),
+            },
+            right: 0,
+            top: 0,
+            bottom: 0,
+          }}
+        ></styled.div>
+      </span>
+    )
+  else
+    return (
+      <>
+        {open ? (
+          <ScrollArea
+            style={{
+              flexShrink: 0,
+              backgroundColor: color('background', 'default', 'muted'),
+              // borderRight: border(1),
+              // position: 'relative',
+              padding: '24px 20px 20px 20px',
+              height: '100%',
+              width: '100%',
+              overflowX: 'clip',
+              ...style,
+            }}
+          >
+            <IconClose
+              onClick={() => setOpen(false)}
+              style={{
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                padding: 10,
+                border: '1px solid grey',
+              }}
+            />
+            <MenuHeader>{header}</MenuHeader>
+            {items}
+            {children}
+            <styled.div style={{ height: '40px' }} />
+          </ScrollArea>
+        ) : (
+          <IconMenu
+            style={{
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              padding: 10,
+              border: '1px solid grey',
+            }}
+            onClick={() => setOpen(true)}
+          />
+        )}
+      </>
+    )
 }

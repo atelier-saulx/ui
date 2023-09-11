@@ -5,6 +5,7 @@ import { color as genColor } from '../../varsUtilities'
 import { IconSmallClose } from '../../icons'
 import { ColorActionColors } from '../../varsTypes'
 import { ClickHandler } from '../../types'
+import { BpTablet } from '../../utils/breakpoints'
 
 export type TagProps = {
   color?: ColorActionColors
@@ -38,6 +39,9 @@ export const Tag: FC<TagProps> = ({
         width: 'fit-content',
         '&:hover': {
           backgroundColor: genColor('action', color, 'subtleHover'),
+        },
+        [BpTablet]: {
+          backgroundColor: genColor('action', color, 'subtleNormal'),
         },
         '&:active': {
           backgroundColor: genColor('action', color, 'subtleActive'),

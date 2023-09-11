@@ -7,19 +7,22 @@ import {
   BarGraph,
   Breadcrumbs,
   Button,
-  Checkbox,
   Counter,
   DatePicker,
   DateRange,
-  Dialog,
   Divider,
   Dropdown,
   IconBolt,
   IconClipboard,
   IconEmojiSmile,
+  IconHome,
   Input,
   LineGraph,
+  Logs,
+  Menu,
+  MetricsWidget,
   Modal,
+  PieGraph,
   RadioButtons,
   ScrollArea,
   SegmentedControl,
@@ -34,14 +37,19 @@ import {
   Pill,
   Toast,
   Toggle,
+  TooltipTest,
   Popover,
   SidePanel,
+  TopNavigation,
 } from '../src'
 import * as ui from '../src'
 import props from './props.json'
 import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
+import { BpMobile, BpTablet } from '../src/utils/breakpoints'
+import { faker } from '@faker-js/faker'
+import { BasedLogo } from '../src/icons/BasedLogo'
 
 export const components: ComponentDef[] = [
   {
@@ -115,11 +123,64 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'BargraphBrokenDonotclick',
+    name: 'BarGraph',
+    // TODO yves change these props
     properties: props.props.BadgeProps.props,
     component: BarGraph,
-    description: 'Testing Place BarGraph',
-    examples: [{}],
+    description: '100 bars for breakfast',
+    examples: [
+      {
+        props: {
+          style: { width: 540, [BpTablet]: { width: 'unset' } },
+          display: 'values',
+          data: [
+            {
+              label: 'Moose 🦆',
+              value: 160000,
+              color: 'violet',
+            },
+            {
+              label: 'Caribou 🦌',
+              value: 576000,
+            },
+            {
+              label: 'Bears 🐻',
+              value: 43000,
+              color: 'green',
+            },
+            {
+              label: 'Wolves 🐺',
+              value: 62000,
+              color: 'blue',
+            },
+          ],
+        },
+      },
+      {
+        props: {
+          style: { width: 540, [BpTablet]: { width: 'unset' } },
+          direction: 'vertical',
+          data: [
+            {
+              label: 'Moose 🦆',
+              value: 160000,
+            },
+            {
+              label: 'Caribou 🦌',
+              value: 576000,
+            },
+            {
+              label: 'Bears 🐻',
+              value: 43000,
+            },
+            {
+              label: 'Wolves 🐺',
+              value: 62000,
+            },
+          ],
+        },
+      },
+    ],
   },
   {
     name: 'Breadcrumbs',
@@ -129,6 +190,11 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
+          style: {
+            // [BpTablet]: {
+            //   transform: 'scale(0.5)',
+            // },
+          },
           data: {
             flip: 'flip',
             flap: 'flap',
@@ -209,31 +275,81 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'Checkbox',
-    properties: props.props.CheckboxProps.props,
-    component: Checkbox,
-    description: 'Simple checkbox component',
+    name: 'CheckboxInput',
+    component: Input,
+    description: 'Checkbox input',
+    properties: props.props.InputProps.props,
     examples: [
       {
-        props: {
-          children: 'Click me',
-          description: 'Little description text',
-          label: 'Label',
-          value: true,
-          onClick: (v) => console.log(v),
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(false)
+          return (
+            <Input
+              type="checkbox"
+              title="Subscribe to our newsletter"
+              value={checked}
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
         },
       },
-
       {
-        props: {
-          onClick: async () => {
-            await wait(1000)
-          },
-          warning: true,
-          children: 'Do something async',
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(false)
+          return (
+            <Input
+              type="checkbox"
+              intermediate
+              title="Intermediate checkbox"
+              description="Lorem ipusm asd 123"
+              value={checked}
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
         },
-        name: 'Warning',
-        description: 'Visual indication of errors ',
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(true)
+          return (
+            <Input
+              type="checkbox"
+              disabled
+              title="Disabled checkbox"
+              description="Lorem ipusm asd 123"
+              value={checked}
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [checked, setChecked] = useState(false)
+          return (
+            <Input
+              type="checkbox"
+              title="Title"
+              description="Description"
+              value={checked}
+              label="This is a label"
+              error="This is an error"
+              onChange={(v) => {
+                setChecked(v)
+              }}
+            />
+          )
+        },
       },
     ],
   },
@@ -321,6 +437,13 @@ export const components: ComponentDef[] = [
       {
         props: {
           type: 'file',
+        },
+      },
+      {
+        props: {
+          type: 'file',
+          multiple: true,
+          label: 'Add multiple fiels',
         },
       },
     ],
@@ -469,11 +592,171 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Logs',
+    description: '',
+    // TODO  yves ,change to LogsProps once genprops works again
+    properties: props.props.ScrollAreaProps.props,
+    component: Logs,
+    examples: [
+      {
+        props: {
+          // data: [
+          //   { msg: '🪵 Log 1', ts: 21241425 },
+          //   { msg: '🪵 Log 2', ts: 2143241425 },
+          // ],
+        },
+        customRenderer: () => {
+          let logData = [{ msg: '🪵 Log 1', ts: 21241425 }]
+
+          return <Logs data={logData} />
+        },
+      },
+    ],
+  },
+  {
+    name: 'MetricsWidget',
+    // TODO  yves ,change to LogsProps once genprops works again
+    properties: props.props.ModalProps.props,
+    description: '',
+    component: MetricsWidget,
+    examples: [
+      {
+        props: {},
+        customRenderer: () => {
+          // generate some random data
+          const genRandomPoints = (
+            formula: (i: number) => { x: number; y: number },
+            start: number = 0,
+            end: number = 50,
+            step: number = 1
+          ) => {
+            const points: { x: number; y: number }[] = []
+            for (let i = start; i <= end; i = i + step) {
+              points.push(formula(i))
+            }
+            return points
+          }
+
+          const testData = {
+            technology: genRandomPoints(
+              (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
+              0,
+              50
+            ),
+            science: genRandomPoints(
+              (i) => ({ x: i, y: ~~(Math.random() * 10) + i * 100 }),
+              0,
+              100
+            ),
+            'Alaskan wildlife': [
+              {
+                label: 'Moose 🦆',
+                value: 160000,
+              },
+              {
+                label: 'Caribou 🦌',
+                value: 576000,
+              },
+              {
+                label: 'Bears 🐻',
+                value: 43000,
+              },
+              {
+                label: 'Wolves 🐺',
+                value: 62000,
+              },
+            ],
+            pietest: [
+              {
+                label: 'Yes sure if you like ugly shit',
+                value: 1280,
+              },
+              {
+                label: 'No sorry',
+                value: 637,
+              },
+              {
+                label: 'What logo?',
+                value: 146,
+              },
+              {
+                label: 'Mmm ?',
+                value: 126,
+              },
+            ],
+          }
+
+          return <MetricsWidget label="Technology" data={testData} style={{}} />
+        },
+      },
+    ],
+  },
+  {
     name: 'Modal',
     properties: props.props.ModalProps.props,
     component: Modal,
     description: 'Must be a dialog example here',
     examples: [{ props: {} }],
+  },
+  {
+    name: 'PieGraph',
+    // TODO yves change these props
+    properties: props.props.ScrollAreaProps.props,
+    component: PieGraph,
+    description: '',
+    examples: [
+      {
+        props: {},
+        customRenderer: () => {
+          const data = [
+            {
+              label: 'Apples',
+              value: 25455,
+              color: 'violet',
+            },
+            {
+              label: 'Sugar',
+              value: 5484,
+              color: 'magenta',
+            },
+            {
+              label: 'Flour',
+              value: 2566,
+              color: 'grey',
+            },
+            {
+              label: 'Cinnamon',
+              value: 2566,
+              color: 'blue',
+            },
+          ]
+
+          const advancedPieData = [
+            {
+              label: 'Some countries',
+              value: { en: 675, de: 200, nl: 600 },
+              color: '#BADA55',
+            },
+            {
+              label: 'More data',
+              value: { en: 275, de: 600, nl: 50 },
+            },
+            {
+              label: 'What logo?',
+              value: { ax: 75, bc: 201, qr: 30 },
+              color: '#0000ff',
+            },
+            {
+              label: 'more data',
+              value: { en: 70, de: 201, nl: 130 },
+              color: '#ff8a00',
+            },
+          ]
+
+          return <PieGraph data={data} />
+        },
+      },
+    ],
   },
   {
     name: 'Radiobuttons',
@@ -492,22 +775,22 @@ export const components: ComponentDef[] = [
       },
     ],
   },
-  {
-    name: 'NumberInput',
-    component: Input,
-    description: 'Number input',
-    properties: props.props.InputProps.props,
-    examples: [
-      {
-        props: {
-          type: 'number',
-          placeholder: 'type a number',
-          prefix: 'pre',
-          clearButton: true,
-        },
-      },
-    ],
-  },
+  // {
+  //   name: 'NumberInput',
+  //   component: Input,
+  //   description: 'Number input',
+  //   properties: props.props.InputProps.props,
+  //   examples: [
+  //     {
+  //       props: {
+  //         type: 'number',
+  //         placeholder: 'type a number',
+  //         prefix: 'pre',
+  //         clearButton: true,
+  //       },
+  //     },
+  //   ],
+  // },
   {
     name: 'SearchInput',
     component: Input,
@@ -515,10 +798,58 @@ export const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        props: {
-          placeholder: 'Search for something',
-          type: 'search',
-          label: 'This is a label',
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="search"
+              placeholder="Search"
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="search"
+              label="You can add a clear button"
+              clearButton
+              placeholder="Search"
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="search"
+              label="You can add a label"
+              error="and an error if you really want"
+              placeholder="Search"
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
         },
       },
     ],
@@ -547,38 +878,44 @@ export const components: ComponentDef[] = [
         props: {},
         customRenderer: () => {
           const [value, setValue] = useState('')
+          return (
+            <Input
+              type="select"
+              multiple={false}
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+              placeholder="Select one"
+              options={[
+                { label: 'Item one', value: 'value1' },
+                { label: 'Item two', value: 'value2' },
+                { label: 'Item three', value: 'value3' },
+              ]}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
           const [multiValue, setMultiValue] = useState<string[]>([])
           return (
-            <styled.div style={{ '& > * + *': { marginTop: '24px' } }}>
-              <Input
-                type="select"
-                multiple={false}
-                value={value}
-                onChange={(v) => {
-                  setValue(v)
-                }}
-                placeholder="Select one"
-                options={[
-                  { label: 'Item one', value: 'value1' },
-                  { label: 'Item two', value: 'value2' },
-                  { label: 'Item three', value: 'value3' },
-                ]}
-              />
-              <Input
-                type="select"
-                multiple
-                value={multiValue}
-                onChange={(v) => {
-                  setMultiValue(v)
-                }}
-                placeholder="Select multiple"
-                options={[
-                  { label: 'Item one', value: 'value1' },
-                  { label: 'Item two', value: 'value2' },
-                  { label: 'Item three', value: 'value3' },
-                ]}
-              />
-            </styled.div>
+            <Input
+              type="select"
+              multiple
+              value={multiValue}
+              label="This is a label"
+              onChange={(v) => {
+                setMultiValue(v)
+              }}
+              placeholder="Select multiple"
+              options={[
+                { label: 'Item one', value: 'value1' },
+                { label: 'Item two', value: 'value2' },
+                { label: 'Item three', value: 'value3' },
+              ]}
+            />
           )
         },
       },
@@ -638,6 +975,50 @@ export const components: ComponentDef[] = [
     ],
   },
   {
+    name: 'Sidebar Navigation',
+    component: Menu,
+    description: '',
+    props: props.props.MenuProps.props,
+    examples: [
+      {
+        props: {
+          collapse: true,
+          data: {
+            Label: {
+              flyp: {
+                value: 'yow1',
+                label: 'Menu Text',
+                icon: () => <IconHome />,
+              },
+            },
+            title: {
+              flyp: {
+                value: 'yow1',
+                label: 'Menu Text',
+                icon: () => <IconEmojiSmile />,
+              },
+              flip: {
+                label: 'Menu Text',
+                icon: () => <IconHome />,
+              },
+              flop: {
+                value: 'yow3',
+                label: 'Menu Text',
+                icon: () => <IconHome />,
+              },
+              test: {
+                value: 'x',
+                label: 'more0',
+                items: [{ value: 'yow4', label: 'flipe' }],
+              },
+              flap: 'Menu Text',
+            },
+          },
+        },
+      },
+    ],
+  },
+  {
     name: 'SidePanel',
     component: SidePanel,
     description: 'SidePaneltest',
@@ -647,11 +1028,12 @@ export const components: ComponentDef[] = [
   {
     name: 'Slider',
     component: Slider,
-    description: 'Range Slider',
+    description: 'Range Slider you can also use keyboard arrow keys',
     properties: props.props.SliderProps.props,
     examples: [
       {
         props: {
+          style: { [BpMobile]: { transform: 'scale(0.75)' } },
           data: [
             { id: 'flip', title: 'Flippie', index: 0 },
             { id: 'flap', title: 'Flap', index: 1 },
@@ -661,6 +1043,7 @@ export const components: ComponentDef[] = [
       },
       {
         props: {
+          style: { [BpMobile]: { transform: 'scale(0.75)' } },
           min: 0,
           max: 60,
           steps: 5,
@@ -685,99 +1068,6 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'Table',
-    component: Table,
-    description: '',
-    properties: props.props.TableProps.props,
-    examples: [
-      {
-        props: {
-          headers: [
-            {
-              key: 'title',
-              label: 'Title',
-              type: 'string',
-              editable: false,
-            },
-            {
-              key: 'author',
-              label: 'Author',
-              type: 'author',
-              meta: { visible: true },
-            },
-            { key: 'cover', label: 'Cover', type: 'img' },
-            { key: 'number', label: 'Number', type: 'id' },
-            {
-              key: 'boolie',
-              label: 'Boolean',
-              type: 'boolean',
-              editable: true,
-            },
-            {
-              key: 'time',
-              label: 'Time',
-              type: 'timestamp',
-              meta: { visible: false },
-            },
-          ],
-          data: [
-            {
-              title: 'Adventures',
-              author: 'CCCC',
-              cover:
-                'https://img.parool.nl/aab6c754847bb34777c45ab7592473abca9b12ea/jip-en-janneke-voor-hema-niet-meer-heilig',
-              number: 243545,
-              boolie: false,
-              time: 32454645454,
-            },
-            {
-              title: 'Crazy stories',
-              author: 'BBBBB',
-              cover:
-                'https://www.manners.nl/wp-content/uploads/2023/03/harry-potter.png',
-              number: 5345432,
-              boolie: true,
-              time: 1113241133333,
-            },
-            {
-              title: 'Double Dragon',
-              author: 'AAAAA',
-              cover:
-                'https://64.media.tumblr.com/ee50e3ad64c22072c845097b2fe728e2/ad8bfb7892283c6d-0a/s1280x1920/14c9a1d48c9b8499e5107476bfd68e97fd05e823.png',
-              number: 53445432,
-              boolie: false,
-            },
-            {
-              title: 'Batman',
-              author: 'DDDDDD',
-              cover:
-                'https://i1.sndcdn.com/artworks-H999wKziGSquPTzr-Xy5zjA-t500x500.jpg',
-              number: 11222111,
-            },
-            {
-              title: 'Fire Fire',
-              author: 'EEEEE',
-              cover:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Large_bonfire.jpg/500px-Large_bonfire.jpg',
-              number: 53445432,
-              boolie: false,
-            },
-            {
-              title: 'Argh said the pirate',
-              author: 'FFFFF',
-              cover:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Edward_England.svg/600px-Flag_of_Edward_England.svg.png',
-              number: 1124442111,
-            },
-          ],
-          selectable: true,
-          width: 800,
-          outline: true,
-        },
-      },
-    ],
-  },
-  {
     name: 'Tabs',
     component: Tabs,
     description: 'Tabs',
@@ -792,15 +1082,112 @@ export const components: ComponentDef[] = [
             <styled.div
               style={{
                 width: 600,
+                [BpTablet]: {
+                  width: 'unset',
+                },
                 marginBottom: 24,
               }}
             >
-              <Tabs>
+              <Tabs activeTab={1}>
                 <Tab label="Apple" children="🍎" />
                 <Tab label="Bear" children="🐻" />
                 <Tab label="Crescendo" children="🎵" />
               </Tabs>
             </styled.div>
+          )
+        },
+      },
+      {
+        props: {
+          activeTab: 1,
+        },
+        customRenderer: (props) => {
+          return (
+            <styled.div
+              style={{
+                width: 600,
+                [BpTablet]: {
+                  width: 'unset',
+                },
+                marginBottom: 24,
+              }}
+            >
+              <Tabs borderColor="neutral" activeTab={1}>
+                <Tab label="Edgy Apple" children="🍎" />
+                <Tab label="Edgy Bear" children="🐻" />
+                <Tab label="Edgy Crescendo" children="🎵" />
+              </Tabs>
+            </styled.div>
+          )
+        },
+      },
+    ],
+  },
+  {
+    name: 'Table',
+    component: Table,
+    description: 'Table',
+    properties: props.props.TableProps.props,
+    examples: [
+      {
+        props: {},
+        customRenderer: () => {
+          const newPerson = (index: number) => {
+            return {
+              id: index + 1,
+              firstName: faker.name.firstName(),
+              lastName: faker.name.lastName(),
+              age: faker.datatype.number(40),
+              visits: faker.datatype.number(1000),
+              progress: faker.datatype.number(100),
+              createdAt: faker.datatype.datetime({ max: new Date().getTime() }),
+              status: faker.helpers.shuffle([
+                'relationship',
+                'complicated',
+                'single',
+              ])[0]!,
+            }
+          }
+
+          function makeData(...lens: number[]) {
+            const makeDataLevel = (depth = 0) => {
+              const len = lens[depth]!
+              return Array.from({ length: len }).map((_, index) => {
+                return {
+                  ...newPerson(index),
+                }
+              })
+            }
+
+            return makeDataLevel()
+          }
+
+          const [data] = useState(() => makeData(500))
+
+          return (
+            <div
+              style={{
+                height: 500,
+              }}
+            >
+              <Table
+                data={data}
+                columns={[
+                  { header: 'ID', accessor: 'id' },
+                  { header: 'First name', accessor: 'firstName' },
+                  { header: 'Last name', accessor: 'lastName' },
+                  { header: 'Age', accessor: 'age' },
+                  { header: 'Visits', accessor: 'visits' },
+                  {
+                    header: 'Status',
+                    accessor: 'status',
+                    cell: (value) => (
+                      <button onClick={() => alert(value)}>{value}</button>
+                    ),
+                  },
+                ]}
+              />
+            </div>
           )
         },
       },
@@ -848,13 +1235,39 @@ export const components: ComponentDef[] = [
     properties: props.props.InputProps.props,
     examples: [
       {
-        props: {
-          placeholder: 'placeholder',
-          type: 'text',
-          label: 'This is a label',
-          error: 'This is an error message',
-          value: 'This is a text input',
-          onChange: (e) => console.log(e.target.value),
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="text"
+              value={value}
+              placeholder="Simple"
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="text"
+              label="This is a label"
+              placeholder="Advanced"
+              error="This is an error"
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
         },
       },
     ],
@@ -875,6 +1288,53 @@ export const components: ComponentDef[] = [
           action: { onClick: () => alert('snurp'), label: 'Action' },
         },
       },
+      {
+        props: {
+          label: 'Toast text',
+          color: 'warning',
+          strong: true,
+          description: 'Warning',
+          action: { onClick: () => alert('snurp'), label: 'Action' },
+          closeable: true,
+        },
+      },
+      {
+        props: {
+          label: 'DESTROY',
+          color: 'negative',
+          strong: true,
+          description: 'destructive',
+          action: { onClick: () => alert('snurp'), label: 'Action' },
+          closeable: true,
+        },
+      },
+      // default'|'inverted'|'neutral'|'informative'|'positive'|'warning'|'negative'|'brand
+      {
+        props: {
+          label: 'Toast text',
+          color: 'positive',
+          description: 'good job!',
+          closeable: true,
+        },
+      },
+      {
+        props: {
+          label: 'Based Af',
+          color: 'brand',
+          strong: true,
+          description: 'good job!',
+          closeable: true,
+        },
+      },
+      {
+        props: {
+          label: 'Wow oppositez≈',
+          color: 'inverted',
+          strong: true,
+          description: 'good job!',
+          closeable: true,
+        },
+      },
     ],
   },
   {
@@ -886,16 +1346,63 @@ export const components: ComponentDef[] = [
       {
         props: {
           size: 'large',
-          active: true,
+          value: true,
           disabled: false,
         },
       },
       {
         props: {
           size: 'medium',
-          active: true,
+          value: true,
           onClick: (v) => console.log(v),
           color: 'neutral',
+        },
+      },
+    ],
+  },
+  {
+    name: 'TooltipTest',
+    component: TooltipTest,
+    description: 'just a teset',
+    properties: props.props.ScrollAreaProps.props,
+    examples: [{ props: {} }],
+  },
+
+  {
+    name: 'Top Navigation',
+    component: TopNavigation,
+    description: 'just a teset',
+    properties: props.props.ScrollAreaProps.props,
+    examples: [
+      {
+        props: {},
+        customRenderer: (props) => {
+          return (
+            <styled.div
+              style={{
+                top: 0,
+                position: 'relative',
+                width: 700,
+                height: 200,
+                // [BpTablet]: {
+                //   width: 'unset',
+                // },
+              }}
+            >
+              <TopNavigation>
+                <BasedLogo />
+                <Tabs
+                  activeTab={1}
+                  style={{ marginLeft: '24px', marginTop: '6px' }}
+                >
+                  <Tab label="Apple" children="🍎" />
+                  <Tab label="Bear" children="🐻" />
+                  <Tab label="Crescendo" children="🎵" />
+                </Tabs>
+                <Avatar style={{ marginLeft: 'auto' }}>Kyle</Avatar>
+              </TopNavigation>
+            </styled.div>
+          )
         },
       },
     ],
