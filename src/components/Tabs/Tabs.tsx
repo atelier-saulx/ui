@@ -44,7 +44,7 @@ const TabWrapper: FC<{
     <styled.div
       style={{
         borderTop: '1px solid transparent',
-        height: 40,
+        height: '28px',
         padding: '12px 12px 14px 12px',
         display: 'flex',
         cursor: 'pointer',
@@ -99,6 +99,7 @@ const TabWrapper: FC<{
         </Text>
       ) : (
         <Text
+          size={16}
           selectable="none"
           weight={index === activeTabState ? 'strong' : 'medium'}
         >

@@ -40,6 +40,7 @@ import {
   TooltipTest,
   Popover,
   SidePanel,
+  TopNavigation,
 } from '../src'
 import * as ui from '../src'
 import props from './props.json'
@@ -47,6 +48,8 @@ import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
 import { BpMobile, BpTablet } from '../src/utils/breakpoints'
+import {} from '../src/components/TopNavigation'
+import { BasedLogo } from '../src/icons/BasedLogo'
 
 export const components: ComponentDef[] = [
   {
@@ -1286,6 +1289,53 @@ export const components: ComponentDef[] = [
           action: { onClick: () => alert('snurp'), label: 'Action' },
         },
       },
+      {
+        props: {
+          label: 'Toast text',
+          color: 'warning',
+          strong: true,
+          description: 'Warning',
+          action: { onClick: () => alert('snurp'), label: 'Action' },
+          closeable: true,
+        },
+      },
+      {
+        props: {
+          label: 'DESTROY',
+          color: 'negative',
+          strong: true,
+          description: 'destructive',
+          action: { onClick: () => alert('snurp'), label: 'Action' },
+          closeable: true,
+        },
+      },
+      // default'|'inverted'|'neutral'|'informative'|'positive'|'warning'|'negative'|'brand
+      {
+        props: {
+          label: 'Toast text',
+          color: 'positive',
+          description: 'good job!',
+          closeable: true,
+        },
+      },
+      {
+        props: {
+          label: 'Based Af',
+          color: 'brand',
+          strong: true,
+          description: 'good job!',
+          closeable: true,
+        },
+      },
+      {
+        props: {
+          label: 'Wow oppositez≈',
+          color: 'inverted',
+          strong: true,
+          description: 'good job!',
+          closeable: true,
+        },
+      },
     ],
   },
   {
@@ -1317,5 +1367,45 @@ export const components: ComponentDef[] = [
     description: 'just a teset',
     properties: props.props.ScrollAreaProps.props,
     examples: [{ props: {} }],
+  },
+
+  {
+    name: 'Top Navigation',
+    component: TopNavigation,
+    description: 'just a teset',
+    properties: props.props.ScrollAreaProps.props,
+    examples: [
+      {
+        props: {},
+        customRenderer: (props) => {
+          return (
+            <styled.div
+              style={{
+                top: 0,
+                position: 'relative',
+                width: 700,
+                height: 200,
+                // [BpTablet]: {
+                //   width: 'unset',
+                // },
+              }}
+            >
+              <TopNavigation>
+                <BasedLogo />
+                <Tabs
+                  activeTab={1}
+                  style={{ marginLeft: '24px', marginTop: '6px' }}
+                >
+                  <Tab label="Apple" children="🍎" />
+                  <Tab label="Bear" children="🐻" />
+                  <Tab label="Crescendo" children="🎵" />
+                </Tabs>
+                <Avatar style={{ marginLeft: 'auto' }}>Kyle</Avatar>
+              </TopNavigation>
+            </styled.div>
+          )
+        },
+      },
+    ],
   },
 ]

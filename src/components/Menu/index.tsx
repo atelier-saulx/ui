@@ -159,6 +159,7 @@ type MenuProps = {
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
+  tempProp?: boolean
 }
 
 export const Menu: FC<MenuProps> = ({
@@ -170,9 +171,11 @@ export const Menu: FC<MenuProps> = ({
   header,
   isActive,
   collapse,
+  tempProp,
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
-  const [open, setOpen] = useState(true)
+  const { width } = useWindowResize()
+  const [open, setOpen] = useState(width > 800)
 
   if (isMenuDataObject(data)) {
     for (const key in data) {
@@ -196,8 +199,6 @@ export const Menu: FC<MenuProps> = ({
       menuDataItems.push(toMenuItemObject(item))
     }
   }
-
-  const { width } = useWindowResize()
 
   const items = menuDataItems.map(
     ({ label, value, icon, items, onClick }, i) => {
@@ -311,8 +312,8 @@ export const Menu: FC<MenuProps> = ({
       )
     }
   )
-
-  if (width > 800)
+  if (tempProp) console.log('adfla;sdkfjsld;fkj')
+  if (width > 800 || tempProp)
     return (
       <span style={{ position: 'relative' }}>
         <ScrollArea
