@@ -48,7 +48,7 @@ import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
 import { BpMobile, BpTablet } from '../src/utils/breakpoints'
-import {} from '../src/components/TopNavigation'
+import { faker } from '@faker-js/faker'
 import { BasedLogo } from '../src/icons/BasedLogo'
 
 export const components: ComponentDef[] = [
@@ -1068,120 +1068,6 @@ export const components: ComponentDef[] = [
     ],
   },
   {
-    name: 'Table',
-    component: Table,
-    description: '',
-    properties: props.props.TableProps.props,
-    examples: [
-      {
-        props: {
-          headers: [
-            {
-              key: 'title',
-              label: 'Title',
-              type: 'string',
-              editable: false,
-            },
-            {
-              key: 'author',
-              label: 'Author',
-              type: 'author',
-              meta: { visible: true },
-            },
-            { key: 'cover', label: 'Cover', type: 'img' },
-            { key: 'number', label: 'Number', type: 'id' },
-            {
-              key: 'boolie',
-              label: 'Boolean',
-              type: 'boolean',
-              editable: true,
-            },
-            {
-              key: 'time',
-              label: 'Time',
-              type: 'timestamp',
-              meta: { visible: false },
-            },
-          ],
-          data: [
-            {
-              title: 'Adventures',
-              author: 'CCCC',
-              cover:
-                'https://img.parool.nl/aab6c754847bb34777c45ab7592473abca9b12ea/jip-en-janneke-voor-hema-niet-meer-heilig',
-              number: 243545,
-              boolie: false,
-              time: 32454645454,
-            },
-            {
-              title: 'Crazy stories',
-              author: 'BBBBB',
-              cover:
-                'https://www.manners.nl/wp-content/uploads/2023/03/harry-potter.png',
-              number: 5345432,
-              boolie: true,
-              time: 1113241133333,
-            },
-            {
-              title: 'Double Dragon',
-              author: 'AAAAA',
-              cover:
-                'https://64.media.tumblr.com/ee50e3ad64c22072c845097b2fe728e2/ad8bfb7892283c6d-0a/s1280x1920/14c9a1d48c9b8499e5107476bfd68e97fd05e823.png',
-              number: 53445432,
-              boolie: false,
-            },
-            {
-              title: 'Batman',
-              author: 'DDDDDD',
-              cover:
-                'https://i1.sndcdn.com/artworks-H999wKziGSquPTzr-Xy5zjA-t500x500.jpg',
-              number: 11222111,
-            },
-            {
-              title: 'Fire Fire',
-              author: 'EEEEE',
-              cover:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Large_bonfire.jpg/500px-Large_bonfire.jpg',
-              number: 53445432,
-              boolie: false,
-            },
-            {
-              title: 'Argh said the pirate',
-              author: 'FFFFF',
-              cover:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Edward_England.svg/600px-Flag_of_Edward_England.svg.png',
-              number: 1124442111,
-            },
-            {
-              title: 'Snurpies',
-              author: 'ZZZZZ',
-              cover:
-                'https://www.moviemeter.nl/series/images/photo/3000/3510.jpg?cb=1547213378',
-              number: 112111,
-            },
-            {
-              title: 'How to Avoid Huge Ships',
-              author: 'J. Trimmer',
-              cover:
-                'https://m.media-amazon.com/images/I/714PH4X5FRL._SX311_BO1,204,203,200_.gif',
-              number: 1124442111,
-            },
-            {
-              title: 'Flap',
-              author: 'XXXXX',
-              cover:
-                'https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Flap_%28film%29.jpg/220px-Flap_%28film%29.jpg',
-              number: 2324,
-            },
-          ],
-          selectable: true,
-          width: 800,
-          outline: true,
-        },
-      },
-    ],
-  },
-  {
     name: 'Tabs',
     component: Tabs,
     description: 'Tabs',
@@ -1232,6 +1118,76 @@ export const components: ComponentDef[] = [
                 <Tab label="Edgy Crescendo" children="🎵" />
               </Tabs>
             </styled.div>
+          )
+        },
+      },
+    ],
+  },
+  {
+    name: 'Table',
+    component: Table,
+    description: 'Table',
+    properties: props.props.TableProps.props,
+    examples: [
+      {
+        props: {},
+        customRenderer: () => {
+          const newPerson = (index: number) => {
+            return {
+              id: index + 1,
+              firstName: faker.name.firstName(),
+              lastName: faker.name.lastName(),
+              age: faker.datatype.number(40),
+              visits: faker.datatype.number(1000),
+              progress: faker.datatype.number(100),
+              createdAt: faker.datatype.datetime({ max: new Date().getTime() }),
+              status: faker.helpers.shuffle([
+                'relationship',
+                'complicated',
+                'single',
+              ])[0]!,
+            }
+          }
+
+          function makeData(...lens: number[]) {
+            const makeDataLevel = (depth = 0) => {
+              const len = lens[depth]!
+              return Array.from({ length: len }).map((_, index) => {
+                return {
+                  ...newPerson(index),
+                }
+              })
+            }
+
+            return makeDataLevel()
+          }
+
+          const [data] = useState(() => makeData(500))
+
+          return (
+            <div
+              style={{
+                height: 500,
+              }}
+            >
+              <Table
+                data={data}
+                columns={[
+                  { header: 'ID', accessor: 'id' },
+                  { header: 'First name', accessor: 'firstName' },
+                  { header: 'Last name', accessor: 'lastName' },
+                  { header: 'Age', accessor: 'age' },
+                  { header: 'Visits', accessor: 'visits' },
+                  {
+                    header: 'Status',
+                    accessor: 'status',
+                    cell: (value) => (
+                      <button onClick={() => alert(value)}>{value}</button>
+                    ),
+                  },
+                ]}
+              />
+            </div>
           )
         },
       },
