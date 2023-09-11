@@ -46,6 +46,7 @@ import props from './props.json'
 import { ComponentDef } from './types'
 import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
+import { BpMobile, BpTablet } from '../src/utils/breakpoints'
 
 export const components: ComponentDef[] = [
   {
@@ -127,7 +128,7 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
-          style: { width: 540 },
+          style: { width: 540, [BpTablet]: { width: 'unset' } },
           display: 'values',
           data: [
             {
@@ -154,7 +155,7 @@ export const components: ComponentDef[] = [
       },
       {
         props: {
-          style: { width: 540 },
+          style: { width: 540, [BpTablet]: { width: 'unset' } },
           direction: 'vertical',
           data: [
             {
@@ -186,6 +187,11 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
+          style: {
+            // [BpTablet]: {
+            //   transform: 'scale(0.5)',
+            // },
+          },
           data: {
             flip: 'flip',
             flap: 'flap',
@@ -1005,6 +1011,7 @@ export const components: ComponentDef[] = [
     examples: [
       {
         props: {
+          style: { [BpMobile]: { transform: 'scale(0.75)' } },
           data: [
             { id: 'flip', title: 'Flippie', index: 0 },
             { id: 'flap', title: 'Flap', index: 1 },
@@ -1014,6 +1021,7 @@ export const components: ComponentDef[] = [
       },
       {
         props: {
+          style: { [BpMobile]: { transform: 'scale(0.75)' } },
           min: 0,
           max: 60,
           steps: 5,
@@ -1166,6 +1174,9 @@ export const components: ComponentDef[] = [
             <styled.div
               style={{
                 width: 600,
+                [BpTablet]: {
+                  width: 'unset',
+                },
                 marginBottom: 24,
               }}
             >

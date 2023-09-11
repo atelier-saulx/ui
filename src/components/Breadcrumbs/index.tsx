@@ -18,7 +18,7 @@ const StyledLink = styled('div', {
   height: 32,
   cursor: 'pointer',
 })
-
+// TODO: maybe mobile sizes?
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   data,
   style,

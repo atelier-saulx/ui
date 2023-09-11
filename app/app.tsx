@@ -20,6 +20,7 @@ import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './components'
 import { ThemeSwitch } from './ThemeSwitch'
+import { BpTablet } from '../src/utils/breakpoints'
 
 export const client = based(basedConfig)
 
@@ -83,6 +84,10 @@ const App = () => {
           backgroundColor: color('background', 'default', 'muted'),
           paddingLeft: '64px',
           paddingRight: '64px',
+          [BpTablet]: {
+            paddingLeft: '0px',
+            paddingRight: '0px',
+          },
           paddingTop: '24px',
           paddingBottom: '24px',
           display: 'flex',

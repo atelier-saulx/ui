@@ -8,6 +8,9 @@ import {
   border,
   Style,
   styled,
+  useWindowResize,
+  IconMenu,
+  IconClose,
 } from '../..'
 import { MenuItem } from './MenuItem'
 
@@ -194,6 +197,8 @@ export const Menu: FC<MenuProps> = ({
     }
   }
 
+  const { width } = useWindowResize()
+
   const items = menuDataItems.map(
     ({ label, value, icon, items, onClick }, i) => {
       // menu header thing not working>?
@@ -307,42 +312,91 @@ export const Menu: FC<MenuProps> = ({
     }
   )
 
-  return (
-    <span style={{ position: 'relative' }}>
-      <ScrollArea
-        style={{
-          flexShrink: 0,
-          backgroundColor: color('background', 'default', 'muted'),
-          // borderRight: border(1),
-          // position: 'relative',
-          padding: '24px 20px 20px 20px',
-          height: '100%',
-          width: open ? 224 : 0,
-          ...style,
-        }}
-      >
-        <MenuHeader>{header}</MenuHeader>
-        {items}
-        {children}
-        <styled.div style={{ height: '24px' }} />
-      </ScrollArea>
-      <styled.div
-        onClick={() => setOpen(!open)}
-        style={{
-          position: 'absolute',
-          border: '1px solid',
-          borderColor: color('inputBorder', 'neutralNormal', 'default'),
-          '&:hover': {
-            borderColor: color('inputBorder', 'neutralHover', 'default'),
-          },
-          '&:active': {
-            borderColor: color('inputBorder', 'neutralActive', 'default'),
-          },
-          right: 0,
-          top: 0,
-          bottom: 0,
-        }}
-      ></styled.div>
-    </span>
-  )
+  if (width > 800)
+    return (
+      <span style={{ position: 'relative' }}>
+        <ScrollArea
+          onClick={open ? null : () => setOpen(true)}
+          style={{
+            flexShrink: 0,
+            backgroundColor: color('background', 'default', 'muted'),
+            // borderRight: border(1),
+            // position: 'relative',
+            padding: open ? '24px 20px 20px 20px' : 10,
+            height: '100%',
+            width: open ? 224 : 0,
+            overflowX: 'clip',
+            ...style,
+          }}
+        >
+          <MenuHeader>{header}</MenuHeader>
+          {items}
+          {children}
+          <styled.div style={{ height: '24px' }} />
+        </ScrollArea>
+        <styled.div
+          onClick={() => setOpen(!open)}
+          style={{
+            position: 'absolute',
+            border: '1px solid',
+            borderColor: color('inputBorder', 'neutralNormal', 'default'),
+            '&:hover': {
+              borderColor: color('inputBorder', 'neutralHover', 'default'),
+            },
+            '&:active': {
+              borderColor: color('inputBorder', 'neutralActive', 'default'),
+            },
+            right: 0,
+            top: 0,
+            bottom: 0,
+          }}
+        ></styled.div>
+      </span>
+    )
+  else
+    return (
+      <>
+        {open ? (
+          <ScrollArea
+            style={{
+              flexShrink: 0,
+              backgroundColor: color('background', 'default', 'muted'),
+              // borderRight: border(1),
+              // position: 'relative',
+              padding: '24px 20px 20px 20px',
+              height: '100%',
+              width: '100%',
+              overflowX: 'clip',
+              ...style,
+            }}
+          >
+            <IconClose
+              onClick={() => setOpen(false)}
+              style={{
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                padding: 10,
+                border: '1px solid grey',
+              }}
+            />
+            <MenuHeader>{header}</MenuHeader>
+            {items}
+            {children}
+            <styled.div style={{ height: '24px' }} />
+          </ScrollArea>
+        ) : (
+          <IconMenu
+            style={{
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              padding: 10,
+              border: '1px solid grey',
+            }}
+            onClick={() => setOpen(true)}
+          />
+        )}
+      </>
+    )
 }

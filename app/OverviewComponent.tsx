@@ -16,6 +16,7 @@ import { parseProps } from './parseProps'
 import { deepCopy, deepMerge } from '@saulx/utils'
 import { propsToCode, toComponent } from './objectToCode'
 import { PropsEditor } from './PropsEditor'
+import { BpTablet } from '../src/utils/breakpoints'
 
 const displayType = (propType: PropType): string | number | ReactNode => {
   if (typeof propType.type === 'object') {
@@ -69,6 +70,7 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
             display: 'flex',
             flexGrow: 1,
             flexWrap: 'wrap',
+            overflowWrap: 'anywhere',
           }}
         >
           {displayType(prop)}
@@ -77,7 +79,13 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
           size={12}
           color="default"
           light
-          style={{ minWidth: 150, justifyContent: 'flex-end' }}
+          style={{
+            minWidth: 150,
+            [BpTablet]: {
+              minWidth: 0,
+            },
+            justifyContent: 'flex-end',
+          }}
           weight="strong"
         >
           {!prop.optional ? 'required' : '-'}
@@ -166,11 +174,19 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
           backgroundColor: color('background', 'neutral', 'surface'),
           alignItems: 'center',
           justifyContent: 'center',
+          overflowX: 'visible',
+          // border: '1px solid red',
         }}
       >
         <styled.div
           style={{
+            // border: '1px solid yellow',
+            maxWidth: '100%',
             padding: 32,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            // overflowX: 'hidden',
           }}
         >
           {React.createElement(
