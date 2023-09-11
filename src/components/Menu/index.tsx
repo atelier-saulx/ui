@@ -332,7 +332,7 @@ export const Menu: FC<MenuProps> = ({
           <MenuHeader>{header}</MenuHeader>
           {items}
           {children}
-          <styled.div style={{ height: '24px' }} />
+          <styled.div style={{ height: '40px' }} />
         </ScrollArea>
         <styled.div
           onClick={() => setOpen(!open)}
@@ -383,7 +383,7 @@ export const Menu: FC<MenuProps> = ({
             <MenuHeader>{header}</MenuHeader>
             {items}
             {children}
-            <styled.div style={{ height: '24px' }} />
+            <styled.div style={{ height: '40px' }} />
           </ScrollArea>
         ) : (
           <IconMenu
