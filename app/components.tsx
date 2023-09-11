@@ -822,6 +822,25 @@ export const components: ComponentDef[] = [
           return (
             <Input
               type="search"
+              label="You can add a clear button"
+              clearButton
+              placeholder="Search"
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+            />
+          )
+        },
+      },
+      {
+        props: {},
+        customRenderer: () => {
+          const [value, setValue] = useState('')
+
+          return (
+            <Input
+              type="search"
               label="You can add a label"
               error="and an error if you really want"
               placeholder="Search"
