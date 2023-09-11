@@ -1192,6 +1192,30 @@ export const components: ComponentDef[] = [
           )
         },
       },
+      {
+        props: {
+          activeTab: 1,
+        },
+        customRenderer: (props) => {
+          return (
+            <styled.div
+              style={{
+                width: 600,
+                [BpTablet]: {
+                  width: 'unset',
+                },
+                marginBottom: 24,
+              }}
+            >
+              <Tabs borderColor="neutral" activeTab={1}>
+                <Tab label="Edgy Apple" children="🍎" />
+                <Tab label="Edgy Bear" children="🐻" />
+                <Tab label="Edgy Crescendo" children="🎵" />
+              </Tabs>
+            </styled.div>
+          )
+        },
+      },
     ],
   },
   {

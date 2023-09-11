@@ -23,6 +23,7 @@ export type TabsProps = {
   activeTab?: number
   setActiveTab?: (index: number) => void
   sameHeight?: boolean
+  borderColor?: 'primary' | 'neutral'
 }
 
 const TabWrapper: FC<{
@@ -31,12 +32,14 @@ const TabWrapper: FC<{
   index: number
   setActiveTabInternal: Dispatch<SetStateAction<number>>
   setHoverTab: Dispatch<SetStateAction<number>>
+  borderColor?: 'primary' | 'neutral'
 }> = ({
   children,
   index,
   activeTabState,
   setHoverTab,
   setActiveTabInternal,
+  borderColor = 'primary',
 }) => {
   const icon = children?.props?.icon
 
@@ -51,7 +54,7 @@ const TabWrapper: FC<{
         alignItems: 'center',
         borderBottom:
           index === activeTabState
-            ? `3px solid ${genColor('action', 'primary', 'normal')}`
+            ? `3px solid ${genColor('action', borderColor, 'normal')}`
             : '3px solid transparent',
         '&:hover': {
           borderBottom:
@@ -116,6 +119,7 @@ export const Tabs: FC<TabsProps> = ({
   activeTab = 0,
   setActiveTab,
   sameHeight,
+  borderColor = 'primary',
   ...props
 }) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
@@ -153,6 +157,7 @@ export const Tabs: FC<TabsProps> = ({
         >
           {arrayChildren.map((child, index) => (
             <TabWrapper
+              borderColor={borderColor}
               key={index}
               index={index}
               activeTabState={activeTabState}
