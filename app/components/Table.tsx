@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table } from '../../src'
+import { Avatar, Badge, Table } from '../../src'
 import { faker } from '@faker-js/faker'
 import props from '../props.json'
 import { ComponentDef } from '../types'
@@ -13,37 +13,37 @@ const example: ComponentDef = {
     {
       props: {},
       customRenderer: () => {
-        const newPerson = (index: number) => {
+        const newPerson = () => {
           return {
-            id: index + 1,
-            firstName: faker.name.firstName(),
-            lastName: faker.name.lastName(),
-            age: faker.datatype.number(40),
-            visits: faker.datatype.number(1000),
-            progress: faker.datatype.number(100),
-            createdAt: faker.datatype.datetime({ max: new Date().getTime() }),
-            status: faker.helpers.shuffle([
-              'relationship',
-              'complicated',
-              'single',
-            ])[0]!,
+            id: faker.string.nanoid(),
+            stage: faker.helpers.arrayElement(['Published', 'Draft']),
+            title: faker.animal.dog(),
+            image: faker.image.url(),
+            author: faker.person.fullName(),
+            createdAt: faker.date.anytime(),
+            updatedAt: faker.date.anytime(),
           }
         }
 
-        function makeData(...lens: number[]) {
-          const makeDataLevel = (depth = 0) => {
-            const len = lens[depth]!
-            return Array.from({ length: len }).map((_, index) => {
-              return {
-                ...newPerson(index),
-              }
-            })
-          }
-
-          return makeDataLevel()
+        function makeData(count: number) {
+          return Array.from({ length: count }).map(() => {
+            return newPerson()
+          })
         }
 
-        const [data] = useState(() => makeData(500))
+        const [data, setData] = useState(() => makeData(50))
+        const [isLoadingMoreData, setIsLoadingMoreData] = useState(false)
+
+        async function fetchMoreData() {
+          if (isLoadingMoreData) return
+
+          setIsLoadingMoreData(true)
+          await new Promise((resolve) => {
+            setTimeout(resolve, 200)
+          })
+          setData((p) => [...p, ...makeData(50)])
+          setIsLoadingMoreData(false)
+        }
 
         return (
           <div
@@ -53,18 +53,75 @@ const example: ComponentDef = {
           >
             <Table
               data={data}
+              onScrollToBottom={() => {
+                fetchMoreData()
+              }}
               columns={[
                 { header: 'ID', accessor: 'id' },
-                { header: 'First name', accessor: 'firstName' },
-                { header: 'Last name', accessor: 'lastName' },
-                { header: 'Age', accessor: 'age' },
-                { header: 'Visits', accessor: 'visits' },
                 {
-                  header: 'Status',
-                  accessor: 'status',
+                  header: 'Stage',
+                  accessor: 'stage',
                   cell: (value) => (
-                    <button onClick={() => alert(value)}>{value}</button>
+                    <Badge
+                      light
+                      color={value === 'Published' ? 'green' : 'purple'}
+                    >
+                      {value}
+                    </Badge>
                   ),
+                },
+                { header: 'Title', accessor: 'title' },
+                {
+                  header: 'CoverImage',
+                  accessor: 'image',
+                  cell: (value) => (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <img
+                        src={value}
+                        style={{ height: 48, width: 48, borderRadius: 4 }}
+                      />
+                    </div>
+                  ),
+                },
+                {
+                  header: 'Author',
+                  accessor: 'author',
+                  cell: (value) => (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Avatar size="small">{value}</Avatar>
+                      <span
+                        style={{
+                          marginLeft: 8,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          maxWidth: '100%',
+                        }}
+                      >
+                        {value}
+                      </span>
+                    </div>
+                  ),
+                },
+                {
+                  header: 'Created',
+                  accessor: 'createdAt',
+                  cell: (value) => value.toISOString(),
+                },
+                {
+                  header: 'Updated',
+                  accessor: 'updatedAt',
+                  cell: (value) => value.toISOString(),
                 },
               ]}
             />
