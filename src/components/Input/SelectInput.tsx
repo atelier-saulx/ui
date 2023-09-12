@@ -5,24 +5,35 @@ import {
   IconEmojiSad,
   IconSmallClose,
   color,
+  Style,
   styled,
 } from '../..'
 
 export type SelectInputOption = {
-  label: string
-  value: string
+  label?: string
+  value: string | number
   beforeIcon?: React.ReactNode
   afterIcon?: React.ReactNode
 }
 
 export type SelectInputProps = {
-  options: SelectInputOption[]
+  preventCloseOnSelect?: boolean
+  options: (SelectInputOption | number | string)[]
   beforeIcon?: React.ReactNode
+  style?: Style
   disabled?: boolean
   placeholder?: string
 } & (
-  | { multiple: false; value: string; onChange: (newValue: string) => void }
-  | { multiple: true; value: string[]; onChange: (newValues: string[]) => void }
+  | {
+      multiple?: false
+      value?: string | number
+      onChange: (newValue: string | number) => void
+    }
+  | {
+      multiple: true
+      value?: (number | string)[]
+      onChange: (newValues: (number | string)[]) => void
+    }
 )
 
 export function SelectInput({
@@ -30,8 +41,10 @@ export function SelectInput({
   beforeIcon,
   disabled,
   placeholder,
-  value,
+  value = [],
+  preventCloseOnSelect,
   onChange,
+  style,
   multiple,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
@@ -39,12 +52,42 @@ export function SelectInput({
   const inputRef = useRef<HTMLInputElement>(null)
   const [filter, setFilter] = useState<null | string>(null)
 
-  const filteredOptions = options
+  // @ts-ignore TS too stupid
+  const parsed: {
+    label: string
+    value: string | number
+    beforeIcon?: React.ReactNode
+    afterIcon?: React.ReactNode
+  }[] = options.map((l) => {
+    let option: SelectInputOption
+    if (typeof l !== 'object') {
+      option = {
+        value: l,
+        label: typeof l === 'number' ? String(l) : l,
+      }
+    } else {
+      option = l
+    }
+    // @ts-ignore TS too stupid
+    return option.label === undefined
+      ? {
+          // @ts-ignore TS too stupid
+          ...option,
+          label:
+            typeof option.value === 'number'
+              ? String(option.value)
+              : option.value,
+        }
+      : option
+  })
+
+  const filteredOptions = parsed
     .filter((e) =>
       filter
-        ? e.label.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+        ? e.label?.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
         : true
     )
+    // @ts-ignore TS to stupid (multiple is optional)
     .filter((e) => (multiple ? value.includes(e.value) === false : true))
 
   useEffect(() => {
@@ -64,13 +107,13 @@ export function SelectInput({
       }
       if (e.key === 'Enter') {
         e.preventDefault()
-
         setOpen(false)
         setFilter(null)
         setFocus(0)
         multiple
-          ? onChange([...value, filteredOptions[focus].value])
-          : onChange(filteredOptions[focus].value)
+          ? // @ts-ignore TS to stupid (multiple is optional)
+            onChange([...value, filteredOptions[focus].value])
+          : onChange(filteredOptions[focus]?.value)
       }
     }
 
@@ -80,6 +123,14 @@ export function SelectInput({
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [open, focus, filteredOptions])
+
+  const parsedValue = multiple
+    ? filter || ''
+    : filter === null
+    ? value === ''
+      ? ''
+      : parsed.find((e) => e.value === value)?.label
+    : filter
 
   return (
     <styled.div
@@ -119,6 +170,7 @@ export function SelectInput({
               opacity: '50%',
             }
           : {}),
+        ...style,
       }}
     >
       <styled.div
@@ -170,6 +222,7 @@ export function SelectInput({
           }
         >
           {multiple &&
+            // @ts-ignore TS is too stupid and we want multiple to be optional
             value.map((v) => (
               <styled.div
                 style={{
@@ -185,7 +238,7 @@ export function SelectInput({
                 key={v}
               >
                 <span style={{ whiteSpace: 'nowrap', cursor: 'default' }}>
-                  {options.find((e) => e.value === v)!.label}
+                  {parsed.find((e) => e.value === v)?.label}
                 </span>
                 <button
                   style={{
@@ -200,6 +253,7 @@ export function SelectInput({
                   }}
                   onClick={(event) => {
                     event.stopPropagation()
+                    // @ts-ignore TS is too stupid and we want multiple to be optional
                     onChange(value.filter((e) => e !== v))
                   }}
                 >
@@ -223,15 +277,7 @@ export function SelectInput({
               background: 'transparent',
               color: 'inherit',
             }}
-            value={
-              multiple
-                ? filter || ''
-                : filter === null
-                ? value === ''
-                  ? ''
-                  : options.find((e) => e.value === value)!.label
-                : filter
-            }
+            value={typeof parsedValue === 'object' ? value : parsedValue}
             onChange={(e) => {
               setOpen(true)
               setFocus(0)
@@ -266,7 +312,9 @@ export function SelectInput({
               right: 0,
             }}
             onClick={() => {
-              setOpen(false)
+              if (!preventCloseOnSelect) {
+                setOpen(false)
+              }
             }}
           />
           <styled.div
@@ -312,7 +360,9 @@ export function SelectInput({
                     setFocus(index)
                   }}
                   onClick={() => {
-                    setOpen(false)
+                    if (!preventCloseOnSelect) {
+                      setOpen(false)
+                    }
                     setFilter(null)
                     setFocus(0)
                     multiple

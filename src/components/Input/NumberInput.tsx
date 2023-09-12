@@ -16,7 +16,7 @@ export type NumberInputOwnProps = {
   icon?: ReactNode
   afterIcon?: ReactNode
   prefix?: BadgeProps
-  style: Style
+  style?: Style
   suffix?: BadgeProps
 }
 
