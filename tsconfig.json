@@ -3,7 +3,7 @@
     "jsx": "react",
     "incremental": true,
     "composite": true,
-    "target": "es2019",
+    "target": "ES2021",
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,

@@ -17,16 +17,18 @@ const createIcon: BasedFunction<
     componentName = 'Small' + componentName
   }
 
+  console.log(svg)
+
   const component = `export const Icon${componentName}: typeof Icon = (props) => {
     const { color } = props
     const c = color === undefined || color ==='inherit' ? 'currentColor' : genColor('content', color, 'primary')
     return <Icon {...props}>${svg
       .replace(/xmlns="(.*?)"/, '')
-      .replace(/fill-rule="(.*?)"/, 'fillRule="$1"')
-      .replace(/clip-rule="(.*?)"/, 'clipRule="$1"')
-      .replace(/clip-path="(.*?)"/, 'clipPath="$1"')
-      .replace(/fill=".+"/g, 'fill={c}')
-      .replace(/stroke=".+"/g, 'stroke={c}')}
+      .replaceAll(/fill-rule="(.*?)"/g, 'fillRule="$1"')
+      .replaceAll(/clip-rule="(.*?)"/g, 'clipRule="$1"')
+      .replaceAll(/clip-path="(.*?)"/g, 'clipPath="$1"')
+      .replaceAll(/fill=".+"/g, 'fill={c}')
+      .replaceAll(/stroke=".+"/g, 'stroke={c}')}
       
       </Icon>\n}`
 
