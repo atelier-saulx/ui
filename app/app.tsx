@@ -47,22 +47,18 @@ const App = () => {
     >
       <Menu
         header={
-          <>
-            <Button
-              color="system"
-              icon={<IconRefresh />}
+          <styled.div
+            style={{ marginBottom: 16, display: 'flex', alignItems: 'center' }}
+          >
+            <IconRefresh
+              style={{ marginRight: 8 }}
+              color="brand"
               onClick={() => localStorage.clear()}
-              size="small"
-              style={{ marginBottom: 16 }}
-              {...toolTipLocalStorageBtn}
             />
             <ThemeSwitch />
-          </>
+          </styled.div>
         }
         data={{
-          Dashboard: {
-            Content: 'Content',
-          },
           components: components.map((c) => {
             return {
               label: c.name,

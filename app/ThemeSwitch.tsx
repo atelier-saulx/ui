@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, IconBlock, IconPlaceholder, useTooltip } from '../src'
+import { Button, IconBlock, IconEye, useTooltip } from '../src'
 import { useTheme } from '../src/hooks/useTheme'
 
 export function ThemeSwitch() {
@@ -7,15 +7,11 @@ export function ThemeSwitch() {
   const toolTipThemeBtn = useTooltip('Change theme', 'bottom-right')
 
   return (
-    <Button
-      color="system"
-      icon={theme === 'light' ? <IconPlaceholder /> : <IconBlock />}
-      size="small"
-      style={{ marginBottom: 16 }}
+    <IconEye
+      color="brand"
       onClick={() => {
         setTheme(theme === 'light' ? 'dark' : 'light')
       }}
-      {...toolTipThemeBtn}
     />
   )
 }
