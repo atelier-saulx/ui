@@ -1,4 +1,3 @@
-import React from 'react'
 import { DatePicker } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'

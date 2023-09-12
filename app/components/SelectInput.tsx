@@ -7,12 +7,12 @@ const example: ComponentDef = {
   name: 'SelectInput',
   component: Input,
   description: 'Select input',
-  properties: props.props.InputProps.props,
+  properties: {},
   examples: [
     {
       props: {},
       customRenderer: () => {
-        const [value, setValue] = useState('')
+        const [value, setValue] = useState<number | string>('')
         return (
           <Input
             type="select"
@@ -34,7 +34,7 @@ const example: ComponentDef = {
     {
       props: {},
       customRenderer: () => {
-        const [multiValue, setMultiValue] = useState<string[]>([])
+        const [multiValue, setMultiValue] = useState<(string | number)[]>([])
         return (
           <Input
             type="select"

@@ -7,23 +7,17 @@ const example: ComponentDef = {
   name: 'SearchInput',
   component: Input,
   description: 'Text Input',
-  properties: props.props.InputProps.props,
+  properties: {
+    value: { type: 'string' },
+    placeholder: { type: 'string' },
+  },
   examples: [
     {
-      props: {},
-      customRenderer: () => {
-        const [value, setValue] = useState('')
-
-        return (
-          <Input
-            type="search"
-            placeholder="Search"
-            value={value}
-            onChange={(v) => {
-              setValue(v)
-            }}
-          />
-        )
+      props: {
+        placeholder: 'fun',
+      },
+      customRenderer: (props) => {
+        return <Input type="search" {...props} />
       },
     },
     {

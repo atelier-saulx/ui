@@ -7,7 +7,7 @@ const example: ComponentDef = {
   name: 'TextInput',
   component: Input,
   description: 'Text Input',
-  properties: props.props.InputProps.props,
+  properties: {},
   examples: [
     {
       props: {},

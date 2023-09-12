@@ -7,7 +7,7 @@ const example: ComponentDef = {
   name: 'CheckboxInput',
   component: Input,
   description: 'Checkbox input',
-  properties: props.props.InputProps.props,
+  properties: {},
   examples: [
     {
       props: {},

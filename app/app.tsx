@@ -1,24 +1,22 @@
 import '../src/colors.css'
 
 import { render } from 'react-dom'
-import React, { FC, useEffect, useState } from 'react'
+import React from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
 import {
   color,
-  Button,
   IconRefresh,
   Menu,
   Provider,
   ScrollArea,
   useTooltip,
-  IconPlaceholder,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
-import { components } from './components'
+import { components } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 import { BpTablet } from '../src/utils/breakpoints'
 

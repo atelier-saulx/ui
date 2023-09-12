@@ -1,4 +1,3 @@
-import React from 'react'
 import { BarGraph, BpTablet } from '../../src'
 
 import props from '../props.json'
