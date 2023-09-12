@@ -24,6 +24,7 @@ export function CheckboxInput({
     <styled.label
       className="checkbox-group"
       style={{
+        cursor: 'pointer',
         position: 'relative',
         display: 'flex',
         alignItems: 'start',
@@ -115,6 +116,7 @@ export function CheckboxInput({
         <div
           style={{
             lineHeight: '24px',
+            userSelect: 'none',
             fontSize: 14,
             fontWeight: 500,
             color: color('content', 'default', 'primary'),
@@ -124,6 +126,7 @@ export function CheckboxInput({
         </div>
         <div
           style={{
+            userSelect: 'none',
             lineHeight: '24px',
             fontSize: 14,
             fontWeight: 500,
