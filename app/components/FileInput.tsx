@@ -7,7 +7,7 @@ const example: ComponentDef = {
   name: 'FileInput',
   component: Input,
   description: 'Single file input',
-  properties: props.props.InputProps.props,
+  properties: props.props.FileInputProps.props,
   examples: [
     {
       props: {

@@ -7,7 +7,7 @@ import { ComponentDef } from '../types'
 const example: ComponentDef = {
   name: 'BarGraph',
   // TODO yves change these props
-  properties: props.props.BadgeProps.props,
+  properties: props.props.BarGraphProps.props,
   component: BarGraph,
   description: '100 bars for breakfast',
   examples: [
