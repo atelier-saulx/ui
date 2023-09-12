@@ -112,6 +112,7 @@ export const getButtonStyle = (
       },
     },
     '&:active': {
+      transform: props.clickAnimation ? 'scale(0.95)' : undefined,
       backgroundColor: isGhost
         ? 'transparent'
         : genColor('action', colorProp, isLight ? 'subtleActive' : 'active'),
@@ -139,6 +140,7 @@ export const Button: FC<ButtonProps> = (props) => {
     onMouseEnter,
     onMouseLeave,
     keyboardShortcut,
+    clickAnimation,
     displayShortcut,
     size = 'medium',
     style,
@@ -147,12 +149,20 @@ export const Button: FC<ButtonProps> = (props) => {
 
   const isLight = props.light
   const isGhost = props.ghost || props.size === 'xsmall'
-  const [isLoading, setIsLoading] = useState(false)
+  let [isLoading, setIsLoading] = useState(false)
+
+  if (loading === true) {
+    isLoading = loading
+  } else if (loading === false) {
+    isLoading = false
+  }
+
   const buttonElem = useRef<HTMLElement>(null)
   const extendedOnClick = useCallback(
     async (e: any) => {
       e.stopPropagation()
       e.preventDefault()
+
       const t = buttonElem.current
       if (!t) {
         return
@@ -208,7 +218,7 @@ export const Button: FC<ButtonProps> = (props) => {
 
   let contentColor: ColorContentColors =
     props.color === 'inverted'
-      ? 'inverted'
+      ? 'default'
       : (isLight || isGhost) && props.color === 'alert'
       ? 'negative'
       : (isLight || isGhost) && props.color === 'neutral'
@@ -267,7 +277,7 @@ export const Button: FC<ButtonProps> = (props) => {
       >
         {isLoading && (
           <styled.div style={{ marginRight: 8, marginLeft: '-4px' }}>
-            <ProgressCircle loading color={props.color} />
+            <ProgressCircle color={contentColor} loading />
           </styled.div>
         )}
         {icon &&

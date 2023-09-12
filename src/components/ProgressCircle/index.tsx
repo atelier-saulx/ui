@@ -1,18 +1,8 @@
 import React, { FC, useState, useEffect } from 'react'
-import { color as genColor, ColorActionColors, Style, styled } from '../..'
-
-const invertedStyle = {
-  // height: '64px',
-  // width: '64px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '12px',
-  // backgroundColor: genColor('background', 'inverted', 'surface'),
-}
+import { color as genColor, Style, styled, ColorContentColors } from '../..'
 
 export type ProgressCircleProps = {
-  color?: ColorActionColors
+  color?: ColorContentColors
   style?: Style
   loading?: boolean
   // value is progress in decimal 1 === complete
@@ -31,11 +21,7 @@ export const ProgressCircle: FC<ProgressCircleProps> = ({
   const inverted = color === 'inverted'
 
   return (
-    <styled.div
-      style={
-        color === 'inverted' ? { ...invertedStyle, ...style } : { ...style }
-      }
-    >
+    <styled.div style={style}>
       <styled.div
         style={{
           margin: '0 auto',
@@ -74,14 +60,10 @@ export const ProgressCircle: FC<ProgressCircleProps> = ({
             cy="60"
             r="54"
             fill="none"
-            stroke={genColor(
-              'action',
-              inverted ? 'inverted' : 'neutral',
-              'subtleNormal'
-            )}
+            stroke={genColor('content', color)}
             strokeWidth="16"
             pathLength="100"
-            opacity={inverted ? 0.2 : 1}
+            opacity={0.2}
           />
 
           <circle
@@ -89,7 +71,7 @@ export const ProgressCircle: FC<ProgressCircleProps> = ({
             cy="60"
             r="54"
             fill="none"
-            stroke={genColor('action', color, 'normal')}
+            stroke={genColor('content', color)}
             strokeWidth="16"
             strokeDasharray={100}
             pathLength="100"
