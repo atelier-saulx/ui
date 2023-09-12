@@ -6,23 +6,39 @@ import { prettyDate } from '@based/pretty-date'
 
 const Info: FC<{
   dist: {
-    version: string
     checksum: string
-    releaseNotes?: string
-    releaseDate?: number
+    updatedAt?: number
+    parents?: any[]
   }
 }> = ({ dist }) => {
+  // console.log(dist)
+
   return (
     <Row>
-      <Text typography="body600">{dist.version}</Text>
-      <Text
-        typography="body400"
-        style={{
-          marginLeft: 8,
-        }}
-      >
-        {dist.releaseNotes ? dist.releaseNotes.slice(0, 30) : ''}
-      </Text>
+      {dist.parents.length === 0 ? (
+        <>
+          <Text color="red" style={{ marginRight: 8 }} typography="body600">
+            HF {dist.checksum.slice(0, 10)}
+          </Text>
+        </>
+      ) : (
+        <>
+          <Text typography="body600" color="accent">
+            {dist.parents[0].tag}
+          </Text>
+          {dist.parents[0].updatedAt ? (
+            <Text
+              typography="body400"
+              color="text2"
+              style={{
+                marginLeft: 8,
+              }}
+            >
+              from {prettyDate(dist.parents[0].updatedAt, 'date-time-human')}
+            </Text>
+          ) : null}
+        </>
+      )}
     </Row>
   )
 }
@@ -31,43 +47,16 @@ export const Version: FC<{
   service: ServiceNamed
   alwaysAccept: boolean
   onChange: OnMachineConfigChange
-}> = ({ service, alwaysAccept, onChange }) => {
-  const { data: dists = {} } = useQuery<{
-    [key: string]: any[]
-  }>(
-    'dists',
-    {},
-    {
-      persistent: true,
-    }
-  )
-
-  let foundCurrent = false
+  dists: any
+}> = ({ service, alwaysAccept, onChange, dists }) => {
   const selectOptions: SelectOption[] =
     dists[service.name]?.map((dist) => {
-      if (service.distChecksum === dist.checksum) {
-        foundCurrent = true
-      }
       return {
         label: <Info dist={dist} />,
         value: dist.checksum,
       }
     }) || []
   const [newVersion, updateVersion] = useState<string>()
-
-  if (!foundCurrent && service.distChecksum) {
-    selectOptions.push({
-      label: (
-        <Row>
-          <Text color="red" style={{ marginRight: 8 }} typography="body600">
-            Detached
-          </Text>
-          {service.distChecksum.slice(-6)}
-        </Row>
-      ),
-      value: service.distChecksum,
-    })
-  }
 
   return (
     <styled.div style={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>

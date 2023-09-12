@@ -5,8 +5,8 @@ import { Dist } from './types'
 
 type Update = {
   dist: Dist
+  fromDist: Dist
   configName: string
-  fromVersion: string
 }[]
 
 export const useDistUpdates = (
@@ -15,7 +15,7 @@ export const useDistUpdates = (
   },
   checksum?: number
 ): Update => {
-  const { data: dists = {}, checksum: distChecksum } = useQuery<{
+  const { data: dists = {}, checksum: queryChecksum } = useQuery<{
     [key: string]: Dist[]
   }>(
     'dists',
@@ -38,27 +38,19 @@ export const useDistUpdates = (
         const currentDist = serviceDists.find(
           (d) => d.checksum === service.distChecksum
         )
-        if (!currentDist) {
-          // is detached
-          needUpdate.push({
-            configName,
-            dist: serviceDists[0],
-            fromVersion: 'Detached',
-          })
-        } else {
-          for (const d of serviceDists) {
-            if (d.index > currentDist.index) {
-              needUpdate.push({
-                configName,
-                dist: d,
-                fromVersion: currentDist.version,
-              })
-              break
-            }
+        for (const d of serviceDists) {
+          if (d.updatedAt > currentDist.updatedAt) {
+            needUpdate.push({
+              configName,
+              dist: d,
+              fromDist: currentDist,
+            })
+            break
           }
         }
       }
     }
+    // console.log({ needUpdate })
     return needUpdate
-  }, [distChecksum, checksum ?? machineConfigs])
+  }, [queryChecksum, checksum ?? machineConfigs])
 }

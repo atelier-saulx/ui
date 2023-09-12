@@ -6,6 +6,7 @@ import { ServiceNamed, OnMachineConfigChange } from '../../types'
 import { Service } from './Service'
 import { useAddService } from './useAddService'
 import { Commands } from './Commands'
+import { useQuery } from '@based/react'
 
 export const Services: FC<{
   configName: string
@@ -13,6 +14,16 @@ export const Services: FC<{
   onChange: OnMachineConfigChange
   alwaysAccept?: boolean
 }> = ({ config, configName, onChange, alwaysAccept }) => {
+  const { data: dists = {} } = useQuery<{
+    [key: string]: any[]
+  }>(
+    'dists',
+    {},
+    {
+      persistent: true,
+    }
+  )
+
   const services: ServiceNamed[] = []
   const [isExpand, setExpand] = useState(false)
 
@@ -60,6 +71,7 @@ export const Services: FC<{
       {services.map((s) => {
         return (
           <Service
+            dists={dists}
             alwaysAccept={alwaysAccept}
             onChange={onChange}
             config={config}

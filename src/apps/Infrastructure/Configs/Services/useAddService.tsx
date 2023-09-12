@@ -77,6 +77,7 @@ export const useAddService = (
   const newServicesNodes = newServicesItems.map((s) => {
     return (
       <Service
+        dists={dists}
         configName={configName}
         key={'n' + s.name}
         alwaysAccept

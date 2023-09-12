@@ -23,5 +23,10 @@ export type Dist = {
   name: string
   checksum: string
   version: string
-  index: number
+  updatedAt: number
+  parents: {
+    updatedAt: number
+    index: number
+    tag: string
+  }[]
 }

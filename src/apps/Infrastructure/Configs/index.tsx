@@ -71,7 +71,7 @@ export const Actions: FC<{
         }}
         icon={<RedoIcon />}
       >
-        Restart all machines
+        Restart all services
       </ContextItem>
       <ContextItem
         onClick={() => {
@@ -171,9 +171,7 @@ const MachineConfig: FC<{
   configName: string
   config: MachineConfig
   machineStatus: any
-  env: Env
-}> = ({ configName, config, machineStatus, env }) => {
-  const client = useClient()
+}> = ({ configName, config, machineStatus }) => {
   const [, setInfra] = useContextState<string>('infraSection')
   const { open } = useDialog()
 
@@ -263,7 +261,6 @@ export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
   for (const key in config) {
     machineConfigs.push(
       <MachineConfig
-        env={env}
         key={key}
         configName={key}
         config={config[key]}

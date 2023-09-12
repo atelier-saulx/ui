@@ -77,10 +77,18 @@ const Modal: FC<{
                 </Text>
                 <Row>
                   <Text style={{ marginRight: 16 }} typography="body600">
-                    {d.fromVersion}
+                    {d.fromDist.parents[d.fromDist.parents.length - 1].tag}
                   </Text>
                   <ArrowRightIcon style={{ marginRight: 16 }} />
-                  <Text typography="body600">{d.dist.version}</Text>
+                  {d.dist.parents.length > 0 ? (
+                    <Text typography="body600">
+                      {d.dist.parents[d.dist.parents.length - 1].tag}
+                    </Text>
+                  ) : (
+                    <Text typography="body600" color="red">
+                      HOTFIX
+                    </Text>
+                  )}
                 </Row>
               </RowEnd>
             </RowSpaced>

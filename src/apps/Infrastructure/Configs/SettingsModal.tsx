@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   Button,
-  Text,
   Accordion,
   useContextState,
   RowSpaced,
@@ -19,7 +18,7 @@ import { Actions } from '.'
 export const SettingsModal = ({ configName }) => {
   const client = useClient()
   const [env] = useContextState<Env>('env')
-  const { data: envData, checksum } = useQuery('env', env)
+  const { data: envData } = useQuery('env', env)
   const machineStatus = envData?.machineStatus?.[configName]
   const config = envData?.config?.machineConfigs?.[configName] ?? {}
 

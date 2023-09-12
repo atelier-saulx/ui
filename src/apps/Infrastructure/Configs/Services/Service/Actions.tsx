@@ -78,7 +78,7 @@ export const Actions: FC<{
           })
         }}
       >
-        Restart service globally
+        Restart service on all machines
       </ContextItem>
     </>
   )

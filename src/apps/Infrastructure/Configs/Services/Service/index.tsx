@@ -24,7 +24,16 @@ export const Service: FC<{
   configName: string
   alwaysAccept?: boolean
   children?: ReactNode
-}> = ({ service, config, onChange, alwaysAccept, children, configName }) => {
+  dists: any
+}> = ({
+  dists,
+  service,
+  config,
+  onChange,
+  alwaysAccept,
+  children,
+  configName,
+}) => {
   // TODO put actions
 
   const [newInstances, acceptNewInstanceButton, addInstance] = useAddInstances(
@@ -57,6 +66,7 @@ export const Service: FC<{
     >
       <RowSpaced>
         <Version
+          dists={dists}
           service={service}
           alwaysAccept={alwaysAccept}
           onChange={onChange}
