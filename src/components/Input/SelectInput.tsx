@@ -17,6 +17,7 @@ export type SelectInputOption = {
 }
 
 export type SelectInputProps = {
+  preventCloseOnSelect?: boolean
   options: (SelectInputOption | number | string)[]
   beforeIcon?: React.ReactNode
   style?: Style
@@ -41,6 +42,7 @@ export function SelectInput({
   disabled,
   placeholder,
   value = [],
+  preventCloseOnSelect,
   onChange,
   style,
   multiple,
@@ -121,6 +123,14 @@ export function SelectInput({
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [open, focus, filteredOptions])
+
+  const parsedValue = multiple
+    ? filter || ''
+    : filter === null
+    ? value === ''
+      ? ''
+      : parsed.find((e) => e.value === value)?.label
+    : filter
 
   return (
     <styled.div
@@ -267,15 +277,7 @@ export function SelectInput({
               background: 'transparent',
               color: 'inherit',
             }}
-            value={
-              multiple
-                ? filter || ''
-                : filter === null
-                ? value === ''
-                  ? ''
-                  : parsed.find((e) => e.value === value)?.label
-                : filter
-            }
+            value={typeof parsedValue === 'object' ? value : parsedValue}
             onChange={(e) => {
               setOpen(true)
               setFocus(0)
@@ -310,7 +312,9 @@ export function SelectInput({
               right: 0,
             }}
             onClick={() => {
-              setOpen(false)
+              if (!preventCloseOnSelect) {
+                setOpen(false)
+              }
             }}
           />
           <styled.div
@@ -356,7 +360,9 @@ export function SelectInput({
                     setFocus(index)
                   }}
                   onClick={() => {
-                    setOpen(false)
+                    if (!preventCloseOnSelect) {
+                      setOpen(false)
+                    }
                     setFilter(null)
                     setFocus(0)
                     multiple

@@ -4,6 +4,46 @@ import { styled } from 'inlines'
 import { Input, Text, border, SelectInputOption } from '../src'
 import { parseProps } from './parseProps'
 
+const TypeSwitcher: FC<{
+  value: any
+  updateValue: (val: any) => void
+  type: any
+}> = ({ type, updateValue, value }) => {
+  if (type === 'string') {
+    return (
+      <Input
+        type="text"
+        value={value}
+        onChange={(v) => {
+          updateValue(v)
+        }}
+        label={type}
+      />
+    )
+  } else if (type === 'number') {
+    return (
+      <Input
+        type="number"
+        value={value}
+        onChange={(v) => {
+          updateValue(v)
+        }}
+        label={type}
+      />
+    )
+  } else if (type === 'boolean') {
+    return (
+      <Input
+        type="checkbox"
+        value={value}
+        onChange={(v) => {
+          updateValue(v)
+        }}
+      />
+    )
+  }
+}
+
 const Prop: FC<{
   name: string
   prop: PropType
@@ -18,13 +58,16 @@ const Prop: FC<{
 
   // FIX SELECT
   if (Array.isArray(prop.type)) {
+    let typeSwitcher = false
+
     const options: any[] = [{ label: <Text light>No value</Text>, value: '' }]
 
     for (const value of prop.type) {
       if (typeof value === 'object' && 'value' in value) {
         options.push(value.value)
       } else {
-        // do something else
+        typeSwitcher = true
+        options.push(value)
       }
     }
 
@@ -46,11 +89,32 @@ const Prop: FC<{
         </Text>
         <Input
           placeholder={`Select ${name}`}
-          value={parsedProps[name] ?? ''}
+          value={
+            typeSwitcher && parsedProps[name]
+              ? typeof parsedProps[name]
+              : parsedProps[name] ?? ''
+          }
           style={{ marginLeft: 16, maxWidth: 400 }}
           type="select"
           options={options}
           onChange={(v) => {
+            if (typeSwitcher) {
+              if (v === 'string') {
+                update('Random text')
+                return
+              }
+
+              if (v === 'boolean') {
+                update(true)
+                return
+              }
+
+              if (v === 'number') {
+                update(Math.floor(Math.random() * 100))
+                return
+              }
+            }
+
             update(v)
           }}
         />

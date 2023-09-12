@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { IconCheckSmall, IconMinus, Style, color, styled } from '../..'
 
 export type CheckboxInputProps = {
-  title: ReactNode
+  title?: ReactNode
   description?: string
   value: boolean
   onChange: (newValue: boolean) => void
@@ -45,9 +45,11 @@ export function CheckboxInput({
         <input
           type="checkbox"
           checked={value}
+          onMouseDown={(e) => {
+            e.stopPropagation()
+          }}
           onChange={(e) => {
             if (disabled || intermediate) return
-
             onChange(e.target.checked)
           }}
           disabled={disabled}
