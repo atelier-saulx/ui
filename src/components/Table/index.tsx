@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
-import { color } from '../..'
+import { IconSort, color } from '../..'
 import React, { useCallback } from 'react'
 
 export type TableProps = {
@@ -104,21 +104,30 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
                   >
                     {header.isPlaceholder ? null : (
                       <div
-                        {...{
-                          className: header.column.getCanSort()
-                            ? 'cursor-pointer select-none'
-                            : '',
-                          onClick: header.column.getToggleSortingHandler(),
+                        onClick={header.column.getToggleSortingHandler()}
+                        style={{
+                          display: 'flex',
+                          height: '100%',
+                          alignItems: 'center',
+                          userSelect: 'none',
+                          cursor: 'pointer',
+                          color: header.column.getIsSorted()
+                            ? color('content', 'brand', 'primary')
+                            : color('content', 'default', 'secondary'),
                         }}
                       >
+                        {{
+                          asc: (
+                            <IconSort
+                              style={{ marginRight: 8, transform: 'scaleY(-1)' }}
+                            />
+                          ),
+                          desc: <IconSort style={{ marginRight: 8 }} />,
+                        }[header.column.getIsSorted() as string] ?? null}
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                        {{
-                          asc: ' 🔼',
-                          desc: ' 🔽',
-                        }[header.column.getIsSorted() as string] ?? null}
                       </div>
                     )}
                   </th>
