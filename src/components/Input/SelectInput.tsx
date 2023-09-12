@@ -66,7 +66,6 @@ export function SelectInput({
     } else {
       option = l
     }
-
     // @ts-ignore TS too stupid
     return option.label === undefined
       ? {
