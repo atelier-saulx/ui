@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Input, Text, border } from '../src'
+import { Input, Text, border, SelectInputOption } from '../src'
 import { parseProps } from './parseProps'
 
 const Prop: FC<{
@@ -18,7 +18,16 @@ const Prop: FC<{
 
   // FIX SELECT
   if (Array.isArray(prop.type)) {
-    const options = []
+    const options: any[] = [{ label: <Text light>No value</Text>, value: '' }]
+
+    for (const value of prop.type) {
+      if (typeof value === 'object' && 'value' in value) {
+        options.push(value.value)
+      } else {
+        // do something else
+      }
+    }
+
     // will do with select
     return (
       <styled.div
@@ -32,14 +41,17 @@ const Prop: FC<{
           borderBottom: border(1),
         }}
       >
-        <Text weight="strong">{name}</Text>
+        <Text style={{ width: 100 }} weight="strong">
+          {name}
+        </Text>
         <Input
-          value={'xx'}
+          placeholder={`Select ${name}`}
+          value={parsedProps[name] ?? ''}
           style={{ marginLeft: 16, maxWidth: 400 }}
           type="select"
-          options={[]}
-          onChange={() => {
-            return <div>xxx</div>
+          options={options}
+          onChange={(v) => {
+            update(v)
           }}
         />
       </styled.div>
@@ -59,7 +71,9 @@ const Prop: FC<{
           borderBottom: border(1),
         }}
       >
-        <Text weight="strong">{name}</Text>
+        <Text style={{ width: 100 }} weight="strong">
+          {name}
+        </Text>
         <Input
           value={parsedProps[name]}
           style={{ marginLeft: 16, maxWidth: 400 }}
@@ -109,7 +123,7 @@ const Prop: FC<{
           marginBottom: 8,
         }}
         title={name}
-        value={parsedProps?.[name]}
+        value={!!parsedProps?.[name]}
         onChange={update}
       />
     )

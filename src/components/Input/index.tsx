@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { Fragment, ReactNode } from 'react'
 import { TextInput, TextInputProps } from './TextInput'
-import { SelectInput, SelectInputProps } from './SelectInput'
+import { SelectInput, SelectInputProps, SelectInputOption } from './SelectInput'
 import { SearchInput, SearchInputProps } from './SearchInput'
 import { FileInput, FileInputProps } from './FileInput'
 import { NumberInput, NumberInputProps } from './NumberInput'
@@ -12,6 +12,8 @@ export type CommonInputProps = {
   label?: string
   error?: string
 }
+
+export { SelectInputOption }
 
 export type InputProps = CommonInputProps &
   (

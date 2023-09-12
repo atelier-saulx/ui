@@ -10,24 +10,28 @@ import {
 } from '../..'
 
 export type SelectInputOption = {
-  label: string
-  value: string
+  label?: string
+  value: string | number
   beforeIcon?: React.ReactNode
   afterIcon?: React.ReactNode
 }
 
 export type SelectInputProps = {
-  options: SelectInputOption[]
+  options: (SelectInputOption | number | string)[]
   beforeIcon?: React.ReactNode
   style?: Style
   disabled?: boolean
   placeholder?: string
 } & (
-  | { multiple?: false; value?: string; onChange: (newValue: string) => void }
+  | {
+      multiple?: false
+      value?: string | number
+      onChange: (newValue: string | number) => void
+    }
   | {
       multiple: true
-      value?: string[]
-      onChange: (newValues: string[]) => void
+      value?: (number | string)[]
+      onChange: (newValues: (number | string)[]) => void
     }
 )
 
@@ -46,12 +50,43 @@ export function SelectInput({
   const inputRef = useRef<HTMLInputElement>(null)
   const [filter, setFilter] = useState<null | string>(null)
 
-  const filteredOptions = options
+  // @ts-ignore TS too stupid
+  const parsed: {
+    label: string
+    value: string | number
+    beforeIcon?: React.ReactNode
+    afterIcon?: React.ReactNode
+  }[] = options.map((l) => {
+    let option: SelectInputOption
+    if (typeof l !== 'object') {
+      option = {
+        value: l,
+        label: typeof l === 'number' ? String(l) : l,
+      }
+    } else {
+      option = l
+    }
+
+    // @ts-ignore TS too stupid
+    return option.label === undefined
+      ? {
+          // @ts-ignore TS too stupid
+          ...option,
+          label:
+            typeof option.value === 'number'
+              ? String(option.value)
+              : option.value,
+        }
+      : option
+  })
+
+  const filteredOptions = parsed
     .filter((e) =>
       filter
-        ? e.label.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+        ? e.label?.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
         : true
     )
+    // @ts-ignore TS to stupid (multiple is optional)
     .filter((e) => (multiple ? value.includes(e.value) === false : true))
 
   useEffect(() => {
@@ -75,7 +110,8 @@ export function SelectInput({
         setFilter(null)
         setFocus(0)
         multiple
-          ? onChange([...value, filteredOptions[focus].value])
+          ? // @ts-ignore TS to stupid (multiple is optional)
+            onChange([...value, filteredOptions[focus].value])
           : onChange(filteredOptions[focus]?.value)
       }
     }
@@ -193,7 +229,7 @@ export function SelectInput({
                 key={v}
               >
                 <span style={{ whiteSpace: 'nowrap', cursor: 'default' }}>
-                  {options.find((e) => e.value === v)?.label}
+                  {parsed.find((e) => e.value === v)?.label}
                 </span>
                 <button
                   style={{
@@ -238,7 +274,7 @@ export function SelectInput({
                 : filter === null
                 ? value === ''
                   ? ''
-                  : options.find((e) => e.value === value)?.label
+                  : parsed.find((e) => e.value === value)?.label
                 : filter
             }
             onChange={(e) => {
