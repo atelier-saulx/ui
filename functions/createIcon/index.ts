@@ -24,7 +24,9 @@ const createIcon: BasedFunction<
       .replace(/xmlns="(.*?)"/, '')
       .replace(/fill-rule="(.*?)"/, '')
       .replace(/clip-rule="(.*?)"/, '')
-      .replace(/fill=".+"/g, 'fill={c}')}
+      .replace(/fill=".+"/g, 'fill={c}')
+      .replace(/stroke=".+"/g, 'stroke={c}')}
+      
       </Icon>\n}`
 
   return {

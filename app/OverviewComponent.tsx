@@ -147,7 +147,6 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
           typeof state.props[p] === 'string' &&
           state.props[p].startsWith('__ISFN:')
         ) {
-          console.info('GO', p)
           x.props[p] = state.props[p]
         }
       }
