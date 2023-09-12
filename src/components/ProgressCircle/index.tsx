@@ -11,7 +11,7 @@ export type ProgressCircleProps = {
 
 export const ProgressCircle: FC<ProgressCircleProps> = ({
   value = 0,
-  color = 'neutral',
+  color = 'default',
   loading,
   style,
 }) => {
