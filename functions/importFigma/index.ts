@@ -56,15 +56,23 @@ const importFigma: BasedFunction<
     ).then((r) => r.json())
 
     for (const icon of frame.children) {
-      icons[key].push({
-        name: icon.name,
-        id: icon.id,
-        src: svgs.images[icon.id],
-        svg: '',
-        boundVariables: icon.children[0].boundVariables,
-        path: '',
-        size: key === 'size16' ? 16 : 20,
-      })
+      if (
+        icon.children &&
+        icon.children[0] &&
+        icon.children[0].boundVariables
+      ) {
+        icons[key].push({
+          name: icon.name,
+          id: icon.id,
+          src: svgs.images[icon.id],
+          svg: '',
+          boundVariables: icon.children[0].boundVariables,
+          path: '',
+          size: key === 'size16' ? 16 : 20,
+        })
+      } else {
+        console.error('Illigal icon', icon)
+      }
     }
   }
 

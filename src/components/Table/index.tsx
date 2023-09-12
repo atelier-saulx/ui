@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
-import { IconSort, color } from '../..'
+import { IconSortAsc as IconSort, color } from '../..'
 import React, { useCallback } from 'react'
 
 export type TableProps = {
@@ -119,7 +119,10 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
                         {{
                           asc: (
                             <IconSort
-                              style={{ marginRight: 8, transform: 'scaleY(-1)' }}
+                              style={{
+                                marginRight: 8,
+                                transform: 'scaleY(-1)',
+                              }}
                             />
                           ),
                           desc: <IconSort style={{ marginRight: 8 }} />,

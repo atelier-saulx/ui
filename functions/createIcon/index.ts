@@ -22,8 +22,9 @@ const createIcon: BasedFunction<
     const c = color === undefined || color ==='inherit' ? 'currentColor' : genColor('content', color, 'primary')
     return <Icon {...props}>${svg
       .replace(/xmlns="(.*?)"/, '')
-      .replace(/fill-rule="(.*?)"/, '')
-      .replace(/clip-rule="(.*?)"/, '')
+      .replace(/fill-rule="(.*?)"/, 'fillRule="$1"')
+      .replace(/clip-rule="(.*?)"/, 'clipRule="$1"')
+      .replace(/clip-path="(.*?)"/, 'clipPath="$1"')
       .replace(/fill=".+"/g, 'fill={c}')
       .replace(/stroke=".+"/g, 'stroke={c}')}
       
