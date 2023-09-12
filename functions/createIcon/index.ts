@@ -17,8 +17,6 @@ const createIcon: BasedFunction<
     componentName = 'Small' + componentName
   }
 
-  console.log(svg)
-
   const component = `export const Icon${componentName}: typeof Icon = (props) => {
     const { color } = props
     const c = color === undefined || color ==='inherit' ? 'currentColor' : genColor('content', color, 'primary')
