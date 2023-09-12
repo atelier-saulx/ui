@@ -5,6 +5,50 @@ import { Input, Text, border, color } from '../src'
 import { parseProps } from './parseProps'
 import * as colors from '../src/vars'
 
+const genColorGroupOptions = (colorGroup: string): any[] => {
+  const p = colorGroup.replace(/Color(.*?)Colors/, '$1')
+  const x = p[0].toLowerCase() + p.slice(1)
+  const options: any[] = []
+  const colorsOptions = colors.vars[x]
+
+  if (colorsOptions) {
+    const colorKeys = Object.keys(colorsOptions)
+    for (const c of colorKeys) {
+      if (c === '_') {
+        continue
+      }
+      options.push({
+        value: c,
+        label: (
+          <styled.div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <styled.div
+              style={{
+                width: 20,
+                height: 20,
+                borderRadius: 4,
+                border: border(1),
+                marginRight: 8,
+                backgroundColor: color(
+                  // @ts-ignore
+                  x,
+                  c
+                ),
+              }}
+            />
+            <Text>{c}</Text>
+          </styled.div>
+        ),
+      })
+    }
+  }
+  return options
+}
+
 const Prop: FC<{
   name: string
   prop: PropType
@@ -18,53 +62,15 @@ const Prop: FC<{
   const parsedProps = parseProps(sProps)
 
   if (name === 'color') {
-    console.log(prop, parsedProps.color)
-
     const options: any[] = [{ label: <Text light>No color</Text>, value: '' }]
-
     if (Array.isArray(prop.type)) {
-    } else if (typeof prop.type === 'string') {
-      const p = prop.type.replace(/Color(.*?)Colors/, '$1')
-      const x = p[0].toLowerCase() + p.slice(1)
-
-      const colorsOptions = colors.vars[x]
-
-      if (colorsOptions) {
-        const colorKeys = Object.keys(colorsOptions)
-
-        for (const c of colorKeys) {
-          if (c === '_') {
-            continue
-          }
-          options.push({
-            value: c,
-            label: (
-              <styled.div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <styled.div
-                  style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 4,
-                    border: border(1),
-                    marginRight: 8,
-                    backgroundColor: color(
-                      // @ts-ignore
-                      x,
-                      c
-                    ),
-                  }}
-                />
-                <Text>{c}</Text>
-              </styled.div>
-            ),
-          })
+      for (const colorGroup of prop.type) {
+        if (typeof colorGroup === 'string') {
+          options.push(...genColorGroupOptions(colorGroup))
         }
       }
+    } else if (typeof prop.type === 'string') {
+      options.push(...genColorGroupOptions(prop.type))
     }
 
     return (
