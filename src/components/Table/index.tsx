@@ -6,14 +6,15 @@ import {
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
 import { color } from '../..'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 
 export type TableProps = {
   columns: { header: string; accessor: string; cell?: (any) => JSX.Element }[]
   data: any
+  onScrollToBottom?: () => void
 }
 
-export function Table({ columns, data }: TableProps) {
+export function Table({ columns, data, onScrollToBottom }: TableProps) {
   const table = useReactTable({
     data,
     columns: columns.map((c) => ({
@@ -36,17 +37,29 @@ export function Table({ columns, data }: TableProps) {
     overscan: 11,
   })
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer
-
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
   const paddingBottom =
     virtualRows.length > 0
       ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
       : 0
 
+  const handleScroll = React.useCallback(
+    (containerRefElement: HTMLDivElement) => {
+      if (onScrollToBottom) {
+        const { scrollHeight, scrollTop, clientHeight } = containerRefElement
+        if (scrollHeight - scrollTop - clientHeight < 300) {
+          onScrollToBottom()
+        }
+      }
+    },
+    [onScrollToBottom]
+  )
+
   return (
     <div
       ref={tableContainerRef}
       style={{ overflow: 'auto', height: '100%', width: '100%' }}
+      onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
     >
       <table
         style={{
