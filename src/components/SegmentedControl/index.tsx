@@ -46,6 +46,22 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
         ...style,
       }}
     >
+      <styled.div
+        style={{
+          top: 4,
+          bottom: 4,
+          right: 0,
+          left: `${calc}%`,
+          transition: 'all 0.2s',
+          width: 'calc(100% / 4 - 8px)',
+          marginLeft: '4px',
+          marginRight: '4px',
+          position: 'absolute',
+          maxWidth: '25%',
+          backgroundColor: genColor('standalone', 'foreground', 'default'),
+          borderRadius: 4,
+        }}
+      />
       {data?.map((item, idx) => (
         <StyledSegmentOption
           key={idx}
@@ -54,6 +70,7 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
             onChange && onChange(idx)
           }}
           style={{
+            transform: 'translate3d(0px,0px,0px)',
             // todo change this color
             // backgroundColor:
             //   activeOption === idx
@@ -76,7 +93,7 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
             size={14}
             weight="medium"
             style={{
-              zIndex: 1,
+              // zIndex: 1,
               color: activeOption === idx ? '#1b242c' : 'inherit',
               width: '100%',
             }}
@@ -85,22 +102,6 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
           </Text>
         </StyledSegmentOption>
       ))}
-      <styled.div
-        style={{
-          top: 4,
-          bottom: 4,
-          right: 0,
-          left: `${calc}%`,
-          transition: 'all 0.2s',
-          width: 'calc(100% / 4 - 8px)',
-          marginLeft: '4px',
-          marginRight: '4px',
-          position: 'absolute',
-          maxWidth: '25%',
-          backgroundColor: genColor('standalone', 'foreground', 'default'),
-          borderRadius: 4,
-        }}
-      />
     </styled.div>
   )
 }
