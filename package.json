@@ -23,6 +23,7 @@
     "@based/use-local-storage": "0.4.2",
     "@tanstack/react-table": "^8.9.8",
     "@tanstack/react-virtual": "^3.0.0-alpha.0",
+    "dayjs": "^1.11.9",
     "inlines": "^0.2.2",
     "prismjs": "^1.29.0",
     "react-virtualized-auto-sizer": "^1.0.7",
