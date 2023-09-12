@@ -35,7 +35,7 @@ export const color = <T extends keyof ColorGroups>(
       ? //   @ts-ignore
         g[color][0]
       : //   @ts-ignore
-        g[color][g._.default || g._.normal || g._primary || g._.strong]
+        g[color][g._.default ?? g._.normal ?? g._primary ?? g._.strong]
     : //   @ts-ignore
       g[color][g._[option]]
   // console.info(c)
