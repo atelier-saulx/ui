@@ -4,13 +4,52 @@ import { styled } from 'inlines'
 import { Input, Text, border, color } from '../src'
 import { parseProps } from './parseProps'
 import * as colors from '../src/vars'
+import * as ui from '../src'
+
+const Icons: FC<{
+  update: (value: any) => void
+  value?: FC
+  name?: string
+}> = ({ update, value, name }) => {
+  const iconsOptions: any[] = []
+
+  console.info(name, value, Object.keys(ui))
+
+  return (
+    <styled.div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        paddingBottom: 16,
+        marginBottom: 8,
+        paddingTop: 8,
+        paddingLeft: 16,
+        borderBottom: border(1),
+      }}
+    >
+      <Text style={{ width: 100 }} weight="strong">
+        {name}
+      </Text>
+      <Input
+        placeholder={`Select ${name}`}
+        value={value?.name}
+        style={{ marginLeft: 16, maxWidth: 400 }}
+        type="select"
+        options={iconsOptions}
+        onChange={(v) => {
+          update(v)
+        }}
+      />
+    </styled.div>
+  )
+}
 
 const genColorGroupOptions = (colorGroup: string): any[] => {
   const p = colorGroup.replace(/Color(.*?)Colors/, '$1')
   const x = p[0].toLowerCase() + p.slice(1)
   const options: any[] = []
   const colorsOptions = colors.vars[x]
-
   if (colorsOptions) {
     const colorKeys = Object.keys(colorsOptions)
     for (const c of colorKeys) {
@@ -60,6 +99,13 @@ const Prop: FC<{
   const sProps = objState.props ?? example.props
 
   const parsedProps = parseProps(sProps)
+
+  if (
+    (name.includes('icon') || name.includes('Icon')) &&
+    prop.type === 'ReactNode'
+  ) {
+    return <Icons update={update} value={parseProps[name]} name={name} />
+  }
 
   if (name === 'color') {
     const options: any[] = [{ label: <Text light>No color</Text>, value: '' }]
@@ -169,7 +215,12 @@ const Prop: FC<{
     )
   }
 
-  if (name === 'children' || prop.type === 'string' || prop.type === 'number') {
+  if (
+    name === 'children' ||
+    prop.type === 'string' ||
+    prop.type === 'number' ||
+    prop.type === 'ReactNode'
+  ) {
     return (
       <styled.div
         style={{
