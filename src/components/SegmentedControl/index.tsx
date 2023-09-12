@@ -22,22 +22,27 @@ const StyledSegmentOption = styled('div', {
 })
 
 export const SegmentedControl: FC<SegmentedControlProps> = ({
-  data,
+  data = [],
   onChange,
   style,
 }) => {
   const [activeOption, setActiveOption] = useState(0)
+  const calc = (100 / data.length) * activeOption
 
   return (
     <styled.div
       style={{
+        position: 'relative',
         alignItems: 'center',
         backgroundColor: genColor('action', 'neutral', 'subtleNormal'),
         borderRadius: 8,
-        display: 'flex',
+        display: 'grid',
+        gridTemplateColumns: `repeat(${data.length}, 1fr)`,
+        gridColumnGap: '4px',
         padding: 4,
-        gap: '4px',
-        width: 'fit-content',
+        maxWidth: 'fit-content',
+        // gap: '4px',
+        // width: 'fit-content',
         ...style,
       }}
     >
@@ -50,10 +55,10 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
           }}
           style={{
             // todo change this color
-            backgroundColor:
-              activeOption === idx
-                ? genColor('standalone', 'foreground', 'default')
-                : '',
+            // backgroundColor:
+            //   activeOption === idx
+            //     ? genColor('standalone', 'foreground', 'default')
+            //     : '',
             boxShadow:
               activeOption === idx
                 ? '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)'
@@ -66,14 +71,36 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
           }}
         >
           <Text
+            align="center"
+            selectable="none"
             size={14}
             weight="medium"
-            style={{ color: activeOption === idx ? '#1b242c' : 'inherit' }}
+            style={{
+              zIndex: 1,
+              color: activeOption === idx ? '#1b242c' : 'inherit',
+              width: '100%',
+            }}
           >
             {item}
           </Text>
         </StyledSegmentOption>
       ))}
+      <styled.div
+        style={{
+          top: 4,
+          bottom: 4,
+          right: 0,
+          left: `${calc}%`,
+          transition: 'all 0.2s',
+          width: 'calc(100% / 4 - 8px)',
+          marginLeft: '4px',
+          marginRight: '4px',
+          position: 'absolute',
+          maxWidth: '25%',
+          backgroundColor: genColor('standalone', 'foreground', 'default'),
+          borderRadius: 4,
+        }}
+      />
     </styled.div>
   )
 }
