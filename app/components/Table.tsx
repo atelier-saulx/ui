@@ -7,7 +7,7 @@ import { ComponentDef } from '../types'
 const example: ComponentDef = {
   name: 'Table',
   component: Table,
-  description: 'Table',
+  description: 'Infinite scrollable virtualized table with rich content',
   properties: props.props.TableProps.props,
   examples: [
     {
@@ -72,7 +72,7 @@ const example: ComponentDef = {
                 },
                 { header: 'Title', accessor: 'title' },
                 {
-                  header: 'CoverImage',
+                  header: 'Cover Image',
                   accessor: 'image',
                   cell: (value) => (
                     <div
@@ -116,11 +116,6 @@ const example: ComponentDef = {
                 {
                   header: 'Created',
                   accessor: 'createdAt',
-                  cell: (value) => value.toISOString(),
-                },
-                {
-                  header: 'Updated',
-                  accessor: 'updatedAt',
                   cell: (value) => value.toISOString(),
                 },
               ]}
