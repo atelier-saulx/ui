@@ -1,6 +1,9 @@
 import { FC } from 'react'
 
-type PropTypeAtomic = string | { value: string | number }
+type PropTypeAtomic =
+  | string
+  | { value: string | number }
+  | { array: PropTypeAtomic }
 
 export type PropType = {
   optional?: boolean

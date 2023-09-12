@@ -6,14 +6,12 @@ import {
   Badge,
   BarGraph,
   Breadcrumbs,
-  Button,
   Counter,
   DatePicker,
   DateRange,
   Divider,
   Dropdown,
   IconBolt,
-  IconClipboard,
   IconEmojiSmile,
   IconHome,
   Input,
@@ -45,11 +43,11 @@ import {
 import * as ui from '../src'
 import props from './props.json'
 import { ComponentDef } from './types'
-import { wait } from '@saulx/utils'
 import { Icon } from '../src/icons/Icon'
 import { BpMobile, BpTablet } from '../src/utils/breakpoints'
 import { faker } from '@faker-js/faker'
 import { BasedLogo } from '../src/icons/BasedLogo'
+import button from './components/Button'
 
 export const components: ComponentDef[] = [
   {
@@ -75,6 +73,7 @@ export const components: ComponentDef[] = [
       },
     ],
   },
+  button,
   {
     name: 'Avatar',
     properties: props.props.AvatarProps.props,
@@ -208,72 +207,7 @@ export const components: ComponentDef[] = [
       },
     ],
   },
-  {
-    name: 'Button',
-    properties: props.props.ButtonProps.props,
-    component: Button,
-    description: 'Simple button component',
-    examples: [
-      {
-        props: {
-          children: 'Click me',
-        },
-      },
 
-      {
-        name: 'Async action indicators',
-        description: 'Visual indication of errors and loading state',
-        props: {
-          onClick: async () => {
-            await wait(5000)
-          },
-          color: 'primary',
-          children: 'Do something async',
-          light: true,
-        },
-      },
-      {
-        props: {
-          color: 'alert',
-          onClick: async () => {
-            throw new Error('Flap!')
-          },
-          children: 'Throw an error!',
-          size: 'small',
-          light: false,
-        },
-      },
-      {
-        name: 'Colors',
-        props: {
-          children: 'Neutral color',
-          icon: () => <IconClipboard />,
-          color: 'alert',
-          size: 'small',
-        },
-      },
-      {
-        name: 'Icon Button',
-        props: {
-          // children: 'Neutral color',
-          icon: () => <IconClipboard />,
-          color: 'neutral',
-          size: 'large',
-        },
-      },
-      {
-        props: {
-          children: 'Bare Button',
-          color: 'alert',
-          size: 'xsmall',
-          underline: true,
-          onClick: async () => {
-            await wait(1000)
-          },
-        },
-      },
-    ],
-  },
   {
     name: 'CheckboxInput',
     component: Input,
@@ -955,13 +889,17 @@ export const components: ComponentDef[] = [
     component: Popover,
     description: 'PopoverTest',
     properties: props.props.PillProps.props,
-    examples: [{}],
+    examples: [
+      {
+        props: {},
+      },
+    ],
   },
   {
     name: 'ScrollArea',
     component: ScrollArea,
     description: '',
-    props: props.props.ScrollAreaProps.props,
+    properties: props.props.ScrollAreaProps.props,
     examples: [
       {
         props: {
@@ -978,7 +916,7 @@ export const components: ComponentDef[] = [
     name: 'Sidebar Navigation',
     component: Menu,
     description: '',
-    props: props.props.MenuProps.props,
+    properties: props.props.MenuProps.props,
     examples: [
       {
         props: {

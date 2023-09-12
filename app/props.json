@@ -97,10 +97,7 @@
         },
         "color": {
           "optional": true,
-          "type": [
-            "ColorBackgroundColors",
-            "ColorNonSemanticBackgroundColors"
-          ]
+          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
         },
         "icon": {
           "optional": true,
@@ -176,19 +173,13 @@
       "name": "BarSegmentProps",
       "props": {
         "id": {
-          "type": [
-            "number",
-            "string"
-          ]
+          "type": ["number", "string"]
         },
         "width": {
           "type": "number"
         },
         "value": {
-          "type": [
-            "string",
-            "number"
-          ]
+          "type": ["string", "number"]
         },
         "style": {
           "optional": true,
@@ -381,10 +372,7 @@
         },
         "onChange": {
           "optional": true,
-          "type": [
-            "TSParenthesizedType",
-            "Dispatch"
-          ]
+          "type": ["TSParenthesizedType", "Dispatch"]
         },
         "header": {
           "optional": true,
@@ -415,17 +403,11 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FunctionComponent",
-            "ReactNode"
-          ]
+          "type": ["FunctionComponent", "ReactNode"]
         },
         "iconRight": {
           "optional": true,
-          "type": [
-            "FunctionComponent",
-            "ReactNode"
-          ]
+          "type": ["FunctionComponent", "ReactNode"]
         },
         "inset": {
           "optional": true,
@@ -812,11 +794,7 @@
         },
         "value": {
           "optional": true,
-          "type": [
-            "string",
-            "number",
-            "boolean"
-          ]
+          "type": ["string", "number", "boolean"]
         }
       },
       "code": "type DropDownItemProps = {\n  caption?: string\n  data?: DropDownItemProps[]\n  icon?: ReactNode\n  id?: string\n  label: string\n  type?: 'default' | 'checkbox' | 'radio' | 'action' | 'error'\n  value?: string | number | boolean\n}",
@@ -929,10 +907,7 @@
           }
         },
         "value": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "onChange": {
           "optional": true,
@@ -1022,10 +997,7 @@
         },
         "valueFormat": {
           "optional": true,
-          "type": [
-            "NumberFormat",
-            "string"
-          ]
+          "type": ["NumberFormat", "string"]
         },
         "label": {
           "optional": true,
@@ -1493,11 +1465,7 @@
         },
         "value": {
           "optional": true,
-          "type": [
-            "string",
-            "boolean",
-            "number"
-          ]
+          "type": ["string", "boolean", "number"]
         }
       },
       "code": "type RadioButtonsProps = {\n  color?: ColorActionColors\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  direction?: 'horizontal' | 'vertical'\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  value?: string | boolean | number\n}",
@@ -1627,10 +1595,7 @@
         },
         "value": {
           "optional": true,
-          "type": [
-            "number",
-            "TSTypeLiteral"
-          ]
+          "type": ["number", "TSTypeLiteral"]
         },
         "steps": {
           "optional": true,
@@ -1653,10 +1618,7 @@
       "props": {
         "color": {
           "optional": true,
-          "type": [
-            "ColorBackgroundColors",
-            "ColorNonSemanticBackgroundColors"
-          ]
+          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
         },
         "ghost": {
           "optional": true,
@@ -1813,10 +1775,7 @@
         },
         "queryId": {
           "optional": true,
-          "type": [
-            "number",
-            "string"
-          ]
+          "type": ["number", "string"]
         },
         "rowCount": {
           "optional": true,
@@ -1863,10 +1822,7 @@
       "props": {
         "label": {
           "optional": true,
-          "type": [
-            "string",
-            "ReactNode"
-          ]
+          "type": ["string", "ReactNode"]
         },
         "children": {
           "optional": true,
@@ -2046,10 +2002,7 @@
         },
         "truncate": {
           "optional": true,
-          "type": [
-            "number",
-            "boolean"
-          ]
+          "type": ["number", "boolean"]
         },
         "selectable": {
           "optional": true,
