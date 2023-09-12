@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
 import { color } from '../..'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 
 export type TableProps = {
   columns: { header: string; accessor: string; cell?: (any) => JSX.Element }[]
@@ -76,6 +76,7 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
             top: 0,
             margin: 0,
             textAlign: 'left',
+            zIndex: 50,
             background: color('background', 'default', 'strong'),
           }}
         >
@@ -148,6 +149,10 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
                           'default',
                           'strong'
                         )}`,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '100%',
                       }}
                       key={cell.id}
                     >
