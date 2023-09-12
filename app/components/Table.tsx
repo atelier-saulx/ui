@@ -53,7 +53,12 @@ const example: ComponentDef = {
           >
             <Table
               data={data}
+              // onSize={() => {
+              //   // setSize // loadsTheData
+              // }}
+              //  Add arg pageSize
               onScrollToBottom={() => {
+                // page size
                 fetchMoreData()
               }}
               columns={[
