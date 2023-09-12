@@ -2,7 +2,6 @@ import React, { ReactNode, useState } from 'react'
 import { FC } from 'react'
 import { styled } from 'inlines'
 import { ComponentDef, PropType } from './types'
-import useLocalStorage from '@based/use-local-storage'
 import {
   Text,
   border,
@@ -135,22 +134,12 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
   index,
 }) => {
   const example = component.examples[index]
-  const [state, setState] = useLocalStorage('c-' + component.name + '-' + index)
+  const [state, setState] = useState<any>({})
   const updateState = (fields: { [key: string]: any }) => {
     if (!objState.props) {
       objState.props = example.props
     }
     const x = deepCopy(objState)
-    if (state && state.props) {
-      for (const p in state.props) {
-        if (
-          typeof state.props[p] === 'string' &&
-          state.props[p].startsWith('__ISFN:')
-        ) {
-          x.props[p] = state.props[p]
-        }
-      }
-    }
     deepMerge(x, fields)
     setState(x)
   }
@@ -242,6 +231,7 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
           </styled.div>
           {objState.expanded ? (
             <PropsEditor
+              parsedProps={parsedProps}
               component={component}
               index={index}
               updateState={updateState}

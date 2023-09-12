@@ -29,7 +29,7 @@ const Icons: FC<{
     {
       onSelect: (icon) => {
         ui.removeAllOverlays()
-        update(`__ISFN:return React.createElement(ui.${icon})`)
+        update(() => React.createElement(ui[icon]))
       },
     },
     { width: 300 }
@@ -118,13 +118,9 @@ const Prop: FC<{
   prop: PropType
   example: any
   state: any
+  parsedProps: any
   update: (value: any) => void
-}> = ({ name, prop, state, update, example }) => {
-  let objState = state ?? {}
-  const sProps = objState.props ?? example.props
-
-  const parsedProps = parseProps(sProps)
-
+}> = ({ name, prop, parsedProps, update, example }) => {
   if (
     (name.includes('icon') || name.includes('Icon')) &&
     prop.type === 'ReactNode'
@@ -322,19 +318,21 @@ const Prop: FC<{
 export const PropsEditor: FC<{
   component: ComponentDef
   state: any
+  parsedProps: any
   index: number
   updateState: (fields: { [key: string]: any }) => void
-}> = ({ component, state, index, updateState }) => {
+}> = ({ parsedProps, component, state, index, updateState }) => {
   const example = component.examples[index]
-  const parsedProps: ReactNode[] = []
+  const parsedPropsDef: ReactNode[] = []
   const parsedPropsBoolean: ReactNode[] = []
   const pasedPropsEvents: ReactNode[] = []
 
   for (const p in component.properties) {
     const prop = component.properties[p]
     if (prop.type !== 'boolean' && p !== 'color' && !/on[A-Z]+/.test(p)) {
-      parsedProps.push(
+      parsedPropsDef.push(
         <Prop
+          parsedProps={parsedProps}
           example={example}
           update={(value) => {
             updateState({ props: { [p]: value } })
@@ -353,6 +351,7 @@ export const PropsEditor: FC<{
     if (prop.type === 'boolean' && p !== 'color' && !/on[A-Z]+/.test(p)) {
       parsedPropsBoolean.push(
         <Prop
+          parsedProps={parsedProps}
           example={example}
           update={(value) => {
             updateState({ props: { [p]: value } })
@@ -370,6 +369,7 @@ export const PropsEditor: FC<{
     if (/on[A-Z]+/.test(p)) {
       pasedPropsEvents.push(
         <Prop
+          parsedProps={parsedProps}
           example={example}
           update={(value) => {
             updateState({ props: { [p]: value } })
@@ -402,6 +402,7 @@ export const PropsEditor: FC<{
           }}
         >
           <Prop
+            parsedProps={parsedProps}
             example={example}
             update={(value) => {
               updateState({ props: { color: value } })
@@ -414,7 +415,7 @@ export const PropsEditor: FC<{
       ) : null}
 
       <styled.div style={{ display: 'flex', flexDirection: 'column' }}>
-        {parsedProps}
+        {parsedPropsDef}
       </styled.div>
 
       <styled.div
