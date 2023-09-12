@@ -226,8 +226,9 @@ export function SelectInput({
             // @ts-ignore TS is too stupid and we want multiple to be optional
             //we can do isntanceof or does that break stuff here?
             value instanceof Array &&
-            value.map((v) => (
+            value.map((v, i) => (
               <Tag
+                key={i}
                 onClose={() => {
                   onChange(value.filter((e) => e !== v))
                 }}
