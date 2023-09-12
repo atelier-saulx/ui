@@ -47,7 +47,7 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
     (containerRefElement: HTMLDivElement) => {
       if (onScrollToBottom) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement
-        if (scrollHeight - scrollTop - clientHeight < 128) {
+        if (scrollHeight - scrollTop - clientHeight < 300) {
           onScrollToBottom()
         }
       }
