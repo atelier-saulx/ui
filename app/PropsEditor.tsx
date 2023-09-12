@@ -1,19 +1,39 @@
 import React, { FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Input, Text, border, color } from '../src'
+import { Input, Text, border, color, useOverlay } from '../src'
 import { parseProps } from './parseProps'
 import * as colors from '../src/vars'
 import * as ui from '../src'
+import { AllIcons } from './components/Icon'
+
+const IconsWrapped: FC<{ onSelect: any }> = ({ onSelect }) => {
+  return (
+    <styled.div
+      style={{
+        padding: 16,
+      }}
+    >
+      <AllIcons onSelect={onSelect} />
+    </styled.div>
+  )
+}
 
 const Icons: FC<{
   update: (value: any) => void
   value?: FC
   name?: string
 }> = ({ update, value, name }) => {
-  const iconsOptions: any[] = []
-
-  console.info(name, value, Object.keys(ui))
+  const onClick = useOverlay(
+    IconsWrapped,
+    {
+      onSelect: (icon) => {
+        ui.removeAllOverlays()
+        update(`__ISFN:return React.createElement(ui.${icon})`)
+      },
+    },
+    { width: 300 }
+  )
 
   return (
     <styled.div
@@ -31,16 +51,21 @@ const Icons: FC<{
       <Text style={{ width: 100 }} weight="strong">
         {name}
       </Text>
-      <Input
-        placeholder={`Select ${name}`}
-        value={value?.name}
-        style={{ marginLeft: 16, maxWidth: 400 }}
-        type="select"
-        options={iconsOptions}
-        onChange={(v) => {
-          update(v)
+      <styled.div
+        onClick={onClick}
+        style={{
+          cursor: 'pointer',
+          '&:hover': {
+            border: border(1, 'brand'),
+          },
+          marginLeft: 16,
+          padding: 16,
+          border: border(1),
+          borderRadius: 8,
         }}
-      />
+      >
+        {value ?? <ui.IconPlaceholder style={{ opacity: 0.1 }} />}
+      </styled.div>
     </styled.div>
   )
 }
@@ -104,7 +129,7 @@ const Prop: FC<{
     (name.includes('icon') || name.includes('Icon')) &&
     prop.type === 'ReactNode'
   ) {
-    return <Icons update={update} value={parseProps[name]} name={name} />
+    return <Icons update={update} value={parsedProps[name]} name={name} />
   }
 
   if (name === 'color') {

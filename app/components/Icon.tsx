@@ -1,9 +1,54 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Input, Text, IconBolt } from '../../src'
 import { Icon } from '../../src/icons/Icon'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 import * as ui from '../../src'
+
+export const AllIcons: FC<{ onSelect: any }> = (props) => {
+  const icons = []
+  for (const key in ui) {
+    if (key.startsWith('Icon') && !key.startsWith('IconSmall')) {
+      icons.push(
+        // @ts-ignore
+        <div
+          key={key}
+          style={{
+            display: 'flex',
+            width: 300,
+            cursor: props.onSelect ? 'pointer' : 'auto',
+            alignItems: 'center',
+          }}
+          onClick={() => {
+            if (props.onSelect) {
+              props.onSelect(key)
+            }
+          }}
+        >
+          {React.createElement(ui[key], props)}
+          <Text
+            selectable={props.onSelect ? 'none' : 'all'}
+            light
+            style={{ marginLeft: 20 }}
+          >
+            {key}
+          </Text>
+        </div>
+      )
+    }
+  }
+  return (
+    <div
+      style={{
+        gap: 12,
+        display: 'flex',
+        flexWrap: 'wrap',
+      }}
+    >
+      {icons}
+    </div>
+  )
+}
 
 const example: ComponentDef = {
   name: 'Icon',
@@ -13,40 +58,7 @@ const example: ComponentDef = {
   examples: [
     {
       name: 'Large Icons',
-      customRenderer: (props) => {
-        const icons = []
-        for (const key in ui) {
-          if (key.startsWith('Icon') && !key.startsWith('IconSmall')) {
-            icons.push(
-              // @ts-ignore
-              <div
-                key={key}
-                style={{
-                  display: 'flex',
-                  width: 300,
-                  alignItems: 'center',
-                }}
-              >
-                {React.createElement(ui[key], props)}
-                <Text light style={{ marginLeft: 20 }}>
-                  {key}
-                </Text>
-              </div>
-            )
-          }
-        }
-        return (
-          <div
-            style={{
-              gap: 12,
-              display: 'flex',
-              flexWrap: 'wrap',
-            }}
-          >
-            {icons}
-          </div>
-        )
-      },
+      customRenderer: AllIcons,
       props: {
         color: 'brand',
       },

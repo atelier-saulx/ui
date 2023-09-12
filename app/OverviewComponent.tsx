@@ -13,7 +13,7 @@ import {
   IconChevronDownSmall,
 } from '../src'
 import { parseProps } from './parseProps'
-import { deepCopy, deepMerge } from '@saulx/utils'
+import { deepCopy, deepMerge, walk } from '@saulx/utils'
 import { propsToCode, toComponent } from './objectToCode'
 import { PropsEditor } from './PropsEditor'
 import { BpTablet } from '../src/utils/breakpoints'
@@ -141,6 +141,17 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
       objState.props = example.props
     }
     const x = deepCopy(objState)
+    if (state && state.props) {
+      for (const p in state.props) {
+        if (
+          typeof state.props[p] === 'string' &&
+          state.props[p].startsWith('__ISFN:')
+        ) {
+          console.info('GO', p)
+          x.props[p] = state.props[p]
+        }
+      }
+    }
     deepMerge(x, fields)
     setState(x)
   }
