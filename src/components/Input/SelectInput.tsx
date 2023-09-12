@@ -21,8 +21,12 @@ export type SelectInputProps = {
   disabled?: boolean
   placeholder?: string
 } & (
-  | { multiple: false; value: string; onChange: (newValue: string) => void }
-  | { multiple: true; value: string[]; onChange: (newValues: string[]) => void }
+  | { multiple?: false; value?: string; onChange: (newValue: string) => void }
+  | {
+      multiple?: true
+      value?: string[]
+      onChange: (newValues: string[]) => void
+    }
 )
 
 export function SelectInput({

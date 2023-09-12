@@ -21,8 +21,16 @@ const Prop: FC<{
     const options = []
     // will do with select
     return (
-      <styled.div>
+      <styled.div
+        style={{
+          paddingBottom: 16,
+          paddingTop: 16,
+          paddingLeft: 16,
+          borderBottom: border(1),
+        }}
+      >
         <Input
+          value={''}
           type="select"
           options={[]}
           onChange={() => {
