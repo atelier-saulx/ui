@@ -60,9 +60,12 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
                   ? color('content', 'default', 'secondary')
                   : color('content', 'default', 'primary'),
               borderRadius: 4,
-              '&:hover': {
-                backgroundColor: color('action', 'system', 'hover'),
-              },
+              '&:hover':
+                index === Object.keys(data).length - 1
+                  ? null
+                  : {
+                      backgroundColor: color('action', 'system', 'hover'),
+                    },
               [BpTablet]: {
                 '&:hover': {
                   backgroundColor: color('action', 'system', 'normal'),

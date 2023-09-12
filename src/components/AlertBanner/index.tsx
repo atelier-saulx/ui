@@ -2,14 +2,14 @@ import React, { FC, ReactNode } from 'react'
 import {
   Center,
   ColorBackgroundColors,
-  IconInfoFill,
-  IconAlertFill,
-  IconErrorFill,
   Text,
   color as genColor,
   styled,
   Style,
   Button,
+  IconError,
+  IconAlert,
+  IconInfoCircle,
 } from '../..'
 
 export type AlertBannerProps = {
@@ -47,11 +47,11 @@ export const AlertBanner: FC<AlertBannerProps> = ({
         }}
       >
         {color === 'negative' ? (
-          <IconErrorFill color="inverted" />
+          <IconError color="inverted" />
         ) : color === 'warning' ? (
-          <IconAlertFill />
+          <IconAlert />
         ) : (
-          <IconInfoFill />
+          <IconInfoCircle />
         )}
       </styled.div>
       <Text
