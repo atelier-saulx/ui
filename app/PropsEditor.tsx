@@ -1,48 +1,9 @@
 import React, { FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Input, Text, border, SelectInputOption } from '../src'
+import { Input, Text, border, color } from '../src'
 import { parseProps } from './parseProps'
-
-const TypeSwitcher: FC<{
-  value: any
-  updateValue: (val: any) => void
-  type: any
-}> = ({ type, updateValue, value }) => {
-  if (type === 'string') {
-    return (
-      <Input
-        type="text"
-        value={value}
-        onChange={(v) => {
-          updateValue(v)
-        }}
-        label={type}
-      />
-    )
-  } else if (type === 'number') {
-    return (
-      <Input
-        type="number"
-        value={value}
-        onChange={(v) => {
-          updateValue(v)
-        }}
-        label={type}
-      />
-    )
-  } else if (type === 'boolean') {
-    return (
-      <Input
-        type="checkbox"
-        value={value}
-        onChange={(v) => {
-          updateValue(v)
-        }}
-      />
-    )
-  }
-}
+import * as colors from '../src/vars'
 
 const Prop: FC<{
   name: string
@@ -55,6 +16,86 @@ const Prop: FC<{
   const sProps = objState.props ?? example.props
 
   const parsedProps = parseProps(sProps)
+
+  if (name === 'color') {
+    console.log(prop, parsedProps.color)
+
+    const options: any[] = [{ label: <Text light>No color</Text>, value: '' }]
+
+    if (Array.isArray(prop.type)) {
+    } else if (typeof prop.type === 'string') {
+      const p = prop.type.replace(/Color(.*?)Colors/, '$1')
+      const x = p[0].toLowerCase() + p.slice(1)
+
+      const colorsOptions = colors.vars[x]
+
+      if (colorsOptions) {
+        const colorKeys = Object.keys(colorsOptions)
+
+        for (const c of colorKeys) {
+          if (c === '_') {
+            continue
+          }
+          options.push({
+            value: c,
+            label: (
+              <styled.div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <styled.div
+                  style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: 4,
+                    border: border(1),
+                    marginRight: 8,
+                    backgroundColor: color(
+                      // @ts-ignore
+                      x,
+                      c
+                    ),
+                  }}
+                />
+                <Text>{c}</Text>
+              </styled.div>
+            ),
+          })
+        }
+      }
+    }
+
+    return (
+      <styled.div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
+          paddingBottom: 16,
+          marginBottom: 8,
+          paddingTop: 8,
+          paddingLeft: 16,
+          borderBottom: border(1),
+        }}
+      >
+        <Text style={{ width: 100 }} weight="strong">
+          Color
+        </Text>
+        <Input
+          placeholder={`Select ${name}`}
+          value={parsedProps.color}
+          style={{ marginLeft: 16, maxWidth: 400 }}
+          type="select"
+          options={options}
+          onChange={(v) => {
+            update(v)
+          }}
+        />
+      </styled.div>
+    )
+  }
 
   // FIX SELECT
   if (Array.isArray(prop.type)) {
@@ -77,9 +118,9 @@ const Prop: FC<{
         style={{
           display: 'flex',
           alignItems: 'center',
-          width: '100%',
           paddingBottom: 16,
-          paddingTop: 16,
+          marginBottom: 8,
+          paddingTop: 8,
           paddingLeft: 16,
           borderBottom: border(1),
         }}
@@ -128,9 +169,9 @@ const Prop: FC<{
         style={{
           display: 'flex',
           alignItems: 'center',
-          width: '100%',
           paddingBottom: 16,
-          paddingTop: 16,
+          paddingTop: 8,
+          marginBottom: 8,
           paddingLeft: 16,
           borderBottom: border(1),
         }}
@@ -209,7 +250,7 @@ export const PropsEditor: FC<{
 
   for (const p in component.properties) {
     const prop = component.properties[p]
-    if (prop.type !== 'boolean' && !/on[A-Z]+/.test(p)) {
+    if (prop.type !== 'boolean' && p !== 'color' && !/on[A-Z]+/.test(p)) {
       parsedProps.push(
         <Prop
           example={example}
@@ -227,7 +268,7 @@ export const PropsEditor: FC<{
 
   for (const p in component.properties) {
     const prop = component.properties[p]
-    if (prop.type === 'boolean' && !/on[A-Z]+/.test(p)) {
+    if (prop.type === 'boolean' && p !== 'color' && !/on[A-Z]+/.test(p)) {
       parsedPropsBoolean.push(
         <Prop
           example={example}
@@ -260,6 +301,8 @@ export const PropsEditor: FC<{
     }
   }
 
+  const hasColor = !!component.properties.color
+
   return (
     <styled.div
       style={{
@@ -268,6 +311,26 @@ export const PropsEditor: FC<{
         padding: 12,
       }}
     >
+      {hasColor ? (
+        <styled.div
+          style={{
+            display: 'flex',
+            paddingTop: 8,
+            paddingBottom: 8,
+          }}
+        >
+          <Prop
+            example={example}
+            update={(value) => {
+              updateState({ props: { color: value } })
+            }}
+            state={state}
+            name={'color'}
+            prop={component.properties.color}
+          />
+        </styled.div>
+      ) : null}
+
       <styled.div style={{ display: 'flex', flexDirection: 'column' }}>
         {parsedProps}
       </styled.div>

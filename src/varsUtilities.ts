@@ -9,11 +9,35 @@ import { vars } from './vars'
 export const color = <T extends keyof ColorGroups>(
   group: T,
   color: ColorGroups[T],
-  option: ColorGroupsOptions[T]
+  option?: ColorGroupsOptions[T]
 ): string => {
   const g = vars[group]
-  //   @ts-ignore
-  const c = g[color][g._[option]]
+  if (typeof option === 'number') {
+    if (option === 0) {
+      //  @ts-ignore
+      return `var(--${g[color][0]})`
+    }
+    if (option > 0) {
+      return `var(--${
+        //  @ts-ignore
+        g[color][1][option] ?? g[color][1][g[color][1].length - 1]
+      })`
+    } else if (option < 0) {
+      const x = Math.abs(option)
+      //  @ts-ignore
+      return `var(--${g[color][2][x] ?? g[color][2][g[color][2].length - 1]})`
+    }
+    return ``
+  }
+  const c = !option
+    ? //   @ts-ignore
+      g._ === undefined
+      ? //   @ts-ignore
+        g[color][0]
+      : //   @ts-ignore
+        g[color][g._.default || g._.normal || g._primary || g._.strong]
+    : //   @ts-ignore
+      g[color][g._[option]]
   // console.info(c)
   return `var(--${c})`
 }
