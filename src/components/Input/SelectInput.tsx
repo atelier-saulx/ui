@@ -64,7 +64,6 @@ export function SelectInput({
       }
       if (e.key === 'Enter') {
         e.preventDefault()
-
         setOpen(false)
         setFilter(null)
         setFocus(0)
@@ -185,7 +184,7 @@ export function SelectInput({
                 key={v}
               >
                 <span style={{ whiteSpace: 'nowrap', cursor: 'default' }}>
-                  {options.find((e) => e.value === v)!.label}
+                  {options.find((e) => e.value === v)?.label}
                 </span>
                 <button
                   style={{
@@ -229,7 +228,7 @@ export function SelectInput({
                 : filter === null
                 ? value === ''
                   ? ''
-                  : options.find((e) => e.value === value)!.label
+                  : options.find((e) => e.value === value)?.label
                 : filter
             }
             onChange={(e) => {

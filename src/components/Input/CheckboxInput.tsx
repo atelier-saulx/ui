@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { IconCheckSmall, IconMinus, Style, color, styled } from '../..'
 
 export type CheckboxInputProps = {
-  title: string
+  title: ReactNode
   description?: string
   value: boolean
   onChange: (newValue: boolean) => void

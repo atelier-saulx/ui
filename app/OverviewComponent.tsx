@@ -22,7 +22,7 @@ const displayType = (propType: PropType): string | number | ReactNode => {
   if (typeof propType.type === 'object') {
     if (Array.isArray(propType.type)) {
       return propType.type.map((type, i) => (
-        <>
+        <React.Fragment key={i}>
           {displayType({ type })}
           {/* @ts-ignore too stupid... */}
           {i !== propType.type.length - 1 ? (
@@ -34,10 +34,14 @@ const displayType = (propType: PropType): string | number | ReactNode => {
               |
             </Text>
           ) : null}
-        </>
+        </React.Fragment>
       ))
     }
-    return <Text color="brand">{propType.type.value}</Text>
+    return (
+      <Text color="brand">
+        {'value' in propType.type ? propType.type.value : null}
+      </Text>
+    )
   }
   if (propType.type === 'TSAnyKeyword') {
     propType.type = '*'
@@ -55,7 +59,7 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
     const prop = component.properties[key]
     p.push(
       <styled.div
-        key={key}
+        key={'__c' + key}
         style={{
           padding: 16,
           display: 'flex',
@@ -175,18 +179,15 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
           alignItems: 'center',
           justifyContent: 'center',
           overflowX: 'visible',
-          // border: '1px solid red',
         }}
       >
         <styled.div
           style={{
-            // border: '1px solid yellow',
             maxWidth: '100%',
             padding: 32,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            // overflowX: 'hidden',
           }}
         >
           {React.createElement(
