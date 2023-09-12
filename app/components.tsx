@@ -1072,7 +1072,7 @@ export const components: ComponentDef[] = [
         customRenderer: () => {
           const newPerson = (index: number) => {
             return {
-              id: index + 1,
+              id: faker.string.uuid().split('-')[0],
               firstName: faker.name.firstName(),
               lastName: faker.name.lastName(),
               age: faker.datatype.number(40),
@@ -1100,7 +1100,19 @@ export const components: ComponentDef[] = [
             return makeDataLevel()
           }
 
-          const [data] = useState(() => makeData(500))
+          const [data, setData] = useState(() => makeData(50))
+          const [isLoadingMoreData, setIsLoadingMoreData] = useState(false)
+
+          async function fetchMoreData() {
+            if (isLoadingMoreData) return
+
+            setIsLoadingMoreData(true)
+            await new Promise((resolve) => {
+              setTimeout(resolve, 200)
+            })
+            setData((p) => [...p, ...makeData(50)])
+            setIsLoadingMoreData(false)
+          }
 
           return (
             <div
@@ -1110,6 +1122,9 @@ export const components: ComponentDef[] = [
             >
               <Table
                 data={data}
+                onScrollToBottom={() => {
+                  fetchMoreData()
+                }}
                 columns={[
                   { header: 'ID', accessor: 'id' },
                   { header: 'First name', accessor: 'firstName' },
