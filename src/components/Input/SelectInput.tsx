@@ -5,6 +5,7 @@ import {
   IconEmojiSad,
   IconSmallClose,
   color,
+  Style,
   styled,
 } from '../..'
 
@@ -18,12 +19,13 @@ export type SelectInputOption = {
 export type SelectInputProps = {
   options: SelectInputOption[]
   beforeIcon?: React.ReactNode
+  style?: Style
   disabled?: boolean
   placeholder?: string
 } & (
   | { multiple?: false; value?: string; onChange: (newValue: string) => void }
   | {
-      multiple?: true
+      multiple: true
       value?: string[]
       onChange: (newValues: string[]) => void
     }
@@ -34,8 +36,9 @@ export function SelectInput({
   beforeIcon,
   disabled,
   placeholder,
-  value,
+  value = [],
   onChange,
+  style,
   multiple,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
@@ -73,7 +76,7 @@ export function SelectInput({
         setFocus(0)
         multiple
           ? onChange([...value, filteredOptions[focus].value])
-          : onChange(filteredOptions[focus].value)
+          : onChange(filteredOptions[focus]?.value)
       }
     }
 
@@ -122,6 +125,7 @@ export function SelectInput({
               opacity: '50%',
             }
           : {}),
+        ...style,
       }}
     >
       <styled.div
@@ -173,6 +177,7 @@ export function SelectInput({
           }
         >
           {multiple &&
+            // @ts-ignore TS is too stupid and we want multiple to be optional
             value.map((v) => (
               <styled.div
                 style={{
@@ -203,6 +208,7 @@ export function SelectInput({
                   }}
                   onClick={(event) => {
                     event.stopPropagation()
+                    // @ts-ignore TS is too stupid and we want multiple to be optional
                     onChange(value.filter((e) => e !== v))
                   }}
                 >

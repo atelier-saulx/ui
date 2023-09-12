@@ -23,14 +23,19 @@ const Prop: FC<{
     return (
       <styled.div
         style={{
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
           paddingBottom: 16,
           paddingTop: 16,
           paddingLeft: 16,
           borderBottom: border(1),
         }}
       >
+        <Text weight="strong">{name}</Text>
         <Input
-          value={''}
+          value={'xx'}
+          style={{ marginLeft: 16, maxWidth: 400 }}
           type="select"
           options={[]}
           onChange={() => {
