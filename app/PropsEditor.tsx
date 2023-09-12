@@ -37,7 +37,7 @@ const Prop: FC<{
           style={{ marginLeft: 16, maxWidth: 400 }}
           type={prop.type === 'number' ? 'number' : 'text'}
           onChange={(v) => {
-            update(v.target.value)
+            update(v)
           }}
         />
       </styled.div>
