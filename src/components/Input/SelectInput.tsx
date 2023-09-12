@@ -7,6 +7,7 @@ import {
   color,
   Style,
   styled,
+  Tag,
 } from '../..'
 
 export type SelectInputOption = {
@@ -223,43 +224,16 @@ export function SelectInput({
         >
           {multiple &&
             // @ts-ignore TS is too stupid and we want multiple to be optional
+            //we can do isntanceof or does that break stuff here?
+            value instanceof Array &&
             value.map((v) => (
-              <styled.div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 24,
-                  padding: '0 8px',
-                  borderRadius: 4,
-                  backgroundColor: color('action', 'neutral', 'subtleActive'),
-                  whiteSpace: 'nowrap',
+              <Tag
+                onClose={() => {
+                  onChange(value.filter((e) => e !== v))
                 }}
-                key={v}
               >
-                <span style={{ whiteSpace: 'nowrap', cursor: 'default' }}>
-                  {parsed.find((e) => e.value === v)?.label}
-                </span>
-                <button
-                  style={{
-                    marginLeft: 4,
-                    appearance: 'none',
-                    border: 'none',
-                    padding: '0',
-                    background: 'transparent',
-                    height: 16,
-                    width: 16,
-                    cursor: 'pointer',
-                  }}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    // @ts-ignore TS is too stupid and we want multiple to be optional
-                    onChange(value.filter((e) => e !== v))
-                  }}
-                >
-                  <IconSmallClose style={{ cursor: 'pointer' }} />
-                </button>
-              </styled.div>
+                {parsed.find((e) => e.value === v)?.label}
+              </Tag>
             ))}
           <styled.input
             ref={inputRef}

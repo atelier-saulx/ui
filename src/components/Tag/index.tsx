@@ -37,15 +37,19 @@ export const Tag: FC<TagProps> = ({
         padding: '0px 8px',
         pointerEvents: disabled ? 'none' : '',
         width: 'fit-content',
-        '&:hover': {
-          backgroundColor: genColor('action', color, 'subtleHover'),
-        },
+        '&:hover': onClick
+          ? {
+              backgroundColor: genColor('action', color, 'subtleHover'),
+            }
+          : null,
         [BpTablet]: {
           backgroundColor: genColor('action', color, 'subtleNormal'),
         },
-        '&:active': {
-          backgroundColor: genColor('action', color, 'subtleActive'),
-        },
+        '&:active': onClick
+          ? {
+              backgroundColor: genColor('action', color, 'subtleActive'),
+            }
+          : null,
         ...style,
       }}
     >
@@ -57,7 +61,33 @@ export const Tag: FC<TagProps> = ({
       >
         {children}
       </Text>
-      <IconSmallClose onClick={onClose} />
+      <styled.div
+        onClick={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          console.log('onclose')
+          onClose?.()
+        }}
+        style={{
+          width: '16px',
+          height: '16px',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          '&:hover': {
+            backgroundColor: genColor('action', 'neutral', 'subtleHover'),
+          },
+          [BpTablet]: {
+            backgroundColor: genColor('action', color, 'subtleNormal'),
+          },
+          '&:active': {
+            backgroundColor: genColor('action', 'neutral', 'subtleActive'),
+          },
+        }}
+      >
+        <IconSmallClose />
+      </styled.div>
     </styled.div>
   )
 }
