@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import { Input, Text, IconBolt } from '../../src'
+import React, { FC, useState } from 'react'
+import { Input, Text, IconBolt, styled } from '../../src'
 import { Icon } from '../../src/icons/Icon'
 import props from '../props.json'
 import { ComponentDef } from '../types'
@@ -7,8 +7,15 @@ import * as ui from '../../src'
 
 export const AllIcons: FC<{ onSelect: any }> = (props) => {
   const icons = []
+
+  const [filter, setFilter] = useState('')
+
   for (const key in ui) {
-    if (key.startsWith('Icon') && !key.startsWith('IconSmall')) {
+    if (
+      key.startsWith('Icon') &&
+      !key.startsWith('IconSmall') &&
+      (!filter || key.toLowerCase().includes(filter.toLowerCase()))
+    ) {
       icons.push(
         // @ts-ignore
         <div
@@ -45,6 +52,28 @@ export const AllIcons: FC<{ onSelect: any }> = (props) => {
         flexWrap: 'wrap',
       }}
     >
+      <styled.div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Input
+          clearButton
+          style={{
+            width: 350,
+            marginBottom: 16,
+          }}
+          placeholder="Filter..."
+          type="search"
+          value={filter}
+          onChange={(v) => {
+            setFilter(v)
+          }}
+        />
+      </styled.div>
+
       {icons}
     </div>
   )

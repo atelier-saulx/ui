@@ -5,6 +5,8 @@ import { IconSearch, color } from '../..'
 export type SearchInputProps = Omit<TextInputProps, 'icon'>
 
 export function SearchInput(props: SearchInputProps) {
+  const { style, ...rest } = props
+
   return (
     <TextInput
       style={{
@@ -19,9 +21,10 @@ export function SearchInput(props: SearchInputProps) {
           boxShadow: `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
           backgroundColor: 'transparent',
         },
+        ...style,
       }}
       icon={<IconSearch />}
-      {...props}
+      {...rest}
     />
   )
 }

@@ -222,7 +222,7 @@ export const Button: FC<ButtonProps> = (props) => {
       : props.color === 'system'
       ? 'default'
       : props.color === 'primary'
-      ? 'default'
+      ? 'inverted'
       : 'inverted'
 
   return (

@@ -104,7 +104,7 @@ export function TextInput({
       {suffix && <Badge {...suffix} />}
       {(clearButton || afterIcon) && (
         <div style={{ flexShrink: 0 }}>
-          {clearButton ? (
+          {clearButton && value ? (
             <IconClose
               onClick={() => {
                 onChange('')

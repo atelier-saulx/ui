@@ -25,6 +25,7 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
   data = [],
   onChange,
   style,
+  // iundex
 }) => {
   const [activeOption, setActiveOption] = useState(0)
   const calc = (100 / data.length) * activeOption
