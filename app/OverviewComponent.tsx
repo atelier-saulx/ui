@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useState, useRef } from 'react'
 import { FC } from 'react'
 import { styled } from 'inlines'
 import { ComponentDef, PropType } from './types'
@@ -12,7 +12,7 @@ import {
   IconChevronDownSmall,
 } from '../src'
 import { parseProps } from './parseProps'
-import { deepCopy, deepMerge, walk } from '@saulx/utils'
+import { deepCopy, deepMerge } from '@saulx/utils'
 import { propsToCode, toComponent } from './objectToCode'
 import { PropsEditor } from './PropsEditor'
 import { BpTablet } from '../src/utils/breakpoints'
@@ -134,20 +134,21 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
   index,
 }) => {
   const example = component.examples[index]
-  const [state, setState] = useState<any>({})
+  const [, setState] = useState(1)
+
+  const parsedState = useRef<any>(example)
+
   const updateState = (fields: { [key: string]: any }) => {
-    if (!objState.props) {
-      objState.props = example.props
-    }
-    const x = deepCopy(objState)
-    deepMerge(x, fields)
-    setState(x)
+    parsedState.current = deepMerge(
+      deepCopy(example),
+      deepCopy(parsedState.current),
+      fields
+    )
+    setState((v) => v + 1)
   }
 
-  let objState = state ?? {}
-  const sProps = objState.props ?? example.props
-
-  const parsedProps = parseProps(sProps)
+  const sProps = parsedState.current.props
+  const parsedProps = parseProps(deepCopy(sProps))
 
   return (
     <>
@@ -198,7 +199,9 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
           style={{
             width: '100%',
             transition: 'height 0.2s',
-            borderTop: objState.expanded ? '1px solid transparent' : border(1),
+            borderTop: parsedState.current.expanded
+              ? '1px solid transparent'
+              : border(1),
           }}
         >
           <styled.div
@@ -208,18 +211,20 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
               paddingTop: 8,
               paddingBottom: 8,
               backgroundColor: color('background', 'brand', 'surface'),
-              borderBottomRightRadius: objState.expanded ? 0 : 8,
-              borderBottomLeftRadius: objState.expanded ? 0 : 8,
+              borderBottomRightRadius: parsedState.current.expanded ? 0 : 8,
+              borderBottomLeftRadius: parsedState.current.expanded ? 0 : 8,
             }}
           >
             <Button
               size="xsmall"
               color="neutral"
               light
-              onClick={() => updateState({ expanded: !objState.expanded })}
+              onClick={() =>
+                updateState({ expanded: !parsedState.current.expanded })
+              }
               style={{ margin: 4 }}
               icon={
-                objState.expanded ? (
+                parsedState.current.expanded ? (
                   <IconChevronDownSmall />
                 ) : (
                   <IconChevronRightSmall />
@@ -229,13 +234,13 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
               Editor
             </Button>
           </styled.div>
-          {objState.expanded ? (
+          {parsedState.current.expanded ? (
             <PropsEditor
               parsedProps={parsedProps}
               component={component}
               index={index}
               updateState={updateState}
-              state={objState}
+              state={parsedState.current}
             />
           ) : // <Code
           //   value={toComponent(
