@@ -163,7 +163,11 @@ const Prop: FC<{
           type="select"
           options={options}
           onChange={(v) => {
-            update(v)
+            if (v === '') {
+              update(undefined)
+            } else {
+              update(v)
+            }
           }}
         />
       </styled.div>

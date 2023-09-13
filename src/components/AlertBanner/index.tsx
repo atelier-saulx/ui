@@ -6,14 +6,13 @@ import {
   color as genColor,
   styled,
   Style,
-  Button,
   IconError,
   IconAlert,
   IconInfoCircle,
 } from '../..'
 
 export type AlertBannerProps = {
-  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
+  color?: ColorBackgroundColors // Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
   children?: ReactNode
   style?: Style
   action?: { onClick: () => void; label: string }
@@ -25,6 +24,9 @@ export const AlertBanner: FC<AlertBannerProps> = ({
   style,
   action,
 }) => {
+  const contentColor =
+    color === 'neutral' || color === 'inverted' ? 'inverted' : 'default'
+
   return (
     <Center
       style={{
@@ -47,33 +49,37 @@ export const AlertBanner: FC<AlertBannerProps> = ({
         }}
       >
         {color === 'negative' ? (
-          <IconError color="inverted" />
+          <IconError color={contentColor} />
         ) : color === 'warning' ? (
-          <IconAlert />
+          <IconAlert color={contentColor} />
         ) : (
-          <IconInfoCircle />
+          <IconInfoCircle color={contentColor} />
         )}
       </styled.div>
-      <Text
-        size={14}
-        weight="strong"
-        color={color === 'warning' ? 'default' : 'inverted'}
+      <styled.div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
       >
-        {children}
-      </Text>
-      {action && (
-        <Button
-          onClick={action.onClick}
-          underline={true}
-          size="xsmall"
-          color={color === 'warning' ? 'neutral' : 'inverted'}
-          style={{
-            marginLeft: '9px',
-          }}
-        >
-          {action.label}
-        </Button>
-      )}
+        <Text size={14} weight="strong" color={contentColor}>
+          {children}
+        </Text>
+        {action && (
+          <Text
+            size={14}
+            weight="strong"
+            onClick={action.onClick}
+            underline
+            color={contentColor}
+            style={{
+              marginLeft: '10px',
+            }}
+          >
+            {action.label}
+          </Text>
+        )}
+      </styled.div>
     </Center>
   )
 }

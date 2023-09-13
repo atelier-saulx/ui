@@ -7,23 +7,17 @@ const example: ComponentDef = {
   name: 'TextInput',
   component: Input,
   description: 'Text Input',
-  properties: {},
+  properties: {
+    style: { type: 'Style' },
+    value: { type: 'string' },
+    onChange: { type: 'OnChangeHandler' },
+    placeholder: { type: 'string' },
+  },
   examples: [
     {
-      props: {},
-      customRenderer: () => {
-        const [value, setValue] = useState('')
-
-        return (
-          <Input
-            type="text"
-            value={value}
-            placeholder="Simple"
-            onChange={(v) => {
-              setValue(v)
-            }}
-          />
-        )
+      props: {
+        type: 'text',
+        placeholder: 'Some text',
       },
     },
     {

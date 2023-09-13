@@ -216,7 +216,7 @@ export const Button: FC<ButtonProps> = (props) => {
     props.disabled = true
   }
 
-  let contentColor: ColorContentColors =
+  const contentColor: ColorContentColors =
     props.color === 'inverted'
       ? 'default'
       : (isLight || isGhost) && props.color === 'alert'

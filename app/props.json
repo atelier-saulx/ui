@@ -5,7 +5,7 @@
       "props": {
         "color": {
           "optional": true,
-          "type": "Exclude"
+          "type": "ColorBackgroundColors"
         },
         "children": {
           "optional": true,
@@ -20,7 +20,7 @@
           "type": "TSTypeLiteral"
         }
       },
-      "code": "type AlertBannerProps = {\n  color?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
+      "code": "type AlertBannerProps = {\n  color?: ColorBackgroundColors // Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
       "file": "/components/AlertBanner/index.tsx"
     },
     "AuthProviderProps": {
@@ -447,7 +447,10 @@
       "props": {
         "color": {
           "optional": true,
-          "type": "Exclude"
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
         },
         "children": {
           "optional": true,
@@ -466,7 +469,7 @@
           "type": "boolean"
         }
       },
-      "code": "type CounterProps = {\n  color?: Exclude<\n    ColorBackgroundColors | ColorNonSemanticBackgroundColors,\n    'default'\n  >\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
+      "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
       "file": "/components/Counter/index.tsx"
     },
     "CalendarProps": {
@@ -1397,7 +1400,7 @@
       "props": {
         "color": {
           "optional": true,
-          "type": "ColorActionColors"
+          "type": "ColorContentColors"
         },
         "style": {
           "optional": true,
@@ -1412,7 +1415,7 @@
           "type": "number"
         }
       },
-      "code": "type ProgressCircleProps = {\n  color?: ColorActionColors\n  style?: Style\n  loading?: boolean\n  // value is progress in decimal 1 === complete\n  value?: number\n}",
+      "code": "type ProgressCircleProps = {\n  color?: ColorContentColors\n  style?: Style\n  loading?: boolean\n  // value is progress in decimal 1 === complete\n  value?: number\n}",
       "file": "/components/ProgressCircle/index.tsx"
     },
     "ProviderProps": {
@@ -1858,6 +1861,10 @@
             "boolean"
           ]
         },
+        "underline": {
+          "optional": true,
+          "type": "boolean"
+        },
         "selectable": {
           "optional": true,
           "type": [
@@ -1894,7 +1901,7 @@
           ]
         }
       },
-      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n}",
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  underline?: boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n}",
       "file": "/components/Text/index.tsx"
     },
     "ToastProps": {

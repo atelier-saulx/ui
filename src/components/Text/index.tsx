@@ -1,5 +1,11 @@
 import React, { FC, ReactNode } from 'react'
-import { color as genColor, styled, Style, ColorContentColors } from '../../'
+import {
+  color as genColor,
+  styled,
+  Style,
+  ColorContentColors,
+  border,
+} from '../../'
 import { ClickHandler } from '../../types'
 
 type TextProps = {
@@ -13,6 +19,7 @@ type TextProps = {
   transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'
   align?: 'left' | 'center' | 'right'
   truncate?: number | boolean
+  underline?: boolean
   selectable?:
     | 'none'
     | 'auto'
@@ -32,6 +39,7 @@ export const Text: FC<TextProps> = ({
   size = 14,
   style,
   light,
+  underline,
   weight = 'normal',
   onClick,
   transform = 'none',
@@ -60,12 +68,23 @@ export const Text: FC<TextProps> = ({
       ? '64px'
       : '16px'
 
+  const parsedColor = genColor(
+    'content',
+    color,
+    light ? 'secondary' : 'primary'
+  )
+
+  if (onClick) {
+    selectable = 'none'
+  }
+
   return (
     <styled.div
       onClick={onClick}
       style={{
         display: truncate ? '-webkit-box' : 'initial',
-        color: genColor('content', color, light ? 'secondary' : 'primary'),
+        color: parsedColor,
+        cursor: onClick ? 'pointer' : 'auto',
         fontSize: size,
         fontFamily:
           weight === 'strong'
@@ -89,6 +108,16 @@ export const Text: FC<TextProps> = ({
       }}
     >
       {children}
+      {underline ? (
+        <styled.div
+          style={{
+            width: '100%',
+            marginBottom: 3,
+            marginTop: -4,
+            borderBottom: `${1}px solid ${parsedColor}`,
+          }}
+        />
+      ) : null}
     </styled.div>
   )
 }

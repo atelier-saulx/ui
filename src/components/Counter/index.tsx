@@ -13,10 +13,7 @@ import {
 import { ClickHandler } from '../../types'
 
 export type CounterProps = {
-  color?: Exclude<
-    ColorBackgroundColors | ColorNonSemanticBackgroundColors,
-    'default'
-  >
+  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
   children?: ReactNode
   onClick?: ClickHandler
   style?: Style

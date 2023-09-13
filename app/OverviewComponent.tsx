@@ -17,6 +17,8 @@ import { propsToCode, toComponent } from './objectToCode'
 import { PropsEditor } from './PropsEditor'
 import { BpTablet } from '../src/utils/breakpoints'
 
+//xx
+
 const displayType = (propType: PropType): string | number | ReactNode => {
   if (typeof propType.type === 'object') {
     if (Array.isArray(propType.type)) {
@@ -144,11 +146,21 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
       deepCopy(parsedState.current),
       fields
     )
+
+    if (fields.props) {
+      for (const key in fields.props) {
+        if (fields.props[key] === undefined) {
+          delete parsedState.current.props[key]
+        }
+      }
+    }
     setState((v) => v + 1)
   }
 
   const sProps = parsedState.current.props
   const parsedProps = parseProps(deepCopy(sProps))
+
+  console.info('--->', parsedProps)
 
   return (
     <>

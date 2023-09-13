@@ -21,6 +21,18 @@ const example: ComponentDef = {
         light: true,
       },
     },
+    {
+      props: {
+        underline: true,
+        children: 'Clickable text',
+        onClick: (e) => {
+          e.target.style.opacity = 0.5
+          setTimeout(() => {
+            e.target.style.opacity = 1
+          }, 100)
+        },
+      },
+    },
   ],
 }
 

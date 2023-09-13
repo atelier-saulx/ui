@@ -6,40 +6,56 @@ import {
 } from './varsTypes'
 import { vars } from './vars'
 
+const selectVar = <T extends keyof ColorGroups>(
+  group: T,
+  color: ColorGroups[T],
+  option?: ColorGroupsOptions[T]
+): string | void => {
+  const g: any = vars[group]
+
+  if (!g) {
+    return
+  }
+
+  if (!(color in g)) {
+    return
+  }
+
+  const c: any = g[color]
+
+  if (!option) {
+    return g._ === undefined
+      ? c[0]
+      : c[g._.default ?? g._.normal ?? g._.primary ?? g._.strong]
+  }
+
+  if (typeof option === 'number') {
+    if (option === 0) {
+      return c[0]
+    }
+
+    if (option > 0) {
+      return c[1][option] ?? c[1][c[1].length - 1]
+    } else if (option < 0) {
+      const select = Math.abs(option)
+      return c[2][select] ?? c[c[2].length - 1]
+    }
+    return
+  }
+
+  return c[g._[option]]
+}
+
 export const color = <T extends keyof ColorGroups>(
   group: T,
   color: ColorGroups[T],
   option?: ColorGroupsOptions[T]
 ): string => {
-  const g = vars[group]
-  if (typeof option === 'number') {
-    if (option === 0) {
-      //  @ts-ignore
-      return `var(--${g[color][0]})`
-    }
-    if (option > 0) {
-      return `var(--${
-        //  @ts-ignore
-        g[color][1][option] ?? g[color][1][g[color][1].length - 1]
-      })`
-    } else if (option < 0) {
-      const x = Math.abs(option)
-      //  @ts-ignore
-      return `var(--${g[color][2][x] ?? g[color][2][g[color][2].length - 1]})`
-    }
-    return ``
+  const colorVar = selectVar(group, color, option)
+  if (colorVar) {
+    return `var(--${colorVar})`
   }
-  const c = !option
-    ? //   @ts-ignore
-      g._ === undefined
-      ? //   @ts-ignore
-        g[color][0]
-      : //   @ts-ignore
-        g[color][g._.default ?? g._.normal ?? g._.primary ?? g._.strong]
-    : //   @ts-ignore
-      g[color][g._[option]]
-  // console.info(c)
-  return `var(--${c})`
+  return ``
 }
 
 export const border = (
