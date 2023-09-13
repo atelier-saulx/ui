@@ -9,7 +9,7 @@ import {
   ColorNonSemanticContentColors,
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
-  IconCheck,
+  IconCheckCircle,
   useCopyToClipboard,
 } from '../..'
 import { ClickHandler } from '../../types'
@@ -38,6 +38,7 @@ export type BadgeProps = {
 
 export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
   copyValue,
+  icon,
   ...rest
 }) => {
   const [copy, copyClick] = useCopyToClipboard(copyValue)
@@ -49,8 +50,8 @@ export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
         copyClick()
       }}
       icon={copy ? IconCheck : icon}
-      ...rest
-      />
+      {...rest}
+    />
   )
 }
 

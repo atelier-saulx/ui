@@ -84,7 +84,7 @@ export const Text: FC<TextProps> = ({
       style={{
         display: truncate ? '-webkit-box' : 'initial',
         color: parsedColor,
-        cursor: onClick ? 'pointer' : 'auto',
+        cursor: onClick ? 'pointer' : null,
         fontSize: size,
         fontFamily:
           weight === 'strong'
