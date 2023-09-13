@@ -36,8 +36,8 @@ export const fieldToCode = (val: any): string => {
   return 'undefined'
 }
 
-const isCustomComponent = (v: string): boolean => {
-  return v[0] === v[0].toUpperCase()
+const isCustomComponent = (v?: string): boolean => {
+  return !!(v && v[0] === v[0].toUpperCase())
 }
 
 export const objectToCode = (obj: Object | any[]): string => {
