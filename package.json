@@ -14,6 +14,7 @@
   "eslintConfig": {
     "extends": "@saulx/eslint-config"
   },
+  "sideEffects": false,
   "dependencies": {
     "@based/client": "^4.7.6",
     "@based/pretty-date": "^1.0.4",
@@ -33,7 +34,7 @@
   "devDependencies": {
     "@babel/parser": "^7.18.6",
     "@babel/traverse": "^7.18.6",
-    "@based/cli": "5.9.1-alpha",
+    "@based/cli": "5.9.1-alpha2",
     "@based/functions": "^2.2.2",
     "@faker-js/faker": "^8.0.2",
     "@saulx/eslint-config": "^1.1.1",
