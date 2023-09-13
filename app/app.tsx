@@ -1,7 +1,7 @@
 import '../src/colors.css'
 
 import { render } from 'react-dom'
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
@@ -9,6 +9,7 @@ import {
   color,
   IconRefresh,
   Menu,
+  Input,
   Provider,
   ScrollArea,
   useTooltip,
@@ -28,11 +29,7 @@ const App = () => {
   const filtered = components.filter((c) => {
     return c.name === component
   })
-
-  const toolTipLocalStorageBtn = useTooltip(
-    'Clear localstorage',
-    'bottom-right'
-  )
+  const [filter, setFilter] = useState('')
 
   return (
     <styled.div
@@ -45,24 +42,44 @@ const App = () => {
     >
       <Menu
         header={
-          <styled.div
-            style={{ marginBottom: 16, display: 'flex', alignItems: 'center' }}
-          >
-            <IconRefresh
-              style={{ marginRight: 8 }}
-              color="brand"
-              onClick={() => localStorage.clear()}
+          <styled.div style={{ marginBottom: 16 }}>
+            <styled.div
+              style={{
+                marginBottom: 16,
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <IconRefresh
+                style={{ marginRight: 8 }}
+                color="brand"
+                onClick={() => localStorage.clear()}
+              />
+              <ThemeSwitch />
+            </styled.div>
+            <Input
+              value={filter}
+              type="search"
+              style={{ width: 220 }}
+              placeholder="Filter..."
+              onChange={(v) => {
+                setFilter(v)
+              }}
             />
-            <ThemeSwitch />
           </styled.div>
         }
         data={{
-          components: components.map((c) => {
-            return {
-              label: c.name,
-              value: c.name,
-            }
-          }),
+          components: components
+            .filter(
+              (c) =>
+                !filter || c.name.toLowerCase().includes(filter.toLowerCase())
+            )
+            .map((c) => {
+              return {
+                label: c.name,
+                value: c.name,
+              }
+            }),
           hooks: {},
         }}
         active={component}
