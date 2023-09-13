@@ -20,7 +20,7 @@
           "type": "TSTypeLiteral"
         }
       },
-      "code": "type AlertBannerProps = {\n  color?: ColorBackgroundColors // Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
+      "code": "type AlertBannerProps = {\n  color?: ColorBackgroundColors\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
       "file": "/components/AlertBanner/index.tsx"
     },
     "AuthProviderProps": {
@@ -44,7 +44,7 @@
           "optional": true,
           "type": "ColorNonSemanticBackgroundColors"
         },
-        "imgsrc": {
+        "src": {
           "optional": true,
           "type": "string"
         },
@@ -85,7 +85,7 @@
           "type": "boolean"
         }
       },
-      "code": "type AvatarProps = {\n  children?: ReactNode\n  color?: ColorNonSemanticBackgroundColors\n  imgsrc?: string\n  onClick?: ClickHandler\n  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'\n  squared?: boolean\n  style?: Style\n  light?: boolean\n}",
+      "code": "type AvatarProps = {\n  children?: ReactNode\n  color?: ColorNonSemanticBackgroundColors\n  src?: string\n  onClick?: ClickHandler\n  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'\n  squared?: boolean\n  style?: Style\n  light?: boolean\n}",
       "file": "/components/Avatar/index.tsx"
     },
     "BadgeProps": {

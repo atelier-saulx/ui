@@ -9,6 +9,8 @@ import {
   ColorNonSemanticContentColors,
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
+  IconCheck,
+  useCopyToClipboard,
 } from '../..'
 import { ClickHandler } from '../../types'
 
@@ -31,31 +33,26 @@ export type BadgeProps = {
   onClick?: ClickHandler
   style?: Style
   light?: boolean
+  copyValue?
 }
 
-// export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
-//   copyValue,
-//   icon,
-//   style,
-//   label,
-//   afterIcon,
-//   color,
-// }) => {
-
-//   const [copy, copyClick] = useCopyToClipboard(copyValue)
-//   return (
-//     <Badge
-//       onClick={(e) => {
-//         e.preventDefault()
-//         e.stopPropagation()
-//         copyClick()
-
-//       }}
-//       icon={copy ? CheckIcon : icon}
-//       label={label}
-//     />
-//   )
-// }
+export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
+  copyValue,
+  ...rest
+}) => {
+  const [copy, copyClick] = useCopyToClipboard(copyValue)
+  return (
+    <Badge
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        copyClick()
+      }}
+      icon={copy ? IconCheck : icon}
+      ...rest
+      />
+  )
+}
 
 export const Badge: FC<BadgeProps> = ({
   icon,
@@ -126,8 +123,8 @@ export const Badge: FC<BadgeProps> = ({
       )}
       <Text
         size={14}
+        selectable="none"
         style={{
-          userSelect: 'none',
           color: 'inherit',
         }}
       >

@@ -12,7 +12,7 @@ import {
 } from '../..'
 
 export type AlertBannerProps = {
-  color?: ColorBackgroundColors // Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>
+  color?: ColorBackgroundColors
   children?: ReactNode
   style?: Style
   action?: { onClick: () => void; label: string }
@@ -24,8 +24,7 @@ export const AlertBanner: FC<AlertBannerProps> = ({
   style,
   action,
 }) => {
-  const contentColor =
-    color === 'neutral' || color === 'inverted' ? 'inverted' : 'default'
+  const contentColor = color === 'default' ? 'default' : 'inverted'
 
   return (
     <Center
@@ -62,7 +61,7 @@ export const AlertBanner: FC<AlertBannerProps> = ({
           alignItems: 'center',
         }}
       >
-        <Text size={14} weight="strong" color={contentColor}>
+        <Text selectable="none" size={14} weight="strong" color={contentColor}>
           {children}
         </Text>
         {action && (

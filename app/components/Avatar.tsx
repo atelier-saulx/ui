@@ -24,7 +24,7 @@ const example: ComponentDef = {
         children: 'F1',
         size: 'large',
         light: true,
-        imgsrc: 'https://robohash.org/G2J.png?set=set1',
+        src: 'https://robohash.org/G2J.png?set=set1',
       },
     },
   ],

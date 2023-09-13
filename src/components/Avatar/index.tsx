@@ -11,7 +11,7 @@ import { ClickHandler } from '../../types'
 export type AvatarProps = {
   children?: ReactNode
   color?: ColorNonSemanticBackgroundColors
-  imgsrc?: string
+  src?: string
   onClick?: ClickHandler
   size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'
   squared?: boolean
@@ -22,7 +22,7 @@ export type AvatarProps = {
 export const Avatar: FC<AvatarProps> = ({
   color = 'aquamarine',
   squared = false,
-  imgsrc,
+  src,
   onClick,
   children,
   size: sizeProp = 'medium',
@@ -61,7 +61,7 @@ export const Avatar: FC<AvatarProps> = ({
           light ? 'muted' : 'strong'
         ),
         borderRadius: squared ? '8px' : '50%',
-        backgroundImage: imgsrc ? `url(${imgsrc})` : 'none',
+        backgroundImage: src ? `url(${src})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         ...style,
@@ -69,7 +69,7 @@ export const Avatar: FC<AvatarProps> = ({
       onClick={onClick}
       {...rest}
     >
-      {children && !imgsrc ? (
+      {children && !src ? (
         <Text
           color="inverted"
           //@ts-ignoreignore

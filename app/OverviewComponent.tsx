@@ -160,8 +160,6 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
   const sProps = parsedState.current.props
   const parsedProps = parseProps(deepCopy(sProps))
 
-  console.info('--->', parsedProps)
-
   return (
     <>
       {example.name ? (

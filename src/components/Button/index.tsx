@@ -140,7 +140,6 @@ export const Button: FC<ButtonProps> = (props) => {
     onMouseEnter,
     onMouseLeave,
     keyboardShortcut,
-    clickAnimation,
     displayShortcut,
     size = 'medium',
     style,
