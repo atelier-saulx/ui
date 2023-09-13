@@ -6,9 +6,9 @@ import {
   color as genColor,
   styled,
   Style,
-  IconError,
-  IconAlert,
-  IconInfoCircle,
+  IconErrorFill,
+  IconAlertFill,
+  IconInfoFill,
 } from '../..'
 
 export type AlertBannerProps = {
@@ -48,11 +48,11 @@ export const AlertBanner: FC<AlertBannerProps> = ({
         }}
       >
         {color === 'negative' ? (
-          <IconError color={contentColor} />
+          <IconErrorFill color={contentColor} />
         ) : color === 'warning' ? (
-          <IconAlert color={contentColor} />
+          <IconAlertFill color={contentColor} />
         ) : (
-          <IconInfoCircle color={contentColor} />
+          <IconInfoFill color={contentColor} />
         )}
       </styled.div>
       <styled.div

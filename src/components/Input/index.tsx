@@ -5,7 +5,7 @@ import { SelectInput, SelectInputProps, SelectInputOption } from './SelectInput'
 import { SearchInput, SearchInputProps } from './SearchInput'
 import { FileInput, FileInputProps } from './FileInput'
 import { NumberInput, NumberInputProps } from './NumberInput'
-import { IconAlert, color } from '../..'
+import { IconAlertFill, color } from '../..'
 import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
 
 export type CommonInputProps = {
@@ -116,7 +116,7 @@ function LabelAndErrorWrapper({
             color: color('content', 'negative', 'primary'),
           }}
         >
-          <IconAlert />
+          <IconAlertFill />
           <div
             style={{
               marginLeft: 5,

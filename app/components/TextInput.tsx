@@ -12,6 +12,7 @@ const example: ComponentDef = {
     value: { type: 'string' },
     onChange: { type: 'OnChangeHandler' },
     placeholder: { type: 'string' },
+    clearButton: { type: 'boolean' },
   },
   examples: [
     {
@@ -29,6 +30,7 @@ const example: ComponentDef = {
           <Input
             type="text"
             label="This is a label"
+            // clearButton={false}
             placeholder="Advanced"
             error="This is an error"
             value={value}

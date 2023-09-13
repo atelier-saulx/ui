@@ -22,7 +22,7 @@ export function TextInput({
   style,
   value,
   onChange,
-  clearButton,
+  clearButton = true,
   afterIcon,
   disabled,
   placeholder,
