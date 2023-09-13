@@ -8,6 +8,10 @@ import {
   Style,
   styled,
   Tag,
+  Button,
+  color as genColor,
+  IconClose,
+  BpTablet,
 } from '../..'
 
 export type SelectInputOption = {
@@ -132,7 +136,7 @@ export function SelectInput({
       ? ''
       : parsed.find((e) => e.value === value)?.label
     : filter
-
+  console.log(value)
   return (
     <styled.div
       style={{
@@ -263,13 +267,41 @@ export function SelectInput({
             placeholder={placeholder}
           />
         </div>
+
         <div
           style={{
+            display: 'flex',
             flexShrink: 0,
             paddingLeft: 8,
+            flexDirection: 'row',
             marginLeft: 'auto',
           }}
         >
+          {!multiple && value !== '' && (
+            <styled.div
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                onChange('')
+              }}
+              style={{
+                borderRadius: '4px',
+                flexShrink: 0,
+                marginLeft: 'auto',
+                '&:hover': {
+                  backgroundColor: genColor('action', 'system', 'hover'),
+                },
+                [BpTablet]: {
+                  '&:hover': null,
+                },
+                '&:active': {
+                  backgroundColor: genColor('action', 'system', 'active'),
+                },
+              }}
+            >
+              <IconClose />
+            </styled.div>
+          )}
           <IconChevronDownSmall />
         </div>
       </styled.div>
