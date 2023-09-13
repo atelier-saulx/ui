@@ -19,6 +19,7 @@ type BarGraphProps = {
   display?: 'percentages' | 'values'
   direction?: 'horizontal' | 'vertical'
   style?: Style
+  color?: ColorNonSemanticBackgroundColors
 }
 
 const HorizontalBar = ({ display, label, value, percentage, color }) => {
@@ -115,6 +116,7 @@ export const BarGraph: FC<BarGraphProps> = ({
   display,
   direction,
   style,
+  color,
 }) => {
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
   // percentages
@@ -140,7 +142,7 @@ export const BarGraph: FC<BarGraphProps> = ({
               label={item.label}
               value={item.value}
               percentage={item.percentage}
-              color={item.color}
+              color={color ? color : item.color}
             />
           ))
         : data.map((item, idx) => (
@@ -150,7 +152,7 @@ export const BarGraph: FC<BarGraphProps> = ({
               label={item.label}
               value={item.value}
               percentage={item.percentage}
-              color={item.color}
+              color={color ? color : item.color}
             />
           ))}
     </styled.div>

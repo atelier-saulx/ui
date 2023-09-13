@@ -12,13 +12,14 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
+        color: 'green',
         style: { width: 540, [BpTablet]: { width: 'unset' } },
         display: 'values',
         data: [
           {
             label: 'Moose 🦆',
             value: 160000,
-            color: 'violet',
+            // color: 'violet',
           },
           {
             label: 'Caribou 🦌',
@@ -27,12 +28,12 @@ const example: ComponentDef = {
           {
             label: 'Bears 🐻',
             value: 43000,
-            color: 'green',
+            // color: 'green',
           },
           {
             label: 'Wolves 🐺',
             value: 62000,
-            color: 'blue',
+            // color: 'blue',
           },
         ],
       },
