@@ -24,7 +24,7 @@ const hover = {
     backgroundColor: genColor('action', 'neutral', 'subtleHover'),
   },
 }
-const monthArr = [
+export const monthArr = [
   'Jan',
   'Feb',
   'Mar',

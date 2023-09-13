@@ -7,6 +7,7 @@ type DatePickerProps = {
   value?: number // milliseconds
   onChange: (value: number) => void
   time?: boolean
+  numbered?: boolean
   style?: Style
 }
 
@@ -18,6 +19,7 @@ export const DatePicker: FC<DatePickerProps> = ({
   onChange,
   time,
   style,
+  numbered = false,
 }) => {
   const [millisecondsValue, setMilliSecondsValue] = useState(value)
 
@@ -29,6 +31,7 @@ export const DatePicker: FC<DatePickerProps> = ({
     <styled.div style={{ ...style }}>
       <StateProvider values={{ val: millisecondsValue }}>
         <NewDateInput
+          numbered={numbered}
           value={millisecondsValue}
           setValue={setMilliSecondsValue}
           time={time}

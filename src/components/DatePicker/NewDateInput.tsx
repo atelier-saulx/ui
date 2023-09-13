@@ -5,12 +5,15 @@ import {
   styled,
   IconCalendar,
   useOverlay,
+  IconChevronDown,
+  BpTablet,
 } from '../../'
 
 import { Picker } from './Picker'
 import { NewTimeInput } from './NewTimeInput'
 import { FromRangePicker } from '../DateRange/FromRangePicker'
 import { TillRangePicker } from '../DateRange/TillRangePicker'
+import { monthArr } from '../DateRange/DateRangeDoubleInput'
 
 type newDateProps = {
   value: number
@@ -19,6 +22,7 @@ type newDateProps = {
   isFromRange?: boolean
   isTillRange?: boolean
   style?: Style
+  numbered?: boolean
 }
 
 const hover = {
@@ -34,6 +38,7 @@ export const NewDateInput = ({
   isFromRange,
   isTillRange,
   style,
+  numbered = false,
 }: newDateProps) => {
   const dayRef = useRef<HTMLInputElement>(null)
   const monthRef = useRef<HTMLInputElement>(null)
@@ -273,19 +278,14 @@ export const NewDateInput = ({
         <styled.div
           style={{
             display: 'flex',
-            position: 'relative',
-            borderColor: genColor('border', 'default', 'strong'),
-            borderRadius: 8,
-            boxShadow: `0px 0px 0px 2px ${genColor(
-              'action',
-              'primary',
-              'subtleNormal'
-            )}`,
-            height: 36,
-            paddingLeft: 12,
-            paddingRight: 12,
             alignItems: 'center',
-            width: 260,
+            cursor: 'pointer',
+            height: '40px',
+            padding: '0px 12px',
+            gap: 2,
+            mindWidth: '296px',
+            borderRadius: '8px',
+            border: `1px solid ${genColor('inputBorder', 'neutralNormal')}`,
             ...style,
           }}
           onClick={(e) => {
@@ -302,61 +302,147 @@ export const NewDateInput = ({
           {/* @ts-ignore*/}
           {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
           <IconCalendar style={{ marginRight: 8 }} />
+          {numbered ? (
+            <>
+              <styled.div
+                style={{
+                  padding: '0px 1px',
+                  fontSize: 14,
+                  backgroundColor:
+                    focusField === 'dayFocus'
+                      ? genColor('action', 'neutral', 'subtleActive')
+                      : '',
+                  borderRadius: 4,
+                  ...hover,
+                }}
+                onClick={() => {
+                  dayRef.current?.focus()
+                  dayRef.current?.select()
+                }}
+              >
+                {day === '' ? 'dd' : day < 10 ? `0${day}` : day}
+              </styled.div>
+              <styled.div>/</styled.div>
+              <styled.div
+                style={{
+                  padding: '0px 1px',
+                  fontSize: 14,
+                  backgroundColor:
+                    focusField === 'monthFocus'
+                      ? genColor('action', 'neutral', 'subtleActive')
+                      : '',
+                  borderRadius: 4,
+                  ...hover,
+                }}
+                onClick={() => {
+                  monthRef.current?.focus()
+                  monthRef.current?.select()
+                }}
+              >
+                {month === '' ? 'mm' : month < 10 ? `0${month}` : month}
+              </styled.div>
+              <styled.div>/</styled.div>
+              <styled.div
+                style={{
+                  fontSize: 14,
+                  padding: '0px 1px',
+                  backgroundColor:
+                    focusField === 'yearFocus'
+                      ? genColor('action', 'neutral', 'subtleActive')
+                      : '',
+                  borderRadius: 4,
+                  ...hover,
+                }}
+                onClick={() => {
+                  yearRef.current?.focus()
+                  yearRef.current?.select()
+                }}
+              >
+                {year === '' ? 'yyyy' : year}
+              </styled.div>
+            </>
+          ) : (
+            <>
+              <styled.div
+                style={{
+                  padding: '0px 1px',
+                  fontSize: 14,
+                  marginRight: '2px',
+                  backgroundColor:
+                    focusField === 'monthFocus'
+                      ? genColor('action', 'neutral', 'subtleActive')
+                      : '',
+                  borderRadius: 4,
+                  ...hover,
+                }}
+                onClick={() => {
+                  monthRef.current?.focus()
+                  monthRef.current?.select()
+                }}
+              >
+                {month === '' ? 'mm' : monthArr[month - 1]}
+              </styled.div>
+              <styled.div
+                style={{
+                  padding: '0px 1px',
+                  fontSize: 14,
+                  backgroundColor:
+                    focusField === 'dayFocus'
+                      ? genColor('action', 'neutral', 'subtleActive')
+                      : '',
+                  borderRadius: 4,
+                  ...hover,
+                }}
+                onClick={() => {
+                  dayRef.current?.focus()
+                  dayRef.current?.select()
+                }}
+              >
+                {day === '' ? 'dd' : day < 10 ? `0${day}` : day},
+              </styled.div>
+
+              <styled.div
+                style={{
+                  fontSize: 14,
+                  padding: '0px 1px',
+                  backgroundColor:
+                    focusField === 'yearFocus'
+                      ? genColor('action', 'neutral', 'subtleActive')
+                      : '',
+                  borderRadius: 4,
+                  ...hover,
+                }}
+                onClick={() => {
+                  yearRef.current?.focus()
+                  yearRef.current?.select()
+                }}
+              >
+                {year === '' ? 'yyyy' : year}
+              </styled.div>
+            </>
+          )}
           <styled.div
             style={{
-              padding: '0px 1px',
-              fontSize: 14,
-              backgroundColor:
-                focusField === 'dayFocus'
-                  ? genColor('action', 'neutral', 'subtleActive')
-                  : '',
-              borderRadius: 4,
-              ...hover,
-            }}
-            onClick={() => {
-              dayRef.current?.focus()
-              dayRef.current?.select()
+              display: 'flex',
+              flexShrink: 0,
+              paddingLeft: 8,
+              flexDirection: 'row',
+              marginLeft: 'auto',
             }}
           >
-            {day === '' ? 'dd' : day < 10 ? `0${day}` : day}
-          </styled.div>
-          <styled.div>/</styled.div>
-          <styled.div
-            style={{
-              padding: '0px 1px',
-              fontSize: 14,
-              backgroundColor:
-                focusField === 'monthFocus'
-                  ? genColor('action', 'neutral', 'subtleActive')
-                  : '',
-              borderRadius: 4,
-              ...hover,
-            }}
-            onClick={() => {
-              monthRef.current?.focus()
-              monthRef.current?.select()
-            }}
-          >
-            {month === '' ? 'mm' : month < 10 ? `0${month}` : month}
-          </styled.div>
-          <styled.div>/</styled.div>
-          <styled.div
-            style={{
-              fontSize: 14,
-              padding: '0px 1px',
-              backgroundColor:
-                focusField === 'yearFocus'
-                  ? genColor('action', 'neutral', 'subtleActive')
-                  : '',
-              borderRadius: 4,
-              ...hover,
-            }}
-            onClick={() => {
-              yearRef.current?.focus()
-              yearRef.current?.select()
-            }}
-          >
-            {year === '' ? 'yyyy' : year}
+            <IconChevronDown
+              style={{
+                '&:hover': {
+                  backgroundColor: genColor('action', 'system', 'hover'),
+                },
+                [BpTablet]: {
+                  '&:hover': null,
+                },
+                '&:active': {
+                  backgroundColor: genColor('action', 'system', 'active'),
+                },
+              }}
+            />
           </styled.div>
         </styled.div>
       </styled.div>
