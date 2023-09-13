@@ -9,7 +9,13 @@ import {
   PositionProps,
   IconClose,
   Button,
+  keyframes,
 } from '../../src'
+
+const openAni = keyframes({
+  '0%': { transform: 'scale(80%, 80%)' },
+  '100%': { transform: 'scale(100%, 100%)' },
+})
 
 export const useSidePanel = (
   children: ReactNode | ReactNode[],
@@ -29,6 +35,8 @@ export const useSidePanel = (
     () => (
       <styled.div
         style={{
+          // transition: 'all 1s !important',
+          position: 'absolute',
           height: '100%',
           maxHeight: 'calc(100vh - 48px)',
           width: '902px',
@@ -38,6 +46,10 @@ export const useSidePanel = (
           marginRight: position === 'right' ? 48 : 'auto',
           display: 'flex',
           flexDirection: 'column',
+          animation: openAni,
+          animationDuration: '0.2s',
+          animationFillMode: 'forwards',
+          transformOrigin: 'center center',
           ...style,
         }}
       >
@@ -58,25 +70,15 @@ export const useSidePanel = (
           <Text size={18} weight="strong">
             {title}
           </Text>
-          <styled.div
+          <Button
             onClick={() => {
               removeOverlay()
             }}
-            style={{
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              '&:hover': {
-                backgroundColor: genColor('action', 'neutral', 'subtleHover'),
-              },
-              '&:active': {
-                backgroundColor: genColor('action', 'neutral', 'subtleActive'),
-              },
-            }}
-          >
-            <IconClose />
-          </styled.div>
+            afterIcon={<IconClose />}
+            size="small"
+            color="system"
+            style={{ border: 'none', borderRadius: '50%' }}
+          />
         </styled.div>
         {children}
         <styled.div
@@ -116,9 +118,10 @@ export const useSidePanel = (
     {
       overlay: false,
       style: {
+        transition: 'none !important',
+        animation: 'none !important',
         backgroundColor: genColor('standalone', 'dimmer', 'default'),
         width: '100vw',
-        height: '100vh',
         overflow: 'inherit',
         position: 'fixed',
         display: 'flex',
