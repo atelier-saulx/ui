@@ -121,9 +121,20 @@
         "light": {
           "optional": true,
           "type": "boolean"
+        },
+        "copyValue": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "copy": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
+      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  copyValue?: string | number\n  copy?: boolean\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BarGraphProps": {

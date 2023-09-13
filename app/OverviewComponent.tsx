@@ -10,6 +10,7 @@ import {
   Button,
   IconChevronRightSmall,
   IconChevronDownSmall,
+  Divider,
 } from '../src'
 import { parseProps } from './parseProps'
 import { deepCopy, deepMerge } from '@saulx/utils'
@@ -245,21 +246,25 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
             </Button>
           </styled.div>
           {parsedState.current.expanded ? (
-            <PropsEditor
-              parsedProps={parsedProps}
-              component={component}
-              index={index}
-              updateState={updateState}
-              state={parsedState.current}
-            />
-          ) : // <Code
-          //   value={toComponent(
-          //     component.name,
-          //     example.props,
-          //     propsToCode(component.name, parsedProps).propsHeader
-          //   )}
-          // />
-          null}
+            <styled.div>
+              <Code
+                copy
+                value={toComponent(
+                  component.name,
+                  example.props,
+                  propsToCode(component.name, parsedProps).propsHeader
+                )}
+              />
+              <Divider />
+              <PropsEditor
+                parsedProps={parsedProps}
+                component={component}
+                index={index}
+                updateState={updateState}
+                state={parsedState.current}
+              />
+            </styled.div>
+          ) : null}
         </styled.div>
       </styled.div>
     </>

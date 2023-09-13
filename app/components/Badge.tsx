@@ -21,6 +21,16 @@ const example: ComponentDef = {
         icon: () => React.createElement(IconSmallBolt),
       },
     },
+    {
+      name: 'Copy badge',
+      description:
+        'Copy a specific value or use the contents of children on click',
+      props: {
+        copy: true,
+        color: 'inverted',
+        children: 'Copy me!',
+      },
+    },
   ],
 }
 
