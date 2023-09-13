@@ -1,5 +1,5 @@
 import { BasedAppFunction } from '@based/functions'
-import { color } from '../src/'
+import { color } from '../src/varsUtilities'
 import { SCRIPT_SRC } from '../src/hooks/useTheme'
 
 const app: BasedAppFunction = async (_based, { css, js, favicon }) => {
