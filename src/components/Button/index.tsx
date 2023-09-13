@@ -34,6 +34,7 @@ export type ButtonProps = {
   disabled?: boolean
   color?: ColorActionColors
   fill?: boolean // TODO: add this on inputs etc as well
+  visibleFocus?: boolean
   ghost?: boolean
   icon?: ReactNode
   afterIcon?: ReactNode
@@ -80,23 +81,25 @@ export const getButtonStyle = (
       ? 'transparent'
       : genColor('action', colorProp, isLight ? 'subtleNormal' : 'normal'),
 
-    '&:focus': {
-      backgroundColor: isGhost
-        ? 'transparent'
-        : genColor(
-            'action',
-            colorProp,
-            isLight ? 'subtleSelected' : 'selected'
-          ),
-      border:
-        props.size !== 'xsmall'
-          ? `1px solid ${genColor('content', 'inverted', 'primary')}`
-          : '1px solid transparent',
-      boxShadow:
-        props.size !== 'xsmall'
-          ? `0px 0px 0px 2px ${genColor('action', 'primary', 'normal')}`
-          : 'none',
-    },
+    '&:focus': !props.visibleFocus
+      ? {
+          backgroundColor: isGhost
+            ? 'transparent'
+            : genColor(
+                'action',
+                colorProp,
+                isLight ? 'subtleSelected' : 'selected'
+              ),
+          border:
+            props.size !== 'xsmall'
+              ? `1px solid ${genColor('content', 'inverted', 'primary')}`
+              : '1px solid transparent',
+          boxShadow:
+            props.size !== 'xsmall'
+              ? `0px 0px 0px 2px ${genColor('action', colorProp, 'normal')}`
+              : 'none',
+        }
+      : null,
     '&:hover': {
       backgroundColor: isGhost
         ? 'transparent'
