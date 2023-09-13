@@ -33,29 +33,39 @@ export type BadgeProps = {
   onClick?: ClickHandler
   style?: Style
   light?: boolean
-  copyValue?
+  copyValue?: string | number
+  copy?: boolean
 }
 
-export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
+const CopyBadgeInner: FC<BadgeProps & { copyValue?: string | number }> = ({
   copyValue,
   icon,
+  onClick,
   ...rest
 }) => {
-  const [copy, copyClick] = useCopyToClipboard(copyValue)
+  const valueToCopy: any =
+    copyValue ??
+    (typeof rest.children === 'string' || typeof rest.children === 'number'
+      ? rest.children
+      : '')
+  const [copy, copyClick] = useCopyToClipboard(valueToCopy)
   return (
-    <Badge
+    <BadgeInner
       onClick={(e) => {
         e.preventDefault()
         e.stopPropagation()
         copyClick()
+        if (onClick) {
+          onClick(e)
+        }
       }}
-      icon={copy ? IconCheck : icon}
+      icon={copy ? <IconCheckCircle /> : icon}
       {...rest}
     />
   )
 }
 
-export const Badge: FC<BadgeProps> = ({
+const BadgeInner: FC<BadgeProps> = ({
   icon,
   style,
   onClick,
@@ -149,4 +159,12 @@ export const Badge: FC<BadgeProps> = ({
       )}
     </styled.div>
   )
+}
+
+export const Badge: FC<BadgeProps> = (props) => {
+  if (props.copy) {
+    return <CopyBadgeInner {...props} />
+  } else {
+    return <BadgeInner {...props} />
+  }
 }
