@@ -111,6 +111,20 @@ export const RangeCalendar = ({
       return true
     }
   }
+  const checkIfFrom = (year, month, day) => {
+    const fromTime = new Date(fromYear, fromMonth, fromDay).getTime()
+    const checkTime = new Date(year, month, day).getTime()
+    if (fromTime === checkTime) {
+      return true
+    }
+  }
+  const checkIfTill = (year, month, day) => {
+    const tillTime = new Date(tillYear, tillMonth, tillDay).getTime()
+    const checkTime = new Date(year, month, day).getTime()
+    if (checkTime === tillTime) {
+      return true
+    }
+  }
 
   const checkIfIsHoverDay = (year, month, day) => {
     const fromTime = new Date(fromYear, fromMonth, fromDay).getTime()
@@ -118,23 +132,48 @@ export const RangeCalendar = ({
     const checkValTime = new Date(year, month, day).getTime()
     const hoverTime = new Date(hoverYear, hoverMonth, hoverDay).getTime()
 
+    // if (checkValTime === (fromTime | tillTime)) return false
     if (
-      checkValTime < fromTime &&
-      checkValTime > hoverTime &&
+      checkValTime <= fromTime &&
+      checkValTime >= hoverTime &&
       +hoverDay !== 0 &&
       tillTime > checkValTime &&
       fromRangeCal
     ) {
       return true
     } else if (
-      checkValTime > tillTime &&
-      checkValTime < hoverTime &&
+      checkValTime >= tillTime &&
+      checkValTime <= hoverTime &&
       +hoverDay !== 0 &&
       fromTime < checkValTime &&
       tillRangeCal
     ) {
       return true
     }
+  }
+  const checkIfIsExact = (year, month, day) => {
+    const fromTime = new Date(fromYear, fromMonth, fromDay).getTime()
+    const tillTime = new Date(tillYear, tillMonth, tillDay).getTime()
+    const checkValTime = new Date(year, month, day).getTime()
+    const hoverTime = new Date(hoverYear, hoverMonth, hoverDay).getTime()
+
+    // if (checkValTime === (fromTime | tillTime)) return false
+    if (
+      checkValTime === hoverTime &&
+      +hoverDay !== 0 &&
+      tillTime > checkValTime &&
+      fromRangeCal
+    ) {
+      return 'from'
+    } else if (
+      checkValTime === hoverTime &&
+      +hoverDay !== 0 &&
+      fromTime < checkValTime &&
+      tillRangeCal
+    ) {
+      return 'till'
+    }
+    return false
   }
 
   return (
@@ -148,6 +187,7 @@ export const RangeCalendar = ({
           marginTop: 4,
           marginBottom: '-8px',
           justifyContent: 'center',
+          userSelect: 'none',
           '& div': {
             width: '26px',
             textAlign: 'center',
@@ -234,16 +274,6 @@ export const RangeCalendar = ({
                       +selectedYear === tillYear
                     ? genColor('content', 'inverted', 'primary')
                     : genColor('content', 'default', 'primary'),
-                borderRadius:
-                  val.day === presentDay &&
-                  +selectedMonth === currentMonth + 1 &&
-                  +selectedYear === currentYear
-                    ? '4px'
-                    : checkIfRanged(val.year, val.month, val.day)
-                    ? 0
-                    : checkIfIsHoverDay(val.year, val.month, val.day)
-                    ? 0
-                    : 4,
                 boxSizing: 'border-box',
                 width: 34,
                 height: 26,
@@ -270,31 +300,42 @@ export const RangeCalendar = ({
                       : checkIfIsHoverDay(val.year, val.month, val.day)
                       ? genColor('action', 'primary', 'subtleSelected')
                       : genColor('action', 'neutral', 'subtleHover'),
+                  borderRadius:
+                    fromValue === tillValue && fromDay === val.day
+                      ? '4px'
+                      : checkIfRanged(val.year, val.month, val.day)
+                      ? 0
+                      : checkIfIsExact(val.year, val.month, val.day) === 'from'
+                      ? '4px 0 0 4px'
+                      : checkIfIsExact(val.year, val.month, val.day) === 'till'
+                      ? '0 4px 4px 0'
+                      : val.day === fromDay &&
+                        +selectedMonth === fromMonth &&
+                        +selectedYear === fromYear
+                      ? undefined
+                      : val.day === tillDay &&
+                        +selectedMonth === tillMonth &&
+                        +selectedYear === tillYear
+                      ? undefined
+                      : '4px',
                 },
-                borderTopLeftRadius:
-                  val.day === tillDay &&
-                  +selectedMonth === tillMonth &&
-                  +selectedYear === tillYear
+                borderRadius:
+                  fromValue === tillValue && fromDay === val.day
+                    ? '4px'
+                    : checkIfIsHoverDay(val.year, val.month, val.day)
                     ? 0
-                    : 4,
-                borderBottomLeftRadius:
-                  val.day === tillDay &&
-                  +selectedMonth === tillMonth &&
-                  +selectedYear === tillYear
-                    ? 0
-                    : 4,
-                borderTopRightRadius:
-                  val.day === fromDay &&
-                  +selectedMonth === fromMonth &&
-                  +selectedYear === fromYear
-                    ? 0
-                    : 4,
-                borderBottomRightRadius:
-                  val.day === fromDay &&
-                  +selectedMonth === fromMonth &&
-                  +selectedYear === fromYear
-                    ? 0
-                    : 4,
+                    : checkIfFrom(val.year, val.month, val.day)
+                    ? '4px 0 0 4px'
+                    : checkIfTill(val.year, val.month, val.day)
+                    ? '0 4px 4px 0'
+                    : val.day === presentDay &&
+                      +selectedMonth === currentMonth + 1 &&
+                      +selectedYear === currentYear
+                    ? checkIfRanged(val.year, val.month, val.day)
+                      ? 0
+                      : '4px'
+                    : 0,
+                userSelect: 'none',
               }}
               key={i}
               onClick={() => {

@@ -154,61 +154,69 @@ export const Pill: FC<PillPropss> = ({
         )}
       </styled.div>
       {open && (
-        <styled.div
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 48,
-            background: genColor('background', 'default', 'surface'),
-            border: `1px solid ${genColor(
-              'inputBorder',
-              'neutralNormal',
-              'default'
-            )}`,
-            borderRadius: 8,
-            padding: 8,
-            '& > * + *': {
-              marginTop: '2px',
-            },
-          }}
-        >
-          {options?.map((option, index) => (
-            <Text
-              selectable="none"
-              onClick={() => {
-                onChange?.(option.value)
-                setThisValue(option)
-                setOpen(false)
-              }}
-              key={option.value + index}
-              color="default"
-              style={{
-                position: 'relative',
-                userSelect: 'none',
-                cursor: 'pointer',
-                height: 32,
-                background:
-                  // index === focus
-                  // ? color('action', 'system', 'hover')
-                  genColor('background', 'default', 'surface'),
-                display: 'flex',
-                justifyContent: 'start',
-                alignItems: 'center',
-                padding: '0 12px 0 42px',
-                borderRadius: 8,
-                '&:hover': {
-                  background: genColor('action', 'system', 'hover'),
-                },
-                '&:active': {
-                  background: genColor('action', 'system', 'active'),
-                },
-              }}
-            >
-              {option.label}
-            </Text>
-          ))}
-        </styled.div>
+        <>
+          <styled.div
+            style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }}
+            onClick={() => {
+              setOpen(false)
+            }}
+          />
+          <styled.div
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 48,
+              background: genColor('background', 'default', 'surface'),
+              border: `1px solid ${genColor(
+                'inputBorder',
+                'neutralNormal',
+                'default'
+              )}`,
+              borderRadius: 8,
+              padding: 8,
+              '& > * + *': {
+                marginTop: '2px',
+              },
+            }}
+          >
+            {options?.map((option, index) => (
+              <Text
+                selectable="none"
+                onClick={() => {
+                  onChange?.(option.value)
+                  setThisValue(option)
+                  setOpen(false)
+                }}
+                key={option.value + index}
+                color="default"
+                style={{
+                  position: 'relative',
+                  userSelect: 'none',
+                  cursor: 'pointer',
+                  height: 32,
+                  background:
+                    // index === focus
+                    // ? color('action', 'system', 'hover')
+                    genColor('background', 'default', 'surface'),
+                  display: 'flex',
+                  justifyContent: 'start',
+                  alignItems: 'center',
+                  padding: '0 12px 0 42px',
+                  borderRadius: 8,
+                  '&:hover': {
+                    background: genColor('action', 'system', 'hover'),
+                  },
+                  '&:active': {
+                    background: genColor('action', 'system', 'active'),
+                  },
+                }}
+              >
+                {option.label}
+              </Text>
+            ))}
+          </styled.div>
+        </>
       )}
     </styled.div>
   )

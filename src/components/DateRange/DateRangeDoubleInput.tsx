@@ -5,6 +5,7 @@ import {
   styled,
   IconCalendar,
   removeOverlay,
+  Text,
 } from '../../'
 import { useOverlay } from '../../hooks/useOverlay'
 import { FromRangePicker } from './FromRangePicker'
@@ -22,6 +23,14 @@ const hover = {
     backgroundColor: genColor('action', 'neutral', 'subtleHover'),
   },
 }
+
+const DateWrap = styled('div', {
+  display: 'flex',
+  // border: '1px solid green',
+  // height: '100%',
+  cursor: 'pointer',
+  padding: '8px 0px',
+})
 
 export const DateRangeDoubleInput = ({
   fromValue,
@@ -425,45 +434,24 @@ export const DateRangeDoubleInput = ({
 
       <styled.div
         style={{
-          // border: '2px solid red',
           display: 'flex',
           alignItems: 'center',
+          height: '40px',
+          padding: '0px 12px',
+          borderRadius: '8px',
+          border: `1px solid ${genColor('inputBorder', 'neutralNormal')}`,
+          // background: 'var(--global-white-alpha-white-a-13, rgba(255, 255, 255, 0.00))'
         }}
       >
+        <IconCalendar style={{ marginRight: 8 }} />
         {/* FROM FROM FROM */}
-        <styled.div
-          style={{
-            display: 'flex',
-            position: 'relative',
-            // border: '1px solid',
-            borderColor: genColor('border', 'default', 'strong'),
-            boxSizing: 'content-box',
-            borderRadius: 8,
-            boxShadow: `0px 0px 0px 2px ${genColor(
-              'action',
-              'primary',
-              'subtleNormal'
-            )}`,
-            marginRight: '-2px',
-            height: 36,
-            paddingLeft: 12,
-            paddingRight: 12,
-            alignItems: 'center',
-            width: '100%',
-            maxWidth: 139,
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-            ...style,
-          }}
+        <DateWrap
           onClick={(e) => {
             openFromRangePicker(e)
           }}
         >
-          {/* @ts-ignore*/}
-          {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
-          <IconCalendar style={{ marginRight: 8 }} />
-          {/* </ClickableIcon> */}
-          <styled.div
+          <Text
+            selectable="none"
             style={{
               padding: '0px 1px',
               fontSize: 14,
@@ -480,9 +468,10 @@ export const DateRangeDoubleInput = ({
             }}
           >
             {fromDay === '' ? 'dd' : fromDay < 10 ? `0${fromDay}` : fromDay}
-          </styled.div>
-          <styled.div>/</styled.div>
-          <styled.div
+          </Text>
+          <Text selectable="none">/</Text>
+          <Text
+            selectable="none"
             style={{
               padding: '0px 1px',
               fontSize: 14,
@@ -503,9 +492,10 @@ export const DateRangeDoubleInput = ({
               : fromMonth < 10
               ? `0${fromMonth}`
               : fromMonth}
-          </styled.div>
-          <styled.div>/</styled.div>
-          <styled.div
+          </Text>
+          <Text selectable="none">/</Text>
+          <Text
+            selectable="none"
             style={{
               padding: '0px 1px',
               fontSize: 14,
@@ -522,42 +512,17 @@ export const DateRangeDoubleInput = ({
             }}
           >
             {fromYear === '' ? 'yyyy' : fromYear}
-          </styled.div>
-        </styled.div>
-        {/* TILL TILL TILL */}
-        <styled.div
-          style={{
-            display: 'flex',
-            position: 'relative',
-            // border: '1px solid',
-            borderColor: genColor('border', 'default', 'strong'),
-            borderRadius: 8,
-            boxShadow: `0px 0px 0px 2px ${genColor(
-              'action',
-              'primary',
-              'subtleNormal'
-            )}`,
-            height: 36,
-            boxSizing: 'content-box',
-            paddingLeft: 12,
-            paddingRight: 12,
-            alignItems: 'center',
-            width: '100%',
-            maxWidth: 139,
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
-            marginLeft: 4,
-
-            ...style,
-          }}
+          </Text>
+        </DateWrap>
+        -{/* TILL TILL TILL */}
+        <DateWrap
+          style={{}}
           onClick={(e) => {
             openTillRangePicker(e)
           }}
         >
-          {/* @ts-ignore*/}
-          {/* <ClickableIcon icon={<IconCalendar />} style={{ flexShrink: '0' }} /> */}
-          <IconCalendar style={{ marginRight: 8 }} />
-          <styled.div
+          <Text
+            selectable="none"
             style={{
               padding: '0px 1px',
               fontSize: 14,
@@ -574,9 +539,10 @@ export const DateRangeDoubleInput = ({
             }}
           >
             {tillDay === '' ? 'dd' : tillDay < 10 ? `0${tillDay}` : tillDay}
-          </styled.div>
-          <styled.div>/</styled.div>
-          <styled.div
+          </Text>
+          <Text selectable="none">/</Text>
+          <Text
+            selectable="none"
             style={{
               padding: '0px 1px',
               fontSize: 14,
@@ -597,9 +563,10 @@ export const DateRangeDoubleInput = ({
               : tillMonth < 10
               ? `0${tillMonth}`
               : tillMonth}
-          </styled.div>
-          <styled.div>/</styled.div>
-          <styled.div
+          </Text>
+          <Text selectable="none">/</Text>
+          <Text
+            selectable="none"
             style={{
               padding: '0px 1px',
               fontSize: 14,
@@ -616,8 +583,8 @@ export const DateRangeDoubleInput = ({
             }}
           >
             {tillYear === '' ? 'yyyy' : tillYear}
-          </styled.div>
-        </styled.div>
+          </Text>
+        </DateWrap>
       </styled.div>
     </styled.div>
   )
