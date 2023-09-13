@@ -20,6 +20,7 @@ import {
 import { useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
 import { DeepPartial } from 'utility-types'
+import { prettyDate } from '@based/pretty-date'
 
 const Modal: FC<{
   updates: ReturnType<typeof useDistUpdates>
@@ -86,7 +87,7 @@ const Modal: FC<{
                     </Text>
                   ) : (
                     <Text typography="body600" color="red">
-                      HOTFIX
+                      HOTFIX ({prettyDate(d.dist.updatedAt, 'date-time-human')})
                     </Text>
                   )}
                 </Row>

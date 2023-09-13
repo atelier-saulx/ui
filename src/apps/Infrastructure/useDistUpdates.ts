@@ -38,6 +38,9 @@ export const useDistUpdates = (
         const currentDist = serviceDists.find(
           (d) => d.checksum === service.distChecksum
         )
+
+        if (!currentDist) continue
+
         for (const d of serviceDists) {
           if (d.updatedAt > currentDist.updatedAt) {
             needUpdate.push({
