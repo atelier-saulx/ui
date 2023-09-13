@@ -83,13 +83,13 @@ export const getButtonStyle = (
 
     '&:focus': props.visibleFocus
       ? {
-          backgroundColor: isGhost
-            ? 'transparent'
-            : genColor(
-                'action',
-                colorProp,
-                isLight ? 'subtleSelected' : 'selected'
-              ),
+          // backgroundColor: isGhost
+          //   ? 'transparent'
+          //   : genColor(
+          //       'action',
+          //       colorProp,
+          //       isLight ? 'subtleSelected' : 'selected'
+          //     ),
           border:
             props.size !== 'xsmall'
               ? `1px solid ${genColor('content', 'inverted', 'primary')}`
