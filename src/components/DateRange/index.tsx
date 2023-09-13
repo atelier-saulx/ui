@@ -6,11 +6,13 @@ import { DateRangeDoubleInput } from './DateRangeDoubleInput'
 export type DateRangeProps = {
   value?: number[]
   onChange?: (v) => void
+  numbered?: boolean
 }
 
 export const DateRange = ({
   value = [Date.now()],
   onChange = () => null,
+  numbered = false,
 }: DateRangeProps) => {
   const [fromMscValue, setfromMscValue] = useState(value[0])
   const [tillMscValue, setTillMscValue] = useState(value[0])
@@ -25,6 +27,7 @@ export const DateRange = ({
         values={{ fromValue: fromMscValue, tillValue: tillMscValue }}
       >
         <DateRangeDoubleInput
+          numbered={numbered}
           fromValue={fromMscValue}
           tillValue={tillMscValue}
           setFromValue={setfromMscValue}

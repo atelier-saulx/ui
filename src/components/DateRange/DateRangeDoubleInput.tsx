@@ -17,12 +17,27 @@ type DateRangeDoubleInputProps = {
   setFromValue: (e) => void
   setTillValue: (e) => void
   style?: Style
+  numbered?: boolean
 }
 const hover = {
   '&:hover': {
     backgroundColor: genColor('action', 'neutral', 'subtleHover'),
   },
 }
+const monthArr = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'June',
+  'July',
+  'Aug',
+  'Sept',
+  'Oct',
+  'Nov',
+  'Dec',
+]
 
 const DateWrap = styled('div', {
   display: 'flex',
@@ -38,6 +53,7 @@ export const DateRangeDoubleInput = ({
   setFromValue,
   setTillValue,
   style,
+  numbered,
 }: DateRangeDoubleInputProps) => {
   // TODO type?
   const dayFromRef = useRef<any>(null)
@@ -438,153 +454,294 @@ export const DateRangeDoubleInput = ({
           alignItems: 'center',
           height: '40px',
           padding: '0px 12px',
+          gap: 2,
           borderRadius: '8px',
           border: `1px solid ${genColor('inputBorder', 'neutralNormal')}`,
-          // background: 'var(--global-white-alpha-white-a-13, rgba(255, 255, 255, 0.00))'
+          ...style,
         }}
       >
         <IconCalendar style={{ marginRight: 8 }} />
         {/* FROM FROM FROM */}
-        <DateWrap
-          onClick={(e) => {
-            openFromRangePicker(e)
-          }}
-        >
-          <Text
-            selectable="none"
-            style={{
-              padding: '0px 1px',
-              fontSize: 14,
-              backgroundColor:
-                focusField === 'dayFromFocus'
-                  ? genColor('action', 'neutral', 'subtleActive')
-                  : '',
-              borderRadius: 4,
-              ...hover,
-            }}
-            onClick={() => {
-              dayFromRef.current.focus()
-              dayFromRef.current.select()
+        {numbered ? (
+          <DateWrap
+            onClick={(e) => {
+              openFromRangePicker(e)
             }}
           >
-            {fromDay === '' ? 'dd' : fromDay < 10 ? `0${fromDay}` : fromDay}
-          </Text>
-          <Text selectable="none">/</Text>
-          <Text
-            selectable="none"
-            style={{
-              padding: '0px 1px',
-              fontSize: 14,
-              backgroundColor:
-                focusField === 'monthFromFocus'
-                  ? genColor('action', 'neutral', 'subtleActive')
-                  : '',
-              borderRadius: 4,
-              ...hover,
-            }}
-            onClick={() => {
-              monthFromRef.current.focus()
-              monthFromRef.current.select()
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'dayFromFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                dayFromRef.current.focus()
+                dayFromRef.current.select()
+              }}
+            >
+              {fromDay === '' ? 'dd' : fromDay < 10 ? `0${fromDay}` : fromDay}
+            </Text>
+            <Text selectable="none">/</Text>
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'monthFromFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                monthFromRef.current.focus()
+                monthFromRef.current.select()
+              }}
+            >
+              {fromMonth === ''
+                ? 'mm'
+                : fromMonth < 10
+                ? `0${fromMonth}`
+                : fromMonth}
+            </Text>
+            <Text selectable="none">/</Text>
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'yearFromFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                yearFromRef.current.focus()
+                yearFromRef.current.select()
+              }}
+            >
+              {fromYear === '' ? 'yyyy' : fromYear}
+            </Text>
+          </DateWrap>
+        ) : (
+          // WORDS FROM
+          <DateWrap
+            onClick={(e) => {
+              openFromRangePicker(e)
             }}
           >
-            {fromMonth === ''
-              ? 'mm'
-              : fromMonth < 10
-              ? `0${fromMonth}`
-              : fromMonth}
-          </Text>
-          <Text selectable="none">/</Text>
-          <Text
-            selectable="none"
-            style={{
-              padding: '0px 1px',
-              fontSize: 14,
-              backgroundColor:
-                focusField === 'yearFromFocus'
-                  ? genColor('action', 'neutral', 'subtleActive')
-                  : '',
-              borderRadius: 4,
-              ...hover,
-            }}
-            onClick={() => {
-              yearFromRef.current.focus()
-              yearFromRef.current.select()
-            }}
-          >
-            {fromYear === '' ? 'yyyy' : fromYear}
-          </Text>
-        </DateWrap>
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                marginRight: '2px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'monthFromFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                monthFromRef.current.focus()
+                monthFromRef.current.select()
+              }}
+            >
+              {fromMonth === '' ? 'mm' : monthArr[fromMonth - 1]}
+            </Text>
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                marginRight: '2px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'dayFromFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                dayFromRef.current.focus()
+                dayFromRef.current.select()
+              }}
+            >
+              {fromDay === '' ? 'dd' : fromDay < 10 ? `0${fromDay}` : fromDay},
+            </Text>
+
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'yearFromFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                yearFromRef.current.focus()
+                yearFromRef.current.select()
+              }}
+            >
+              {fromYear === '' ? 'yyyy' : fromYear}
+            </Text>
+          </DateWrap>
+        )}
         -{/* TILL TILL TILL */}
-        <DateWrap
-          style={{}}
-          onClick={(e) => {
-            openTillRangePicker(e)
-          }}
-        >
-          <Text
-            selectable="none"
-            style={{
-              padding: '0px 1px',
-              fontSize: 14,
-              backgroundColor:
-                focusField === 'dayTillFocus'
-                  ? genColor('action', 'neutral', 'subtleActive')
-                  : '',
-              borderRadius: 4,
-              ...hover,
-            }}
-            onClick={() => {
-              dayTillRef.current.focus()
-              dayTillRef.current.select()
+        {numbered ? (
+          <DateWrap
+            style={{}}
+            onClick={(e) => {
+              openTillRangePicker(e)
             }}
           >
-            {tillDay === '' ? 'dd' : tillDay < 10 ? `0${tillDay}` : tillDay}
-          </Text>
-          <Text selectable="none">/</Text>
-          <Text
-            selectable="none"
-            style={{
-              padding: '0px 1px',
-              fontSize: 14,
-              backgroundColor:
-                focusField === 'monthTillFocus'
-                  ? genColor('action', 'neutral', 'subtleActive')
-                  : '',
-              borderRadius: 4,
-              ...hover,
-            }}
-            onClick={() => {
-              monthTillRef.current.focus()
-              monthTillRef.current.select()
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'dayTillFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                dayTillRef.current.focus()
+                dayTillRef.current.select()
+              }}
+            >
+              {tillDay === '' ? 'dd' : tillDay < 10 ? `0${tillDay}` : tillDay}
+            </Text>
+            <Text selectable="none">/</Text>
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'monthTillFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                monthTillRef.current.focus()
+                monthTillRef.current.select()
+              }}
+            >
+              {tillMonth === ''
+                ? 'mm'
+                : tillMonth < 10
+                ? `0${tillMonth}`
+                : tillMonth}
+            </Text>
+            <Text selectable="none">/</Text>
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'yearTillFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                yearTillRef.current.focus()
+                yearTillRef.current.select()
+              }}
+            >
+              {tillYear === '' ? 'yyyy' : tillYear}
+            </Text>
+          </DateWrap>
+        ) : (
+          //WORDS TILL
+          <DateWrap
+            onClick={(e) => {
+              openTillRangePicker(e)
             }}
           >
-            {tillMonth === ''
-              ? 'mm'
-              : tillMonth < 10
-              ? `0${tillMonth}`
-              : tillMonth}
-          </Text>
-          <Text selectable="none">/</Text>
-          <Text
-            selectable="none"
-            style={{
-              padding: '0px 1px',
-              fontSize: 14,
-              backgroundColor:
-                focusField === 'yearTillFocus'
-                  ? genColor('action', 'neutral', 'subtleActive')
-                  : '',
-              borderRadius: 4,
-              ...hover,
-            }}
-            onClick={() => {
-              yearTillRef.current.focus()
-              yearTillRef.current.select()
-            }}
-          >
-            {tillYear === '' ? 'yyyy' : tillYear}
-          </Text>
-        </DateWrap>
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                marginRight: '2px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'monthTillFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                monthTillRef.current.focus()
+                monthTillRef.current.select()
+              }}
+            >
+              {tillMonth === '' ? 'mm' : monthArr[tillMonth - 1]}
+            </Text>
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                marginRight: '2px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'dayTillFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                dayTillRef.current.focus()
+                dayTillRef.current.select()
+              }}
+            >
+              {tillDay === '' ? 'dd' : tillDay < 10 ? `0${tillDay}` : tillDay},
+            </Text>
+
+            <Text
+              selectable="none"
+              style={{
+                padding: '0px 1px',
+                fontSize: 14,
+                backgroundColor:
+                  focusField === 'yearTillFocus'
+                    ? genColor('action', 'neutral', 'subtleActive')
+                    : '',
+                borderRadius: 4,
+                ...hover,
+              }}
+              onClick={() => {
+                yearTillRef.current.focus()
+                yearTillRef.current.select()
+              }}
+            >
+              {tillYear === '' ? 'yyyy' : tillYear}
+            </Text>
+          </DateWrap>
+        )}
       </styled.div>
     </styled.div>
   )
