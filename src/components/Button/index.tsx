@@ -81,7 +81,7 @@ export const getButtonStyle = (
       ? 'transparent'
       : genColor('action', colorProp, isLight ? 'subtleNormal' : 'normal'),
 
-    '&:focus': !props.visibleFocus
+    '&:focus': props.visibleFocus
       ? {
           backgroundColor: isGhost
             ? 'transparent'

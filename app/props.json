@@ -225,6 +225,10 @@
           "optional": true,
           "type": "boolean"
         },
+        "visibleFocus": {
+          "optional": true,
+          "type": "boolean"
+        },
         "ghost": {
           "optional": true,
           "type": "boolean"
@@ -291,7 +295,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  children?: ReactNode\n  disabled?: boolean\n  color?: ColorActionColors\n  fill?: boolean // TODO: add this on inputs etc as well\n  ghost?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  loading?: boolean\n  onClick?: ClickHandler\n  onPointerDown?: MouseEventHandler\n  light?: boolean\n  size?: 'large' | 'medium' | 'small' | 'xsmall'\n  style?: Style\n  underline?: boolean\n  /** \n     Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n    \n     Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n     Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n    */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
+      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  children?: ReactNode\n  disabled?: boolean\n  color?: ColorActionColors\n  fill?: boolean // TODO: add this on inputs etc as well\n  visibleFocus?: boolean\n  ghost?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  loading?: boolean\n  onClick?: ClickHandler\n  onPointerDown?: MouseEventHandler\n  light?: boolean\n  size?: 'large' | 'medium' | 'small' | 'xsmall'\n  style?: Style\n  underline?: boolean\n  /** \n     Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n    \n     Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n     Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n    */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
       "file": "/components/Button/index.tsx"
     },
     "CodeProps": {
@@ -319,9 +323,13 @@
         "color": {
           "optional": true,
           "type": "ColorBackgroundColors"
+        },
+        "copy": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n  color?: ColorBackgroundColors\n}",
+      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n  color?: ColorBackgroundColors\n  copy?: boolean\n}",
       "file": "/components/Code/index.tsx"
     },
     "ContextItemProps": {
