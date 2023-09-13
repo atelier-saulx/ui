@@ -10,7 +10,7 @@ const example: ComponentDef = {
   description: '',
   examples: [
     {
-      props: { label: 'single line' },
+      props: { label: 'Single line' },
       customRenderer: (props) => {
         const genRandomPoints = (
           formula: (i: number) => { x: number; y: number },
@@ -39,7 +39,7 @@ const example: ComponentDef = {
                 0,
                 50
               )}
-              label="Single Line"
+              {...props}
             />
           </styled.div>
         )

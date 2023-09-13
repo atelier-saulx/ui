@@ -247,20 +247,21 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
           </styled.div>
           {parsedState.current.expanded ? (
             <styled.div>
+              <Code
+                copy
+                value={toComponent(
+                  component.name,
+                  example.props,
+                  propsToCode(component.name, parsedProps).propsHeader
+                )}
+              />
+              <Divider />
               <PropsEditor
                 parsedProps={parsedProps}
                 component={component}
                 index={index}
                 updateState={updateState}
                 state={parsedState.current}
-              />
-              <Divider />
-              <Code
-                value={toComponent(
-                  component.name,
-                  example.props,
-                  propsToCode(component.name, parsedProps).propsHeader
-                )}
               />
             </styled.div>
           ) : null}

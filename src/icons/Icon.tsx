@@ -12,15 +12,19 @@ export type IconProps = {
 }
 
 export const Icon: FC<IconProps> = ({ color, style, children, onClick }) => {
-  // isActionColor
-
   return (
     <styled.div
       onClick={onClick}
       style={{
         display: 'flex',
+        transition: 'transform 0.1s',
         cursor: onClick ? 'pointer' : 'inherit',
         borderRadius: onClick ? 4 : 0,
+        '&:active': onClick
+          ? {
+              transform: 'scale(0.95)',
+            }
+          : null,
         '&:hover': onClick
           ? {
               color: genColor(

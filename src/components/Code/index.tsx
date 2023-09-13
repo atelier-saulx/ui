@@ -1,6 +1,13 @@
-import React, { FC, Dispatch, SetStateAction, ReactNode } from 'react'
+import React, {
+  FC,
+  Dispatch,
+  SetStateAction,
+  ReactNode,
+  useEffect,
+} from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSimpleEditor'
+import { IconCheckCircle, IconCopy } from '../../icons'
 
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markup'
@@ -13,7 +20,13 @@ import 'prismjs/components/prism-tsx.min'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
-import { Style, styled, color as genColor, ColorBackgroundColors } from '../..'
+import {
+  Style,
+  styled,
+  color as genColor,
+  ColorBackgroundColors,
+  useCopyToClipboard,
+} from '../..'
 
 export type CodeProps = {
   style?: Style
@@ -21,6 +34,7 @@ export type CodeProps = {
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
   header?: ReactNode
   color?: ColorBackgroundColors
+  copy?: boolean
 }
 
 export const Code: FC<CodeProps> = ({
@@ -29,7 +43,10 @@ export const Code: FC<CodeProps> = ({
   onChange,
   header,
   color,
+  copy,
 }) => {
+  const [copied, copyIt] = useCopyToClipboard(value ?? '')
+
   return (
     <styled.div
       style={{
@@ -64,12 +81,24 @@ export const Code: FC<CodeProps> = ({
           } catch (err) {}
         }}
         style={{
+          pointerEvents: !onChange ? 'none' : 'auto',
           margin: 16,
           fontSize: 14,
           color: genColor('content', 'brand', 'primary'),
           fontFamily: 'Fira Code, monospace, sans-serif',
         }}
       />
+      {copy ? (
+        <IconCopy
+          color="brand"
+          onClick={() => copyIt()}
+          style={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+          }}
+        />
+      ) : null}
     </styled.div>
   )
 }
