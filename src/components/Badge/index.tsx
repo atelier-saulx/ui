@@ -13,6 +13,7 @@ import {
   useCopyToClipboard,
 } from '../..'
 import { ClickHandler } from '../../types'
+import { IconProps } from '../../icons/Icon'
 
 const COLORGUARD = [
   'default',
@@ -28,7 +29,7 @@ const COLORGUARD = [
 export type BadgeProps = {
   afterIcon?: ReactNode
   color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
-  icon?: ReactNode
+  icon?: FC<IconProps> | ReactNode
   children?: ReactNode
   onClick?: ClickHandler
   style?: Style

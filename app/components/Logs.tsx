@@ -18,7 +18,13 @@ const example: ComponentDef = {
         // ],
       },
       customRenderer: () => {
-        let logData = [{ msg: '🪵 Log 1', ts: 21241425 }]
+        let logData = [
+          { msg: '🪵 Log 1', ts: 21241425 },
+          { msg: '🪵 Log 1', ts: 21241425 },
+          { msg: '🪵 Log 1', ts: 21241425 },
+          { msg: '🪵 Log 1', ts: 21241425 },
+          { msg: '🪵 Log 1', ts: 21241425 },
+        ]
 
         return <Logs data={logData} />
       },

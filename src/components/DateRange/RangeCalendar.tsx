@@ -227,7 +227,6 @@ export const RangeCalendar = ({
           ) : (
             <styled.div
               onMouseEnter={() => {
-                console.log('hover day', hoverDay)
                 if (val.day !== null) {
                   setHoverDay(val.day)
                   setHoverMonth(val.month)
