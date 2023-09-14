@@ -100,7 +100,7 @@ export const NewDateInput = ({
     undefined,
     undefined,
     {
-      style: { scrollbarGutter: 'unset' },
+      style: { scrollbarGutter: 'unset', boxSizing: 'border-box' },
       transparent: true,
     }
   )
@@ -117,7 +117,7 @@ export const NewDateInput = ({
     undefined,
     undefined,
     {
-      style: { scrollbarGutter: 'unset' },
+      style: { scrollbarGutter: 'unset', boxSizing: 'border-box' },
       transparent: true,
     }
   )
@@ -128,7 +128,7 @@ export const NewDateInput = ({
     undefined,
     undefined,
     {
-      style: { scrollbarGutter: 'unset' },
+      style: { scrollbarGutter: 'unset', boxSizing: 'border-box' },
       transparent: true,
     }
   )
@@ -286,6 +286,18 @@ export const NewDateInput = ({
             mindWidth: '296px',
             borderRadius: '8px',
             border: `1px solid ${genColor('inputBorder', 'neutralNormal')}`,
+            '&:hover': {
+              border: `1px solid ${genColor('inputBorder', 'neutralHover')}`,
+            },
+            [BpTablet]: {
+              '&:hover': null,
+            },
+            '&:active': {
+              border: `1px solid ${genColor('inputBorder', 'neutralActive')}`,
+            },
+            '&:focus': {
+              border: `1px solid ${genColor('inputBorder', 'neutralSelected')}`,
+            },
             ...style,
           }}
           onClick={(e) => {

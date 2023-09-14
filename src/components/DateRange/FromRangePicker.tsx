@@ -228,11 +228,23 @@ export const FromRangePicker = ({
       {/* More Button options */}
       <styled.div
         style={{
-          padding: '12px 16px',
+          padding: '8px 8px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '2px',
           '@media (hover: hover)': {
             '& div': {
-              '&:hover': { cursor: 'pointer' },
-              display: 'flex',
+              cursor: 'pointer',
+              height: '16px',
+              padding: '8px 12px',
+              alignItems: 'center',
+              borderRadius: '8px',
+              '&:hover': {
+                backgroundColor: genColor('action', 'system', 'hover'),
+              },
+              '&:active': {
+                backgroundColor: genColor('action', 'system', 'active'),
+              },
             },
           },
         }}
@@ -251,37 +263,38 @@ export const FromRangePicker = ({
                 : `${dateObj.getDate()}`
             )
           }}
-          style={{ marginBottom: 4, display: 'flex' }}
+          style={{ display: 'flex' }}
         >
           Today
         </Text>
-        <Text
-          style={{ marginBottom: 4, display: 'flex' }}
-          onClick={() => dayChanger('forward')}
-        >
+        <Text style={{ display: 'flex' }} onClick={() => dayChanger('forward')}>
           Select next date
         </Text>
         <Text
-          style={{ marginBottom: 4, display: 'flex' }}
+          style={{ display: 'flex', marginBottom: '6px' }}
           onClick={() => dayChanger('backward')}
         >
           Select previous date
         </Text>
+        <styled.span
+          style={{
+            borderTop: `1px solid ${genColor('border', 'default', 'strong')}`,
+            height: 0,
+            margin: '0 -8px',
+            borderRadius: 0,
+            padding: 0,
+          }}
+        />
+        <Text
+          style={{ display: 'flex', marginTop: '6px' }}
+          onClick={() => {
+            setValue(0)
+            removeAllOverlays()
+          }}
+        >
+          Clear
+        </Text>
       </styled.div>
-      <styled.div
-        style={{
-          borderBottom: `1px solid ${genColor('border', 'default', 'strong')}`,
-        }}
-      />
-      <Text
-        style={{ padding: '8px 16px', cursor: 'pointer', display: 'flex' }}
-        onClick={() => {
-          setValue(0)
-          removeAllOverlays()
-        }}
-      >
-        Clear
-      </Text>
     </StyledDatePickerBox>
   )
 }

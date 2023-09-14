@@ -6,6 +6,7 @@ import {
   IconCalendar,
   removeOverlay,
   Text,
+  BpTablet,
 } from '../../'
 import { useOverlay } from '../../hooks/useOverlay'
 import { FromRangePicker } from './FromRangePicker'
@@ -457,6 +458,18 @@ export const DateRangeDoubleInput = ({
           gap: 2,
           borderRadius: '8px',
           border: `1px solid ${genColor('inputBorder', 'neutralNormal')}`,
+          '&:hover': {
+            border: `1px solid ${genColor('inputBorder', 'neutralHover')}`,
+          },
+          [BpTablet]: {
+            '&:hover': null,
+          },
+          '&:active': {
+            border: `1px solid ${genColor('inputBorder', 'neutralActive')}`,
+          },
+          '&:focus': {
+            border: `1px solid ${genColor('inputBorder', 'neutralSelected')}`,
+          },
           ...style,
         }}
       >
