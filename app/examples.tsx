@@ -1,6 +1,7 @@
 import React from 'react'
 import '../src/fonts.css'
 import { ComponentDef } from './types'
+import LogGroups from './components/LogGroups'
 import alertBanner from './components/AlertBanner'
 import avatar from './components/Avatar'
 import badge from './components/Badge'
@@ -42,6 +43,7 @@ import tooltipTest from './components/TooltipTest'
 import topNavigation from './components/TopNavigation'
 
 export const components: ComponentDef[] = [
+  LogGroups,
   alertBanner,
   avatar,
   badge,

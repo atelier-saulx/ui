@@ -358,6 +358,7 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
           {type ? (
             <styled.div
               style={{
+                border: '1px solid red',
                 display: 'flex',
                 backgroundColor: genColor('background', 'inverted', 'surface'),
                 padding: '2px 8px',

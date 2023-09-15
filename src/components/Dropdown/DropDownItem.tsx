@@ -57,6 +57,9 @@ export const DropDownItem: FC<DropDownItemProps> = ({
           '&:hover': {
             backgroundColor: genColor('action', 'system', 'normal'),
           },
+          '&:active': {
+            backgroundColor: genColor('action', 'system', 'active'),
+          },
         },
       }}
       onClick={data ? openNewDropDown : null}
