@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Calendar } from './Calendar'
-import {
-  color as genColor,
-  IconChevronDown,
-  IconChevronTop,
-  Text,
-  styled,
-  removeAllOverlays,
-  useContextState,
-} from '../../'
+import { IconChevronDown, IconChevronTop } from '../../icons'
+import { color as genColor } from '../../varsUtilities'
+import { styled } from 'inlines'
+import { Text } from '../Text'
+import { useContextState } from '../../hooks'
+import { removeAllOverlays } from '../Overlay'
 
 type PickerProps = {
   setValue: (e: any) => void

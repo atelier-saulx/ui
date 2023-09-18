@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { color as genColor, Input, styled } from '../../'
+import { color as genColor } from '../../varsUtilities'
+import { styled } from 'inlines'
+import { Input } from '../Input'
 
 export const NewTimeInput = ({ setTimeString, timeString, style }) => {
   const [, setValidTimeInput] = useState(false)

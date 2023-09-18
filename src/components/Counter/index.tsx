@@ -1,15 +1,17 @@
 import React, { FC, ReactNode } from 'react'
+
 import {
   ColorBackgroundColors,
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
   ColorNonSemanticContentColors,
-  isSemanticColor,
-  color as genColor,
-  Text,
-  Center,
-  Style,
-} from '../..'
+} from '../../varsTypes'
+import { isSemanticColor } from '../../utils'
+import { color as genColor } from '../../varsUtilities'
+import { Text } from '../Text'
+import { Center } from '../Styled'
+import { Style } from 'inlines'
+
 import { ClickHandler } from '../../types'
 
 export type CounterProps = {

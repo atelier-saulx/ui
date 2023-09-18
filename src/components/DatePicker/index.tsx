@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
-import { StateProvider, styled, Style } from '../../'
+import { StateProvider } from '../../hooks'
+import { styled, Style } from 'inlines'
 import { NewDateInput } from './NewDateInput'
 // import { DatePickerProps } from '../../'
 
