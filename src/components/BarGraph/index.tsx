@@ -1,11 +1,8 @@
 import React, { FC } from 'react'
-import {
-  ColorNonSemanticBackgroundColors,
-  styled,
-  Style,
-  Text,
-  color as genColor,
-} from '../..'
+import { styled, Style } from 'inlines'
+import { Text } from '../Text'
+import { color as genColor } from '../../varsUtilities'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 
 export type BarGraphSingleItem = {
   label: string

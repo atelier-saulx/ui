@@ -20,13 +20,10 @@ import 'prismjs/components/prism-tsx.min'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
-import {
-  Style,
-  styled,
-  color as genColor,
-  ColorBackgroundColors,
-  useCopyToClipboard,
-} from '../..'
+import { Style, styled } from 'inlines'
+import { color as genColor } from '../../varsUtilities'
+import { ColorBackgroundColors } from '../../varsTypes'
+import { useCopyToClipboard } from '../../hooks'
 
 export type CodeProps = {
   style?: Style

@@ -9,19 +9,15 @@ import React, {
   useRef,
 } from 'react'
 
-import {
-  color as genColor,
-  ColorActionColors,
-  ColorContentColors,
-  KeyBoardshortcut,
-  Key,
-  ProgressCircle,
-  renderOrCreateElement,
-  Style,
-  styled,
-  Text,
-  useKeyboardShortcut,
-} from '../..'
+import { color as genColor } from '../../varsUtilities'
+import { ColorActionColors, ColorContentColors } from '../../varsTypes'
+import { KeyBoardshortcut, Key } from '../KeyboardShortcut'
+import { useKeyboardShortcut } from '../../hooks'
+import { ProgressCircle } from '../ProgressCircle'
+import { renderOrCreateElement } from '../../utils'
+import { Style, styled } from 'inlines'
+import { Text } from '../Text'
+
 import { ClickHandler } from '../../types'
 import { BpTablet } from '../../utils/breakpoints'
 
