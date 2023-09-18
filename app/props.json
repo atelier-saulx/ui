@@ -420,13 +420,9 @@
       "name": "ContextOptionsProps",
       "props": {
         "items": {
-          "type": [
-            {
-              "array": "Option"
-            },
-            "null",
-            "undefined"
-          ]
+          "type": {
+            "array": "Option"
+          }
         },
         "value": {
           "optional": true,
@@ -440,7 +436,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ContextOptionsProps = {\n  items: Option[] | null | undefined\n  value?: Value\n  onChange: (value: Value) => void\n  // eslint-disable-next-line\n  noValue?: boolean\n}",
+      "code": "type ContextOptionsProps = {\n  items: Option[]\n  value?: Value\n  onChange: (value: Value) => void\n  // eslint-disable-next-line\n  noValue?: boolean\n}",
       "file": "/components/ContextMenu/ContextOptions.tsx"
     },
     "ContextMultiOptionsProps": {
@@ -451,8 +447,7 @@
             {
               "array": "Option"
             },
-            "null",
-            "undefined"
+            "null"
           ]
         },
         "values": {
@@ -465,7 +460,7 @@
           "type": "function"
         }
       },
-      "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null | undefined\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
+      "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
       "file": "/components/ContextMenu/ContextOptions.tsx"
     },
     "CounterProps": {
@@ -1247,7 +1242,15 @@
         },
         "data": {
           "optional": true,
-          "type": "TSTypeLiteral"
+          "type": [
+            "TSTypeLiteral",
+            {
+              "array": "BarGraphSingleItem"
+            },
+            {
+              "array": "PieGraphSingleItem"
+            }
+          ]
         },
         "height": {
           "optional": true,
@@ -1258,7 +1261,7 @@
           "type": "Style"
         }
       },
-      "code": "type MetricsWidgetProps = {\n  calcOption?: 'percentage' | 'numbers'\n  chart?: 'bar' | 'line' | 'pie'\n  // TODO fix this TS type\n  data?: { [key: string]: { x: number; y: number }[] }\n  height?: number\n  style?: Style\n}",
+      "code": "type MetricsWidgetProps = {\n  calcOption?: 'percentage' | 'numbers'\n  chart?: 'bar' | 'line' | 'pie'\n  // TODO fix this TS type\n  data?:\n    | { [key: string]: { x: number; y: number }[] | { [key: string]: any } }\n    | BarGraphSingleItem[]\n    | PieGraphSingleItem[]\n  height?: number\n  style?: Style\n}",
       "file": "/components/MetricsWidget/index.tsx"
     },
     "ModalWarningProps": {
@@ -1420,7 +1423,7 @@
     "ConditionalProps": {
       "name": "ConditionalProps",
       "props": {},
-      "code": "type ConditionalProps =\n  | {\n      value?: boolean\n      options?: never\n      onChange?: () => void | Dispatch<SetStateAction<Boolean>>\n    }\n  | {\n      options?: PillOption[]\n      value?: PillOption\n      onChange?: (e) => void\n    }",
+      "code": "type ConditionalProps =\n  | {\n      value?: boolean\n      options?: never\n      onChange?: () => void | Dispatch<SetStateAction<Boolean>>\n    }\n  | {\n      options?: PillOption[]\n      value?: PillOption\n      onChange?: (e: any) => void\n    }",
       "file": "/components/Pill/index.tsx"
     },
     "PillProps": {
@@ -1451,35 +1454,6 @@
       },
       "code": "type PopoverProps = {\n  children?: ReactNode | ReactNode[]\n}",
       "file": "/components/Popover/index.tsx"
-    },
-    "ControlsProps": {
-      "name": "ControlsProps",
-      "props": {
-        "componentProps": {
-          "type": "TSTypeLiteral"
-        },
-        "propState": {
-          "type": "TSTypeLiteral"
-        },
-        "setPropState": {}
-      },
-      "code": "type ControlsProps = {\n  componentProps: {}\n  propState: {}\n  setPropState: React.Dispatch<React.SetStateAction<{}>>\n}",
-      "file": "/components/Previewer/Controls.tsx"
-    },
-    "PreviewerProps": {
-      "name": "PreviewerProps",
-      "props": {
-        "component": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "propsName": {
-          "optional": true,
-          "type": "string"
-        }
-      },
-      "code": "type PreviewerProps = {\n  component?: ReactNode\n  // types prop\n  propsName?: string\n}",
-      "file": "/components/Previewer/index.tsx"
     },
     "ProgressCircleProps": {
       "name": "ProgressCircleProps",
