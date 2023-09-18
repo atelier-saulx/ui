@@ -11,7 +11,7 @@ import {
   useWindowResize,
   IconMenu,
   IconClose,
-} from '../..'
+} from '~'
 import { MenuItem } from './MenuItem'
 
 type MenuHeaderProps = {

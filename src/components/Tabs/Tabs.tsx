@@ -14,7 +14,7 @@ import {
   Text,
   color as genColor,
   renderOrCreateElement,
-} from '../..'
+} from '~'
 import { BpTablet } from '../../utils/breakpoints'
 
 export type TabsProps = {

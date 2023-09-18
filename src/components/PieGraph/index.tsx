@@ -1,11 +1,5 @@
 import React, { FC, useState } from 'react'
-import {
-  styled,
-  Style,
-  color,
-  Text,
-  ColorNonSemanticBackgroundColors,
-} from '../..'
+import { styled, Style, color, Text, ColorNonSemanticBackgroundColors } from '~'
 
 export type PieGraphSingleItem = {
   label: string

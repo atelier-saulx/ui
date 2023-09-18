@@ -8,7 +8,7 @@ import {
   IconChevronDown,
   ScrollArea,
   ColorBackgroundColors,
-} from '../../'
+} from '~'
 import dayjs from 'dayjs'
 
 type NewLogsObject = {

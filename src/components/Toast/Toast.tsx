@@ -11,7 +11,7 @@ import {
   IconError,
   IconInfoFill,
   useToast,
-} from '../..'
+} from '~'
 
 export type ToastProps = {
   action?: { onClick: () => void; label: string }

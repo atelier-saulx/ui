@@ -7,7 +7,7 @@ import {
   Style,
   Center,
   ColorBackgroundColors,
-} from '../..'
+} from '~'
 
 export type ModalWarningProps = {
   color?: Exclude<

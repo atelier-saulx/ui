@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
-import { IconSortAsc as IconSort, color } from '../..'
+import { IconSortAsc as IconSort, color } from '~'
 import React, { useCallback } from 'react'
 
 export type TableProps = {

@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import { Text, styled, color as genColor, Style } from '../..'
+import { Text, styled, color as genColor, Style } from '~'
 import { ClickHandler } from '../../types'
 import { BpTablet } from '../../utils/breakpoints'
 

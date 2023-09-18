@@ -18,7 +18,7 @@ import {
   BarGraph,
   BarGraphSingleItem,
   PieGraphSingleItem,
-} from '../..'
+} from '~'
 import { ChartOptionsOverlay, CalculateOptionsOverlay } from './overlays'
 
 type MetricsWidgetProps = {

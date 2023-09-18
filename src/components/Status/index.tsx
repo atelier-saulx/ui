@@ -11,7 +11,7 @@ import {
   Style,
   Text,
   IconSmallDot,
-} from '../..'
+} from '~'
 import { ClickHandler } from '../../types'
 
 export type StatusProps = {

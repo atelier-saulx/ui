@@ -11,7 +11,7 @@ import {
   IconHash,
   IconPercentage,
   IconChartBarHorizontal,
-} from '../..'
+} from '~'
 
 const StyledSelectItem = styled('div', {
   alignItems: 'center',

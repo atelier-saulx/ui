@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { Button, styled } from '../../'
+import { Button, styled } from '~'
 import { useSidePanel } from '../../hooks/useSidePanel'
 
 export const SidePanel = () => {

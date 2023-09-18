@@ -1,4 +1,4 @@
-import { color, styled, Style } from '../..'
+import { color, styled, Style } from '~'
 
 const scrollbarColor = color('border', 'default', 'strong')
 const transparentAreaColor = color('background', 'default', 'surface')

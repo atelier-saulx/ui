@@ -6,7 +6,7 @@ import {
   IconAlertFill,
   Badge,
   ColorBackgroundColors,
-} from '../..'
+} from '~'
 import dayjs from 'dayjs'
 
 export type SingleLogItemProps = {

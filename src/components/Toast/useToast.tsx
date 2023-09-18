@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext } from 'react'
 
 import { createPortal } from 'react-dom'
 import { Toast, ToastProps } from './Toast'
-import { Style, styled, ColorBackgroundColors, color as genColor } from '../..'
+import { Style, styled, ColorBackgroundColors, color as genColor } from '~'
 
 const ToastContainer = ({ toasts }) => {
   return createPortal(

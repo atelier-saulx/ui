@@ -4,7 +4,7 @@ import React, {
   EventHandler,
   SyntheticEvent,
 } from 'react'
-import { styled, color as useColor } from '../../'
+import { styled, color as useColor } from '~'
 import { prettyDate } from '@based/pretty-date'
 
 import {} from 'react'

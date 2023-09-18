@@ -12,7 +12,7 @@ import {
   color as genColor,
   useWindowResize,
   ColorActionColors,
-} from '../..'
+} from '~'
 
 const StyledBgSlider = styled('div', {
   backgroundColor: genColor('action', 'neutral', 'subtleNormal'),

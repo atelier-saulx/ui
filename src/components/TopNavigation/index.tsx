@@ -1,5 +1,5 @@
 import React, { Children, FC, ReactNode } from 'react'
-import { styled, Style, color } from '../..'
+import { styled, Style, color } from '~'
 
 export type TopNavigationProps = {
   children?: ReactNode | ReactNode[]

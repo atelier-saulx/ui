@@ -15,7 +15,7 @@ import {
   Text,
   IconChevronDown,
   IconClose,
-} from '../../'
+} from '~'
 import { BpTablet } from '../../utils/breakpoints'
 
 type PillOption = {

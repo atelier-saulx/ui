@@ -1,11 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import {
-  color as genColor,
-  styled,
-  Style,
-  ColorContentColors,
-  border,
-} from '../../'
+import { color as genColor, styled, Style, ColorContentColors, border } from '~'
 import { ClickHandler } from '../../types'
 
 type TextProps = {

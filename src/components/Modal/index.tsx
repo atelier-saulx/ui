@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import { Dialog, Style, styled, Text, Input } from '../..'
+import { Dialog, Style, styled, Text, Input } from '~'
 import { ModalWarning } from './ModalWarning'
 
 export type ModalProps = {

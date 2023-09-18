@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { styled, Style } from '../..'
+import { styled, Style } from '~'
 
 type TabProps = {
   // leave the label prop here!

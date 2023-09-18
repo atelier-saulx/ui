@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from 'react'
-import { color as genColor, Style, styled, ColorContentColors } from '../..'
+import { color as genColor, Style, styled, ColorContentColors } from '~'
 
 export type ProgressCircleProps = {
   color?: ColorContentColors

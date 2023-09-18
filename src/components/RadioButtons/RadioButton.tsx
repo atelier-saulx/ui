@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { ColorActionColors, color as genColor, styled } from '../..'
+import { ColorActionColors, color as genColor, styled } from '~'
 
 type RadioButtonProps = {
   disabled?: boolean
