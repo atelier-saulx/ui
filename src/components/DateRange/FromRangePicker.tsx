@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useContextState } from '../../hooks/ContextState'
 import { RangeCalendar } from './RangeCalendar'
-import {
-  color as genColor,
-  IconChevronDown,
-  IconChevronTop,
-  Text,
-  removeAllOverlays,
-  styled,
-} from '../../'
+import { IconChevronDown, IconChevronTop } from '../../icons'
+
+import { color as genColor } from '../../varsUtilities'
+import { styled } from 'inlines'
+import { Text } from '../Text'
+import { removeAllOverlays } from '../Overlay'
 
 type RangeFromPickerProps = {
   setValue: (e: any) => void

@@ -1,6 +1,6 @@
 import { DateFormat } from '@based/pretty-date'
 import { NumberFormat } from '@based/pretty-number'
-import { ColorActionColors } from '../..'
+import { ColorActionColors } from '~'
 
 export type Point = { x: number; y: number }
 

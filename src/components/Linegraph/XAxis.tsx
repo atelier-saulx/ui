@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text } from '../..'
+import { Text } from '~'
 import { prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 

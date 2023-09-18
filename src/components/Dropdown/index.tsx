@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import { color, Style, styled } from '../..'
+import { color, Style, styled } from '~'
 import { DropDownItem, DropDownItemProps } from './DropDownItem'
 
 export type DropDownProps = {

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { styled, color as genColor } from '../../'
+import { styled, color as genColor } from '~'
 
 export const Dimmer = () => {
   return (

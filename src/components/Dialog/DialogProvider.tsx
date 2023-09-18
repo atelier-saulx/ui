@@ -11,7 +11,7 @@ import {
   addOverlay,
   removeOverlay,
   removeAllOverlays,
-} from '../..'
+} from '~'
 
 const Prompt: FC<{
   type?: 'prompt' | 'alert'

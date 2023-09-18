@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { IconCheckSmall, IconMinus, Style, color, styled } from '../..'
+import { IconCheckSmall, IconMinus, Style, color, styled } from '~'
 
 export type CheckboxInputProps = {
   title?: ReactNode

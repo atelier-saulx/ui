@@ -12,7 +12,7 @@ import {
   color as genColor,
   IconClose,
   BpTablet,
-} from '../..'
+} from '~'
 
 export type SelectInputOption = {
   label?: string

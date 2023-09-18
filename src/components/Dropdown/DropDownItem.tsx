@@ -9,7 +9,7 @@ import {
   useOverlay,
   Dropdown,
   Input,
-} from '../..'
+} from '~'
 import { BpTablet } from '../../utils/breakpoints'
 
 export type DropDownItemProps = {

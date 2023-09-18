@@ -1,16 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react'
-import {
-  color as genColor,
-  Style,
-  styled,
-  IconCalendar,
-  removeOverlay,
-  Text,
-  BpTablet,
-} from '../../'
+import { IconCalendar } from '../../icons'
 import { useOverlay } from '../../hooks/useOverlay'
 import { FromRangePicker } from './FromRangePicker'
 import { TillRangePicker } from './TillRangePicker'
+import { color as genColor } from '../../varsUtilities'
+import { styled, Style } from 'inlines'
+import { Text } from '../Text'
+import { removeOverlay } from '../Overlay'
+import { BpTablet } from '../../utils'
 
 type DateRangeDoubleInputProps = {
   fromValue: number

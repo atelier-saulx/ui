@@ -11,7 +11,7 @@ import {
   Button,
   IconMoreHorizontal,
   BpTablet,
-} from '../..'
+} from '~'
 import dayjs from 'dayjs'
 
 type LogsProps = {

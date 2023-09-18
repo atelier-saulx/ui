@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import useThrottledCallback from '../../hooks/useThrottledCallback'
 import useGraphHover from '../../hooks/useGraphHover'
-import { ColorActionColors, color, Text } from '../..'
+import { ColorActionColors, color, Text } from '~'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 import { LineGraphData, LineXGraphFormat } from './types'

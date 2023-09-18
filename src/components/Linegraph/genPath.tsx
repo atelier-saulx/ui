@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useRef } from 'react'
-import { ColorActionColors, color } from '../..'
+import { ColorActionColors, color } from '~'
 import { LineGraphData, Point } from './types'
 import {
   averageData,

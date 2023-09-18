@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { color, Text, usePropState, styled } from '../..'
+import { color, Text, usePropState, styled } from '~'
 import Editor from '../Code/ReactSimpleEditor'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markdown'

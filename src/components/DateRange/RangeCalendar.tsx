@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react'
 import { styled } from 'inlines'
-import { color as genColor } from '../../../src'
+import { color as genColor } from '../../varsTypes'
 import { useContextState } from '../../hooks/ContextState'
 
 type RangeCalendarProps = {

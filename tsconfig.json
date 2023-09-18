@@ -17,7 +17,12 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "~": ["src"],
+      "~/*": ["src/*"]
+    }
   },
   "exclude": ["node_modules", "dist", "app"],
   "include": ["src"]

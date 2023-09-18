@@ -6,7 +6,7 @@ import {
   Badge,
   IconClose,
   IconSmallArrowheadDownSmall,
-} from '../..'
+} from '~'
 
 // @ts-ignore
 import { BadgeProps } from '../types'

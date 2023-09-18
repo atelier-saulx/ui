@@ -1,5 +1,5 @@
 import React from 'react'
-import { Style, styled, color, Badge, IconClose, BadgeProps } from '../..'
+import { Style, styled, color, Badge, IconClose, BadgeProps } from '~'
 
 export type TextInputProps = {
   value: string
