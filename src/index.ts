@@ -1,3 +1,6 @@
+import '../src/colors.css'
+import '../src/fonts.css'
+
 export * from './varsUtilities'
 export * from './vars'
 export * from './varsTypes'
