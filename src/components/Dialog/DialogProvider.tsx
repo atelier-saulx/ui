@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, useRef, ReactNode, FC } from 'react'
 import { DialogContext, DialogContextType } from './DialogContext'
 import { Dialog } from './Dialog'
@@ -15,7 +16,7 @@ import {
 const Prompt: FC<{
   type?: 'prompt' | 'alert'
   onCancel?: () => Promise<void> | (() => void)
-  onConfirm?: ((val?: any) => Promise<void>) | ((val?: any) => void)
+  onConfirm?: ((val?: any) => Promise<void>) | ((val?: any) => void) | undefined
   style?: Style
   children?: ReactNode
 }> = ({ type = 'prompt', onCancel, onConfirm, style, children, ...props }) => {
@@ -33,7 +34,8 @@ const Prompt: FC<{
       {isPrompt ? (
         <Dialog.Body>
           {children}
-          <Input type="text" autoFocus onChange={(v) => (value.current = v)} />
+          {/* @ts-ignore */}
+          <Input type="text" onChange={(v) => (value.current = v)} />
         </Dialog.Body>
       ) : (
         children
@@ -42,6 +44,7 @@ const Prompt: FC<{
         {isAlert ? null : <Dialog.Cancel onCancel={onCancel} />}
         <Dialog.Confirm
           onConfirm={() =>
+            // @ts-ignore
             isPrompt ? onConfirm(value.current) : onConfirm(true)
           }
         />

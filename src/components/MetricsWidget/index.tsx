@@ -16,6 +16,8 @@ import {
   useTooltip,
   PieGraph,
   BarGraph,
+  BarGraphSingleItem,
+  PieGraphSingleItem,
 } from '../..'
 import { ChartOptionsOverlay, CalculateOptionsOverlay } from './overlays'
 
@@ -23,7 +25,10 @@ type MetricsWidgetProps = {
   calcOption?: 'percentage' | 'numbers'
   chart?: 'bar' | 'line' | 'pie'
   // TODO fix this TS type
-  data?: { [key: string]: { x: number; y: number }[] }
+  data?:
+    | { [key: string]: { x: number; y: number }[] | { [key: string]: any } }
+    | BarGraphSingleItem[]
+    | PieGraphSingleItem[]
   height?: number
   style?: Style
 }
@@ -38,7 +43,7 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
   height = 296,
   style,
 }) => {
-  const [selected, setSelected] = useState('')
+  const [selected, setSelected] = useState<string | number>('')
   const [chartOption, setChartOption] = useState(chart)
   const [calculationOption, setCalculationOption] = useState(calcOption)
 

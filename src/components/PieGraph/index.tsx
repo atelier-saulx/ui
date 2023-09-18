@@ -7,7 +7,7 @@ import {
   ColorNonSemanticBackgroundColors,
 } from '../..'
 
-type PieGraphSingleItem = {
+export type PieGraphSingleItem = {
   label: string
   value: number
   color?: ColorNonSemanticBackgroundColors

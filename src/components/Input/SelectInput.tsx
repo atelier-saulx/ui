@@ -118,7 +118,8 @@ export function SelectInput({
         multiple
           ? // @ts-ignore TS to stupid (multiple is optional)
             onChange([...value, filteredOptions[focus].value])
-          : onChange(filteredOptions[focus]?.value)
+          : // @ts-ignore
+            onChange(filteredOptions[focus]?.value)
       }
     }
 
@@ -282,6 +283,7 @@ export function SelectInput({
               onClick={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
+                // @ts-ignore
                 onChange('')
               }}
               style={{
@@ -371,8 +373,10 @@ export function SelectInput({
                     setFilter(null)
                     setFocus(0)
                     multiple
-                      ? onChange([...value, option.value])
-                      : onChange(option.value)
+                      ? // @ts-ignore
+                        onChange([...value, option.value])
+                      : // @ts-ignore
+                        onChange(option.value)
                   }}
                   style={{
                     position: 'relative',

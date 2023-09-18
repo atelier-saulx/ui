@@ -21,13 +21,13 @@ export const Modal: FC<ModalProps> = ({ style }) => {
 For example, you can use the name of your company or department."
       >
         <Dialog.Body>
-          <Input type="text" style={{ marginBottom: 24 }} />
+          {/* <Input  type="text" style={{ marginBottom: 24 }} /> */}
           <ModalWarning color="negative" style={{ marginBottom: 24 }}>
             You are about to update the default view Sequence for all users
           </ModalWarning>
         </Dialog.Body>
 
-        <Dialog.Buttons border>
+        <Dialog.Buttons>
           <Dialog.Cancel />
           <Dialog.Confirm>Primary Action</Dialog.Confirm>
         </Dialog.Buttons>

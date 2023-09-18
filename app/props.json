@@ -104,7 +104,10 @@
         },
         "icon": {
           "optional": true,
-          "type": "ReactNode"
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "children": {
           "optional": true,
@@ -134,7 +137,7 @@
           "type": "boolean"
         }
       },
-      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  copyValue?: string | number\n  copy?: boolean\n}",
+      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: FC<IconProps> | ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  copyValue?: string | number\n  copy?: boolean\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BarGraphProps": {
@@ -170,9 +173,13 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorNonSemanticBackgroundColors"
         }
       },
-      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  display?: 'percentages' | 'values'\n  direction?: 'horizontal' | 'vertical'\n  style?: Style\n}",
+      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  display?: 'percentages' | 'values'\n  direction?: 'horizontal' | 'vertical'\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -539,9 +546,13 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "numbered": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type newDateProps = {\n  value: number\n  setValue: (e) => void\n  time?: boolean\n  isFromRange?: boolean\n  isTillRange?: boolean\n  style?: Style\n}",
+      "code": "type newDateProps = {\n  value: number\n  setValue: (e) => void\n  time?: boolean\n  isFromRange?: boolean\n  isTillRange?: boolean\n  style?: Style\n  numbered?: boolean\n}",
       "file": "/components/DatePicker/NewDateInput.tsx"
     },
     "PickerProps": {
@@ -576,12 +587,16 @@
           "optional": true,
           "type": "boolean"
         },
+        "numbered": {
+          "optional": true,
+          "type": "boolean"
+        },
         "style": {
           "optional": true,
           "type": "Style"
         }
       },
-      "code": "type DatePickerProps = {\n  value?: number // milliseconds\n  onChange: (value: number) => void\n  time?: boolean\n  style?: Style\n}",
+      "code": "type DatePickerProps = {\n  value?: number // milliseconds\n  onChange: (value: number) => void\n  time?: boolean\n  numbered?: boolean\n  style?: Style\n}",
       "file": "/components/DatePicker/index.tsx"
     },
     "DateRangeDoubleInputProps": {
@@ -602,9 +617,13 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "numbered": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type DateRangeDoubleInputProps = {\n  fromValue: number\n  tillValue: number\n  setFromValue: (e) => void\n  setTillValue: (e) => void\n  style?: Style\n}",
+      "code": "type DateRangeDoubleInputProps = {\n  fromValue: number\n  tillValue: number\n  setFromValue: (e) => void\n  setTillValue: (e) => void\n  style?: Style\n  numbered?: boolean\n}",
       "file": "/components/DateRange/DateRangeDoubleInput.tsx"
     },
     "RangeFromPickerProps": {
@@ -687,9 +706,13 @@
         "onChange": {
           "optional": true,
           "type": "function"
+        },
+        "numbered": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type DateRangeProps = {\n  value?: number[]\n  onChange?: (v) => void\n}",
+      "code": "type DateRangeProps = {\n  value?: number[]\n  onChange?: (v) => void\n  numbered?: boolean\n}",
       "file": "/components/DateRange/index.tsx"
     },
     "DividerProps": {
@@ -1004,6 +1027,77 @@
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n  width?: number\n  height?: number\n}",
       "file": "/components/Linegraph/index.tsx"
     },
+    "LogGroupsProps": {
+      "name": "LogGroupsProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "NewLogsObject"
+        },
+        "groupByTime": {
+          "type": "number"
+        }
+      },
+      "code": "type LogGroupsProps = {\n  data?: NewLogsObject\n  groupByTime: number\n}",
+      "file": "/components/LogsComponent/LogGroups.tsx"
+    },
+    "SingleLogProps": {
+      "name": "SingleLogProps",
+      "props": {
+        "msg": {
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "ts": {
+          "optional": true,
+          "type": "number"
+        },
+        "type": {
+          "optional": true,
+          "type": "string"
+        },
+        "idx": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type SingleLogProps = {\n  msg: any\n  style?: Style\n  ts?: number\n  type?: string\n  idx?: number\n}",
+      "file": "/components/LogsComponent/LogGroups.tsx"
+    },
+    "SingleLogItemProps": {
+      "name": "SingleLogItemProps",
+      "props": {
+        "msg": {
+          "optional": true,
+          "type": "string"
+        },
+        "status": {
+          "optional": true,
+          "type": "Exclude"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "ts": {
+          "optional": true,
+          "type": "number"
+        },
+        "type": {
+          "optional": true,
+          "type": "string"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type SingleLogItemProps = {\n  msg?: string\n  status?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  style?: Style\n  ts?: number\n  type?: string\n  label?: string\n}",
+      "file": "/components/LogsComponent/SingleLogItem.tsx"
+    },
     "LogsProps": {
       "name": "LogsProps",
       "props": {
@@ -1019,33 +1113,6 @@
         }
       },
       "code": "type LogsProps = {\n  data?: SingleLogItemProps[]\n  style?: Style\n  // top to bottom // reverse order\n  // autoscroll?\n  // infinite scroll ,\n  // behaviour to start at bottom\n  //  clear logs option\n  // group per time --> and type\n}",
-      "file": "/components/LogsComponent/index.tsx"
-    },
-    "SingleLogItemProps": {
-      "name": "SingleLogItemProps",
-      "props": {
-        "msg": {
-          "optional": true,
-          "type": "string"
-        },
-        "status": {
-          "optional": true,
-          "type": "string"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "ts": {
-          "optional": true,
-          "type": "number"
-        },
-        "type": {
-          "optional": true,
-          "type": "string"
-        }
-      },
-      "code": "type SingleLogItemProps = {\n  msg?: string\n  status?: string\n  style?: Style\n  ts?: number\n  type?: string\n}",
       "file": "/components/LogsComponent/index.tsx"
     },
     "MenuItemProps": {

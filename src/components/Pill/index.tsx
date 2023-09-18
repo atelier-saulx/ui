@@ -38,7 +38,7 @@ type ConditionalProps =
   | {
       options?: PillOption[]
       value?: PillOption
-      onChange?: (e) => void
+      onChange?: (e: any) => void
     }
 export type PillPropss = Common & ConditionalProps
 export type PillProps = {
@@ -108,10 +108,10 @@ export const Pill: FC<PillPropss> = ({
       }}
     >
       <styled.div
-        //@ts-ignore
         onClick={
           typeof value === 'boolean'
-            ? () => onChange?.(!value)
+            ? //@ts-ignore
+              () => onChange?.(!value)
             : () => setOpen(true)
         }
         style={{

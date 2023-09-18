@@ -89,7 +89,7 @@ export type ContextOptionsFilterProps = {
 }
 
 export type ContextOptionsProps = {
-  items: Option[] | null | undefined
+  items: Option[]
   value?: Value
   onChange: (value: Value) => void
   // eslint-disable-next-line
@@ -97,7 +97,7 @@ export type ContextOptionsProps = {
 }
 
 export type ContextMultiOptionsProps = {
-  items: Option[] | null | undefined
+  items: Option[] | null
   values?: Value[]
   onChange: (values: Value[]) => void
 }
@@ -139,7 +139,7 @@ export const ContextOptionItem = ({
             backgroundColor:
               isSelected === 1
                 ? color('background', 'default', 'surface')
-                : null,
+                : 'transparent',
             '&:active': {
               backgroundColor: color('background', 'default', 'subtle'),
             },
@@ -232,7 +232,7 @@ const FilterableContextOptions: FC<
   }, [])
   let filteredItems = filterItems(items, f)
 
-  if (filterable === 'create' && f && !items.find((o) => o.value === f)) {
+  if (filterable === 'create' && f && !items?.find((o) => o.value === f)) {
     if (
       filteredItems.length === 1 &&
       filteredItems[0].value === '$-no-results-aviato'
@@ -274,7 +274,7 @@ const ContextItems: FC<ContextOptionsProps> = ({
   noValue,
 }) => {
   const [currentValue, setValue] = useState(value)
-  const children = items.map((opt, i) => {
+  const children = items?.map((opt, i) => {
     return (
       <ContextOptionItem
         key={i}
@@ -348,7 +348,7 @@ const ContextMultiItems: FC<ContextMultiOptionsProps> = ({
   onChange,
 }) => {
   const [currentValues, setValue] = useReducer(selectValuesReducer, values)
-  const children = items.map((opt, i) => {
+  const children = items?.map((opt, i) => {
     return (
       <ContextOptionItem
         key={i}
@@ -434,7 +434,7 @@ export const FilterSelectBadge: FC<{
           e.stopPropagation()
           onClose()
         }}
-        size={16}
+        // size={16}
         style={{
           flexShrink: 0,
           marginLeft: 8,
@@ -461,10 +461,10 @@ export const FilterSelectMoreBadge: FC<{
   return (
     <StyledFilterSelectedBadge style={style} data-aviato-select-more>
       <IconPlus
-        size={16}
+        // size={16}
         color="default"
         style={{ marginRight: 8 }}
-        onClick={onClick}
+        onClick={onClick as () => void}
       />
       <Text>{String(number)}</Text>
     </StyledFilterSelectedBadge>
@@ -535,7 +535,7 @@ const FilterableContextMultiOptions: FC<
               <FilterSelectBadge
                 style={{ marginLeft: 8 }}
                 key={v}
-                label={items.find((opt) => opt.value === v)?.label || v}
+                label={items?.find((opt) => opt.value === v)?.label || v}
                 onClose={() => {
                   setValue(v)
                   onChange(selectValuesReducer(currentValues, v))

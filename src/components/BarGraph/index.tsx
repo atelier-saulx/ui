@@ -7,7 +7,7 @@ import {
   color as genColor,
 } from '../..'
 
-type BarGraphSingleItem = {
+export type BarGraphSingleItem = {
   label: string
   value: number
   color?: ColorNonSemanticBackgroundColors

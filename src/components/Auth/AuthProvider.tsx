@@ -62,7 +62,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           const { token, refreshToken, email, id } = response
           // @ts-ignore
           await client.auth(token, { id, refreshToken })
-          toast.add(<Toast label={'Signedin as ' + email} type="success" />)
+          toast.add(<Toast label={'Signedin as ' + email} color="brand" />)
           window.sessionStorage.removeItem('client_id')
           window.sessionStorage.removeItem('code_verifier')
           setShowLoader(false)
@@ -80,7 +80,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           toast.add(
             <Toast
               label="Authentication Error"
-              type="error"
+              color="negative"
               description={description}
             />
           )

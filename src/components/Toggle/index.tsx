@@ -38,7 +38,7 @@ export const Toggle: FC<ToggleProps> = ({
         e.preventDefault()
         const newChecked = !checked
         setChecked(newChecked)
-        onClick?.(newChecked)
+        onClick?.(newChecked as any)
       }}
       style={{
         width,
