@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react",
+    "rootDir": "src",
     "incremental": true,
     "composite": true,
     "target": "ES2021",
@@ -19,5 +20,5 @@
     "outDir": "dist"
   },
   "exclude": ["node_modules", "dist", "app"],
-  "include": ["based.json", "build/**/*.json", "src"]
+  "include": ["src"]
 }
