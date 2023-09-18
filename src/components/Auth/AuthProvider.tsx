@@ -1,9 +1,7 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 import { useClient } from '@based/react'
 import { useRoute } from 'kabouter'
-
 import { Toast, useToast } from '../Toast'
-
 import { IconAlarmClock } from '../../icons'
 
 type AuthProviderProps = {

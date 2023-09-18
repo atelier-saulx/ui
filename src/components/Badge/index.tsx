@@ -1,19 +1,18 @@
 import React, { FC, ReactNode } from 'react'
+import { IconCheckCircle } from '../../icons'
+import { ClickHandler } from '../../types'
+import { IconProps } from '../../icons/Icon'
 import {
-  color as genColor,
-  Text,
-  styled,
-  Style,
-  renderOrCreateElement,
   ColorBackgroundColors,
   ColorNonSemanticContentColors,
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
-  IconCheckCircle,
-  useCopyToClipboard,
-} from '../..'
-import { ClickHandler } from '../../types'
-import { IconProps } from '../../icons/Icon'
+} from '../../varsTypes'
+import { Text } from '../Text'
+import { styled, Style } from 'inlines'
+import { renderOrCreateElement } from '../../utils'
+import { color as genColor } from '../../varsUtilities'
+import { useCopyToClipboard } from '../../hooks'
 
 const COLORGUARD = [
   'default',

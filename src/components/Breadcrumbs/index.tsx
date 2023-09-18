@@ -1,6 +1,8 @@
 import React, { FC, ReactNode, MouseEvent } from 'react'
-import { styled, Style, color, Text } from '../..'
+import { Style, styled } from 'inlines'
 import { BpTablet } from '../../utils/breakpoints'
+import { Text } from '../Text'
+import { color } from '../../varsUtilities'
 
 type BreadcrumbsProps = {
   style?: Style

@@ -1,11 +1,9 @@
 import React, { FC, ReactNode } from 'react'
-import {
-  color as genColor,
-  Text,
-  Center,
-  Style,
-  ColorNonSemanticBackgroundColors,
-} from '../..'
+import { color as genColor } from '../../varsUtilities'
+import { Text } from '../Text'
+import { Center } from '../Styled'
+import { Style } from 'inlines'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 import { ClickHandler } from '../../types'
 
 export type AvatarProps = {

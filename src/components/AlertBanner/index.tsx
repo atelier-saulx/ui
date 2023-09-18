@@ -1,15 +1,10 @@
 import React, { FC, ReactNode } from 'react'
-import {
-  Center,
-  ColorBackgroundColors,
-  Text,
-  color as genColor,
-  styled,
-  Style,
-  IconErrorFill,
-  IconAlertFill,
-  IconInfoFill,
-} from '../..'
+import { IconErrorFill, IconAlertFill, IconInfoFill } from '../../icons'
+import { styled, Style } from 'inlines'
+import { Center } from '../Styled'
+import { Text } from '../Text'
+import { color as genColor } from '../../varsUtilities'
+import { ColorBackgroundColors } from '../../varsTypes'
 
 export type AlertBannerProps = {
   color?: ColorBackgroundColors
