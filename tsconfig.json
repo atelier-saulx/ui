@@ -18,5 +18,6 @@
     "resolveJsonModule": true,
     "outDir": "dist"
   },
-  "include": ["based.json", "build/**/*.json"]
+  "exclude": ["node_modules", "dist", "app"],
+  "include": ["based.json", "build/**/*.json", "src"]
 }
