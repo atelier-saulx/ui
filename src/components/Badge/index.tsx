@@ -120,16 +120,20 @@ const BadgeInner: FC<BadgeProps> = ({
         <styled.div
           style={{
             display: 'flex',
-            marginRight: children ? 8 : 0,
+            marginRight: children ? 4 : 0,
             width: 16,
             height: 16,
             maxWidth: '100%',
             maxHeight: '100%',
             alignItems: 'center',
             justifyContent: 'center',
+            '& svg': {
+              width: children ? '14px' : '16px',
+              height: children ? '14px' : '16px',
+            },
           }}
         >
-          {renderOrCreateElement(icon, { size: 16, color: 'inherit' })}
+          {renderOrCreateElement(icon, { color: 'inherit' })}
         </styled.div>
       )}
       <Text

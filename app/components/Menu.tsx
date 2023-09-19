@@ -4,7 +4,7 @@ import props from '../props.json'
 import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
-  name: 'Sidebar Navigation',
+  name: 'Menu',
   component: Menu,
   description: '',
   properties: props.props.MenuProps.props,
@@ -16,28 +16,28 @@ const example: ComponentDef = {
           Label: {
             flyp: {
               value: 'yow1',
-              label: 'Menu Text',
-              icon: () => <IconHome />,
+              label: 'Label one',
+              // icon: () => <IconHome />,
             },
           },
           title: {
             flyp: {
               value: 'yow1',
-              label: 'Menu Text',
-              icon: () => <IconEmojiSmile />,
+              label: 'Menu Label',
+              // icon: () => <IconEmojiSmile />,
             },
             flip: {
-              label: 'Menu Text',
-              icon: () => <IconHome />,
+              label: 'Menu Label',
+              // icon: () => <IconHome />,
             },
             flop: {
               value: 'yow3',
-              label: 'Menu Text',
-              icon: () => <IconHome />,
+              label: 'Menu Label',
+              // icon: () => <IconHome />,
             },
             test: {
               value: 'x',
-              label: 'more0',
+              label: 'more 0',
               items: [{ value: 'yow4', label: 'flipe' }],
             },
             flap: 'Menu Text',

@@ -10,6 +10,7 @@ import barGraph from './components/BarGraph'
 import breadCrumbs from './components/BreadCrumbs'
 import button from './components/Button'
 import checkboxInput from './components/CheckboxInput'
+import confirmation from './components/Confirmation'
 import counter from './components/Counter'
 import datePicker from './components/DatePicker'
 import dateRange from './components/DateRange'
@@ -30,7 +31,7 @@ import searchInput from './components/SearchInput'
 import segmentedControl from './components/SegmentedControl'
 import selectInput from './components/SelectInput'
 import sidePanel from './components/SidePanel'
-import sidebarNavigation from './components/SidebarNavigation'
+import Menu from './components/Menu'
 import slider from './components/Slider'
 import status from './components/Status'
 import table from './components/Table'
@@ -53,6 +54,7 @@ export const components: ComponentDef[] = [
   breadCrumbs,
   button,
   checkboxInput,
+  confirmation,
   counter,
   datePicker,
   dateRange,
@@ -61,7 +63,9 @@ export const components: ComponentDef[] = [
   fileInput,
   icon,
   linegraph,
+  LogGroups,
   logs,
+  Menu,
   metricsWidget,
   modal,
   pieGraph,
@@ -73,7 +77,6 @@ export const components: ComponentDef[] = [
   segmentedControl,
   selectInput,
   sidePanel,
-  sidebarNavigation,
   slider,
   status,
   table,

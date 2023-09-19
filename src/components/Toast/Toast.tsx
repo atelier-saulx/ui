@@ -8,8 +8,10 @@ import {
   Button,
   IconAlert,
   IconClose,
-  IconError,
+  IconErrorFill,
   IconInfoFill,
+  IconWarningFill,
+  IconCheckCircleFill,
   useToast,
 } from '~'
 
@@ -80,15 +82,23 @@ export const Toast: FC<ToastProps> = ({
       {...props}
     >
       {color === 'negative' ? (
-        <IconError color="inverted" />
+        <IconErrorFill color={strong ? 'inverted' : 'negative'} />
       ) : color === 'warning' ? (
-        <IconAlert color="inverted" />
-      ) : (
-        <IconInfoFill color={strong ? 'inverted' : 'default'} />
-      )}
+        <IconWarningFill color={strong ? 'default' : 'warning'} />
+      ) : color === 'positive' ? (
+        <IconCheckCircleFill color={strong ? 'inverted' : 'positive'} />
+      ) : color === 'informative' ? (
+        <IconInfoFill color={strong ? 'inverted' : 'informative'} />
+      ) : null}
       <Text
         style={{ marginLeft: '16px' }}
-        color={strong ? 'inverted' : 'default'}
+        color={
+          strong && color === 'warning'
+            ? 'default'
+            : strong
+            ? 'inverted'
+            : 'default'
+        }
       >
         {label}
       </Text>
@@ -97,7 +107,13 @@ export const Toast: FC<ToastProps> = ({
           style={{ marginLeft: '16px' }}
           size="xsmall"
           underline
-          color={strong ? 'inverted' : 'system'}
+          color={
+            strong && color === 'warning'
+              ? 'system'
+              : strong
+              ? 'inverted'
+              : 'primary'
+          }
           onClick={action.onClick}
         >
           {action.label}
@@ -107,7 +123,13 @@ export const Toast: FC<ToastProps> = ({
         <IconClose
           onClick={closeFunc}
           style={{ marginLeft: '21px' }}
-          color={strong ? 'inverted' : 'default'}
+          color={
+            strong && color === 'warning'
+              ? 'default'
+              : strong
+              ? 'inverted'
+              : 'default'
+          }
         />
       )}
       {/* {children} */}
