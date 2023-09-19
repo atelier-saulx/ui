@@ -1,35 +1,34 @@
 import React, { FC, ReactNode } from 'react'
-import { Dialog, Style, styled, Text, Input } from '~'
-import { ModalWarning } from './ModalWarning'
+import { Dialog, Style, styled } from '~'
 
 export type ModalProps = {
   style?: Style
   children?: ReactNode
+  label: string
+  description?: string
+  onCancel: () => void
+  onConfirm: () => void
+  cancelLabel?: string
+  confirmLabel?: string
 }
 
-// dialog props
-// label, description -> REactNodes
-// onCancel , onConfirm -> give you buttons
-// children -> whatever you put here will be in body
-
-export const Modal: FC<ModalProps> = ({ style }) => {
+export const Modal: FC<ModalProps> = ({
+  style,
+  children,
+  label,
+  description,
+  onCancel,
+  onConfirm,
+  cancelLabel,
+  confirmLabel,
+}) => {
   return (
-    <styled.div style={{ ...style }}>
-      <Dialog
-        label="Some example"
-        description="This is your organisation’s name within Based.
-For example, you can use the name of your company or department."
-      >
-        <Dialog.Body>
-          {/* <Input  type="text" style={{ marginBottom: 24 }} /> */}
-          <ModalWarning color="negative" style={{ marginBottom: 24 }}>
-            You are about to update the default view Sequence for all users
-          </ModalWarning>
-        </Dialog.Body>
-
+    <styled.div style={style}>
+      <Dialog label={label} description={description}>
+        <Dialog.Body>{children}</Dialog.Body>
         <Dialog.Buttons>
-          <Dialog.Cancel />
-          <Dialog.Confirm>Primary Action</Dialog.Confirm>
+          <Dialog.Cancel onCancel={onCancel}>{cancelLabel}</Dialog.Cancel>
+          <Dialog.Confirm onConfirm={onConfirm}>{confirmLabel}</Dialog.Confirm>
         </Dialog.Buttons>
       </Dialog>
     </styled.div>
