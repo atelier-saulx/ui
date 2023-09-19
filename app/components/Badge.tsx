@@ -1,5 +1,5 @@
 import React from 'react'
-import { Badge, IconSmallBolt } from '../../src'
+import { Badge, IconHelpFill, IconSmallBolt } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
@@ -19,6 +19,13 @@ const example: ComponentDef = {
     {
       props: {
         icon: () => React.createElement(IconSmallBolt),
+      },
+    },
+    {
+      props: {
+        children: 'Informer',
+        color: 'negative',
+        icon: () => React.createElement(IconHelpFill),
       },
     },
     {
