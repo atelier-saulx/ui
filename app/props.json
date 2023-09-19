@@ -339,6 +339,17 @@
       "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n  color?: ColorBackgroundColors\n  copy?: boolean\n}",
       "file": "/components/Code/index.tsx"
     },
+    "ConfirmationProps": {
+      "name": "ConfirmationProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type ConfirmationProps = {\n  style?: Style\n}",
+      "file": "/components/Confirmation/index.tsx"
+    },
     "ContextItemProps": {
       "name": "ContextItemProps",
       "props": {
@@ -488,9 +499,16 @@
         "light": {
           "optional": true,
           "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         }
       },
-      "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
+      "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  icon?: FC<IconProps> | ReactNode\n}",
       "file": "/components/Counter/index.tsx"
     },
     "CalendarProps": {

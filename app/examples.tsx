@@ -9,6 +9,7 @@ import barGraph from './components/BarGraph'
 import breadCrumbs from './components/BreadCrumbs'
 import button from './components/Button'
 import checkboxInput from './components/CheckboxInput'
+import confirmation from './components/Confirmation'
 import counter from './components/Counter'
 import datePicker from './components/DatePicker'
 import dateRange from './components/DateRange'
@@ -50,6 +51,7 @@ export const components: ComponentDef[] = [
   breadCrumbs,
   button,
   checkboxInput,
+  confirmation,
   counter,
   datePicker,
   dateRange,
