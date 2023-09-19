@@ -13,6 +13,7 @@ const example: ComponentDef = {
       props: {
         children: 'Some Text',
         weight: 'medium',
+        style: { color: 'red' },
       },
     },
     {

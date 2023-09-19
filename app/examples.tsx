@@ -29,7 +29,7 @@ import searchInput from './components/SearchInput'
 import segmentedControl from './components/SegmentedControl'
 import selectInput from './components/SelectInput'
 import sidePanel from './components/SidePanel'
-import sidebarNavigation from './components/SidebarNavigation'
+import Menu from './components/Menu'
 import slider from './components/Slider'
 import status from './components/Status'
 import table from './components/Table'
@@ -43,7 +43,6 @@ import tooltipTest from './components/TooltipTest'
 import topNavigation from './components/TopNavigation'
 
 export const components: ComponentDef[] = [
-  LogGroups,
   alertBanner,
   avatar,
   badge,
@@ -59,7 +58,9 @@ export const components: ComponentDef[] = [
   fileInput,
   icon,
   linegraph,
+  LogGroups,
   logs,
+  Menu,
   metricsWidget,
   modal,
   pieGraph,
@@ -71,7 +72,6 @@ export const components: ComponentDef[] = [
   segmentedControl,
   selectInput,
   sidePanel,
-  sidebarNavigation,
   slider,
   status,
   table,
