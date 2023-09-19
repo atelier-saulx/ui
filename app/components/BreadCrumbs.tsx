@@ -23,6 +23,7 @@ const example: ComponentDef = {
           snap: 'snap',
           snurp: 'snurp',
         },
+        active: 'flip',
         onChange: (v) => console.log(v),
       },
     },

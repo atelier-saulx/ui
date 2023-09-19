@@ -20,7 +20,6 @@ import { OverviewComponent } from './OverviewComponent'
 import { components } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 import { BpTablet } from '../src/utils/breakpoints'
-import Log from '../src/components/LogsComponent/Log'
 
 export const client = based(basedConfig)
 
@@ -107,7 +106,7 @@ const App = () => {
         }}
       >
         {/* <Log
-          data={{ time: 122212, type: 'warning', log: 'thissucks' }}
+          data={{ time: 122212, type: 'error', log: 'thissucks' }}
           logs={'asd'}
           service={'env-db'}
           filter={false}

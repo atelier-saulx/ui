@@ -2,6 +2,7 @@ import React from 'react'
 import '../src/fonts.css'
 import { ComponentDef } from './types'
 import LogGroups from './components/LogGroups'
+import accordion from './components/Accordion'
 import alertBanner from './components/AlertBanner'
 import avatar from './components/Avatar'
 import badge from './components/Badge'
@@ -44,6 +45,7 @@ import topNavigation from './components/TopNavigation'
 
 export const components: ComponentDef[] = [
   LogGroups,
+  accordion,
   alertBanner,
   avatar,
   badge,

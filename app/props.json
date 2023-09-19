@@ -1,5 +1,62 @@
 {
   "props": {
+    "AccordionItemProps": {
+      "name": "AccordionItemProps",
+      "props": {
+        "title": {
+          "optional": true,
+          "type": "string"
+        },
+        "active": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "children": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "onClose": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type AccordionItemProps = {\n  title?: string\n  active?: boolean\n  children?: ReactNode | ReactNode[]\n  style?: Style\n  onClick?: any\n  onClose?: any\n}",
+      "file": "/components/Accordion/index.tsx"
+    },
+    "AccordionProps": {
+      "name": "AccordionProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": {
+            "array": "AccordionItemProps"
+          }
+        },
+        "active": {
+          "optional": true,
+          "type": [
+            "null",
+            "Number",
+            "Array"
+          ]
+        }
+      },
+      "code": "type AccordionProps = {\n  data?: AccordionItemProps[]\n  active?: null | Number | Array<Number>\n}",
+      "file": "/components/Accordion/index.tsx"
+    },
     "AlertBannerProps": {
       "name": "AlertBannerProps",
       "props": {
