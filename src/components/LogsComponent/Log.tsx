@@ -1,61 +1,13 @@
-import React, {
-  useState,
-  useCallback,
-  EventHandler,
-  SyntheticEvent,
-} from 'react'
-import { styled, color as useColor } from '~'
+import React from 'react'
+import { styled, color as useColor } from '../../'
 import { prettyDate } from '@based/pretty-date'
 
-import {} from 'react'
-// import { isDragging } from '../drag/useDrag'
-
-type Hover = [
-  {
-    onMouseDown: EventHandler<SyntheticEvent>
-    onMouseUp: EventHandler<SyntheticEvent>
-    onMouseEnter: EventHandler<SyntheticEvent>
-    onMouseLeave: EventHandler<SyntheticEvent>
-    // onDragStart: EventHandler<SyntheticEvent>
-  },
-  boolean,
-  boolean
-]
-
-const useHover = (onHover?: EventHandler<SyntheticEvent>): Hover => {
-  const [isHover, setHover] = useState(false)
-  const [isActive, setActive] = useState(false)
-
-  const handleMouseOver = useCallback((e) => {
-    // if (!isDragging()) {
-    setHover(true)
-    if (onHover) {
-      onHover(e)
-    }
-    // }
-  }, [])
-
-  const handleMouseOut = useCallback(() => setHover(false), [])
-  const handleDown = useCallback(() => setActive(true), [])
-  const handleUp = useCallback(() => setActive(false), [])
-
-  return [
-    {
-      onMouseDown: handleDown,
-      onMouseUp: handleUp,
-      onMouseEnter: handleMouseOver,
-      onMouseLeave: handleMouseOut,
-      //  onDragStart: handleMouseOut,
-    },
-    isHover,
-    isActive,
-  ]
+export type Log = {
+  service?: string
 }
 
 export default ({ service, data, logs, index, multi, filter }) => {
   let log
-
-  const [hover, isHover] = useHover()
 
   if (data.type === 'start') {
     log = 'Start service'
@@ -83,23 +35,6 @@ export default ({ service, data, logs, index, multi, filter }) => {
       </styled.div>
     )
   } else {
-    // log = (
-    //   <pre
-    //     style={{
-    //       //   overflowX: 'hidden',
-    //       padding: 0,
-    //       //   paddingT/op: 4,
-    //       //   paddingBottom: 4,
-    //       margin: 0,
-
-    //       fontFamily: 'Fira Code',
-    //       //   lineHeight: '14px',
-    //       fontSize: 14,
-    //     }}
-    //   >
-    //     {data.log}
-    //   </pre>
-    // )
     let keep
     log = data.log.split('\n').map((v, i) => {
       if (filter && !filter.find((f) => v.startsWith(f))) {
@@ -157,9 +92,9 @@ export default ({ service, data, logs, index, multi, filter }) => {
             : data.type === 'start' || data.type === 'update'
             ? 'rgb(150, 180, 246)'
             : useColor(
-                'background',
+                'content',
                 data.type === 'error' ? 'negative' : 'brand',
-                'surface'
+                'primary'
               ),
         fontFamily: 'Fira Code',
         display: 'flex',
