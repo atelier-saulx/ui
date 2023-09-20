@@ -9,7 +9,7 @@ const example: ComponentDef = {
   component: DatePicker,
   examples: [
     {
-      props: { onChange: (e) => console.log(e) },
+      props: { onChange: (e) => console.log(e), value: 12312123300000 },
     },
   ],
 }

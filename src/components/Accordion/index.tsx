@@ -33,7 +33,7 @@ const AccordionItem: FC<AccordionItemProps> = ({
       setRender(true)
     }
     if (!active) {
-      const timer = setTimeout(() => setRender(false), 500)
+      const timer = setTimeout(() => setRender(false), 300)
       clearTimeout(timer)
     }
   }, [active])
