@@ -98,7 +98,7 @@ const AccordionItem: FC<AccordionItemProps> = ({
 }
 
 type AccordionProps = {
-  data?: AccordionItemProps[]
+  data?: Omit<AccordionItemProps, 'onClick' | 'onClose'>[]
   active?: null | Number | Array<Number>
   style?: Style
 }
