@@ -1,5 +1,5 @@
-import '../src/colors.css'
-import '../src/fonts.css'
+import './colors.css'
+import './fonts.css'
 
 export * from './varsUtilities'
 export * from './vars'

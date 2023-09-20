@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { copyToClipboard } from '../../src'
+import { copyToClipboard } from '../'
 
 export const useCopyToClipboard = (
   text: string | number

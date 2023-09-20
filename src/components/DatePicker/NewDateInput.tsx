@@ -68,7 +68,7 @@ export const NewDateInput = ({
       time || '00:00'
     }`
     const outputMs = new Date(dateString).getTime()
-    return outputMs
+    return outputMs || 0
   }
 
   useEffect(() => {

@@ -7,7 +7,7 @@ import {
   styled,
   Style,
   PositionProps,
-} from '../../src'
+} from '../'
 
 export const usePopover = (
   children: ReactNode | ReactNode[],

@@ -1,6 +1,6 @@
 {
   "name": "@based/ui",
-  "version": "0.1.8-v2",
+  "version": "0.1.12-v2",
   "description": "Based.io app",
   "license": "MIT",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
     "deploy": "npx @based/cli deploy",
     "genPropsTypes": "node ./scripts/generateComponentProps.js",
     "sync-figma": "ts-node ./scripts/syncFigma/index.ts",
-    "build": "rm -rf dist && mkdir dist && tsc --build tsconfig.json && node scripts/postbuild"
+    "build": "rm tsconfig.tsbuildinfo && rm -rf dist && mkdir dist && tsc --build tsconfig.json && node scripts/postbuild"
   },
   "prettier": "@saulx/prettier-config",
   "eslintConfig": {

@@ -43,7 +43,7 @@ const AccordionItem: FC<AccordionItemProps> = ({
       style={{
         height: 'auto',
         maxHeight: active ? '1000px' : '40px',
-        transition: active ? '2s' : '0.6s',
+        transition: active ? '0.16s' : '0.16s',
         overflow: 'hidden',
         borderBottom: `1px solid ${genColor('border', 'default', 'subtle')}`,
         '&:hover': {

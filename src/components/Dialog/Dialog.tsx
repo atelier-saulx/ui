@@ -10,7 +10,8 @@ import React, {
   useEffect,
 } from 'react'
 import { useDialog } from './useDialog'
-import { styled, Text, Button, ButtonProps, ScrollArea, color, Style } from '~'
+import { styled } from 'inlines'
+import { Text, Button, ButtonProps, ScrollArea, color, Style } from '../../'
 
 const Container = styled('div', {
   width: 632,

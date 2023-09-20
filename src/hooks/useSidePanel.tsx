@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import { keyframes } from 'inlines'
 import {
   removeOverlay,
   useOverlay,
@@ -9,8 +10,7 @@ import {
   PositionProps,
   IconClose,
   Button,
-  keyframes,
-} from '../../src'
+} from '../'
 
 const openAni = keyframes({
   '0%': { transform: 'scale(80%, 80%)' },

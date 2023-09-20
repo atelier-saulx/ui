@@ -11,7 +11,7 @@ import {
   addOverlay,
   removeOverlay,
   removeAllOverlays,
-} from '~'
+} from '../../'
 
 const Prompt: FC<{
   type?: 'prompt' | 'alert'
@@ -71,7 +71,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
 
     const dialog: DialogContextType = (children, onClose, allCtx) => {
       const id = count++
-
+      console.log('!!!!!!!!', allCtx)
       dialog._id = id
       children = (
         <div

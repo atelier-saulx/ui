@@ -6,7 +6,7 @@ import {
   color as genColor,
   styled,
   PositionProps,
-} from '../../src'
+} from '../'
 
 export const useTooltip = (
   text: string | ReactNode,

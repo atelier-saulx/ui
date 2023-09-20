@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
-import { ColorActionColors, color as genColor } from '../../../src'
+import { ColorActionColors, color as genColor } from '../../'
 import { usePropState } from '../../hooks/usePropState'
 import { ClickHandler } from '../../types'
 import { BpTablet } from '../../utils/breakpoints'
