@@ -33,7 +33,7 @@ const AccordionItem: FC<AccordionItemProps> = ({
       setRender(true)
     }
     if (!active) {
-      const timer = setTimeout(() => setRender(false), 500)
+      const timer = setTimeout(() => setRender(false), 300)
       clearTimeout(timer)
     }
   }, [active])
@@ -43,7 +43,7 @@ const AccordionItem: FC<AccordionItemProps> = ({
       style={{
         height: 'auto',
         maxHeight: active ? '1000px' : '40px',
-        transition: active ? '2s' : '0.6s',
+        transition: active ? '2s' : '0.5s',
         overflow: 'hidden',
         borderBottom: `1px solid ${genColor('border', 'default', 'subtle')}`,
         '&:hover': {

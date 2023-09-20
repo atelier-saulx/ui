@@ -13,6 +13,7 @@ import {
   Provider,
   ScrollArea,
   useTooltip,
+  Button,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -20,10 +21,103 @@ import { OverviewComponent } from './OverviewComponent'
 import { components } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 import { BpTablet } from '../src/utils/breakpoints'
+import { LogsText } from '../src/components/LogsComponent/LogsText'
 
 export const client = based(basedConfig)
 
 const App = () => {
+  const [data, setData] = useState([
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+    {
+      ts: 12312312,
+      label: 'asdfasdfasdf',
+      log: 'asdfasdfasdf',
+      type: 'warning',
+    },
+  ])
   const route = useRoute('[component]')
   const component = route.query.component
   const filtered = components.filter((c) => {
@@ -52,7 +146,7 @@ const App = () => {
             >
               <IconRefresh
                 style={{ marginRight: 8 }}
-                color="brand"
+                color="warning"
                 onClick={() => localStorage.clear()}
               />
               <ThemeSwitch />
@@ -103,16 +197,50 @@ const App = () => {
           display: 'flex',
           flexGrow: 1,
           flexDirection: 'column',
+          overflow: 'visible',
         }}
       >
-        {/* <Log
-          data={{ time: 122212, type: 'error', log: 'thissucks' }}
-          logs={'asd'}
-          service={'env-db'}
-          filter={false}
-          multi={false}
-          index={0}
-        /> */}
+        {/* <Button
+          onClick={() =>
+            setData([
+              ...data,
+              {
+                ts: 12312312,
+                label: 'asdfasdfasdf',
+                log: 'asdfasdfasdf',
+                type: 'warning',
+              },
+              {
+                ts: 12312312,
+                label: 'asdfasdfasdf',
+                log: 'asdfasdfasdf',
+                type: 'warning',
+              },
+              {
+                ts: 12312312,
+                label: 'asdfasdfasdf',
+                log: 'asdfasdfasdf',
+                type: 'warning',
+              },
+              {
+                ts: 12312312,
+                label: 'asdfasdfasdf',
+                log: 'asdfasdfasdf',
+                type: 'warning',
+              },
+              {
+                ts: 12312312,
+                label: 'asdfasdfasdf',
+                log: 'asdfasdfasdf',
+                type: 'warning',
+              },
+            ])
+          }
+        >
+          Add more to data
+        </Button>
+        <LogsText data={data} /> */}
+
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}
