@@ -7,16 +7,34 @@ const example: ComponentDef = {
   name: 'CheckboxInput',
   component: Input,
   description: 'Checkbox input',
-  properties: {},
+  properties: {
+    ...props.props.CheckboxInputProps.props,
+    label: { type: 'string' },
+    error: { type: 'string' },
+  },
   examples: [
     {
-      props: {},
-      customRenderer: () => {
+      props: {
+        title: 'Subscribe to our newsletter',
+      },
+      customRenderer: ({
+        title,
+        description,
+        label,
+        error,
+        intermediate,
+        disabled,
+      }) => {
         const [checked, setChecked] = useState(false)
         return (
           <Input
             type="checkbox"
-            title="Subscribe to our newsletter"
+            disabled={disabled}
+            intermediate={intermediate}
+            title={title}
+            description={description}
+            label={label}
+            error={error}
             value={checked}
             onChange={(v) => {
               setChecked(v)
@@ -26,15 +44,29 @@ const example: ComponentDef = {
       },
     },
     {
-      props: {},
-      customRenderer: () => {
+      props: {
+        title: 'Indeterminate checkbox',
+        description: 'Lorem ipusm asd 123',
+        intermediate: true,
+      },
+      customRenderer: ({
+        title,
+        description,
+        label,
+        error,
+        intermediate,
+        disabled,
+      }) => {
         const [checked, setChecked] = useState(false)
         return (
           <Input
             type="checkbox"
-            intermediate
-            title="Intermediate checkbox"
-            description="Lorem ipusm asd 123"
+            disabled={disabled}
+            intermediate={intermediate}
+            title={title}
+            description={description}
+            label={label}
+            error={error}
             value={checked}
             onChange={(v) => {
               setChecked(v)
@@ -44,15 +76,30 @@ const example: ComponentDef = {
       },
     },
     {
-      props: {},
-      customRenderer: () => {
+      props: {
+        title: 'Disabled Checkbox',
+        description: 'Lorem ipusm asd 123',
+        disabled: true,
+        intermediate: false,
+      },
+      customRenderer: ({
+        title,
+        description,
+        label,
+        error,
+        intermediate,
+        disabled,
+      }) => {
         const [checked, setChecked] = useState(true)
         return (
           <Input
             type="checkbox"
-            disabled
-            title="Disabled checkbox"
-            description="Lorem ipusm asd 123"
+            disabled={disabled}
+            intermediate={intermediate}
+            title={title}
+            description={description}
+            label={label}
+            error={error}
             value={checked}
             onChange={(v) => {
               setChecked(v)
@@ -61,18 +108,33 @@ const example: ComponentDef = {
         )
       },
     },
+
     {
-      props: {},
-      customRenderer: () => {
+      props: {
+        title: 'Title',
+        description: 'Description',
+        label: 'This is a label',
+        error: 'This is an error',
+      },
+      customRenderer: ({
+        title,
+        description,
+        label,
+        error,
+        intermediate,
+        disabled,
+      }) => {
         const [checked, setChecked] = useState(false)
         return (
           <Input
             type="checkbox"
-            title="Title"
-            description="Description"
+            disabled={disabled}
+            intermediate={intermediate}
+            title={title}
+            description={description}
+            label={label}
+            error={error}
             value={checked}
-            label="This is a label"
-            error="This is an error"
             onChange={(v) => {
               setChecked(v)
             }}

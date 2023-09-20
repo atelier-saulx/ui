@@ -10,10 +10,11 @@ const example: ComponentDef = {
   description: 'Accordions to annoy ppl with on the street',
   examples: [
     {
-      props: {},
-      customRenderer: () => {
+      props: { active: 1 },
+      customRenderer: (props) => {
         return (
           <Accordion
+            active={props.active}
             style={{ width: 374 }}
             data={[
               { title: 'Accordion 1', children: 'thingy one' },

@@ -11,7 +11,7 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        activeTab: 1,
+        activeTab: 2,
       },
       customRenderer: (props) => {
         return (
@@ -24,7 +24,7 @@ const example: ComponentDef = {
               marginBottom: 24,
             }}
           >
-            <Tabs activeTab={1}>
+            <Tabs activeTab={props.activeTab}>
               <Tab label="Apple" children="🍎" />
               <Tab label="Bear" children="🐻" />
               <Tab label="Crescendo" children="🎵" />
@@ -48,7 +48,7 @@ const example: ComponentDef = {
               marginBottom: 24,
             }}
           >
-            <Tabs borderColor="neutral" activeTab={1}>
+            <Tabs borderColor="neutral" activeTab={props.activeTab}>
               <Tab label="Edgy Apple" children="🍎" />
               <Tab label="Edgy Bear" children="🐻" />
               <Tab label="Edgy Crescendo" children="🎵" />

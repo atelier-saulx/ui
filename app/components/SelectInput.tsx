@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input } from '../../src'
+import { Input, Style } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
@@ -7,11 +7,17 @@ const example: ComponentDef = {
   name: 'SelectInput',
   component: Input,
   description: 'Select input',
-  properties: {},
+  properties: {
+    preventCloseOnSelect: { type: 'boolean' },
+    beforeIcon: { type: 'icon' },
+    style: { type: 'style' },
+    disabled: { type: 'boolean' },
+    placeholder: { type: 'string' },
+  },
   examples: [
     {
-      props: {},
-      customRenderer: () => {
+      props: { placeholder: 'Select one' },
+      customRenderer: (props) => {
         const [value, setValue] = useState<number | string>('')
         return (
           <Input
@@ -21,7 +27,7 @@ const example: ComponentDef = {
             onChange={(v) => {
               setValue(v)
             }}
-            placeholder="Select one"
+            {...props}
             options={[
               { label: 'Item one', value: 'value1' },
               { label: 'Item two', value: 'value2' },
@@ -32,8 +38,8 @@ const example: ComponentDef = {
       },
     },
     {
-      props: {},
-      customRenderer: () => {
+      props: { label: 'This is a label', placeholder: 'Select multiple' },
+      customRenderer: (props) => {
         const [multiValue, setMultiValue] = useState<(string | number)[]>([])
         return (
           <Input
@@ -44,6 +50,7 @@ const example: ComponentDef = {
             onChange={(v) => {
               setMultiValue(v)
             }}
+            {...props}
             placeholder="Select multiple"
             options={[
               { label: 'Item one', value: 'value1' },

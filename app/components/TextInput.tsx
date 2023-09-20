@@ -11,6 +11,8 @@ const example: ComponentDef = {
     style: { type: 'Style' },
     value: { type: 'string' },
     onChange: { type: 'OnChangeHandler' },
+    label: { type: 'string' },
+    error: { type: 'string' },
     placeholder: { type: 'string' },
     clearButton: { type: 'boolean' },
   },
@@ -22,21 +24,23 @@ const example: ComponentDef = {
       },
     },
     {
-      props: {},
-      customRenderer: () => {
+      props: {
+        label: 'This is a label',
+        placeholder: 'advanced',
+        error: 'This is an error',
+      },
+      customRenderer: (props) => {
         const [value, setValue] = useState('')
 
         return (
           <Input
             type="text"
-            label="This is a label"
             // clearButton={false}
-            placeholder="Advanced"
-            error="This is an error"
             value={value}
             onChange={(v) => {
               setValue(v)
             }}
+            {...props}
           />
         )
       },

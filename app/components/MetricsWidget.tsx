@@ -5,14 +5,14 @@ import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
   name: 'MetricsWidget',
-  // TODO  yves ,change to LogsProps once genprops works again
-  properties: props.props.ModalProps.props,
+  // TODO  yves ,change to  once genprops works again
+  properties: props.props.MetricsWidgetProps.props,
   description: '',
   component: MetricsWidget,
   examples: [
     {
       props: {},
-      customRenderer: () => {
+      customRenderer: (props) => {
         // generate some random data
         const genRandomPoints = (
           formula: (i: number) => { x: number; y: number },
@@ -76,7 +76,14 @@ const example: ComponentDef = {
           ],
         }
         //todo fix type
-        return <MetricsWidget label="Technology" data={testData} style={{}} />
+        return (
+          <MetricsWidget
+            label="Technology"
+            data={testData}
+            style={{}}
+            {...props}
+          />
+        )
       },
     },
   ],

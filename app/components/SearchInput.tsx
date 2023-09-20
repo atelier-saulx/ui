@@ -3,14 +3,14 @@ import { Input } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
+const SearchInputProps = (({ icon, afterIcon, ...o }) => o)(
+  props.props.TextInputProps.props
+)
 const example: ComponentDef = {
   name: 'SearchInput',
   component: Input,
   description: 'Text Input',
-  properties: {
-    value: { type: 'string' },
-    placeholder: { type: 'string' },
-  },
+  properties: SearchInputProps,
   examples: [
     {
       props: {
@@ -21,39 +21,42 @@ const example: ComponentDef = {
       },
     },
     {
-      props: {},
-      customRenderer: () => {
+      props: {
+        label: 'You can add a clear button',
+        clearButton: true,
+        placeholder: 'Search',
+      },
+      customRenderer: (props) => {
         const [value, setValue] = useState('')
-
         return (
           <Input
             type="search"
-            label="You can add a clear button"
-            clearButton
-            placeholder="Search"
             value={value}
             onChange={(v) => {
               setValue(v)
             }}
+            {...props}
           />
         )
       },
     },
     {
-      props: {},
-      customRenderer: () => {
+      props: {
+        label: 'You can add a label',
+        error: 'and an error if you really want',
+        placeholder: 'Search',
+      },
+      customRenderer: (props) => {
         const [value, setValue] = useState('')
 
         return (
           <Input
             type="search"
-            label="You can add a label"
-            error="and an error if you really want"
-            placeholder="Search"
             value={value}
             onChange={(v) => {
               setValue(v)
             }}
+            {...props}
           />
         )
       },
