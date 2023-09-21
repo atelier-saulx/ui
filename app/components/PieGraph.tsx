@@ -5,13 +5,14 @@ import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
   name: 'PieGraph',
-
   properties: props.props.PieGraphProps.props,
   component: PieGraph,
   description: '',
   examples: [
     {
-      props: {},
+      props: {
+        format: 'number-bytes',
+      },
       customRenderer: (props) => {
         const data = [
           {
