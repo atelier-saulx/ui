@@ -5,119 +5,17 @@ import React, { useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import {
-  color,
-  IconRefresh,
-  Menu,
-  Input,
-  Provider,
-  ScrollArea,
-  useTooltip,
-  Button,
-} from '../src'
+import { color, IconRefresh, Menu, Input, Provider, ScrollArea } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 import { BpTablet } from '../src/utils/breakpoints'
-import { LogsText } from '../src/components/LogsComponent/LogsText'
 
 export const client = based(basedConfig)
 
 const App = () => {
-  const [data, setData] = useState([
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-    {
-      ts: 12312312,
-      label: 'asdfasdfasdf',
-      log: 'asdfasdfasdf',
-      type: 'warning',
-    },
-  ])
   const route = useRoute('[component]')
   const component = route.query.component
   const filtered = components.filter((c) => {
@@ -200,47 +98,6 @@ const App = () => {
           overflow: 'visible',
         }}
       >
-        {/* <Button
-          onClick={() =>
-            setData([
-              ...data,
-              {
-                ts: 12312312,
-                label: 'asdfasdfasdf',
-                log: 'asdfasdfasdf',
-                type: 'warning',
-              },
-              {
-                ts: 12312312,
-                label: 'asdfasdfasdf',
-                log: 'asdfasdfasdf',
-                type: 'warning',
-              },
-              {
-                ts: 12312312,
-                label: 'asdfasdfasdf',
-                log: 'asdfasdfasdf',
-                type: 'warning',
-              },
-              {
-                ts: 12312312,
-                label: 'asdfasdfasdf',
-                log: 'asdfasdfasdf',
-                type: 'warning',
-              },
-              {
-                ts: 12312312,
-                label: 'asdfasdfasdf',
-                log: 'asdfasdfasdf',
-                type: 'warning',
-              },
-            ])
-          }
-        >
-          Add more to data
-        </Button>
-        <LogsText data={data} /> */}
-
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}
