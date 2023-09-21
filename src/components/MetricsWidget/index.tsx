@@ -180,14 +180,18 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
         {chartOption === 'bar' && (
           <BarGraph
             data={data[selected]}
-            display={calculationOption === 'numbers' ? 'values' : 'percentages'}
+            valueFormat={
+              calculationOption === 'numbers' ? 'number-human' : 'percentages'
+            }
           />
         )}
         {chartOption === 'line' && <LineGraph data={data[selected]} />}
         {chartOption === 'pie' && (
           <PieGraph
             data={data[selected]}
-            display={calculationOption === 'numbers' ? 'values' : 'percentages'}
+            valueFormat={
+              calculationOption === 'numbers' ? 'number-human' : 'percentages'
+            }
           />
         )}
         {/* Calculate option: {calculationOption} */}

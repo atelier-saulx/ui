@@ -3,6 +3,7 @@ import { styled, Style } from 'inlines'
 import { Text } from '../Text'
 import { color as genColor } from '../../varsUtilities'
 import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
+import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
 export type BarGraphSingleItem = {
   label: string
@@ -13,13 +14,13 @@ export type BarGraphSingleItem = {
 
 type BarGraphProps = {
   data: BarGraphSingleItem[]
-  display?: 'percentages' | 'values'
   direction?: 'horizontal' | 'vertical'
+  valueFormat?: 'percentages' | NumberFormat
   style?: Style
   color?: ColorNonSemanticBackgroundColors
 }
 
-const HorizontalBar = ({ display, label, value, percentage, color }) => {
+const HorizontalBar = ({ valueFormat, label, value, percentage, color }) => {
   return (
     <styled.div
       style={{ display: 'flex', marginBottom: 4, alignItems: 'center' }}
@@ -51,14 +52,16 @@ const HorizontalBar = ({ display, label, value, percentage, color }) => {
         }}
       >
         <Text weight="medium">
-          {display === 'values' ? value : percentage.toFixed(1) + '%'}
+          {valueFormat !== 'percentages'
+            ? prettyNumber(value, valueFormat)
+            : percentage.toFixed(1) + '%'}
         </Text>
       </styled.div>
     </styled.div>
   )
 }
 
-const VerticalBar = ({ display, label, value, percentage, color }) => {
+const VerticalBar = ({ valueFormat, label, value, percentage, color }) => {
   return (
     <styled.div style={{ marginRight: 4, textAlign: 'center' }}>
       <styled.div
@@ -102,7 +105,9 @@ const VerticalBar = ({ display, label, value, percentage, color }) => {
       </styled.div>
 
       <Text weight="medium">
-        {display === 'values' ? value : percentage.toFixed(1) + '%'}
+        {valueFormat !== 'percentages'
+          ? prettyNumber(value, valueFormat)
+          : percentage.toFixed(1) + '%'}
       </Text>
     </styled.div>
   )
@@ -110,9 +115,9 @@ const VerticalBar = ({ display, label, value, percentage, color }) => {
 
 export const BarGraph: FC<BarGraphProps> = ({
   data,
-  display,
   direction,
   style,
+  valueFormat = 'percentages',
   color,
 }) => {
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
@@ -135,21 +140,21 @@ export const BarGraph: FC<BarGraphProps> = ({
         ? data.map((item, idx) => (
             <VerticalBar
               key={idx}
-              display={display}
+              valueFormat={valueFormat}
               label={item.label}
               value={item.value}
               percentage={item.percentage}
-              color={color ? color : item.color}
+              color={item.color ? item.color : color}
             />
           ))
         : data.map((item, idx) => (
             <HorizontalBar
               key={idx}
-              display={display}
+              valueFormat={valueFormat}
               label={item.label}
               value={item.value}
               percentage={item.percentage}
-              color={color ? color : item.color}
+              color={item.color ? item.color : color}
             />
           ))}
     </styled.div>

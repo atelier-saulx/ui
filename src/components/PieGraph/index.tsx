@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react'
 import { styled, Style, color, Text, ColorNonSemanticBackgroundColors } from '~'
+import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
 export type PieGraphSingleItem = {
   label: string
@@ -10,7 +11,7 @@ export type PieGraphSingleItem = {
 
 type PieGraphProps = {
   data: PieGraphSingleItem[]
-  display?: 'values' | 'percentages'
+  valueFormat?: 'percentages' | NumberFormat
   style?: Style
 }
 
@@ -32,7 +33,11 @@ const colorArray: ColorNonSemanticBackgroundColors[] = [
   'orange',
 ]
 
-export const PieGraph: FC<PieGraphProps> = ({ data, display, style }) => {
+export const PieGraph: FC<PieGraphProps> = ({
+  data,
+  valueFormat = 'percentages',
+  style,
+}) => {
   const [featured, setFeatured] = useState<{
     label: string
     percentage: number
@@ -70,7 +75,7 @@ export const PieGraph: FC<PieGraphProps> = ({ data, display, style }) => {
   }))
 
   return (
-    <>
+    <div>
       <styled.div
         style={{
           margin: '0 auto',
@@ -138,11 +143,11 @@ export const PieGraph: FC<PieGraphProps> = ({ data, display, style }) => {
         >
           <Text weight="strong" size={32}>
             {featured
-              ? display === 'values'
-                ? featured.value
+              ? valueFormat !== 'percentages'
+                ? prettyNumber(featured.value, valueFormat)
                 : featured?.percentage.toFixed(1) + '%'
-              : display === 'values'
-              ? objectWithLargestValue.value
+              : valueFormat !== 'percentages'
+              ? prettyNumber(objectWithLargestValue.value, valueFormat)
               : objectWithLargestValue.percentage.toFixed(1) + '%'}
           </Text>
           <Text weight="strong" size={12}>
@@ -177,6 +182,6 @@ export const PieGraph: FC<PieGraphProps> = ({ data, display, style }) => {
           </styled.div>
         ))}
       </styled.div>
-    </>
+    </div>
   )
 }

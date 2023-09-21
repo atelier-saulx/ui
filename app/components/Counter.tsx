@@ -19,8 +19,9 @@ const example: ComponentDef = {
     {
       props: {
         color: 'warning',
-        children: 88,
+        children: 8833,
         icon: () => React.createElement(IconChartPie),
+        valueFormat: 'number-bytes',
       },
     },
   ],

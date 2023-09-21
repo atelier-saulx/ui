@@ -13,6 +13,7 @@ import { Center } from '../Styled'
 import { Style, styled } from 'inlines'
 import { ClickHandler } from '../../types'
 import { renderOrCreateElement } from '../../utils'
+import { prettyNumber, NumberFormat } from '@based/pretty-number'
 
 export type CounterProps = {
   color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
@@ -21,6 +22,7 @@ export type CounterProps = {
   style?: Style
   light?: boolean
   icon?: FC<IconProps> | ReactNode
+  valueFormat?: NumberFormat
 }
 
 export const Counter: FC<CounterProps> = ({
@@ -30,6 +32,7 @@ export const Counter: FC<CounterProps> = ({
   style,
   light,
   icon,
+  valueFormat = 'number-round-0',
 }) => {
   const contentColor: string = light
     ? color === 'neutral'
@@ -100,7 +103,7 @@ export const Counter: FC<CounterProps> = ({
         </styled.div>
       )}
       <Text style={{ color: 'inherit' }} weight="strong" size={12}>
-        {children}
+        {prettyNumber(Number(children), valueFormat)}
       </Text>
     </Center>
   )
