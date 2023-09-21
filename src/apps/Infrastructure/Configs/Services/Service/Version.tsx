@@ -19,35 +19,37 @@ const Info: FC<{
 }> = ({ dist }) => {
   return (
     <Row>
-      {dist.parents.length === 0 ? (
-        <>
-          <Text color="red" style={{ marginRight: 8 }} typography="body600">
-            HOTFIX {dist.checksum.slice(0, 10)} (
-            {prettyDate(dist.updatedAt, 'date-time-human')})
-          </Text>
-        </>
-      ) : (
-        <>
-          <Text typography="body600" color="accent">
-            {dist.parents[dist.parents.length - 1].tag}
-          </Text>
-          {dist.parents[dist.parents.length - 1].updatedAt ? (
-            <Text
-              typography="body400"
-              color="text2"
-              style={{
-                marginLeft: 8,
-              }}
-            >
-              from{' '}
-              {prettyDate(
-                dist.parents[dist.parents.length - 1].updatedAt,
-                'date-time-human'
-              ).toLowerCase()}
+      {dist.parents ? (
+        dist.parents.length === 0 ? (
+          <>
+            <Text color="red" style={{ marginRight: 8 }} typography="body600">
+              HOTFIX {dist.checksum.slice(0, 10)} (
+              {prettyDate(dist.updatedAt, 'date-time-human')})
             </Text>
-          ) : null}
-        </>
-      )}
+          </>
+        ) : (
+          <>
+            <Text typography="body600" color="accent">
+              {dist.parents[dist.parents.length - 1].tag}
+            </Text>
+            {dist.parents[dist.parents.length - 1].updatedAt ? (
+              <Text
+                typography="body400"
+                color="text2"
+                style={{
+                  marginLeft: 8,
+                }}
+              >
+                from{' '}
+                {prettyDate(
+                  dist.parents[dist.parents.length - 1].updatedAt,
+                  'date-time-human'
+                ).toLowerCase()}
+              </Text>
+            ) : null}
+          </>
+        )
+      ) : null}
     </Row>
   )
 }

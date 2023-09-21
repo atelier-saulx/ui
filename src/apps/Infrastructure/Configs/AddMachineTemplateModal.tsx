@@ -152,7 +152,6 @@ export const AddMachineModal: FC<{
                 }
                 placeholder="Select a predefined template"
                 onChange={(name) => {
-                  console.log(name)
                   if (name && newConfig.current.configName !== name) {
                     // @ts-ignore
                     const { configName, ...config } = deepCopy(
