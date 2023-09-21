@@ -27,6 +27,7 @@ const example: ComponentDef = {
         steps: 5,
         onChange: (v) => console.log(v),
         color: 'alert',
+        valueFormat: 'number-dollar',
       },
     },
   ],

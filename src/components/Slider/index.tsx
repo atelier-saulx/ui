@@ -13,6 +13,7 @@ import {
   useWindowResize,
   ColorActionColors,
 } from '~'
+import { prettyNumber, NumberFormat } from '@based/pretty-number'
 
 const StyledBgSlider = styled('div', {
   backgroundColor: genColor('action', 'neutral', 'subtleNormal'),
@@ -86,6 +87,7 @@ type SliderProps = {
   value?: number | { id: string; title: string; index: number }
   steps?: number
   style?: Style
+  valueFormat?: NumberFormat
   onChange?: (value: number) => void
 }
 
@@ -129,6 +131,7 @@ export const Slider: FC<SliderProps> = ({
   onChange = () => null,
   color = 'primary',
   steps = 1,
+  valueFormat,
   style,
 }) => {
   if (steps && max === undefined) {
@@ -348,7 +351,12 @@ export const Slider: FC<SliderProps> = ({
         <StyledLabel style={{ left: `${percentageX}%` }}>
           <Text color="inverted" selectable="none" weight="strong">
             {items
-              ? items[index as number]?.title
+              ? valueFormat
+                ? prettyNumber(
+                    Number(items[index as number]?.title),
+                    valueFormat
+                  )
+                : items[index as number]?.title
               : max
               ? (percentageX * max) / 100
               : ''}

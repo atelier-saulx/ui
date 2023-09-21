@@ -11,7 +11,7 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        format: 'number-bytes',
+        valueFormat: 'number-bytes',
       },
       customRenderer: (props) => {
         const data = [

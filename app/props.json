@@ -220,7 +220,7 @@
             }
           ]
         },
-        "format": {
+        "valueFormat": {
           "optional": true,
           "type": [
             {
@@ -238,7 +238,7 @@
           "type": "ColorNonSemanticBackgroundColors"
         }
       },
-      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  direction?: 'horizontal' | 'vertical'\n  format?: 'percentages' | NumberFormat\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n}",
+      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  direction?: 'horizontal' | 'vertical'\n  valueFormat?: 'percentages' | NumberFormat\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -565,9 +565,13 @@
             "FC",
             "ReactNode"
           ]
+        },
+        "valueFormat": {
+          "optional": true,
+          "type": "NumberFormat"
         }
       },
-      "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  icon?: FC<IconProps> | ReactNode\n}",
+      "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  icon?: FC<IconProps> | ReactNode\n  valueFormat?: NumberFormat\n}",
       "file": "/components/Counter/index.tsx"
     },
     "CalendarProps": {
@@ -1538,7 +1542,7 @@
             "array": "PieGraphSingleItem"
           }
         },
-        "format": {
+        "valueFormat": {
           "optional": true,
           "type": [
             {
@@ -1552,7 +1556,7 @@
           "type": "Style"
         }
       },
-      "code": "type PieGraphProps = {\n  data: PieGraphSingleItem[]\n  format?: 'percentages' | NumberFormat\n  style?: Style\n}",
+      "code": "type PieGraphProps = {\n  data: PieGraphSingleItem[]\n  valueFormat?: 'percentages' | NumberFormat\n  style?: Style\n}",
       "file": "/components/PieGraph/index.tsx"
     },
     "ConditionalProps": {
@@ -1791,12 +1795,16 @@
           "optional": true,
           "type": "Style"
         },
+        "valueFormat": {
+          "optional": true,
+          "type": "NumberFormat"
+        },
         "onChange": {
           "optional": true,
           "type": "function"
         }
       },
-      "code": "type SliderProps = {\n  color?: ColorActionColors\n  data?: Item[]\n  min?: number\n  max?: number\n  value?: number | { id: string; title: string; index: number }\n  steps?: number\n  style?: Style\n  onChange?: (value: number) => void\n}",
+      "code": "type SliderProps = {\n  color?: ColorActionColors\n  data?: Item[]\n  min?: number\n  max?: number\n  value?: number | { id: string; title: string; index: number }\n  steps?: number\n  style?: Style\n  valueFormat?: NumberFormat\n  onChange?: (value: number) => void\n}",
       "file": "/components/Slider/index.tsx"
     },
     "StatusProps": {

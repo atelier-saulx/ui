@@ -10,7 +10,7 @@ const example: ComponentDef = {
   description: '',
   examples: [
     {
-      props: { label: 'Single line' },
+      props: { label: 'Single line', valueFormat: 'number-euro' },
       customRenderer: (props) => {
         const genRandomPoints = (
           formula: (i: number) => { x: number; y: number },

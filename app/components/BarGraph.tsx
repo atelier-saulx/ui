@@ -5,7 +5,6 @@ import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
   name: 'BarGraph',
-  // TODO yves change these props
   properties: props.props.BarGraphProps.props,
   component: BarGraph,
   description: '100 bars for breakfast',
@@ -14,7 +13,7 @@ const example: ComponentDef = {
       props: {
         color: 'green',
         style: { width: 540, [BpTablet]: { width: 'unset' } },
-        format: 'number-euro',
+        valueFormat: 'number-euro',
         data: [
           {
             label: 'Moose 🦆',

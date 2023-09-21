@@ -11,7 +11,7 @@ export type PieGraphSingleItem = {
 
 type PieGraphProps = {
   data: PieGraphSingleItem[]
-  format?: 'percentages' | NumberFormat
+  valueFormat?: 'percentages' | NumberFormat
   style?: Style
 }
 
@@ -35,7 +35,7 @@ const colorArray: ColorNonSemanticBackgroundColors[] = [
 
 export const PieGraph: FC<PieGraphProps> = ({
   data,
-  format = 'percentages',
+  valueFormat = 'percentages',
   style,
 }) => {
   const [featured, setFeatured] = useState<{
@@ -143,11 +143,11 @@ export const PieGraph: FC<PieGraphProps> = ({
         >
           <Text weight="strong" size={32}>
             {featured
-              ? format !== 'percentages'
-                ? prettyNumber(featured.value, format)
+              ? valueFormat !== 'percentages'
+                ? prettyNumber(featured.value, valueFormat)
                 : featured?.percentage.toFixed(1) + '%'
-              : format !== 'percentages'
-              ? prettyNumber(objectWithLargestValue.value, format)
+              : valueFormat !== 'percentages'
+              ? prettyNumber(objectWithLargestValue.value, valueFormat)
               : objectWithLargestValue.percentage.toFixed(1) + '%'}
           </Text>
           <Text weight="strong" size={12}>
