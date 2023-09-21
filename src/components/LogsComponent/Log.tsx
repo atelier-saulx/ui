@@ -7,10 +7,15 @@ export type LogProps = {
   log?: string
   type?: 'error' | 'warning' | 'log' | 'info' | 'brand'
   ts?: number
+  data?: any
+  index?: number
 }
 
-export const Log: FC<LogProps> = ({ ts, label, log, type }) => {
+export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
   let d = prettyDate(~~(ts / 60e3) * 60e3, 'date-time')
+  if (data[index - 1]?.ts === ts) {
+    d = ''
+  }
 
   const color =
     type === 'error'
@@ -20,7 +25,6 @@ export const Log: FC<LogProps> = ({ ts, label, log, type }) => {
       : type === 'info'
       ? 'brand'
       : 'default'
-
   return (
     <styled.div
       style={{

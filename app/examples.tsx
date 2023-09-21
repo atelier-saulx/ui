@@ -20,7 +20,8 @@ import dropdown from './components/Dropdown'
 import fileInput from './components/FileInput'
 import icon from './components/Icon'
 import linegraph from './components/Linegraph'
-import logs from './components/Logs'
+// import logs from './components/Logs'
+import logsText from './components/LogsText'
 import metricsWidget from './components/MetricsWidget'
 import modal from './components/Modal'
 import pieGraph from './components/PieGraph'
@@ -46,7 +47,6 @@ import tooltipTest from './components/TooltipTest'
 import topNavigation from './components/TopNavigation'
 
 export const components: ComponentDef[] = [
-  LogGroups,
   accordion,
   alertBanner,
   avatar,
@@ -65,8 +65,9 @@ export const components: ComponentDef[] = [
   fileInput,
   icon,
   linegraph,
-  LogGroups,
-  logs,
+  // LogGroups,
+  // logs,
+  logsText,
   Menu,
   metricsWidget,
   modal,

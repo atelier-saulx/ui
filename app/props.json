@@ -393,9 +393,33 @@
         "copy": {
           "optional": true,
           "type": "boolean"
+        },
+        "codeLanguage": {
+          "optional": true,
+          "type": [
+            {
+              "value": "js"
+            },
+            {
+              "value": "html"
+            },
+            {
+              "value": "css"
+            },
+            {
+              "value": "json"
+            },
+            {
+              "value": "markup"
+            },
+            {
+              "value": "clike"
+            },
+            "string"
+          ]
         }
       },
-      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n  color?: ColorBackgroundColors\n  copy?: boolean\n}",
+      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n  color?: ColorBackgroundColors\n  copy?: boolean\n  codeLanguage?: 'js' | 'html' | 'css' | 'json' | 'markup' | 'clike' | string\n}",
       "file": "/components/Code/index.tsx"
     },
     "ConfirmationProps": {
@@ -1116,14 +1140,38 @@
         },
         "type": {
           "optional": true,
-          "type": "ColorContentColors"
+          "type": [
+            {
+              "value": "error"
+            },
+            {
+              "value": "warning"
+            },
+            {
+              "value": "log"
+            },
+            {
+              "value": "info"
+            },
+            {
+              "value": "brand"
+            }
+          ]
         },
         "ts": {
           "optional": true,
           "type": "number"
+        },
+        "data": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "index": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type LogProps = {\n  label?: string\n  log?: string\n  type?: ColorContentColors\n  ts?: number\n}",
+      "code": "type LogProps = {\n  label?: string\n  log?: string\n  type?: 'error' | 'warning' | 'log' | 'info' | 'brand'\n  ts?: number\n  data?: any\n  index?: number\n}",
       "file": "/components/LogsComponent/Log.tsx"
     },
     "LogGroupsProps": {
@@ -1166,22 +1214,6 @@
       "code": "type SingleLogProps = {\n  msg: any\n  style?: Style\n  ts?: number\n  type?: string\n  idx?: number\n}",
       "file": "/components/LogsComponent/LogGroups.tsx"
     },
-    "LogsTextProps": {
-      "name": "LogsTextProps",
-      "props": {
-        "data": {
-          "type": {
-            "array": "LogProps"
-          }
-        },
-        "autoScroll": {
-          "optional": true,
-          "type": "boolean"
-        }
-      },
-      "code": "type LogsTextProps = {\n  data: LogProps[]\n  autoScroll?: boolean\n}",
-      "file": "/components/LogsComponent/LogsText.tsx"
-    },
     "SingleLogItemProps": {
       "name": "SingleLogItemProps",
       "props": {
@@ -1213,13 +1245,12 @@
       "code": "type SingleLogItemProps = {\n  msg?: string\n  status?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  style?: Style\n  ts?: number\n  type?: string\n  label?: string\n}",
       "file": "/components/LogsComponent/SingleLogItem.tsx"
     },
-    "LogsProps": {
-      "name": "LogsProps",
+    "LogsTextProps": {
+      "name": "LogsTextProps",
       "props": {
         "data": {
-          "optional": true,
           "type": {
-            "array": "SingleLogItemProps"
+            "array": "Exclude"
           }
         },
         "style": {
@@ -1227,7 +1258,7 @@
           "type": "Style"
         }
       },
-      "code": "type LogsProps = {\n  data?: SingleLogItemProps[]\n  style?: Style\n  // top to bottom // reverse order\n  // autoscroll?\n  // infinite scroll ,\n  // behaviour to start at bottom\n  //  clear logs option\n  // group per time --> and type\n}",
+      "code": "type LogsTextProps = {\n  data: Exclude<LogProps, 'data' | 'index'>[]\n  // autoScroll?: boolean\n  style?: Style\n}",
       "file": "/components/LogsComponent/index.tsx"
     },
     "MenuItemProps": {
