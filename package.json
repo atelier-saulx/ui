@@ -9,7 +9,7 @@
     "deploy": "npx @based/cli deploy",
     "genPropsTypes": "node ./scripts/generateComponentProps.js",
     "sync-figma": "ts-node ./scripts/syncFigma/index.ts",
-    "build": "rm tsconfig.tsbuildinfo && rm -rf dist && mkdir dist && tsc --build tsconfig.json && node scripts/postbuild"
+    "build": "rimraf tsconfig.tsbuildinfo && rimraf dist && mkdir dist && tsc --build tsconfig.json && node scripts/postbuild"
   },
   "prettier": "@saulx/prettier-config",
   "eslintConfig": {
@@ -49,6 +49,7 @@
     "pascal-case": "^3.1.2",
     "react": "18",
     "react-dom": "18",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "rimraf": "^5.0.1"
   }
 }
