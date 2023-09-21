@@ -19,7 +19,7 @@ const example: ComponentDef = {
           {
             label: 'Moose 🦆',
             value: 160000,
-            // color: 'violet',
+            color: 'violet',
           },
           {
             label: 'Caribou 🦌',
@@ -33,7 +33,7 @@ const example: ComponentDef = {
           {
             label: 'Wolves 🐺',
             value: 62000,
-            // color: 'blue',
+            color: 'blue',
           },
         ],
       },
@@ -46,6 +46,7 @@ const example: ComponentDef = {
           {
             label: 'Moose 🦆',
             value: 160000,
+            color: 'green',
           },
           {
             label: 'Caribou 🦌',

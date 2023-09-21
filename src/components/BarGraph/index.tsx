@@ -144,7 +144,7 @@ export const BarGraph: FC<BarGraphProps> = ({
               label={item.label}
               value={item.value}
               percentage={item.percentage}
-              color={color ? color : item.color}
+              color={item.color ? item.color : color}
             />
           ))
         : data.map((item, idx) => (
@@ -154,7 +154,7 @@ export const BarGraph: FC<BarGraphProps> = ({
               label={item.label}
               value={item.value}
               percentage={item.percentage}
-              color={color ? color : item.color}
+              color={item.color ? item.color : color}
             />
           ))}
     </styled.div>

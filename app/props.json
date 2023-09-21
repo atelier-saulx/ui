@@ -42,15 +42,23 @@
         "data": {
           "optional": true,
           "type": {
-            "array": "AccordionItemProps"
+            "array": "Omit"
           }
         },
         "active": {
           "optional": true,
-          "type": ["null", "Number", "Array"]
+          "type": [
+            "null",
+            "Number",
+            "Array"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         }
       },
-      "code": "type AccordionProps = {\n  data?: AccordionItemProps[]\n  active?: null | Number | Array<Number>\n}",
+      "code": "type AccordionProps = {\n  data?: Omit<AccordionItemProps, 'onClick' | 'onClose'>[]\n  active?: null | Number | Array<Number>\n  style?: Style\n}",
       "file": "/components/Accordion/index.tsx"
     },
     "AlertBannerProps": {
@@ -150,11 +158,17 @@
         },
         "color": {
           "optional": true,
-          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
         },
         "icon": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "children": {
           "optional": true,
@@ -174,7 +188,10 @@
         },
         "copyValue": {
           "optional": true,
-          "type": ["string", "number"]
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "copy": {
           "optional": true,
@@ -192,17 +209,6 @@
             "array": "BarGraphSingleItem"
           }
         },
-        "display": {
-          "optional": true,
-          "type": [
-            {
-              "value": "percentages"
-            },
-            {
-              "value": "values"
-            }
-          ]
-        },
         "direction": {
           "optional": true,
           "type": [
@@ -214,6 +220,15 @@
             }
           ]
         },
+        "format": {
+          "optional": true,
+          "type": [
+            {
+              "value": "percentages"
+            },
+            "NumberFormat"
+          ]
+        },
         "style": {
           "optional": true,
           "type": "Style"
@@ -223,7 +238,7 @@
           "type": "ColorNonSemanticBackgroundColors"
         }
       },
-      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  display?: 'percentages' | 'values'\n  direction?: 'horizontal' | 'vertical'\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n}",
+      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  direction?: 'horizontal' | 'vertical'\n  format?: 'percentages' | NumberFormat\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -362,7 +377,10 @@
         },
         "onChange": {
           "optional": true,
-          "type": ["TSParenthesizedType", "Dispatch"]
+          "type": [
+            "TSParenthesizedType",
+            "Dispatch"
+          ]
         },
         "header": {
           "optional": true,
@@ -408,11 +426,17 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "iconRight": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "inset": {
           "optional": true,
@@ -514,7 +538,10 @@
       "props": {
         "color": {
           "optional": true,
-          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
         },
         "children": {
           "optional": true,
@@ -534,7 +561,10 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         }
       },
       "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  icon?: FC<IconProps> | ReactNode\n}",
@@ -814,7 +844,11 @@
         },
         "value": {
           "optional": true,
-          "type": ["string", "number", "boolean"]
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
         }
       },
       "code": "type DropDownItemProps = {\n  caption?: string\n  data?: DropDownItemProps[]\n  icon?: ReactNode\n  id?: string\n  label: string\n  type?: 'default' | 'checkbox' | 'radio' | 'action' | 'error'\n  value?: string | number | boolean\n}",
@@ -1044,7 +1078,10 @@
         },
         "valueFormat": {
           "optional": true,
-          "type": ["NumberFormat", "string"]
+          "type": [
+            "NumberFormat",
+            "string"
+          ]
         },
         "label": {
           "optional": true,
@@ -1061,6 +1098,29 @@
       },
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n  width?: number\n  height?: number\n}",
       "file": "/components/Linegraph/index.tsx"
+    },
+    "LogProps": {
+      "name": "LogProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "log": {
+          "optional": true,
+          "type": "string"
+        },
+        "type": {
+          "optional": true,
+          "type": "ColorContentColors"
+        },
+        "ts": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type LogProps = {\n  label?: string\n  log?: string\n  type?: ColorContentColors\n  ts?: number\n}",
+      "file": "/components/LogsComponent/Log.tsx"
     },
     "LogGroupsProps": {
       "name": "LogGroupsProps",
@@ -1101,6 +1161,22 @@
       },
       "code": "type SingleLogProps = {\n  msg: any\n  style?: Style\n  ts?: number\n  type?: string\n  idx?: number\n}",
       "file": "/components/LogsComponent/LogGroups.tsx"
+    },
+    "LogsTextProps": {
+      "name": "LogsTextProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "LogProps"
+          }
+        },
+        "autoScroll": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type LogsTextProps = {\n  data: LogProps[]\n  autoScroll?: boolean\n}",
+      "file": "/components/LogsComponent/LogsText.tsx"
     },
     "SingleLogItemProps": {
       "name": "SingleLogItemProps",
@@ -1333,9 +1409,30 @@
         "children": {
           "optional": true,
           "type": "ReactNode"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "onCancel": {
+          "type": "function"
+        },
+        "onConfirm": {
+          "type": "function"
+        },
+        "cancelLabel": {
+          "optional": true,
+          "type": "string"
+        },
+        "confirmLabel": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type ModalProps = {\n  style?: Style\n  children?: ReactNode\n}",
+      "code": "type ModalProps = {\n  style?: Style\n  children?: ReactNode\n  label: string\n  description?: string\n  onCancel: () => void\n  onConfirm: () => void\n  cancelLabel?: string\n  confirmLabel?: string\n}",
       "file": "/components/Modal/index.tsx"
     },
     "PositionProps": {
@@ -1441,15 +1538,13 @@
             "array": "PieGraphSingleItem"
           }
         },
-        "display": {
+        "format": {
           "optional": true,
           "type": [
             {
-              "value": "values"
-            },
-            {
               "value": "percentages"
-            }
+            },
+            "NumberFormat"
           ]
         },
         "style": {
@@ -1457,7 +1552,7 @@
           "type": "Style"
         }
       },
-      "code": "type PieGraphProps = {\n  data: PieGraphSingleItem[]\n  display?: 'values' | 'percentages'\n  style?: Style\n}",
+      "code": "type PieGraphProps = {\n  data: PieGraphSingleItem[]\n  format?: 'percentages' | NumberFormat\n  style?: Style\n}",
       "file": "/components/PieGraph/index.tsx"
     },
     "ConditionalProps": {
@@ -1618,7 +1713,11 @@
         },
         "value": {
           "optional": true,
-          "type": ["string", "boolean", "number"]
+          "type": [
+            "string",
+            "boolean",
+            "number"
+          ]
         }
       },
       "code": "type RadioButtonsProps = {\n  color?: ColorActionColors\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  direction?: 'horizontal' | 'vertical'\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  value?: string | boolean | number\n}",
@@ -1679,7 +1778,10 @@
         },
         "value": {
           "optional": true,
-          "type": ["number", "TSTypeLiteral"]
+          "type": [
+            "number",
+            "TSTypeLiteral"
+          ]
         },
         "steps": {
           "optional": true,
@@ -1702,7 +1804,10 @@
       "props": {
         "color": {
           "optional": true,
-          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
         },
         "ghost": {
           "optional": true,
@@ -1752,7 +1857,10 @@
       "props": {
         "label": {
           "optional": true,
-          "type": ["string", "ReactNode"]
+          "type": [
+            "string",
+            "ReactNode"
+          ]
         },
         "children": {
           "optional": true,
@@ -1943,7 +2051,10 @@
         },
         "truncate": {
           "optional": true,
-          "type": ["number", "boolean"]
+          "type": [
+            "number",
+            "boolean"
+          ]
         },
         "underline": {
           "optional": true,
