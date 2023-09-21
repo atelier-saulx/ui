@@ -5,12 +5,14 @@ import { SelectInput, SelectInputProps, SelectInputOption } from './SelectInput'
 import { SearchInput, SearchInputProps } from './SearchInput'
 import { FileInput, FileInputProps } from './FileInput'
 import { NumberInput, NumberInputProps } from './NumberInput'
-import { IconAlertFill, color } from '~'
+import { IconAlertFill, color, styled, Text } from '~'
 import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
 
 export type CommonInputProps = {
   label?: string
   error?: string
+  description?: string
+  indent?: boolean
 }
 
 export { SelectInputOption }
@@ -59,7 +61,12 @@ export function Input(props: InputProps) {
     case 'file': {
       const { type, ...narrowedProps } = props
       return (
-        <LabelAndErrorWrapper label={props.label} error={props.error}>
+        <LabelAndErrorWrapper
+          label={props.label}
+          error={props.error}
+          indent={props.indent}
+          description={props.description}
+        >
           <FileInput {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
@@ -80,6 +87,8 @@ export function Input(props: InputProps) {
 export type LabelAndErrorWrapperProps = {
   label?: string
   error?: string
+  description?: string
+  indent?: boolean
   children: ReactNode
 }
 
@@ -87,12 +96,58 @@ function LabelAndErrorWrapper({
   label,
   error,
   children,
+  indent,
+  description,
 }: LabelAndErrorWrapperProps) {
-  const Component = label || error ? 'div' : Fragment
-  const componentProps = label || error ? { style: { display: 'block' } } : {}
+  // TODO: temp change maybe idk how to get this to be a styled div
+  // const Component = indent || label || description || error ? 'div' : Fragment
+  const componentProps = indent
+    ? {
+        style: {
+          display: 'block',
+          borderLeft: '2px solid',
+          borderColor: error
+            ? color('border', 'negative', 'strong')
+            : color('inputBorder', 'neutralNormal', 'default'),
+
+          '&:hover': {
+            borderColor: error
+              ? color('border', 'negative', 'strong')
+              : color('inputBorder', 'neutralHover', 'default'),
+          },
+          '&:active': {
+            borderColor: error
+              ? color('border', 'negative', 'strong')
+              : color('inputBorder', 'neutralActive', 'default'),
+          },
+          '&:focus': {
+            borderColor: error
+              ? color('border', 'negative', 'strong')
+              : color('inputBorder', 'selected', 'default'),
+            '&:hover': {
+              borderColor: error
+                ? color('border', 'negative', 'strong')
+                : color('inputBorder', 'hover', 'default'),
+            },
+            '&:active': {
+              borderColor: error
+                ? color('border', 'negative', 'strong')
+                : color('inputBorder', 'active', 'default'),
+            },
+          },
+          paddingLeft: 20,
+        },
+      }
+    : label || error || description
+    ? {
+        style: {
+          display: 'block',
+        },
+      }
+    : {}
 
   return (
-    <Component {...componentProps}>
+    <styled.div tabindex={1} {...componentProps}>
       {label && (
         <div
           style={{
@@ -107,6 +162,11 @@ function LabelAndErrorWrapper({
         </div>
       )}
       {children}
+      {description && (
+        <styled.div style={{ marginTop: 8 }}>
+          <Text light>{description}</Text>
+        </styled.div>
+      )}
       {error && (
         <div
           style={{
@@ -129,7 +189,7 @@ function LabelAndErrorWrapper({
           </div>
         </div>
       )}
-    </Component>
+    </styled.div>
   )
 }
 

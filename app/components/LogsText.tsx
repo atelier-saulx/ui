@@ -117,7 +117,7 @@ const example: ComponentDef = {
 
         const genLog = (amount, type) => {
           const tempArr = [] as any
-          for (let i = 0; i < amount; i++) {
+          for (let i = 0; i < amount && i < 100; i++) {
             tempArr.push({
               ts: Math.floor(100000000 + Math.random() * 900000000),
               log: 'log texct lorem ',
@@ -149,6 +149,7 @@ const example: ComponentDef = {
                 ]}
               />
               <Input
+                value={amount}
                 type="number"
                 onChange={(e) => setAmount(parseInt(e.target.value))}
                 style={{ width: '100px' }}

@@ -946,9 +946,13 @@
         "multiple": {
           "optional": true,
           "type": "boolean"
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type FileInputProps = {\n  disabled?: boolean\n  multiple?: boolean\n}",
+      "code": "type FileInputProps = {\n  disabled?: boolean\n  multiple?: boolean\n  indent?: boolean\n}",
       "file": "/components/Input/FileInput.tsx"
     },
     "FileListItemProps": {
@@ -1087,11 +1091,15 @@
           "optional": true,
           "type": "string"
         },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
         "children": {
           "type": "ReactNode"
         }
       },
-      "code": "type LabelAndErrorWrapperProps = {\n  label?: string\n  error?: string\n  children: ReactNode\n}",
+      "code": "type LabelAndErrorWrapperProps = {\n  label?: string\n  error?: string\n  indent?: boolean\n  children: ReactNode\n}",
       "file": "/components/Input/index.tsx"
     },
     "LineGraphProps": {

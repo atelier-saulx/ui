@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
   IconAttachment,
+  IconCopy,
   IconDelete,
+  IconDownload,
+  IconFileEdit,
   IconMoreHorizontal,
+  IconOpenInNew,
+  IconRefresh,
   IconUpload,
 } from '../../icons'
 import { color } from '../../varsUtilities'
@@ -12,15 +17,18 @@ import { Text } from '../Text'
 export type FileInputProps = {
   disabled?: boolean
   multiple?: boolean
+  indent?: boolean
 }
 
 type FileListItemProps = {
   file: File
   onDelete: () => void
+  // onCopy: ()=>void
 }
 
 function FileListItem({ file, onDelete }: FileListItemProps) {
   const [showMore, setShowMore] = useState(false)
+  const [fullScreen, setFullScreen] = useState(false)
   const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null)
 
   useEffect(() => {
@@ -33,6 +41,44 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
       URL.revokeObjectURL(url)
     }
   }, [file])
+  // todo options array
+  const optionsArr = [
+    {
+      label: 'Duplicate',
+      Icon: IconCopy,
+      callback: onDelete,
+    },
+    {
+      label: 'Full Screen',
+      Icon: IconDelete,
+      callback: onDelete,
+    },
+    {
+      label: 'Open in new tab',
+      Icon: IconOpenInNew,
+      callback: onDelete,
+    },
+    {
+      label: 'Rename',
+      Icon: IconFileEdit,
+      callback: onDelete,
+    },
+    {
+      label: 'Replace',
+      Icon: IconRefresh,
+      callback: onDelete,
+    },
+    {
+      label: 'Download',
+      Icon: IconDownload,
+      callback: onDelete,
+    },
+    {
+      label: 'Delete',
+      Icon: IconDelete,
+      callback: onDelete,
+    },
+  ]
 
   return (
     <styled.div
@@ -138,13 +184,7 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
                   zIndex: 50,
                 }}
               >
-                {[
-                  {
-                    label: 'Delete',
-                    Icon: IconDelete,
-                    callback: onDelete,
-                  },
-                ].map((action) => (
+                {optionsArr.map((action) => (
                   <styled.div
                     key={action.label}
                     onClick={(e) => {
