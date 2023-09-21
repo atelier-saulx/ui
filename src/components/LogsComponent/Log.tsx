@@ -5,7 +5,7 @@ import { prettyDate } from '@based/pretty-date'
 export type LogProps = {
   label?: string
   log?: string
-  type?: 'error' | 'warning' | 'log' | 'info'
+  type?: 'error' | 'warning' | 'log' | 'info' | 'brand'
   ts?: number
 }
 
