@@ -5,13 +5,20 @@ import React, { useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { color, IconRefresh, Menu, Input, Provider, ScrollArea } from '../src'
+import {
+  color,
+  IconRefresh,
+  Menu,
+  Input,
+  Provider,
+  ScrollArea,
+  useTooltip,
+} from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
-import { BpTablet } from '../src/utils/breakpoints'
 
 export const client = based(basedConfig)
 
@@ -44,7 +51,7 @@ const App = () => {
             >
               <IconRefresh
                 style={{ marginRight: 8 }}
-                color="warning"
+                color="brand"
                 onClick={() => localStorage.clear()}
               />
               <ThemeSwitch />
@@ -86,16 +93,11 @@ const App = () => {
           backgroundColor: color('background', 'default', 'muted'),
           paddingLeft: '64px',
           paddingRight: '64px',
-          [BpTablet]: {
-            paddingLeft: '0px',
-            paddingRight: '0px',
-          },
           paddingTop: '24px',
           paddingBottom: '24px',
           display: 'flex',
           flexGrow: 1,
           flexDirection: 'column',
-          overflow: 'visible',
         }}
       >
         {filtered.map((c) => {
