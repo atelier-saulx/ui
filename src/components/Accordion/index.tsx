@@ -42,7 +42,6 @@ const AccordionItem: FC<AccordionItemProps> = ({
   return (
     <styled.div
       style={{
-        border: '1px solid red',
         height: 'auto',
         maxHeight: active ? '1000px' : '40px',
         transition: active ? '0.16s' : '0.16s',
@@ -68,7 +67,6 @@ const AccordionItem: FC<AccordionItemProps> = ({
           width: '100%',
           padding: '10px 8px',
           display: 'flex',
-          border: '1px solid blue',
           alignItems: 'center',
           gap: 8,
           cursor: 'pointer',
