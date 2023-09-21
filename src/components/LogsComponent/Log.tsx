@@ -5,19 +5,28 @@ import { prettyDate } from '@based/pretty-date'
 export type LogProps = {
   label?: string
   log?: string
-  type?: ColorContentColors
+  type?: 'error' | 'warning' | 'log' | 'info'
   ts?: number
 }
 
 export const Log: FC<LogProps> = ({ ts, label, log, type }) => {
   let d = prettyDate(~~(ts / 60e3) * 60e3, 'date-time')
 
+  const color =
+    type === 'error'
+      ? 'negative'
+      : type === 'warning'
+      ? 'warning'
+      : type === 'info'
+      ? 'brand'
+      : 'default'
+
   return (
     <styled.div
       style={{
         userSelect: 'text',
         fontSize: 14,
-        color: useColor('content', type, 'primary'),
+        color: useColor('content', color, 'primary'),
         fontFamily: 'Fira Code',
         display: 'flex',
         '&:hover': {
@@ -48,7 +57,7 @@ export const Log: FC<LogProps> = ({ ts, label, log, type }) => {
               'content',
               type === 'warning'
                 ? 'warning'
-                : type === 'negative'
+                : type === 'error'
                 ? 'negative'
                 : 'default',
               'primary'

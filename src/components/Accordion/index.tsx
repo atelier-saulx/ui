@@ -7,6 +7,7 @@ import {
   IconChevronTop,
   color as genColor,
   BpTablet,
+  ScrollArea,
 } from '../../'
 
 type AccordionItemProps = {
@@ -89,9 +90,9 @@ const AccordionItem: FC<AccordionItemProps> = ({
         <Text selectable="none">{title ?? 'No titles???'}</Text>
       </styled.div>
       {render && (
-        <styled.div style={{ padding: '16px', paddingLeft: '36px' }}>
+        <ScrollArea style={{ padding: '16px', paddingLeft: '36px' }}>
           {children}
-        </styled.div>
+        </ScrollArea>
       )}
     </styled.div>
   )
