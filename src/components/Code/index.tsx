@@ -18,6 +18,7 @@ import 'prismjs/components/prism-jsx'
 import 'prismjs/components/prism-jsx.min'
 import 'prismjs/components/prism-tsx.min'
 import 'prismjs/components/prism-json'
+import 'prismjs/components/prism-css'
 import './syntax.css'
 
 import { Style, styled } from 'inlines'
@@ -32,6 +33,7 @@ export type CodeProps = {
   header?: ReactNode
   color?: ColorBackgroundColors
   copy?: boolean
+  codeLanguage?: 'js' | 'html' | 'css' | 'json' | 'markup' | 'clike' | string
 }
 
 export const Code: FC<CodeProps> = ({
@@ -41,6 +43,7 @@ export const Code: FC<CodeProps> = ({
   header,
   color,
   copy,
+  codeLanguage = 'js',
 }) => {
   const [copied, copyIt] = useCopyToClipboard(value ?? '')
 
@@ -73,7 +76,7 @@ export const Code: FC<CodeProps> = ({
         highlight={(code) => {
           try {
             // @ts-ignore
-            const h = highlight(code, languages.js)
+            const h = highlight(code, languages[codeLanguage])
             return h
           } catch (err) {}
         }}
@@ -83,6 +86,8 @@ export const Code: FC<CodeProps> = ({
           fontSize: 14,
           color: genColor('content', 'brand', 'primary'),
           fontFamily: 'Fira Code, monospace, sans-serif',
+
+          outline: 'none !important',
         }}
       />
       {copy ? (
