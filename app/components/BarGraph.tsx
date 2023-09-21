@@ -14,7 +14,7 @@ const example: ComponentDef = {
       props: {
         color: 'green',
         style: { width: 540, [BpTablet]: { width: 'unset' } },
-        display: 'values',
+        format: 'number-euro',
         data: [
           {
             label: 'Moose 🦆',
