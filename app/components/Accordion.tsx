@@ -33,7 +33,11 @@ const example: ComponentDef = {
             style={{ width: 374 }}
             active={[0, 2]}
             data={[
-              { title: 'Accordion 1', children: 'thingy one' },
+              {
+                title: 'Accordion 1',
+                children:
+                  'this is a looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong word',
+              },
               { title: 'Accordion 2', children: 'thingy two' },
               { title: 'Accordion 3', children: 'thingy three' },
             ]}
