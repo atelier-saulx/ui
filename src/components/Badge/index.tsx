@@ -79,7 +79,7 @@ const BadgeInner: FC<BadgeProps> = ({
       ? 'default'
       : color
     : COLORGUARD.includes(color)
-    ? color === 'warning'
+    ? color === 'warning' || color === 'default'
       ? 'default'
       : 'inverted'
     : color === 'orange'
