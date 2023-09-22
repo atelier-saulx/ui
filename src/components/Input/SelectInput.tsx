@@ -144,6 +144,7 @@ export function SelectInput({
         position: 'relative',
         width: '100%',
         borderRadius: 8,
+
         display: 'flex',
         alignItems: 'center',
         backgroundColor: 'transparent',
@@ -257,11 +258,13 @@ export function SelectInput({
             }}
             value={typeof parsedValue === 'object' ? value : parsedValue}
             onChange={(e) => {
+              if (disabled) return
               setOpen(true)
               setFocus(0)
               setFilter(e.target.value)
             }}
             onFocus={() => {
+              if (disabled) return
               setOpen(true)
               inputRef.current?.select()
             }}
@@ -281,6 +284,7 @@ export function SelectInput({
           {!multiple && value !== '' && (
             <styled.div
               onClick={(e) => {
+                if (disabled) return
                 e.stopPropagation()
                 e.preventDefault()
                 // @ts-ignore

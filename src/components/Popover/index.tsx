@@ -2,8 +2,18 @@ import React, { FC, ReactNode } from 'react'
 import { styled, Style, color as genColor } from '~'
 import { usePopover } from '../../hooks/usePopover'
 
-type PopoverProps = {
+export type PopoverProps = {
   children?: ReactNode | ReactNode[]
+  position:
+    | 'top'
+    | 'top-right'
+    | 'top-left'
+    | 'bottom'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'left'
+    | 'right'
+  style?: Style
 }
 
 export const Popover: FC<PopoverProps> = ({ children }) => {

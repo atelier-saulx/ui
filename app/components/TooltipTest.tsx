@@ -16,7 +16,9 @@ const example: ComponentDef = {
 
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div {...toolTip}>Hover me!</div>
+            <div {...toolTip}>
+              Hover me! {props.label + ' ' + props.position}
+            </div>
           </div>
         )
       },

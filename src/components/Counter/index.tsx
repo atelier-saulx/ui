@@ -21,7 +21,8 @@ export type CounterProps = {
   onClick?: ClickHandler
   style?: Style
   light?: boolean
-  icon?: FC<IconProps> | ReactNode
+  // icon?: FC<IconProps> | ReactNode
+  icon?: ReactNode
   valueFormat?: NumberFormat
 }
 

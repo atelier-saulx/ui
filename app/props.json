@@ -47,11 +47,7 @@
         },
         "active": {
           "optional": true,
-          "type": [
-            "null",
-            "Number",
-            "Array"
-          ]
+          "type": ["null", "Number", "Array"]
         },
         "style": {
           "optional": true,
@@ -158,17 +154,11 @@
         },
         "color": {
           "optional": true,
-          "type": [
-            "ColorBackgroundColors",
-            "ColorNonSemanticBackgroundColors"
-          ]
+          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "children": {
           "optional": true,
@@ -188,10 +178,7 @@
         },
         "copyValue": {
           "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
+          "type": ["string", "number"]
         },
         "copy": {
           "optional": true,
@@ -377,10 +364,7 @@
         },
         "onChange": {
           "optional": true,
-          "type": [
-            "TSParenthesizedType",
-            "Dispatch"
-          ]
+          "type": ["TSParenthesizedType", "Dispatch"]
         },
         "header": {
           "optional": true,
@@ -450,17 +434,11 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FunctionComponent",
-            "ReactNode"
-          ]
+          "type": ["FunctionComponent", "ReactNode"]
         },
         "iconRight": {
           "optional": true,
-          "type": [
-            "FunctionComponent",
-            "ReactNode"
-          ]
+          "type": ["FunctionComponent", "ReactNode"]
         },
         "inset": {
           "optional": true,
@@ -562,10 +540,7 @@
       "props": {
         "color": {
           "optional": true,
-          "type": [
-            "ColorBackgroundColors",
-            "ColorNonSemanticBackgroundColors"
-          ]
+          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
         },
         "children": {
           "optional": true,
@@ -585,10 +560,7 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "ReactNode"
         },
         "valueFormat": {
           "optional": true,
@@ -872,11 +844,7 @@
         },
         "value": {
           "optional": true,
-          "type": [
-            "string",
-            "number",
-            "boolean"
-          ]
+          "type": ["string", "number", "boolean"]
         }
       },
       "code": "type DropDownItemProps = {\n  caption?: string\n  data?: DropDownItemProps[]\n  icon?: ReactNode\n  id?: string\n  label: string\n  type?: 'default' | 'checkbox' | 'radio' | 'action' | 'error'\n  value?: string | number | boolean\n}",
@@ -1126,10 +1094,7 @@
         },
         "valueFormat": {
           "optional": true,
-          "type": [
-            "NumberFormat",
-            "string"
-          ]
+          "type": ["NumberFormat", "string"]
         },
         "label": {
           "optional": true,
@@ -1640,9 +1605,41 @@
               "array": "ReactNode"
             }
           ]
+        },
+        "position": {
+          "type": [
+            {
+              "value": "top"
+            },
+            {
+              "value": "top-right"
+            },
+            {
+              "value": "top-left"
+            },
+            {
+              "value": "bottom"
+            },
+            {
+              "value": "bottom-right"
+            },
+            {
+              "value": "bottom-left"
+            },
+            {
+              "value": "left"
+            },
+            {
+              "value": "right"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         }
       },
-      "code": "type PopoverProps = {\n  children?: ReactNode | ReactNode[]\n}",
+      "code": "type PopoverProps = {\n  children?: ReactNode | ReactNode[]\n  position:\n    | 'top'\n    | 'top-right'\n    | 'top-left'\n    | 'bottom'\n    | 'bottom-right'\n    | 'bottom-left'\n    | 'left'\n    | 'right'\n  style?: Style\n}",
       "file": "/components/Popover/index.tsx"
     },
     "ProgressCircleProps": {
@@ -1768,11 +1765,7 @@
         },
         "value": {
           "optional": true,
-          "type": [
-            "string",
-            "boolean",
-            "number"
-          ]
+          "type": ["string", "boolean", "number"]
         }
       },
       "code": "type RadioButtonsProps = {\n  color?: ColorActionColors\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  direction?: 'horizontal' | 'vertical'\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  value?: string | boolean | number\n}",
@@ -1833,10 +1826,7 @@
         },
         "value": {
           "optional": true,
-          "type": [
-            "number",
-            "TSTypeLiteral"
-          ]
+          "type": ["number", "TSTypeLiteral"]
         },
         "steps": {
           "optional": true,
@@ -1863,10 +1853,7 @@
       "props": {
         "color": {
           "optional": true,
-          "type": [
-            "ColorBackgroundColors",
-            "ColorNonSemanticBackgroundColors"
-          ]
+          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
         },
         "ghost": {
           "optional": true,
@@ -1916,10 +1903,7 @@
       "props": {
         "label": {
           "optional": true,
-          "type": [
-            "string",
-            "ReactNode"
-          ]
+          "type": ["string", "ReactNode"]
         },
         "children": {
           "optional": true,
@@ -2110,10 +2094,7 @@
         },
         "truncate": {
           "optional": true,
-          "type": [
-            "number",
-            "boolean"
-          ]
+          "type": ["number", "boolean"]
         },
         "underline": {
           "optional": true,
