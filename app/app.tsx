@@ -5,15 +5,7 @@ import React, { useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import {
-  color,
-  IconRefresh,
-  Menu,
-  Input,
-  Provider,
-  ScrollArea,
-  useTooltip,
-} from '../src'
+import { color, IconRefresh, Menu, Input, Provider, ScrollArea } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'

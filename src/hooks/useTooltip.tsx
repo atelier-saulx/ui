@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, FC } from 'react'
 import {
   removeOverlay,
   useOverlay,
@@ -6,7 +6,23 @@ import {
   color as genColor,
   styled,
   PositionProps,
+  Style,
 } from '../'
+
+const TextTooltip: FC<{ text: ReactNode; style?: Style }> = ({
+  text,
+  style,
+}) => {
+  return (
+    <Text
+      weight="strong"
+      color="inverted"
+      style={{ whiteSpace: 'nowrap', ...style }}
+    >
+      {text}
+    </Text>
+  )
+}
 
 export const useTooltip = (
   text: string | ReactNode,
@@ -21,12 +37,8 @@ export const useTooltip = (
     | 'right' = 'bottom'
 ) => {
   const onMouseEnter = useOverlay(
-    () => (
-      <Text weight="strong" color="inverted" style={{ whiteSpace: 'nowrap' }}>
-        {text}
-      </Text>
-    ),
-    null,
+    TextTooltip,
+    { text },
     {
       variant: 'detached',
       position: position.split('-')[0] as PositionProps['position'],
