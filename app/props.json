@@ -965,7 +965,7 @@
           "type": "function"
         }
       },
-      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n}",
+      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n  // onCopy: ()=>void\n}",
       "file": "/components/Input/FileInput.tsx"
     },
     "MarkdownInputProps": {
@@ -1075,9 +1075,17 @@
         "error": {
           "optional": true,
           "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type CommonInputProps = {\n  label?: string\n  error?: string\n}",
+      "code": "type CommonInputProps = {\n  label?: string\n  error?: string\n  description?: string\n  indent?: boolean\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelAndErrorWrapperProps": {
@@ -1091,6 +1099,10 @@
           "optional": true,
           "type": "string"
         },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
         "indent": {
           "optional": true,
           "type": "boolean"
@@ -1099,7 +1111,7 @@
           "type": "ReactNode"
         }
       },
-      "code": "type LabelAndErrorWrapperProps = {\n  label?: string\n  error?: string\n  indent?: boolean\n  children: ReactNode\n}",
+      "code": "type LabelAndErrorWrapperProps = {\n  label?: string\n  error?: string\n  description?: string\n  indent?: boolean\n  children: ReactNode\n}",
       "file": "/components/Input/index.tsx"
     },
     "LineGraphProps": {
