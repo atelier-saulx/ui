@@ -38,6 +38,6 @@ export const SidePanel = () => {
       label: 'Primary Action',
     }
   )
-  //@ts-ignore
-  return <Button onClick={open}>Open SidePanel</Button>
+
+  return <Button onClick={(e: any) => open(e)}>Open SidePanel</Button>
 }

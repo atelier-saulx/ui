@@ -12,6 +12,7 @@ const example: ComponentDef = {
     {
       props: {
         activeTab: 2,
+        borderColor: 'primary',
       },
       customRenderer: (props) => {
         return (
@@ -24,7 +25,7 @@ const example: ComponentDef = {
               marginBottom: 24,
             }}
           >
-            <Tabs activeTab={props.activeTab}>
+            <Tabs {...props}>
               <Tab label="Apple" children="🍎" />
               <Tab label="Bear" children="🐻" />
               <Tab label="Crescendo" children="🎵" />
@@ -36,6 +37,7 @@ const example: ComponentDef = {
     {
       props: {
         activeTab: 1,
+        borderColor: 'neutral',
       },
       customRenderer: (props) => {
         return (
@@ -48,7 +50,7 @@ const example: ComponentDef = {
               marginBottom: 24,
             }}
           >
-            <Tabs borderColor="neutral" activeTab={props.activeTab}>
+            <Tabs {...props}>
               <Tab label="Edgy Apple" children="🍎" />
               <Tab label="Edgy Bear" children="🐻" />
               <Tab label="Edgy Crescendo" children="🎵" />
