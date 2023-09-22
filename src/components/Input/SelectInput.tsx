@@ -240,7 +240,9 @@ export function SelectInput({
                 {parsed.find((e) => e.value === v)?.label}
               </Tag>
             ))}
+
           <styled.input
+            disabled={disabled}
             ref={inputRef}
             style={{
               height: 24,
@@ -258,13 +260,11 @@ export function SelectInput({
             }}
             value={typeof parsedValue === 'object' ? value : parsedValue}
             onChange={(e) => {
-              if (disabled) return
               setOpen(true)
               setFocus(0)
               setFilter(e.target.value)
             }}
             onFocus={() => {
-              if (disabled) return
               setOpen(true)
               inputRef.current?.select()
             }}
