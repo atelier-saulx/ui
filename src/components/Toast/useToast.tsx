@@ -1,8 +1,7 @@
 import React, { useState, createContext, useContext } from 'react'
-
 import { createPortal } from 'react-dom'
 import { Toast, ToastProps } from './Toast'
-import { Style, styled, ColorBackgroundColors, color as genColor } from '~'
+import { styled } from '~'
 
 const ToastContainer = ({ toasts }) => {
   return createPortal(
@@ -19,34 +18,22 @@ const ToastContainer = ({ toasts }) => {
         gap: 12,
       }}
     >
-      {toasts.map(
-        ({
-          label,
-          action,
-          closeable,
-          color,
-          description,
-          style,
-          strong,
-          id,
-        }) => (
-          <Toast
-            key={id}
-            id={id}
-            label={label}
-            action={action}
-            closeable={closeable}
-            color={color}
-            description={description}
-            strong={strong}
-            style={
-              toasts.length < 4
-                ? style
-                : { ...style, position: 'absolute', top: 0, left: 0 }
-            }
-          />
-        )
-      )}
+      {toasts.map(({ label, action, closeable, color, style, strong, id }) => (
+        <Toast
+          key={id}
+          id={id}
+          label={label}
+          action={action}
+          closeable={closeable}
+          color={color}
+          strong={strong}
+          style={
+            toasts.length < 4
+              ? style
+              : { ...style, position: 'absolute', top: 0, left: 0 }
+          }
+        />
+      ))}
     </styled.div>,
     document.body
   )
@@ -64,7 +51,6 @@ export const ToastProvider = ({ children }) => {
     action,
     closeable,
     color,
-    description,
     style,
     strong,
   }: ToastProps) => {
@@ -76,7 +62,6 @@ export const ToastProvider = ({ children }) => {
         action: action,
         closeable: closeable,
         color: color,
-        description: description,
         style: style,
         strong: strong,
       },

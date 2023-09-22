@@ -17,16 +17,25 @@ const openAni = keyframes({
   '100%': { transform: 'scale(100%, 100%)' },
 })
 
+export type SidePanelProps = {
+  children: ReactNode | ReactNode[]
+  position: 'left' | 'right'
+  style?: Style
+  title?: string
+  cancel: { onClick: () => void; label: string }
+  primaryAction: { onClick: () => void; label: string }
+}
+
 export const useSidePanel = (
-  children: ReactNode | ReactNode[],
-  position: 'left' | 'right',
-  style?: Style,
-  title?: string,
-  cancel: { onClick: () => void; label: string } = {
+  children,
+  position,
+  style,
+  title,
+  cancel = {
     onClick: console.log,
     label: 'Cancel',
   },
-  primaryAction: { onClick: () => void; label: string } = {
+  primaryAction = {
     onClick: console.log,
     label: 'Primary Action',
   }
