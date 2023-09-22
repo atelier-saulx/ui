@@ -78,7 +78,12 @@ const Modal: FC<{
                 </Text>
                 <Row>
                   <Text style={{ marginRight: 16 }} typography="body600">
-                    {d.fromDist.parents[d.fromDist.parents.length - 1].tag}
+                    {d.fromDist.parents.length > 0
+                      ? d.fromDist.parents[d.fromDist.parents.length - 1].tag
+                      : `HOTFIX (${prettyDate(
+                          d.dist.updatedAt,
+                          'date-time-human'
+                        )})`}
                   </Text>
                   <ArrowRightIcon style={{ marginRight: 16 }} />
                   {d.dist.parents.length > 0 ? (
