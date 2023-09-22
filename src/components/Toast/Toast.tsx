@@ -19,7 +19,6 @@ export type ToastProps = {
   action?: { onClick: () => void; label: string }
   closeable?: boolean
   color?: ColorBackgroundColors
-  description?: string
   id?: any
   label?: string
   strong?: boolean
@@ -31,7 +30,6 @@ export const Toast: FC<ToastProps> = ({
   action,
   closeable,
   color = 'default',
-  description,
   style,
   strong,
   id,
@@ -93,7 +91,7 @@ export const Toast: FC<ToastProps> = ({
       <Text
         style={{ marginLeft: '16px' }}
         color={
-          strong && color === 'warning'
+          (strong && color === 'warning') || color === 'default'
             ? 'default'
             : strong
             ? 'inverted'
@@ -107,8 +105,9 @@ export const Toast: FC<ToastProps> = ({
           style={{ marginLeft: '16px' }}
           size="xsmall"
           underline
+          visibleFocus={false}
           color={
-            strong && color === 'warning'
+            (strong && color === 'warning') || color === 'default'
               ? 'system'
               : strong
               ? 'inverted'
