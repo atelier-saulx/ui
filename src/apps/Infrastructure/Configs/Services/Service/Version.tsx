@@ -49,7 +49,13 @@ const Info: FC<{
             ) : null}
           </>
         )
-      ) : null}
+      ) : (
+        <Text>
+          {/* TODO: remove this once production is update, it's here for compatibility reasons */}
+          {/* @ts-ignore */}
+          {dist.version}, {dist.releaseNotes}
+        </Text>
+      )}
     </Row>
   )
 }
