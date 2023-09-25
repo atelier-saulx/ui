@@ -123,6 +123,7 @@ export const Pill: FC<PillPropss> = ({
           borderRadius: '4px',
           borderStyle: 'solid',
           borderWidth: !filled ? '0px' : '1px',
+          cursor: 'pointer',
           borderColor: genColor('inputBorder', 'neutralNormal', 'default'),
           boxSizing: 'border-box',
           ...colorStyle,

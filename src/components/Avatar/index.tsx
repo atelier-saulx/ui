@@ -40,12 +40,12 @@ export const Avatar: FC<AvatarProps> = ({
       : 20
   const fontSize =
     sizeProp === 'large'
-      ? '16px'
+      ? 16
       : sizeProp === 'medium'
-      ? '14px'
+      ? 14
       : sizeProp === 'small'
-      ? '12px'
-      : '10px'
+      ? 12
+      : 10
 
   return (
     <Center
@@ -69,8 +69,8 @@ export const Avatar: FC<AvatarProps> = ({
     >
       {children && !src ? (
         <Text
+          selectable="none"
           color="inverted"
-          //@ts-ignoreignore
           size={fontSize}
           style={{
             lineHeight: '32px',
