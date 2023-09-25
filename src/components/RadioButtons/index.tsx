@@ -16,8 +16,6 @@ type RadioButtonsProps = {
   value?: string | boolean | number
 }
 
-//TODO
-
 export const RadioButtons: FC<RadioButtonsProps> = ({
   color = 'primary',
   data,
