@@ -13,6 +13,7 @@ export type TextInputProps = {
   afterIcon?: React.ReactNode
   clearButton?: boolean
   error?: string
+  password?: boolean
 }
 
 export function TextInput({
@@ -27,6 +28,7 @@ export function TextInput({
   disabled,
   placeholder,
   error,
+  password,
 }: TextInputProps) {
   return (
     <styled.div
@@ -100,6 +102,7 @@ export function TextInput({
           },
         }}
         placeholder={placeholder}
+        type={password ? 'password' : 'inherit'}
       />
       {suffix && <Badge {...suffix} />}
       {(clearButton || afterIcon) && (

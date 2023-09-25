@@ -45,6 +45,12 @@ const example: ComponentDef = {
         )
       },
     },
+    {
+      props: {
+        type: 'password',
+        placeholder: 'Type password',
+      },
+    },
   ],
 }
 
