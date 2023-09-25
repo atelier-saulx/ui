@@ -240,6 +240,12 @@ export const Slider: FC<SliderProps> = ({
 
         setValue(Math.round(x / percentage))
       }
+      if (x < 0) {
+        setValue(0)
+      }
+      if (x > containerWidth) {
+        setValue(100)
+      }
     }
   }
 
