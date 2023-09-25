@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { useState, ChangeEvent, FC, ReactNode, useEffect } from 'react'
 import {
   Text,
   styled,
@@ -11,6 +11,7 @@ import {
   Input,
 } from '~'
 import { BpTablet } from '../../utils/breakpoints'
+import { ClickHandler } from '~/types'
 
 export type DropDownItemProps = {
   caption?: string
@@ -20,6 +21,8 @@ export type DropDownItemProps = {
   label: string
   type?: 'default' | 'checkbox' | 'radio' | 'action' | 'error'
   value?: string | number | boolean
+  // if value must onchange
+  onChange?: Function
 }
 
 export const DropDownItem: FC<DropDownItemProps> = ({
@@ -30,9 +33,10 @@ export const DropDownItem: FC<DropDownItemProps> = ({
   label,
   type = 'default',
   value,
+  onChange,
 }) => {
-  console.log(data, 'from item??')
   // if is range
+  // how to get this to update properly
   const openNewDropDown = useOverlay(
     Dropdown,
     { data },
@@ -45,6 +49,7 @@ export const DropDownItem: FC<DropDownItemProps> = ({
   return (
     <styled.div
       style={{
+        position: 'relative',
         borderRadius: 8,
         cursor: 'pointer',
         padding: '8px 12px',
@@ -78,6 +83,7 @@ export const DropDownItem: FC<DropDownItemProps> = ({
           value={value as boolean}
           onChange={() => {
             // TODO
+            onChange()
           }}
         />
       ) : (

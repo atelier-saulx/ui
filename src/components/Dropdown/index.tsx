@@ -36,6 +36,7 @@ export const Dropdown: FC<DropDownProps> = ({ style, children, data }) => {
           type={item.type}
           value={item.value}
           data={item.data}
+          onChange={item.onChange}
         />
       ))}
     </styled.div>

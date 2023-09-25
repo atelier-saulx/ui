@@ -32,7 +32,9 @@ export const Status: FC<StatusProps> = ({
   light,
 }) => {
   const contentColor: ColorContentColors | ColorNonSemanticContentColors =
-    light || ghost
+    color === 'white'
+      ? 'default'
+      : light || ghost
       ? color === 'neutral'
         ? 'default'
         : color
