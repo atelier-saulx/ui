@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Style, styled, color, Badge, IconClose, BadgeProps } from '~'
 
 export type TextInputProps = {
@@ -14,6 +14,7 @@ export type TextInputProps = {
   clearButton?: boolean
   error?: string
   password?: boolean
+  maxLength?: number
 }
 
 export function TextInput({
@@ -23,16 +24,20 @@ export function TextInput({
   style,
   value,
   onChange,
-  clearButton = true,
+  clearButton = false,
   afterIcon,
   disabled,
   placeholder,
   error,
   password,
+  maxLength,
 }: TextInputProps) {
+  const [currentLength, setCurrentLength] = useState(0)
+
   return (
     <styled.div
       style={{
+        position: 'relative',
         minHeight: 40,
         width: '100%',
         padding: '0 12px',
@@ -81,6 +86,7 @@ export function TextInput({
       <styled.input
         value={value}
         onChange={(e) => {
+          setCurrentLength(e.target.value.length)
           onChange(e.target.value)
         }}
         style={{
@@ -103,6 +109,7 @@ export function TextInput({
         }}
         placeholder={placeholder}
         type={password ? 'password' : 'inherit'}
+        maxLength={maxLength}
       />
       {suffix && <Badge {...suffix} />}
       {(clearButton || afterIcon) && (
@@ -116,6 +123,19 @@ export function TextInput({
           ) : (
             afterIcon
           )}
+        </div>
+      )}
+      {maxLength && currentLength >= maxLength - 5 && (
+        <div
+          style={{
+            position: 'absolute',
+            right: 0,
+            bottom: 0,
+            transform: 'translateY(100%)',
+            fontSize: 12,
+          }}
+        >
+          {currentLength}/{maxLength}
         </div>
       )}
     </styled.div>
