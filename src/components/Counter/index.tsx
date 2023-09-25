@@ -7,6 +7,7 @@ import {
 } from '../../varsTypes'
 import { IconProps } from '../../icons/Icon'
 import { isSemanticColor } from '../../utils'
+import { useTheme } from '~/hooks/useTheme'
 import { color as genColor } from '../../varsUtilities'
 import { Text } from '../Text'
 import { Center } from '../Styled'
@@ -27,7 +28,7 @@ export type CounterProps = {
 }
 
 export const Counter: FC<CounterProps> = ({
-  color = 'default',
+  color: colorProp = 'default',
   children,
   onClick,
   style,
@@ -35,6 +36,15 @@ export const Counter: FC<CounterProps> = ({
   icon,
   valueFormat = 'number-round-0',
 }) => {
+  const { theme, setTheme } = useTheme()
+
+  const color =
+    colorProp === 'white'
+      ? theme === 'dark'
+        ? 'inverted'
+        : 'default'
+      : colorProp
+
   const contentColor: string = light
     ? color === 'neutral'
       ? 'default'

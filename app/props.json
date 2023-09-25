@@ -874,9 +874,13 @@
             "number",
             "boolean"
           ]
+        },
+        "onChange": {
+          "optional": true,
+          "type": "Function"
         }
       },
-      "code": "type DropDownItemProps = {\n  caption?: string\n  data?: DropDownItemProps[]\n  icon?: ReactNode\n  id?: string\n  label: string\n  type?: 'default' | 'checkbox' | 'radio' | 'action' | 'error'\n  value?: string | number | boolean\n}",
+      "code": "type DropDownItemProps = {\n  caption?: string\n  data?: DropDownItemProps[]\n  icon?: ReactNode\n  id?: string\n  label: string\n  type?: 'default' | 'checkbox' | 'radio' | 'action' | 'error'\n  value?: string | number | boolean\n  // if value must onchange\n  onChange?: Function\n}",
       "file": "/components/Dropdown/DropDownItem.tsx"
     },
     "DropDownProps": {
@@ -1057,9 +1061,17 @@
         "error": {
           "optional": true,
           "type": "string"
+        },
+        "password": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "maxLength": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: string\n}",
+      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: string\n  password?: boolean\n  maxLength?: number\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "CommonInputProps": {
@@ -2202,10 +2214,6 @@
           "optional": true,
           "type": "ColorBackgroundColors"
         },
-        "description": {
-          "optional": true,
-          "type": "string"
-        },
         "id": {
           "optional": true,
           "type": "TSAnyKeyword"
@@ -2223,7 +2231,7 @@
           "type": "Style"
         }
       },
-      "code": "type ToastProps = {\n  action?: { onClick: () => void; label: string }\n  closeable?: boolean\n  color?: ColorBackgroundColors\n  description?: string\n  id?: any\n  label?: string\n  strong?: boolean\n  style?: Style\n}",
+      "code": "type ToastProps = {\n  action?: { onClick: () => void; label: string }\n  closeable?: boolean\n  color?: ColorBackgroundColors\n  id?: any\n  label?: string\n  strong?: boolean\n  style?: Style\n}",
       "file": "/components/Toast/Toast.tsx"
     },
     "ToggleProps": {
@@ -2267,6 +2275,10 @@
     "TopNavigationProps": {
       "name": "TopNavigationProps",
       "props": {
+        "sticky": {
+          "optional": true,
+          "type": "boolean"
+        },
         "children": {
           "optional": true,
           "type": [
@@ -2281,7 +2293,7 @@
           "type": "Style"
         }
       },
-      "code": "type TopNavigationProps = {\n  children?: ReactNode | ReactNode[]\n  style?: Style\n}",
+      "code": "type TopNavigationProps = {\n  sticky?: boolean\n  children?: ReactNode | ReactNode[]\n  style?: Style\n}",
       "file": "/components/TopNavigation/index.tsx"
     },
     "SidePanelProps": {
