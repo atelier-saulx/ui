@@ -1,18 +1,25 @@
 import React, { Children, FC, ReactNode } from 'react'
 import { styled, Style, color } from '~'
+import { BasedLogo } from '~/icons/BasedLogo'
+import { BigBasedLogo } from '~/icons/BigBasedLogo'
 
 export type TopNavigationProps = {
+  sticky?: boolean
   children?: ReactNode | ReactNode[]
   style?: Style
 }
 
-export const TopNavigation: FC<TopNavigationProps> = ({ style, children }) => {
+export const TopNavigation: FC<TopNavigationProps> = ({
+  style,
+  children,
+  sticky = false,
+}) => {
   return (
     <styled.div
       style={{
         height: '40px',
         padding: '12px 24px',
-        position: 'absolute',
+        position: sticky ? 'fixed' : 'absolute',
         top: 0,
         left: 0,
         right: 0,

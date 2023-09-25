@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-
+import { useTheme } from '~/hooks/useTheme'
 import {
   ColorContentColors,
   ColorNonSemanticContentColors,
@@ -24,17 +24,24 @@ export type StatusProps = {
 }
 
 export const Status: FC<StatusProps> = ({
-  color = 'default',
+  color: colorProp = 'default',
   ghost,
   children,
   onClick,
   style,
   light,
 }) => {
+  const { theme, setTheme } = useTheme()
+
+  const color =
+    colorProp === 'white'
+      ? theme === 'dark'
+        ? 'inverted'
+        : 'default'
+      : colorProp
+
   const contentColor: ColorContentColors | ColorNonSemanticContentColors =
-    color === 'white'
-      ? 'default'
-      : light || ghost
+    light || ghost
       ? color === 'neutral'
         ? 'default'
         : color
@@ -87,19 +94,13 @@ export const Status: FC<StatusProps> = ({
       <Text
         selectable="none"
         style={{
-          color:
-            color === 'default'
-              ? genColor('content', 'default', 'primary')
-              : genColor(
-                  isSemanticColor(color) ? 'content' : 'nonSemanticContent',
-                  contentColor,
-                  'primary'
-                ),
+          color: 'inherit',
           height: '24px',
           lineHeight: '24px',
         }}
       >
         {children}
+        {theme}
       </Text>
     </styled.div>
   )

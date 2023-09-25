@@ -2279,6 +2279,10 @@
     "TopNavigationProps": {
       "name": "TopNavigationProps",
       "props": {
+        "sticky": {
+          "optional": true,
+          "type": "boolean"
+        },
         "children": {
           "optional": true,
           "type": [
@@ -2293,7 +2297,7 @@
           "type": "Style"
         }
       },
-      "code": "type TopNavigationProps = {\n  children?: ReactNode | ReactNode[]\n  style?: Style\n}",
+      "code": "type TopNavigationProps = {\n  sticky?: boolean\n  children?: ReactNode | ReactNode[]\n  style?: Style\n}",
       "file": "/components/TopNavigation/index.tsx"
     },
     "SidePanelProps": {
