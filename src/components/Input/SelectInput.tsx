@@ -144,7 +144,6 @@ export function SelectInput({
         position: 'relative',
         width: '100%',
         borderRadius: 8,
-
         display: 'flex',
         alignItems: 'center',
         backgroundColor: 'transparent',
@@ -219,7 +218,7 @@ export function SelectInput({
           style={
             multiple
               ? {
-                  flex: '1 1 0%',
+                  // flex: '1 1 0%',
                   display: 'flex',
                   gap: 8,
                   flexWrap: 'wrap',
