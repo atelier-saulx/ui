@@ -9,7 +9,7 @@ export type ToggleProps = {
   value?: boolean
   color?: ColorActionColors
   disabled?: boolean
-  onClick?: ClickHandler
+  onChange?: (value: string | number | boolean) => void
   style?: Style
   size?: 'large' | 'medium'
 }
@@ -18,7 +18,7 @@ export const Toggle: FC<ToggleProps> = ({
   value,
   color = 'primary',
   disabled,
-  onClick,
+  onChange,
   size = 'large',
   style,
 }) => {
@@ -38,7 +38,7 @@ export const Toggle: FC<ToggleProps> = ({
         e.preventDefault()
         const newChecked = !checked
         setChecked(newChecked)
-        onClick?.(newChecked as any)
+        onChange?.(newChecked as any)
       }}
       style={{
         width,

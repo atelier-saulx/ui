@@ -428,9 +428,13 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "ClickHandler"
         }
       },
-      "code": "type ConfirmationProps = {\n  style?: Style\n}",
+      "code": "type ConfirmationProps = {\n  style?: Style\n  onClick?: ClickHandler\n}",
       "file": "/components/Confirmation/index.tsx"
     },
     "ContextItemProps": {
@@ -2249,9 +2253,9 @@
           "optional": true,
           "type": "boolean"
         },
-        "onClick": {
+        "onChange": {
           "optional": true,
-          "type": "ClickHandler"
+          "type": "function"
         },
         "style": {
           "optional": true,
@@ -2269,7 +2273,7 @@
           ]
         }
       },
-      "code": "type ToggleProps = {\n  value?: boolean\n  color?: ColorActionColors\n  disabled?: boolean\n  onClick?: ClickHandler\n  style?: Style\n  size?: 'large' | 'medium'\n}",
+      "code": "type ToggleProps = {\n  value?: boolean\n  color?: ColorActionColors\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  style?: Style\n  size?: 'large' | 'medium'\n}",
       "file": "/components/Toggle/index.tsx"
     },
     "TopNavigationProps": {

@@ -156,7 +156,7 @@ function LabelAndErrorWrapper({
     : {}
 
   return (
-    <styled.div tabindex={1} {...componentProps}>
+    <styled.div tabIndex={1} {...componentProps}>
       {label && (
         <div
           style={{
