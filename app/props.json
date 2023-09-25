@@ -878,9 +878,13 @@
             "number",
             "boolean"
           ]
+        },
+        "onChange": {
+          "optional": true,
+          "type": "Function"
         }
       },
-      "code": "type DropDownItemProps = {\n  caption?: string\n  data?: DropDownItemProps[]\n  icon?: ReactNode\n  id?: string\n  label: string\n  type?: 'default' | 'checkbox' | 'radio' | 'action' | 'error'\n  value?: string | number | boolean\n}",
+      "code": "type DropDownItemProps = {\n  caption?: string\n  data?: DropDownItemProps[]\n  icon?: ReactNode\n  id?: string\n  label: string\n  type?: 'default' | 'checkbox' | 'radio' | 'action' | 'error'\n  value?: string | number | boolean\n  // if value must onchange\n  onChange?: Function\n}",
       "file": "/components/Dropdown/DropDownItem.tsx"
     },
     "DropDownProps": {
