@@ -102,7 +102,20 @@ export const Toast: FC<ToastProps> = ({
       </Text>
       {action && (
         <Button
-          style={{ marginLeft: '16px' }}
+          style={{
+            marginLeft: '16px',
+            '& div div': {
+              color:
+                (!strong && color === 'neutral') ||
+                (!strong && color === 'inverted')
+                  ? `${genColor(
+                      'background',
+                      'informative',
+                      'strong'
+                    )} !important`
+                  : 'inherit',
+            },
+          }}
           size="xsmall"
           underline
           visibleFocus={false}
