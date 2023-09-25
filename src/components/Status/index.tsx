@@ -31,7 +31,7 @@ export const Status: FC<StatusProps> = ({
   style,
   light,
 }) => {
-  const { theme, setTheme } = useTheme()
+  const { theme } = useTheme()
 
   const color =
     colorProp === 'white'
@@ -42,7 +42,7 @@ export const Status: FC<StatusProps> = ({
 
   const contentColor: ColorContentColors | ColorNonSemanticContentColors =
     light || ghost
-      ? color === 'neutral'
+      ? color === 'neutral' || (color === 'inverted' && ghost)
         ? 'default'
         : color
       : isSemanticColor(color)
@@ -53,11 +53,12 @@ export const Status: FC<StatusProps> = ({
       ? 'grey'
       : 'white'
 
+  console.log(color)
+
   return (
     <styled.div
       onClick={onClick}
       style={{
-        // display: 'inline-flex',
         backgroundColor: ghost
           ? null
           : genColor(

@@ -36,7 +36,7 @@ export const Counter: FC<CounterProps> = ({
   icon,
   valueFormat = 'number-round-0',
 }) => {
-  const { theme, setTheme } = useTheme()
+  const { theme } = useTheme()
 
   const color =
     colorProp === 'white'

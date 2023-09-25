@@ -8,6 +8,7 @@ import {
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
 } from '../../varsTypes'
+import { useTheme } from '~/hooks/useTheme'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
 import { renderOrCreateElement } from '../../utils'
@@ -72,8 +73,16 @@ const BadgeInner: FC<BadgeProps> = ({
   light,
   children,
   afterIcon,
-  color = 'neutral',
+  color: colorProp = 'neutral',
 }) => {
+  const { theme } = useTheme()
+  const color =
+    colorProp === 'white'
+      ? theme === 'dark'
+        ? 'inverted'
+        : 'default'
+      : colorProp
+
   const contentColor: ColorContentColors | ColorNonSemanticContentColors = light
     ? color === 'neutral'
       ? 'default'
