@@ -79,7 +79,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
             <Toast
               label="Authentication Error"
               color="negative"
-              description={description}
+              // description={description}
             />
           )
           setShowLoader(false)

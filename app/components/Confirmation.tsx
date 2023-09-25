@@ -10,7 +10,7 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        style: {},
+        onClick: (e) => console.log(e),
       },
     },
   ],

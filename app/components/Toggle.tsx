@@ -20,7 +20,7 @@ const example: ComponentDef = {
       props: {
         size: 'medium',
         value: true,
-        onClick: (v) => console.log(v),
+        onChange: (v) => console.log(v),
         color: 'neutral',
       },
     },

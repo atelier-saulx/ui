@@ -428,9 +428,13 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "ClickHandler"
         }
       },
-      "code": "type ConfirmationProps = {\n  style?: Style\n}",
+      "code": "type ConfirmationProps = {\n  style?: Style\n  onClick?: ClickHandler\n}",
       "file": "/components/Confirmation/index.tsx"
     },
     "ContextItemProps": {
@@ -1057,9 +1061,17 @@
         "error": {
           "optional": true,
           "type": "string"
+        },
+        "password": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "maxLength": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: string\n}",
+      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: string\n  password?: boolean\n  maxLength?: number\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "CommonInputProps": {
@@ -2202,10 +2214,6 @@
           "optional": true,
           "type": "ColorBackgroundColors"
         },
-        "description": {
-          "optional": true,
-          "type": "string"
-        },
         "id": {
           "optional": true,
           "type": "TSAnyKeyword"
@@ -2223,7 +2231,7 @@
           "type": "Style"
         }
       },
-      "code": "type ToastProps = {\n  action?: { onClick: () => void; label: string }\n  closeable?: boolean\n  color?: ColorBackgroundColors\n  description?: string\n  id?: any\n  label?: string\n  strong?: boolean\n  style?: Style\n}",
+      "code": "type ToastProps = {\n  action?: { onClick: () => void; label: string }\n  closeable?: boolean\n  color?: ColorBackgroundColors\n  id?: any\n  label?: string\n  strong?: boolean\n  style?: Style\n}",
       "file": "/components/Toast/Toast.tsx"
     },
     "ToggleProps": {
@@ -2241,9 +2249,9 @@
           "optional": true,
           "type": "boolean"
         },
-        "onClick": {
+        "onChange": {
           "optional": true,
-          "type": "ClickHandler"
+          "type": "function"
         },
         "style": {
           "optional": true,
@@ -2261,7 +2269,7 @@
           ]
         }
       },
-      "code": "type ToggleProps = {\n  value?: boolean\n  color?: ColorActionColors\n  disabled?: boolean\n  onClick?: ClickHandler\n  style?: Style\n  size?: 'large' | 'medium'\n}",
+      "code": "type ToggleProps = {\n  value?: boolean\n  color?: ColorActionColors\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  style?: Style\n  size?: 'large' | 'medium'\n}",
       "file": "/components/Toggle/index.tsx"
     },
     "TopNavigationProps": {
