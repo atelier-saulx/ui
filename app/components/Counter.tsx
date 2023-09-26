@@ -2,7 +2,7 @@ import React from 'react'
 import { Counter } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
-import { IconChartPie } from '../../src/icons/index'
+import { IconChartPie, IconWifi } from '../../src/icons/index'
 
 const example: ComponentDef = {
   name: 'Counter',
@@ -22,6 +22,14 @@ const example: ComponentDef = {
         children: 8833,
         icon: () => React.createElement(IconChartPie),
         valueFormat: 'number-bytes',
+      },
+    },
+    {
+      props: {
+        color: 'warning',
+        children: 0.21,
+        icon: () => React.createElement(IconWifi),
+        valueFormat: 'number-ratio',
       },
     },
   ],

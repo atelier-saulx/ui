@@ -587,6 +587,10 @@
           "optional": true,
           "type": "boolean"
         },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
         "icon": {
           "optional": true,
           "type": "ReactNode"
@@ -596,7 +600,7 @@
           "type": "NumberFormat"
         }
       },
-      "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  // icon?: FC<IconProps> | ReactNode\n  icon?: ReactNode\n  valueFormat?: NumberFormat\n}",
+      "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  label?: string\n  icon?: ReactNode\n  valueFormat?: NumberFormat\n}",
       "file": "/components/Counter/index.tsx"
     },
     "CalendarProps": {

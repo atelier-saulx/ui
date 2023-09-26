@@ -22,7 +22,7 @@ export type CounterProps = {
   onClick?: ClickHandler
   style?: Style
   light?: boolean
-  // icon?: FC<IconProps> | ReactNode
+  label?: string
   icon?: ReactNode
   valueFormat?: NumberFormat
 }
@@ -97,7 +97,8 @@ export const Counter: FC<CounterProps> = ({
         <styled.div
           style={{
             display: 'flex',
-            marginRight: children ? 2 : 0,
+            marginLeft: 2,
+            marginRight: children ? 6 : 0,
             width: 12,
             height: 12,
             maxWidth: '100%',
@@ -113,7 +114,12 @@ export const Counter: FC<CounterProps> = ({
           {renderOrCreateElement(icon, { color: 'inherit' })}
         </styled.div>
       )}
-      <Text style={{ color: 'inherit' }} weight="strong" size={12}>
+      <Text
+        selectable="none"
+        style={{ color: 'inherit' }}
+        weight="strong"
+        size={12}
+      >
         {prettyNumber(Number(children), valueFormat)}
       </Text>
     </Center>
