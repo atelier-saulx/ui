@@ -98,16 +98,17 @@ export function MultilineInput({
           onChange(e.target.value)
         }}
         style={{
+          fontFamily: 'Inter-Regular',
           resize: 'none',
           width: '100%',
           height: 38,
           appearance: 'none',
           background: 'transparent',
           fontSize: '14px',
-          lineHeight: '24px',
+          lineHeight: '16px',
           fontWeight: 400,
           border: 'none',
-          padding: 0,
+          paddingTop: 12,
           color: color('content', 'default', 'primary'),
           '&::placeholder': {
             color: color('content', 'default', 'secondary'),
