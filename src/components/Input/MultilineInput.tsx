@@ -124,7 +124,9 @@ export function MultilineInput({
       />
       {suffix && <Badge {...suffix} />}
       {(clearButton || afterIcon) && (
-        <div style={{ flexShrink: 0 }}>
+        <div
+          style={{ flexShrink: 0, position: 'absolute', bottom: 4, right: 4 }}
+        >
           {clearButton && value ? (
             <IconClose
               onClick={() => {

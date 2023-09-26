@@ -33,6 +33,7 @@ const example: ComponentDef = {
 
         return (
           <Input
+            clearButton
             type="multiline"
             value={value}
             onChange={(v) => {
