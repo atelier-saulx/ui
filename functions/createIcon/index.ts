@@ -19,7 +19,7 @@ const createIcon: BasedFunction<
 
   const component = `export const Icon${componentName}: typeof Icon = (props) => {
     const { color } = props
-    const c = color === undefined || color ==='inherit' ? 'currentColor' : genColor('content', color, 'primary')
+    const c = color === undefined ? genColor('content', 'default') : color ==='inherit' ? 'currentColor' : genColor('content', color, 'primary')
     return <Icon {...props}>${svg
       .replace(/xmlns="(.*?)"/, '')
       .replaceAll(/fill-rule="(.*?)"/g, 'fillRule="$1"')

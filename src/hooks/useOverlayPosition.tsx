@@ -129,10 +129,6 @@ export const useOverlayPosition = (
 ): [RefObject<HTMLDivElement>, Position | undefined, Resize] => {
   const { selectTarget = selectSelf } = positionProps
 
-  // if (positionProps.position === 'top') {
-  //   console.warn('Top position is not supported yet')
-  // }
-
   if (
     (positionProps.position === 'left' || positionProps.position === 'right') &&
     positionProps.variant === 'over'

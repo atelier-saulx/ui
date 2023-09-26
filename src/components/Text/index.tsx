@@ -1,6 +1,9 @@
 import React, { FC, ReactNode } from 'react'
 import { color as genColor, styled, Style, ColorContentColors, border } from '~'
 import { ClickHandler } from '../../types'
+import { NumberFormat } from '@based/pretty-number'
+import { useTextFormat } from '~/hooks/useTextFormat'
+import { DateFormat } from '@based/pretty-date'
 
 type TextProps = {
   children: ReactNode
@@ -25,6 +28,7 @@ type TextProps = {
     | 'revert'
     | 'revert-layer'
     | 'unset'
+  valueFormat?: NumberFormat | DateFormat
 }
 
 export const Text: FC<TextProps> = ({
@@ -35,6 +39,7 @@ export const Text: FC<TextProps> = ({
   light,
   underline,
   weight = 'normal',
+  valueFormat,
   onClick,
   transform = 'none',
   align = 'left',
@@ -72,6 +77,8 @@ export const Text: FC<TextProps> = ({
     selectable = 'none'
   }
 
+  const parsedChildren = useTextFormat(children, valueFormat)
+
   return (
     <styled.div
       onClick={onClick}
@@ -101,7 +108,7 @@ export const Text: FC<TextProps> = ({
         ...style,
       }}
     >
-      {children}
+      {parsedChildren}
       {underline ? (
         <styled.div
           style={{

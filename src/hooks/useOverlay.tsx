@@ -10,13 +10,13 @@ import React, { ComponentType, SyntheticEvent, useCallback } from 'react'
 import { useAllContexts, ForwardContext } from '../components/Provider'
 import { hash } from '@saulx/hash'
 
-type PropsEventHandler<E = SyntheticEvent, P = any> = (
+type PropsEventHandler<E = any, P = any> = (
   e?: E,
   props?: P
 ) => void | Promise<void> | boolean | Promise<boolean>
 
 export function useOverlay<P = any>(
-  Component: ComponentType<P>,
+  Component?: ComponentType<P>,
   props?: P,
   positionProps?: PositionProps,
   handler?: (selection: Event | any) => OnClose | undefined,
@@ -25,6 +25,10 @@ export function useOverlay<P = any>(
   callBackRef: null | any[] = null
 ): PropsEventHandler {
   const allCtx = useAllContexts()
+  if (!Component) {
+    return () => {}
+  }
+
   return useCallback((e: Event | SyntheticEvent, selectionProps) => {
     e.stopPropagation?.()
     e.preventDefault?.()
