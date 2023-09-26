@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 import {
@@ -8,8 +8,8 @@ import {
   IconCopy,
   IconFullscreen,
   IconOpenInNew,
-  IconSortAsc,
   IconDelete,
+  IconSortDesc,
 } from '../../src'
 
 const example: ComponentDef = {
@@ -21,6 +21,8 @@ const example: ComponentDef = {
     {
       props: {},
       customRenderer: () => {
+        const [sort, setSort] = useState('ascending')
+
         return (
           <Dropdown.Root>
             <Dropdown.Trigger>
@@ -32,12 +34,24 @@ const example: ComponentDef = {
                 Full screen
               </Dropdown.Item>
               <Dropdown.Sub>
-                <Dropdown.SubTrigger icon={<IconSortAsc />}>
+                <Dropdown.SubTrigger icon={<IconSortDesc />}>
                   Sort
                 </Dropdown.SubTrigger>
                 <Dropdown.SubItems>
-                  <Dropdown.Item>Alphabetical</Dropdown.Item>
-                  <Dropdown.Item>Reverse alphabetical</Dropdown.Item>
+                  <Dropdown.RadioItems value={sort} onChange={setSort}>
+                    <Dropdown.RadioItem value="none">
+                      No sorting
+                    </Dropdown.RadioItem>
+
+                    <Dropdown.Separator />
+
+                    <Dropdown.RadioItem value="ascending">
+                      Alphabetical
+                    </Dropdown.RadioItem>
+                    <Dropdown.RadioItem value="descending">
+                      Reverse alphabetical
+                    </Dropdown.RadioItem>
+                  </Dropdown.RadioItems>
                 </Dropdown.SubItems>
               </Dropdown.Sub>
               <Dropdown.Item icon={<IconOpenInNew />}>

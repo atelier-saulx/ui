@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import * as DropdownBase from '@radix-ui/react-dropdown-menu'
 import { color } from '~/varsUtilities'
 import { styled } from 'inlines'
-import { IconChevronRight } from '~/icons'
+import { IconCheckLarge, IconChevronRight } from '~/icons'
 
 export type DropdownRootProps = {
   children: ReactNode
@@ -168,5 +168,59 @@ export function SubItems({ children }: DropdownSubItemsProps) {
         {children}
       </DropdownBase.SubContent>
     </DropdownBase.Portal>
+  )
+}
+
+export type DropdownRadioItemsProps = {
+  children: ReactNode
+  value: string
+  onChange: (value: string) => void
+}
+
+export function RadioItems({
+  children,
+  value,
+  onChange,
+}: DropdownRadioItemsProps) {
+  return (
+    <DropdownBase.RadioGroup value={value} onValueChange={onChange}>
+      {children}
+    </DropdownBase.RadioGroup>
+  )
+}
+
+export type DropdownRadioItemProps = {
+  children: ReactNode
+  value: string
+}
+
+export function RadioItem({ children, value }: DropdownRadioItemProps) {
+  return (
+    <DropdownBase.RadioItem value={value} asChild>
+      <styled.div
+        style={{
+          fontSize: 14,
+          fontWeight: 500,
+          lineHeight: '24px',
+          fontFamily: 'Inter-Medium',
+          position: 'relative',
+          padding: '8px 12px',
+          borderRadius: 8,
+          outline: 'none',
+          userSelect: 'none',
+          cursor: 'pointer',
+          color: color('content', 'default', 'primary'),
+          '&:hover': { background: color('action', 'system', 'active') },
+          '&:focus': { background: color('action', 'system', 'active') },
+        }}
+      >
+        <DropdownBase.ItemIndicator asChild>
+          <div style={{ position: 'absolute', top: 10, left: 12 }}>
+            <IconCheckLarge />
+          </div>
+        </DropdownBase.ItemIndicator>
+        <div style={{ paddingLeft: 30 }}>{children}</div>
+      </styled.div>
+    </DropdownBase.RadioItem>
   )
 }
