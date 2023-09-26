@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unused-prop-types */
 import React, {
-  FC,
   MouseEventHandler,
   ReactNode,
   useCallback,
   useState,
   useEffect,
   useRef,
+  useImperativeHandle,
 } from 'react'
 
 import { color as genColor } from '../../varsUtilities'
@@ -127,193 +127,197 @@ export const getButtonStyle = (
   return style
 }
 
-export const Button: FC<ButtonProps> = (props) => {
-  let {
-    children,
-    fill,
-    icon,
-    afterIcon,
-    loading,
-    onClick,
-    onPointerDown,
-    onMouseEnter,
-    onMouseLeave,
-    keyboardShortcut,
-    displayShortcut,
-    size = 'medium',
-    style,
-    underline,
-  } = props
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, forwardedRef) => {
+    let {
+      children,
+      fill,
+      icon,
+      afterIcon,
+      loading,
+      onClick,
+      onPointerDown,
+      onMouseEnter,
+      onMouseLeave,
+      keyboardShortcut,
+      displayShortcut,
+      size = 'medium',
+      style,
+      underline,
+    } = props
 
-  const isLight = props.light
-  const isGhost = props.ghost || props.size === 'xsmall'
-  let [isLoading, setIsLoading] = useState(false)
+    const isLight = props.light
+    const isGhost = props.ghost || props.size === 'xsmall'
+    let [isLoading, setIsLoading] = useState(false)
 
-  if (loading === true) {
-    isLoading = loading
-  } else if (loading === false) {
-    isLoading = false
-  }
+    if (loading === true) {
+      isLoading = loading
+    } else if (loading === false) {
+      isLoading = false
+    }
 
-  const buttonElem = useRef<HTMLElement>(null)
-  const extendedOnClick = useCallback(
-    async (e: any) => {
-      e.stopPropagation()
-      e.preventDefault()
+    const buttonElem = useRef<HTMLButtonElement>(null)
+    useImperativeHandle(forwardedRef, () => buttonElem.current, [])
+    const extendedOnClick = useCallback(
+      async (e: any) => {
+        e.stopPropagation()
+        e.preventDefault()
 
-      const t = buttonElem.current
-      if (!t) {
-        return
-      }
-      let isSet = false
-      const timer = setTimeout(() => {
-        if (!isSet) {
-          setIsLoading(true)
+        const t = buttonElem.current
+        if (!t) {
+          return
         }
-      }, 100)
-      try {
-        await onClick?.(e)
-      } catch (e) {
-        console.error(`Error from async click "${e.message}"`)
-        t.style.transform = 'translateX(-10px)'
-        setTimeout(() => {
-          t.style.transform = 'translateX(10px)'
-          setTimeout(() => {
-            t.style.transform = 'translateX(0px)'
-          }, 100)
+        let isSet = false
+        const timer = setTimeout(() => {
+          if (!isSet) {
+            setIsLoading(true)
+          }
         }, 100)
-      }
-      isSet = true
-      setIsLoading(false)
-      clearTimeout(timer)
-    },
-    [onClick]
-  )
-
-  if (keyboardShortcut) {
-    const timeRef = useRef<any>()
-    useEffect(() => {
-      return () => {
-        clearTimeout(timeRef.current)
-      }
-    }, [])
-    const onKeyUp = useCallback(
-      (event: any) => {
-        extendedOnClick(event)
+        try {
+          await onClick?.(e)
+        } catch (e) {
+          console.error(`Error from async click "${e.message}"`)
+          t.style.transform = 'translateX(-10px)'
+          setTimeout(() => {
+            t.style.transform = 'translateX(10px)'
+            setTimeout(() => {
+              t.style.transform = 'translateX(0px)'
+            }, 100)
+          }, 100)
+        }
+        isSet = true
+        setIsLoading(false)
+        clearTimeout(timer)
       },
-      [extendedOnClick, timeRef]
+      [onClick]
     )
-    useKeyboardShortcut(keyboardShortcut, onKeyUp, buttonElem)
-  }
 
-  if (isLoading) {
-    loading = true
-  }
+    if (keyboardShortcut) {
+      const timeRef = useRef<any>()
+      useEffect(() => {
+        return () => {
+          clearTimeout(timeRef.current)
+        }
+      }, [])
+      const onKeyUp = useCallback(
+        (event: any) => {
+          extendedOnClick(event)
+        },
+        [extendedOnClick, timeRef]
+      )
+      useKeyboardShortcut(keyboardShortcut, onKeyUp, buttonElem)
+    }
 
-  if (loading) {
-    props.disabled = true
-  }
+    if (isLoading) {
+      loading = true
+    }
 
-  const contentColor: ColorContentColors =
-    props.color === 'inverted' && size === 'xsmall'
-      ? 'inverted'
-      : props.color === 'inverted'
-      ? 'default'
-      : (isLight || isGhost) && props.color === 'alert'
-      ? 'negative'
-      : (isLight || isGhost) && props.color === 'neutral'
-      ? 'default'
-      : (isLight || isGhost) && props.color === 'primary'
-      ? 'brand'
-      : isLight || isGhost
-      ? 'default'
-      : props.color === 'alert'
-      ? 'inverted'
-      : props.color === 'system'
-      ? 'default'
-      : props.color === 'primary'
-      ? 'inverted'
-      : 'inverted'
+    if (loading) {
+      props.disabled = true
+    }
 
-  return (
-    <styled.button
-      ref={buttonElem}
-      disabled={props.disabled}
-      onClick={onClick && extendedOnClick}
-      onPointerDown={onPointerDown || stopPropagation}
-      style={{
-        padding: !children
-          ? size === 'large'
-            ? '16px'
-            : size === 'medium'
-            ? '10px'
-            : size === 'small'
-            ? '6px'
-            : '6px'
-          : size === 'large'
-          ? '10px 16px'
-          : size === 'medium'
-          ? '6px 16px'
-          : size === 'small'
-          ? '4px 12px'
-          : '0px',
-        borderRadius:
-          size === 'large' || size === 'medium' || !children ? 8 : 4,
-        width: !children ? '20px' : fill ? '100%' : null,
+    const contentColor: ColorContentColors =
+      props.color === 'inverted' && size === 'xsmall'
+        ? 'inverted'
+        : props.color === 'inverted'
+        ? 'default'
+        : (isLight || isGhost) && props.color === 'alert'
+        ? 'negative'
+        : (isLight || isGhost) && props.color === 'neutral'
+        ? 'default'
+        : (isLight || isGhost) && props.color === 'primary'
+        ? 'brand'
+        : isLight || isGhost
+        ? 'default'
+        : props.color === 'alert'
+        ? 'inverted'
+        : props.color === 'system'
+        ? 'default'
+        : props.color === 'primary'
+        ? 'inverted'
+        : 'inverted'
 
-        position: 'relative',
-        ...getButtonStyle(props, true),
-        ...style,
-      }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      <div
+    return (
+      <styled.button
+        ref={buttonElem}
+        disabled={props.disabled}
+        onClick={onClick && extendedOnClick}
+        onPointerDown={onPointerDown || stopPropagation}
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          padding: !children
+            ? size === 'large'
+              ? '16px'
+              : size === 'medium'
+              ? '10px'
+              : size === 'small'
+              ? '6px'
+              : '6px'
+            : size === 'large'
+            ? '10px 16px'
+            : size === 'medium'
+            ? '6px 16px'
+            : size === 'small'
+            ? '4px 12px'
+            : '0px',
+          borderRadius:
+            size === 'large' || size === 'medium' || !children ? 8 : 4,
+          width: !children ? '20px' : fill ? '100%' : null,
+
+          position: 'relative',
+          ...getButtonStyle(props, true),
+          ...style,
         }}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
-        {isLoading && (
-          <styled.div style={{ marginRight: 8, marginLeft: '-4px' }}>
-            <ProgressCircle color={contentColor} loading />
-          </styled.div>
-        )}
-        {icon &&
-          renderOrCreateElement(icon, {
-            color: contentColor,
-            style: children ? { marginRight: 8 } : undefined,
-          })}
-        <Text
-          selectable="none"
+        <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            textDecoration:
-              size === 'xsmall' && underline ? 'underline' : 'inherit',
-            textUnderlineOffset: size === 'xsmall' && underline ? '2px' : '0px',
+            justifyContent: 'center',
           }}
-          color={contentColor}
-          size={size === 'large' || size === 'medium' ? 16 : 14}
-          weight={size === 'xsmall' ? 'medium' : 'strong'}
         >
-          {children}
-          {displayShortcut && keyboardShortcut ? (
-            <KeyBoardshortcut keyboardShortcut={keyboardShortcut} />
-          ) : null}
-        </Text>
-        {afterIcon &&
-          renderOrCreateElement(
-            afterIcon,
-            children || icon
-              ? {
-                  color: contentColor,
-                  style: { marginLeft: 8, minWidth: 16 },
-                }
-              : null
+          {isLoading && (
+            <styled.div style={{ marginRight: 8, marginLeft: '-4px' }}>
+              <ProgressCircle color={contentColor} loading />
+            </styled.div>
           )}
-      </div>
-    </styled.button>
-  )
-}
+          {icon &&
+            renderOrCreateElement(icon, {
+              color: contentColor,
+              style: children ? { marginRight: 8 } : undefined,
+            })}
+          <Text
+            selectable="none"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration:
+                size === 'xsmall' && underline ? 'underline' : 'inherit',
+              textUnderlineOffset:
+                size === 'xsmall' && underline ? '2px' : '0px',
+            }}
+            color={contentColor}
+            size={size === 'large' || size === 'medium' ? 16 : 14}
+            weight={size === 'xsmall' ? 'medium' : 'strong'}
+          >
+            {children}
+            {displayShortcut && keyboardShortcut ? (
+              <KeyBoardshortcut keyboardShortcut={keyboardShortcut} />
+            ) : null}
+          </Text>
+          {afterIcon &&
+            renderOrCreateElement(
+              afterIcon,
+              children || icon
+                ? {
+                    color: contentColor,
+                    style: { marginLeft: 8, minWidth: 16 },
+                  }
+                : null
+            )}
+        </div>
+      </styled.button>
+    )
+  }
+)
