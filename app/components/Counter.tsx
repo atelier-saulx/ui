@@ -26,7 +26,8 @@ const example: ComponentDef = {
     },
     {
       props: {
-        color: 'warning',
+        label: 'Hello this is wifi %!',
+        color: 'blue',
         children: 0.21,
         icon: () => React.createElement(IconWifi),
         valueFormat: 'number-ratio',

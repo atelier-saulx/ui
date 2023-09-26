@@ -25,7 +25,7 @@ const TextTooltip: FC<{ text: ReactNode; style?: Style }> = ({
 }
 
 export const useTooltip = (
-  text: string | ReactNode,
+  text: string | ReactNode | undefined,
   position:
     | 'top'
     | 'top-right'
@@ -36,6 +36,11 @@ export const useTooltip = (
     | 'left'
     | 'right' = 'bottom'
 ) => {
+  if (text === undefined) {
+    useOverlay()
+    return {}
+  }
+
   const onMouseEnter = useOverlay(
     TextTooltip,
     { text },

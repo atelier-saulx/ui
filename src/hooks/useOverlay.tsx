@@ -16,7 +16,7 @@ type PropsEventHandler<E = any, P = any> = (
 ) => void | Promise<void> | boolean | Promise<boolean>
 
 export function useOverlay<P = any>(
-  Component: ComponentType<P>,
+  Component?: ComponentType<P>,
   props?: P,
   positionProps?: PositionProps,
   handler?: (selection: Event | any) => OnClose | undefined,
@@ -25,6 +25,10 @@ export function useOverlay<P = any>(
   callBackRef: null | any[] = null
 ): PropsEventHandler {
   const allCtx = useAllContexts()
+  if (!Component) {
+    return () => {}
+  }
+
   return useCallback((e: Event | SyntheticEvent, selectionProps) => {
     e.stopPropagation?.()
     e.preventDefault?.()
