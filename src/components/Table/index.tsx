@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
-import { IconSortAsc as IconSort, color } from '~'
+import { IconSortAsc as IconSort, color, styled } from '~'
 import React, { useCallback } from 'react'
 
 export type TableProps = {
@@ -58,7 +58,11 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
   return (
     <div
       ref={tableContainerRef}
-      style={{ overflow: 'auto', height: '100%', width: '100%' }}
+      style={{
+        overflow: 'auto',
+        height: '100%',
+        width: '100%',
+      }}
       onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
     >
       <table
@@ -84,12 +88,14 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <th
+                  <styled.th
                     key={header.id}
                     style={{
                       padding: '0 12px',
                       height: 42,
-                      boxSizing: 'border-box',
+                      boxSizing: 'content-box',
+                      borderLeft: '1px solid transparent',
+                      borderRight: '1px solid transparent',
                       borderTop: `1px solid ${color(
                         'border',
                         'default',
@@ -100,6 +106,18 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
                         'default',
                         'strong'
                       )}`,
+                      '&:hover': {
+                        borderRight: `2px solid ${color(
+                          'border',
+                          'default',
+                          'strong'
+                        )}`,
+                        borderLeft: `2px solid ${color(
+                          'border',
+                          'default',
+                          'strong'
+                        )}`,
+                      },
                     }}
                   >
                     {header.isPlaceholder ? null : (
@@ -133,7 +151,7 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
                         )}
                       </div>
                     )}
-                  </th>
+                  </styled.th>
                 )
               })}
             </tr>
