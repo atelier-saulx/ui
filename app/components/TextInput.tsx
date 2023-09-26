@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Input } from '../../src'
-import props from '../props.json'
 import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
@@ -35,14 +34,20 @@ const example: ComponentDef = {
         return (
           <Input
             type="text"
-            // clearButton={false}
             value={value}
             onChange={(v) => {
               setValue(v)
             }}
+            maxLength={16}
             {...props}
           />
         )
+      },
+    },
+    {
+      props: {
+        type: 'password',
+        placeholder: 'Type password',
       },
     },
   ],

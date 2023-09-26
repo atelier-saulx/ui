@@ -27,8 +27,12 @@ export const Modal: FC<ModalProps> = ({
       <Dialog label={label} description={description}>
         <Dialog.Body>{children}</Dialog.Body>
         <Dialog.Buttons>
-          <Dialog.Cancel onCancel={onCancel}>{cancelLabel}</Dialog.Cancel>
-          <Dialog.Confirm onConfirm={onConfirm}>{confirmLabel}</Dialog.Confirm>
+          <Dialog.Cancel onCancel={onCancel} color="inverted">
+            {cancelLabel}
+          </Dialog.Cancel>
+          <Dialog.Confirm onConfirm={onConfirm} color="alert">
+            {confirmLabel}
+          </Dialog.Confirm>
         </Dialog.Buttons>
       </Dialog>
     </styled.div>

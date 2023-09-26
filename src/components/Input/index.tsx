@@ -25,6 +25,7 @@ export type InputProps = CommonInputProps &
     | ({ type: 'number' } & NumberInputProps)
     | ({ type: 'file' } & FileInputProps)
     | ({ type: 'checkbox' } & CheckboxInputProps)
+    | ({ type: 'password' } & TextInputProps)
   )
 
 export function Input(props: InputProps) {
@@ -76,6 +77,14 @@ export function Input(props: InputProps) {
       return (
         <LabelAndErrorWrapper label={props.label} error={props.error}>
           <CheckboxInput {...narrowedProps} />
+        </LabelAndErrorWrapper>
+      )
+    }
+    case 'password': {
+      const { type, ...narrowedProps } = props
+      return (
+        <LabelAndErrorWrapper label={props.label} error={props.error}>
+          <TextInput {...narrowedProps} password />
         </LabelAndErrorWrapper>
       )
     }
