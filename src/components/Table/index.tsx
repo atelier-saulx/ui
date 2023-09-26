@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
 import { IconSortAsc as IconSort, color, styled } from '~'
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 
 export type TableProps = {
   columns: { header: string; accessor: string; cell?: (any) => JSX.Element }[]
@@ -55,6 +55,60 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
     [onScrollToBottom]
   )
 
+  const headersRef = useRef([])
+  let doMove
+  let x
+  let width
+  const mouseMoveHandler = (e, i) => {
+    //left side
+    const newX = x - e.clientX
+
+    if (
+      e.clientX - headersRef.current[i].getBoundingClientRect().left <=
+      headersRef.current[i].clientWidth / 2
+      // && e.clientX - headersRef.current[i].getBoundingClientRect().left > 0
+    ) {
+      headersRef.current[i].style.width = `${width + newX * 2}px`
+      //right side
+    } else if (
+      e.clientX - headersRef.current[i].getBoundingClientRect().left >
+      headersRef.current[i].clientWidth / 2
+    ) {
+      console.log(false)
+    }
+    // if (refRangeContainer.current !== null) {
+    //   moveHandler(
+    //     e.clientX - refRangeContainer.current.getBoundingClientRect().left
+    //   )
+    // }
+  }
+
+  const mouseUpHandler = (i) => {
+    if (headersRef.current[i] !== null) {
+      headersRef.current[i].style.cursor = 'pointer'
+      window.removeEventListener('mousemove', doMove)
+      window.removeEventListener('mouseup', () => mouseUpHandler(i))
+      // setContainerWidth(
+      //   headersRef.current[i]?.getBoundingClientRect().width || 0
+      // )
+    }
+  }
+
+  const onMouseDownHandler = (e, i) => {
+    if (headersRef.current[i] !== null) {
+      headersRef.current[i].style.cursor = 'grabbing'
+      x = e.clientX
+      width = headersRef.current[i].clientWidth
+      window.addEventListener(
+        'mousemove',
+        (doMove = function (e) {
+          mouseMoveHandler(e, i)
+        })
+      )
+      window.addEventListener('mouseup', () => mouseUpHandler(i))
+    }
+  }
+
   return (
     <div
       ref={tableContainerRef}
@@ -86,14 +140,20 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
         >
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
+              {headerGroup.headers.map((header, i) => {
                 return (
                   <styled.th
+                    ref={(ref) => (headersRef.current[i] = ref)}
+                    onMouseDown={(e) => {
+                      console.log('ligma')
+                      // (headersRef.current[i].style.width = '400px')
+                      onMouseDownHandler(e, i)
+                    }}
                     key={header.id}
                     style={{
                       padding: '0 12px',
                       height: 42,
-                      boxSizing: 'content-box',
+                      boxSizing: 'border-box',
                       borderLeft: '1px solid transparent',
                       borderRight: '1px solid transparent',
                       borderTop: `1px solid ${color(
@@ -122,8 +182,15 @@ export function Table({ columns, data, onScrollToBottom }: TableProps) {
                   >
                     {header.isPlaceholder ? null : (
                       <div
-                        onClick={header.column.getToggleSortingHandler()}
+                        onMouseDown={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                        }}
+                        onClick={(e) => {
+                          header.column.getToggleSortingHandler()
+                        }}
                         style={{
+                          border: '1px solid red',
                           display: 'flex',
                           height: '100%',
                           alignItems: 'center',
