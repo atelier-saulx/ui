@@ -21,6 +21,7 @@ import { OverviewComponent } from './OverviewComponent'
 import { components } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 import { CheckboxInput } from '../src/components/Input/CheckboxInput'
+import { MultilineInput } from '../src/components/Input/MultilineInput'
 
 export const client = based(basedConfig)
 

@@ -10,7 +10,7 @@ const StyledMarkdownInput = styled('div', {
   borderRadius: 4,
 })
 
-type MarkdownInputProps = {
+export type MarkdownInputProps = {
   value?: string
   onChange?: (target) => void
   disabled?: boolean

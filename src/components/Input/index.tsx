@@ -7,6 +7,8 @@ import { FileInput, FileInputProps } from './FileInput'
 import { NumberInput, NumberInputProps } from './NumberInput'
 import { IconAlertFill, color, styled, Text } from '~'
 import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
+// import { MarkdownInput, MarkdownInputProps } from './MarkdownInput'
+import { MultilineInput, MultilineInputProps } from './MultilineInput'
 
 export type CommonInputProps = {
   label?: string
@@ -17,9 +19,11 @@ export type CommonInputProps = {
 
 export { SelectInputOption }
 
+// | ({ type: 'markdown' } & MarkdownInputProps)
 export type InputProps = CommonInputProps &
   (
     | ({ type: 'text' } & TextInputProps)
+    | ({ type: 'multiline' } & MultilineInputProps)
     | ({ type: 'search' } & SearchInputProps)
     | ({ type: 'select' } & SelectInputProps)
     | ({ type: 'number' } & NumberInputProps)
@@ -35,6 +39,14 @@ export function Input(props: InputProps) {
       return (
         <LabelAndErrorWrapper label={props.label} error={props.error}>
           <TextInput {...narrowedProps} />
+        </LabelAndErrorWrapper>
+      )
+    }
+    case 'multiline': {
+      const { type, ...narrowedProps } = props
+      return (
+        <LabelAndErrorWrapper label={props.label} error={props.error}>
+          <MultilineInput {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
     }
@@ -59,6 +71,10 @@ export function Input(props: InputProps) {
       const { type, ...narrowedProps } = props
       return <NumberInput {...narrowedProps} />
     }
+    // case 'markdown': {
+    //   const { type, ...narrowedProps } = props
+    //   return <MarkdownInput {...narrowedProps} />
+    // }
     case 'file': {
       const { type, ...narrowedProps } = props
       return (

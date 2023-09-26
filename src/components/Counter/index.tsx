@@ -37,7 +37,6 @@ export const Counter: FC<CounterProps> = ({
   valueFormat = 'number-round-0',
 }) => {
   const { theme } = useTheme()
-
   const color =
     colorProp === 'white'
       ? theme === 'dark'
