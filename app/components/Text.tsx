@@ -1,4 +1,3 @@
-import React from 'react'
 import { Text } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
@@ -32,6 +31,12 @@ const example: ComponentDef = {
             e.target.style.opacity = 1
           }, 100)
         },
+      },
+    },
+    {
+      props: {
+        children: Date.now() - 15 * 1e3,
+        valueFormat: 'date-time-human',
       },
     },
   ],

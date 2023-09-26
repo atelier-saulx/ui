@@ -2202,9 +2202,13 @@
               "value": "unset"
             }
           ]
+        },
+        "valueFormat": {
+          "optional": true,
+          "type": "NumberFormat"
         }
       },
-      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  underline?: boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n}",
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  underline?: boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n  valueFormat?: NumberFormat\n}",
       "file": "/components/Text/index.tsx"
     },
     "ToastProps": {
