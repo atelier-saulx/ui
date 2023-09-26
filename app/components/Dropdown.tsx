@@ -54,9 +54,20 @@ const example: ComponentDef = {
                   </Dropdown.RadioItems>
                 </Dropdown.SubItems>
               </Dropdown.Sub>
-              <Dropdown.Item icon={<IconOpenInNew />}>
-                Open in new tab
-              </Dropdown.Item>
+
+              <Dropdown.Sub>
+                <Dropdown.SubTrigger icon={<IconOpenInNew />}>
+                  Triple nest why not
+                </Dropdown.SubTrigger>
+                <Dropdown.SubItems>
+                  <Dropdown.Sub>
+                    <Dropdown.SubTrigger>Open me too</Dropdown.SubTrigger>
+                    <Dropdown.SubItems>
+                      <Dropdown.Item>Hello there</Dropdown.Item>
+                    </Dropdown.SubItems>
+                  </Dropdown.Sub>
+                </Dropdown.SubItems>
+              </Dropdown.Sub>
               <Dropdown.Separator />
               <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
             </Dropdown.Items>
