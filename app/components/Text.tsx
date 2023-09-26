@@ -5,7 +5,7 @@ import { ComponentDef } from '../types'
 const example: ComponentDef = {
   name: 'Text',
   component: Text,
-  description: 'Text including typeography',
+  description: 'Text including typography',
   properties: props.props.TextProps.props,
   examples: [
     {
@@ -16,12 +16,15 @@ const example: ComponentDef = {
       },
     },
     {
+      name: 'Light',
       props: {
         children: 'Light text, for descriptions.',
         light: true,
       },
     },
     {
+      name: 'Click handler',
+      description: 'Similair to link components',
       props: {
         underline: true,
         children: 'Clickable text',
@@ -34,9 +37,29 @@ const example: ComponentDef = {
       },
     },
     {
+      name: 'Number formats',
+      description:
+        'Different formats "date-time-human" updates the text component to show numbers like, for example 15s ago',
       props: {
         children: Date.now() - 15 * 1e3,
         valueFormat: 'date-time-human',
+      },
+    },
+    {
+      name: ' ',
+      description:
+        'Will update less often after a minute, will stop after an hour',
+      props: {
+        children: Date.now() - 50 * 1e3,
+        valueFormat: 'date-time-human',
+      },
+    },
+    {
+      name: ' ',
+      description: '"number-bytes" will show kb/mb/gb etc',
+      props: {
+        children: 1e9,
+        valueFormat: 'number-bytes',
       },
     },
   ],
