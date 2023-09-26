@@ -9,7 +9,7 @@ import { color, IconRefresh, Menu, Input, Provider, ScrollArea } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
-import { components } from './examples'
+import { components, hooks } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 
 export const client = based(basedConfig)
@@ -17,7 +17,7 @@ export const client = based(basedConfig)
 const App = () => {
   const route = useRoute('[component]')
   const component = route.query.component
-  const filtered = components.filter((c) => {
+  const filtered = [...components, ...hooks].filter((c) => {
     return c.name === component
   })
   const [filter, setFilter] = useState('')
@@ -71,7 +71,17 @@ const App = () => {
                 value: c.name,
               }
             }),
-          hooks: {},
+          hooks: hooks
+            .filter(
+              (c) =>
+                !filter || c.name.toLowerCase().includes(filter.toLowerCase())
+            )
+            .map((c) => {
+              return {
+                label: c.name,
+                value: c.name,
+              }
+            }),
         }}
         active={component}
         onChange={(v) => {

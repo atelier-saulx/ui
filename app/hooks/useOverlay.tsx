@@ -1,25 +1,80 @@
-import React from 'react'
-import { useOverlay } from '../../src'
+import React, { ReactNode, FC } from 'react'
+import { Button, useOverlay, Text } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
-// make useModal as well
+/*
+{
+  width?: number | '100%' | 'target' | 'auto'
+  position?: 'left' | 'right' | 'top' | 'bottom'
+  placement?: 'center' | 'left' | 'right'
+  variant?: 'over' | 'detached'
+  offset?: { x: number; y: number }
+  selectTarget?: SelectTarget
+}
+
+*/
+
+export const positionProp = {}
+
+const Component: FC<{ example: ReactNode }> = ({ example }) => {
+  return (
+    <div
+      style={{
+        padding: 20,
+      }}
+    >
+      <Text truncate>{example}</Text>
+    </div>
+  )
+}
 
 const example: ComponentDef = {
   name: 'useOverlay',
   component: (props) => {
-    return <div>fix fix</div>
+    return <div>custom</div>
   },
   description: 'Overlay system basis',
-  properties: props.props.TooltipProps.props,
+  properties: {
+    example: { type: 'ReactNode' },
+    width: { type: 'number' },
+    position: {
+      type: [
+        { value: 'left' },
+        { value: 'right' },
+        { value: 'top' },
+        { value: 'bottom' },
+      ],
+    },
+    placement: {
+      type: [{ value: 'center' }, { value: 'left' }, { value: 'right' }],
+    },
+    variant: { type: [{ value: 'over' }, { value: 'detached' }] },
+    // offset: { x: { type: 'number' }, y: { type: 'number' } },
+    selectTarget: { type: 'EventHandler' },
+  },
   examples: [
     {
-      props: { label: 'asdasd', position: 'top-left' },
+      props: { example: 'Example prop' },
       customRenderer: (props) => {
-        const toolTip = useTooltip(props.label, props.position)
+        const { width, position, placement, variant, selectTarget, ...p } =
+          props
+
+        const toolTip = useOverlay(Component, p, {
+          placement: placement,
+          position: position,
+          width: 300,
+        })
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div {...toolTip}>Hover me!</div>
+            <Button
+              onClick={(e) => {
+                console.info(e)
+                toolTip(e)
+              }}
+            >
+              Open overlay
+            </Button>
           </div>
         )
       },

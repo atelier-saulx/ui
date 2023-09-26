@@ -43,6 +43,9 @@ import toast from './components/Toast'
 import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
+import useOverlay from './hooks/useOverlay'
+
+export const hooks: ComponentDef[] = [useOverlay]
 
 export const components: ComponentDef[] = [
   accordion,
