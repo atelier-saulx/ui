@@ -5,18 +5,40 @@ import { useEffect, useState } from 'react'
 const incr = (v) => v + 1
 
 const listeners: {
-  minutes: Set<(x?: any) => any>
-  seconds: Set<(x?: any) => any>
+  minutes: Map<(x?: any) => any, number>
+  seconds: Map<(x?: any) => any, number>
 } = {
-  minutes: new Set(),
-  seconds: new Set(),
+  minutes: new Map(),
+  seconds: new Map(),
 }
 
 let secTimerIsRunning = false
 let minuteTimerIsRunning = false
 
+const checkForTimer = (value: number): 0 | 1 | 2 => {
+  const d = Date.now()
+  const isMin = (d - value) / 60e3 >= 1
+  const isHour = isMin && (d - value * 60e3) / 60e3 >= 1
+
+  if (isMin && !isHour) {
+    // min timer
+    return 1
+  }
+  if (!isHour) {
+    // second timer
+    return 2
+  }
+  return 0
+}
+
 const timerMin = () => {
-  listeners.minutes.forEach((u) => u(incr))
+  listeners.minutes.forEach((value, k) => {
+    k(incr)
+    const n = checkForTimer(value)
+    if (!n) {
+      listeners.minutes.delete(k)
+    }
+  })
   if (listeners.minutes.size) {
     minuteTimerIsRunning = true
     setTimeout(timerMin, 10e3)
@@ -26,7 +48,20 @@ const timerMin = () => {
 }
 
 const timerSec = () => {
-  listeners.seconds.forEach((u) => u(incr))
+  listeners.seconds.forEach((value, k) => {
+    k(incr)
+    const n = checkForTimer(value + 1e3)
+    if (n !== 2) {
+      listeners.seconds.delete(k)
+    }
+    if (n === 1) {
+      listeners.minutes.set(k, value)
+      if (!minuteTimerIsRunning) {
+        minuteTimerIsRunning = true
+        setTimeout(timerMin, 10e3)
+      }
+    }
+  })
   if (listeners.seconds.size) {
     secTimerIsRunning = true
     setTimeout(timerSec, 500)
@@ -36,18 +71,19 @@ const timerSec = () => {
 }
 
 const addToTimer = (value: number, fn: (x?: any) => any): boolean => {
-  const isMin = (Date.now() - value) / 60e3 > 1
-  const isHour = isMin && (value / 60e3) * 60e3 > 1
+  const type = checkForTimer(value)
 
-  if (isMin && !isHour) {
-    listeners.minutes.add(fn)
+  if (type === 1) {
+    listeners.minutes.set(fn, value)
     if (!minuteTimerIsRunning) {
       minuteTimerIsRunning = true
       setTimeout(timerMin, 10e3)
     }
     return true
-  } else if (!isHour) {
-    listeners.seconds.add(fn)
+  }
+
+  if (type === 2) {
+    listeners.seconds.set(fn, value)
     if (!secTimerIsRunning) {
       secTimerIsRunning = true
       setTimeout(timerSec, 500)
