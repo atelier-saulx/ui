@@ -21,7 +21,6 @@ import icon from './components/Icon'
 import linegraph from './components/Linegraph'
 import logsText from './components/LogsText'
 import metricsWidget from './components/MetricsWidget'
-import modal from './components/Modal'
 import multlineInput from './components/MultilineInput'
 import pieGraph from './components/PieGraph'
 import pill from './components/Pill'
@@ -45,6 +44,7 @@ import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useOverlay from './hooks/useOverlay'
+import modal from './components/Modal'
 
 export const hooks: ComponentDef[] = [useOverlay]
 

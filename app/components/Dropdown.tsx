@@ -1,36 +1,78 @@
-import React from 'react'
-import { Dropdown, IconEmojiSmile } from '../../src'
+import React, { useState } from 'react'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import {
+  Button,
+  IconMoreVertical,
+  Dropdown,
+  IconCopy,
+  IconFullscreen,
+  IconOpenInNew,
+  IconDelete,
+  IconSortDesc,
+} from '../../src'
 
 const example: ComponentDef = {
   name: 'Dropdown',
   properties: props.props.DropDownProps.props,
   description: '',
-  component: Dropdown,
+  component: Dropdown.Root,
   examples: [
     {
-      props: {
-        data: [
-          { label: 'Option uno', icon: () => <IconEmojiSmile /> },
-          { label: 'Option dos', icon: () => <IconEmojiSmile /> },
-          { label: 'Option trois', type: 'checkbox', value: true },
-          // { label: 'Option trois', type: 'radio', value: false },
-          {
-            label: 'Option more',
-            icon: () => <IconEmojiSmile />,
-            caption: 'More',
-            data: [
-              { label: 'SubOption 1' },
-              { label: 'SubOption 2', type: 'checkbox' },
-              {
-                label: 'SubOption 3',
-                caption: 'Caption',
-                data: [{ label: 'SupperdeSup 1' }, { label: 'SupperdeSup 2' }],
-              },
-            ],
-          },
-        ],
+      props: {},
+      customRenderer: () => {
+        const [sort, setSort] = useState('ascending')
+
+        return (
+          <Dropdown.Root>
+            <Dropdown.Trigger>
+              <Button color="system" icon={<IconMoreVertical />} />
+            </Dropdown.Trigger>
+            <Dropdown.Items>
+              <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Sub>
+                <Dropdown.SubTrigger icon={<IconSortDesc />}>
+                  Sort
+                </Dropdown.SubTrigger>
+                <Dropdown.SubItems>
+                  <Dropdown.RadioItems value={sort} onChange={setSort}>
+                    <Dropdown.RadioItem value="none">
+                      No sorting
+                    </Dropdown.RadioItem>
+
+                    <Dropdown.Separator />
+
+                    <Dropdown.RadioItem value="ascending">
+                      Alphabetical
+                    </Dropdown.RadioItem>
+                    <Dropdown.RadioItem value="descending">
+                      Reverse alphabetical
+                    </Dropdown.RadioItem>
+                  </Dropdown.RadioItems>
+                </Dropdown.SubItems>
+              </Dropdown.Sub>
+
+              <Dropdown.Sub>
+                <Dropdown.SubTrigger icon={<IconOpenInNew />}>
+                  Triple nest why not
+                </Dropdown.SubTrigger>
+                <Dropdown.SubItems>
+                  <Dropdown.Sub>
+                    <Dropdown.SubTrigger>Open me too</Dropdown.SubTrigger>
+                    <Dropdown.SubItems>
+                      <Dropdown.Item>Hello there</Dropdown.Item>
+                    </Dropdown.SubItems>
+                  </Dropdown.Sub>
+                </Dropdown.SubItems>
+              </Dropdown.Sub>
+              <Dropdown.Separator />
+              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown.Root>
+        )
       },
     },
   ],

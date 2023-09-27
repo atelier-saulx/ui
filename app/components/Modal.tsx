@@ -1,58 +1,47 @@
-import React, { useState } from 'react'
-import { Modal, Input } from '../../src'
+import React from 'react'
 import props from '../props.json'
 import { ComponentDef } from '../types'
-import { SelectInput } from '../../src/components/Input/SelectInput'
+import { Button, Input, Modal } from '../../src'
 
 const example: ComponentDef = {
   name: 'Modal',
-  properties: props.props.ModalProps.props,
-  component: Modal,
-  description: 'Simple dialog',
+  properties: props.props.DropDownProps.props,
+  description: '',
+  component: Modal.Root,
   examples: [
     {
       props: {},
       customRenderer: () => {
-        const [val, setVal] = useState('')
-        const [select, setSelect] = useState('')
-
         return (
-          <Modal
-            label="Create a new organisation"
-            description="This is your organisation’s name within Based. For example, you can use the name of your company or department."
-            cancelLabel="Cancel"
-            confirmLabel="Create organisation"
-            onCancel={() => {}}
-            onConfirm={() => {}}
-          >
-            <div>
-              <Input
-                value={val}
-                onChange={(value) => {
-                  setVal(value)
-                }}
-                type="text"
-                placeholder="e.g. Company name"
-                label="Organisation name"
-              />
-              <label style={{ marginTop: 24, display: 'block' }}>
-                <div style={{ fontSize: 14, marginBottom: 4 }}>
-                  Organization type
-                </div>
-                <SelectInput
-                  value={select}
-                  onChange={(value) => {
-                    setSelect(value.toString())
-                  }}
-                  options={[
-                    { label: 'Option one', value: 'one' },
-                    { label: 'Option two', value: 'two' },
-                  ]}
-                  style={{ maxWidth: 'none' }}
-                />
-              </label>
-            </div>
-          </Modal>
+          <Modal.Root>
+            <Modal.Trigger>
+              <Button>Open modal</Button>
+            </Modal.Trigger>
+            <Modal.Content>
+              {({ close }) => (
+                <>
+                  <Modal.Title>Title of modal</Modal.Title>
+                  <Modal.Description>Description of modal</Modal.Description>
+                  <Modal.Body>
+                    <Input
+                      type="text"
+                      label="Name of company"
+                      value="Apex"
+                      onChange={() => {}}
+                    />
+                  </Modal.Body>
+                  <Modal.Actions>
+                    <Button onClick={close} color="system">
+                      Cancel
+                    </Button>
+                    <Button onClick={close} color="primary">
+                      Save
+                    </Button>
+                  </Modal.Actions>
+                </>
+              )}
+            </Modal.Content>
+          </Modal.Root>
         )
       },
     },
