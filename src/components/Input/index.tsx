@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { Fragment, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { TextInput, TextInputProps } from './TextInput'
 import { SelectInput, SelectInputProps, SelectInputOption } from './SelectInput'
 import { SearchInput, SearchInputProps } from './SearchInput'
@@ -12,7 +12,8 @@ import { MultilineInput, MultilineInputProps } from './MultilineInput'
 
 export type CommonInputProps = {
   label?: string
-  error?: string
+  error?: boolean
+  message?: ReactNode
   description?: string
   indent?: boolean
 }
@@ -37,7 +38,11 @@ export function Input(props: InputProps) {
     case 'text': {
       const { type, ...narrowedProps } = props
       return (
-        <LabelAndErrorWrapper label={props.label} error={props.error}>
+        <LabelAndErrorWrapper
+          message={props.message}
+          label={props.label}
+          error={props.error}
+        >
           <TextInput {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
@@ -45,7 +50,11 @@ export function Input(props: InputProps) {
     case 'multiline': {
       const { type, ...narrowedProps } = props
       return (
-        <LabelAndErrorWrapper label={props.label} error={props.error}>
+        <LabelAndErrorWrapper
+          message={props.message}
+          label={props.label}
+          error={props.error}
+        >
           <MultilineInput {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
@@ -53,7 +62,11 @@ export function Input(props: InputProps) {
     case 'search': {
       const { type, ...narrowedProps } = props
       return (
-        <LabelAndErrorWrapper label={props.label} error={props.error}>
+        <LabelAndErrorWrapper
+          message={props.message}
+          label={props.label}
+          error={props.error}
+        >
           <SearchInput {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
@@ -61,7 +74,11 @@ export function Input(props: InputProps) {
     case 'select': {
       const { type, ...narrowedProps } = props
       return (
-        <LabelAndErrorWrapper label={props.label} error={props.error}>
+        <LabelAndErrorWrapper
+          message={props.message}
+          label={props.label}
+          error={props.error}
+        >
           <SelectInput {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
@@ -111,7 +128,8 @@ export function Input(props: InputProps) {
 
 export type LabelAndErrorWrapperProps = {
   label?: string
-  error?: string
+  error?: boolean
+  message?: ReactNode
   description?: string
   indent?: boolean
   children: ReactNode
@@ -123,6 +141,7 @@ function LabelAndErrorWrapper({
   children,
   indent,
   description,
+  message,
 }: LabelAndErrorWrapperProps) {
   // TODO: temp change maybe idk how to get this to be a styled div
   // const Component = indent || label || description || error ? 'div' : Fragment
@@ -146,6 +165,7 @@ function LabelAndErrorWrapper({
               : color('inputBorder', 'neutralActive', 'default'),
           },
           '&:focus': {
+            outline: 'none',
             borderColor: error
               ? color('border', 'negative', 'strong')
               : color('inputBorder', 'selected', 'default'),
@@ -167,24 +187,32 @@ function LabelAndErrorWrapper({
     ? {
         style: {
           display: 'block',
+          '&:focus > input': {
+            outline: 'none',
+          },
         },
       }
-    : {}
+    : {
+        style: {
+          display: 'block',
+          '&:focus': {
+            outline: 'none',
+          },
+        },
+      }
 
+  // tabIndex={1}
   return (
-    <styled.div tabIndex={1} {...componentProps}>
+    <styled.div {...componentProps}>
       {label && (
-        <div
+        <Text
+          weight="strong"
           style={{
             marginBottom: 8,
-            fontWeight: 500,
-            fontSize: '14px',
-            lineHeight: '24px',
-            color: color('content', 'default', 'primary'),
           }}
         >
           {label}
-        </div>
+        </Text>
       )}
       {children}
       {description && (
@@ -192,16 +220,16 @@ function LabelAndErrorWrapper({
           <Text light>{description}</Text>
         </styled.div>
       )}
-      {error && (
+      {message && (
         <div
           style={{
             marginTop: 8,
             display: 'flex',
             alignItems: 'center',
-            color: color('content', 'negative', 'primary'),
+            color: color('content', error ? 'negative' : 'brand'),
           }}
         >
-          <IconAlertFill />
+          {error ? <IconAlertFill color="inherit" /> : null}
           <div
             style={{
               marginLeft: 5,
@@ -210,7 +238,7 @@ function LabelAndErrorWrapper({
               lineHeight: '24px',
             }}
           >
-            {error}
+            {message}
           </div>
         </div>
       )}

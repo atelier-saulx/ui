@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, ReactNode } from 'react'
 import { Style, styled, color, Badge, IconClose, BadgeProps } from '~'
 
 export type TextInputProps = {
   value: string
   onChange: (value: string) => void
+  onFocus?: () => void
+  onBlur?: () => void
   disabled?: boolean
   placeholder?: string
   prefix?: BadgeProps
@@ -12,7 +14,8 @@ export type TextInputProps = {
   style?: Style
   afterIcon?: React.ReactNode
   clearButton?: boolean
-  error?: string
+  error?: boolean
+  message?: ReactNode
   password?: boolean
   maxLength?: number
 }
@@ -24,6 +27,8 @@ export function TextInput({
   style,
   value,
   onChange,
+  onFocus,
+  onBlur,
   clearButton = false,
   afterIcon,
   disabled,
@@ -66,8 +71,14 @@ export function TextInput({
           )}`,
         },
         '&:focus-within': {
-          border: `1px solid ${color('inputBorder', 'active', 'default')}`,
-          boxShadow: `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
+          border: `1px solid ${color(
+            'inputBorder',
+            error ? 'alert' : 'active',
+            'default'
+          )}`,
+          boxShadow: error
+            ? `0 0 0 2px ${color('inputBorder', 'alert', 'default')}`
+            : `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
         },
         '& > * + *': {
           // px instead of raw number bc of https://github.com/atelier-saulx/inlines/issues/1
@@ -89,6 +100,8 @@ export function TextInput({
           setCurrentLength(e.target.value.length)
           onChange(e.target.value)
         }}
+        onFocus={onFocus}
+        onBlur={onBlur}
         style={{
           width: '100%',
           height: 38,

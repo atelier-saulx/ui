@@ -29,6 +29,14 @@ export function CheckboxInput({
         display: 'flex',
         alignItems: 'start',
         justifyContent: 'start',
+        '&:focus': {
+          outline: 'none',
+        },
+        '&:focus-within': {
+          // outline: 'none',
+          // border: `1px solid ${color('inputBorder', 'active', 'default')}`,
+          // boxShadow: `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
+        },
         ...style,
       }}
     >
@@ -42,7 +50,7 @@ export function CheckboxInput({
           opacity: disabled ? '40%' : '100%',
         }}
       >
-        <input
+        <styled.input
           type="checkbox"
           checked={value}
           onMouseDown={(e) => {
@@ -63,6 +71,12 @@ export function CheckboxInput({
             clip: 'rect(0,0,0,0)',
             whiteSpace: 'nowrap',
             borderWidth: 0,
+            '&::placeholder': {
+              color: color('content', 'default', 'secondary'),
+            },
+            '&:focus': {
+              outline: 'none',
+            },
           }}
         />
         <styled.div
@@ -103,18 +117,17 @@ export function CheckboxInput({
               } !important`,
             },
             '.checkbox-group:focus-within &': {
-              boxShadow: `0 0 0 1px white,0 0 0 3px ${color(
-                'border',
-                'brand',
-                'subtle'
-              )}`,
+              boxShadow: `0 0 0 1px ${color(
+                'background',
+                'default'
+              )},0 0 0 3px ${color('border', 'brand')}`,
             },
           }}
         >
           {intermediate ? (
-            <IconMinus color="inverted" />
+            <IconMinus color="inherit" />
           ) : value ? (
-            <IconCheckSmall color="inverted" />
+            <IconCheckSmall color="inherit" />
           ) : null}
         </styled.div>
       </div>
