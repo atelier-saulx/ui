@@ -26,7 +26,7 @@ const example: ComponentDef = {
         return (
           <Dropdown.Root>
             <Dropdown.Trigger>
-              <Button ghost icon={<IconMoreVertical />} />
+              <Button color="system" icon={<IconMoreVertical />} />
             </Dropdown.Trigger>
             <Dropdown.Items>
               <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>

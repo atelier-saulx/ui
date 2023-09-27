@@ -160,9 +160,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     useImperativeHandle(forwardedRef, () => buttonElem.current, [])
     const extendedOnClick = useCallback(
       async (e: any) => {
-        e.stopPropagation()
-        e.preventDefault()
-
         const t = buttonElem.current
         if (!t) {
           return
