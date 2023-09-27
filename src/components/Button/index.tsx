@@ -26,11 +26,13 @@ const stopPropagation = (e) => e.stopPropagation()
 export type ButtonProps = {
   onMouseEnter?: MouseEventHandler
   onMouseLeave?: MouseEventHandler
+  onFocus?: () => void
+  onBlur?: () => void
   children?: ReactNode
   disabled?: boolean
   color?: ColorActionColors
   fill?: boolean // TODO: add this on inputs etc as well
-  visibleFocus?: boolean
+  hideFocusState?: boolean
   ghost?: boolean
   icon?: ReactNode
   afterIcon?: ReactNode
@@ -77,7 +79,7 @@ export const getButtonStyle = (
       ? 'transparent'
       : genColor('action', colorProp, isLight ? 'subtleNormal' : 'normal'),
 
-    '&:focus': props.visibleFocus
+    '&:focus': !props.hideFocusState
       ? {
           // backgroundColor: isGhost
           //   ? 'transparent'
@@ -86,17 +88,32 @@ export const getButtonStyle = (
           //       colorProp,
           //       isLight ? 'subtleSelected' : 'selected'
           //     ),
+          outline: 'none',
           border:
             props.size !== 'xsmall'
               ? `1px solid ${genColor('content', 'inverted', 'primary')}`
               : '1px solid transparent',
-          boxShadow:
-            props.size !== 'xsmall'
-              ? `0px 0px 0px 2px ${genColor('action', colorProp, 'normal')}`
-              : 'none',
+          boxShadow: `0px 0px 0px 2px ${genColor(
+            'action',
+            colorProp,
+            'normal'
+          )}`,
         }
-      : null,
+      : {
+          outline: 'none',
+          border:
+            colorProp === 'system'
+              ? `1px solid ${genColor(
+                  'inputBorder',
+                  'neutralNormal',
+                  'default'
+                )}`
+              : `1px solid transparent`,
+          boxShadow: 'none',
+        },
     '&:hover': {
+      outline: 'none',
+
       backgroundColor: isGhost
         ? 'transparent'
         : genColor('action', colorProp, isLight ? 'subtleHover' : 'hover'),
@@ -141,6 +158,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onMouseLeave,
       keyboardShortcut,
       displayShortcut,
+      onFocus,
+      onBlur,
       size = 'medium',
       style,
       underline,
@@ -240,6 +259,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={buttonElem}
         disabled={disabled}
         onClick={onClick && extendedOnClick}
+        onFocus={onFocus}
+        onBlur={onBlur}
         onPointerDown={onPointerDown || stopPropagation}
         style={{
           padding: !children
@@ -256,7 +277,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             ? '6px 16px'
             : size === 'small'
             ? '4px 12px'
-            : '0px',
+            : '0px 4px',
           borderRadius:
             size === 'large' || size === 'medium' || !children ? 8 : 4,
           width: !children ? '20px' : fill ? '100%' : null,

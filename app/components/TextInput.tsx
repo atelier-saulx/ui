@@ -9,11 +9,14 @@ const example: ComponentDef = {
   properties: {
     style: { type: 'Style' },
     value: { type: 'string' },
+    onFocus: { type: 'OnFocus' },
+    onBlur: { type: 'OnBlurf' },
     onChange: { type: 'OnChangeHandler' },
     label: { type: 'string' },
-    error: { type: 'string' },
+    error: { type: 'boolean' },
     placeholder: { type: 'string' },
     clearButton: { type: 'boolean' },
+    message: { type: 'ReactNode' },
   },
   examples: [
     {
@@ -26,7 +29,8 @@ const example: ComponentDef = {
       props: {
         label: 'This is a label',
         placeholder: 'advanced',
-        error: 'This is an error',
+        error: true,
+        message: 'Hello this is wrong!',
       },
       customRenderer: (props) => {
         const [value, setValue] = useState('')

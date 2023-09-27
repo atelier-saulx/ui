@@ -83,7 +83,7 @@ export const Text: FC<TextProps> = ({
     <styled.div
       onClick={onClick}
       style={{
-        display: truncate ? '-webkit-box' : 'initial',
+        display: truncate ? '-webkit-box' : 'block',
         color: parsedColor,
         cursor: onClick ? 'pointer' : null,
         fontSize: size,
