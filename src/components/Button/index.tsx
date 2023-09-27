@@ -149,6 +149,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const isLight = props.light
     const isGhost = props.ghost || props.size === 'xsmall'
     let [isLoading, setIsLoading] = useState(false)
+    let { disabled } = props
 
     if (loading === true) {
       isLoading = loading
@@ -210,7 +211,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     if (loading) {
-      props.disabled = true
+      disabled = true
     }
 
     const contentColor: ColorContentColors =
@@ -237,7 +238,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <styled.button
         ref={buttonElem}
-        disabled={props.disabled}
+        disabled={disabled}
         onClick={onClick && extendedOnClick}
         onPointerDown={onPointerDown || stopPropagation}
         style={{
