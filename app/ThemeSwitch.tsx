@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconEye, Tooltip } from '../src'
+import { Button, IconEye, Tooltip } from '../src'
 import { useTheme } from '../src/hooks/useTheme'
 
 export function ThemeSwitch() {
@@ -7,8 +7,10 @@ export function ThemeSwitch() {
 
   return (
     <Tooltip text="Change theme">
-      <IconEye
-        color="brand"
+      <Button
+        color="system"
+        icon={<IconEye />}
+        size="small"
         onClick={() => {
           setTheme(theme === 'light' ? 'dark' : 'light')
         }}

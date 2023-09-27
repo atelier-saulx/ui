@@ -5,48 +5,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
-import { IconSortAsc as IconSort, color, styled } from '~'
+import { IconSortAsc as IconSort, color, styled, Text, ScrollArea } from '~'
 import React, { useCallback, useRef } from 'react'
-
-const ScrollBarStyle = {
-  scrollbarGutter: 'stable',
-  overflowY: 'overlay',
-  overflowX: 'overlay',
-  // firefox
-  scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
-  scrollbarWidth: 'thin',
-  '&::-webkit-scrollbar': {
-    visibility: 'hidden',
-  },
-  // the rest
-  '&::-webkit-scrollbar:vertical': {
-    width: '8px',
-  },
-  '&::-webkit-scrollbar:horizontal': {
-    height: '8px',
-  },
-  '@media (hover: hover)': {
-    '&:hover': {
-      // the rest
-      '&::-webkit-scrollbar': {
-        visibility: 'visible',
-      },
-
-      '&::-webkit-scrollbar-thumb': {
-        backgroundColor: color('border', 'default', 'strong'),
-        borderRadius: '4px',
-      },
-      '&::-webkit-scrollbar-thumb:vertical': {
-        borderRight: `2px solid ${color('background', 'default', 'surface')}`,
-        minHeight: '32px',
-      },
-      '&::-webkit-scrollbar-thumb:horizontal': {
-        borderBottom: `2px solid ${color('background', 'default', 'surface')}`,
-        minWidth: '32px',
-      },
-    },
-  },
-}
 
 export type TableProps = {
   columns: { header: string; accessor: string; cell?: (any) => JSX.Element }[]
@@ -103,23 +63,23 @@ export function Table({
   )
 
   return (
-    <styled.div
+    <ScrollArea
       ref={tableContainerRef}
       style={{
         overflow: 'auto',
         height: '100%',
         width: 'fit-content',
-        ...ScrollBarStyle,
       }}
       onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
     >
       <table
         style={{
           width: table.getCenterTotalSize(),
-          borderCollapse: 'separate',
+          // borderCollapse: 'separate',
           tableLayout: 'fixed',
           background: color('background', 'default', 'strong'),
           borderSpacing: 0,
+          borderCollapse: 'collapse',
         }}
       >
         <thead
@@ -146,6 +106,7 @@ export function Table({
                     style={{
                       padding: '0 12px',
                       height: 42,
+                      fontSize: 14,
                       position: 'relative',
                       overflow: 'hidden',
                       width: header.getSize(),
@@ -162,10 +123,26 @@ export function Table({
                         'default',
                         'strong'
                       )}`,
+                      color: header.column.getIsSorted()
+                        ? color('content', 'brand', 'primary')
+                        : color('content', 'default', 'secondary'),
+                      '&:hover': {
+                        color: header.column.getIsSorted()
+                          ? color('content', 'brand', 'primary')
+                          : color('content', 'default', 'primary'),
+                        '& span': {
+                          backgroundColor: color('inputBorder', 'neutralHover'),
+                        },
+                      },
+                      '&:active': {
+                        '& span': {
+                          backgroundColor: color('inputBorder', 'active'),
+                        },
+                      },
                     }}
                   >
                     {header.isPlaceholder ? null : (
-                      <div
+                      <Text
                         onClick={header.column.getToggleSortingHandler()}
                         style={{
                           display: 'flex',
@@ -173,9 +150,7 @@ export function Table({
                           alignItems: 'center',
                           userSelect: 'none',
                           cursor: 'pointer',
-                          color: header.column.getIsSorted()
-                            ? color('content', 'brand', 'primary')
-                            : color('content', 'default', 'secondary'),
+                          color: 'inherit',
                         }}
                       >
                         {{
@@ -185,17 +160,23 @@ export function Table({
                                 marginRight: 8,
                                 transform: 'scaleY(-1)',
                               }}
+                              color="inherit"
                             />
                           ),
-                          desc: <IconSort style={{ marginRight: 8 }} />,
+                          desc: (
+                            <IconSort
+                              style={{ marginRight: 8 }}
+                              color="inherit"
+                            />
+                          ),
                         }[header.column.getIsSorted() as string] ?? null}
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                      </div>
+                      </Text>
                     )}
-                    <styled.div
+                    <styled.span
                       // tabIndex={1}
                       onMouseDown={header.getResizeHandler()}
                       onTouchStart={header.getResizeHandler()}
@@ -207,22 +188,16 @@ export function Table({
                         right: '0',
                         top: '0',
                         height: '100%',
-                        width: '5px',
+                        width: '2px',
                         // background: 'rgba(0, 0, 0, 0.5)',
                         cursor: 'col-resize',
                         userSelect: 'none',
                         touchAction: 'none',
-                        '&:hover': {
-                          // Input Border/Neutral Normal
-                          backgroundColor: color('inputBorder', 'neutralHover'),
-                        },
-                        '&:active': {
-                          // Input Border/Neutral Normal
-                          backgroundColor: color(
-                            'inputBorder',
-                            'neutralActive'
-                          ),
-                        },
+                        // '&:hover': {
+                        //   // Input Border/Neutral Normal
+                        //   backgroundColor: color('inputBorder', 'neutralHover'),
+                        // },
+
                         transform:
                           resizeMode === 'snap' && header.column.getIsResizing()
                             ? `translateX(${
@@ -267,10 +242,12 @@ export function Table({
                       }}
                       key={cell.id}
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      <Text>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </Text>
                     </td>
                   )
                 })}
@@ -284,6 +261,6 @@ export function Table({
           )}
         </tbody>
       </table>
-    </styled.div>
+    </ScrollArea>
   )
 }
