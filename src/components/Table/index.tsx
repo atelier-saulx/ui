@@ -207,21 +207,18 @@ export function Table({
                         right: '0',
                         top: '0',
                         height: '100%',
-                        width: '5px',
+                        width: '2px',
                         // background: 'rgba(0, 0, 0, 0.5)',
                         cursor: 'col-resize',
                         userSelect: 'none',
                         touchAction: 'none',
                         '&:hover': {
                           // Input Border/Neutral Normal
-                          backgroundColor: color('inputBorder', 'neutralHover'),
+                          backgroundColor: color('inputBorder', 'hover'),
                         },
                         '&:active': {
                           // Input Border/Neutral Normal
-                          backgroundColor: color(
-                            'inputBorder',
-                            'neutralActive'
-                          ),
+                          backgroundColor: color('inputBorder', 'active'),
                         },
                         transform:
                           resizeMode === 'snap' && header.column.getIsResizing()
