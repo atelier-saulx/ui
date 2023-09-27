@@ -90,6 +90,7 @@ import {
   styled,
   Text,
   Style,
+  ScrollArea,
 } from '../../'
 import { Log, LogProps } from './Log'
 import { useVirtual } from '@tanstack/react-virtual'
@@ -153,7 +154,7 @@ export const LogsText: FC<LogsTextProps> = ({
         {items.length} / {data.length}
       </Text>
       <Text size={18}>totalSize:{rowVirtualizer.totalSize} </Text>
-      <styled.div
+      <ScrollArea
         onScroll={(e) => {
           if (e.target.scrollTop > maxScroll) {
             setMaxScroll(e.target.scrollTop)
@@ -205,7 +206,7 @@ export const LogsText: FC<LogsTextProps> = ({
             </styled.div>
           ))}
         </styled.div>
-      </styled.div>
+      </ScrollArea>
     </styled.div>
   )
 }
