@@ -13,6 +13,9 @@ const example: ComponentDef = {
     {
       props: {
         children: 'Click me',
+        onClick: () => {
+          console.log('bla')
+        },
       },
     },
     {

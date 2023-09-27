@@ -68,7 +68,9 @@ export const getButtonStyle = (
   const isGhost = props.ghost || props.size === 'xsmall'
 
   const style: Style = {
-    transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
+    transitionDelay: '0s,0s,0s,0.1s',
+    transitionProperty: 'width,transform,opacity,box-shadow',
+    transitionDuration: '0.15s,  0.1s,  0.15s, 0.1s',
     pointerEvents: disabled ? 'none' : 'auto',
     border:
       colorProp === 'system'
