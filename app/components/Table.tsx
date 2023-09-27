@@ -11,8 +11,8 @@ const example: ComponentDef = {
   properties: props.props.TableProps.props,
   examples: [
     {
-      props: {},
-      customRenderer: () => {
+      props: { resizeMode: 'smooth' },
+      customRenderer: (props) => {
         const newPerson = () => {
           return {
             id: faker.string.nanoid(),
@@ -49,10 +49,12 @@ const example: ComponentDef = {
           <div
             style={{
               height: 500,
+              // width: '10000px',
             }}
           >
             <Table
               data={data}
+              resizeMode={props.resizeMode}
               // onSize={() => {
               //   // setSize // loadsTheData
               // }}
