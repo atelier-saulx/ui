@@ -39,7 +39,9 @@ const HorizontalBar = ({ valueFormat, label, value, percentage, color }) => {
             width: `${percentage.toFixed()}%`,
           }}
         >
-          <Text weight="medium">{label}</Text>
+          <Text selectable="none" weight="medium">
+            {label}
+          </Text>
         </styled.div>
       </styled.div>
       <styled.div
@@ -51,7 +53,7 @@ const HorizontalBar = ({ valueFormat, label, value, percentage, color }) => {
           width: 28,
         }}
       >
-        <Text weight="medium">
+        <Text selectable="none" weight="medium">
           {valueFormat !== 'percentages'
             ? prettyNumber(value, valueFormat)
             : percentage.toFixed(1) + '%'}
@@ -89,6 +91,7 @@ const VerticalBar = ({ valueFormat, label, value, percentage, color }) => {
           }}
         >
           <Text
+            selectable="none"
             weight="medium"
             style={{
               bottom: 26,
@@ -104,7 +107,7 @@ const VerticalBar = ({ valueFormat, label, value, percentage, color }) => {
         </styled.div>
       </styled.div>
 
-      <Text weight="medium">
+      <Text selectable="none" weight="medium">
         {valueFormat !== 'percentages'
           ? prettyNumber(value, valueFormat)
           : percentage.toFixed(1) + '%'}
