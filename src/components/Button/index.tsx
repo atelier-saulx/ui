@@ -67,8 +67,12 @@ export const getButtonStyle = (
   const isLight = props.light
   const isGhost = props.ghost || props.size === 'xsmall'
 
+  console.info('GHOST', isGhost)
+
   const style: Style = {
-    transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
+    transitionDelay: '0s,0s,0s,0.1s',
+    transitionProperty: 'width,transform,opacity,box-shadow',
+    transitionDuration: '0.15s,  0.1s,  0.15s, 0.1s',
     pointerEvents: disabled ? 'none' : 'auto',
     border:
       colorProp === 'system'
@@ -86,16 +90,16 @@ export const getButtonStyle = (
             props.size !== 'xsmall'
               ? `1px solid ${genColor('content', 'inverted', 'primary')}`
               : '1px solid transparent',
-          boxShadow: `0px 0px 0px 2px ${genColor(
-            'action',
-            colorProp,
-            'normal'
-          )}`,
+          boxShadow: `0px 0px 0px 2px ${
+            colorProp === 'system'
+              ? genColor('content', 'default')
+              : genColor('action', colorProp, 'normal')
+          }`,
         }
       : {
           outline: 'none',
           border:
-            colorProp === 'system'
+            isGhost || colorProp === 'system'
               ? `1px solid ${genColor(
                   'inputBorder',
                   'neutralNormal',
@@ -106,7 +110,6 @@ export const getButtonStyle = (
         },
     '&:hover': {
       outline: 'none',
-
       backgroundColor: isGhost
         ? 'transparent'
         : genColor('action', colorProp, isLight ? 'subtleHover' : 'hover'),
@@ -173,6 +176,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     useImperativeHandle(forwardedRef, () => buttonElem.current, [])
     const extendedOnClick = useCallback(
       async (e: any) => {
+        e.currentTarget.blur()
         const t = buttonElem.current
         if (!t) {
           return
@@ -274,8 +278,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           borderRadius:
             size === 'large' || size === 'medium' || !children ? 8 : 4,
           width: !children ? '20px' : fill ? '100%' : null,
-          userSelect: 'none',
-          WebkitUserSelect: 'none',
+
           position: 'relative',
           ...getButtonStyle(props, true),
           ...style,

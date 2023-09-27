@@ -14,7 +14,7 @@ import {
 
 const example: ComponentDef = {
   name: 'Dropdown',
-  properties: props.props.DropDownProps.props,
+  properties: {},
   description: '',
   component: Dropdown.Root,
   examples: [

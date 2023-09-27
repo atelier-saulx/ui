@@ -5,7 +5,7 @@ import { Button, Input, Modal } from '../../src'
 
 const example: ComponentDef = {
   name: 'Modal',
-  properties: props.props.DropDownProps.props,
+  properties: {},
   description: '',
   component: Modal.Root,
   examples: [

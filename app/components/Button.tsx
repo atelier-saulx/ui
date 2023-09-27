@@ -13,6 +13,9 @@ const example: ComponentDef = {
     {
       props: {
         children: 'Click me',
+        onClick: () => {
+          console.log('bla')
+        },
       },
     },
     {
@@ -62,6 +65,17 @@ const example: ComponentDef = {
         color: 'alert',
         size: 'xsmall',
         underline: true,
+        onClick: async () => {
+          await wait(1000)
+        },
+      },
+    },
+    {
+      name: 'Ghost button',
+      props: {
+        children: 'Ghost Button',
+        color: 'alert',
+        ghost: true,
         onClick: async () => {
           await wait(1000)
         },

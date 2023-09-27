@@ -554,7 +554,9 @@ export default class Editor extends React.Component<Props, State> {
             ...contentStyle,
           }}
           className={
-            className + (textareaClassName ? ` ${textareaClassName}` : '')
+            className +
+            (textareaClassName ? ` ${textareaClassName}` : '') +
+            ' codeeditor'
           }
           id={textareaId}
           value={value}

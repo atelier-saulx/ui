@@ -16,6 +16,10 @@
   opacity: 0.7;
 }
 
+.codeeditor:focus {
+  outline: none;
+}
+
 .token.boolean,
 .token.constant,
 .token.deleted,
