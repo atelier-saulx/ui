@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { IconCheckSmall, IconMinus, Style, color, styled } from '~'
+import { IconCheckSmall, IconMinus, Style, color, styled, Text } from '~'
 
 export type CheckboxInputProps = {
   title?: ReactNode
@@ -132,28 +132,10 @@ export function CheckboxInput({
         </styled.div>
       </div>
       <div style={{ marginLeft: 12 }}>
-        <div
-          style={{
-            lineHeight: '24px',
-            userSelect: 'none',
-            fontSize: 14,
-            fontWeight: 500,
-            color: color('content', 'default', 'primary'),
-          }}
-        >
-          {title}
-        </div>
-        <div
-          style={{
-            userSelect: 'none',
-            lineHeight: '24px',
-            fontSize: 14,
-            fontWeight: 500,
-            color: color('content', 'default', 'secondary'),
-          }}
-        >
+        <Text selectable="none">{title}</Text>
+        <Text selectable="none" light>
           {description}
-        </div>
+        </Text>
       </div>
     </styled.label>
   )

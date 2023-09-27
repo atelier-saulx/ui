@@ -384,6 +384,7 @@ export function SelectInput({
                   style={{
                     position: 'relative',
                     userSelect: 'none',
+                    WebkitUserSelect: 'none',
                     cursor: 'pointer',
                     height: 32,
                     background:
