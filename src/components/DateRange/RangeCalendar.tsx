@@ -188,6 +188,7 @@ export const RangeCalendar = ({
           marginBottom: '-8px',
           justifyContent: 'center',
           userSelect: 'none',
+          WebkitUserSelect: 'none',
           '& div': {
             width: '26px',
             textAlign: 'center',
@@ -335,6 +336,7 @@ export const RangeCalendar = ({
                       : '4px'
                     : 0,
                 userSelect: 'none',
+                WebkitUserSelect: 'none',
               }}
               key={i}
               onClick={() => {

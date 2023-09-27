@@ -260,7 +260,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           borderRadius:
             size === 'large' || size === 'medium' || !children ? 8 : 4,
           width: !children ? '20px' : fill ? '100%' : null,
-
+          userSelect: 'none',
+          WebkitUserSelect: 'none',
           position: 'relative',
           ...getButtonStyle(props, true),
           ...style,

@@ -80,6 +80,8 @@ export function Table({
           background: color('background', 'default', 'strong'),
           borderSpacing: 0,
           borderCollapse: 'collapse',
+          userSelect: 'none',
+          WebkitUserSelect: 'none',
         }}
       >
         <thead

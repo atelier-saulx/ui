@@ -404,6 +404,7 @@ const StyledFilterSelectedBadge = styled('div', {
   justifyContent: 'flex-start',
   marginBottom: 4,
   userSelect: 'none',
+  WebkitUserSelect: 'none',
   marginTop: 4,
   flexShrink: 0,
   borderRadius: 4,
