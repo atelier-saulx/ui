@@ -13,7 +13,6 @@ import {
   IconChartPie,
   IconHash,
   LineGraph,
-  useTooltip,
   PieGraph,
   BarGraph,
   BarGraphSingleItem,
