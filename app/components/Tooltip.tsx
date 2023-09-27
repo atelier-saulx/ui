@@ -1,22 +1,21 @@
 import React from 'react'
-import { useTooltip, TooltipTest, Badge } from '../../src'
+import { Button, Tooltip } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
   name: 'Tooltip',
-  component: TooltipTest,
+  component: Tooltip,
   description: 'Tooltip',
   properties: props.props.TooltipProps.props,
   examples: [
     {
-      props: { label: 'asdasd', position: 'top-left' },
-      customRenderer: (props) => {
-        const toolTip = useTooltip(props.label, props.position)
+      props: {},
+      customRenderer: () => {
         return (
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div {...toolTip}>Hover me!</div>
-          </div>
+          <Tooltip text="Tooltip content">
+            <Button color="system">Hover me</Button>
+          </Tooltip>
         )
       },
     },

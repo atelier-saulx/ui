@@ -37,9 +37,6 @@ export function Items({ children }: DropdownItemsProps) {
             background: color('standalone', 'modal', 'default'),
             boxShadow:
               '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
-            '& > * + *': {
-              marginTop: '2px',
-            },
           }}
         >
           {children}
