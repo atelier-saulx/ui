@@ -70,6 +70,17 @@ const example: ComponentDef = {
         },
       },
     },
+    {
+      name: 'Ghost button',
+      props: {
+        children: 'Ghost Button',
+        color: 'alert',
+        ghost: true,
+        onClick: async () => {
+          await wait(1000)
+        },
+      },
+    },
   ],
 }
 

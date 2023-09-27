@@ -5,23 +5,12 @@ import React, { useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import {
-  color,
-  IconRefresh,
-  Menu,
-  Input,
-  Provider,
-  ScrollArea,
-  Dropdown,
-  IconEmojiSmile,
-} from '../src'
+import { color, Menu, Input, Provider, ScrollArea } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components, hooks } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
-import { CheckboxInput } from '../src/components/Input/CheckboxInput'
-import { MultilineInput } from '../src/components/Input/MultilineInput'
 
 export const client = based(basedConfig)
 

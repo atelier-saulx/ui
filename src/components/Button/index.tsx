@@ -67,6 +67,8 @@ export const getButtonStyle = (
   const isLight = props.light
   const isGhost = props.ghost || props.size === 'xsmall'
 
+  console.info('GHOST', isGhost)
+
   const style: Style = {
     transitionDelay: '0s,0s,0s,0.1s',
     transitionProperty: 'width,transform,opacity,box-shadow',
@@ -90,14 +92,15 @@ export const getButtonStyle = (
               : '1px solid transparent',
           boxShadow: `0px 0px 0px 2px ${genColor(
             'action',
-            colorProp,
+            // @ts-ignore
+            colorProp === 'system' ? 'default' : colorProp,
             'normal'
           )}`,
         }
       : {
           outline: 'none',
           border:
-            colorProp === 'system'
+            isGhost || colorProp === 'system'
               ? `1px solid ${genColor(
                   'inputBorder',
                   'neutralNormal',
@@ -108,7 +111,6 @@ export const getButtonStyle = (
         },
     '&:hover': {
       outline: 'none',
-
       backgroundColor: isGhost
         ? 'transparent'
         : genColor('action', colorProp, isLight ? 'subtleHover' : 'hover'),
