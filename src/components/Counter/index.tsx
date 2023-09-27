@@ -13,7 +13,6 @@ import { Style, styled } from 'inlines'
 import { ClickHandler } from '../../types'
 import { renderOrCreateElement } from '../../utils'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
-import { useTooltip } from '~/hooks'
 
 export type CounterProps = {
   color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
@@ -37,7 +36,6 @@ export const Counter: FC<CounterProps> = ({
   valueFormat = 'number-round-0',
 }) => {
   const { theme } = useTheme()
-  const events = useTooltip(label)
 
   const color =
     colorProp === 'white'
@@ -93,7 +91,6 @@ export const Counter: FC<CounterProps> = ({
         justifyContent: 'center',
         ...style,
       }}
-      {...events}
     >
       {icon && (
         <styled.div

@@ -1,33 +1,41 @@
-import React from 'react'
-import { styled, Style } from 'inlines'
-import { useTooltip } from '../../hooks/useTooltip'
+import React, { ReactNode } from 'react'
+import * as TooltipBase from '@radix-ui/react-tooltip'
+import { color } from '~/varsUtilities'
 
-export const TooltipTest = () => {
-  const thingy = [
-    useTooltip('Tooltip placeholder', 'top-left'),
-    useTooltip('Tooltip placeholder', 'top'),
-    useTooltip('Tooltip placeholder', 'top-right'),
-    useTooltip('Tooltip placeholder', 'left'),
-    useTooltip('Tooltip placeholder', 'left'),
-    useTooltip('Tooltip placeholder', 'right'),
-    useTooltip('Tooltip placeholder', 'bottom-left'),
-    useTooltip('Tooltip placeholder', 'bottom'),
-    useTooltip('Tooltip placeholder', 'bottom-right'),
-  ]
+export type TooltipProps = {
+  children: ReactNode
+  text: string
+}
 
+export function Tooltip({ children, text }) {
   return (
-    <styled.div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: `repeat(3, 1fr)`,
-        gridGap: '20px',
-      }}
-    >
-      {thingy.map((tooltipTest) => (
-        <styled.div {...tooltipTest} style={{ backgroundColor: 'yellow' }}>
-          Flap
-        </styled.div>
-      ))}
-    </styled.div>
+    <TooltipBase.Provider delayDuration={0}>
+      <TooltipBase.Root>
+        <TooltipBase.Trigger asChild>
+          <span>{children}</span>
+        </TooltipBase.Trigger>
+        <TooltipBase.Portal>
+          <TooltipBase.Content
+            style={{
+              fontSize: 12,
+              lineHeight: '20px',
+              fontFamily: 'Inter-SemiBold',
+              color: color('content', 'inverted', 'primary'),
+              padding: '4px 8px',
+              borderRadius: 4,
+              background: color('background', 'inverted', 'strong'),
+            }}
+            sideOffset={5}
+          >
+            {text}
+            <TooltipBase.Arrow
+              style={{
+                fill: color('background', 'inverted', 'strong'),
+              }}
+            />
+          </TooltipBase.Content>
+        </TooltipBase.Portal>
+      </TooltipBase.Root>
+    </TooltipBase.Provider>
   )
 }
