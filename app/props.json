@@ -996,6 +996,61 @@
       "code": "type MarkdownInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n}",
       "file": "/components/Input/MarkdownInput.tsx"
     },
+    "MultilineInputProps": {
+      "name": "MultilineInputProps",
+      "props": {
+        "value": {
+          "type": "string"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "BadgeProps"
+        },
+        "suffix": {
+          "optional": true,
+          "type": "BadgeProps"
+        },
+        "icon": {
+          "optional": true
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "afterIcon": {
+          "optional": true
+        },
+        "clearButton": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "error": {
+          "optional": true,
+          "type": "string"
+        },
+        "password": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "maxLength": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type MultilineInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: string\n  password?: boolean\n  maxLength?: number\n}",
+      "file": "/components/Input/MultilineInput.tsx"
+    },
     "NumberInputOwnProps": {
       "name": "NumberInputOwnProps",
       "props": {
@@ -1955,9 +2010,20 @@
         "onScrollToBottom": {
           "optional": true,
           "type": "function"
+        },
+        "resizeMode": {
+          "optional": true,
+          "type": [
+            {
+              "value": "snap"
+            },
+            {
+              "value": "smooth"
+            }
+          ]
         }
       },
-      "code": "type TableProps = {\n  columns: { header: string; accessor: string; cell?: (any) => JSX.Element }[]\n  data: any\n  onScrollToBottom?: () => void\n}",
+      "code": "type TableProps = {\n  columns: { header: string; accessor: string; cell?: (any) => JSX.Element }[]\n  data: any\n  onScrollToBottom?: () => void\n  resizeMode?: 'snap' | 'smooth'\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
