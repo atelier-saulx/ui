@@ -230,16 +230,13 @@ function LabelAndErrorWrapper({
           }}
         >
           {error ? <IconAlertFill color="inherit" /> : null}
-          <div
+          <Text
             style={{
               marginLeft: 5,
-              fontWeight: 500,
-              fontSize: '14px',
-              lineHeight: '24px',
             }}
           >
             {message}
-          </div>
+          </Text>
         </div>
       )}
     </styled.div>
