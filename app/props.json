@@ -275,6 +275,14 @@
           "optional": true,
           "type": "MouseEventHandler"
         },
+        "onFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "onBlur": {
+          "optional": true,
+          "type": "function"
+        },
         "children": {
           "optional": true,
           "type": "ReactNode"
@@ -291,7 +299,7 @@
           "optional": true,
           "type": "boolean"
         },
-        "visibleFocus": {
+        "hideFocusState": {
           "optional": true,
           "type": "boolean"
         },
@@ -361,7 +369,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  children?: ReactNode\n  disabled?: boolean\n  color?: ColorActionColors\n  fill?: boolean // TODO: add this on inputs etc as well\n  visibleFocus?: boolean\n  ghost?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  loading?: boolean\n  onClick?: ClickHandler\n  onPointerDown?: MouseEventHandler\n  light?: boolean\n  size?: 'large' | 'medium' | 'small' | 'xsmall'\n  style?: Style\n  underline?: boolean\n  /** \n     Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n    \n     Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n     Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n    */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
+      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  onFocus?: () => void\n  onBlur?: () => void\n  children?: ReactNode\n  disabled?: boolean\n  color?: ColorActionColors\n  fill?: boolean // TODO: add this on inputs etc as well\n  hideFocusState?: boolean\n  ghost?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  loading?: boolean\n  onClick?: ClickHandler\n  onPointerDown?: MouseEventHandler\n  light?: boolean\n  size?: 'large' | 'medium' | 'small' | 'xsmall'\n  style?: Style\n  underline?: boolean\n  /** \n     Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n    \n     Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n     Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n    */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
       "file": "/components/Button/index.tsx"
     },
     "CodeProps": {
@@ -831,85 +839,115 @@
       "code": "type DividerProps = {\n  style?: Style\n}",
       "file": "/components/Divider/index.tsx"
     },
-    "DropDownItemProps": {
-      "name": "DropDownItemProps",
+    "DropdownRootProps": {
+      "name": "DropdownRootProps",
       "props": {
-        "caption": {
-          "optional": true,
-          "type": "string"
-        },
-        "data": {
-          "optional": true,
-          "type": {
-            "array": "DropDownItemProps"
-          }
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type DropdownRootProps = {\n  children: ReactNode\n}",
+      "file": "/components/Dropdown/index.tsx"
+    },
+    "DropdownTriggerProps": {
+      "name": "DropdownTriggerProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type DropdownTriggerProps = {\n  children: ReactNode\n}",
+      "file": "/components/Dropdown/index.tsx"
+    },
+    "DropdownItemsProps": {
+      "name": "DropdownItemsProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type DropdownItemsProps = {\n  children: ReactNode\n}",
+      "file": "/components/Dropdown/index.tsx"
+    },
+    "DropdownItemProps": {
+      "name": "DropdownItemProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
         },
         "icon": {
           "optional": true,
           "type": "ReactNode"
         },
-        "id": {
+        "onClick": {
           "optional": true,
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "type": {
-          "optional": true,
-          "type": [
-            {
-              "value": "default"
-            },
-            {
-              "value": "checkbox"
-            },
-            {
-              "value": "radio"
-            },
-            {
-              "value": "action"
-            },
-            {
-              "value": "error"
-            }
-          ]
-        },
-        "value": {
-          "optional": true,
-          "type": [
-            "string",
-            "number",
-            "boolean"
-          ]
-        },
-        "onChange": {
-          "optional": true,
-          "type": "Function"
+          "type": "function"
         }
       },
-      "code": "type DropDownItemProps = {\n  caption?: string\n  data?: DropDownItemProps[]\n  icon?: ReactNode\n  id?: string\n  label: string\n  type?: 'default' | 'checkbox' | 'radio' | 'action' | 'error'\n  value?: string | number | boolean\n  // if value must onchange\n  onChange?: Function\n}",
-      "file": "/components/Dropdown/DropDownItem.tsx"
+      "code": "type DropdownItemProps = {\n  children: ReactNode\n  icon?: ReactNode\n  onClick?: () => void\n}",
+      "file": "/components/Dropdown/index.tsx"
     },
-    "DropDownProps": {
-      "name": "DropDownProps",
+    "DropdownSubProps": {
+      "name": "DropdownSubProps",
       "props": {
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
         "children": {
-          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type DropdownSubProps = {\n  children: ReactNode\n}",
+      "file": "/components/Dropdown/index.tsx"
+    },
+    "DropdownSubTriggerProps": {
+      "name": "DropdownSubTriggerProps",
+      "props": {
+        "children": {
           "type": "ReactNode"
         },
-        "data": {
+        "icon": {
           "optional": true,
-          "type": {
-            "array": "DropDownItemProps"
-          }
+          "type": "ReactNode"
         }
       },
-      "code": "type DropDownProps = {\n  style?: Style\n  children?: ReactNode\n  data?: DropDownItemProps[]\n}",
+      "code": "type DropdownSubTriggerProps = {\n  children: ReactNode\n  icon?: ReactNode\n}",
+      "file": "/components/Dropdown/index.tsx"
+    },
+    "DropdownSubItemsProps": {
+      "name": "DropdownSubItemsProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type DropdownSubItemsProps = {\n  children: ReactNode\n}",
+      "file": "/components/Dropdown/index.tsx"
+    },
+    "DropdownRadioItemsProps": {
+      "name": "DropdownRadioItemsProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "value": {
+          "type": "string"
+        },
+        "onChange": {
+          "type": "function"
+        }
+      },
+      "code": "type DropdownRadioItemsProps = {\n  children: ReactNode\n  value: string\n  onChange: (value: string) => void\n}",
+      "file": "/components/Dropdown/index.tsx"
+    },
+    "DropdownRadioItemProps": {
+      "name": "DropdownRadioItemProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "code": "type DropdownRadioItemProps = {\n  children: ReactNode\n  value: string\n}",
       "file": "/components/Dropdown/index.tsx"
     },
     "CheckboxInputProps": {
@@ -1091,6 +1129,14 @@
         "onChange": {
           "type": "function"
         },
+        "onFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "onBlur": {
+          "optional": true,
+          "type": "function"
+        },
         "disabled": {
           "optional": true,
           "type": "boolean"
@@ -1123,7 +1169,11 @@
         },
         "error": {
           "optional": true,
-          "type": "string"
+          "type": "boolean"
+        },
+        "message": {
+          "optional": true,
+          "type": "ReactNode"
         },
         "password": {
           "optional": true,
@@ -1134,7 +1184,7 @@
           "type": "number"
         }
       },
-      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: string\n  password?: boolean\n  maxLength?: number\n}",
+      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: boolean\n  message?: ReactNode\n  password?: boolean\n  maxLength?: number\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "CommonInputProps": {
@@ -1146,7 +1196,11 @@
         },
         "error": {
           "optional": true,
-          "type": "string"
+          "type": "boolean"
+        },
+        "message": {
+          "optional": true,
+          "type": "ReactNode"
         },
         "description": {
           "optional": true,
@@ -1157,7 +1211,7 @@
           "type": "boolean"
         }
       },
-      "code": "type CommonInputProps = {\n  label?: string\n  error?: string\n  description?: string\n  indent?: boolean\n}",
+      "code": "type CommonInputProps = {\n  label?: string\n  error?: boolean\n  message?: ReactNode\n  description?: string\n  indent?: boolean\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelAndErrorWrapperProps": {
@@ -1169,7 +1223,11 @@
         },
         "error": {
           "optional": true,
-          "type": "string"
+          "type": "boolean"
+        },
+        "message": {
+          "optional": true,
+          "type": "ReactNode"
         },
         "description": {
           "optional": true,
@@ -1183,7 +1241,7 @@
           "type": "ReactNode"
         }
       },
-      "code": "type LabelAndErrorWrapperProps = {\n  label?: string\n  error?: string\n  description?: string\n  indent?: boolean\n  children: ReactNode\n}",
+      "code": "type LabelAndErrorWrapperProps = {\n  label?: string\n  error?: boolean\n  message?: ReactNode\n  description?: string\n  indent?: boolean\n  children: ReactNode\n}",
       "file": "/components/Input/index.tsx"
     },
     "LineGraphProps": {
@@ -1507,59 +1565,88 @@
       "code": "type MetricsWidgetProps = {\n  calcOption?: 'percentage' | 'numbers'\n  chart?: 'bar' | 'line' | 'pie'\n  // TODO fix this TS type\n  data?:\n    | { [key: string]: { x: number; y: number }[] | { [key: string]: any } }\n    | BarGraphSingleItem[]\n    | PieGraphSingleItem[]\n  height?: number\n  style?: Style\n}",
       "file": "/components/MetricsWidget/index.tsx"
     },
-    "ModalWarningProps": {
-      "name": "ModalWarningProps",
+    "UseModalProps": {
+      "name": "UseModalProps",
       "props": {
-        "color": {
-          "optional": true,
-          "type": "Exclude"
+        "open": {
+          "type": "boolean"
         },
-        "children": {
-          "optional": true,
-          "type": "string"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        }
+        "setOpen": {}
       },
-      "code": "type ModalWarningProps = {\n  color?: Exclude<\n    ColorBackgroundColors,\n    'default' | 'inverted' | 'neutral' | 'informative' | 'positive' | 'brand'\n  >\n  children?: string\n  style?: Style\n}",
-      "file": "/components/Modal/ModalWarning.tsx"
+      "code": "type UseModalProps = {\n  open: boolean\n  setOpen: React.Dispatch<React.SetStateAction<boolean>>\n}",
+      "file": "/components/Modal/index.tsx"
     },
-    "ModalProps": {
-      "name": "ModalProps",
+    "ModalRootProps": {
+      "name": "ModalRootProps",
       "props": {
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
         "children": {
-          "optional": true,
           "type": "ReactNode"
-        },
-        "label": {
-          "type": "string"
-        },
-        "description": {
-          "optional": true,
-          "type": "string"
-        },
-        "onCancel": {
-          "type": "function"
-        },
-        "onConfirm": {
-          "type": "function"
-        },
-        "cancelLabel": {
-          "optional": true,
-          "type": "string"
-        },
-        "confirmLabel": {
-          "optional": true,
+        }
+      },
+      "code": "type ModalRootProps = {\n  children: ReactNode\n}",
+      "file": "/components/Modal/index.tsx"
+    },
+    "ModalTriggerProps": {
+      "name": "ModalTriggerProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type ModalTriggerProps = {\n  children: ReactNode\n}",
+      "file": "/components/Modal/index.tsx"
+    },
+    "ModalContentProps": {
+      "name": "ModalContentProps",
+      "props": {
+        "children": {
+          "type": [
+            "TSParenthesizedType",
+            "ReactNode"
+          ]
+        }
+      },
+      "code": "type ModalContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n}",
+      "file": "/components/Modal/index.tsx"
+    },
+    "ModalTitleProps": {
+      "name": "ModalTitleProps",
+      "props": {
+        "children": {
           "type": "string"
         }
       },
-      "code": "type ModalProps = {\n  style?: Style\n  children?: ReactNode\n  label: string\n  description?: string\n  onCancel: () => void\n  onConfirm: () => void\n  cancelLabel?: string\n  confirmLabel?: string\n}",
+      "code": "type ModalTitleProps = {\n  children: string\n}",
+      "file": "/components/Modal/index.tsx"
+    },
+    "ModalDescriptionProps": {
+      "name": "ModalDescriptionProps",
+      "props": {
+        "children": {
+          "type": "string"
+        }
+      },
+      "code": "type ModalDescriptionProps = {\n  children: string\n}",
+      "file": "/components/Modal/index.tsx"
+    },
+    "ModalBodyProps": {
+      "name": "ModalBodyProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type ModalBodyProps = {\n  children: ReactNode\n}",
+      "file": "/components/Modal/index.tsx"
+    },
+    "ModalActionsProps": {
+      "name": "ModalActionsProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type ModalActionsProps = {\n  children: ReactNode\n}",
       "file": "/components/Modal/index.tsx"
     },
     "PositionProps": {
@@ -2353,6 +2440,50 @@
       "code": "type ToggleProps = {\n  value?: boolean\n  color?: ColorActionColors\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  style?: Style\n  size?: 'large' | 'medium'\n}",
       "file": "/components/Toggle/index.tsx"
     },
+    "TooltipProps": {
+      "name": "TooltipProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "position": {
+          "optional": true,
+          "type": [
+            {
+              "value": "bottom-left"
+            },
+            {
+              "value": "bottom"
+            },
+            {
+              "value": "bottom-right"
+            },
+            {
+              "value": "left"
+            },
+            {
+              "value": "right"
+            },
+            {
+              "value": "top-left"
+            },
+            {
+              "value": "top"
+            },
+            {
+              "value": "top-right"
+            }
+          ]
+        }
+      },
+      "code": "type TooltipProps = {\n  label?: string\n  style?: Style\n  position?:\n    | 'bottom-left'\n    | 'bottom'\n    | 'bottom-right'\n    | 'left'\n    | 'right'\n    | 'top-left'\n    | 'top'\n    | 'top-right'\n}",
+      "file": "/types.ts"
+    },
     "TopNavigationProps": {
       "name": "TopNavigationProps",
       "props": {
@@ -2462,50 +2593,6 @@
       },
       "code": "type IconProps = {\n  color?: ColorContentColors | 'inherit'\n  style?: Style\n  onClick?: ClickHandler\n  children?: ReactNode\n}",
       "file": "/icons/Icon.tsx"
-    },
-    "TooltipProps": {
-      "name": "TooltipProps",
-      "props": {
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "position": {
-          "optional": true,
-          "type": [
-            {
-              "value": "bottom-left"
-            },
-            {
-              "value": "bottom"
-            },
-            {
-              "value": "bottom-right"
-            },
-            {
-              "value": "left"
-            },
-            {
-              "value": "right"
-            },
-            {
-              "value": "top-left"
-            },
-            {
-              "value": "top"
-            },
-            {
-              "value": "top-right"
-            }
-          ]
-        }
-      },
-      "code": "type TooltipProps = {\n  label?: string\n  style?: Style\n  position?:\n    | 'bottom-left'\n    | 'bottom'\n    | 'bottom-right'\n    | 'left'\n    | 'right'\n    | 'top-left'\n    | 'top'\n    | 'top-right'\n}",
-      "file": "/types.ts"
     }
   }
 }

@@ -173,6 +173,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     useImperativeHandle(forwardedRef, () => buttonElem.current, [])
     const extendedOnClick = useCallback(
       async (e: any) => {
+        e.currentTarget.blur()
         const t = buttonElem.current
         if (!t) {
           return
@@ -274,8 +275,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           borderRadius:
             size === 'large' || size === 'medium' || !children ? 8 : 4,
           width: !children ? '20px' : fill ? '100%' : null,
-          userSelect: 'none',
-          WebkitUserSelect: 'none',
+
           position: 'relative',
           ...getButtonStyle(props, true),
           ...style,
