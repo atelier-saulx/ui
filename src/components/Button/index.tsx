@@ -90,12 +90,11 @@ export const getButtonStyle = (
             props.size !== 'xsmall'
               ? `1px solid ${genColor('content', 'inverted', 'primary')}`
               : '1px solid transparent',
-          boxShadow: `0px 0px 0px 2px ${genColor(
-            'action',
-            // @ts-ignore
-            colorProp === 'system' ? 'default' : colorProp,
-            'normal'
-          )}`,
+          boxShadow: `0px 0px 0px 2px ${
+            colorProp === 'system'
+              ? genColor('content', 'default')
+              : genColor('action', colorProp, 'normal')
+          }`,
         }
       : {
           outline: 'none',
