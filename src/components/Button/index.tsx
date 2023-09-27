@@ -81,13 +81,6 @@ export const getButtonStyle = (
 
     '&:focus': !props.hideFocusState
       ? {
-          // backgroundColor: isGhost
-          //   ? 'transparent'
-          //   : genColor(
-          //       'action',
-          //       colorProp,
-          //       isLight ? 'subtleSelected' : 'selected'
-          //     ),
           outline: 'none',
           border:
             props.size !== 'xsmall'

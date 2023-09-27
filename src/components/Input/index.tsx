@@ -165,6 +165,7 @@ function LabelAndErrorWrapper({
               : color('inputBorder', 'neutralActive', 'default'),
           },
           '&:focus': {
+            outline: 'none',
             borderColor: error
               ? color('border', 'negative', 'strong')
               : color('inputBorder', 'selected', 'default'),
@@ -186,12 +187,23 @@ function LabelAndErrorWrapper({
     ? {
         style: {
           display: 'block',
+          '&:focus > input': {
+            outline: 'none',
+          },
         },
       }
-    : {}
+    : {
+        style: {
+          display: 'block',
+          '&:focus': {
+            outline: 'none',
+          },
+        },
+      }
 
+  // tabIndex={1}
   return (
-    <styled.div tabIndex={1} {...componentProps}>
+    <styled.div {...componentProps}>
       {label && (
         <Text
           weight="strong"
