@@ -611,7 +611,8 @@ export const DateRangeDoubleInput = ({
             </Text>
           </DateWrap>
         )}
-        -{/* TILL TILL TILL */}
+        <Text>-</Text>
+        {/* TILL TILL TILL */}
         {numbered ? (
           <DateWrap
             style={{}}

@@ -244,7 +244,7 @@ export const Menu: FC<MenuProps> = ({
               {icon ? (
                 <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
               ) : null}
-              {label}
+              <Text selectable="none">{label}</Text>
               {collapse && (
                 <StyledChevron id={`${i}-menuchevron`}>
                   <IconChevronDown />
@@ -277,6 +277,7 @@ export const Menu: FC<MenuProps> = ({
                       <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
                     ) : null}
                     <Text
+                      selectable="none"
                       color={active === value ? 'brand' : 'default'}
                       weight={active === value ? 'strong' : 'medium'}
                     >

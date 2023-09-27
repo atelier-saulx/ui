@@ -141,6 +141,7 @@ export function SelectInput({
   return (
     <styled.div
       style={{
+        border: '1px solid red',
         position: 'relative',
         width: '100%',
         borderRadius: 8,
