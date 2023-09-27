@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import props from '../props.json'
+import React, { useEffect, useState } from 'react'
 import { ComponentDef } from '../types'
 import {
   Button,
@@ -10,6 +9,7 @@ import {
   IconOpenInNew,
   IconDelete,
   IconSortDesc,
+  IconApps,
 } from '../../src'
 
 const example: ComponentDef = {
@@ -66,6 +66,72 @@ const example: ComponentDef = {
                       <Dropdown.Item>Hello there</Dropdown.Item>
                     </Dropdown.SubItems>
                   </Dropdown.Sub>
+                </Dropdown.SubItems>
+              </Dropdown.Sub>
+              <Dropdown.Separator />
+              <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown.Root>
+        )
+      },
+    },
+    {
+      props: {},
+      customRenderer: () => {
+        const MOCK_DB = {
+          ab: {
+            name: 'some one',
+          },
+          abc: {
+            name: 'some two',
+          },
+          abcd: {
+            name: 'some three',
+          },
+          abcde: {
+            name: 'some four',
+          },
+        }
+        const [userIds, setUserIds] = useState<null | string[]>(null)
+
+        useEffect(() => {
+          setTimeout(() => {
+            setUserIds(Object.keys(MOCK_DB))
+          }, 3000)
+        }, [])
+
+        function UserDropdownItem({ id }: any) {
+          const [user, setUser] = useState<null | { name: string }>(null)
+
+          useEffect(() => {
+            setTimeout(() => {
+              setUser(MOCK_DB[id])
+            }, Math.random() * 2000)
+          }, [])
+
+          return (
+            <Dropdown.Item disabled={!user}>
+              {user ? user.name : '...'}
+            </Dropdown.Item>
+          )
+        }
+
+        return (
+          <Dropdown.Root>
+            <Dropdown.Trigger>
+              <Button color="system" icon={<IconMoreVertical />} />
+            </Dropdown.Trigger>
+            <Dropdown.Items>
+              <Dropdown.Sub>
+                <Dropdown.SubTrigger icon={<IconApps />}>
+                  Project
+                </Dropdown.SubTrigger>
+                <Dropdown.SubItems>
+                  {userIds ? (
+                    userIds.map((id) => <UserDropdownItem key={id} id={id} />)
+                  ) : (
+                    <Dropdown.Item disabled>Loading projects...</Dropdown.Item>
+                  )}
                 </Dropdown.SubItems>
               </Dropdown.Sub>
               <Dropdown.Separator />
