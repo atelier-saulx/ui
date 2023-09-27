@@ -50,14 +50,9 @@ const App = () => {
               style={{
                 marginBottom: 16,
                 display: 'flex',
-                alignItems: 'center',
+                justifyContent: 'end',
               }}
             >
-              <IconRefresh
-                style={{ marginRight: 8 }}
-                color="brand"
-                onClick={() => localStorage.clear()}
-              />
               <ThemeSwitch />
             </styled.div>
             <Input
