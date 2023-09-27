@@ -68,6 +68,8 @@ const AccordionItem: FC<AccordionItemProps> = ({
           padding: '10px 8px',
           display: 'flex',
           alignItems: 'center',
+          // userSelect: 'none',
+          // WebkitUserSelect: 'none',
           gap: 8,
           cursor: 'pointer',
           '&:hover': {
@@ -91,7 +93,14 @@ const AccordionItem: FC<AccordionItemProps> = ({
       </styled.div>
       {render && (
         <ScrollArea
-          style={{ padding: '16px', paddingLeft: '36px', maxHeight: '800px' }}
+          style={{
+            padding: '16px',
+            paddingLeft: '36px',
+            maxHeight: '800px',
+            // '& div': {
+            //   backgroundColor: 'yellow',
+            // },
+          }}
         >
           {children}
         </ScrollArea>

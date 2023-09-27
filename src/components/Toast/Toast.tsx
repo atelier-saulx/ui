@@ -89,6 +89,7 @@ export const Toast: FC<ToastProps> = ({
         <IconInfoFill color={strong ? 'inverted' : 'informative'} />
       ) : null}
       <Text
+        selectable="none"
         style={{ marginLeft: '16px' }}
         color={
           (strong && color === 'warning') || color === 'default'
@@ -118,7 +119,6 @@ export const Toast: FC<ToastProps> = ({
           }}
           size="xsmall"
           underline
-          visibleFocus={false}
           color={
             (strong && color === 'warning') || color === 'default'
               ? 'system'

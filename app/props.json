@@ -2001,6 +2001,40 @@
       "code": "type SegmentedControlProps = {\n  data?: (string | number)[]\n  onChange?: (value: number) => void\n  style?: Style\n}",
       "file": "/components/SegmentedControl/index.tsx"
     },
+    "SettingsProps": {
+      "name": "SettingsProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "ClickHandler"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "light": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type SettingsProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  ghost?: boolean\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
+      "file": "/components/Settings/index.tsx"
+    },
     "SliderProps": {
       "name": "SliderProps",
       "props": {

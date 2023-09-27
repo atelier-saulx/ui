@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { ColorContentColors, styled, color as useColor } from '../../'
+import { ColorContentColors, styled, color as useColor, Text } from '../../'
 import { prettyDate } from '@based/pretty-date'
 
 export type LogProps = {
@@ -26,7 +26,7 @@ export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
       ? 'brand'
       : 'default'
   return (
-    <styled.div
+    <Text
       style={{
         userSelect: 'text',
         fontSize: 14,
@@ -71,6 +71,6 @@ export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
           {log}
         </styled.span>
       </styled.div>
-    </styled.div>
+    </Text>
   )
 }

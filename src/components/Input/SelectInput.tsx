@@ -3,7 +3,7 @@ import {
   IconCheckLarge,
   IconChevronDownSmall,
   IconEmojiSad,
-  IconSmallClose,
+  Text,
   color,
   Style,
   styled,
@@ -359,7 +359,9 @@ export function SelectInput({
                 }}
               >
                 <IconEmojiSad />
-                <span style={{ marginLeft: 10 }}>No item found</span>
+                <Text selectable="none" style={{ marginLeft: 10 }}>
+                  No item found
+                </Text>
               </div>
             ) : (
               filteredOptions.map((option, index) => (
@@ -383,8 +385,6 @@ export function SelectInput({
                   }}
                   style={{
                     position: 'relative',
-                    userSelect: 'none',
-                    WebkitUserSelect: 'none',
                     cursor: 'pointer',
                     height: 32,
                     background:
@@ -416,7 +416,7 @@ export function SelectInput({
                       <IconCheckLarge />
                     </div>
                   )}
-                  {option.label}
+                  <Text selectable="none">{option.label}</Text>
                 </styled.div>
               ))
             )}

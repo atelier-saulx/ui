@@ -116,7 +116,7 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
         ) : (
           <IconAttachment />
         )}
-        <Text weight="medium" truncate>
+        <Text selectable="none" weight="medium" truncate>
           {/* TODO how long can name be? */}
           {/* {file.name.length > 12 ? file.name.slice(0, 24) + '...' : file.name} */}
           {file.name}
@@ -338,7 +338,9 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
             }}
           >
             <IconUpload />
-            <Text weight="medium">Upload new file</Text>
+            <Text selectable="none" weight="medium">
+              Upload new file
+            </Text>
           </styled.div>
         )}
       </styled.div>

@@ -1,9 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { IconCalendar, IconChevronDown } from '../../icons'
-import { color as genColor } from '../../varsUtilities'
-import { styled, Style } from 'inlines'
-import { useOverlay } from '../../hooks'
-import { BpTablet } from '../../utils'
+import {
+  BpTablet,
+  useOverlay,
+  IconCalendar,
+  IconChevronDown,
+  color as genColor,
+  styled,
+  Style,
+  Text,
+} from '~'
 import { Picker } from './Picker'
 import { NewTimeInput } from './NewTimeInput'
 import { FromRangePicker } from '../DateRange/FromRangePicker'
@@ -311,7 +316,7 @@ export const NewDateInput = ({
           <IconCalendar style={{ marginRight: 8 }} />
           {numbered ? (
             <>
-              <styled.div
+              <Text
                 style={{
                   padding: '0px 1px',
                   fontSize: 14,
@@ -328,9 +333,9 @@ export const NewDateInput = ({
                 }}
               >
                 {day === '' ? 'dd' : day < 10 ? `0${day}` : day}
-              </styled.div>
-              <styled.div>/</styled.div>
-              <styled.div
+              </Text>
+              <Text>/</Text>
+              <Text
                 style={{
                   padding: '0px 1px',
                   fontSize: 14,
@@ -347,9 +352,9 @@ export const NewDateInput = ({
                 }}
               >
                 {month === '' ? 'mm' : month < 10 ? `0${month}` : month}
-              </styled.div>
-              <styled.div>/</styled.div>
-              <styled.div
+              </Text>
+              <Text>/</Text>
+              <Text
                 style={{
                   fontSize: 14,
                   padding: '0px 1px',
@@ -366,11 +371,11 @@ export const NewDateInput = ({
                 }}
               >
                 {year === '' ? 'yyyy' : year}
-              </styled.div>
+              </Text>
             </>
           ) : (
             <>
-              <styled.div
+              <Text
                 style={{
                   padding: '0px 1px',
                   fontSize: 14,
@@ -388,8 +393,8 @@ export const NewDateInput = ({
                 }}
               >
                 {month === '' ? 'mm' : monthArr[month - 1]}
-              </styled.div>
-              <styled.div
+              </Text>
+              <Text
                 style={{
                   padding: '0px 1px',
                   fontSize: 14,
@@ -406,9 +411,9 @@ export const NewDateInput = ({
                 }}
               >
                 {day === '' ? 'dd' : day < 10 ? `0${day}` : day},
-              </styled.div>
+              </Text>
 
-              <styled.div
+              <Text
                 style={{
                   fontSize: 14,
                   padding: '0px 1px',
@@ -425,7 +430,7 @@ export const NewDateInput = ({
                 }}
               >
                 {year === '' ? 'yyyy' : year}
-              </styled.div>
+              </Text>
             </>
           )}
           <styled.div

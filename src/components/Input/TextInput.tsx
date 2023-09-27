@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from 'react'
-import { Style, styled, color, Badge, IconClose, BadgeProps } from '~'
+import { Style, styled, color, Badge, IconClose, BadgeProps, Text } from '~'
 
 export type TextInputProps = {
   value: string
@@ -139,7 +139,7 @@ export function TextInput({
         </div>
       )}
       {maxLength && currentLength >= maxLength - 5 && (
-        <div
+        <Text
           style={{
             position: 'absolute',
             right: 0,
@@ -149,7 +149,7 @@ export function TextInput({
           }}
         >
           {currentLength}/{maxLength}
-        </div>
+        </Text>
       )}
     </styled.div>
   )

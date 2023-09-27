@@ -1,5 +1,5 @@
 import React from 'react'
-import { Popover, usePopover } from '../../src'
+import { Popover, usePopover, Text } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
@@ -11,18 +11,23 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        children: <div>This is a popover</div>,
         position: 'top-left',
         style: {
           textTransform: 'uppercase',
         },
       },
       customRenderer: (props) => {
-        const popover = usePopover(props.children, props.position, props.style)
+        const popover = usePopover(
+          <Text>This is a popver</Text>,
+          props.position,
+          props.style
+        )
 
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div {...popover}>Hover me! {props.position}</div>
+            <div {...popover}>
+              <Text>Hover me! {props.position}</Text>
+            </div>
           </div>
         )
       },

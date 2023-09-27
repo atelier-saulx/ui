@@ -24,4 +24,13 @@
 
 html {
   font-family: 'Inter-Regular';
+  * {
+    /* background-color: yellow; */
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+body {
+  font-family: papyrus;
 }
