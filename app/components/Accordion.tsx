@@ -17,9 +17,9 @@ const example: ComponentDef = {
             active={props.active}
             style={{ width: 374 }}
             data={[
-              { title: 'Accordion 1', children: 'thingy one' },
-              { title: 'Accordion 2', children: 'thingy two' },
-              { title: 'Accordion 3', children: 'thingy three' },
+              { title: 'Accordion 1', children: <Text>'thingy one'</Text> },
+              { title: 'Accordion 2', children: <Text>'thingy two'</Text> },
+              { title: 'Accordion 3', children: <Text>'thingy three'</Text> },
             ]}
           />
         )
@@ -117,8 +117,8 @@ const example: ComponentDef = {
                   </Text>
                 ),
               },
-              { title: 'Accordion 2', children: 'thingy two' },
-              { title: 'Accordion 3', children: 'thingy three' },
+              { title: 'Accordion 2', children: <Text>'thingy two'</Text> },
+              { title: 'Accordion 3', children: <Text>'thingy three'</Text> },
             ]}
           />
         )

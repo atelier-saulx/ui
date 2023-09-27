@@ -88,8 +88,8 @@ export const Status: FC<StatusProps> = ({
       <IconSmallDot
         style={{
           marginRight: '4px',
-          color: 'inherit',
         }}
+        color="inherit"
       />
 
       <Text
@@ -101,7 +101,6 @@ export const Status: FC<StatusProps> = ({
         }}
       >
         {children}
-        {theme}
       </Text>
     </styled.div>
   )

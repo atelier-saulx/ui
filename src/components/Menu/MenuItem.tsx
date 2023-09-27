@@ -56,6 +56,7 @@ export const MenuItem: FC<MenuItemProps> = ({
       }}
     >
       <Text
+        selectable="none"
         color={active ? 'brand' : 'default'}
         weight={active ? 'strong' : 'medium'}
         //   wrap

@@ -18,7 +18,9 @@ export const Confirmation: FC<ConfirmationProps> = ({ style, onClick }) => {
 
   return (
     <styled.div style={{ display: 'flex', alignItems: 'center', ...style }}>
-      <Text light>Apply changes?</Text>
+      <Text selectable="none" light>
+        Apply changes?
+      </Text>
       <Button
         icon={<IconClose />}
         size="xsmall"
