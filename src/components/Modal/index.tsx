@@ -1,7 +1,9 @@
 import React, { ReactNode, useState, createContext, useContext } from 'react'
 import * as DialogBase from '@radix-ui/react-dialog'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { color } from '~/varsUtilities'
+import { Text } from '../Text'
+import { IconAlertFill } from '~/icons'
 
 type UseModalProps = {
   open: boolean
@@ -56,6 +58,12 @@ export function Content({ children }: ModalContentProps) {
         }}
       />
       <DialogBase.Content
+        onOpenAutoFocus={(e) => {
+          e.preventDefault()
+        }}
+        onCloseAutoFocus={(e) => {
+          e.preventDefault()
+        }}
         style={{
           position: 'fixed',
           top: '50%',
@@ -86,6 +94,38 @@ export function Content({ children }: ModalContentProps) {
   )
 }
 
+export type ModalWarningProps = {
+  type?: 'warning' | 'alert'
+  children?: ReactNode
+  style?: Style
+}
+
+export const Warning = ({
+  type = 'warning',
+  children,
+  style,
+}: ModalWarningProps) => {
+  const genColor = type === 'warning' ? 'warning' : 'negative'
+
+  return (
+    <styled.div
+      style={{
+        height: '24px',
+        padding: '12px 16px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8,
+        borderRadius: '4px',
+        backgroundColor: color('background', genColor, 'subtle'),
+        ...style,
+      }}
+    >
+      <IconAlertFill color={genColor} />
+      <Text>{children}</Text>
+    </styled.div>
+  )
+}
+
 export type ModalTitleProps = {
   children: string
 }
@@ -109,7 +149,7 @@ export function Title({ children }: ModalTitleProps) {
 }
 
 export type ModalDescriptionProps = {
-  children: string
+  children: string | ReactNode
 }
 
 export function Description({ children }: ModalDescriptionProps) {
@@ -140,6 +180,9 @@ export function Body({ children }: ModalBodyProps) {
     <styled.div
       style={{
         padding: '24px 0 40px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 24,
       }}
     >
       {children}
