@@ -54,7 +54,7 @@ export const Label: FC<LabelProps> = ({
             {label}
           </Text>
         </Row>
-        {description && <Text weight="strong">{description}</Text>}
+        {description && <Text light>{description}</Text>}
       </div>
       {children}
     </div>

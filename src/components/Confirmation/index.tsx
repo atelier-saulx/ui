@@ -33,6 +33,7 @@ export const Confirmation = <T,>({
         icon={<IconClose />}
       />
       <Button
+        color="primary"
         onClick={async () => {
           return onAccept(value)
         }}
