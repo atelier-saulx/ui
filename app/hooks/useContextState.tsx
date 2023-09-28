@@ -1,17 +1,46 @@
 import React, { ReactNode, FC } from 'react'
-import { Button, useOverlay, Text } from '../../src'
+import {
+  Button,
+  useOverlay,
+  Text,
+  useContextState,
+  StateProvider,
+  useObjectState,
+  Divider,
+} from '../../src'
 import { ComponentDef } from '../types'
 
 export const positionProp = {}
 
-const Component: FC<{ example: ReactNode }> = ({ example }) => {
+const Nested: FC = () => {
+  const [hello, setHello] = useContextState<number>('hello')
+  const [flap, setFlap] = useContextState<number>('flap', 10)
+
   return (
-    <div
-      style={{
-        padding: 20,
-      }}
-    >
-      <Text truncate>{example}</Text>
+    <div>
+      <Text>
+        Inside context <b>{hello}</b>
+      </Text>
+      <Button
+        style={{ marginTop: 16, marginBottom: 16 }}
+        onClick={(e) => {
+          setHello(hello + 1)
+        }}
+      >
+        Add to value
+      </Button>
+      <Divider />
+      <Text style={{ marginTop: 32 }}>
+        Other value (default) <b>{flap}</b>
+      </Text>
+      <Button
+        style={{ marginTop: 16 }}
+        onClick={(e) => {
+          setFlap(flap + 1)
+        }}
+      >
+        Add to flap
+      </Button>
     </div>
   )
 }
@@ -27,24 +56,22 @@ const example: ComponentDef = {
     {
       props: {},
       customRenderer: (props) => {
-        const { width, position, placement, variant, selectTarget, ...p } =
-          props
-
-        const toolTip = useOverlay(Component, p, {
-          placement: placement,
-          position: position,
-          width: 300,
+        const [obj, setObj] = useObjectState({
+          hello: 0,
         })
         return (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Button
-              onClick={(e) => {
-                console.info(e)
-                toolTip(e)
+            <StateProvider
+              values={obj}
+              onChange={(key, value) => {
+                setObj({ [key]: value })
               }}
             >
-              Open useContextState
-            </Button>
+              <Text>
+                Outside of context <b>{obj.hello}</b>
+              </Text>
+              <Nested />
+            </StateProvider>
           </div>
         )
       },
