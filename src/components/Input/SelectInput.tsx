@@ -1,427 +1,253 @@
-import React, { useEffect, useRef, useState } from 'react'
-import {
-  IconCheckLarge,
-  IconChevronDownSmall,
-  IconEmojiSad,
-  Text,
-  color,
-  Style,
-  styled,
-  Tag,
-  Button,
-  color as genColor,
-  IconClose,
-  BpTablet,
-} from '~'
-
-export type SelectInputOption = {
-  label?: string
-  value: string | number
-  beforeIcon?: React.ReactNode
-  afterIcon?: React.ReactNode
-}
+import React, { useRef, useState } from 'react'
+import * as Popover from '@radix-ui/react-popover'
+import { Text } from '../Text'
+import { styled } from 'inlines'
+import { color } from '~/varsUtilities'
+import { IconCheckLarge, IconChevronDown, IconEmojiSad } from '~/icons'
 
 export type SelectInputProps = {
-  preventCloseOnSelect?: boolean
-  options: (SelectInputOption | number | string)[]
-  beforeIcon?: React.ReactNode
-  style?: Style
-  disabled?: boolean
-  placeholder?: React.ReactNode
-} & (
-  | {
-      multiple?: false
-      value?: string | number
-      onChange: (newValue: string | number) => void
-    }
-  | {
-      multiple: true
-      value?: (number | string)[]
-      onChange: (newValues: (number | string)[]) => void
-    }
-)
+  value: string
+  onChange: (value) => void
+  options: { label: string; value: string }[]
+  placeholder?: string
+}
 
 export function SelectInput({
-  options,
-  beforeIcon,
-  disabled,
-  placeholder,
-  value = [],
-  preventCloseOnSelect,
+  value,
   onChange,
-  style,
-  multiple,
+  options,
+  placeholder,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
-  const [focus, setFocus] = useState(0)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [filter, setFilter] = useState<null | string>(null)
+  const [inputValue, setInputValue] = useState(() =>
+    value ? options.find((e) => e.value === value).label : ''
+  )
+  const [inputValueChanged, setInputValueChanged] = useState(false)
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
-  // @ts-ignore TS too stupid
-  const parsed: {
-    label: string
-    value: string | number
-    beforeIcon?: React.ReactNode
-    afterIcon?: React.ReactNode
-  }[] = options.map((l) => {
-    let option: SelectInputOption
-    if (typeof l !== 'object') {
-      option = {
-        value: l,
-        label: typeof l === 'number' ? String(l) : l,
-      }
-    } else {
-      option = l
-    }
-    // @ts-ignore TS too stupid
-    return option.label === undefined
-      ? {
-          // @ts-ignore TS too stupid
-          ...option,
-          label:
-            typeof option.value === 'number'
-              ? String(option.value)
-              : option.value,
-        }
-      : option
-  })
+  const filteredOptions =
+    inputValueChanged && inputValue
+      ? options.filter((e) =>
+          e.label.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase())
+        )
+      : options
 
-  const filteredOptions = parsed
-    .filter((e) =>
-      filter
-        ? e.label?.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
-        : true
-    )
-    // @ts-ignore TS to stupid (multiple is optional)
-    .filter((e) => (multiple ? value.includes(e.value) === false : true))
+  function handleSelectItem(index: number) {
+    onChange(filteredOptions[index].value)
+    setInputValue(filteredOptions[index].label)
+    setInputValueChanged(false)
+    setOpen(false)
+    setActiveIndex(null)
+  }
 
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if (!open) return
+  function handleClose() {
+    setInputValueChanged(false)
+    setInputValue(value ? options.find((e) => e.value === value).label : '')
+    setOpen(false)
+    setActiveIndex(null)
+  }
 
-      if (e.key === 'ArrowUp' && focus > 0) {
-        e.preventDefault()
-        setFocus(focus - 1)
-      }
-      if (e.key === 'ArrowDown' && focus < filteredOptions.length - 1) {
-        e.preventDefault()
-        setFocus(focus + 1)
-      }
-      if (e.key === 'Escape') {
-        setOpen(false)
-      }
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        setOpen(false)
-        setFilter(null)
-        setFocus(0)
-        multiple
-          ? // @ts-ignore TS to stupid (multiple is optional)
-            onChange([...value, filteredOptions[focus].value])
-          : // @ts-ignore
-            onChange(filteredOptions[focus]?.value)
-      }
-    }
+  function handleOpen() {
+    setOpen(true)
+    inputRef.current?.select()
+  }
 
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [open, focus, filteredOptions])
-
-  const parsedValue = multiple
-    ? filter || ''
-    : filter === null
-    ? value === ''
-      ? ''
-      : parsed.find((e) => e.value === value)?.label
-    : filter
-  console.log(value)
   return (
-    <styled.div
-      style={{
-        position: 'relative',
-        width: '100%',
-        borderRadius: 8,
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: 'transparent',
-        fontSize: '14px',
-        lineHeight: '24px',
-        cursor: 'pointer',
-        boxSizing: 'border-box',
-        ...(open
-          ? {
-              border: `1px solid ${color('inputBorder', 'active', 'default')}`,
-              boxShadow: `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
-            }
-          : {
-              border: `1px solid ${color(
-                'inputBorder',
-                'neutralNormal',
-                'default'
-              )}`,
-              '&:hover': {
-                border: `1px solid ${color(
-                  'inputBorder',
-                  'neutralHover',
-                  'default'
-                )}`,
-              },
-            }),
-        ...(disabled
-          ? {
-              opacity: '50%',
-            }
-          : {}),
-        ...style,
-      }}
-    >
-      <styled.div
-        style={{
-          width: '100%',
-          minHeight: 38,
-          appearance: 'none',
-          border: 'none',
-          background: 'transparent',
-          fontSize: 'inherit',
-          lineHeight: 'inherit',
-          padding: '0 12px',
-          textAlign: 'left',
-          color: color('content', 'default', 'primary'),
-          display: 'flex',
-          justifyContent: 'start',
-          alignItems: 'center',
-          minWidth: 200,
-        }}
-        onClick={() => {
-          if (disabled) return
-
-          setOpen(true)
-          setFocus(0)
-          inputRef.current?.select()
-        }}
-      >
-        {beforeIcon && (
-          <div
-            style={{
-              flexShrink: 0,
-              paddingRight: 8,
-            }}
-          >
-            {beforeIcon}
-          </div>
-        )}
-        <div
-          style={
-            multiple
-              ? {
-                  // flex: '1 1 0%',
-                  display: 'flex',
-                  gap: 8,
-                  flexWrap: 'wrap',
-                  padding: '7px 0',
-                }
-              : {}
-          }
-        >
-          {multiple &&
-            value instanceof Array &&
-            value.map((v, i) => (
-              <Tag
-                key={i}
-                onClose={() => {
-                  onChange(value.filter((e) => e !== v))
-                }}
-              >
-                {parsed.find((e) => e.value === v)?.label}
-              </Tag>
-            ))}
-
+    <Popover.Root open={open}>
+      <Popover.Anchor asChild>
+        <div style={{ position: 'relative', width: '100%' }}>
           <styled.input
-            disabled={disabled}
+            value={inputValue}
             ref={inputRef}
-            style={{
-              height: 24,
-              padding: 0,
-              appearance: 'none',
-              border: 'none',
-              '&:focus': {
-                outline: 'none',
-              },
-              lineHeight: '24px',
-              fontSize: '14px',
-              cursor: 'pointer',
-              background: 'transparent',
-              color: 'inherit',
-            }}
-            value={typeof parsedValue === 'object' ? value : parsedValue}
-            onChange={(e) => {
-              setOpen(true)
-              setFocus(0)
-              setFilter(e.target.value)
+            onClick={() => {
+              handleOpen()
             }}
             onFocus={() => {
-              setOpen(true)
-              inputRef.current?.select()
+              handleOpen()
             }}
-            placeholder={placeholder}
-          />
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            flexShrink: 0,
-            paddingLeft: 8,
-            flexDirection: 'row',
-            marginLeft: 'auto',
-          }}
-        >
-          {!multiple && value !== '' && (
-            <styled.div
-              onClick={(e) => {
-                if (disabled) return
-                e.stopPropagation()
+            onChange={(e) => {
+              setInputValue(e.target.value)
+              setInputValueChanged(true)
+              setActiveIndex(null)
+            }}
+            onKeyDown={(e) => {
+              if (open && e.key === 'ArrowDown') {
                 e.preventDefault()
-                // @ts-ignore
-                onChange('')
-              }}
-              style={{
-                borderRadius: '4px',
-                flexShrink: 0,
-                marginLeft: 'auto',
-                '&:hover': {
-                  backgroundColor: genColor('action', 'system', 'hover'),
-                },
-                [BpTablet]: {
-                  '&:hover': null,
-                },
-                '&:active': {
-                  backgroundColor: genColor('action', 'system', 'active'),
-                },
-              }}
-            >
-              <IconClose />
-            </styled.div>
-          )}
-          <IconChevronDownSmall />
-        </div>
-      </styled.div>
+                const newIndex =
+                  activeIndex === null
+                    ? 0
+                    : Math.min(activeIndex + 1, filteredOptions.length - 1)
+                setActiveIndex(newIndex)
+                document
+                  .querySelector(`#combobox-item-${newIndex}`)
+                  .scrollIntoView({ block: 'nearest' })
+              }
 
-      {open && (
-        <>
-          <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-            }}
-            onClick={() => {
-              if (!preventCloseOnSelect) {
-                setOpen(false)
+              if (open && e.key === 'ArrowUp') {
+                e.preventDefault()
+                const newIndex =
+                  activeIndex === null ? 0 : Math.max(0, activeIndex - 1)
+                setActiveIndex(newIndex)
+                document
+                  .querySelector(`#combobox-item-${newIndex}`)
+                  .scrollIntoView({ block: 'nearest' })
+              }
+
+              if (e.key === 'Enter') {
+                e.preventDefault()
+
+                if (open) {
+                  if (activeIndex !== null) {
+                    handleSelectItem(activeIndex)
+                  }
+                } else {
+                  handleOpen()
+                }
               }
             }}
-          />
-          <styled.div
+            placeholder={placeholder}
             style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: color('background', 'default', 'surface'),
-              transform: 'translateY(calc(100% + 8px))',
-              border: `1px solid ${color(
-                'inputBorder',
-                'neutralNormal',
-                'default'
-              )}`,
+              // all: 'unset',
+              boxSizing: 'border-box',
+              outline: 'none',
+              width: '100%',
+              padding: '8px 40px 8px 12px',
+              fontSize: 14,
+              lineHeight: '24px',
+              background: 'transparent',
+              fontFamily: 'Inter-Medium',
+              color: color('content', 'default', 'primary'),
               borderRadius: 8,
-              padding: 8,
-              '& > * + *': {
-                marginTop: '2px',
+              '&::placeholder': {
+                color: color('content', 'default', 'secondary'),
               },
-              zIndex: 50,
+              ...(open
+                ? {
+                    border: `1px solid ${color(
+                      'inputBorder',
+                      'active',
+                      'default'
+                    )}`,
+                    boxShadow: `0 0 0 2px ${color(
+                      'border',
+                      'brand',
+                      'subtle'
+                    )}`,
+                  }
+                : {
+                    border: `1px solid ${color(
+                      'inputBorder',
+                      'neutralNormal',
+                      'default'
+                    )}`,
+                    '&:hover': {
+                      border: `1px solid ${color(
+                        'inputBorder',
+                        'neutralHover',
+                        'default'
+                      )}`,
+                    },
+                  }),
+            }}
+          />
+          <span
+            style={{
+              pointerEvents: 'none',
+              position: 'absolute',
+              right: 12,
+              top: 10,
             }}
           >
-            {filteredOptions.length === 0 ? (
+            <IconChevronDown />
+          </span>
+        </div>
+      </Popover.Anchor>
+      <Popover.Portal>
+        <Popover.Content
+          onInteractOutside={(e) => {
+            if (e.target === inputRef?.current) {
+              e.preventDefault()
+            } else {
+              handleClose()
+            }
+          }}
+          onOpenAutoFocus={(e) => {
+            e.preventDefault()
+          }}
+          onCloseAutoFocus={(e) => {
+            e.preventDefault()
+          }}
+          sideOffset={8}
+          asChild
+        >
+          <styled.div
+            style={{
+              boxSizing: 'border-box',
+              overflowY: 'auto',
+              maxHeight: 200,
+              width: 'var(--radix-popover-trigger-width)',
+              border: `1px solid ${color('border', 'default', 'strong')}`,
+              borderRadius: 8,
+              padding: 8,
+              background: color('standalone', 'modal', 'default'),
+              boxShadow:
+                '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+            }}
+          >
+            {filteredOptions.length ? (
+              filteredOptions.map((item, index) => (
+                <styled.div
+                  id={`combobox-item-${index}`}
+                  style={{
+                    cursor: 'pointer',
+                    background:
+                      index === activeIndex
+                        ? color('action', 'system', 'hover')
+                        : 'transparent',
+                    padding: '4px 12px 4px 42px',
+                    borderRadius: 8,
+                    position: 'relative',
+                    scrollMargin: '8px 0',
+                  }}
+                  onClick={() => {
+                    handleSelectItem(index)
+                  }}
+                  onPointerMove={() => {
+                    setActiveIndex(index)
+                  }}
+                  key={item.value}
+                >
+                  {item.value === value && (
+                    <span style={{ position: 'absolute', left: 12, top: 6 }}>
+                      <IconCheckLarge />
+                    </span>
+                  )}
+                  <Text color="default" size={14} weight="medium">
+                    {item.label}
+                  </Text>
+                </styled.div>
+              ))
+            ) : (
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'start',
-                  height: 32,
-                  padding: '0 12px',
+                  position: 'relative',
+                  background: 'transparent',
+                  padding: '4px 12px 4px 42px',
                 }}
               >
-                <IconEmojiSad />
-                <Text selectable="none" style={{ marginLeft: 10 }}>
+                <span style={{ position: 'absolute', left: 12, top: 6 }}>
+                  <IconEmojiSad />
+                </span>
+
+                <Text color="default" size={14} weight="medium">
                   No item found
                 </Text>
               </div>
-            ) : (
-              filteredOptions.map((option, index) => (
-                <styled.div
-                  idx={index}
-                  key={option.value}
-                  onMouseEnter={() => {
-                    setFocus(index)
-                  }}
-                  onClick={() => {
-                    if (!preventCloseOnSelect) {
-                      setOpen(false)
-                    }
-                    setFilter(null)
-                    setFocus(0)
-                    multiple
-                      ? // @ts-ignore
-                        onChange([...value, option.value])
-                      : // @ts-ignore
-                        onChange(option.value)
-                  }}
-                  style={{
-                    position: 'relative',
-                    cursor: 'pointer',
-                    height: 32,
-                    background:
-                      index === focus
-                        ? color('action', 'system', 'hover')
-                        : color('background', 'default', 'surface'),
-                    display: 'flex',
-                    justifyContent: 'start',
-                    alignItems: 'center',
-                    padding: '0 12px 0 42px',
-                    borderRadius: 8,
-                    '&:active': {
-                      background: color('action', 'system', 'active'),
-                    },
-                  }}
-                >
-                  {value === option.value && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 12,
-                        bottom: 0,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <IconCheckLarge />
-                    </div>
-                  )}
-                  <Text selectable="none">{option.label}</Text>
-                </styled.div>
-              ))
             )}
           </styled.div>
-        </>
-      )}
-    </styled.div>
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
   )
 }

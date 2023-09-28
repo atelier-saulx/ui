@@ -147,6 +147,7 @@ function LabelAndErrorWrapper({
   const componentProps = indent
     ? {
         style: {
+          width: '100%',
           display: 'block',
           borderLeft: '2px solid',
           borderColor: error
@@ -185,6 +186,7 @@ function LabelAndErrorWrapper({
     : label || error || description
     ? {
         style: {
+          width: '100%',
           display: 'block',
           '&:focus > input': {
             outline: 'none',
@@ -193,6 +195,7 @@ function LabelAndErrorWrapper({
       }
     : {
         style: {
+          width: '100%',
           display: 'block',
           '&:focus': {
             outline: 'none',
@@ -205,7 +208,7 @@ function LabelAndErrorWrapper({
     <styled.div {...componentProps}>
       {label && (
         <Text
-          weight="strong"
+          weight="medium"
           style={{
             marginBottom: 8,
           }}
