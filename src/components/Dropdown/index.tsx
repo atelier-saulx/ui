@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
 import * as DropdownBase from '@radix-ui/react-dropdown-menu'
-import { color } from '~/varsUtilities'
+import { color } from '../../varsUtilities'
 import { styled } from 'inlines'
-import { IconCheckLarge, IconChevronRight } from '~/icons'
+import { IconCheckLarge, IconChevronRight } from '../../icons'
 
 export type DropdownRootProps = {
   children: ReactNode

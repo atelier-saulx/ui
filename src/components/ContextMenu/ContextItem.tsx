@@ -5,12 +5,10 @@ import React, {
   useState,
   SyntheticEvent,
 } from 'react'
-import { removeOverlay } from '../Overlay'
+import { removeOverlay, Text } from '../../components'
 import { styled, Style } from 'inlines'
-import { Text } from '../Text'
 import { color } from '../../varsUtilities'
 import { renderOrCreateElement } from '../../utils/renderOrCreateElement'
-
 import { IconWarning, IconAlarmClock } from '../../icons'
 
 const StyledContextItem = styled('div', {

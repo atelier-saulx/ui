@@ -5,9 +5,9 @@ import {
   ColorNonSemanticBackgroundColors,
 } from '../../varsTypes'
 import { isSemanticColor } from '../../utils'
-import { useTheme } from '~/hooks/useTheme'
+import { useTheme } from '../../hooks'
 import { color as genColor } from '../../varsUtilities'
-import { Text } from '../Text'
+import { Text } from '../../components'
 import { Center } from '../Styled'
 import { Style, styled } from 'inlines'
 import { ClickHandler } from '../../types'

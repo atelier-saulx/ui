@@ -8,12 +8,11 @@ import {
   ColorContentColors,
   ColorNonSemanticBackgroundColors,
 } from '../../varsTypes'
-import { useTheme } from '~/hooks/useTheme'
+import { useTheme, useCopyToClipboard } from '../../hooks'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
 import { renderOrCreateElement } from '../../utils'
 import { color as genColor } from '../../varsUtilities'
-import { useCopyToClipboard } from '../../hooks'
 
 const COLORGUARD = [
   'default',

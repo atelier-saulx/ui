@@ -1,15 +1,8 @@
 import React, { useState, FC, ReactNode } from 'react'
-import {
-  styled,
-  Style,
-  color,
-  Badge,
-  IconClose,
-  IconSmallArrowheadDownSmall,
-} from '~'
-
-// @ts-ignore
-import { BadgeProps } from '../types'
+import { IconClose, IconSmallArrowheadDownSmall } from '../../icons'
+import { Badge, BadgeProps } from '../Badge'
+import { styled, Style } from 'inlines'
+import { color } from '../../varsUtilities'
 
 export type NumberInputOwnProps = {
   clearButton?: boolean

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
 import { Button } from '../Button'
-import { IconClose, IconCheckLarge } from '~/icons'
+import { IconClose, IconCheckLarge } from '../../icons'
 
 // for props gen
 type ConfirmationProps = {
