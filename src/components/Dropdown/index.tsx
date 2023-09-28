@@ -50,11 +50,12 @@ export type DropdownItemProps = {
   children: ReactNode
   icon?: ReactNode
   onClick?: () => void
+  disabled?: boolean
 }
 
-export function Item({ icon, children, onClick }: DropdownItemProps) {
+export function Item({ icon, children, onClick, disabled }: DropdownItemProps) {
   return (
-    <DropdownBase.Item asChild>
+    <DropdownBase.Item asChild disabled={disabled}>
       <styled.div
         style={{
           fontSize: 14,
@@ -67,10 +68,14 @@ export function Item({ icon, children, onClick }: DropdownItemProps) {
           outline: 'none',
           userSelect: 'none',
           WebkitUserSelect: 'none',
-          cursor: 'pointer',
           color: color('content', 'default', 'primary'),
-          '&:hover': { background: color('action', 'system', 'active') },
+          '&:not([data-disabled]):hover': {
+            background: color('action', 'system', 'active'),
+          },
           '&:focus': { background: color('action', 'system', 'active') },
+          '&:not([data-disabled])': {
+            cursor: 'pointer',
+          },
         }}
         onClick={onClick}
       >

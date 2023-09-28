@@ -27,7 +27,7 @@ export type SelectInputProps = {
   beforeIcon?: React.ReactNode
   style?: Style
   disabled?: boolean
-  placeholder?: string
+  placeholder?: React.ReactNode
 } & (
   | {
       multiple?: false
@@ -151,7 +151,6 @@ export function SelectInput({
         lineHeight: '24px',
         cursor: 'pointer',
         boxSizing: 'border-box',
-        maxWidth: 320,
         ...(open
           ? {
               border: `1px solid ${color('inputBorder', 'active', 'default')}`,

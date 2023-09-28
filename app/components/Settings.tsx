@@ -1,0 +1,37 @@
+import React from 'react'
+import { Settings } from '../../src'
+import props from '../props.json'
+import { ComponentDef } from '../types'
+
+const example: ComponentDef = {
+  name: 'Settings',
+  component: Settings,
+  description: 'Settings component',
+  properties: props.props.SettingsProps.props,
+  examples: [
+    {
+      props: {
+        data: {
+          port: {
+            type: 'number',
+            description: 'Network port',
+          },
+          'args.name': {
+            label: 'Name',
+            type: 'text',
+            description: 'Instance name',
+          },
+        },
+        values: {
+          port: 443,
+          args: {
+            name: 'hello',
+          },
+        },
+        onChange: (values) => console.info(values),
+      },
+    },
+  ],
+}
+
+export default example

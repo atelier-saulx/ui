@@ -34,6 +34,8 @@ import sidePanel from './components/SidePanel'
 import Menu from './components/Menu'
 import slider from './components/Slider'
 import status from './components/Status'
+import settings from './components/Settings'
+
 import table from './components/Table'
 import tabs from './components/Tabs'
 import tag from './components/Tag'
@@ -81,6 +83,7 @@ export const components: ComponentDef[] = [
   scrollArea,
   searchInput,
   segmentedControl,
+  settings,
   selectInput,
   sidePanel,
   slider,

@@ -58,6 +58,12 @@ export function Content({ children }: ModalContentProps) {
         }}
       />
       <DialogBase.Content
+        onOpenAutoFocus={(e) => {
+          e.preventDefault()
+        }}
+        onCloseAutoFocus={(e) => {
+          e.preventDefault()
+        }}
         style={{
           position: 'fixed',
           top: '50%',
