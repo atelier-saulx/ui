@@ -1,12 +1,15 @@
+import React, { useCallback, useRef } from 'react'
+import { useVirtual } from '@tanstack/react-virtual'
+import { Text, ScrollArea } from '../../components'
+import { styled } from 'inlines'
+import { color } from '../../varsUtilities'
+import { IconSortAsc as IconSort } from '../../icons'
 import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useVirtual } from '@tanstack/react-virtual'
-import { IconSortAsc as IconSort, color, styled, Text, ScrollArea } from '~'
-import React, { useCallback, useRef } from 'react'
 
 export type TableProps = {
   columns: { header: string; accessor: string; cell?: (any) => JSX.Element }[]

@@ -1,5 +1,5 @@
 import React from 'react'
-import { color } from '~'
+import { color } from '../varsUtilities'
 
 export const BigBasedLogo = (props) => {
   return (

@@ -67,7 +67,7 @@ export const NumberInput: FC<NumberInputProps> = ({
       }}
     >
       {icon && <styled.div style={{ flexShrink: 0 }}>{icon}</styled.div>}
-      {prefix && <Badge {...prefix}>{prefix}</Badge>}
+      {prefix && <Badge {...prefix}>{prefix.children}</Badge>}
       <styled.input
         value={value}
         onChange={(e) => {
@@ -139,7 +139,7 @@ export const NumberInput: FC<NumberInputProps> = ({
           <IconSmallArrowheadDownSmall />
         </styled.div>
       </styled.div>
-      {suffix && <Badge {...suffix}>{suffix}</Badge>}
+      {suffix && <Badge {...suffix}>{suffix.children}</Badge>}
       {clearButton ? (
         <IconClose
           onClick={() => {
