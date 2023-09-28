@@ -108,7 +108,6 @@ export function SelectInput({
             }}
             placeholder={placeholder}
             style={{
-              // all: 'unset',
               boxSizing: 'border-box',
               outline: 'none',
               width: '100%',
