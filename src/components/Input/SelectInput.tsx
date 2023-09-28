@@ -1,18 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { Style, styled } from 'inlines'
+import { color, color as genColor } from '../../varsUtilities'
+import { BpTablet } from '../../utils'
+import { Tag, Text } from '../../components'
 import {
   IconCheckLarge,
+  IconClose,
   IconChevronDownSmall,
   IconEmojiSad,
-  Text,
-  color,
-  Style,
-  styled,
-  Tag,
-  Button,
-  color as genColor,
-  IconClose,
-  BpTablet,
-} from '~'
+} from '../../icons'
 
 export type SelectInputOption = {
   label?: string
