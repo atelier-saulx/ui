@@ -4,6 +4,7 @@ import { Text } from '../Text'
 import { styled } from 'inlines'
 import { IconCheckLarge, IconChevronDown, IconEmojiSad } from 'src/icons'
 import { color } from 'src/varsUtilities'
+import { RemoveScroll } from 'react-remove-scroll'
 
 export type SelectInputProps = {
   value: string
@@ -163,89 +164,92 @@ export function SelectInput({
         </div>
       </Popover.Anchor>
       <Popover.Portal>
-        <Popover.Content
-          onInteractOutside={(e) => {
-            if (e.target === inputRef?.current) {
-              e.preventDefault()
-            } else {
-              handleClose()
-            }
-          }}
-          onOpenAutoFocus={(e) => {
-            e.preventDefault()
-          }}
-          onCloseAutoFocus={(e) => {
-            e.preventDefault()
-          }}
-          sideOffset={8}
-          asChild
-        >
-          <styled.div
-            style={{
-              boxSizing: 'border-box',
-              overflowY: 'auto',
-              maxHeight: 200,
-              width: 'var(--radix-popover-trigger-width)',
-              border: `1px solid ${color('border', 'default', 'strong')}`,
-              borderRadius: 8,
-              padding: 8,
-              background: color('standalone', 'modal', 'default'),
-              boxShadow:
-                '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+        <RemoveScroll allowPinchZoom>
+          <Popover.Content
+            onInteractOutside={(e) => {
+              if (e.target === inputRef?.current) {
+                e.preventDefault()
+              } else {
+                handleClose()
+              }
             }}
+            onOpenAutoFocus={(e) => {
+              e.preventDefault()
+            }}
+            onCloseAutoFocus={(e) => {
+              e.preventDefault()
+            }}
+            sideOffset={8}
+            asChild
           >
-            {filteredOptions.length ? (
-              filteredOptions.map((item, index) => (
-                <styled.div
-                  id={`combobox-item-${index}`}
+            <styled.div
+              style={{
+                boxSizing: 'border-box',
+                overflowY: 'auto',
+                maxHeight:
+                  'min(300px, calc(var(--radix-popover-content-available-height) - 16px))',
+                width: 'var(--radix-popover-trigger-width)',
+                border: `1px solid ${color('border', 'default', 'strong')}`,
+                borderRadius: 8,
+                padding: 8,
+                background: color('standalone', 'modal', 'default'),
+                boxShadow:
+                  '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+              }}
+            >
+              {filteredOptions.length ? (
+                filteredOptions.map((item, index) => (
+                  <styled.div
+                    id={`combobox-item-${index}`}
+                    style={{
+                      cursor: 'pointer',
+                      background:
+                        index === activeIndex
+                          ? color('action', 'system', 'hover')
+                          : 'transparent',
+                      padding: '4px 12px 4px 42px',
+                      borderRadius: 8,
+                      position: 'relative',
+                      scrollMargin: '8px 0',
+                    }}
+                    onClick={() => {
+                      handleSelectItem(index)
+                    }}
+                    onPointerMove={() => {
+                      setActiveIndex(index)
+                    }}
+                    key={item.value}
+                  >
+                    {item.value === value && (
+                      <span style={{ position: 'absolute', left: 12, top: 6 }}>
+                        <IconCheckLarge />
+                      </span>
+                    )}
+                    <Text color="default" size={14} weight="medium">
+                      {item.label}
+                    </Text>
+                  </styled.div>
+                ))
+              ) : (
+                <div
                   style={{
-                    cursor: 'pointer',
-                    background:
-                      index === activeIndex
-                        ? color('action', 'system', 'hover')
-                        : 'transparent',
-                    padding: '4px 12px 4px 42px',
-                    borderRadius: 8,
                     position: 'relative',
-                    scrollMargin: '8px 0',
+                    background: 'transparent',
+                    padding: '4px 12px 4px 42px',
                   }}
-                  onClick={() => {
-                    handleSelectItem(index)
-                  }}
-                  onPointerMove={() => {
-                    setActiveIndex(index)
-                  }}
-                  key={item.value}
                 >
-                  {item.value === value && (
-                    <span style={{ position: 'absolute', left: 12, top: 6 }}>
-                      <IconCheckLarge />
-                    </span>
-                  )}
-                  <Text color="default" size={14} weight="medium">
-                    {item.label}
-                  </Text>
-                </styled.div>
-              ))
-            ) : (
-              <div
-                style={{
-                  position: 'relative',
-                  background: 'transparent',
-                  padding: '4px 12px 4px 42px',
-                }}
-              >
-                <span style={{ position: 'absolute', left: 12, top: 6 }}>
-                  <IconEmojiSad />
-                </span>
+                  <span style={{ position: 'absolute', left: 12, top: 6 }}>
+                    <IconEmojiSad />
+                  </span>
 
-                <Text color="default" size={14} weight="medium">
-                  No item found
-                </Text>
-              </div>
-            )}
-          </styled.div>
-        </Popover.Content>
+                  <Text color="default" size={14} weight="medium">
+                    No item found
+                  </Text>
+                </div>
+              )}
+            </styled.div>
+          </Popover.Content>
+        </RemoveScroll>
       </Popover.Portal>
     </Popover.Root>
   )

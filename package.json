@@ -32,6 +32,7 @@
     "dayjs": "^1.11.9",
     "inlines": "^0.2.2",
     "prismjs": "^1.29.0",
+    "react-remove-scroll": "^2.5.6",
     "react-virtualized-auto-sizer": "^1.0.7",
     "react-window": "^1.8.7",
     "react-window-sortable": "^1.4.12"
