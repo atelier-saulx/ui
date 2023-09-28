@@ -27,7 +27,7 @@ export type SelectInputProps = {
   beforeIcon?: React.ReactNode
   style?: Style
   disabled?: boolean
-  placeholder?: string
+  placeholder?: React.ReactNode
 } & (
   | {
       multiple?: false

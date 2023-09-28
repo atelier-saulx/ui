@@ -1,66 +1,44 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
-import { Text } from '../Text'
 import { Button } from '../Button'
-import { usePropState } from '../../hooks/usePropState'
 import { IconClose, IconCheckLarge } from '~/icons'
-import { color } from '../../varsUtilities'
-import { ClickHandler } from '~/types'
 
-// return true or false
+// for props gen
 type ConfirmationProps = {
   style?: Style
-  onClick?: ClickHandler
+  value?: any
+  onAccept: ((value: any) => void) | ((value: any) => Promise<void>)
+  onCancel: (value: any) => void
 }
 
-export const Confirmation: FC<ConfirmationProps> = ({ style, onClick }) => {
-  const [checked, setChecked] = usePropState(undefined)
-
+export const Confirmation = <T,>({
+  onAccept,
+  onCancel,
+  value,
+  style,
+}: {
+  style?: Style
+  value?: T
+  onAccept: ((value: T) => void) | ((value: T) => Promise<void>)
+  onCancel: (value: T) => void
+}): ReturnType<FC> => {
   return (
     <styled.div style={{ display: 'flex', alignItems: 'center', ...style }}>
-      <Text selectable="none" light>
-        Apply changes?
-      </Text>
       <Button
+        onClick={() => {
+          return onCancel(value)
+        }}
+        ghost
+        style={{ marginLeft: 16 }}
         icon={<IconClose />}
-        size="xsmall"
-        style={{
-          marginLeft: '8px',
-          padding: '3px',
-          '&:hover': {
-            backgroundColor: color('background', 'neutral', 'subtle'),
-          },
-          '&:active': {
-            backgroundColor: color('background', 'neutral', 'muted'),
-          },
-        }}
-        onClick={(e) => {
-          e.stopPropagation()
-          e.preventDefault()
-          setChecked(false)
-          onClick?.(false as any)
-        }}
       />
       <Button
+        onClick={async () => {
+          return onAccept(value)
+        }}
+        ghost
+        style={{ marginLeft: 4 }}
         icon={<IconCheckLarge />}
-        size="xsmall"
-        color="primary"
-        style={{
-          marginLeft: '8px',
-          padding: '3px',
-          '&:hover': {
-            backgroundColor: color('background', 'neutral', 'subtle'),
-          },
-          '&:active': {
-            backgroundColor: color('background', 'neutral', 'muted'),
-          },
-        }}
-        onClick={(e) => {
-          e.stopPropagation()
-          e.preventDefault()
-          setChecked(true)
-          onClick?.(true as any)
-        }}
       />
     </styled.div>
   )

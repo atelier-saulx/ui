@@ -437,12 +437,21 @@
           "optional": true,
           "type": "Style"
         },
-        "onClick": {
+        "value": {
           "optional": true,
-          "type": "ClickHandler"
+          "type": "TSAnyKeyword"
+        },
+        "onAccept": {
+          "type": [
+            "TSParenthesizedType",
+            "TSParenthesizedType"
+          ]
+        },
+        "onCancel": {
+          "type": "function"
         }
       },
-      "code": "type ConfirmationProps = {\n  style?: Style\n  onClick?: ClickHandler\n}",
+      "code": "type ConfirmationProps = {\n  style?: Style\n  value?: any\n  onAccept: ((value: any) => void) | ((value: any) => Promise<void>)\n  onCancel: (value: any) => void\n}",
       "file": "/components/Confirmation/index.tsx"
     },
     "ContextItemProps": {
@@ -1048,8 +1057,7 @@
           "type": "boolean"
         },
         "placeholder": {
-          "optional": true,
-          "type": "string"
+          "optional": true
         },
         "prefix": {
           "optional": true,
@@ -1086,7 +1094,7 @@
           "type": "number"
         }
       },
-      "code": "type MultilineInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: string\n  password?: boolean\n  maxLength?: number\n}",
+      "code": "type MultilineInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: React.ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: string\n  password?: boolean\n  maxLength?: number\n}",
       "file": "/components/Input/MultilineInput.tsx"
     },
     "NumberInputOwnProps": {
@@ -1143,7 +1151,7 @@
         },
         "placeholder": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "prefix": {
           "optional": true,
@@ -1184,7 +1192,7 @@
           "type": "number"
         }
       },
-      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: string\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: boolean\n  message?: ReactNode\n  password?: boolean\n  maxLength?: number\n}",
+      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: boolean\n  message?: ReactNode\n  password?: boolean\n  maxLength?: number\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "CommonInputProps": {
@@ -1192,7 +1200,7 @@
       "props": {
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "error": {
           "optional": true,
@@ -1211,7 +1219,7 @@
           "type": "boolean"
         }
       },
-      "code": "type CommonInputProps = {\n  label?: string\n  error?: boolean\n  message?: ReactNode\n  description?: string\n  indent?: boolean\n}",
+      "code": "type CommonInputProps = {\n  label?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  description?: string\n  indent?: boolean\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelAndErrorWrapperProps": {
@@ -1219,7 +1227,7 @@
       "props": {
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "error": {
           "optional": true,
@@ -1231,7 +1239,7 @@
         },
         "description": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "indent": {
           "optional": true,
@@ -1241,7 +1249,7 @@
           "type": "ReactNode"
         }
       },
-      "code": "type LabelAndErrorWrapperProps = {\n  label?: string\n  error?: boolean\n  message?: ReactNode\n  description?: string\n  indent?: boolean\n  children: ReactNode\n}",
+      "code": "type LabelAndErrorWrapperProps = {\n  label?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  description?: ReactNode\n  indent?: boolean\n  children: ReactNode\n}",
       "file": "/components/Input/index.tsx"
     },
     "LineGraphProps": {
@@ -2001,38 +2009,74 @@
       "code": "type SegmentedControlProps = {\n  data?: (string | number)[]\n  onChange?: (value: number) => void\n  style?: Style\n}",
       "file": "/components/SegmentedControl/index.tsx"
     },
-    "SettingsProps": {
-      "name": "SettingsProps",
+    "LabelProps": {
+      "name": "LabelProps",
       "props": {
-        "color": {
+        "label": {
           "optional": true,
-          "type": [
-            "ColorBackgroundColors",
-            "ColorNonSemanticBackgroundColors"
-          ]
+          "type": "ReactNode"
         },
-        "ghost": {
+        "description": {
           "optional": true,
-          "type": "boolean"
+          "type": "ReactNode"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
         },
         "children": {
           "optional": true,
           "type": "ReactNode"
         },
-        "onClick": {
+        "labelWidth": {
           "optional": true,
-          "type": "ClickHandler"
+          "type": "number"
         },
         "style": {
           "optional": true,
           "type": "Style"
+        }
+      },
+      "code": "type LabelProps = {\n  label?: ReactNode\n  description?: ReactNode\n  icon?: ReactNode\n  children?: ReactNode\n  labelWidth?: number\n  style?: Style\n}",
+      "file": "/components/Settings/Label.tsx"
+    },
+    "SettingsProps": {
+      "name": "SettingsProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
         },
-        "light": {
+        "fieldWidth": {
+          "optional": true,
+          "type": "number"
+        },
+        "labelWidth": {
+          "optional": true,
+          "type": "number"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "values": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "data": {
+          "optional": true,
+          "type": [
+            {
+              "array": "SettingGroupItem"
+            },
+            "TSTypeLiteral"
+          ]
+        },
+        "alwaysAccept": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type SettingsProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  ghost?: boolean\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
+      "code": "type SettingsProps = {\n  style?: Style\n  fieldWidth?: number\n  labelWidth?: number\n  onChange: (changes: { [field: string]: any }) => void | Promise<void>\n  values?: { [field: string]: any }\n  data?:\n    | SettingGroupItem[]\n    | {\n        [field: string]:\n          | null\n          | ReactNode\n          | (Omit<SettingGroupItem, 'field'> & { field?: string })\n      }\n  alwaysAccept?: boolean\n}",
       "file": "/components/Settings/index.tsx"
     },
     "SliderProps": {
