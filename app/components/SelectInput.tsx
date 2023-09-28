@@ -14,7 +14,7 @@ const example: ComponentDef = {
       customRenderer: () => {
         const [value, setValue] = useState<string>('')
         const [options] = useState(() =>
-          Array.from({ length: 300 }).map((_, i) => ({
+          Array.from({ length: 25 }).map((_, i) => ({
             label: faker.person.fullName(),
             value: `id${i}`,
           }))
