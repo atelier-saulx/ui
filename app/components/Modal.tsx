@@ -23,12 +23,26 @@ const example: ComponentDef = {
                   <Modal.Title>Title of modal</Modal.Title>
                   <Modal.Description>Description of modal</Modal.Description>
                   <Modal.Body>
-                    <Input
-                      type="text"
-                      label="Name of company"
-                      value="Apex"
-                      onChange={() => {}}
-                    />
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        multiple={false}
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
                   </Modal.Body>
                   <Modal.Actions>
                     <Button onClick={close} color="system">
