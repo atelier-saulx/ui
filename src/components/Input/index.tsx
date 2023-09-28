@@ -7,11 +7,10 @@ import { FileInput, FileInputProps } from './FileInput'
 import { NumberInput, NumberInputProps } from './NumberInput'
 import { IconAlertFill, color, styled, Text } from '~'
 import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
-// import { MarkdownInput, MarkdownInputProps } from './MarkdownInput'
 import { MultilineInput, MultilineInputProps } from './MultilineInput'
 
 export type CommonInputProps = {
-  label?: string
+  label?: ReactNode
   error?: boolean
   message?: ReactNode
   description?: string
@@ -127,10 +126,10 @@ export function Input(props: InputProps) {
 }
 
 export type LabelAndErrorWrapperProps = {
-  label?: string
+  label?: ReactNode
   error?: boolean
   message?: ReactNode
-  description?: string
+  description?: ReactNode
   indent?: boolean
   children: ReactNode
 }

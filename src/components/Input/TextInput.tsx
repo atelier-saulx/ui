@@ -7,7 +7,7 @@ export type TextInputProps = {
   onFocus?: () => void
   onBlur?: () => void
   disabled?: boolean
-  placeholder?: string
+  placeholder?: ReactNode
   prefix?: BadgeProps
   suffix?: BadgeProps
   icon?: React.ReactNode

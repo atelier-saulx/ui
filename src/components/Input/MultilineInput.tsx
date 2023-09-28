@@ -5,7 +5,7 @@ export type MultilineInputProps = {
   value: string
   onChange: (value: string) => void
   disabled?: boolean
-  placeholder?: string
+  placeholder?: React.ReactNode
   prefix?: BadgeProps
   suffix?: BadgeProps
   icon?: React.ReactNode
