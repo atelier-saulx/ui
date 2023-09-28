@@ -21,7 +21,6 @@ const App = () => {
     return c.name === component
   })
   const [filter, setFilter] = useState('')
-  const [value, setValue] = useState(false)
 
   return (
     <styled.div
@@ -101,41 +100,6 @@ const App = () => {
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}
-        {/* <Dropdown
-          data={[
-            { label: 'Option uno', icon: () => <IconEmojiSmile /> },
-            { label: 'Option dos', icon: () => <IconEmojiSmile /> },
-            {
-              label: 'Option trois',
-              type: 'checkbox',
-              value: value,
-              onChange: () => setValue(!value),
-            },
-            // { label: 'Option trois', type: 'radio', value: false },
-            {
-              label: 'Option more',
-              icon: () => <IconEmojiSmile />,
-              caption: 'More',
-              data: [
-                { label: 'SubOption 1' },
-                {
-                  label: 'SubOption 2',
-                  type: 'checkbox',
-                  value: value,
-                  onChange: () => setValue(!value),
-                },
-                {
-                  label: 'SubOption 3',
-                  caption: 'Caption',
-                  data: [
-                    { label: 'SupperdeSup 1' },
-                    { label: 'SupperdeSup 2' },
-                  ],
-                },
-              ],
-            },
-          ]}
-        /> */}
       </ScrollArea>
     </styled.div>
   )

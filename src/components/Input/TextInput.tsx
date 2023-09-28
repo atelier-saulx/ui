@@ -1,5 +1,8 @@
 import React, { useState, ReactNode } from 'react'
-import { Style, styled, color, Badge, IconClose, BadgeProps, Text } from '~'
+import { color } from '../../varsUtilities'
+import { IconClose } from '../../icons'
+import { Badge, BadgeProps, Text } from '../../components'
+import { Style, styled } from 'inlines'
 
 export type TextInputProps = {
   value: string

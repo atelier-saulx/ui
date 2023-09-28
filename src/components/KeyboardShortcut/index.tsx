@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
-import { isTouchDevice } from '../../utils/isTouchDevice'
-import { isMac } from '../../utils/isMac'
+import { isTouchDevice, isMac } from '../../utils/'
 
 type Char =
   | 'A'

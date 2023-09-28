@@ -1,15 +1,8 @@
 import React, { useState, FC, ReactNode } from 'react'
-import {
-  styled,
-  Style,
-  color,
-  Badge,
-  IconClose,
-  IconSmallArrowheadDownSmall,
-} from '~'
-
-// @ts-ignore
-import { BadgeProps } from '../types'
+import { IconClose, IconSmallArrowheadDownSmall } from '../../icons'
+import { Badge, BadgeProps } from '../Badge'
+import { styled, Style } from 'inlines'
+import { color } from '../../varsUtilities'
 
 export type NumberInputOwnProps = {
   clearButton?: boolean
@@ -74,7 +67,7 @@ export const NumberInput: FC<NumberInputProps> = ({
       }}
     >
       {icon && <styled.div style={{ flexShrink: 0 }}>{icon}</styled.div>}
-      {prefix && <Badge {...prefix}>{prefix}</Badge>}
+      {prefix && <Badge {...prefix}>{prefix.children}</Badge>}
       <styled.input
         value={value}
         onChange={(e) => {
@@ -146,7 +139,7 @@ export const NumberInput: FC<NumberInputProps> = ({
           <IconSmallArrowheadDownSmall />
         </styled.div>
       </styled.div>
-      {suffix && <Badge {...suffix}>{suffix}</Badge>}
+      {suffix && <Badge {...suffix}>{suffix.children}</Badge>}
       {clearButton ? (
         <IconClose
           onClick={() => {

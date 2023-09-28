@@ -1,4 +1,5 @@
-import { color, styled, Style } from '~'
+import { styled, Style } from 'inlines'
+import { color } from '../../varsUtilities'
 
 const scrollbarColor = color('border', 'default', 'strong')
 const transparentAreaColor = color('background', 'default', 'surface')

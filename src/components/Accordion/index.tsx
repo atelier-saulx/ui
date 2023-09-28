@@ -1,14 +1,9 @@
 import React, { useState, ReactNode, FC, useEffect } from 'react'
-import {
-  styled,
-  Style,
-  Text,
-  IconChevronDown,
-  IconChevronTop,
-  color as genColor,
-  BpTablet,
-  ScrollArea,
-} from '../../'
+import { Text, ScrollArea } from '../../components'
+import { IconChevronDown } from '../../icons'
+import { BpTablet } from '../../utils'
+import { styled, Style } from 'inlines'
+import { color as genColor } from '../../varsUtilities'
 
 type AccordionItemProps = {
   title?: string

@@ -10,10 +10,9 @@ import React, {
 } from 'react'
 
 import { styled, Style } from 'inlines'
-import { Text } from '../Text'
+import { Text, removeOverlay } from '../../components'
 import { color } from '../../varsUtilities'
 import { IconPlus, IconCheckCircle, IconClose, IconSearch } from '../../icons'
-import { removeOverlay } from '../Overlay'
 
 import { ContextDivider, ContextItem } from '.'
 

@@ -1,18 +1,17 @@
 import React, { FC, ReactNode } from 'react'
-import { useTheme } from '~/hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
+import { styled, Style } from 'inlines'
+import { isSemanticColor } from '../../utils'
+import { color as genColor } from '../../varsUtilities'
+import { IconSmallDot } from '../../icons'
+import { Text } from '../../components'
+import { ClickHandler } from '../../types'
 import {
   ColorContentColors,
   ColorNonSemanticContentColors,
   ColorBackgroundColors,
   ColorNonSemanticBackgroundColors,
-  isSemanticColor,
-  color as genColor,
-  styled,
-  Style,
-  Text,
-  IconSmallDot,
-} from '~'
-import { ClickHandler } from '../../types'
+} from '../../varsTypes'
 
 export type StatusProps = {
   color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors

@@ -7,15 +7,10 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import {
-  styled,
-  Style,
-  color as genColor,
-  IconCheckLarge,
-  Text,
-  IconChevronDown,
-  IconClose,
-} from '~'
+import { styled, Style } from 'inlines'
+import { color as genColor } from '../../varsUtilities'
+import { IconCheckLarge, IconChevronDown, IconClose } from '../../icons'
+import { Text } from '../Text'
 import { BpTablet } from '../../utils/breakpoints'
 
 type PillOption = {
