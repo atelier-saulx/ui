@@ -46,9 +46,11 @@ import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useOverlay from './hooks/useOverlay'
+import useContextState from './hooks/useContextState'
+
 import modal from './components/Modal'
 
-export const hooks: ComponentDef[] = [useOverlay]
+export const hooks: ComponentDef[] = [useOverlay, useContextState]
 
 export const components: ComponentDef[] = [
   accordion,
@@ -69,8 +71,6 @@ export const components: ComponentDef[] = [
   fileInput,
   icon,
   linegraph,
-  // LogGroups,
-  // logs,
   logsText,
   Menu,
   metricsWidget,

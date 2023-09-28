@@ -14,20 +14,18 @@ const example: ComponentDef = {
         style: { width: 500 },
         codeLanguage: 'markup',
         color: 'neutral',
-        value: `
-        <style>
-            .class{
-                background-color:yellow;
-                font-size:14px;
-                padding:24px;
-            }
-        </style>
+        value: `<style>
+  .class{
+      background-color:yellow;
+      font-size:14px;
+      padding:24px;
+  }
+</style>
 
-        <div class="snurp"><h2>hellow</h2>
-            <p>paragraph</p>
-            <button>press</button>
-            </div> 
-        `,
+<div class="snurp"><h2>hellow</h2>
+  <p>paragraph</p>
+  <button>press</button>
+</div>`,
         onChange: (v) => {
           console.log(v)
         },
