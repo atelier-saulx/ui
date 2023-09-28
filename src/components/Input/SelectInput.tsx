@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
 import { styled } from 'inlines'
-import { color } from '~/varsUtilities'
-import { IconCheckLarge, IconChevronDown, IconEmojiSad } from '~/icons'
+import { IconCheckLarge, IconChevronDown, IconEmojiSad } from 'src/icons'
+import { color } from 'src/varsUtilities'
 
 export type SelectInputProps = {
   value: string
