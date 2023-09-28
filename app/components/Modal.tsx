@@ -95,6 +95,7 @@ const example: ComponentDef = {
       description: 'Another example of this',
       props: {},
       customRenderer: () => {
+        const [value, setValue] = useState<number | string>('')
         return (
           <Modal.Root>
             <Modal.Trigger>
@@ -128,6 +129,21 @@ const example: ComponentDef = {
                           <Text light>
                             Name that will be displayed in the interace
                           </Text>
+                          <Input
+                            placeholder="Input Placeholder"
+                            style={{ maxWidth: '100%', marginTop: 8 }}
+                            type="select"
+                            multiple={false}
+                            value={value}
+                            onChange={(v) => {
+                              setValue(v)
+                            }}
+                            options={[
+                              { label: 'Item one', value: 'value1' },
+                              { label: 'Item two', value: 'value2' },
+                              { label: 'Item three', value: 'value3' },
+                            ]}
+                          />
                         </span>
                         <CheckboxInput
                           title="Name"
