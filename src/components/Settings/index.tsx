@@ -1,17 +1,16 @@
 import React, { FC, useMemo, ReactNode, useRef, useState } from 'react'
+import { useUpdate } from '../../hooks'
+import { border } from '../../varsUtilities'
+import { styled, Style } from 'inlines'
+import { Label } from './Label'
 import {
-  Input,
   RowSpaced,
-  border,
+  Input,
   Text,
-  styled,
-  Style,
   Confirmation,
   RowEnd,
   Row,
-  useUpdate,
-} from '~'
-import { Label } from './Label'
+} from '../../components'
 
 const Empty = styled('div', {
   minWidth: 350,

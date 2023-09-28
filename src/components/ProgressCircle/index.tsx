@@ -1,5 +1,7 @@
-import React, { FC, useState, useEffect } from 'react'
-import { color as genColor, Style, styled, ColorContentColors } from '~'
+import React, { FC, useState } from 'react'
+import { color as genColor } from '../../varsUtilities'
+import { ColorContentColors } from '../../varsTypes'
+import { Style, styled } from 'inlines'
 
 export type ProgressCircleProps = {
   color?: ColorContentColors

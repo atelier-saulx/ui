@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import { styled, Style, color as genColor } from '~'
+import { styled, Style } from 'inlines'
 import { usePopover } from '../../hooks/usePopover'
 
 export type PopoverProps = {
