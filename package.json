@@ -1,6 +1,6 @@
 {
   "name": "@based/ui",
-  "version": "0.1.15-v2",
+  "version": "0.1.16-v2",
   "description": "Based.io app",
   "license": "MIT",
   "main": "dist/index.js",
