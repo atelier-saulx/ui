@@ -1,5 +1,7 @@
 import React, { FC } from 'react'
-import { ColorContentColors, styled, color as useColor, Text } from '../../'
+import { Text } from '../Text'
+import { styled } from 'inlines'
+import { color as useColor } from '../../varsUtilities'
 import { prettyDate } from '@based/pretty-date'
 
 export type LogProps = {

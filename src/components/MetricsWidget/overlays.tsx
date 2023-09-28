@@ -1,17 +1,15 @@
 import React from 'react'
+import { styled } from 'inlines'
+import { color } from '../../varsUtilities'
+import { removeOverlay, Text } from '../../components'
 import {
-  styled,
-  color,
   IconCheckLarge,
-  IconChartBar,
-  Text,
-  removeOverlay,
   IconChartLine,
   IconChartPie,
   IconHash,
   IconPercentage,
   IconChartBarHorizontal,
-} from '~'
+} from '../../icons'
 
 const StyledSelectItem = styled('div', {
   alignItems: 'center',

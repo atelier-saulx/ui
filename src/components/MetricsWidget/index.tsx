@@ -1,24 +1,26 @@
 import React, { FC, useEffect, useState } from 'react'
+import { styled, Style } from 'inlines'
+import { color } from '../../varsUtilities'
+import { useOverlay } from '../../hooks'
+import { ChartOptionsOverlay, CalculateOptionsOverlay } from './overlays'
 import {
-  styled,
-  Style,
-  color,
   Text,
   Button,
   Input,
-  IconChartLine,
-  useOverlay,
-  IconPercentage,
-  IconChartBarHorizontal,
-  IconChartPie,
-  IconHash,
   LineGraph,
   PieGraph,
   BarGraph,
   BarGraphSingleItem,
   PieGraphSingleItem,
-} from '~'
-import { ChartOptionsOverlay, CalculateOptionsOverlay } from './overlays'
+} from '../../components'
+
+import {
+  IconChartLine,
+  IconPercentage,
+  IconChartBarHorizontal,
+  IconChartPie,
+  IconHash,
+} from '../../icons'
 
 type MetricsWidgetProps = {
   calcOption?: 'percentage' | 'numbers'

@@ -1,17 +1,9 @@
 import React, { FC, Fragment, ReactNode, MouseEvent, useState } from 'react'
-import {
-  IconChevronDown,
-  color,
-  Button,
-  ScrollArea,
-  Text,
-  border,
-  Style,
-  styled,
-  useWindowResize,
-  IconMenu,
-  IconClose,
-} from '~'
+import { color } from '../../varsUtilities'
+import { useWindowResize } from '../../hooks'
+import { ScrollArea, Text } from '../../components'
+import { Style, styled } from 'inlines'
+import { IconMenu, IconClose, IconChevronDown } from '../../icons'
 import { MenuItem } from './MenuItem'
 
 type MenuHeaderProps = {
