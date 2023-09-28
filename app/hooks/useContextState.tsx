@@ -22,6 +22,7 @@ const Nested: FC = () => {
         Inside context <b>{hello}</b>
       </Text>
       <Button
+        color="system"
         style={{ marginTop: 16, marginBottom: 16 }}
         onClick={(e) => {
           setHello(hello + 1)
@@ -34,6 +35,7 @@ const Nested: FC = () => {
         Other value (default) <b>{flap}</b>
       </Text>
       <Button
+        color="system"
         style={{ marginTop: 16 }}
         onClick={(e) => {
           setFlap(flap + 1)
@@ -67,7 +69,7 @@ const example: ComponentDef = {
                 setObj({ [key]: value })
               }}
             >
-              <Text>
+              <Text color="brand">
                 Outside of context <b>{obj.hello}</b>
               </Text>
               <Nested />
