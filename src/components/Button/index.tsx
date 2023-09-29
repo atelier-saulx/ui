@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
 import React, {
   MouseEventHandler,
   ReactNode,
@@ -13,7 +12,7 @@ import { color as genColor } from '../../varsUtilities'
 import { ColorActionColors, ColorContentColors } from '../../varsTypes'
 import { KeyBoardshortcut, Key, Text, ProgressCircle } from '../../components'
 import { useKeyboardShortcut } from '../../hooks'
-import { renderOrCreateElement, BpTablet } from '../../utils'
+import { BpTablet } from '../../utils'
 import { Style, styled } from 'inlines'
 import { ClickHandler } from '../../types'
 
@@ -274,7 +273,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           borderRadius:
             size === 'large' || size === 'medium' || !children ? 8 : 4,
           width: !children ? '20px' : fill ? '100%' : null,
-
+          color: genColor('content', contentColor),
           position: 'relative',
           ...getButtonStyle(props, true),
           ...style,
@@ -294,11 +293,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               <ProgressCircle color={contentColor} loading />
             </styled.div>
           )}
-          {icon &&
-            renderOrCreateElement(icon, {
-              color: contentColor,
-              style: children ? { marginRight: 8 } : undefined,
-            })}
+          {icon ? (
+            <styled.div
+              style={{
+                marginRight: children ? 8 : 0,
+              }}
+            >
+              {icon}
+            </styled.div>
+          ) : null}
           <Text
             selectable="none"
             style={{
@@ -318,16 +321,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               <KeyBoardshortcut keyboardShortcut={keyboardShortcut} />
             ) : null}
           </Text>
-          {afterIcon &&
-            renderOrCreateElement(
-              afterIcon,
-              children || icon
-                ? {
-                    color: contentColor,
-                    style: { marginLeft: 8, minWidth: 16 },
-                  }
-                : null
-            )}
+          {afterIcon ? (
+            <styled.div
+              style={{
+                display: 'flex',
+                marginLeft: icon || children ? 8 : 0,
+                width: 16,
+                height: 16,
+                maxWidth: icon || children ? 16 : null,
+                maxHeight: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {afterIcon}
+            </styled.div>
+          ) : null}
         </div>
       </styled.button>
     )

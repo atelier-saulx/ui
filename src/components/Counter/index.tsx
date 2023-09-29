@@ -11,8 +11,8 @@ import { Text } from '../../components'
 import { Center } from '../Styled'
 import { Style, styled } from 'inlines'
 import { ClickHandler } from '../../types'
-import { renderOrCreateElement } from '../../utils'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
+import { Tooltip } from '../Tooltip'
 
 export type CounterProps = {
   color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
@@ -56,7 +56,7 @@ export const Counter: FC<CounterProps> = ({
     ? 'grey'
     : 'white'
 
-  return (
+  const center = (
     <Center
       onClick={onClick}
       style={{
@@ -110,7 +110,7 @@ export const Counter: FC<CounterProps> = ({
             },
           }}
         >
-          {renderOrCreateElement(icon, { color: 'inherit' })}
+          {icon}
         </styled.div>
       )}
       <Text
@@ -123,4 +123,6 @@ export const Counter: FC<CounterProps> = ({
       </Text>
     </Center>
   )
+
+  return label ? <Tooltip text={label}>{center}</Tooltip> : center
 }

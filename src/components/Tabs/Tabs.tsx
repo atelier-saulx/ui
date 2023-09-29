@@ -11,7 +11,7 @@ import React, {
 import { styled, Style } from 'inlines'
 import { Text } from '../Text'
 import { color as genColor } from '../../varsUtilities'
-import { BpTablet, renderOrCreateElement } from '../../utils/'
+import { BpTablet } from '../../utils/'
 
 export type TabsProps = {
   children: ReactNode
@@ -84,8 +84,12 @@ const TabWrapper: FC<{
       key={index}
     >
       {icon && (
-        <styled.div style={{ marginRight: 10 }}>
-          {renderOrCreateElement(icon)}
+        <styled.div
+          style={{
+            marginRight: 10,
+          }}
+        >
+          {icon}
         </styled.div>
       )}
 
