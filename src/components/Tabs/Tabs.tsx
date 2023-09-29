@@ -88,7 +88,6 @@ const TabWrapper: FC<{
           style={{
             marginRight: 10,
             '& svg': {
-              stroke: 'currentColor',
               fill: 'currentColor',
             },
           }}

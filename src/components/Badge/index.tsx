@@ -135,7 +135,6 @@ const BadgeInner: FC<BadgeProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             '& svg': {
-              stroke: 'currentColor',
               fill: 'currentColor',
               width: children ? '14px' : '16px',
               height: children ? '14px' : '16px',
@@ -166,7 +165,6 @@ const BadgeInner: FC<BadgeProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             '& svg': {
-              stroke: 'currentColor',
               fill: 'currentColor',
             },
           }}
