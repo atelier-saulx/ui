@@ -165,10 +165,7 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "ReactNode"
         },
         "children": {
           "optional": true,
@@ -198,7 +195,7 @@
           "type": "boolean"
         }
       },
-      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: FC<IconProps> | ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  copyValue?: string | number\n  copy?: boolean\n}",
+      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  copyValue?: string | number\n  copy?: boolean\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BarGraphProps": {
@@ -453,130 +450,6 @@
       },
       "code": "type ConfirmationProps = {\n  style?: Style\n  value?: any\n  onAccept: ((value: any) => void) | ((value: any) => Promise<void>)\n  onCancel: (value: any) => void\n}",
       "file": "/components/Confirmation/index.tsx"
-    },
-    "ContextItemProps": {
-      "name": "ContextItemProps",
-      "props": {
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "color": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        },
-        "onClick": {
-          "optional": true,
-          "type": "PropsEventHandler"
-        },
-        "icon": {
-          "optional": true,
-          "type": [
-            "FunctionComponent",
-            "ReactNode"
-          ]
-        },
-        "iconRight": {
-          "optional": true,
-          "type": [
-            "FunctionComponent",
-            "ReactNode"
-          ]
-        },
-        "inset": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "noFocus": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "tabIndex": {
-          "optional": true,
-          "type": "number"
-        },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        }
-      },
-      "code": "type ContextItemProps = {\n  style?: Style\n  color?: any\n  // color?: Color\n  onClick?: PropsEventHandler\n  icon?: FunctionComponent<any> | ReactNode\n  iconRight?: FunctionComponent<any> | ReactNode\n  inset?: boolean\n  noFocus?: boolean\n  tabIndex?: number\n  children?: ReactNode\n}",
-      "file": "/components/ContextMenu/ContextItem.tsx"
-    },
-    "ContextOptionsFilterProps": {
-      "name": "ContextOptionsFilterProps",
-      "props": {
-        "filterable": {
-          "optional": true,
-          "type": [
-            "boolean",
-            {
-              "value": "create"
-            }
-          ]
-        },
-        "placeholder": {
-          "optional": true,
-          "type": "string"
-        },
-        "resize": {
-          "optional": true,
-          "type": "function"
-        },
-        "multiSelect": {
-          "optional": true,
-          "type": "boolean"
-        }
-      },
-      "code": "type ContextOptionsFilterProps = {\n  // eslint-disable-next-line\n  filterable?: boolean | 'create'\n  placeholder?: string\n  resize?: () => void\n  // eslint-disable-next-line\n  multiSelect?: boolean\n}",
-      "file": "/components/ContextMenu/ContextOptions.tsx"
-    },
-    "ContextOptionsProps": {
-      "name": "ContextOptionsProps",
-      "props": {
-        "items": {
-          "type": {
-            "array": "Option"
-          }
-        },
-        "value": {
-          "optional": true,
-          "type": "Value"
-        },
-        "onChange": {
-          "type": "function"
-        },
-        "noValue": {
-          "optional": true,
-          "type": "boolean"
-        }
-      },
-      "code": "type ContextOptionsProps = {\n  items: Option[]\n  value?: Value\n  onChange: (value: Value) => void\n  // eslint-disable-next-line\n  noValue?: boolean\n}",
-      "file": "/components/ContextMenu/ContextOptions.tsx"
-    },
-    "ContextMultiOptionsProps": {
-      "name": "ContextMultiOptionsProps",
-      "props": {
-        "items": {
-          "type": [
-            {
-              "array": "Option"
-            },
-            "null"
-          ]
-        },
-        "values": {
-          "optional": true,
-          "type": {
-            "array": "Value"
-          }
-        },
-        "onChange": {
-          "type": "function"
-        }
-      },
-      "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
-      "file": "/components/ContextMenu/ContextOptions.tsx"
     },
     "CounterProps": {
       "name": "CounterProps",
@@ -891,9 +764,13 @@
         "onClick": {
           "optional": true,
           "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type DropdownItemProps = {\n  children: ReactNode\n  icon?: ReactNode\n  onClick?: () => void\n}",
+      "code": "type DropdownItemProps = {\n  children: ReactNode\n  icon?: ReactNode\n  onClick?: () => void\n  disabled?: boolean\n}",
       "file": "/components/Dropdown/index.tsx"
     },
     "DropdownSubProps": {
@@ -1127,6 +1004,32 @@
       },
       "code": "type NumberInputOwnProps = {\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  style?: Style\n  suffix?: BadgeProps\n}",
       "file": "/components/Input/NumberInput.tsx"
+    },
+    "SelectInputProps": {
+      "name": "SelectInputProps",
+      "props": {
+        "value": {
+          "type": "string"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "options": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type SelectInputProps = {\n  value: string\n  onChange: (value) => void\n  options: { label: string; value: string }[]\n  placeholder?: string\n  style?: Style\n}",
+      "file": "/components/Input/SelectInput.tsx"
     },
     "TextInputProps": {
       "name": "TextInputProps",
@@ -1617,6 +1520,32 @@
       "code": "type ModalContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n}",
       "file": "/components/Modal/index.tsx"
     },
+    "ModalWarningProps": {
+      "name": "ModalWarningProps",
+      "props": {
+        "type": {
+          "optional": true,
+          "type": [
+            {
+              "value": "warning"
+            },
+            {
+              "value": "alert"
+            }
+          ]
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type ModalWarningProps = {\n  type?: 'warning' | 'alert'\n  children?: ReactNode\n  style?: Style\n}",
+      "file": "/components/Modal/index.tsx"
+    },
     "ModalTitleProps": {
       "name": "ModalTitleProps",
       "props": {
@@ -1631,10 +1560,13 @@
       "name": "ModalDescriptionProps",
       "props": {
         "children": {
-          "type": "string"
+          "type": [
+            "string",
+            "ReactNode"
+          ]
         }
       },
-      "code": "type ModalDescriptionProps = {\n  children: string\n}",
+      "code": "type ModalDescriptionProps = {\n  children: string | ReactNode\n}",
       "file": "/components/Modal/index.tsx"
     },
     "ModalBodyProps": {

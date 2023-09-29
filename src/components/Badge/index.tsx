@@ -1,7 +1,6 @@
 import React, { FC, ReactNode } from 'react'
 import { IconCheckCircle } from '../../icons'
 import { ClickHandler } from '../../types'
-import { IconProps } from '../../icons/Icon'
 import {
   ColorBackgroundColors,
   ColorNonSemanticContentColors,
