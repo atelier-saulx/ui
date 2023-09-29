@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
-import { IconCheckLarge, IconChevronDown, IconEmojiSad } from 'src/icons'
-import { color } from 'src/varsUtilities'
+import { IconCheckLarge, IconChevronDown, IconEmojiSad } from '../../icons'
+import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 
 export type SelectInputProps = {
