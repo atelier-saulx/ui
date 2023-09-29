@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { styled } from 'inlines'
 import { color as genColor } from '../../varsUtilities'
 import { useContextState } from '../../hooks/ContextState'
+import { Text } from '../Text'
 
 type RangeCalendarProps = {
   days: string[]
@@ -67,6 +68,11 @@ export const RangeCalendar = ({
     }
 
     // add some offset for the days layout
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Sun'
+    ) {
+      tempArr.unshift('x', 'x', 'x', 'x', 'x', 'x')
+    }
     if (
       days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Sat'
     ) {
@@ -196,13 +202,13 @@ export const RangeCalendar = ({
           },
         }}
       >
-        <styled.div>M</styled.div>
-        <styled.div>T</styled.div>
-        <styled.div>W</styled.div>
-        <styled.div>T</styled.div>
-        <styled.div>F</styled.div>
-        <styled.div>S</styled.div>
-        <styled.div>S</styled.div>
+        <Text selectable="none">M</Text>
+        <Text selectable="none">T</Text>
+        <Text selectable="none">W</Text>
+        <Text selectable="none">T</Text>
+        <Text selectable="none">F</Text>
+        <Text selectable="none">S</Text>
+        <Text selectable="none">S</Text>
       </styled.div>
 
       <styled.div style={{ padding: '10px 20px' }}>
@@ -226,7 +232,7 @@ export const RangeCalendar = ({
               .
             </styled.div>
           ) : (
-            <styled.div
+            <Text
               onMouseEnter={() => {
                 if (val.day !== null) {
                   setHoverDay(val.day)
@@ -344,7 +350,7 @@ export const RangeCalendar = ({
               }}
             >
               {val.day}
-            </styled.div>
+            </Text>
           )
         )}
       </styled.div>

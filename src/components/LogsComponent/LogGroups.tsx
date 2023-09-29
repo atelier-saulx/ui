@@ -1,14 +1,12 @@
 import React, { ReactNode, useState, useRef, useEffect, FC } from 'react'
 import { IconProps } from '../../icons/Icon'
+import { IconChevronDown } from '../../icons'
 import { Style, styled } from 'inlines'
-import {
-  Text,
-  renderOrCreateElement,
-  color as genColor,
-  IconChevronDown,
-  ScrollArea,
-  ColorBackgroundColors,
-} from '~'
+import { Text, ScrollArea } from '../../components'
+import { color as genColor } from '../../varsUtilities'
+import { renderOrCreateElement } from '../../utils'
+import { ColorBackgroundColors } from '../../varsTypes'
+
 import dayjs from 'dayjs'
 
 type NewLogsObject = {

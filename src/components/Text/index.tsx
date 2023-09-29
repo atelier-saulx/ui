@@ -1,8 +1,10 @@
 import React, { FC, ReactNode } from 'react'
-import { color as genColor, styled, Style, ColorContentColors, border } from '~'
+import { ColorContentColors } from '../../varsTypes'
 import { ClickHandler } from '../../types'
+import { styled, Style } from 'inlines'
+import { color as genColor } from '../../varsUtilities'
 import { NumberFormat } from '@based/pretty-number'
-import { useTextFormat } from '~/hooks/useTextFormat'
+import { useTextFormat } from '../../hooks'
 import { DateFormat } from '@based/pretty-date'
 
 type TextProps = {

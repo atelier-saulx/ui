@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { ReactNode } from 'react'
 import { TextInput, TextInputProps } from './TextInput'
-import { SelectInput, SelectInputProps, SelectInputOption } from './SelectInput'
+import { SelectInput, SelectInputProps } from './SelectInput'
 import { SearchInput, SearchInputProps } from './SearchInput'
 import { FileInput, FileInputProps } from './FileInput'
 import { NumberInput, NumberInputProps } from './NumberInput'
-import { IconAlertFill, color, styled, Text } from '~'
+import { color } from '../../varsUtilities'
+import { Text } from '../Text'
+import { IconAlertFill } from '../../icons'
+import { styled } from 'inlines'
 import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
 import { MultilineInput, MultilineInputProps } from './MultilineInput'
 
@@ -16,8 +19,6 @@ export type CommonInputProps = {
   description?: string
   indent?: boolean
 }
-
-export { SelectInputOption }
 
 // | ({ type: 'markdown' } & MarkdownInputProps)
 export type InputProps = CommonInputProps &
@@ -147,6 +148,7 @@ function LabelAndErrorWrapper({
   const componentProps = indent
     ? {
         style: {
+          width: '100%',
           display: 'block',
           borderLeft: '2px solid',
           borderColor: error
@@ -185,6 +187,7 @@ function LabelAndErrorWrapper({
     : label || error || description
     ? {
         style: {
+          width: '100%',
           display: 'block',
           '&:focus > input': {
             outline: 'none',
@@ -193,6 +196,7 @@ function LabelAndErrorWrapper({
       }
     : {
         style: {
+          width: '100%',
           display: 'block',
           '&:focus': {
             outline: 'none',
@@ -205,7 +209,7 @@ function LabelAndErrorWrapper({
     <styled.div {...componentProps}>
       {label && (
         <Text
-          weight="strong"
+          weight="medium"
           style={{
             marginBottom: 8,
           }}

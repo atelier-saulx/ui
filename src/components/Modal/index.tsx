@@ -1,9 +1,9 @@
 import React, { ReactNode, useState, createContext, useContext } from 'react'
 import * as DialogBase from '@radix-ui/react-dialog'
 import { styled, Style } from 'inlines'
-import { color } from '~/varsUtilities'
+import { color } from '../../varsUtilities'
 import { Text } from '../Text'
-import { IconAlertFill } from '~/icons'
+import { IconAlertFill } from '../../icons'
 
 type UseModalProps = {
   open: boolean

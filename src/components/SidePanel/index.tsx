@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react'
-import { Button, styled } from '~'
+import { styled } from 'inlines'
+import { Button } from '../../components/Button'
 import { useSidePanel } from '../../hooks/useSidePanel'
 
 export const SidePanel = () => {

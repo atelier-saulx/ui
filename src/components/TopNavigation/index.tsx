@@ -1,7 +1,6 @@
-import React, { Children, FC, ReactNode } from 'react'
-import { styled, Style, color } from '~'
-import { BasedLogo } from '~/icons/BasedLogo'
-import { BigBasedLogo } from '~/icons/BigBasedLogo'
+import React, { FC, ReactNode } from 'react'
+import { color } from '../../varsUtilities'
+import { styled, Style } from 'inlines'
 
 export type TopNavigationProps = {
   sticky?: boolean

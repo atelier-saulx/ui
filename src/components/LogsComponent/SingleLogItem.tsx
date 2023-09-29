@@ -1,12 +1,8 @@
-import React, { FC, useState } from 'react'
-import {
-  Style,
-  styled,
-  Text,
-  IconAlertFill,
-  Badge,
-  ColorBackgroundColors,
-} from '~'
+import React, { FC } from 'react'
+import { Style, styled } from 'inlines'
+import { Text, Badge } from '../../components'
+import { IconAlertFill } from '../../icons'
+import { ColorBackgroundColors } from '../../varsTypes'
 import dayjs from 'dayjs'
 
 export type SingleLogItemProps = {

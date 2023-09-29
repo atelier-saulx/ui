@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { Style, styled, color, Badge, IconClose, BadgeProps } from '~'
+import { color } from '../../varsUtilities'
+import { styled, Style } from 'inlines'
+import { IconClose } from '../../icons'
+import { Badge, BadgeProps } from '../../components'
 
 export type MultilineInputProps = {
   value: string

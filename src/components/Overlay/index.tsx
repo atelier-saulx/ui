@@ -11,7 +11,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react'
-import { styled, Style } from '~'
+import { styled, Style } from 'inlines'
 import { useOverlayPosition } from '../../hooks/useOverlayPosition'
 import { color } from '../../varsUtilities'
 import { ScrollArea } from '../ScrollArea'

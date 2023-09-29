@@ -1,9 +1,13 @@
 {
   "name": "@based/ui",
-  "version": "0.1.17-v2",
+  "version": "0.1.20-v2",
   "description": "Based.io app",
   "license": "MIT",
   "main": "dist/index.js",
+  "files": [
+    "dist",
+    "assets"
+  ],
   "scripts": {
     "dev": "npx @based/cli dev",
     "deploy": "npx @based/cli deploy",
@@ -25,12 +29,14 @@
     "@based/use-local-storage": "0.4.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tanstack/react-table": "^8.9.8",
     "@tanstack/react-virtual": "^3.0.0-alpha.0",
     "dayjs": "^1.11.9",
     "inlines": "^0.2.2",
     "prismjs": "^1.29.0",
+    "react-remove-scroll": "^2.5.6",
     "react-virtualized-auto-sizer": "^1.0.7",
     "react-window": "^1.8.7",
     "react-window-sortable": "^1.4.12"

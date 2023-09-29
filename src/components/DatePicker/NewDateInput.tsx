@@ -1,14 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react'
-import {
-  BpTablet,
-  useOverlay,
-  IconCalendar,
-  IconChevronDown,
-  color as genColor,
-  styled,
-  Style,
-  Text,
-} from '~'
+import { Text } from '../../components'
+import { useOverlay } from '../../hooks'
+import { IconCalendar, IconChevronDown } from '../../icons'
+import { BpTablet } from '../../utils'
+import { styled, Style } from 'inlines'
+import { color as genColor } from '../../varsUtilities'
 import { Picker } from './Picker'
 import { NewTimeInput } from './NewTimeInput'
 import { FromRangePicker } from '../DateRange/FromRangePicker'

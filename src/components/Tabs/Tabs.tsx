@@ -8,14 +8,10 @@ import React, {
   useCallback,
   ReactElement,
 } from 'react'
-import {
-  styled,
-  Style,
-  Text,
-  color as genColor,
-  renderOrCreateElement,
-} from '~'
-import { BpTablet } from '../../utils/breakpoints'
+import { styled, Style } from 'inlines'
+import { Text } from '../Text'
+import { color as genColor } from '../../varsUtilities'
+import { BpTablet, renderOrCreateElement } from '../../utils/'
 
 export type TabsProps = {
   children: ReactNode

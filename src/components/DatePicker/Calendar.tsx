@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { color as genColor } from '../../varsUtilities'
 import { styled } from 'inlines'
+import { Text } from '../Text'
 
 type CalendarProps = {
   days: string[]
@@ -41,6 +42,11 @@ export const Calendar = ({
     }
 
     // add some offset for the days layout
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Sun'
+    ) {
+      tempArr.unshift('x', 'x', 'x', 'x', 'x', 'x')
+    }
     if (
       days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Sat'
     ) {
@@ -92,13 +98,13 @@ export const Calendar = ({
           },
         }}
       >
-        <styled.div>M</styled.div>
-        <styled.div>T</styled.div>
-        <styled.div>W</styled.div>
-        <styled.div>T</styled.div>
-        <styled.div>F</styled.div>
-        <styled.div>S</styled.div>
-        <styled.div>S</styled.div>
+        <Text selectable="none">M</Text>
+        <Text selectable="none">T</Text>
+        <Text selectable="none">W</Text>
+        <Text selectable="none">T</Text>
+        <Text selectable="none">F</Text>
+        <Text selectable="none">S</Text>
+        <Text selectable="none">S</Text>
       </styled.div>
 
       <styled.div style={{ padding: '10px 20px' }}>
@@ -120,7 +126,7 @@ export const Calendar = ({
               .
             </styled.div>
           ) : (
-            <styled.div
+            <Text
               style={{
                 border:
                   val.day === presentDay &&
@@ -159,7 +165,7 @@ export const Calendar = ({
               }}
             >
               {val.day}
-            </styled.div>
+            </Text>
           )
         )}
       </styled.div>

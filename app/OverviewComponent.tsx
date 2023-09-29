@@ -195,6 +195,7 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
         <styled.div
           style={{
             maxWidth: '100%',
+            minWidth: 300,
             padding: 32,
             display: 'flex',
             alignItems: 'center',

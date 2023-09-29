@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
-import { ColorActionColors, color as genColor } from '../../'
+import { color as genColor } from '../../varsUtilities'
+import { ColorActionColors } from '../../varsTypes'
 import { usePropState } from '../../hooks/usePropState'
-import { ClickHandler } from '../../types'
 import { BpTablet } from '../../utils/breakpoints'
 
 export type ToggleProps = {
