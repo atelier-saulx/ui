@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { ReactNode, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
@@ -6,12 +6,22 @@ import { IconCheckLarge, IconChevronDown, IconEmojiSad } from '../../icons'
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 
+export type SelectOption = { label?: ReactNode; value: string }
+
 export type SelectInputProps = {
   value: string
   onChange: (value) => void
-  options: { label: string; value: string }[]
+  options: SelectOption[]
   placeholder?: string
   style?: Style
+}
+
+const inputToString = (input: SelectOption | void): string => {
+  return typeof input === 'object'
+    ? typeof input.label === 'string'
+      ? input.label
+      : input.value
+    : ''
 }
 
 export function SelectInput({
@@ -22,23 +32,26 @@ export function SelectInput({
   style,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
-  const [inputValue, setInputValue] = useState(() =>
-    value ? options.find((e) => e.value === value).label : ''
-  )
+
+  const [inputValue, setInputValue] = useState<SelectOption | void>(() => {
+    return options.find((e) => e.value === value)
+  })
+
   const [inputValueChanged, setInputValueChanged] = useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   const filteredOptions =
     inputValueChanged && inputValue
-      ? options.filter((e) =>
-          e.label.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase())
-        )
+      ? options.filter((e) => {
+          const f: string = typeof e.label === 'string' ? e.label : e.value
+          return f.toLocaleLowerCase().includes(inputToString(inputValue))
+        })
       : options
 
   function handleSelectItem(index: number) {
     onChange(filteredOptions[index].value)
-    setInputValue(filteredOptions[index].label)
+    setInputValue(filteredOptions[index])
     setInputValueChanged(false)
     setOpen(false)
     setActiveIndex(null)
@@ -46,7 +59,7 @@ export function SelectInput({
 
   function handleClose() {
     setInputValueChanged(false)
-    setInputValue(value ? options.find((e) => e.value === value).label : '')
+    setInputValue(options.find((e) => e.value === value))
     setOpen(false)
     setActiveIndex(null)
   }
@@ -61,7 +74,7 @@ export function SelectInput({
       <Popover.Anchor asChild>
         <div style={{ position: 'relative', width: '100%' }}>
           <styled.input
-            value={inputValue}
+            value={inputToString(inputValue)}
             ref={inputRef}
             onClick={() => {
               handleOpen()
@@ -70,7 +83,7 @@ export function SelectInput({
               handleOpen()
             }}
             onChange={(e) => {
-              setInputValue(e.target.value)
+              setInputValue({ value: e.target.value })
               setInputValueChanged(true)
               setActiveIndex(null)
             }}
@@ -229,7 +242,7 @@ export function SelectInput({
                       </span>
                     )}
                     <Text color="default" size={14} weight="medium">
-                      {item.label}
+                      {item.label ?? item.value}
                     </Text>
                   </styled.div>
                 ))
