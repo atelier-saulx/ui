@@ -45,7 +45,6 @@ const selectVar = <T extends keyof ColorGroups>(
 
   return c[g._[option]]
 }
-console.log('--------------------------->')
 
 export const color = <T extends keyof ColorGroups>(
   group: T,

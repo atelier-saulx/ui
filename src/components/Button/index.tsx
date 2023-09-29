@@ -50,24 +50,21 @@ export type ButtonProps = {
   displayShortcut?: boolean
   /** Animate onClick
    */
-  clickAnimation?: boolean
 }
 
 export const getButtonStyle = (
   props: ButtonProps,
   isButton: boolean = !!props.onClick
 ): Style => {
-  const { disabled, color: colorProp = 'primary', clickAnimation } = props
+  const { disabled, color: colorProp = 'primary' } = props
 
   const isLight = props.light
   const isGhost = props.ghost || props.size === 'xsmall'
 
-  console.info('GHOST', isGhost)
-
   const style: Style = {
-    transitionDelay: '0s,0s,0s,0.1s',
-    transitionProperty: 'width,transform,opacity,box-shadow',
-    transitionDuration: '0.15s,  0.1s,  0.15s, 0.1s',
+    transitionDelay: '0s,0s,0s,0.1s,0.1s',
+    transitionProperty: 'width,transform,opacity,box-shadow,border',
+    transitionDuration: '0.15s,  0.1s,  0.15s, 0.1s, 0.1s',
     pointerEvents: disabled ? 'none' : 'auto',
     border:
       colorProp === 'system'
@@ -77,7 +74,6 @@ export const getButtonStyle = (
     backgroundColor: isGhost
       ? 'transparent'
       : genColor('action', colorProp, isLight ? 'subtleNormal' : 'normal'),
-
     '&:focus': !props.hideFocusState
       ? {
           outline: 'none',
@@ -118,12 +114,11 @@ export const getButtonStyle = (
         ),
       },
     },
-    '&:active': {
-      transform: props.clickAnimation ? 'scale(0.95)' : undefined,
-      backgroundColor: isGhost
-        ? 'transparent'
-        : genColor('action', colorProp, isLight ? 'subtleActive' : 'active'),
-    },
+    // '&:active': {
+    //  backgroundColor: isGhost
+    //   ? 'transparent'
+    //   : genColor('action', colorProp, isLight ? 'subtleNormal' : 'normal'),
+    // },
     width: 'fit-content',
     opacity: disabled ? 0.6 : 1,
   }
@@ -171,8 +166,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     useImperativeHandle(forwardedRef, () => buttonElem.current, [])
     const extendedOnClick = useCallback(
       async (e: any) => {
-        e.currentTarget.blur()
         const t = buttonElem.current
+        t.style.transform = 'scale(0.96)'
+        t.blur()
         if (!t) {
           return
         }
@@ -197,6 +193,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         isSet = true
         setIsLoading(false)
         clearTimeout(timer)
+        setTimeout(() => {
+          t.style.transform = 'scale(1)'
+        }, 100)
       },
       [onClick]
     )

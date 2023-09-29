@@ -222,11 +222,6 @@ export const Menu: FC<MenuProps> = ({
                   )
 
                   // @ts-ignore FIX THIS
-                  console.log(
-                    e.currentTarget.parentNode?.childNodes[0].childNodes[0]
-                      ?.childNodes[1]
-                  )
-                  // @ts-ignore FIX THIS
                   e.currentTarget.parentNode?.childNodes[0]?.childNodes[0]?.childNodes[1]?.classList.toggle(
                     'closed'
                   )
@@ -305,7 +300,6 @@ export const Menu: FC<MenuProps> = ({
       )
     }
   )
-  if (tempProp) console.log('adfla;sdkfjsld;fkj')
   if (width > 800 || tempProp)
     return (
       <span style={{ position: 'relative' }}>

@@ -176,8 +176,6 @@ export const DateRangeDoubleInput = ({
     return new Date(year, month, 0).getDate()
   }
 
-  // console.log('Days in this month', daysInMonth(newMonth, newYear))
-
   return (
     <styled.div style={{ display: 'flex', alignItems: 'center' }}>
       {/* hide from ui - user */}

@@ -58,7 +58,7 @@ export const MarkdownInput = ({
               const h = highlight(tempCode, languages.markdown)
               return h
             } catch (err) {
-              console.log(err)
+              console.error(err)
             }
           }}
           style={{

@@ -52,8 +52,6 @@ export const Status: FC<StatusProps> = ({
       ? 'grey'
       : 'white'
 
-  console.log(color)
-
   return (
     <styled.div
       onClick={onClick}

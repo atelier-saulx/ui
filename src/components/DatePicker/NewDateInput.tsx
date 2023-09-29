@@ -133,8 +133,6 @@ export const NewDateInput = ({
     return new Date(year, month, 0).getDate()
   }
 
-  console.log('Days in this month', daysInMonth(newMonth, newYear))
-
   return (
     <styled.div style={{ display: 'flex' }}>
       {/* hide from ui - user */}
@@ -240,7 +238,6 @@ export const NewDateInput = ({
           onChange={(e) => {
             if (day === 29 && month === 2) {
               // Set year to schikkeljaar
-              console.log('leap year 🐸')
             } else {
               setYear(+e.target.value)
             }

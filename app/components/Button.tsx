@@ -81,6 +81,18 @@ const example: ComponentDef = {
         },
       },
     },
+    {
+      name: 'Keyboard shortcut',
+      props: {
+        children: 'Yes!',
+        displayShortcut: true,
+        keyboardShortcut: 'Enter',
+        onClick: async () => {
+          console.info('bla')
+          // alert('hello!')
+        },
+      },
+    },
   ],
 }
 
