@@ -9,6 +9,7 @@ type MenuItemProps = {
   active: boolean
   onClick: ClickHandler
   children: ReactNode | ReactNode[] | ((e) => void)
+  open?: boolean
   style?: Style
 }
 
@@ -16,22 +17,26 @@ export const MenuItem: FC<MenuItemProps> = ({
   active,
   onClick = (e) => {},
   children,
+  open,
   style,
 }) => {
+  console.log(open)
   return (
     <styled.div
       onClick={(e) => onClick(e)}
       style={{
+        cursor: 'pointer',
         padding: '8px 12px',
-        margin: '-4px -4px 4px -2px',
         marginBottom: '8px',
         boxSizing: 'content-box',
-        width: '200px',
+        transition: '0.5s width',
+        width: open ? 'calc(100% - 24px)' : '20px',
         height: '24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        overflow: 'hidden',
         borderRadius: 8,
-        WebkitUserSelect: 'none',
-        MsUserSelect: 'none',
-        userSelect: 'none',
         backgroundColor: active
           ? genColor('action', 'primary', 'subtleSelected')
           : null,
@@ -63,6 +68,7 @@ export const MenuItem: FC<MenuItemProps> = ({
         weight={active ? 'strong' : 'medium'}
         //   wrap
         style={{
+          gap: open ? 10 : 0,
           display: 'flex',
           alignItems: 'center',
           cursor: 'pointer',
