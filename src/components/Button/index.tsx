@@ -285,6 +285,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            whiteSpace: 'nowrap',
           }}
         >
           {isLoading && (
