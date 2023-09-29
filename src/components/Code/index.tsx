@@ -34,6 +34,7 @@ export type CodeProps = {
   color?: ColorBackgroundColors
   copy?: boolean
   codeLanguage?: 'js' | 'html' | 'css' | 'json' | 'markup' | 'clike' | string
+  props?: any
 }
 
 export const Code: FC<CodeProps> = ({
@@ -44,6 +45,7 @@ export const Code: FC<CodeProps> = ({
   color,
   copy,
   codeLanguage = 'js',
+  ...props
 }) => {
   const [copied, copyIt] = useCopyToClipboard(value ?? '')
 
@@ -89,6 +91,7 @@ export const Code: FC<CodeProps> = ({
 
           outline: 'none !important',
         }}
+        {...props}
       />
       {copy ? (
         <IconCopy

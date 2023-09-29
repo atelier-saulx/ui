@@ -9,9 +9,7 @@ export const SidePanel = () => {
   const { open } = useSidePanel(
     <styled.div
       style={{ width: '100%', height: '100%', padding: '20px' }}
-      onClick={() => {
-        console.log('asdasd')
-      }}
+      onClick={() => {}}
     >
       asdfasdf
       {primary && (

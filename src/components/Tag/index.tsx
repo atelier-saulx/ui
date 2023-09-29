@@ -65,7 +65,6 @@ export const Tag: FC<TagProps> = ({
         onClick={(e) => {
           e.stopPropagation()
           e.preventDefault()
-          console.log('onclose')
           onClose?.()
         }}
         style={{

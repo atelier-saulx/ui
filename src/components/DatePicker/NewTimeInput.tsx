@@ -59,7 +59,6 @@ export const NewTimeInput = ({ setTimeString, timeString, style }) => {
 
   const keyPressHandler = (e) => {
     if (isNaN(e.key)) {
-      console.log('not number')
       e.preventDefault()
     }
   }

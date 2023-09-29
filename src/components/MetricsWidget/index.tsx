@@ -51,14 +51,10 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
   // const changeChartTooltip = useTooltip('Change chart type', 'top')
   // const changeCalculation = useTooltip('Change calculation', 'top')
 
-  console.log(data)
-
   const selectOptions = Object.keys(data).map((item, idx) => ({
     label: item,
     value: item,
   }))
-
-  console.log(selectOptions)
 
   if (!selected) {
     setSelected(selectOptions[0]?.value)
@@ -106,18 +102,6 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
           {selected}
         </Text>
         <styled.div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          {/* <Input
-            type="select"
-            multiple={false}
-            // value={selected}
-            onChange={(v) => {
-              console.log(v)
-              setSelected(v)
-            }}
-            style={{ maxWidth: '110px' }}
-            placeholder="Select one"
-            options={selectOptions}
-          /> */}
           <styled.div
             style={{
               width: 1,

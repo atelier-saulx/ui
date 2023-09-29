@@ -42,14 +42,10 @@ export const RangeCalendar = ({
   const fromMonth = fromDateObj.getMonth() + 1
   const fromDay = fromDateObj.getDate()
 
-  //   console.log('FROM --> ', fromYear, fromMonth, fromDay)
-
   const tillDateObj = new Date(+tillValue)
   const tillYear = tillDateObj.getFullYear()
   const tillMonth = tillDateObj.getMonth() + 1
   const tillDay = tillDateObj.getDate()
-
-  //   console.log('Till --> ', tillYear, tillMonth, tillDay)
 
   // to determine the current day
   const dateObj = new Date()
@@ -113,7 +109,6 @@ export const RangeCalendar = ({
     const checkTime = new Date(year, month, day).getTime()
 
     if (checkTime > fromTime && checkTime < tillTime) {
-      //   console.log('🔮')
       return true
     }
   }
