@@ -205,7 +205,6 @@ export const Menu: FC<MenuProps> = ({
                 marginTop: i && 36,
                 justifyContent: collapse ? 'space-between' : 'unset',
                 display: collapse ? 'flex' : 'flex',
-
                 marginBottom: '12px',
               }}
               onClick={(e) => {
@@ -233,9 +232,7 @@ export const Menu: FC<MenuProps> = ({
                 }
               }}
             >
-              {icon ? (
-                <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
-              ) : null}
+              {icon ? <styled.div>{icon}</styled.div> : null}
               <Text selectable="none">{label}</Text>
               {collapse && (
                 <StyledChevron id={`${i}-menuchevron`}>
@@ -243,38 +240,37 @@ export const Menu: FC<MenuProps> = ({
                 </StyledChevron>
               )}
             </MenuHeader>
-            <HideableStyledDiv id={`${i}-menuitems`}>
+            <HideableStyledDiv
+              id={`${i}-menuitems`}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+              }}
+            >
               {items.map(({ value, label, onClick, icon }, index: number) => {
                 return (
                   <MenuItem
-                    // value={value}
                     key={index}
-                    onClick={(e) => {
+                    onClick={(e: any) => {
                       if (onChange) {
                         onChange(value, topValue)
                       }
                       if (onClick) {
-                        //@ts-ignore
                         onClick(e)
                       }
                     }}
-                    style={{
-                      display: 'flex',
-                      position: 'relative',
-                      alignItems: 'center',
-                    }}
                     active={isActive ? isActive(value) : active === value}
+                    open={open}
                   >
                     {icon ? (
-                      <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
+                      <styled.div style={{ marginLeft: 0 }}>{icon}</styled.div>
                     ) : null}
-                    <Text
-                      selectable="none"
-                      color={active === value ? 'brand' : 'default'}
-                      weight={active === value ? 'strong' : 'medium'}
-                    >
-                      {label}
-                    </Text>
+
+                    {/* <div style={{ width: '100%', border: '1px solid red' }} /> */}
+
+                    {open && label}
                   </MenuItem>
                 )
               })}
@@ -287,12 +283,11 @@ export const Menu: FC<MenuProps> = ({
         <MenuItem
           key={i}
           active={isActive ? isActive(value) : active === value}
-          onClick={(e) => {
+          onClick={(e: any) => {
             if (onChange) {
               onChange(value)
             }
             if (onClick) {
-              //@ts-ignore
               onClick(e)
             }
           }}
@@ -310,15 +305,14 @@ export const Menu: FC<MenuProps> = ({
     return (
       <span style={{ position: 'relative' }}>
         <ScrollArea
-          onClick={open ? null : () => setOpen(true)}
           style={{
             flexShrink: 0,
             backgroundColor: color('background', 'default', 'muted'),
-            // borderRight: border(1),
-            // position: 'relative',
-            padding: open ? '24px 20px 20px 20px' : 10,
+            padding: open ? '24px 20px 20px 20px' : 0,
+            paddingLeft: open ? 20 : 10,
             height: '100%',
-            width: open ? 224 : 0,
+            width: open ? 224 : 68,
+            transition: '0.5s all',
             overflowX: 'clip',
             ...style,
           }}
@@ -357,6 +351,7 @@ export const Menu: FC<MenuProps> = ({
               backgroundColor: color('background', 'default', 'muted'),
               // borderRight: border(1),
               // position: 'relative',
+
               padding: '24px 20px 20px 20px',
               height: '100%',
               width: '100%',
