@@ -4,7 +4,6 @@ import { IconChevronDown } from '../../icons'
 import { Style, styled } from 'inlines'
 import { Text, ScrollArea } from '../../components'
 import { color as genColor } from '../../varsUtilities'
-import { renderOrCreateElement } from '../../utils'
 import { ColorBackgroundColors } from '../../varsTypes'
 
 import dayjs from 'dayjs'
@@ -408,11 +407,7 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
 
       {subType ? (
         <styled.div style={{ marginBottom: 8 }}>
-          {typeof subType === 'string' ? (
-            <Text light>{subType}</Text>
-          ) : (
-            renderOrCreateElement(subType)
-          )}
+          {typeof subType === 'string' ? <Text light>{subType}</Text> : subType}
         </styled.div>
       ) : null}
     </styled.div>

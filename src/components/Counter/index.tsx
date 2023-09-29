@@ -11,7 +11,6 @@ import { Text } from '../../components'
 import { Center } from '../Styled'
 import { Style, styled } from 'inlines'
 import { ClickHandler } from '../../types'
-import { renderOrCreateElement } from '../../utils'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
 import { Tooltip } from '../Tooltip'
 

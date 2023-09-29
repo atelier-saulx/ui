@@ -11,7 +11,6 @@ import {
 import { useTheme, useCopyToClipboard } from '../../hooks'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
-import { renderOrCreateElement } from '../../utils'
 import { color as genColor } from '../../varsUtilities'
 
 const COLORGUARD = [
@@ -136,12 +135,14 @@ const BadgeInner: FC<BadgeProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             '& svg': {
+              stroke: 'currentColor',
+              fill: 'currentColor',
               width: children ? '14px' : '16px',
               height: children ? '14px' : '16px',
             },
           }}
         >
-          {renderOrCreateElement(icon, { color: 'inherit' })}
+          {icon}
         </styled.div>
       )}
       <Text
@@ -164,9 +165,13 @@ const BadgeInner: FC<BadgeProps> = ({
             maxHeight: '100%',
             alignItems: 'center',
             justifyContent: 'center',
+            '& svg': {
+              stroke: 'currentColor',
+              fill: 'currentColor',
+            },
           }}
         >
-          {renderOrCreateElement(afterIcon, { size: 16, color: 'inherit' })}
+          afterIcon
         </styled.div>
       )}
     </styled.div>
