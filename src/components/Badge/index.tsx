@@ -164,7 +164,7 @@ const BadgeInner: FC<BadgeProps> = ({
             justifyContent: 'center',
           }}
         >
-          afterIcon
+          {afterIcon}
         </styled.div>
       )}
     </styled.div>
