@@ -273,7 +273,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           borderRadius:
             size === 'large' || size === 'medium' || !children ? 8 : 4,
           width: !children ? '20px' : fill ? '100%' : null,
-          color: contentColor,
+          color: genColor('content', contentColor),
           position: 'relative',
           ...getButtonStyle(props, true),
           ...style,
@@ -296,7 +296,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {icon ? (
             <styled.div
               style={{
-                color: contentColor,
                 marginRight: children ? 8 : 0,
               }}
             >
@@ -325,7 +324,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           {afterIcon ? (
             <styled.div
               style={{
-                color: contentColor,
                 display: 'flex',
                 marginLeft: icon || children ? 8 : 0,
                 width: 16,
