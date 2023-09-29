@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { ReactNode } from 'react'
 import { TextInput, TextInputProps } from './TextInput'
-import { SelectInput, SelectInputProps, SelectInputOption } from './SelectInput'
+import { SelectInput, SelectInputProps } from './SelectInput'
 import { SearchInput, SearchInputProps } from './SearchInput'
 import { FileInput, FileInputProps } from './FileInput'
 import { NumberInput, NumberInputProps } from './NumberInput'
@@ -19,8 +19,6 @@ export type CommonInputProps = {
   description?: string
   indent?: boolean
 }
-
-export { SelectInputOption }
 
 // | ({ type: 'markdown' } & MarkdownInputProps)
 export type InputProps = CommonInputProps &
