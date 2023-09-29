@@ -297,9 +297,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <styled.div
               style={{
                 marginRight: children ? 8 : 0,
-                '& svg': {
-                  fill: 'currentColor',
-                },
               }}
             >
               {icon}
@@ -335,9 +332,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 maxHeight: '100%',
                 alignItems: 'center',
                 justifyContent: 'center',
-                '& svg': {
-                  fill: 'currentColor',
-                },
               }}
             >
               {afterIcon}

@@ -87,9 +87,6 @@ const TabWrapper: FC<{
         <styled.div
           style={{
             marginRight: 10,
-            '& svg': {
-              fill: 'currentColor',
-            },
           }}
         >
           {icon}
