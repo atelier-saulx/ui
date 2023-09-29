@@ -14,8 +14,7 @@ type RangeTillPickerProps = {
 
 const StyledDatePickerBox = styled('div', {
   background: genColor('background', 'default', 'strong'),
-  borderBottomLeftRadius: 4,
-  borderBottomRightRadius: 4,
+  borderRadius: 4,
   width: 280,
   // height: 396,
 })
