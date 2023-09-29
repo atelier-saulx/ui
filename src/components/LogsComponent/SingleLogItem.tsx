@@ -34,7 +34,7 @@ export const SingleLogItem: FC<SingleLogItemProps> = ({
       <Badge
         light
         color={status}
-        icon={IconAlertFill}
+        icon={<IconAlertFill />}
         style={{ alignSelf: 'end' }}
       />
       <styled.div
