@@ -42,6 +42,11 @@ export const Calendar = ({
 
     // add some offset for the days layout
     if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Sun'
+    ) {
+      tempArr.unshift('x', 'x', 'x', 'x', 'x', 'x')
+    }
+    if (
       days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Sat'
     ) {
       tempArr.unshift('x', 'x', 'x', 'x', 'x')
