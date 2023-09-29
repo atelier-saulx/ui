@@ -8,7 +8,8 @@ import { genPaths } from './genPath'
 import XAxis from './XAxis'
 import Labels from './Labels'
 import OverlayWrapper from './OverlayWrapper'
-import { Style, styled, Text } from '~'
+import { Style, styled } from 'inlines'
+import { Text } from '../Text'
 
 const Graph = ({
   width,

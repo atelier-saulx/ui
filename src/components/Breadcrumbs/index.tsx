@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, MouseEvent } from 'react'
 import { Style, styled } from 'inlines'
-import { BpTablet } from '../../utils/breakpoints'
+import { BpTablet } from '../../utils/'
 import { Text } from '../Text'
 import { color } from '../../varsUtilities'
 

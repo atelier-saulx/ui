@@ -1,6 +1,9 @@
 import React, { FC } from 'react'
 import { usePropState } from '../../hooks/usePropState'
-import { styled, Text, color as genColor, ColorActionColors } from '~'
+import { ColorActionColors } from '../../varsTypes'
+import { Text } from '../Text'
+import { color as genColor } from '../../varsUtilities'
+import { styled } from 'inlines'
 import { RadioButton } from './RadioButton'
 
 type RadioButtonsProps = {

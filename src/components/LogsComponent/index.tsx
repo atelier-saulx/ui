@@ -82,16 +82,8 @@
 // }
 
 import React, { FC, useRef, useEffect, useState, useCallback } from 'react'
-import {
-  ProgressCircle,
-  color,
-  IconDelete,
-  Input,
-  styled,
-  Text,
-  Style,
-  ScrollArea,
-} from '../../'
+import { Text, ScrollArea } from '../../components'
+import { styled, Style } from 'inlines'
 import { Log, LogProps } from './Log'
 import { useVirtual } from '@tanstack/react-virtual'
 

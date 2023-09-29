@@ -1,5 +1,7 @@
 import React, { FC, ReactNode } from 'react'
-import { Text, styled, color as genColor, Style } from '~'
+import { color as genColor } from '../../varsUtilities'
+import { styled, Style } from 'inlines'
+import { Text } from '../Text'
 import { ClickHandler } from '../../types'
 import { BpTablet } from '../../utils/breakpoints'
 

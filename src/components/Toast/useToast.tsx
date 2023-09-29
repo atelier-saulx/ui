@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext } from 'react'
 import { createPortal } from 'react-dom'
 import { Toast, ToastProps } from './Toast'
-import { styled } from '~'
+import { styled } from 'inlines'
 
 const ToastContainer = ({ toasts }) => {
   return createPortal(

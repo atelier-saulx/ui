@@ -1,5 +1,8 @@
 import React, { FC, useState } from 'react'
-import { styled, Style, color, Text, ColorNonSemanticBackgroundColors } from '~'
+import { color } from '../../varsUtilities'
+import { Text } from '../Text'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
+import { styled, Style } from 'inlines'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
 export type PieGraphSingleItem = {

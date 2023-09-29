@@ -11,13 +11,8 @@ import { OverlayProvider } from '../Overlay'
 import { Provider as BasedProvider, useClient } from '@based/react'
 import { BasedClient } from '@based/client'
 import { ToastProvider } from '../Toast/'
-// import { baseTheme } from '~/theme/baseTheme'
-// import { updateTheme } from '~/theme'
-// import { darkTheme } from '~/theme/darkTheme'
 import { AuthProvider } from '../Auth/AuthProvider'
-
 import { Router, RouterContext } from 'kabouter'
-
 import { color } from '../../varsUtilities'
 import { ThemeProvider } from '../../hooks/useTheme'
 

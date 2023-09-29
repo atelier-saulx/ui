@@ -3,9 +3,8 @@ import { Calendar } from './Calendar'
 import { IconChevronDown, IconChevronTop } from '../../icons'
 import { color as genColor } from '../../varsUtilities'
 import { styled } from 'inlines'
-import { Text } from '../Text'
+import { Text, removeAllOverlays } from '../../components'
 import { useContextState } from '../../hooks'
-import { removeAllOverlays } from '../Overlay'
 
 type PickerProps = {
   setValue: (e: any) => void

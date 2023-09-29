@@ -5,14 +5,11 @@ import React, {
   TouchEventHandler,
   useEffect,
 } from 'react'
-import {
-  styled,
-  Style,
-  Text,
-  color as genColor,
-  useWindowResize,
-  ColorActionColors,
-} from '~'
+import { styled, Style } from 'inlines'
+import { Text } from '../Text'
+import { color as genColor } from '../../varsUtilities'
+import { useWindowResize } from '../../hooks'
+import { ColorActionColors } from '../../varsTypes'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
 
 const StyledBgSlider = styled('div', {

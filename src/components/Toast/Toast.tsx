@@ -1,19 +1,16 @@
 import React, { FC, useState, useEffect } from 'react'
+import { useToast } from './useToast'
+import { ColorBackgroundColors } from '../../varsTypes'
+import { color as genColor } from '../../varsUtilities'
+import { Text, Button } from '../../components'
+import { styled, Style } from 'inlines'
 import {
-  ColorBackgroundColors,
-  Text,
-  styled,
-  Style,
-  color as genColor,
-  Button,
-  IconAlert,
   IconClose,
   IconErrorFill,
   IconInfoFill,
   IconWarningFill,
   IconCheckCircleFill,
-  useToast,
-} from '~'
+} from '../../icons'
 
 export type ToastProps = {
   action?: { onClick: () => void; label: string }

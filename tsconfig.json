@@ -19,10 +19,7 @@
     "resolveJsonModule": true,
     "outDir": "dist",
     "baseUrl": ".",
-    "paths": {
-      "~": ["src"],
-      "~/*": ["src/*"]
-    }
+    "paths": {}
   },
   "exclude": ["node_modules", "dist", "app"],
   "include": ["src"]
