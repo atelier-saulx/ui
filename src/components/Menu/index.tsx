@@ -262,6 +262,9 @@ export const Menu: FC<MenuProps> = ({
                     {icon ? (
                       <styled.div style={{ marginLeft: 0 }}>{icon}</styled.div>
                     ) : null}
+                    {!icon && !open && typeof label === 'string' ? (
+                      <>{label.split('').splice(0, 2)}</>
+                    ) : null}
 
                     {/* <div style={{ width: '100%', border: '1px solid red' }} /> */}
 
