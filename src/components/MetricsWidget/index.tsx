@@ -106,10 +106,10 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
           {selected}
         </Text>
         <styled.div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <Input
+          {/* <Input
             type="select"
             multiple={false}
-            value={selected}
+            // value={selected}
             onChange={(v) => {
               console.log(v)
               setSelected(v)
@@ -117,7 +117,7 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
             style={{ maxWidth: '110px' }}
             placeholder="Select one"
             options={selectOptions}
-          />
+          /> */}
           <styled.div
             style={{
               width: 1,

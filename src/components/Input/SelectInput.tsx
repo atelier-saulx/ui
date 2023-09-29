@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { IconCheckLarge, IconChevronDown, IconEmojiSad } from 'src/icons'
 import { color } from 'src/varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
@@ -11,6 +11,7 @@ export type SelectInputProps = {
   onChange: (value) => void
   options: { label: string; value: string }[]
   placeholder?: string
+  style?: Style
 }
 
 export function SelectInput({
@@ -18,6 +19,7 @@ export function SelectInput({
   onChange,
   options,
   placeholder,
+  style,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState(() =>
@@ -149,6 +151,7 @@ export function SelectInput({
                       )}`,
                     },
                   }),
+              ...style,
             }}
           />
           <span
