@@ -27,7 +27,7 @@ const COLORGUARD = [
 export type BadgeProps = {
   afterIcon?: ReactNode
   color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors
-  icon?: FC<IconProps> | ReactNode
+  icon?: ReactNode
   children?: ReactNode
   onClick?: ClickHandler
   style?: Style
@@ -163,9 +163,6 @@ const BadgeInner: FC<BadgeProps> = ({
             maxHeight: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            '& svg': {
-              fill: 'currentColor',
-            },
           }}
         >
           afterIcon
