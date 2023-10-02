@@ -76,12 +76,8 @@ export function Table({
         style={{
           borderTop: `1px solid ${color('border', 'default', 'strong')}`,
           borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
-          position: 'sticky',
           top: 0,
           margin: 0,
-          overflowX: 'hidden',
-          zIndex: 1,
-          transform: 'translate3d(0,0,0)',
           left: 0,
           background: color('background', 'default', 'strong'),
         }}
