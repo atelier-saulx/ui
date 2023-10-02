@@ -35,7 +35,6 @@ const example: ComponentDef = {
                       <Input
                         label="Type of company"
                         type="select"
-                        multiple={false}
                         value="value2"
                         onChange={() => {}}
                         options={[
@@ -143,7 +142,6 @@ const example: ComponentDef = {
                             placeholder="Input Placeholder"
                             style={{ maxWidth: '100%', marginTop: 8 }}
                             type="select"
-                            multiple={false}
                             value={value}
                             onChange={(v) => {
                               setValue(v)
