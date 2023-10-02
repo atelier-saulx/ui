@@ -48,6 +48,8 @@ export type ModalContentProps = {
 export function Content({ children }: ModalContentProps) {
   const { open, setOpen } = useContext(ModalContext)
 
+  if (!open) return null
+
   return (
     <DialogBase.Portal>
       <DialogBase.Overlay
