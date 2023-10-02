@@ -11,7 +11,7 @@ import {
 } from '../../icons'
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
-import { BpTablet } from 'src/utils'
+// import { BpTablet } from 'src/utils'
 
 export type PillOption = { label?: ReactNode; value: string }
 
@@ -205,9 +205,9 @@ export function Pill({
                 '&:hover': {
                   backgroundColor: color('action', 'neutral', 'subtleHover'),
                 },
-                [BpTablet]: {
-                  backgroundColor: 'transparent',
-                },
+                // [BpTablet]: {
+                //   backgroundColor: 'transparent',
+                // },
                 '&:active': {
                   backgroundColor: color('action', 'neutral', 'subtleActive'),
                 },

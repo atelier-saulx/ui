@@ -133,7 +133,9 @@ export const Toast: FC<ToastProps> = ({
           onClick={closeFunc}
           style={{ marginLeft: '21px' }}
           color={
-            strong && color === 'warning'
+            strong && color === 'default'
+              ? 'default'
+              : strong && color === 'warning'
               ? 'default'
               : strong
               ? 'inverted'
