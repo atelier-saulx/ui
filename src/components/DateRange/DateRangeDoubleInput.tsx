@@ -39,8 +39,6 @@ export const monthArr = [
 
 const DateWrap = styled('div', {
   display: 'flex',
-  // border: '1px solid green',
-  // height: '100%',
   cursor: 'pointer',
   padding: '8px 0px',
 })

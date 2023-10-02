@@ -401,6 +401,7 @@ export const NewDateInput = ({
                   }}
                 >
                   <IconChevronDown
+                    color="default"
                     style={{
                       '&:hover': {
                         backgroundColor: genColor('action', 'system', 'hover'),
