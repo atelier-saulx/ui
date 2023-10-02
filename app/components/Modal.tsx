@@ -104,7 +104,7 @@ const example: ComponentDef = {
       description: 'Another example of this',
       props: {},
       customRenderer: () => {
-        const [value, setValue] = useState<number | string>('')
+        const [value, setValue] = useState<string>('')
         return (
           <Modal.Root>
             <Modal.Trigger>
@@ -142,7 +142,7 @@ const example: ComponentDef = {
                             placeholder="Input Placeholder"
                             style={{ maxWidth: '100%', marginTop: 8 }}
                             type="select"
-                            value={value}
+                            value={String(value)}
                             onChange={(v) => {
                               setValue(v)
                             }}
@@ -190,7 +190,7 @@ const example: ComponentDef = {
                             placeholder="Input Placeholder"
                             style={{ maxWidth: '100%', marginTop: 8 }}
                             type="select"
-                            value={value}
+                            value={String(value)}
                             onChange={(v) => {
                               setValue(v)
                             }}
@@ -238,7 +238,7 @@ const example: ComponentDef = {
                             placeholder="Input Placeholder"
                             style={{ maxWidth: '100%', marginTop: 8 }}
                             type="select"
-                            value={value}
+                            value={String(value)}
                             onChange={(v) => {
                               setValue(v)
                             }}

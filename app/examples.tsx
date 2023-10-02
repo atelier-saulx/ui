@@ -45,12 +45,11 @@ import toast from './components/Toast'
 import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
-import useOverlay from './hooks/useOverlay'
 import useContextState from './hooks/useContextState'
 
 import modal from './components/Modal'
 
-export const hooks: ComponentDef[] = [useOverlay, useContextState]
+export const hooks: ComponentDef[] = [useContextState]
 
 export const components: ComponentDef[] = [
   accordion,

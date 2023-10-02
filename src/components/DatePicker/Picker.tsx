@@ -26,6 +26,7 @@ const StyledChevronHolders = styled('div', {
   borderRadius: 4,
   height: 24,
   width: 24,
+  color: genColor('content', 'default'),
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
