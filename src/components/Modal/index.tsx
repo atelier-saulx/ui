@@ -4,6 +4,7 @@ import { styled, Style } from 'inlines'
 import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { IconAlertFill } from '../../icons'
+import { scrollAreaStyle } from '../ScrollArea'
 
 type UseModalProps = {
   open: boolean
@@ -43,10 +44,13 @@ export type ModalContentProps = {
   children:
     | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)
     | ReactNode
+  width?: string | number
 }
 
-export function Content({ children }: ModalContentProps) {
+export function Content({ children, width = 552 }: ModalContentProps) {
   const { open, setOpen } = useContext(ModalContext)
+
+  if (!open) return null
 
   return (
     <DialogBase.Portal>
@@ -64,31 +68,35 @@ export function Content({ children }: ModalContentProps) {
         onCloseAutoFocus={(e) => {
           e.preventDefault()
         }}
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '90vw',
-          maxWidth: 552,
-          height: 'auto',
-          maxHeight: '70vh',
-          background: color('standalone', 'modal', 'default'),
-          borderRadius: 8,
-          boxShadow:
-            '0px 16px 24px -6px rgba(27, 36, 44, 0.16), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
-          padding: '24px 32px 0',
-          overflowY: 'auto',
-        }}
       >
-        {typeof children === 'function'
-          ? children({
-              open,
-              close: () => {
-                setOpen(false)
-              },
-            })
-          : children}
+        <styled.div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '90vw',
+            maxWidth: width,
+            height: 'auto',
+            maxHeight: '70vh',
+            background: color('standalone', 'modal', 'default'),
+            borderRadius: 8,
+            boxShadow:
+              '0px 16px 24px -6px rgba(27, 36, 44, 0.16), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+            padding: '24px 32px 0',
+            overflowY: 'auto',
+            ...scrollAreaStyle,
+          }}
+        >
+          {typeof children === 'function'
+            ? children({
+                open,
+                close: () => {
+                  setOpen(false)
+                },
+              })
+            : children}
+        </styled.div>
       </DialogBase.Content>
     </DialogBase.Portal>
   )

@@ -10,6 +10,7 @@ import {
   IconDelete,
   IconSortDesc,
   IconApps,
+  Tooltip,
 } from '../../src'
 
 const example: ComponentDef = {
@@ -25,9 +26,11 @@ const example: ComponentDef = {
 
         return (
           <Dropdown.Root>
-            <Dropdown.Trigger>
-              <Button color="system" icon={<IconMoreVertical />} />
-            </Dropdown.Trigger>
+            <Tooltip text="tooltip text">
+              <Dropdown.Trigger>
+                <Button color="system" icon={<IconMoreVertical />} />
+              </Dropdown.Trigger>
+            </Tooltip>
             <Dropdown.Items>
               <Dropdown.Item icon={<IconCopy />}>Duplicate</Dropdown.Item>
               <Dropdown.Item icon={<IconFullscreen />}>
@@ -54,7 +57,6 @@ const example: ComponentDef = {
                   </Dropdown.RadioItems>
                 </Dropdown.SubItems>
               </Dropdown.Sub>
-
               <Dropdown.Sub>
                 <Dropdown.SubTrigger icon={<IconOpenInNew />}>
                   Triple nest why not
@@ -70,6 +72,54 @@ const example: ComponentDef = {
               </Dropdown.Sub>
               <Dropdown.Separator />
               <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
+              <Dropdown.Item icon={<IconFullscreen />}>
+                Full screen
+              </Dropdown.Item>
             </Dropdown.Items>
           </Dropdown.Root>
         )

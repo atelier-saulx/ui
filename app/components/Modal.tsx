@@ -168,6 +168,102 @@ const example: ComponentDef = {
                       </Tab>
                       <Tab label="Settings">Avatar</Tab>
                     </Tabs>
+                    <Tabs>
+                      <Tab
+                        label="General"
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 24,
+                        }}
+                      >
+                        <Modal.Warning type="alert">
+                          You are about to update the default view{' '}
+                          <b>Sequence</b> for all users.
+                        </Modal.Warning>
+                        <span>
+                          <Text style={{}}>Name</Text>
+                          <Text light>
+                            Name that will be displayed in the interace
+                          </Text>
+                          <Input
+                            placeholder="Input Placeholder"
+                            style={{ maxWidth: '100%', marginTop: 8 }}
+                            type="select"
+                            value={String(value)}
+                            onChange={(v) => {
+                              setValue(v)
+                            }}
+                            options={[
+                              { label: 'Item one', value: 'value1' },
+                              { label: 'Item two', value: 'value2' },
+                              { label: 'Item three', value: 'value3' },
+                            ]}
+                          />
+                        </span>
+                        <CheckboxInput
+                          title="Name"
+                          description="Name that will be displayed in the interface"
+                          value={false}
+                          onChange={() => null}
+                        />
+                        <CheckboxInput
+                          title="Name"
+                          description="Name that will be displayed in the interface"
+                          value={false}
+                          onChange={() => null}
+                        />
+                      </Tab>
+                      <Tab label="Settings">Avatar</Tab>
+                    </Tabs>
+                    <Tabs>
+                      <Tab
+                        label="General"
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 24,
+                        }}
+                      >
+                        <Modal.Warning type="alert">
+                          You are about to update the default view{' '}
+                          <b>Sequence</b> for all users.
+                        </Modal.Warning>
+                        <span>
+                          <Text style={{}}>Name</Text>
+                          <Text light>
+                            Name that will be displayed in the interace
+                          </Text>
+                          <Input
+                            placeholder="Input Placeholder"
+                            style={{ maxWidth: '100%', marginTop: 8 }}
+                            type="select"
+                            value={String(value)}
+                            onChange={(v) => {
+                              setValue(v)
+                            }}
+                            options={[
+                              { label: 'Item one', value: 'value1' },
+                              { label: 'Item two', value: 'value2' },
+                              { label: 'Item three', value: 'value3' },
+                            ]}
+                          />
+                        </span>
+                        <CheckboxInput
+                          title="Name"
+                          description="Name that will be displayed in the interface"
+                          value={false}
+                          onChange={() => null}
+                        />
+                        <CheckboxInput
+                          title="Name"
+                          description="Name that will be displayed in the interface"
+                          value={false}
+                          onChange={() => null}
+                        />
+                      </Tab>
+                      <Tab label="Settings">Avatar</Tab>
+                    </Tabs>
                   </Modal.Body>
                   <Modal.Actions>
                     <Button onClick={close} color="system">
