@@ -1,33 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Pill } from '../../src'
-import props from '../props.json'
 import { ComponentDef } from '../types'
+import { faker } from '@faker-js/faker'
 
 const example: ComponentDef = {
   name: 'Pill',
   component: Pill,
-  description: 'Pill',
-  properties: props.props.PillProps.props,
+  description: 'Pill ',
+  properties: {},
   examples: [
     {
-      props: {
-        prefix: 'Select',
-        label: 'something',
-        options: [
-          { label: 'Item one', value: 'value1' },
-          { label: 'Item two', value: 'value2' },
-          { label: 'Item three', value: 'value3' },
-        ],
-        type: 'select',
-      },
-    },
-    {
-      props: {
-        filled: true,
-        prefix: 'Yes??',
-        label: 'YEs?',
-        value: true,
-        type: 'select',
+      props: {},
+      customRenderer: () => {
+        const [value, setValue] = useState<string>('')
+        const [options] = useState(() =>
+          Array.from({ length: 25 }).map((_, i) => ({
+            label: faker.person.fullName(),
+            value: `id${i}`,
+          }))
+        )
+
+        return (
+          <Pill
+            prefix="lala"
+            value={value}
+            onChange={(v) => {
+              setValue(v)
+            }}
+            options={options}
+            placeholder="Select one"
+          />
+        )
       },
     },
   ],
