@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
@@ -16,7 +16,7 @@ export type SelectInputProps = {
   style?: Style
 }
 
-const inputToString = (input: SelectOption | void): string => {
+const inputToString = (input: SelectOption | ''): string => {
   return typeof input === 'object'
     ? typeof input.label === 'string'
       ? input.label
@@ -32,11 +32,7 @@ export function SelectInput({
   style,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
-
-  const [inputValue, setInputValue] = useState<SelectOption | void>(() => {
-    return options.find((e) => e.value === value)
-  })
-
+  const [inputValue, setInputValue] = useState<SelectOption | ''>('')
   const [inputValueChanged, setInputValueChanged] = useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
@@ -45,7 +41,9 @@ export function SelectInput({
     inputValueChanged && inputValue
       ? options.filter((e) => {
           const f: string = typeof e.label === 'string' ? e.label : e.value
-          return f.toLocaleLowerCase().includes(inputToString(inputValue))
+          return f
+            .toLocaleLowerCase()
+            .includes(inputToString(inputValue).toLocaleLowerCase())
         })
       : options
 
@@ -68,6 +66,10 @@ export function SelectInput({
     setOpen(true)
     inputRef.current?.select()
   }
+
+  useEffect(() => {
+    setInputValue(options.find((e) => e.value === value))
+  }, [value])
 
   return (
     <Popover.Root open={open}>
