@@ -16,7 +16,7 @@ export type SelectInputProps = {
   style?: Style
 }
 
-const inputToString = (input: SelectOption | void): string => {
+const inputToString = (input: SelectOption | ''): string => {
   return typeof input === 'object'
     ? typeof input.label === 'string'
       ? input.label
@@ -32,7 +32,7 @@ export function SelectInput({
   style,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
-  const [inputValue, setInputValue] = useState<SelectOption | void>('')
+  const [inputValue, setInputValue] = useState<SelectOption | ''>('')
   const [inputValueChanged, setInputValueChanged] = useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
