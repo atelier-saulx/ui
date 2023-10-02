@@ -37,6 +37,13 @@ export function Items({ children }: DropdownItemsProps) {
             background: color('standalone', 'modal', 'default'),
             boxShadow:
               '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+            boxSizing: 'border-box',
+            overflowY: 'auto',
+            maxHeight:
+              'calc(var(--radix-dropdown-menu-content-available-height) - 16px)',
+            '& > * + *': {
+              marginTop: '2px',
+            },
           }}
         >
           {children}
@@ -63,7 +70,7 @@ export function Item({ icon, children, onClick, disabled }: DropdownItemProps) {
           lineHeight: '24px',
           fontFamily: 'Inter-Medium',
           position: 'relative',
-          padding: '8px 12px',
+          padding: '4px 12px',
           borderRadius: 8,
           outline: 'none',
           userSelect: 'none',
@@ -80,7 +87,7 @@ export function Item({ icon, children, onClick, disabled }: DropdownItemProps) {
         onClick={onClick}
       >
         {icon && (
-          <div style={{ position: 'absolute', top: 10, left: 12 }}>{icon}</div>
+          <div style={{ position: 'absolute', top: 6, left: 12 }}>{icon}</div>
         )}
         <div style={{ paddingLeft: 30 }}>{children}</div>
       </styled.div>
@@ -123,7 +130,7 @@ export function SubTrigger({ children, icon }: DropdownSubTriggerProps) {
           lineHeight: '24px',
           fontFamily: 'Inter-Medium',
           position: 'relative',
-          padding: '8px 12px',
+          padding: '4px 12px',
           borderRadius: 8,
           outline: 'none',
           userSelect: 'none',
@@ -138,11 +145,11 @@ export function SubTrigger({ children, icon }: DropdownSubTriggerProps) {
         }}
       >
         {icon && (
-          <div style={{ position: 'absolute', top: 10, left: 12 }}>{icon}</div>
+          <div style={{ position: 'absolute', top: 6, left: 12 }}>{icon}</div>
         )}
         <div style={{ padding: '0px 30px' }}>{children}</div>
         <div
-          style={{ position: 'absolute', display: 'flex', right: 12, top: 10 }}
+          style={{ position: 'absolute', display: 'flex', right: 12, top: 6 }}
         >
           <IconChevronRight />
         </div>
@@ -158,18 +165,27 @@ export type DropdownSubItemsProps = {
 export function SubItems({ children }: DropdownSubItemsProps) {
   return (
     <DropdownBase.Portal>
-      <DropdownBase.SubContent
-        style={{
-          width: 267,
-          padding: 8,
-          borderRadius: 8,
-          border: `1px solid ${color('border', 'default', 'strong')}`,
-          background: color('standalone', 'modal', 'default'),
-          boxShadow:
-            '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
-        }}
-      >
-        {children}
+      <DropdownBase.SubContent asChild>
+        <styled.div
+          style={{
+            width: 267,
+            padding: 8,
+            borderRadius: 8,
+            border: `1px solid ${color('border', 'default', 'strong')}`,
+            background: color('standalone', 'modal', 'default'),
+            boxShadow:
+              '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+            boxSizing: 'border-box',
+            overflowY: 'auto',
+            maxHeight:
+              'calc(var(--radix-dropdown-menu-content-available-height) - 16px)',
+            '& > * + *': {
+              marginTop: '2px',
+            },
+          }}
+        >
+          {children}
+        </styled.div>
       </DropdownBase.SubContent>
     </DropdownBase.Portal>
   )
@@ -208,7 +224,7 @@ export function RadioItem({ children, value }: DropdownRadioItemProps) {
           lineHeight: '24px',
           fontFamily: 'Inter-Medium',
           position: 'relative',
-          padding: '8px 12px',
+          padding: '4px 12px',
           borderRadius: 8,
           outline: 'none',
           userSelect: 'none',
@@ -220,7 +236,7 @@ export function RadioItem({ children, value }: DropdownRadioItemProps) {
         }}
       >
         <DropdownBase.ItemIndicator asChild>
-          <div style={{ position: 'absolute', top: 10, left: 12 }}>
+          <div style={{ position: 'absolute', top: 6, left: 12 }}>
             <IconCheckLarge />
           </div>
         </DropdownBase.ItemIndicator>
