@@ -152,7 +152,6 @@ const example: ComponentDef = {
                 step={3}
                 min={10}
                 clearButton
-                minLength={2}
                 value={amount}
                 type="number"
                 onChange={(e) => setAmount(e)}

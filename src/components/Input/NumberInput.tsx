@@ -19,8 +19,8 @@ export type NumberInputOwnProps = {
   placeholder?: ReactNode
   error?: boolean
   message?: ReactNode
-  min: number
-  max: number
+  min?: number
+  max?: number
 }
 
 export type NumberInputProps = NumberInputOwnProps &
