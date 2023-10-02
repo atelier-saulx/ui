@@ -178,7 +178,7 @@ export function SelectInput({
               top: 10,
             }}
           >
-            <IconChevronDown />
+            <IconChevronDown color="default" />
           </span>
         </div>
       </Popover.Anchor>
@@ -242,7 +242,7 @@ export function SelectInput({
                   >
                     {item.value === value && (
                       <span style={{ position: 'absolute', left: 12, top: 6 }}>
-                        <IconCheckLarge />
+                        <IconCheckLarge color="default" />
                       </span>
                     )}
                     <Text color="default" size={14} weight="medium">
@@ -259,7 +259,7 @@ export function SelectInput({
                   }}
                 >
                   <span style={{ position: 'absolute', left: 12, top: 6 }}>
-                    <IconEmojiSad />
+                    <IconEmojiSad color="default" />
                   </span>
 
                   <Text color="default" size={14} weight="medium">

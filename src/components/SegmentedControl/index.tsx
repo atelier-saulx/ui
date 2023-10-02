@@ -94,7 +94,7 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
             size={14}
             weight="medium"
             style={{
-              // zIndex: 1,
+              transition: 'color 0.25s',
               color: activeOption === idx ? '#1b242c' : 'inherit',
               width: '100%',
             }}

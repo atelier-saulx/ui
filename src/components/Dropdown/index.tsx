@@ -88,7 +88,16 @@ export function Item({ icon, children, onClick, disabled }: DropdownItemProps) {
         onClick={onClick}
       >
         {icon && (
-          <div style={{ position: 'absolute', top: 6, left: 12 }}>{icon}</div>
+          <div
+            style={{
+              position: 'absolute',
+              top: 6,
+              left: 12,
+              color: color('content', 'default'),
+            }}
+          >
+            {icon}
+          </div>
         )}
         <div style={{ paddingLeft: 30 }}>{children}</div>
       </styled.div>

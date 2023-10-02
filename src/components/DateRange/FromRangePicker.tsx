@@ -16,11 +16,11 @@ const StyledDatePickerBox = styled('div', {
   background: genColor('background', 'default', 'strong'),
   borderRadius: 4,
   width: 280,
-  // height: 396,
 })
 
 const StyledChevronHolders = styled('div', {
   borderRadius: 4,
+  color: genColor('content', 'default'),
   height: 24,
   width: 24,
   display: 'flex',
@@ -63,12 +63,6 @@ const MscToString = (value: number): string => {
 
   return `${day}/${month}/${year}`
 }
-
-// const stringToMilliseconds = (str: string, time?: string): number => {
-//   const dateString = `${str?.split('/').reverse().join('-')}T${time || '00:00'}`
-//   const outputMs = new Date(dateString).getTime()
-//   return outputMs
-// }
 
 export const FromRangePicker = ({
   setValue,
@@ -204,10 +198,15 @@ export const FromRangePicker = ({
             onClick={() => monthChanger('backward')}
             style={{ marginRight: 16 }}
           >
-            <IconChevronTop />
+            <IconChevronTop
+              color="default"
+              style={{
+                color: genColor('content', 'default'),
+              }}
+            />
           </StyledChevronHolders>
           <StyledChevronHolders onClick={() => monthChanger('forward')}>
-            <IconChevronDown />
+            <IconChevronDown color="default" />
           </StyledChevronHolders>
         </styled.div>
       </styled.div>

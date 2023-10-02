@@ -142,7 +142,7 @@ const example: ComponentDef = {
                             placeholder="Input Placeholder"
                             style={{ maxWidth: '100%', marginTop: 8 }}
                             type="select"
-                            value={value}
+                            value={String(value)}
                             onChange={(v) => {
                               setValue(v)
                             }}
@@ -190,7 +190,7 @@ const example: ComponentDef = {
                             placeholder="Input Placeholder"
                             style={{ maxWidth: '100%', marginTop: 8 }}
                             type="select"
-                            value={value}
+                            value={String(value)}
                             onChange={(v) => {
                               setValue(v)
                             }}
@@ -238,7 +238,7 @@ const example: ComponentDef = {
                             placeholder="Input Placeholder"
                             style={{ maxWidth: '100%', marginTop: 8 }}
                             type="select"
-                            value={value}
+                            value={String(value)}
                             onChange={(v) => {
                               setValue(v)
                             }}

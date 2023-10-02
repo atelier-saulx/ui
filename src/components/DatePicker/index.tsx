@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react'
 import { StateProvider } from '../../hooks'
 import { styled, Style } from 'inlines'
 import { NewDateInput } from './NewDateInput'
-// import { DatePickerProps } from '../../'
 
 type DatePickerProps = {
   value?: number // milliseconds
@@ -11,9 +10,6 @@ type DatePickerProps = {
   numbered?: boolean
   style?: Style
 }
-
-// TODO: when error message
-// TODO: hover range ??
 
 export const DatePicker: FC<DatePickerProps> = ({
   value = Date.now(),
