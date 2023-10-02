@@ -22,6 +22,7 @@ import linegraph from './components/Linegraph'
 import logsText from './components/LogsText'
 import metricsWidget from './components/MetricsWidget'
 import multlineInput from './components/MultilineInput'
+import numberInput from './components/NumberInput'
 import pieGraph from './components/PieGraph'
 import pill from './components/Pill'
 import popover from './components/Popover'
@@ -75,6 +76,7 @@ export const components: ComponentDef[] = [
   metricsWidget,
   modal,
   multlineInput,
+  numberInput,
   pieGraph,
   pill,
   popover,

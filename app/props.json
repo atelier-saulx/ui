@@ -969,6 +969,9 @@
     "NumberInputOwnProps": {
       "name": "NumberInputOwnProps",
       "props": {
+        "value": {
+          "type": "number"
+        },
         "clearButton": {
           "optional": true,
           "type": "boolean"
@@ -985,16 +988,43 @@
           "optional": true,
           "type": "BadgeProps"
         },
+        "suffix": {
+          "optional": true,
+          "type": "BadgeProps"
+        },
         "style": {
           "optional": true,
           "type": "Style"
         },
-        "suffix": {
+        "onChange": {
+          "type": "function"
+        },
+        "onFocus": {
           "optional": true,
-          "type": "BadgeProps"
+          "type": "function"
+        },
+        "onBlur": {
+          "optional": true,
+          "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "error": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "message": {
+          "optional": true,
+          "type": "ReactNode"
         }
       },
-      "code": "type NumberInputOwnProps = {\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  style?: Style\n  suffix?: BadgeProps\n}",
+      "code": "type NumberInputOwnProps = {\n  value: number\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  style?: Style\n  onChange: (value: number) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  error?: boolean\n  message?: ReactNode\n}",
       "file": "/components/Input/NumberInput.tsx"
     },
     "SelectInputProps": {
@@ -1511,9 +1541,16 @@
             "TSParenthesizedType",
             "ReactNode"
           ]
+        },
+        "width": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
         }
       },
-      "code": "type ModalContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n}",
+      "code": "type ModalContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n  width?: string | number\n}",
       "file": "/components/Modal/index.tsx"
     },
     "ModalWarningProps": {

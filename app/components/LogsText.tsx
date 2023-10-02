@@ -149,10 +149,14 @@ const example: ComponentDef = {
                 ]}
               />
               <Input
+                step={3}
+                min={10}
+                clearButton
+                minLength={2}
                 value={amount}
                 type="number"
-                onChange={(e) => setAmount(parseInt(e.target.value))}
-                style={{ width: '100px' }}
+                onChange={(e) => setAmount(e)}
+                style={{}}
               />
             </div>
             <Button onClick={() => genLog(amount, type)}>
