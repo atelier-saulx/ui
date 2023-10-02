@@ -104,7 +104,7 @@ const example: ComponentDef = {
       description: 'Another example of this',
       props: {},
       customRenderer: () => {
-        const [value, setValue] = useState<number | string>('')
+        const [value, setValue] = useState<string>('')
         return (
           <Modal.Root>
             <Modal.Trigger>

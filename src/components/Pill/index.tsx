@@ -12,6 +12,7 @@ import {
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 import { BpTablet } from 'src/utils'
+import { scrollAreaStyle } from '../ScrollArea'
 
 export type PillOption = { label?: ReactNode; value: string }
 
@@ -224,11 +225,7 @@ export function Pill({
         <RemoveScroll allowPinchZoom>
           <Popover.Content
             onInteractOutside={(e) => {
-              if (e.target === inputRef?.current) {
-                e.preventDefault()
-              } else {
-                handleClose()
-              }
+              handleClose()
             }}
             onOpenAutoFocus={(e) => {
               e.preventDefault()
@@ -252,6 +249,7 @@ export function Pill({
                 background: color('standalone', 'modal', 'default'),
                 boxShadow:
                   '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+                ...scrollAreaStyle,
               }}
             >
               {filteredOptions.length ? (
