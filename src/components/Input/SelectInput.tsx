@@ -2,7 +2,12 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
-import { IconCheckLarge, IconChevronDown, IconEmojiSad } from '../../icons'
+import {
+  IconCheckLarge,
+  IconChevronDown,
+  IconClose,
+  IconEmojiSad,
+} from '../../icons'
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 import { scrollAreaStyle } from '../ScrollArea'
@@ -14,6 +19,8 @@ export type SelectInputProps = {
   onChange: (value) => void
   options: SelectOption[]
   placeholder?: string
+  clearbutton?: boolean
+  size?: 'small' | 'normal'
   style?: Style
 }
 
@@ -27,9 +34,11 @@ const inputToString = (input: SelectOption | ''): string => {
 
 export function SelectInput({
   value,
+  clearbutton,
   onChange,
   options,
   placeholder,
+  size = 'normal',
   style,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
@@ -75,9 +84,19 @@ export function SelectInput({
   return (
     <Popover.Root open={open}>
       <Popover.Anchor asChild>
-        <div style={{ position: 'relative', width: '100%' }}>
+        <div
+          style={{
+            position: 'relative',
+            width: size === 'small' ? '60%' : '100%',
+          }}
+        >
           <styled.input
-            value={inputToString(inputValue)}
+            value={
+              size === 'small' && inputToString(inputValue).length >= 12
+                ? inputToString(inputValue).split('').slice(0, 10).join('') +
+                  '...'
+                : inputToString(inputValue)
+            }
             ref={inputRef}
             onClick={() => {
               handleOpen()
@@ -130,7 +149,8 @@ export function SelectInput({
               boxSizing: 'border-box',
               outline: 'none',
               width: '100%',
-              padding: '8px 40px 8px 12px',
+              padding:
+                size === 'small' ? '6px 40px 6px 12px' : '8px 40px 8px 12px',
               fontSize: 14,
               lineHeight: '24px',
               background: 'transparent',
@@ -170,6 +190,21 @@ export function SelectInput({
               ...style,
             }}
           />
+
+          {inputValue && value && clearbutton && (
+            <IconClose
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setInputValue(() => {
+                  return options.find(() => '' === value)
+                })
+                setActiveIndex(0)
+                onChange(0)
+              }}
+              style={{ position: 'absolute', top: 10, right: 40 }}
+            />
+          )}
           <span
             style={{
               pointerEvents: 'none',

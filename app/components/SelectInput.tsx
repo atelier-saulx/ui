@@ -24,6 +24,7 @@ const example: ComponentDef = {
           <Input
             type="select"
             label="This is a label"
+            clearbutton
             value={value}
             onChange={(v) => {
               setValue(v)
