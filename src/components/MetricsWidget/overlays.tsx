@@ -27,6 +27,7 @@ const StyledSelectItem = styled('div', {
 export const CalculateOptionsOverlay = ({
   calculationOption,
   setCalculationOption,
+  close,
 }) => {
   return (
     <styled.div
@@ -39,9 +40,10 @@ export const CalculateOptionsOverlay = ({
       <StyledSelectItem
         onClick={() => {
           setCalculationOption('numbers')
-          removeOverlay()
+          close()
         }}
         style={{
+          marginBottom: 6,
           backgroundColor:
             calculationOption === 'numbers'
               ? color('action', 'primary', 'subtleSelected')
@@ -59,7 +61,7 @@ export const CalculateOptionsOverlay = ({
       <StyledSelectItem
         onClick={() => {
           setCalculationOption('percentage')
-          removeOverlay()
+          close()
         }}
         style={{
           backgroundColor:
@@ -78,7 +80,7 @@ export const CalculateOptionsOverlay = ({
   )
 }
 
-export const ChartOptionsOverlay = ({ chartOption, setChartOption }) => {
+export const ChartOptionsOverlay = ({ chartOption, setChartOption, close }) => {
   return (
     <styled.div
       style={{
@@ -91,9 +93,10 @@ export const ChartOptionsOverlay = ({ chartOption, setChartOption }) => {
       <StyledSelectItem
         onClick={() => {
           setChartOption('bar')
-          removeOverlay()
+          close()
         }}
         style={{
+          marginBottom: 6,
           backgroundColor:
             chartOption === 'bar'
               ? color('action', 'primary', 'subtleSelected')
@@ -112,9 +115,10 @@ export const ChartOptionsOverlay = ({ chartOption, setChartOption }) => {
       <StyledSelectItem
         onClick={() => {
           setChartOption('line')
-          removeOverlay()
+          close()
         }}
         style={{
+          marginBottom: 6,
           backgroundColor:
             chartOption === 'line'
               ? color('action', 'primary', 'subtleSelected')
@@ -129,7 +133,7 @@ export const ChartOptionsOverlay = ({ chartOption, setChartOption }) => {
       <StyledSelectItem
         onClick={() => {
           setChartOption('pie')
-          removeOverlay()
+          close()
         }}
         style={{
           backgroundColor:
