@@ -84,7 +84,15 @@ const example: ComponentDef = {
       customRenderer: (props) => {
         const { data, loading, checksum, error } = useQuery('db', {
           $id: 'root',
-          $all: true,
+          files: {
+            $all: true,
+            $list: {
+              $find: {
+                $traverse: 'children',
+                $filter: { $operator: '=', $field: 'type', $value: 'file' },
+              },
+            },
+          },
         })
 
         console.log('DATA??', data, loading, error)

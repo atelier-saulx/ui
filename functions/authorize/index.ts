@@ -4,7 +4,7 @@ import { Authorize } from '@based/functions'
 // the client calls a function. They return
 // a bollean allowing or blocking the request.
 const authorize: Authorize = async (_based, _ctx, _name, _payload) => {
-  return false
+  return true
 }
 
 export default authorize

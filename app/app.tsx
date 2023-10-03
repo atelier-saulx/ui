@@ -114,7 +114,7 @@ const App = () => {
 }
 
 render(
-  <Provider>
+  <Provider client={client}>
     <App />
   </Provider>,
   document.getElementById('root')
