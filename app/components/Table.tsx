@@ -60,17 +60,29 @@ const example: ComponentDef = {
                   label: 'ID',
                   key: 'id',
                   type: 'id',
+                  width: 200,
                 },
                 {
                   label: 'Title',
                   key: 'title',
+                  width: 200,
                 },
                 {
                   label: 'Img',
                   key: 'image',
                   type: 'img',
+                  width: 80,
+                },
+                {
+                  key: 'stage',
+                  width: 200,
+                },
+                {
+                  key: 'author',
+                  width: 200,
                 },
               ]}
+              selectable
               // query={}
               // getQueryItems={data}
             />
@@ -88,8 +100,8 @@ const example: ComponentDef = {
         return (
           <div
             style={{
-              height: 700,
-              width: '676px',
+              height: 500,
+              width: '500px',
             }}
           >
             <Table
@@ -97,7 +109,7 @@ const example: ComponentDef = {
               query={(offset, limit) => {
                 return client.query('db', {
                   $id: 'root',
-                  files: {
+                  todo: {
                     $all: true,
                     $list: {
                       $sort: { $field: 'updatedAt', $order: 'desc' },
@@ -117,10 +129,72 @@ const example: ComponentDef = {
               }}
               getQueryItems={(d) => {
                 console.log('', d)
-                return d.files
+                return d.todo
               }}
               // want to have inifity
               itemCount={50000}
+              headers={[
+                {
+                  label: 'ID',
+                  key: 'id',
+                  type: 'id',
+                  width: 242,
+                },
+                {
+                  label: 'Name',
+                  key: 'name',
+                  width: 242,
+                },
+              ]}
+              // query={}
+              // getQueryItems={data}
+            />
+          </div>
+        )
+      },
+    },
+
+    {
+      props: {},
+      customRenderer: (props) => {
+        const client = useClient()
+
+        return (
+          <div
+            style={{
+              height: 500,
+              width: '676px',
+            }}
+          >
+            <Table
+              queryId={'bla'}
+              query={(offset, limit) => {
+                return client.query('db', {
+                  $id: 'root',
+                  file: {
+                    $all: true,
+                    $list: {
+                      $sort: { $field: 'updatedAt', $order: 'desc' },
+                      $offset: offset,
+                      $limit: limit,
+                      $find: {
+                        $traverse: 'children',
+                        $filter: {
+                          $operator: '=',
+                          $field: 'type',
+                          $value: 'file',
+                        },
+                      },
+                    },
+                  },
+                })
+              }}
+              getQueryItems={(d) => {
+                console.log('', d)
+                return d.file
+              }}
+              // want to have inifity
+              itemCount={100}
               headers={[
                 {
                   label: 'ID',
@@ -130,6 +204,15 @@ const example: ComponentDef = {
                 {
                   label: 'Name',
                   key: 'name',
+                },
+                {
+                  label: 'SRC',
+                  key: 'src',
+                  type: 'image',
+                },
+                {
+                  label: 'Good Size',
+                  key: 'size',
                 },
               ]}
               // query={}
