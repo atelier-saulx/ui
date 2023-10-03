@@ -114,6 +114,8 @@ export const SizedGrid: FC<TableProps & RowSelectTypes> = (props) => {
 
   let parsedData = query ? result.items : data
 
+  console.log('result??', result)
+
   defW = Math.max(Math.floor((width - w) / nonAllocated), 100)
 
   const timer = useRef<ReturnType<typeof setTimeout>>()
@@ -165,14 +167,14 @@ export const SizedGrid: FC<TableProps & RowSelectTypes> = (props) => {
       {/* TODO: wrap in styled and share froms scroll area */}
 
       <Grid
-        className="go2015383901 go3565260572 go2201354693 go4127164290"
+        //  className="go2015383901 go3565260572 go2201354693 go4127164290"
         onScroll={(e) => {
           result.onScrollY(e.scrollTop)
           headerWrapper.current.scrollLeft = e.scrollLeft
         }}
         columnCount={columnCount}
         columnWidth={(colIndex) => {
-          return headers[colIndex].width ?? defW
+          return headers[colIndex].width ?? defW - 16 / headers.length
         }}
         height={height - 40}
         rowCount={itemCount}

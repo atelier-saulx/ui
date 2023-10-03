@@ -60,15 +60,89 @@ const example: ComponentDef = {
                   label: 'ID',
                   key: 'id',
                   type: 'id',
+                  width: 200,
                 },
                 {
                   label: 'Title',
                   key: 'title',
+                  width: 200,
                 },
                 {
                   label: 'Img',
                   key: 'image',
                   type: 'img',
+                  width: 80,
+                },
+                {
+                  key: 'stage',
+                  width: 200,
+                },
+                {
+                  key: 'author',
+                  width: 200,
+                },
+              ]}
+              selectable
+              // query={}
+              // getQueryItems={data}
+            />
+          </div>
+        )
+      },
+    },
+
+    {
+      props: {},
+      customRenderer: (props) => {
+        const client = useClient()
+
+        return (
+          <div
+            style={{
+              height: 500,
+              width: '500px',
+            }}
+          >
+            <Table
+              queryId={'bla'}
+              query={(offset, limit) => {
+                return client.query('db', {
+                  $id: 'root',
+                  todo: {
+                    $all: true,
+                    $list: {
+                      $sort: { $field: 'updatedAt', $order: 'desc' },
+                      $offset: offset,
+                      $limit: limit,
+                      $find: {
+                        $traverse: 'children',
+                        $filter: {
+                          $operator: '=',
+                          $field: 'type',
+                          $value: 'todo',
+                        },
+                      },
+                    },
+                  },
+                })
+              }}
+              getQueryItems={(d) => {
+                console.log('', d)
+                return d.todo
+              }}
+              // want to have inifity
+              itemCount={50000}
+              headers={[
+                {
+                  label: 'ID',
+                  key: 'id',
+                  type: 'id',
+                  width: 242,
+                },
+                {
+                  label: 'Name',
+                  key: 'name',
+                  width: 242,
                 },
               ]}
               // query={}
@@ -91,13 +165,12 @@ const example: ComponentDef = {
               width: '676px',
             }}
           >
-            <Text>Query table</Text>
             <Table
               queryId={'bla'}
               query={(offset, limit) => {
                 return client.query('db', {
                   $id: 'root',
-                  files: {
+                  file: {
                     $all: true,
                     $list: {
                       $sort: { $field: 'updatedAt', $order: 'desc' },
@@ -108,7 +181,7 @@ const example: ComponentDef = {
                         $filter: {
                           $operator: '=',
                           $field: 'type',
-                          $value: 'todo',
+                          $value: 'file',
                         },
                       },
                     },
@@ -117,10 +190,10 @@ const example: ComponentDef = {
               }}
               getQueryItems={(d) => {
                 console.log('', d)
-                return d.files
+                return d.file
               }}
               // want to have inifity
-              itemCount={50000}
+              itemCount={100}
               headers={[
                 {
                   label: 'ID',
@@ -130,6 +203,15 @@ const example: ComponentDef = {
                 {
                   label: 'Name',
                   key: 'name',
+                },
+                {
+                  label: 'SRC',
+                  key: 'src',
+                  type: 'image',
+                },
+                {
+                  label: 'Good Size',
+                  key: 'size',
                 },
               ]}
               // query={}
