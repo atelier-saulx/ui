@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Avatar, Badge, Table } from '../../src'
+import { Avatar, Badge, Table, Text } from '../../src'
 import { faker } from '@faker-js/faker'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import { useQuery } from '@based/react'
 
 const example: ComponentDef = {
   name: 'Table',
@@ -11,7 +12,7 @@ const example: ComponentDef = {
   properties: props.props.TableProps.props,
   examples: [
     {
-      props: { resizeMode: 'smooth' },
+      props: {},
       customRenderer: (props) => {
         const newPerson = () => {
           return {
@@ -49,83 +50,106 @@ const example: ComponentDef = {
           <div
             style={{
               height: 500,
-              // width: '10000px',
+              width: '676px',
             }}
           >
             <Table
               data={data}
-              resizeMode={props.resizeMode}
-              // onSize={() => {
-              //   // setSize // loadsTheData
-              // }}
-              //  Add arg pageSize
-              onScrollToBottom={() => {
-                // page size
-                fetchMoreData()
-              }}
-              columns={[
-                { header: 'ID', accessor: 'id' },
+              headers={[
                 {
-                  header: 'Stage',
-                  accessor: 'stage',
-                  cell: (value) => (
-                    <Badge
-                      light
-                      color={value === 'Published' ? 'green' : 'purple'}
-                    >
-                      {value}
-                    </Badge>
-                  ),
-                },
-                { header: 'Title', accessor: 'title' },
-                {
-                  header: 'Cover Image',
-                  accessor: 'image',
-                  cell: (value) => (
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <img
-                        src={value}
-                        style={{ height: 48, width: 48, borderRadius: 4 }}
-                      />
-                    </div>
-                  ),
+                  label: 'ID',
+                  key: 'id',
+                  type: 'id',
                 },
                 {
-                  header: 'Author',
-                  accessor: 'author',
-                  cell: (value) => (
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Avatar size="small">{value}</Avatar>
-                      <span
-                        style={{
-                          marginLeft: 8,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          maxWidth: '100%',
-                        }}
-                      >
-                        {value}
-                      </span>
-                    </div>
-                  ),
+                  label: 'Title',
+                  key: 'title',
                 },
                 {
-                  header: 'Created',
-                  accessor: 'createdAt',
-                  cell: (value) => value.toISOString(),
+                  label: 'Img',
+                  key: 'image',
+                  type: 'img',
                 },
               ]}
+              // query={}
+              // getQueryItems={data}
+            />
+          </div>
+        )
+      },
+    },
+
+    {
+      props: {},
+      customRenderer: (props) => {
+        const { data, loading, checksum, error } = useQuery('db', {
+          $id: 'root',
+          files: {
+            $all: true,
+            $list: {
+              $find: {
+                $traverse: 'children',
+                $filter: { $operator: '=', $field: 'type', $value: 'file' },
+              },
+            },
+          },
+        })
+
+        console.log('DATA??', data, loading, error)
+
+        return (
+          <div
+            style={{
+              height: 500,
+              width: '676px',
+            }}
+          >
+            <Text>Query table</Text>
+            <Table
+              // queryId={filter + (statusFilter ?? '')}
+              // query={(offset, limit) => {
+              //   if (filter) {
+              //     return client.query('machines', {
+              //       ...env,
+              //       offset,
+              //       limit,
+              //       configName,
+              //       filter,
+              //       status: statusFilter,
+              //     })
+              //   }
+              //   return client.query('machines', {
+              //     ...env,
+              //     offset,
+              //     limit,
+              //     configName,
+              //     status: statusFilter,
+              //   })
+              // }}
+              // getQueryItems={(d) => {
+              //   return d.machines
+              // }}
+              // // also filter this amount...
+              // itemCount={machineStatus.amount}
+              // context={{ envAdminHub }}
+              headers={[
+                {
+                  label: 'ID',
+                  key: 'id',
+                  type: 'id',
+                },
+                {
+                  label: 'Title',
+                  key: 'title',
+                },
+                {
+                  label: 'Img',
+                  key: 'image',
+                  type: 'img',
+                },
+              ]}
+              // query={}
+              // getQueryItems={data}
             />
           </div>
         )
