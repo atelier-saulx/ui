@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { ReactNode, FC } from 'react'
 import { usePropState } from '../../hooks/usePropState'
 import { ColorActionColors } from '../../varsTypes'
 import { Text } from '../Text'
@@ -9,7 +9,7 @@ import { RadioButton } from './RadioButton'
 type RadioButtonsProps = {
   color?: ColorActionColors
   data?: Array<{
-    label?: string
+    label?: ReactNode
     value: string | boolean | number
     description?: string
   }>

@@ -9,7 +9,7 @@ const example: ComponentDef = {
   name: 'Table',
   component: Table,
   description: 'Infinite scrollable virtualized table with rich content',
-  properties: props.props.TableProps.props,
+  properties: {}, // props.props.TableProps.props,
   examples: [
     {
       props: {},
@@ -49,7 +49,7 @@ const example: ComponentDef = {
         return (
           <div
             style={{
-              height: 500,
+              height: 700,
               width: '676px',
             }}
           >
@@ -92,6 +92,7 @@ const example: ComponentDef = {
     },
 
     {
+      name: 'Query',
       props: {},
       customRenderer: (props) => {
         const client = useClient()

@@ -20,7 +20,6 @@ export const MenuItem: FC<MenuItemProps> = ({
   open,
   style,
 }) => {
-  console.log(open)
   return (
     <styled.div
       onClick={(e) => onClick(e)}
