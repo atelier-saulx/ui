@@ -10,7 +10,7 @@ import { Text } from '../Text'
 import { IconAlertFill } from '../../icons'
 import { styled } from 'inlines'
 import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
-import { MultilineInput, MultilineInputProps } from './MultilineInput'
+import { TextAreaInput, TextAreaInputProps } from './TextAreaInput'
 
 export type CommonInputProps = {
   label?: ReactNode
@@ -24,7 +24,7 @@ export type CommonInputProps = {
 export type InputProps = CommonInputProps &
   (
     | ({ type: 'text' } & TextInputProps)
-    | ({ type: 'multiline' } & MultilineInputProps)
+    | ({ type: 'textarea' } & TextAreaInputProps)
     | ({ type: 'search' } & SearchInputProps)
     | ({ type: 'select' } & SelectInputProps)
     | ({ type: 'number' } & NumberInputProps)
@@ -47,7 +47,7 @@ export function Input(props: InputProps) {
         </LabelAndErrorWrapper>
       )
     }
-    case 'multiline': {
+    case 'textarea': {
       const { type, ...narrowedProps } = props
       return (
         <LabelAndErrorWrapper
@@ -55,7 +55,7 @@ export function Input(props: InputProps) {
           label={props.label}
           error={props.error}
         >
-          <MultilineInput {...narrowedProps} />
+          <TextAreaInput {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
     }

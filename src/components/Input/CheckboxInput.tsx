@@ -3,26 +3,35 @@ import { IconCheckSmall, IconMinus } from '../../icons'
 import { Style, styled } from 'inlines'
 import { Text } from '../Text'
 import { color } from '../../varsUtilities'
+import { useControllableState } from 'src/hooks/useControllableState'
 
 export type CheckboxInputProps = {
   title?: ReactNode
   description?: string
-  value: boolean
-  onChange: (newValue: boolean) => void
+  value?: boolean
+  defaultValue?: boolean
+  onChange?: (newValue: boolean) => void
   disabled?: boolean
   intermediate?: boolean
   style?: Style
 }
 
 export function CheckboxInput({
-  value,
-  onChange,
+  value: valueProp,
+  defaultValue: defaultValueProp,
+  onChange: onChangeProp,
   disabled,
   title,
   style,
   description,
   intermediate,
 }: CheckboxInputProps) {
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
+
   return (
     <styled.label
       className="checkbox-group"
@@ -61,7 +70,7 @@ export function CheckboxInput({
           }}
           onChange={(e) => {
             if (disabled || intermediate) return
-            onChange(e.target.checked)
+            setValue(e.target.checked)
           }}
           disabled={disabled}
           style={{
