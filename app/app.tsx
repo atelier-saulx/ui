@@ -11,6 +11,7 @@ import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import { components, hooks } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
+import { useQuery } from '@based/react'
 
 export const client = based(basedConfig)
 
@@ -21,6 +22,13 @@ const App = () => {
     return c.name === component
   })
   const [filter, setFilter] = useState('')
+
+  // const { data, loading, checksum } = useQuery('db', {
+  //   $id: 'root',
+  //   $all: true,
+  // })
+
+  // console.log('DATA🌮', data)
 
   return (
     <styled.div
