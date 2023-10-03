@@ -24,7 +24,32 @@ const example: ComponentDef = {
           <Input
             type="select"
             label="This is a label"
-            clearbutton
+            value={value}
+            onChange={(v) => {
+              setValue(v)
+            }}
+            options={options}
+            placeholder="Select one"
+          />
+        )
+      },
+    },
+    {
+      props: {},
+      customRenderer: () => {
+        const [value, setValue] = useState<string>('')
+        const [options] = useState(() =>
+          Array.from({ length: 25 }).map((_, i) => ({
+            label: faker.person.fullName(),
+            value: `id${i}`,
+          }))
+        )
+
+        return (
+          <Input
+            type="select"
+            label="This is a searchable select"
+            searchable
             value={value}
             onChange={(v) => {
               setValue(v)

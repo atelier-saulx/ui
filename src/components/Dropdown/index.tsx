@@ -27,7 +27,12 @@ export type DropdownItemsProps = {
 export function Items({ children }: DropdownItemsProps) {
   return (
     <DropdownBase.Portal>
-      <DropdownBase.Content asChild>
+      <DropdownBase.Content
+        asChild
+        onCloseAutoFocus={(e) => {
+          e.preventDefault()
+        }}
+      >
         <styled.div
           style={{
             zIndex: 60,

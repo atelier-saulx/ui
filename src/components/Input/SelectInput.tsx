@@ -22,6 +22,7 @@ export type SelectInputProps = {
   clearbutton?: boolean
   size?: 'small' | 'normal'
   style?: Style
+  searchable?: boolean
 }
 
 const inputToString = (input: SelectOption | ''): string => {
@@ -40,6 +41,7 @@ export function SelectInput({
   placeholder,
   size = 'normal',
   style,
+  searchable = false,
 }: SelectInputProps) {
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState<SelectOption | ''>('')
@@ -56,6 +58,22 @@ export function SelectInput({
             .includes(inputToString(inputValue).toLocaleLowerCase())
         })
       : options
+  const Component = searchable ? styled.input : styled.div
+  const componentProps = searchable
+    ? {
+        value:
+          size === 'small' && inputToString(inputValue).length >= 12
+            ? inputToString(inputValue).split('').slice(0, 10).join('') + '...'
+            : inputToString(inputValue),
+        placeholder,
+      }
+    : {
+        children: inputToString(inputValue)
+          ? size === 'small' && inputToString(inputValue).length >= 12
+            ? inputToString(inputValue).split('').slice(0, 10).join('') + '...'
+            : inputToString(inputValue)
+          : placeholder,
+      }
 
   function handleSelectItem(index: number) {
     onChange(filteredOptions[index].value)
@@ -90,13 +108,9 @@ export function SelectInput({
             width: size === 'small' ? '60%' : '100%',
           }}
         >
-          <styled.input
-            value={
-              size === 'small' && inputToString(inputValue).length >= 12
-                ? inputToString(inputValue).split('').slice(0, 10).join('') +
-                  '...'
-                : inputToString(inputValue)
-            }
+          <Component
+            {...componentProps}
+            tabindex="0"
             ref={inputRef}
             onClick={() => {
               handleOpen()
@@ -155,7 +169,11 @@ export function SelectInput({
               lineHeight: '24px',
               background: 'transparent',
               fontFamily: 'Inter-Medium',
-              color: color('content', 'default', 'primary'),
+              color: searchable
+                ? color('content', 'default', 'primary')
+                : inputToString(inputValue)
+                ? color('content', 'default', 'primary')
+                : color('content', 'default', 'secondary'),
               borderRadius: 8,
               '&::placeholder': {
                 color: color('content', 'default', 'secondary'),
