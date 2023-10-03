@@ -11,6 +11,8 @@ import {
   IconSortDesc,
   IconApps,
   Tooltip,
+  Modal,
+  Input,
 } from '../../src'
 
 const example: ComponentDef = {
@@ -126,6 +128,78 @@ const example: ComponentDef = {
       },
     },
     {
+      name: 'Opening a dialog from a dropdown',
+      description: `We are using a controlled Modal in this case and updating the open prop via a dropdown item's onClick`,
+      props: {},
+      customRenderer: () => {
+        const [open, setOpen] = useState(false)
+
+        return (
+          <div>
+            <Dropdown.Root>
+              <Dropdown.Trigger>
+                <Button color="system" icon={<IconMoreVertical />} />
+              </Dropdown.Trigger>
+              <Dropdown.Items>
+                <Dropdown.Item
+                  onClick={() => {
+                    setOpen(true)
+                  }}
+                >
+                  Open modal
+                </Dropdown.Item>
+              </Dropdown.Items>
+            </Dropdown.Root>
+
+            <Modal.Root open={open} onOpenChange={setOpen}>
+              <Modal.Content>
+                <Modal.Title>Title of modal</Modal.Title>
+                <Modal.Description>Description of modal</Modal.Description>
+                <Modal.Body>
+                  <div style={{ display: 'grid', gap: 24 }}>
+                    <Input
+                      type="text"
+                      label="Name of company"
+                      defaultValue="Apex"
+                    />
+                    <Input
+                      label="Type of company"
+                      type="select"
+                      defaultValue="value2"
+                      options={[
+                        { label: 'Item one', value: 'value1' },
+                        { label: 'Item two', value: 'value2' },
+                        { label: 'Item three', value: 'value3' },
+                      ]}
+                    />
+                  </div>
+                </Modal.Body>
+                <Modal.Actions>
+                  <Button
+                    onClick={() => {
+                      setOpen(false)
+                    }}
+                    color="system"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setOpen(false)
+                    }}
+                    color="primary"
+                  >
+                    Save
+                  </Button>
+                </Modal.Actions>
+              </Modal.Content>
+            </Modal.Root>
+          </div>
+        )
+      },
+    },
+    {
+      name: 'Async',
       props: {},
       customRenderer: () => {
         const MOCK_DB = {

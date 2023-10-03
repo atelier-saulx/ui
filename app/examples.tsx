@@ -38,7 +38,6 @@ import Menu from './components/Menu'
 import slider from './components/Slider'
 import status from './components/Status'
 import settings from './components/Settings'
-import patterns from './components/Patterns'
 
 import table from './components/Table'
 import tabs from './components/Tabs'
@@ -56,7 +55,6 @@ import modal from './components/Modal'
 export const hooks: ComponentDef[] = [useContextState]
 
 export const components: ComponentDef[] = [
-  patterns,
   accordion,
   alertBanner,
   avatar,
