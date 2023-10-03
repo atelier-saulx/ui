@@ -1,12 +1,12 @@
 import React, { FC, useState, useEffect } from 'react'
-import { color, useOverlay } from '../..'
+import { color } from '../../varsUtilities'
 import { HeaderOverlay } from './HeaderOverlay'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps } from './types'
 import { SizedGrid } from './SizedGrid'
 import { styled, Style } from 'inlines'
 import { SelectedRowOptions } from './SelectedRowOptions'
-import { Button } from '../../components'
+import { Button, Popover } from '../../components'
 import { IconPlus } from '../../icons'
 
 const sortBasedBasedOnHeaderItem = (keyName, data, order) => {
@@ -81,15 +81,6 @@ export const Table: FC<TableProps> = (props) => {
     newData.map((item) => (item.meta.selected = false))
     setRenderCounter(renderCounter + 1)
   }
-
-  const openHeaderOverlay = useOverlay(
-    HeaderOverlay,
-    { headers, setFilteredHeaders, setHeaders },
-    { width: '100%', position: 'bottom' },
-    undefined,
-    undefined,
-    { style: { scrollbarGutter: 'auto', border: 'none', boxShadow: 'none' } }
-  )
 
   useEffect(() => {
     setRenderCounter(renderCounter + 1)
@@ -206,28 +197,43 @@ export const Table: FC<TableProps> = (props) => {
           userSelect: shiftKeyIsDown ? 'none' : 'default',
         }}
       >
-        <Button
-          icon={<IconPlus />}
-          size="small"
-          color="neutral"
-          ghost
-          style={{
-            position: 'absolute',
-            right: 12,
-            top: selectedRows?.length > 0 ? 74 : 6,
-            padding: 3,
-            zIndex: 1,
-          }}
-          // @ts-ignore
-          onClick={openHeaderOverlay}
-        />
-        {selectedRows?.length > 0 && (
-          <SelectedRowOptions
-            clearAllRows={clearAllRows}
-            selectedRowsLength={selectedRows?.length}
-          />
-        )}
-
+        <Popover.Root>
+          <Popover.Trigger>
+            <Button
+              icon={<IconPlus />}
+              size="small"
+              color="neutral"
+              ghost
+              style={{
+                position: 'absolute',
+                right: 12,
+                top: selectedRows?.length > 0 ? 74 : 6,
+                padding: 3,
+                zIndex: 1,
+              }}
+              // @ts-ignore
+              // onClick={openHeaderOverlay}
+            />
+          </Popover.Trigger>
+          {selectedRows?.length > 0 && (
+            <SelectedRowOptions
+              clearAllRows={clearAllRows}
+              selectedRowsLength={selectedRows?.length}
+            />
+          )}
+          <Popover.Content
+            style={{
+              // border: '0px',
+              padding: 0,
+            }}
+          >
+            <HeaderOverlay
+              headers={headers}
+              setFilteredHeaders={setFilteredHeaders}
+              setHeaders={setHeaders}
+            />
+          </Popover.Content>
+        </Popover.Root>
         <AutoSizer>
           {({ width, height }) => {
             return (
