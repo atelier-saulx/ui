@@ -39,7 +39,7 @@ const example: ComponentDef = {
         cancel: { onClick: () => console.log('ligma'), label: 'asdasd' },
         primaryAction: {
           onClick: () => {
-            console.log('ligmaaaa')
+            console.log('snurp')
           },
           label: 'Primary Action',
         },

@@ -25,6 +25,7 @@ export const Table: FC<TableProps> = (props) => {
     rowHeight = 60,
     height = itemCount < 20 ? data.length * rowHeight + 40 : 200,
     selectable,
+    arrangeAble,
   } = props
 
   const [renderCounter, setRenderCounter] = useState(1)
@@ -206,21 +207,23 @@ export const Table: FC<TableProps> = (props) => {
           userSelect: shiftKeyIsDown ? 'none' : 'default',
         }}
       >
-        <Button
-          icon={<IconPlus />}
-          size="small"
-          color="neutral"
-          ghost
-          style={{
-            position: 'absolute',
-            right: 12,
-            top: selectedRows?.length > 0 ? 74 : 6,
-            padding: 3,
-            zIndex: 1,
-          }}
-          // @ts-ignore
-          onClick={openHeaderOverlay}
-        />
+        {arrangeAble && (
+          <Button
+            icon={<IconPlus />}
+            size="small"
+            color="neutral"
+            ghost
+            style={{
+              position: 'absolute',
+              right: 12,
+              top: selectedRows?.length > 0 ? 74 : 6,
+              padding: 3,
+              zIndex: 1,
+            }}
+            // @ts-ignore
+            onClick={openHeaderOverlay}
+          />
+        )}
         {selectedRows?.length > 0 && (
           <SelectedRowOptions
             clearAllRows={clearAllRows}

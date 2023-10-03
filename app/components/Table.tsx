@@ -12,7 +12,7 @@ const example: ComponentDef = {
   properties: {}, // props.props.TableProps.props,
   examples: [
     {
-      props: {},
+      props: { arrangeAble: true, selectable: true },
       customRenderer: (props) => {
         const newPerson = () => {
           return {
@@ -75,14 +75,18 @@ const example: ComponentDef = {
                 },
                 {
                   key: 'stage',
+                  label: 'Status',
                   width: 200,
                 },
                 {
+                  label: 'Author',
                   key: 'author',
                   width: 200,
+                  type: 'author',
                 },
               ]}
-              selectable
+              {...props}
+
               // query={}
               // getQueryItems={data}
             />

@@ -189,7 +189,7 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   return type === 'author' ? (
     <>
       <Avatar size="small">{itemData}</Avatar>
-      <Text weight="medium" style={{ marginLeft: 8 }}>
+      <Text weight="medium" style={{ marginLeft: 8 }} truncate>
         {itemData}
       </Text>
     </>
