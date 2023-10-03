@@ -10,54 +10,28 @@ const example: ComponentDef = {
   properties: {},
   examples: [
     {
-      props: {},
-      customRenderer: () => {
-        const [value, setValue] = useState<string>('')
-        const [options] = useState(() =>
-          Array.from({ length: 25 }).map((_, i) => ({
-            label: faker.person.fullName(),
-            value: `id${i}`,
-          }))
-        )
-
-        return (
-          <Input
-            type="select"
-            label="This is a label"
-            value={value}
-            onChange={(v) => {
-              setValue(v)
-            }}
-            options={options}
-            placeholder="Select one"
-          />
-        )
+      props: {
+        type: 'select',
+        label: 'This is a label',
+        options: Array.from({ length: 25 }).map((_, i) => ({
+          label: faker.person.fullName(),
+          value: `id${i}`,
+        })),
+        defaultValue: 'id2',
+        placeholder: 'select one',
       },
     },
     {
-      props: {},
-      customRenderer: () => {
-        const [value, setValue] = useState<string>('')
-        const [options] = useState(() =>
-          Array.from({ length: 25 }).map((_, i) => ({
-            label: faker.person.fullName(),
-            value: `id${i}`,
-          }))
-        )
-
-        return (
-          <Input
-            type="select"
-            label="This is a searchable select"
-            searchable
-            value={value}
-            onChange={(v) => {
-              setValue(v)
-            }}
-            options={options}
-            placeholder="Select one"
-          />
-        )
+      props: {
+        type: 'select',
+        label: 'This is searchable',
+        searchable: true,
+        options: Array.from({ length: 25 }).map((_, i) => ({
+          label: faker.person.fullName(),
+          value: `id${i}`,
+        })),
+        defaultValue: 'id2',
+        placeholder: 'select one',
       },
     },
   ],

@@ -11,12 +11,14 @@ import {
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 import { scrollAreaStyle } from '../ScrollArea'
+import { useControllableState } from 'src/hooks/useControllableState'
 
 export type SelectOption = { label?: ReactNode; value: string }
 
 export type SelectInputProps = {
-  value: string
-  onChange: (value) => void
+  value?: string
+  defaultValue?: string
+  onChange?: (value) => void
   options: SelectOption[]
   placeholder?: string
   clearbutton?: boolean
@@ -34,15 +36,21 @@ const inputToString = (input: SelectOption | ''): string => {
 }
 
 export function SelectInput({
-  value,
+  value: valueProp,
+  defaultValue: defaultValueProp,
+  onChange: onChangeProp,
   clearbutton,
-  onChange,
   options,
   placeholder,
   size = 'normal',
   style,
   searchable = false,
 }: SelectInputProps) {
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState<SelectOption | ''>('')
   const [inputValueChanged, setInputValueChanged] = useState(false)
@@ -76,7 +84,7 @@ export function SelectInput({
       }
 
   function handleSelectItem(index: number) {
-    onChange(filteredOptions[index].value)
+    setValue(filteredOptions[index].value)
     setInputValue(filteredOptions[index])
     setInputValueChanged(false)
     setOpen(false)
@@ -218,7 +226,7 @@ export function SelectInput({
                   return options.find(() => '' === value)
                 })
                 setActiveIndex(0)
-                onChange(0)
+                setValue('')
               }}
               style={{ position: 'absolute', top: 10, right: 40 }}
             />

@@ -3,7 +3,7 @@ import { Input } from '../../src'
 import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
-  name: 'Multiline Input',
+  name: 'TextAreaInput',
   component: Input,
   description: 'Like a text input... but multiline 🙀',
   properties: {
@@ -18,8 +18,9 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        type: 'multiline',
+        type: 'textarea',
         placeholder: 'Some text',
+        defaultValue: '',
       },
     },
     {
@@ -27,22 +28,9 @@ const example: ComponentDef = {
         label: 'This is a label',
         placeholder: 'advanced',
         error: 'This is an error',
-      },
-      customRenderer: (props) => {
-        const [value, setValue] = useState('')
-
-        return (
-          <Input
-            clearButton
-            type="multiline"
-            value={value}
-            onChange={(v) => {
-              setValue(v)
-            }}
-            maxLength={16}
-            {...props}
-          />
-        )
+        type: 'textarea',
+        defaultValue: 'default value 123',
+        maxLength: 50,
       },
     },
   ],
