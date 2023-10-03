@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect, ReactNode } from 'react'
 import { useToast } from './useToast'
 import { ColorBackgroundColors } from '../../varsTypes'
 import { color as genColor } from '../../varsUtilities'
@@ -17,7 +17,7 @@ export type ToastProps = {
   closeable?: boolean
   color?: ColorBackgroundColors
   id?: any
-  label?: string
+  label?: ReactNode
   strong?: boolean
   style?: Style
 }

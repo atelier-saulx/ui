@@ -1,4 +1,10 @@
-import React, { FunctionComponent, useRef, useState, useEffect } from 'react'
+import React, {
+  ReactNode,
+  FunctionComponent,
+  useRef,
+  useState,
+  useEffect,
+} from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { NumberFormat } from '@based/pretty-number'
 import { LineGraphDataInput, LineXGraphFormat } from './types'
@@ -24,7 +30,7 @@ const Graph = ({
   height: number
   data: LineGraphDataInput
   xFormat?: LineXGraphFormat
-  label?: string
+  label?: ReactNode
   valueFormat?: NumberFormat | string
   style?: Style
 }) => {
@@ -122,7 +128,7 @@ export type LineGraphProps = {
   data: LineGraphDataInput
   xFormat?: LineXGraphFormat
   valueFormat?: NumberFormat | string
-  label?: string
+  label?: ReactNode
   width?: number
   height?: number
 }
