@@ -3,10 +3,12 @@ import { color } from '../../varsUtilities'
 import { IconClose } from '../../icons'
 import { Badge, BadgeProps, Text } from '../../components'
 import { Style, styled } from 'inlines'
+import { useControllableState } from 'src/hooks/useControllableState'
 
 export type TextInputProps = {
-  value: string
-  onChange: (value: string) => void
+  value?: string
+  defaultValue?: string
+  onChange?: (value: string) => void
   onFocus?: () => void
   onBlur?: () => void
   disabled?: boolean
@@ -28,8 +30,9 @@ export function TextInput({
   suffix,
   icon,
   style,
-  value,
-  onChange,
+  value: valueProp,
+  defaultValue: defaultValueProp = '',
+  onChange: onChangeProp,
   onFocus,
   onBlur,
   clearButton = false,
@@ -40,7 +43,11 @@ export function TextInput({
   password,
   maxLength,
 }: TextInputProps) {
-  const [currentLength, setCurrentLength] = useState(0)
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
 
   return (
     <styled.div
@@ -100,8 +107,7 @@ export function TextInput({
       <styled.input
         value={value}
         onChange={(e) => {
-          setCurrentLength(e.target.value.length)
-          onChange(e.target.value)
+          setValue(e.target.value)
         }}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -133,7 +139,7 @@ export function TextInput({
           {clearButton && value ? (
             <IconClose
               onClick={() => {
-                onChange('')
+                setValue('')
               }}
             />
           ) : (
@@ -141,7 +147,7 @@ export function TextInput({
           )}
         </div>
       )}
-      {maxLength && currentLength >= maxLength - 5 && (
+      {maxLength && value.length >= maxLength - 5 && (
         <Text
           style={{
             position: 'absolute',
@@ -151,7 +157,7 @@ export function TextInput({
             fontSize: 12,
           }}
         >
-          {currentLength}/{maxLength}
+          {value.length}/{maxLength}
         </Text>
       )}
     </styled.div>

@@ -5,6 +5,7 @@ import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { IconAlertFill } from '../../icons'
 import { scrollAreaStyle } from '../ScrollArea'
+import { useControllableState } from 'src/hooks/useControllableState'
 
 type UseModalProps = {
   open: boolean
@@ -18,10 +19,20 @@ const ModalContext = createContext<UseModalProps>({
 
 export type ModalRootProps = {
   children: ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
-export function Root({ children }: ModalRootProps) {
-  const [open, setOpen] = useState(false)
+export function Root({
+  children,
+  open: openProp,
+  onOpenChange,
+}: ModalRootProps) {
+  const [open, setOpen] = useControllableState({
+    prop: openProp,
+    defaultProp: false,
+    onChange: onOpenChange,
+  })
 
   return (
     <ModalContext.Provider value={{ open, setOpen }}>

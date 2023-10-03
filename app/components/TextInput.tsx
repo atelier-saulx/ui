@@ -27,13 +27,13 @@ const example: ComponentDef = {
     },
     {
       props: {
-        label: 'This is a label',
+        label: 'This is a controlled input',
         placeholder: 'advanced',
         error: true,
         message: 'Hello this is wrong!',
       },
       customRenderer: (props) => {
-        const [value, setValue] = useState('')
+        const [value, setValue] = useState('asd')
 
         return (
           <Input

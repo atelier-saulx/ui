@@ -11,17 +11,20 @@ import {
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 import { scrollAreaStyle } from '../ScrollArea'
+import { useControllableState } from 'src/hooks/useControllableState'
 
 export type SelectOption = { label?: ReactNode; value: string }
 
 export type SelectInputProps = {
-  value: string
-  onChange: (value) => void
+  value?: string
+  defaultValue?: string
+  onChange?: (value) => void
   options: SelectOption[]
   placeholder?: string
   clearbutton?: boolean
   size?: 'small' | 'normal'
   style?: Style
+  searchable?: boolean
 }
 
 const inputToString = (input: SelectOption | ''): string => {
@@ -33,14 +36,21 @@ const inputToString = (input: SelectOption | ''): string => {
 }
 
 export function SelectInput({
-  value,
+  value: valueProp,
+  defaultValue: defaultValueProp,
+  onChange: onChangeProp,
   clearbutton,
-  onChange,
   options,
   placeholder,
   size = 'normal',
   style,
+  searchable = false,
 }: SelectInputProps) {
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState<SelectOption | ''>('')
   const [inputValueChanged, setInputValueChanged] = useState(false)
@@ -56,9 +66,25 @@ export function SelectInput({
             .includes(inputToString(inputValue).toLocaleLowerCase())
         })
       : options
+  const Component = searchable ? styled.input : styled.div
+  const componentProps = searchable
+    ? {
+        value:
+          size === 'small' && inputToString(inputValue).length >= 12
+            ? inputToString(inputValue).split('').slice(0, 10).join('') + '...'
+            : inputToString(inputValue),
+        placeholder,
+      }
+    : {
+        children: inputToString(inputValue)
+          ? size === 'small' && inputToString(inputValue).length >= 12
+            ? inputToString(inputValue).split('').slice(0, 10).join('') + '...'
+            : inputToString(inputValue)
+          : placeholder,
+      }
 
   function handleSelectItem(index: number) {
-    onChange(filteredOptions[index].value)
+    setValue(filteredOptions[index].value)
     setInputValue(filteredOptions[index])
     setInputValueChanged(false)
     setOpen(false)
@@ -90,13 +116,9 @@ export function SelectInput({
             width: size === 'small' ? '60%' : '100%',
           }}
         >
-          <styled.input
-            value={
-              size === 'small' && inputToString(inputValue).length >= 12
-                ? inputToString(inputValue).split('').slice(0, 10).join('') +
-                  '...'
-                : inputToString(inputValue)
-            }
+          <Component
+            {...componentProps}
+            tabindex="0"
             ref={inputRef}
             onClick={() => {
               handleOpen()
@@ -155,7 +177,11 @@ export function SelectInput({
               lineHeight: '24px',
               background: 'transparent',
               fontFamily: 'Inter-Medium',
-              color: color('content', 'default', 'primary'),
+              color: searchable
+                ? color('content', 'default', 'primary')
+                : inputToString(inputValue)
+                ? color('content', 'default', 'primary')
+                : color('content', 'default', 'secondary'),
               borderRadius: 8,
               '&::placeholder': {
                 color: color('content', 'default', 'secondary'),
@@ -200,7 +226,7 @@ export function SelectInput({
                   return options.find(() => '' === value)
                 })
                 setActiveIndex(0)
-                onChange(0)
+                setValue('')
               }}
               style={{ position: 'absolute', top: 10, right: 40 }}
             />

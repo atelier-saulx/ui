@@ -21,7 +21,7 @@ import icon from './components/Icon'
 import linegraph from './components/Linegraph'
 import logsText from './components/LogsText'
 import metricsWidget from './components/MetricsWidget'
-import multlineInput from './components/MultilineInput'
+import multlineInput from './components/TextAreaInput'
 import numberInput from './components/NumberInput'
 import pieGraph from './components/PieGraph'
 import pill from './components/Pill'
@@ -36,6 +36,7 @@ import Menu from './components/Menu'
 import slider from './components/Slider'
 import status from './components/Status'
 import settings from './components/Settings'
+import patterns from './components/Patterns'
 
 import table from './components/Table'
 import tabs from './components/Tabs'
@@ -53,6 +54,7 @@ import modal from './components/Modal'
 export const hooks: ComponentDef[] = [useContextState]
 
 export const components: ComponentDef[] = [
+  patterns,
   accordion,
   alertBanner,
   avatar,
