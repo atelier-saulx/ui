@@ -470,6 +470,29 @@
       "code": "type ConfirmationProps = {\n  style?: Style\n  value?: any\n  onAccept: ((value: any) => void) | ((value: any) => Promise<void>)\n  onCancel: (value: any) => void\n}",
       "file": "/components/Confirmation/index.tsx"
     },
+    "ContainerProps": {
+      "name": "ContainerProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "ColorBackgroundColors"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "action": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        }
+      },
+      "code": "type ContainerProps = {\n  color?: ColorBackgroundColors\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
+      "file": "/components/Container/index.tsx"
+    },
     "CounterProps": {
       "name": "CounterProps",
       "props": {
@@ -2232,35 +2255,94 @@
       "code": "type StatusProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  ghost?: boolean\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
       "file": "/components/Status/index.tsx"
     },
-    "TableProps": {
-      "name": "TableProps",
+    "SelectedRowOptionsProps": {
+      "name": "SelectedRowOptionsProps",
       "props": {
-        "columns": {
-          "type": {
-            "array": "TSTypeLiteral"
-          }
+        "clearAllRows": {
+          "type": "function"
         },
-        "data": {
+        "selectedRowsLength": {
+          "type": "number"
+        }
+      },
+      "code": "type SelectedRowOptionsProps = {\n  clearAllRows: () => void\n  selectedRowsLength: number\n}",
+      "file": "/components/Table/SelectedRowOptions.tsx"
+    },
+    "TableHeaderTypesProps": {
+      "name": "TableHeaderTypesProps",
+      "props": {
+        "type": {
+          "type": [
+            {
+              "value": "author"
+            },
+            {
+              "value": "boolean"
+            },
+            {
+              "value": "checkbox"
+            },
+            {
+              "value": "CheckboxSelectItem"
+            },
+            {
+              "value": "id"
+            },
+            {
+              "value": "img"
+            },
+            {
+              "value": "number"
+            },
+            {
+              "value": "string"
+            },
+            {
+              "value": "timestamp"
+            }
+          ]
+        },
+        "itemData": {
           "type": "TSAnyKeyword"
         },
-        "onScrollToBottom": {
+        "rowData": {
+          "type": "TSTypeLiteral"
+        },
+        "rowIndex": {
+          "type": "number"
+        },
+        "key": {
+          "type": "TSAnyKeyword"
+        },
+        "renderCounter": {
+          "type": "TSAnyKeyword"
+        },
+        "setRenderCounter": {
+          "type": "TSAnyKeyword"
+        },
+        "editable": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "shiftKeyIsDown": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setShiftKeyIndex": {
           "optional": true,
           "type": "function"
         },
-        "resizeMode": {
+        "shiftKeyIndex": {
           "optional": true,
-          "type": [
-            {
-              "value": "snap"
-            },
-            {
-              "value": "smooth"
-            }
-          ]
+          "type": "number"
+        },
+        "setLastShiftKeyIndex": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type TableProps = {\n  columns: { header: string; accessor: string; cell?: (any) => JSX.Element }[]\n  data: any\n  onScrollToBottom?: () => void\n  resizeMode?: 'snap' | 'smooth'\n}",
-      "file": "/components/Table/index.tsx"
+      "code": "type TableHeaderTypesProps = {\n  type:\n    | 'author'\n    | 'boolean'\n    | 'checkbox'\n    | 'CheckboxSelectItem'\n    | 'id'\n    | 'img'\n    | 'number'\n    | 'string'\n    | 'timestamp'\n  itemData: any\n  rowData: {}\n  rowIndex: number\n  key: any\n  renderCounter: any\n  setRenderCounter: any\n  editable?: boolean\n  shiftKeyIsDown?: boolean\n  setShiftKeyIndex?: (num: number | undefined) => void | undefined\n  shiftKeyIndex?: number\n  setLastShiftKeyIndex?: (num: number | undefined) => void | undefined\n}",
+      "file": "/components/Table/TableHeaderTypes.tsx"
     },
     "TabProps": {
       "name": "TabProps",
