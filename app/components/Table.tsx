@@ -9,7 +9,7 @@ const example: ComponentDef = {
   name: 'Table',
   component: Table,
   description: 'Infinite scrollable virtualized table with rich content',
-  properties: props.props.TableProps.props,
+  properties: {}, // props.props.TableProps.props,
   examples: [
     {
       props: {},

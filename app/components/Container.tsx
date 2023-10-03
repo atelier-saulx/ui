@@ -7,7 +7,7 @@ const example: ComponentDef = {
   name: 'Container',
   component: Container,
   description: '',
-  properties: props.props.CodeProps.props,
+  properties: props.props.ContainerProps.props,
   examples: [
     {
       props: {
