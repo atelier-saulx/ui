@@ -25,7 +25,7 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
   const fetchingMore = useRef(false)
   const [data, setData] = useState<any[]>([])
   const flatData = useMemo(
-    () => data.flatMap((e) => accessFn(e)),
+    () => data.flatMap((e) => (e ? accessFn(e) : [])),
     [data, accessFn]
   )
 
