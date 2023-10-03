@@ -48,6 +48,7 @@ export const ColorPicker: FC<ColorPickerProps> = ({
     <Column
       style={{
         border: `1px solid ${color('border', 'default')}`,
+        backgroundColor: color('background', 'default'),
         borderRadius: 4,
         padding: 8,
         height: 300,

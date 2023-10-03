@@ -427,6 +427,25 @@
       "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n  color?: ColorBackgroundColors\n  copy?: boolean\n  codeLanguage?: 'js' | 'html' | 'css' | 'json' | 'markup' | 'clike' | string\n  props?: any\n}",
       "file": "/components/Code/index.tsx"
     },
+    "ColorPickerProps": {
+      "name": "ColorPickerProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type ColorPickerProps = {\n  value?: string\n  style?: Style\n  onChange?: (color: string) => void\n}",
+      "file": "/components/ColorPicker/index.tsx"
+    },
     "ConfirmationProps": {
       "name": "ConfirmationProps",
       "props": {
@@ -840,9 +859,15 @@
           "type": "string"
         },
         "value": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "optional": true,
           "type": "boolean"
         },
         "onChange": {
+          "optional": true,
           "type": "function"
         },
         "disabled": {
@@ -858,8 +883,43 @@
           "type": "Style"
         }
       },
-      "code": "type CheckboxInputProps = {\n  title?: ReactNode\n  description?: string\n  value: boolean\n  onChange: (newValue: boolean) => void\n  disabled?: boolean\n  intermediate?: boolean\n  style?: Style\n}",
+      "code": "type CheckboxInputProps = {\n  title?: ReactNode\n  description?: string\n  value?: boolean\n  defaultValue?: boolean\n  onChange?: (newValue: boolean) => void\n  disabled?: boolean\n  intermediate?: boolean\n  style?: Style\n}",
       "file": "/components/Input/CheckboxInput.tsx"
+    },
+    "ColorInputProps": {
+      "name": "ColorInputProps",
+      "props": {
+        "inputRef": {
+          "optional": true,
+          "type": "RefObject"
+        },
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "error": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ColorInputProps = {\n  inputRef?: RefObject<HTMLInputElement>\n  value?: string\n  placeholder?: string\n  disabled?: boolean\n  style?: CSSProperties\n  onChange?: (target) => void\n  error?: boolean\n}",
+      "file": "/components/Input/ColorInput.tsx"
     },
     "FileInputProps": {
       "name": "FileInputProps",
@@ -911,60 +971,6 @@
       },
       "code": "type MarkdownInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n}",
       "file": "/components/Input/MarkdownInput.tsx"
-    },
-    "MultilineInputProps": {
-      "name": "MultilineInputProps",
-      "props": {
-        "value": {
-          "type": "string"
-        },
-        "onChange": {
-          "type": "function"
-        },
-        "disabled": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "placeholder": {
-          "optional": true
-        },
-        "prefix": {
-          "optional": true,
-          "type": "BadgeProps"
-        },
-        "suffix": {
-          "optional": true,
-          "type": "BadgeProps"
-        },
-        "icon": {
-          "optional": true
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "afterIcon": {
-          "optional": true
-        },
-        "clearButton": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "error": {
-          "optional": true,
-          "type": "string"
-        },
-        "password": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "maxLength": {
-          "optional": true,
-          "type": "number"
-        }
-      },
-      "code": "type MultilineInputProps = {\n  value: string\n  onChange: (value: string) => void\n  disabled?: boolean\n  placeholder?: React.ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: string\n  password?: boolean\n  maxLength?: number\n}",
-      "file": "/components/Input/MultilineInput.tsx"
     },
     "NumberInputOwnProps": {
       "name": "NumberInputOwnProps",
@@ -1022,18 +1028,32 @@
         "message": {
           "optional": true,
           "type": "ReactNode"
+        },
+        "min": {
+          "optional": true,
+          "type": "number"
+        },
+        "max": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type NumberInputOwnProps = {\n  value: number\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  style?: Style\n  onChange: (value: number) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  error?: boolean\n  message?: ReactNode\n}",
+      "code": "type NumberInputOwnProps = {\n  value: number\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  style?: Style\n  onChange: (value: number) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  min?: number\n  max?: number\n}",
       "file": "/components/Input/NumberInput.tsx"
     },
     "SelectInputProps": {
       "name": "SelectInputProps",
       "props": {
         "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "defaultValue": {
+          "optional": true,
           "type": "string"
         },
         "onChange": {
+          "optional": true,
           "type": "function"
         },
         "options": {
@@ -1045,21 +1065,88 @@
           "optional": true,
           "type": "string"
         },
+        "clearbutton": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": "small"
+            },
+            {
+              "value": "normal"
+            }
+          ]
+        },
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "searchable": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SelectInputProps = {\n  value: string\n  onChange: (value) => void\n  options: SelectOption[]\n  placeholder?: string\n  style?: Style\n}",
+      "code": "type SelectInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value) => void\n  options: SelectOption[]\n  placeholder?: string\n  clearbutton?: boolean\n  size?: 'small' | 'normal'\n  style?: Style\n  searchable?: boolean\n}",
       "file": "/components/Input/SelectInput.tsx"
+    },
+    "TextAreaInputProps": {
+      "name": "TextAreaInputProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "defaultValue": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "icon": {
+          "optional": true
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "error": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "maxLength": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type TextAreaInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  icon?: React.ReactNode\n  style?: Style\n  error?: boolean\n  maxLength?: number\n}",
+      "file": "/components/Input/TextAreaInput.tsx"
     },
     "TextInputProps": {
       "name": "TextInputProps",
       "props": {
         "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "defaultValue": {
+          "optional": true,
           "type": "string"
         },
         "onChange": {
+          "optional": true,
           "type": "function"
         },
         "onFocus": {
@@ -1117,7 +1204,7 @@
           "type": "number"
         }
       },
-      "code": "type TextInputProps = {\n  value: string\n  onChange: (value: string) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: boolean\n  message?: ReactNode\n  password?: boolean\n  maxLength?: number\n}",
+      "code": "type TextInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value: string) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: boolean\n  message?: ReactNode\n  password?: boolean\n  maxLength?: number\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "CommonInputProps": {
@@ -1518,9 +1605,17 @@
       "props": {
         "children": {
           "type": "ReactNode"
+        },
+        "open": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onOpenChange": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type ModalRootProps = {\n  children: ReactNode\n}",
+      "code": "type ModalRootProps = {\n  children: ReactNode\n  open?: boolean\n  onOpenChange?: (open: boolean) => void\n}",
       "file": "/components/Modal/index.tsx"
     },
     "ModalTriggerProps": {

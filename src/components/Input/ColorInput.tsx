@@ -30,24 +30,23 @@ const valueToRgba = (value) => {
   }
 }
 
-type ColorInputProps = {
+export type ColorInputProps = {
   inputRef?: RefObject<HTMLInputElement>
   value?: string
   placeholder?: string
-  //   defaultValue?: string
   disabled?: boolean
   style?: CSSProperties
   onChange?: (target) => void
+  error?: boolean
 }
 
 export const ColorInput = ({
   inputRef,
-  // name,
   placeholder,
-  //   defaultValue,
   value: valueProp,
   disabled,
   style,
+  error,
   onChange = (e) => console.log(e),
   ...props
 }: ColorInputProps) => {
@@ -74,7 +73,7 @@ export const ColorInput = ({
             position: 'relative',
           }}
         >
-          <input
+          <styled.input
             {...props}
             type="text"
             ref={inputRef}
@@ -87,12 +86,31 @@ export const ColorInput = ({
             disabled={disabled}
             style={{
               width: '100%',
+              padding: '0px 12px',
               paddingLeft: 36,
-              border: `1px solid ${color('border', 'default')}`,
-              borderRadius: 4,
-              minHeight: 36,
+              borderRadius: 8,
+              minHeight: 40,
+              fontSize: '14px',
+              lineHeight: '24px',
+              boxSizing: 'border-box',
+              color: color(
+                'content',
+                'default',
+                value === valueProp ? 'secondary' : 'primary'
+              ),
               cursor: disabled ? 'not-allowed' : null,
               backgroundColor: color('background', 'default'),
+              border: `1px solid ${color('inputBorder', 'neutralNormal')}`,
+              '&:hover': {
+                border: `1px solid ${color('inputBorder', 'neutralHover')}`,
+              },
+              '&:focus': {
+                border: `1px solid ${color('inputBorder', 'active')}`,
+                boxShadow: error
+                  ? `0 0 0 2px ${color('inputBorder', 'alert', 'default')}`
+                  : `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
+              },
+              outline: 'none',
               ...style,
             }}
           />
@@ -109,7 +127,9 @@ export const ColorInput = ({
               borderRadius: 4,
               marginRight: 8,
               marginLeft: -4,
-              border: `1px solid ${color('border', 'default')}`,
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              border: `1px solid ${color('inputBorder', 'neutralNormal')}`,
               pointerEvents: disabled ? 'none' : null,
             }}
             onClick={() => setOpen(true)}
