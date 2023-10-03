@@ -100,6 +100,7 @@ const example: ComponentDef = {
                   files: {
                     $all: true,
                     $list: {
+                      $sort: { $field: 'updatedAt', $order: 'desc' },
                       $offset: offset,
                       $limit: limit,
                       $find: {
@@ -115,11 +116,11 @@ const example: ComponentDef = {
                 })
               }}
               getQueryItems={(d) => {
+                console.log('flap', d)
                 return d.files
               }}
-              // also filter this amount...
-              // itemCount={machineStatus.amount}
-              // context={{ envAdminHub }}
+              // want to have inifity
+              itemCount={50000}
               headers={[
                 {
                   label: 'ID',
