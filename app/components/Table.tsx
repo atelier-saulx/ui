@@ -116,7 +116,7 @@ const example: ComponentDef = {
                 })
               }}
               getQueryItems={(d) => {
-                console.log('flap', d)
+                console.log('', d)
                 return d.files
               }}
               // want to have inifity
