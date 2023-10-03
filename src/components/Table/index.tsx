@@ -1,259 +1,258 @@
-import React, { useCallback, useRef } from 'react'
-import { useVirtual } from '@tanstack/react-virtual'
-import { Text, ScrollArea } from '../../components'
-import { styled } from 'inlines'
-import { color } from '../../varsUtilities'
-import { IconSortAsc as IconSort } from '../../icons'
-import {
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+import React, { FC, useState, useEffect } from 'react'
+import { color, useOverlay } from '../..'
+import { HeaderOverlay } from './HeaderOverlay'
+import AutoSizer from 'react-virtualized-auto-sizer'
+import { TableProps } from './types'
+import { SizedGrid } from './SizedGrid'
+import { styled, Style } from 'inlines'
+import { SelectedRowOptions } from './SelectedRowOptions'
+import { Button } from '../../components'
+import { IconPlus } from '../../icons'
 
-export type TableProps = {
-  columns: { header: string; accessor: string; cell?: (any) => JSX.Element }[]
-  data: any
-  onScrollToBottom?: () => void
-  resizeMode?: 'snap' | 'smooth'
+const sortBasedBasedOnHeaderItem = (keyName, data, order) => {
+  if (!order) {
+    return data.sort((a, b) => (a[keyName] > b[keyName] ? -1 : 1))
+  } else {
+    return data.sort((a, b) => (a[keyName] > b[keyName] ? 1 : -1))
+  }
 }
 
-export function Table({
-  columns,
-  data,
-  onScrollToBottom,
-  resizeMode = 'smooth',
-}: TableProps) {
-  const table = useReactTable({
-    data,
-    columns: columns.map((c) => ({
-      header: c.header,
-      accessorKey: c.accessor,
-      cell: ({ getValue, renderValue }) =>
-        c.cell ? c.cell(getValue()) : renderValue(),
-    })),
-    columnResizeMode: resizeMode === 'smooth' ? 'onChange' : 'onEnd',
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+export const Table: FC<TableProps> = (props) => {
+  const {
+    data = [],
+    width,
+    itemCount = data.length,
+    rowHeight = 60,
+    height = itemCount < 20 ? data.length * rowHeight + 40 : 200,
+    selectable,
+  } = props
+
+  const [renderCounter, setRenderCounter] = useState(1)
+  const [selectedRows, setSelectedRows] = useState([])
+  const [headers, setHeaders] = useState(props.headers)
+  const [sortKey, setSortKey] = useState({
+    counter: 1,
+    key: '',
+    ascOrder: true,
   })
 
-  const tableContainerRef = React.useRef<HTMLDivElement>(null)
+  let newData =
+    sortKey.key && sortKey.counter
+      ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
+      : props.data
 
-  const { rows } = table.getRowModel()
-  const rowVirtualizer = useVirtual({
-    parentRef: tableContainerRef,
-    size: rows.length,
-    estimateSize: useCallback(() => 61, []),
-    overscan: 11,
-  })
-  const { virtualItems: virtualRows, totalSize } = rowVirtualizer
-  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
-  const paddingBottom =
-    virtualRows.length > 0
-      ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
-      : 0
+  const selectedItems = newData?.filter((item, idx) => item?.meta?.selected)
 
-  const handleScroll = React.useCallback(
-    (containerRefElement: HTMLDivElement) => {
-      if (onScrollToBottom) {
-        const { scrollHeight, scrollTop, clientHeight } = containerRefElement
-        if (scrollHeight - scrollTop - clientHeight < 300) {
-          onScrollToBottom()
-        }
+  if (
+    selectable &&
+    props.headers &&
+    !Object.values(props.headers[0]).includes('selected')
+  ) {
+    props?.headers?.unshift({
+      key: 'selected',
+      label: '',
+      type: 'CheckboxSelectItem',
+      width: 42,
+    })
+    newData.map(
+      (item, idx) => (item.meta = { selected: false, selectedIndex: null })
+    )
+  }
+
+  // headers selecting and ordering
+  if (headers) {
+    for (const header of headers) {
+      if (!header?.meta?.hasOwnProperty('visible')) {
+        header.meta = { visible: true }
       }
-    },
-    [onScrollToBottom]
+    }
+  }
+
+  const [filteredHeaders, setFilteredHeaders] = useState(
+    headers?.filter((item) => item?.meta?.visible)
   )
 
+  const selectAllRows = () => {
+    newData.map((item) => (item.meta.selected = true))
+    setRenderCounter(renderCounter + 1)
+  }
+
+  const clearAllRows = () => {
+    newData.map((item) => (item.meta.selected = false))
+    setRenderCounter(renderCounter + 1)
+  }
+
+  const openHeaderOverlay = useOverlay(
+    HeaderOverlay,
+    { headers, setFilteredHeaders, setHeaders },
+    { width: '100%', position: 'bottom' },
+    undefined,
+    undefined,
+    { style: { scrollbarGutter: 'auto', border: 'none', boxShadow: 'none' } }
+  )
+
+  useEffect(() => {
+    setRenderCounter(renderCounter + 1)
+  }, [filteredHeaders])
+
+  useEffect(() => {
+    if (selectable) {
+      setSelectedRows(selectedItems)
+    }
+  }, [renderCounter])
+
+  // console.log('newdata --->', newData)
+
+  // ShiftClick to multiSelect Logic here
+  const [shiftKeyIsDown, setShiftKeyIsDown] = useState<boolean>(false)
+  const [shiftKeyIndex, setShiftKeyIndex] = useState<number | undefined>(
+    undefined
+  )
+  const [lastShifKeyIndex, setLastShiftKeyIndex] = useState<number | undefined>(
+    undefined
+  )
+
+  const ShiftKeySelectionRows = (firstIndex, lastIndex) => {
+    let smallerIndex = firstIndex > lastIndex ? lastIndex : firstIndex
+    let largerIndex = firstIndex < lastIndex ? lastIndex : firstIndex
+
+    // set selected row indexes anew
+    newData.map(
+      (item, idx) =>
+        (item.meta = { selectedIndex: idx, selected: item.meta.selected })
+    )
+
+    console.log('smaller -->', smallerIndex, 'bigger --> ', largerIndex)
+
+    // check if they are allready selected , if thats the case they should unselect
+    if (
+      !newData[firstIndex].meta.selected &&
+      !newData[lastIndex].meta.selected
+    ) {
+      const areAllInBetweenSelected = newData
+        .filter(
+          (item) =>
+            item.meta.selectedIndex > smallerIndex &&
+            item.meta.selectedIndex < largerIndex
+        )
+        .every((item) => item.meta.selected)
+
+      if (areAllInBetweenSelected) {
+        newData
+          .filter(
+            (item) =>
+              item.meta.selectedIndex > smallerIndex &&
+              item.meta.selectedIndex < largerIndex
+          )
+          .map((item) => (item.meta.selected = false))
+      }
+
+      // console.log('🦈🦀', areAllInBetweenSelected)
+    } else {
+      newData
+        .filter(
+          (item) =>
+            item.meta.selectedIndex >= smallerIndex &&
+            item.meta.selectedIndex <= largerIndex
+        )
+        .map((item) => (item.meta.selected = true))
+    }
+    // count selected row items
+    setSelectedRows(newData?.filter((item, idx) => item?.meta?.selected))
+  }
+
+  useEffect(() => {
+    console.log('add listener')
+    window.addEventListener('keydown', (e) =>
+      e.key === 'Shift' ? setShiftKeyIsDown(true) : null
+    )
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'Shift') {
+        setShiftKeyIsDown(false)
+        setShiftKeyIndex(undefined)
+        setLastShiftKeyIndex(undefined)
+      } else {
+        return null
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    if (typeof lastShifKeyIndex === 'number') {
+      ShiftKeySelectionRows(shiftKeyIndex, lastShifKeyIndex)
+    }
+  }, [lastShifKeyIndex])
+
   return (
-    <styled.div
-      style={{
-        height: '100%',
-        width: 'fit-content',
-      }}
-    >
+    <>
+      {/* {'is shift key down: ' + shiftKeyIsDown}
+      <br />
+      {'shiftkey index' + shiftKeyIndex}
+      <br />
+      {'last shiftkey index' + lastShifKeyIndex}
+      <br /> */}
       <styled.div
         style={{
-          borderTop: `1px solid ${color('border', 'default', 'strong')}`,
-          borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
-          top: 0,
-          margin: 0,
-          left: 0,
-          background: color('background', 'default', 'strong'),
+          backgroundColor: color('background', 'default', 'strong'),
+          minHeight: height,
+          height: '100%',
+          width: '100%',
+          position: 'relative',
+          minWidth: width,
+          border: props.outline
+            ? `1px solid ${color('border', 'default', 'strong')}`
+            : 'none',
+          borderBottom: 'none',
+          userSelect: shiftKeyIsDown ? 'none' : 'default',
         }}
       >
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header, i) => {
-              return (
-                <styled.th
-                  key={header.id}
-                  colSpan={header.colSpan}
-                  style={{
-                    padding: '0 12px',
-                    height: 42,
-                    fontSize: 14,
-                    position: 'relative',
-                    overflow: 'hidden',
-                    width: header.getSize(),
-                    boxSizing: 'border-box',
-                    borderLeft: '1px solid transparent',
-                    borderRight: '1px solid transparent',
-
-                    color: header.column.getIsSorted()
-                      ? color('content', 'brand', 'primary')
-                      : color('content', 'default', 'secondary'),
-                    '&:hover': {
-                      color: header.column.getIsSorted()
-                        ? color('content', 'brand', 'primary')
-                        : color('content', 'default', 'primary'),
-                      '& span': {
-                        backgroundColor: color('inputBorder', 'neutralHover'),
-                      },
-                    },
-                    '&:active': {
-                      '& span': {
-                        backgroundColor: color('inputBorder', 'active'),
-                      },
-                    },
-                  }}
-                >
-                  {header.isPlaceholder ? null : (
-                    <Text
-                      onClick={header.column.getToggleSortingHandler()}
-                      style={{
-                        display: 'flex',
-                        height: '100%',
-                        alignItems: 'center',
-                        userSelect: 'none',
-                        cursor: 'pointer',
-                        color: 'inherit',
-                      }}
-                    >
-                      {{
-                        asc: (
-                          <IconSort
-                            style={{
-                              marginRight: 8,
-                              transform: 'scaleY(-1)',
-                            }}
-                            color="inherit"
-                          />
-                        ),
-                        desc: (
-                          <IconSort
-                            style={{ marginRight: 8 }}
-                            color="inherit"
-                          />
-                        ),
-                      }[header.column.getIsSorted() as string] ?? null}
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </Text>
-                  )}
-                  <styled.span
-                    onMouseDown={header.getResizeHandler()}
-                    onTouchStart={header.getResizeHandler()}
-                    className={`resizer ${
-                      header.column.getIsResizing() ? 'isResizing' : ''
-                    }`}
-                    style={{
-                      position: 'absolute',
-                      right: '0',
-                      top: '0',
-                      height: '100%',
-                      width: '2px',
-                      cursor: 'col-resize',
-                      userSelect: 'none',
-                      touchAction: 'none',
-                      transform:
-                        resizeMode === 'snap' && header.column.getIsResizing()
-                          ? `translateX(${
-                              table.getState().columnSizingInfo.deltaOffset
-                            }px)`
-                          : '',
-                    }}
-                  />
-                </styled.th>
-              )
-            })}
-          </tr>
-        ))}
-      </styled.div>
-
-      <ScrollArea
-        ref={tableContainerRef}
-        style={{
-          overflow: 'auto',
-          height: 'calc(100% - 42px)',
-          width: 'fit-content',
-        }}
-        onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
-      >
-        <table
+        <Button
+          icon={<IconPlus />}
+          size="small"
+          color="neutral"
+          ghost
           style={{
-            width: table.getCenterTotalSize(),
-            tableLayout: 'fixed',
-            position: 'relative',
-            background: color('background', 'default', 'strong'),
-            borderSpacing: 0,
-            borderCollapse: 'collapse',
-            userSelect: 'none',
-            WebkitUserSelect: 'none',
+            position: 'absolute',
+            right: 12,
+            top: selectedRows?.length > 0 ? 74 : 6,
+            padding: 3,
+            zIndex: 1,
           }}
-        >
-          <tbody>
-            {paddingTop > 0 && (
-              <tr>
-                <td style={{ height: `${paddingTop}px` }} />
-              </tr>
-            )}
-            {virtualRows.map((virtualRow) => {
-              const row = rows[virtualRow.index]
-              return (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <td
-                        style={{
-                          boxSizing: 'border-box',
-                          height: 61,
-                          padding: '0 12px',
-                          borderBottom: `1px solid ${color(
-                            'border',
-                            'default',
-                            'strong'
-                          )}`,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          maxWidth: '100%',
-                          width: cell.column.getSize(),
-                        }}
-                        key={cell.id}
-                      >
-                        <Text>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </Text>
-                      </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-            {paddingBottom > 0 && (
-              <tr>
-                <td style={{ height: `${paddingBottom}px` }} />
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </ScrollArea>
-    </styled.div>
+          // @ts-ignore
+          onClick={openHeaderOverlay}
+        />
+        {selectedRows?.length > 0 && (
+          <SelectedRowOptions
+            clearAllRows={clearAllRows}
+            selectedRowsLength={selectedRows?.length}
+          />
+        )}
+
+        <AutoSizer>
+          {({ width, height }) => {
+            return (
+              <SizedGrid
+                {...props}
+                data={newData}
+                height={height}
+                width={width}
+                sortKey={sortKey}
+                setSortKey={setSortKey}
+                renderCounter={renderCounter}
+                setRenderCounter={setRenderCounter}
+                selectAllRows={selectAllRows}
+                clearAllRows={clearAllRows}
+                selectedRows={selectedRows}
+                headers={filteredHeaders}
+                shiftKeyIsDown={shiftKeyIsDown}
+                setShiftKeyIndex={setShiftKeyIndex}
+                shiftKeyIndex={shiftKeyIndex}
+                setLastShiftKeyIndex={setLastShiftKeyIndex}
+              />
+            )
+          }}
+        </AutoSizer>
+      </styled.div>
+    </>
   )
 }
