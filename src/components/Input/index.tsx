@@ -11,6 +11,7 @@ import { IconAlertFill } from '../../icons'
 import { styled } from 'inlines'
 import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
 import { TextAreaInput, TextAreaInputProps } from './TextAreaInput'
+import { ColorInput, ColorInputProps } from './ColorInput'
 
 export type CommonInputProps = {
   label?: ReactNode
@@ -28,6 +29,7 @@ export type InputProps = CommonInputProps &
     | ({ type: 'search' } & SearchInputProps)
     | ({ type: 'select' } & SelectInputProps)
     | ({ type: 'number' } & NumberInputProps)
+    | ({ type: 'color' } & ColorInputProps)
     | ({ type: 'file' } & FileInputProps)
     | ({ type: 'checkbox' } & CheckboxInputProps)
     | ({ type: 'password' } & TextInputProps)
@@ -87,6 +89,18 @@ export function Input(props: InputProps) {
     case 'number': {
       const { type, ...narrowedProps } = props
       return <NumberInput {...narrowedProps} />
+    }
+    case 'color': {
+      const { type, ...narrowedProps } = props
+      return (
+        <LabelAndErrorWrapper
+          message={props.message}
+          label={props.label}
+          error={props.error}
+        >
+          <ColorInput {...narrowedProps} />
+        </LabelAndErrorWrapper>
+      )
     }
     // case 'markdown': {
     //   const { type, ...narrowedProps } = props

@@ -10,6 +10,8 @@ import breadCrumbs from './components/BreadCrumbs'
 import button from './components/Button'
 import checkboxInput from './components/CheckboxInput'
 import code from './components/Code'
+import colorInput from './components/ColorInput'
+import colorPicker from './components/ColorPicker'
 import confirmation from './components/Confirmation'
 import counter from './components/Counter'
 import datePicker from './components/DatePicker'
@@ -64,6 +66,8 @@ export const components: ComponentDef[] = [
   button,
   checkboxInput,
   code,
+  colorInput,
+  colorPicker,
   confirmation,
   counter,
   datePicker,
