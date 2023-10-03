@@ -1,33 +1,99 @@
-import React, { FC, ReactNode } from 'react'
+import React, { ReactNode, useState, createContext, useContext } from 'react'
+import * as PopoverBase from '@radix-ui/react-popover'
 import { styled, Style } from 'inlines'
-import { usePopover } from '../../hooks/usePopover'
+import { color } from '../../varsUtilities'
+import { Text } from '../Text'
+import { IconAlertFill } from '../../icons'
+import { ScrollArea, scrollAreaStyle } from '../ScrollArea'
+import { useControllableState } from 'src/hooks/useControllableState'
 
-export type PopoverProps = {
-  children?: ReactNode | ReactNode[]
-  position:
-    | 'top'
-    | 'top-right'
-    | 'top-left'
-    | 'bottom'
-    | 'bottom-right'
-    | 'bottom-left'
-    | 'left'
-    | 'right'
-  style?: Style
+type usePopoverProps = {
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const Popover: FC<PopoverProps> = ({ children }) => {
-  //TODO not standalobne dropdown
+const PopoverContext = createContext<usePopoverProps>({
+  open: false,
+  setOpen: () => {},
+})
 
-  const popoverTest = usePopover(
-    <styled.div>asdfasdfasdf</styled.div>,
-    'bottom',
-    { textTransform: 'uppercase' }
-  )
+export type PopoverRootProps = {
+  children: ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+export function Root({
+  children,
+  open: openProp,
+  onOpenChange,
+}: PopoverRootProps) {
+  const [open, setOpen] = useControllableState({
+    prop: openProp,
+    defaultProp: false,
+    onChange: onOpenChange,
+  })
 
   return (
-    <styled.div {...popoverTest} style={{ backgroundColor: 'yellow' }}>
-      flap
-    </styled.div>
+    <PopoverContext.Provider value={{ open, setOpen }}>
+      <PopoverBase.Root open={open} onOpenChange={setOpen}>
+        {children}
+      </PopoverBase.Root>
+    </PopoverContext.Provider>
+  )
+}
+
+export type PopoverTriggerProps = {
+  children: ReactNode
+}
+
+export function Trigger({ children }: PopoverTriggerProps) {
+  return <PopoverBase.Trigger asChild>{children}</PopoverBase.Trigger>
+}
+
+export type PopoverContentProps = {
+  children:
+    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)
+    | ReactNode
+}
+
+export function Content(
+  props: PopoverBase.PopoverContentProps & PopoverContentProps
+) {
+  const { open, setOpen } = useContext(PopoverContext)
+  const { style, children, ...rest } = props
+  if (!open) return null
+
+  return (
+    <PopoverBase.Portal>
+      <PopoverBase.Content
+        {...rest}
+        onOpenAutoFocus={(e) => {
+          e.preventDefault()
+        }}
+        onCloseAutoFocus={(e) => {
+          e.preventDefault()
+        }}
+      >
+        <ScrollArea
+          style={{
+            backgroundColor: color('background', 'default'),
+            border: `1px solid ${color('border', 'default')}`,
+            borderRadius: 4,
+            padding: 24,
+            ...props.style,
+          }}
+        >
+          {typeof children === 'function'
+            ? children({
+                open,
+                close: () => {
+                  setOpen(false)
+                },
+              })
+            : children}
+        </ScrollArea>
+      </PopoverBase.Content>
+    </PopoverBase.Portal>
   )
 }
