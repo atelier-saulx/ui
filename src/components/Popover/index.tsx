@@ -1,10 +1,8 @@
-import React, { ReactNode, useState, createContext, useContext } from 'react'
+import React, { ReactNode, createContext, useContext } from 'react'
 import * as PopoverBase from '@radix-ui/react-popover'
-import { styled, Style } from 'inlines'
+import { Style } from 'inlines'
 import { color } from '../../varsUtilities'
-import { Text } from '../Text'
-import { IconAlertFill } from '../../icons'
-import { ScrollArea, scrollAreaStyle } from '../ScrollArea'
+import { ScrollArea } from '../ScrollArea'
 import { useControllableState } from 'src/hooks/useControllableState'
 
 type usePopoverProps = {
@@ -55,6 +53,7 @@ export type PopoverContentProps = {
   children:
     | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)
     | ReactNode
+  style?: Style
 }
 
 export function Content(
