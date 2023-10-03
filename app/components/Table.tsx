@@ -3,7 +3,7 @@ import { Avatar, Badge, Table, Text } from '../../src'
 import { faker } from '@faker-js/faker'
 import props from '../props.json'
 import { ComponentDef } from '../types'
-import { useQuery } from '@based/react'
+import { useQuery, useClient } from '@based/react'
 
 const example: ComponentDef = {
   name: 'Table',
@@ -82,20 +82,7 @@ const example: ComponentDef = {
     {
       props: {},
       customRenderer: (props) => {
-        const { data, loading, checksum, error } = useQuery('db', {
-          $id: 'root',
-          files: {
-            $all: true,
-            $list: {
-              $find: {
-                $traverse: 'children',
-                $filter: { $operator: '=', $field: 'type', $value: 'file' },
-              },
-            },
-          },
-        })
-
-        console.log('DATA??', data, loading, error)
+        const client = useClient()
 
         return (
           <div
@@ -106,30 +93,31 @@ const example: ComponentDef = {
           >
             <Text>Query table</Text>
             <Table
-              // queryId={filter + (statusFilter ?? '')}
-              // query={(offset, limit) => {
-              //   if (filter) {
-              //     return client.query('machines', {
-              //       ...env,
-              //       offset,
-              //       limit,
-              //       configName,
-              //       filter,
-              //       status: statusFilter,
-              //     })
-              //   }
-              //   return client.query('machines', {
-              //     ...env,
-              //     offset,
-              //     limit,
-              //     configName,
-              //     status: statusFilter,
-              //   })
-              // }}
-              // getQueryItems={(d) => {
-              //   return d.machines
-              // }}
-              // // also filter this amount...
+              queryId={'bla'}
+              query={(offset, limit) => {
+                return client.query('db', {
+                  $id: 'root',
+                  files: {
+                    $all: true,
+                    $list: {
+                      $offset: offset,
+                      $limit: limit,
+                      $find: {
+                        $traverse: 'children',
+                        $filter: {
+                          $operator: '=',
+                          $field: 'type',
+                          $value: 'todo',
+                        },
+                      },
+                    },
+                  },
+                })
+              }}
+              getQueryItems={(d) => {
+                return d.files
+              }}
+              // also filter this amount...
               // itemCount={machineStatus.amount}
               // context={{ envAdminHub }}
               headers={[
@@ -139,13 +127,8 @@ const example: ComponentDef = {
                   type: 'id',
                 },
                 {
-                  label: 'Title',
-                  key: 'title',
-                },
-                {
-                  label: 'Img',
-                  key: 'image',
-                  type: 'img',
+                  label: 'Name',
+                  key: 'name',
                 },
               ]}
               // query={}
