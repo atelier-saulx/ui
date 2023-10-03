@@ -49,12 +49,14 @@ import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
+import newTable from './components/NewTable'
 
 import modal from './components/Modal'
 
 export const hooks: ComponentDef[] = [useContextState]
 
 export const components: ComponentDef[] = [
+  newTable,
   accordion,
   alertBanner,
   avatar,
