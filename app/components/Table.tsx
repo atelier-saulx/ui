@@ -49,7 +49,7 @@ const example: ComponentDef = {
         return (
           <div
             style={{
-              height: 500,
+              height: 700,
               width: '676px',
             }}
           >
@@ -80,6 +80,7 @@ const example: ComponentDef = {
     },
 
     {
+      name: 'Query',
       props: {},
       customRenderer: (props) => {
         const client = useClient()
@@ -87,11 +88,10 @@ const example: ComponentDef = {
         return (
           <div
             style={{
-              height: 500,
+              height: 700,
               width: '676px',
             }}
           >
-            <Text>Query table</Text>
             <Table
               queryId={'bla'}
               query={(offset, limit) => {
