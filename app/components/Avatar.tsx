@@ -4,7 +4,9 @@ import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
   name: 'Avatar',
-  properties: props.props.AvatarProps.props,
+  properties: {
+    ...props.props.AvatarProps.props,
+  },
   component: Avatar,
   description: 'Simple Avatar component',
   examples: [

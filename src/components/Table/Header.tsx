@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react'
 import { TableHeader } from './types'
-import { IconSortAsc } from '../../icons'
+import { IconSortAsc, IconSortDesc } from '../../icons'
 import { styled } from 'inlines'
 import { Text, Input } from '../../components'
 import { color } from '../../varsUtilities'
@@ -81,8 +81,11 @@ export const Header: FC<{
               }
             }}
           >
-            {header.key === sortKey.key && (
-              <IconSortAsc style={{ marginRight: 8 }} />
+            {header.key === sortKey.key && !sortKey.ascOrder && (
+              <IconSortAsc style={{ marginRight: 8 }} color="brand" />
+            )}
+            {header.key === sortKey.key && sortKey.ascOrder && (
+              <IconSortDesc style={{ marginRight: 8 }} color="brand" />
             )}
             <Text
               color={header.key === sortKey.key ? 'brand' : 'default'}

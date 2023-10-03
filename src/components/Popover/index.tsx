@@ -76,6 +76,8 @@ export function Content(
       >
         <ScrollArea
           style={{
+            boxShadow:
+              '0px 8px 16px -2px rgba(27, 36, 44, 0.12), 0px 2px 2px -1px rgba(27, 35, 44, 0.04)',
             backgroundColor: color('background', 'default'),
             border: `1px solid ${color('border', 'default')}`,
             borderRadius: 4,

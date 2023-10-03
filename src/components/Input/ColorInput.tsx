@@ -12,6 +12,7 @@ import { color } from '../../varsUtilities'
 import { usePropState } from '../../hooks'
 import { rgbaToArr } from '../ColorPicker/utils'
 import { ColorPicker } from '../ColorPicker'
+import { transparent } from '../ColorPicker/bg'
 
 let tester
 const valueToRgba = (value) => {
@@ -114,6 +115,22 @@ export const ColorInput = ({
               ...style,
             }}
           />
+          <div
+            style={{
+              cursor: 'pointer',
+              position: 'absolute',
+              left: 12,
+              top: '50%',
+              transform: 'translate3d(0,-50%,0)',
+              height: 20,
+              width: 20,
+              borderRadius: 4,
+              marginRight: 8,
+              marginLeft: -4,
+              background: transparent,
+              backgroundPosition: 'center center',
+            }}
+          />
           <button
             style={{
               cursor: 'pointer',
@@ -121,12 +138,12 @@ export const ColorInput = ({
               left: 12,
               top: '50%',
               transform: 'translate3d(0,-50%,0)',
-              backgroundColor: rgba,
               height: 20,
               width: 20,
               borderRadius: 4,
               marginRight: 8,
               marginLeft: -4,
+              backgroundColor: rgba,
               userSelect: 'none',
               WebkitUserSelect: 'none',
               border: `1px solid ${color('inputBorder', 'neutralNormal')}`,

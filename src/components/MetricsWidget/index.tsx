@@ -1,12 +1,11 @@
 import React, { FC, useEffect, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { color } from '../../varsUtilities'
-import { useOverlay } from '../../hooks'
 import { ChartOptionsOverlay, CalculateOptionsOverlay } from './overlays'
 import {
   Text,
   Button,
-  Input,
+  Popover,
   LineGraph,
   PieGraph,
   BarGraph,
@@ -60,24 +59,6 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
     setSelected(selectOptions[0]?.value)
   }
 
-  const openChartOptions = useOverlay(
-    ChartOptionsOverlay,
-    { chartOption, setChartOption },
-    { width: '100%', position: 'bottom' },
-    undefined,
-    undefined,
-    { style: { scrollbarGutter: 'auto' } }
-  )
-
-  const openCalculateOptions = useOverlay(
-    CalculateOptionsOverlay,
-    { calculationOption, setCalculationOption },
-    { width: '100%', position: 'bottom' },
-    undefined,
-    undefined,
-    { style: { scrollbarGutter: 'auto' } }
-  )
-
   return (
     <styled.div
       style={{
@@ -109,50 +90,85 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
               backgroundColor: color('border', 'default', 'strong'),
             }}
           />
-          <Button
-            icon={
-              calculationOption === 'numbers' ? (
-                <IconHash />
-              ) : (
-                <IconPercentage />
-              )
-            }
-            size="small"
-            color="system"
-            light
-            style={{
-              border: '0px solid transparent',
-              '&:focus': {
-                boxShadow: 'none',
-              },
-            }}
-            onClick={openCalculateOptions as () => void}
-            // {...changeCalculation}
-          />
-          <Button
-            icon={
-              chartOption === 'bar' ? (
-                <IconChartBarHorizontal />
-              ) : chartOption === 'line' ? (
-                <IconChartLine />
-              ) : chartOption === 'pie' ? (
-                <IconChartPie />
-              ) : (
-                <IconChartBarHorizontal />
-              )
-            }
-            size="small"
-            color="system"
-            light
-            style={{
-              border: '0px solid transparent',
-              '&:focus': {
-                boxShadow: 'none',
-              },
-            }}
-            onClick={openChartOptions as () => void}
-            // {...changeChartTooltip}
-          />
+          <Popover.Root>
+            <Popover.Trigger>
+              <Button
+                icon={
+                  calculationOption === 'numbers' ? (
+                    <IconHash />
+                  ) : (
+                    <IconPercentage />
+                  )
+                }
+                size="small"
+                color="system"
+                light
+                style={{
+                  border: '0px solid transparent',
+                  '&:focus': {
+                    boxShadow: 'none',
+                  },
+                }}
+                // {...changeCalculation}
+              />
+            </Popover.Trigger>
+            <Popover.Content
+              side="bottom"
+              sideOffset={6}
+              style={{ padding: 0 }}
+            >
+              {/*@ts-ignore*/}
+              {({ close }) => (
+                <CalculateOptionsOverlay
+                  calculationOption={calculationOption}
+                  setCalculationOption={setCalculationOption}
+                  close={close}
+                />
+              )}
+            </Popover.Content>
+          </Popover.Root>
+          <Popover.Root>
+            <Popover.Trigger>
+              <Button
+                icon={
+                  chartOption === 'bar' ? (
+                    <IconChartBarHorizontal />
+                  ) : chartOption === 'line' ? (
+                    <IconChartLine />
+                  ) : chartOption === 'pie' ? (
+                    <IconChartPie />
+                  ) : (
+                    <IconChartBarHorizontal />
+                  )
+                }
+                size="small"
+                color="system"
+                light
+                style={{
+                  border: '0px solid transparent',
+                  '&:focus': {
+                    boxShadow: 'none',
+                  },
+                }}
+
+                // {...changeChartTooltip}
+              />
+            </Popover.Trigger>
+            <Popover.Content
+              side="bottom"
+              sideOffset={6}
+              style={{ padding: 0 }}
+            >
+              {/*@ts-ignore*/}
+              {({ close }) => (
+                <ChartOptionsOverlay
+                  chartOption={chartOption}
+                  setChartOption={setChartOption}
+                  close={close}
+                />
+              )}
+            </Popover.Content>
+          </Popover.Root>
         </styled.div>
       </styled.div>
       <styled.div
