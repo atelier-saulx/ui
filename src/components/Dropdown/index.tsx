@@ -68,7 +68,7 @@ export type DropdownItemProps = {
 
 export function Item({ icon, children, onClick, disabled }: DropdownItemProps) {
   return (
-    <DropdownBase.Item asChild disabled={disabled}>
+    <DropdownBase.Item asChild disabled={disabled} onSelect={onClick}>
       <styled.div
         style={{
           fontSize: 14,
@@ -90,7 +90,6 @@ export function Item({ icon, children, onClick, disabled }: DropdownItemProps) {
             cursor: 'pointer',
           },
         }}
-        onClick={onClick}
       >
         {icon && (
           <div
