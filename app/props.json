@@ -477,20 +477,55 @@
           "optional": true,
           "type": "ColorBackgroundColors"
         },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
         "style": {
           "optional": true,
           "type": "Style"
         },
-        "action": {
+        "size": {
           "optional": true,
-          "type": "TSTypeLiteral"
+          "type": [
+            {
+              "value": "medium"
+            },
+            {
+              "value": "small"
+            }
+          ]
+        },
+        "expandable": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isExpanded": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "afterIcon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "description": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "ClickHandler"
         }
       },
-      "code": "type ContainerProps = {\n  color?: ColorBackgroundColors\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
+      "code": "type ContainerProps = {\n  color?: ColorBackgroundColors\n  style?: Style\n  size?: 'medium' | 'small'\n  expandable?: boolean\n  isExpanded?: boolean //(same can be controlled etc) undefined means uncontrolled\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  label?: ReactNode\n  description?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n}",
       "file": "/components/Container/index.tsx"
     },
     "CounterProps": {

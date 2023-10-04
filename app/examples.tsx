@@ -39,7 +39,7 @@ import slider from './components/Slider'
 import status from './components/Status'
 import settings from './components/Settings'
 import patterns from './components/Patterns'
-
+import container from './components/Container'
 import table from './components/Table'
 import tabs from './components/Tabs'
 import tag from './components/Tag'
@@ -66,6 +66,7 @@ export const components: ComponentDef[] = [
   button,
   checkboxInput,
   code,
+  container,
   colorInput,
   colorPicker,
   confirmation,

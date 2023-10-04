@@ -85,6 +85,8 @@ const example: ComponentDef = {
       customRenderer: (props) => {
         const client = useClient()
 
+        // { data, loading, error, checksum, next } = usePageQuery('db', )
+
         return (
           <div
             style={{
@@ -100,7 +102,7 @@ const example: ComponentDef = {
                   files: {
                     $all: true,
                     $list: {
-                      $sort: { $field: 'updatedAt', $order: 'desc' },
+                      $sort: { $field: 'createdAt', $order: 'desc' },
                       $offset: offset,
                       $limit: limit,
                       $find: {
