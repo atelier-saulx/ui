@@ -21,11 +21,19 @@ const example: ComponentDef = {
             type: 'text',
             description: 'Instance name',
           },
+          'args.x.y': {
+            label: 'Status',
+            description: 'status time',
+            options: ['good', 'bad', 'medium'],
+          },
         },
         values: {
           port: 443,
           args: {
             name: 'hello',
+            x: {
+              y: 'snapje',
+            },
           },
         },
         onChange: (values) => console.info(values),
