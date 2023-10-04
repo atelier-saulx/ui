@@ -97,26 +97,6 @@ const App = () => {
           </styled.div>
         }
         data={{
-          // basics: basics
-          //   .filter(
-          //     (c) =>
-          //       !filter || c.value.toLowerCase().includes(filter.toLowerCase())
-          //   )
-          //   .map((c) => {
-          //     return {
-          //       label: c.value,
-          //       value: c.value,
-          //     }
-          //   }),
-          // ['Data Display']: filterThis(dataDisplay),
-          // feedback: filterThis(feedback),
-          // forms: filterThis(forms),
-          // icons: filterThis(icon),
-          // layout: filterThis(layout),
-          // overlays: filterThis(overlays),
-          // navigation: filterThis(navigation),
-          // misc: filterThis(restOfComponents),
-
           components: filterThis(components),
           dataDisplay: filterThis(dataDisplay),
           feedback: filterThis(feedback),
