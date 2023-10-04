@@ -6,8 +6,6 @@ import React, {
   useContext,
 } from 'react'
 import { StateContext } from '../../hooks/ContextState'
-
-import { OverlayProvider } from '../Overlay'
 import { Provider as BasedProvider, useClient } from '@based/react'
 import { BasedClient } from '@based/client'
 import { ToastProvider } from '../Toast/'
@@ -135,7 +133,6 @@ export const Provider: FC<ProviderProps> = ({
             <AuthProvider>
               <ThemeProvider>{children}</ThemeProvider>
             </AuthProvider>
-            <OverlayProvider />
           </ToastProvider>
         </Router>
       </BasedProvider>

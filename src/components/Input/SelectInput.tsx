@@ -178,7 +178,8 @@ export function SelectInput({
               fontSize: 14,
               lineHeight: '24px',
               background: 'transparent',
-              fontFamily: 'Inter-Medium',
+              fontFamily: 'Inter',
+              fontWeight: '500',
               color: searchable
                 ? color('content', 'default', 'primary')
                 : inputToString(inputValue)

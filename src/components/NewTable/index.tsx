@@ -46,7 +46,7 @@ export function NewTable({
     parentRef: tableContainerRef,
     size: rows.length,
     estimateSize: useCallback(() => 61, []),
-    overscan: 11,
+    overscan: 10,
   })
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0

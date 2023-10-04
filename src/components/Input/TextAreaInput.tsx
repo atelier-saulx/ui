@@ -51,7 +51,7 @@ export function TextAreaInput({
           padding: '6px 12px',
           fontSize: '14px',
           lineHeight: '24px',
-          fontFamily: 'Inter-Regular',
+          fontFamily: 'Inter',
         },
       }}
     >
@@ -71,7 +71,7 @@ export function TextAreaInput({
           padding: '6px 12px',
           fontSize: '14px',
           lineHeight: '24px',
-          fontFamily: 'Inter-Regular',
+          fontFamily: 'Inter',
           color: color('content', 'default', 'primary'),
           '&::placeholder': {
             color: color('content', 'default', 'secondary'),

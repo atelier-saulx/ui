@@ -4,11 +4,6 @@ import props from '../props.json'
 import { ComponentDef } from '../types'
 import { faker } from '@faker-js/faker'
 
-/*
-    image: faker.image.url(),
-    author: faker.person.fullName(),
-*/
-
 const example: ComponentDef = {
   name: 'Thumbnail',
   properties: {
@@ -26,6 +21,7 @@ const example: ComponentDef = {
 
     {
       name: 'Counter',
+      description: 'large',
       props: {
         counter: 2,
         label: 'once',
@@ -33,6 +29,7 @@ const example: ComponentDef = {
       },
     },
     {
+      description: 'medium',
       props: {
         counter: 2,
         label: 'once',
@@ -40,6 +37,7 @@ const example: ComponentDef = {
       },
     },
     {
+      description: 'small',
       props: {
         counter: 2,
         label: 'once',

@@ -14,15 +14,33 @@ import { ComponentDef } from '../types'
 import { useClient } from '@based/react'
 import { CloseObserve } from '@based/client/dist/types'
 
+function useCallbackRef<T extends (...args: any[]) => any>(
+  callback: T | undefined
+): T {
+  const callbackRef = React.useRef(callback)
+
+  callbackRef.current = callback
+
+  return React.useMemo(
+    () => ((...args) => callbackRef.current?.(...args)) as T,
+    []
+  )
+}
+
 type UseInfiniteQueryProps = {
   queryFn: (offset: number) => any
   accessFn: (data: any) => any
 }
 
-function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
+function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const client = useClient()
   const subscriptions = useRef<(CloseObserve | null)[]>([])
+  const dataChecksums = useRef<number[]>([])
   const fetchingMore = useRef(false)
+  const queryFn = useCallbackRef(props.queryFn)
+  const accessFn = useCallbackRef(props.accessFn)
+  const [visibleElements, setVisibleElements] = useState<number[] | null>()
+
   const [data, setData] = useState<any[]>([])
   const chunkSize = useMemo(
     () => Math.max(...data.map((e) => (e ? accessFn(e) : []).length)),
@@ -32,7 +50,6 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
     () => data.flatMap((e) => (e ? accessFn(e) : [])),
     [data, accessFn]
   )
-  const [visibleElements, setVisibleElements] = useState<number[] | null>()
 
   const fetchMore = useCallback(() => {
     if (!fetchingMore.current) {
@@ -42,7 +59,8 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
 
       subscriptions.current[index] = client
         .query('db', queryFn(flatData.length))
-        .subscribe((chunk) => {
+        .subscribe((chunk, checksum) => {
+          dataChecksums.current[index] = checksum
           setData((prevData) => {
             const newData = [...prevData]
             newData[index] = chunk
@@ -83,25 +101,26 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
           }
         } else {
           if (subscriptions.current[i] === null) {
-            subscriptions.current[i] = client
+            const unsubscribe = client
               .query('db', queryFn(i * chunkSize))
-              .subscribe((chunk) => {
-                setData((prevData) => {
-                  const newData = [...prevData]
-                  newData[i] = chunk
+              .subscribe((chunk, checksum) => {
+                if (dataChecksums.current[i] !== checksum) {
+                  dataChecksums.current[i] = checksum
+                  setData((prevData) => {
+                    const newData = [...prevData]
+                    newData[i] = chunk
 
-                  return newData
-                })
+                    return newData
+                  })
+                }
               })
+
+            subscriptions.current[i] = unsubscribe
           }
         }
       }
     }
   }, [visibleElements, chunkSize])
-
-  useEffect(() => {
-    console.log(subscriptions.current)
-  })
 
   return { data: flatData, fetchMore, setVisibleElements }
 }
