@@ -174,7 +174,6 @@ const Prop: FC<{
     )
   }
 
-  // FIX SELECT
   if (Array.isArray(prop.type)) {
     let typeSwitcher = false
 
@@ -182,10 +181,10 @@ const Prop: FC<{
 
     for (const value of prop.type) {
       if (typeof value === 'object' && 'value' in value) {
-        options.push(value.value)
+        options.push({ value: value.value })
       } else {
         typeSwitcher = true
-        options.push(value)
+        options.push({ value })
       }
     }
 

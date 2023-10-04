@@ -1,36 +1,18 @@
 import React, { useState } from 'react'
-import { Pill } from '../../src'
+import { List } from '../../src'
 import { ComponentDef } from '../types'
 import { faker } from '@faker-js/faker'
+import props from '../props.json'
 
 const example: ComponentDef = {
   name: 'List',
-  component: Pill,
-  description: 'Pill ',
-  properties: {},
+  component: List,
+  description: 'List wrapper',
+  properties: props.props.ListProps.props,
   examples: [
     {
-      props: {},
-      customRenderer: () => {
-        const [value, setValue] = useState<string>('')
-        const [options] = useState(() =>
-          Array.from({ length: 25 }).map((_, i) => ({
-            label: faker.person.fullName(),
-            value: `id${i}`,
-          }))
-        )
-
-        return (
-          <Pill
-            prefix="lala"
-            value={value}
-            onChange={(v) => {
-              setValue(v)
-            }}
-            options={options}
-            placeholder="Select one"
-          />
-        )
+      props: {
+        label: 'Users',
       },
     },
   ],
