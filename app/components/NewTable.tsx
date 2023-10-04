@@ -76,8 +76,9 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
 
       for (let i = 0; i < subscriptions.current.length; i++) {
         if (i < firstVisibleChunkIndex || i > lastVisibleChunkIndex) {
-          if (subscriptions.current[i] !== null) {
-            subscriptions.current[i]?.()
+          const unsubscribe = subscriptions.current[i]
+          if (unsubscribe) {
+            unsubscribe()
             subscriptions.current[i] = null
           }
         } else {
