@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'Inter-Regular';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -7,7 +7,7 @@
 }
 
 @font-face {
-  font-family: 'Inter-Medium';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
@@ -15,7 +15,7 @@
 }
 
 @font-face {
-  font-family: 'Inter-SemiBold';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -23,7 +23,7 @@
 }
 
 html {
-  font-family: 'Inter-Regular';
+  font-family: 'Inter';
   * {
     /* background-color: yellow; */
     user-select: none;

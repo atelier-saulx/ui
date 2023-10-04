@@ -155,7 +155,7 @@ export function Title({ children }: ModalTitleProps) {
       <div
         style={{
           fontWeight: 700,
-          fontFamily: 'Inter-SemiBold',
+          fontFamily: 'Inter',
           fontSize: 18,
           lineHeight: '32px',
           color: color('content', 'default', 'primary'),
@@ -177,7 +177,7 @@ export function Description({ children }: ModalDescriptionProps) {
       <div
         style={{
           fontWeight: 500,
-          fontFamily: 'Inter-Medium',
+          fontFamily: 'Inter',
           fontSize: 14,
           lineHeight: '24px',
           color: color('content', 'default', 'secondary'),

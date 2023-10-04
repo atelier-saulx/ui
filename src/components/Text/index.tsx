@@ -88,12 +88,8 @@ export const Text: FC<TextProps> = ({
         color: parsedColor,
         cursor: onClick ? 'pointer' : null,
         fontSize: size,
-        fontFamily:
-          weight === 'strong'
-            ? 'Inter-SemiBold'
-            : weight === 'medium'
-            ? 'Inter-Medium'
-            : 'Inter-Regular',
+        fontFamily: 'Inter',
+        fontWeight: weight === 'strong' ? 600 : weight === 'medium' ? 500 : 400,
         lineHeight: newLineHeight,
         textTransform: transform,
         textAlign: align,
@@ -104,7 +100,7 @@ export const Text: FC<TextProps> = ({
           typeof truncate === 'number' ? truncate : truncate ? 1 : null,
         WebkitBoxOrient: 'vertical',
         '& b': {
-          fontFamily: 'Inter-SemiBold',
+          fontWeight: 600,
         },
         ...style,
       }}

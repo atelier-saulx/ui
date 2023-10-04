@@ -19,7 +19,8 @@ export function Tooltip({ children, text }) {
             style={{
               fontSize: 12,
               lineHeight: '20px',
-              fontFamily: 'Inter-SemiBold',
+              fontFamily: 'Inter',
+              fontWeight: 600,
               color: color('content', 'inverted', 'primary'),
               padding: '4px 8px',
               borderRadius: 4,
