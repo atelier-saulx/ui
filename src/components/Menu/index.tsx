@@ -1,9 +1,22 @@
-import React, { FC, Fragment, ReactNode, MouseEvent, useState } from 'react'
+import React, {
+  FC,
+  Fragment,
+  ReactNode,
+  MouseEvent,
+  useState,
+  useEffect,
+} from 'react'
 import { color } from '../../varsUtilities'
 import { useWindowResize } from '../../hooks'
 import { ScrollArea, Text, Button } from '../../components'
 import { Style, styled } from 'inlines'
-import { IconMenu, IconClose, IconChevronDown } from '../../icons'
+import {
+  IconMenu,
+  IconClose,
+  IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
+} from '../../icons'
 import { MenuItem } from './MenuItem'
 import { BpMobile } from 'src/utils'
 
@@ -182,6 +195,12 @@ export const Menu: FC<MenuProps> = ({
     }
   }
 
+  useEffect(() => {
+    if (width > 480) {
+      setOpen(true)
+    }
+  }, [width])
+
   const items = menuDataItems.map(
     ({ label, value, icon, items, onClick }, i) => {
       // menu header thing not working>?
@@ -299,13 +318,14 @@ export const Menu: FC<MenuProps> = ({
 
   return (
     <>
+      {/* mobile button menu */}
       <styled.div
         style={{
           position: 'fixed',
           right: 16,
           top: 16,
           display: 'none',
-          '@media only screen and (max-width: 480px )': {
+          [BpMobile]: {
             display: 'block',
           },
         }}
@@ -319,6 +339,67 @@ export const Menu: FC<MenuProps> = ({
           }}
         />
       </styled.div>
+
+      {/* mobile menu */}
+
+      {shrinkable && open && (
+        <styled.div
+          onClick={() => setShrink(!shrink)}
+          style={{
+            width: 8,
+            background: 'transparent',
+            position: 'absolute',
+            height: '100%',
+            cursor: 'pointer',
+            right: 0,
+            left: !shrink ? 240 : 58,
+            transition: '0.3s all',
+            zIndex: 2,
+            '& div': {
+              display: 'none',
+            },
+            '&:hover': {
+              '& div': {
+                display: 'flex',
+              },
+            },
+            [BpMobile]: {
+              left: !shrink ? '272px' : '62px',
+              '& div': {
+                display: 'flex',
+              },
+            },
+          }}
+        >
+          <styled.div
+            style={{
+              position: 'relative',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              padding: 3,
+              borderRadius: 32,
+              // display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 16,
+              height: 16,
+              marginLeft: -4,
+              backgroundColor: color('background', 'default', 'muted'),
+              border: `1px solid ${color(
+                'inputBorder',
+                'neutralNormal',
+                'default'
+              )} `,
+              '& svg': {
+                width: '12px',
+                height: '12px',
+              },
+            }}
+          >
+            {!shrink ? <IconChevronLeft /> : <IconChevronRight />}
+          </styled.div>
+        </styled.div>
+      )}
       <ScrollArea
         style={{
           display: 'block',
@@ -327,18 +408,18 @@ export const Menu: FC<MenuProps> = ({
           padding: '24px 12px',
           height: '100%',
           width: !shrink ? 224 : 42,
-          transition: '0.5s all',
+          transition: '0.3s all',
           overflowX: 'clip',
           borderRight: `1px solid ${color(
             'inputBorder',
             'neutralNormal',
             'default'
           )}`,
-          '@media only screen and (max-width: 480px )': {
+          [BpMobile]: {
             display: open ? 'block' : 'none',
             zIndex: 1,
             position: 'absolute',
-            width: !shrink ? '264px' : 42,
+            width: !shrink ? '264px' : '54px',
             paddingRight: '4px !important',
           },
           ...style,
