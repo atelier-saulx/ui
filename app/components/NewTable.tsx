@@ -37,6 +37,7 @@ type UseInfiniteQueryProps = {
 function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const client = useClient()
   const subscriptions = useRef<(CloseObserve | null)[]>([])
+  const dataChecksums = useRef<number[]>([])
   const fetchingMore = useRef(false)
   const [data, setData] = useState<any[]>([])
   const queryFn = useCallbackRef(props.queryFn)
@@ -59,7 +60,8 @@ function useInfiniteQuery(props: UseInfiniteQueryProps) {
 
       subscriptions.current[index] = client
         .query('db', queryFn(flatData.length))
-        .subscribe((chunk) => {
+        .subscribe((chunk, checksum) => {
+          dataChecksums.current[index] = checksum
           setData((prevData) => {
             const newData = [...prevData]
             newData[index] = chunk
@@ -100,16 +102,21 @@ function useInfiniteQuery(props: UseInfiniteQueryProps) {
           }
         } else {
           if (subscriptions.current[i] === null) {
-            subscriptions.current[i] = client
+            const unsubscribe = client
               .query('db', queryFn(i * chunkSize))
-              .subscribe((chunk) => {
-                setData((prevData) => {
-                  const newData = [...prevData]
-                  newData[i] = chunk
+              .subscribe((chunk, checksum) => {
+                if (dataChecksums.current[i] !== checksum) {
+                  dataChecksums.current[i] = checksum
+                  setData((prevData) => {
+                    const newData = [...prevData]
+                    newData[i] = chunk
 
-                  return newData
-                })
+                    return newData
+                  })
+                }
               })
+
+            subscriptions.current[i] = unsubscribe
           }
         }
       }
