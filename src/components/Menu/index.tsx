@@ -138,6 +138,8 @@ type MenuProps = {
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
+  shrinkable?: boolean
+  shrunk?: boolean
 }
 
 export const Menu: FC<MenuProps> = ({
@@ -149,10 +151,13 @@ export const Menu: FC<MenuProps> = ({
   header,
   isActive,
   collapse,
+  shrinkable,
+  shrunk = false,
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
   const { width } = useWindowResize()
   const [open, setOpen] = useState(true)
+  const [shrink, setShrink] = useState(shrunk)
 
   if (isMenuDataObject(data)) {
     for (const key in data) {
@@ -222,7 +227,7 @@ export const Menu: FC<MenuProps> = ({
               >
                 {label}
               </Text>
-              {collapse && (
+              {collapse && !shrink && (
                 <StyledChevron id={`${i}-menuchevron`}>
                   <IconChevronDown />
                 </StyledChevron>
@@ -252,16 +257,16 @@ export const Menu: FC<MenuProps> = ({
                       }
                     }}
                     active={isActive ? isActive(value) : active === value}
-                    open={open}
+                    shrink={shrink}
                   >
                     {icon ? (
                       <styled.div style={{ marginLeft: 0 }}>{icon}</styled.div>
                     ) : null}
-                    {!icon && !open && typeof label === 'string' ? (
+                    {!icon && shrink && typeof label === 'string' ? (
                       <>{label.split('').splice(0, 2)}</>
                     ) : null}
 
-                    {open && label}
+                    {!shrink && label}
                   </MenuItem>
                 )
               })}
@@ -321,7 +326,7 @@ export const Menu: FC<MenuProps> = ({
           backgroundColor: color('background', 'default', 'muted'),
           padding: '24px 12px',
           height: '100%',
-          width: 224,
+          width: !shrink ? 224 : 42,
           transition: '0.5s all',
           overflowX: 'clip',
           borderRight: `1px solid ${color(
@@ -333,7 +338,7 @@ export const Menu: FC<MenuProps> = ({
             display: open ? 'block' : 'none',
             zIndex: 1,
             position: 'absolute',
-            width: '264px',
+            width: !shrink ? '264px' : 42,
             paddingRight: '4px !important',
           },
           ...style,

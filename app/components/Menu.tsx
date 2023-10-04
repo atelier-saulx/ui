@@ -30,6 +30,7 @@ const example: ComponentDef = {
                 setValue(v)
               }}
               active={value}
+              shrunk
               data={{
                 Label: {
                   flyp: {
