@@ -786,12 +786,14 @@ export const DateRangeDoubleInput = ({
           >
             {!till ? (
               <FromRangePicker
+                setOpen={setOpen}
                 setValue={setFromValue}
                 timeString={timeString}
                 stringToMilliseconds={stringToMilliseconds}
               />
             ) : (
               <TillRangePicker
+                setOpen={setOpen}
                 setValue={setTillValue}
                 timeString={timeString}
                 stringToMilliseconds={stringToMilliseconds}

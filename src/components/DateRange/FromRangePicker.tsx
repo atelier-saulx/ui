@@ -6,12 +6,11 @@ import { color as genColor } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { Text } from '../../components'
 
-//TODO removeAllOverlays
-
 type RangeFromPickerProps = {
   setValue: (e: any) => void
   timeString?: string
   stringToMilliseconds?: (str: string, time?: string) => number
+  setOpen: (e: any) => void
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -68,6 +67,7 @@ const MscToString = (value: number): string => {
 
 export const FromRangePicker = ({
   setValue,
+  setOpen,
   timeString,
   stringToMilliseconds,
 }: RangeFromPickerProps) => {
@@ -285,7 +285,7 @@ export const FromRangePicker = ({
           style={{ display: 'flex', marginTop: '6px' }}
           onClick={() => {
             setValue(0)
-            // removeAllOverlays()
+            setOpen(false)
           }}
         >
           Clear
