@@ -4,7 +4,9 @@ import { RangeCalendar } from './RangeCalendar'
 import { IconChevronDown, IconChevronTop } from '../../icons'
 import { color as genColor } from '../../varsUtilities'
 import { styled } from 'inlines'
-import { Text, removeAllOverlays } from '../../components'
+import { Text } from '../../components'
+
+//TODO removeAllOverlays
 
 type RangeFromPickerProps = {
   setValue: (e: any) => void
@@ -283,7 +285,7 @@ export const FromRangePicker = ({
           style={{ display: 'flex', marginTop: '6px' }}
           onClick={() => {
             setValue(0)
-            removeAllOverlays()
+            // removeAllOverlays()
           }}
         >
           Clear

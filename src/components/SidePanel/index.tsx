@@ -8,17 +8,17 @@ import { scrollAreaStyle } from '../ScrollArea'
 import { useControllableState } from 'src/hooks/useControllableState'
 import { Button } from '../Button'
 
-type UseModalProps = {
+type UseSidePanelProps = {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ModalContext = createContext<UseModalProps>({
+const SidePanelContext = createContext<UseSidePanelProps>({
   open: false,
   setOpen: () => {},
 })
 
-export type ModalRootProps = {
+export type SidePanelRootProps = {
   children: ReactNode
   open?: boolean
   onOpenChange?: (open: boolean) => void
@@ -28,7 +28,7 @@ export function Root({
   children,
   open: openProp,
   onOpenChange,
-}: ModalRootProps) {
+}: SidePanelRootProps) {
   const [open, setOpen] = useControllableState({
     prop: openProp,
     defaultProp: false,
@@ -36,23 +36,23 @@ export function Root({
   })
 
   return (
-    <ModalContext.Provider value={{ open, setOpen }}>
+    <SidePanelContext.Provider value={{ open, setOpen }}>
       <DialogBase.Root open={open} onOpenChange={setOpen}>
         {children}
       </DialogBase.Root>
-    </ModalContext.Provider>
+    </SidePanelContext.Provider>
   )
 }
 
-export type ModalTriggerProps = {
+export type SidePanelTriggerProps = {
   children: ReactNode
 }
 
-export function Trigger({ children }: ModalTriggerProps) {
+export function Trigger({ children }: SidePanelTriggerProps) {
   return <DialogBase.Trigger asChild>{children}</DialogBase.Trigger>
 }
 
-export type ModalContentProps = {
+export type SidePanelContentProps = {
   children:
     | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)
     | ReactNode
@@ -64,8 +64,8 @@ export function Content({
   children,
   width = '55%',
   position = 'right',
-}: ModalContentProps) {
-  const { open, setOpen } = useContext(ModalContext)
+}: SidePanelContentProps) {
+  const { open, setOpen } = useContext(SidePanelContext)
 
   if (!open) return null
 
@@ -88,7 +88,6 @@ export function Content({
       >
         <styled.div
           style={{
-            border: '1px solid red',
             position: 'fixed',
             top: '24px',
             bottom: '24px',
@@ -117,7 +116,7 @@ export function Content({
   )
 }
 
-export type ModalWarningProps = {
+export type SidePanelWarningProps = {
   type?: 'warning' | 'alert'
   children?: ReactNode
   style?: Style
@@ -127,13 +126,12 @@ export const Warning = ({
   type = 'warning',
   children,
   style,
-}: ModalWarningProps) => {
+}: SidePanelWarningProps) => {
   const genColor = type === 'warning' ? 'warning' : 'negative'
 
   return (
     <styled.div
       style={{
-        border: '1px solid red',
         height: '24px',
         padding: '12px 16px',
         display: 'flex',
@@ -150,17 +148,17 @@ export const Warning = ({
   )
 }
 
-export type ModalTitleProps = {
+export type SidePanelTitleProps = {
   children: string
 }
 
-export function Title({ children }: ModalTitleProps) {
+export function Title({ children }: SidePanelTitleProps) {
   return (
     <DialogBase.Title asChild style={{}}>
       <styled.div
         style={{
           display: 'flex',
-          border: '1px solid red',
+
           padding: '24px 32px',
           borderBottom: `1px solid ${color('border', 'default', 'strong')}`,
           justifyContent: 'space-between',
@@ -187,16 +185,15 @@ export function Title({ children }: ModalTitleProps) {
   )
 }
 
-export type ModalBodyProps = {
+export type SidePanelBodyProps = {
   children: ReactNode
 }
 
-export function Body({ children }: ModalBodyProps) {
+export function Body({ children }: SidePanelBodyProps) {
   return (
     <styled.div
       style={{
-        border: '1px solid red',
-        padding: '24px 0 40px',
+        padding: '24px 24px 40px',
         display: 'flex',
         flexDirection: 'column',
         gap: 24,
@@ -207,19 +204,19 @@ export function Body({ children }: ModalBodyProps) {
   )
 }
 
-export type ModalActionsProps = {
+export type SidePanelActionsProps = {
   children: ReactNode
 }
 
-export function Actions({ children }: ModalActionsProps) {
+export function Actions({ children }: SidePanelActionsProps) {
   return (
     <styled.div
       style={{
-        border: '1px solid red',
         position: 'sticky',
         bottom: 0,
-        // left: 0,
-        // right: 0,
+        left: 0,
+        right: 0,
+        padding: 24,
         background: color('standalone', 'modal', 'default'),
         display: 'flex',
         justifyContent: 'end',

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Text, removeOverlay } from '../../components'
+import { Text } from '../../components'
 import { IconCalendar } from '../../icons'
 import { BpTablet } from '../../utils'
 import { styled, Style } from 'inlines'
@@ -275,7 +275,7 @@ export const DateRangeDoubleInput = ({
                 setFromYear('')
               }
               if (e.key === 'ArrowRight') {
-                removeOverlay()
+                // removeOverlay()
               }
             }}
             onKeyUp={(e) => {
@@ -318,7 +318,8 @@ export const DateRangeDoubleInput = ({
                 setTillDay(daysInMonth(newTillMonth, newTillYear) + 1)
               }
               if (e.key === 'ArrowLeft') {
-                removeOverlay()
+                //TODO
+                // removeOverlay()
               }
             }}
             onKeyUp={(e) => {

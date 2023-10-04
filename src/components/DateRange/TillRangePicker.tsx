@@ -4,7 +4,7 @@ import { useContextState } from '../../hooks/ContextState'
 import { RangeCalendar } from './RangeCalendar'
 import { color as genColor } from '../../varsUtilities'
 import { styled } from 'inlines'
-import { Text, removeAllOverlays } from '../../components'
+import { Text } from '../../components'
 
 type RangeTillPickerProps = {
   setValue: (e: any) => void
@@ -69,6 +69,7 @@ const MscToString = (value: number): string => {
 //   const outputMs = new Date(dateString).getTime()
 //   return outputMs
 // }
+//TODO REMOVE ALL OVERLAYS
 
 export const TillRangePicker = ({
   setValue,
@@ -284,7 +285,7 @@ export const TillRangePicker = ({
           style={{ display: 'flex', marginTop: '6px' }}
           onClick={() => {
             setValue(0)
-            removeAllOverlays()
+            // removeAllOverlays()
           }}
         >
           Clear
