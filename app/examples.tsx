@@ -57,57 +57,60 @@ import modal from './components/Modal'
 
 export const hooks: ComponentDef[] = [useContextState]
 
-export const components: ComponentDef[] = [
-  newTable,
-  accordion,
-  alertBanner,
-  avatar,
-  badge,
-  barGraph,
-  breadCrumbs,
-  button,
+export const components: ComponentDef[] = [button, text]
+
+export const forms = [
   checkboxInput,
-  code,
-  container,
   colorInput,
-  colorPicker,
   confirmation,
-  counter,
   datePicker,
   dateRange,
-  divider,
-  dropdown,
   fileInput,
-  formGroup,
-  icon,
-  list,
-  linegraph,
-  logsText,
-  Menu,
-  metricsWidget,
-  modal,
   multlineInput,
   numberInput,
-  pieGraph,
-  pill,
-  popover,
   radioButtons,
-  scrollArea,
   searchInput,
   segmentedControl,
   selectInput,
-  sidePanel,
   slider,
-  status,
-  styledDivs,
-  table,
-  thumbnail,
-  tabs,
-  tag,
-  text,
   textInput,
-  toast,
   toggle,
+]
+
+export const misc = [code, colorPicker, logsText, styledDivs, tag]
+
+export const overlay = [dropdown, modal, pill, popover, sidePanel]
+
+export const feedback = [
+  alertBanner,
+  avatar,
+  badge,
+  counter,
+  status,
+  thumbnail,
+  toast,
   tooltipTest,
-  topNavigation,
+]
+
+export const icons = [icon]
+
+export const layout = [
+  accordion,
+  container,
+  divider,
+  list,
+  scrollArea,
+  formGroup,
+  tabs,
+]
+
+export const navigation = [breadCrumbs, topNavigation, Menu]
+
+export const dataDisplay = [
+  barGraph,
+  newTable,
+  linegraph,
+  pieGraph,
+  metricsWidget,
+  table,
 ]
