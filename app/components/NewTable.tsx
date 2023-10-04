@@ -84,7 +84,7 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
         } else {
           if (subscriptions.current[i] === null) {
             subscriptions.current[i] = client
-              .query('db', queryFn(flatData.length))
+              .query('db', queryFn(i * chunkSize))
               .subscribe((chunk) => {
                 setData((prevData) => {
                   const newData = [...prevData]
@@ -98,6 +98,10 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
       }
     }
   }, [visibleElements, chunkSize])
+
+  useEffect(() => {
+    console.log(subscriptions.current)
+  })
 
   return { data: flatData, fetchMore, setVisibleElements }
 }
