@@ -20,6 +20,7 @@ const example: ComponentDef = {
         style: {
           width: 700,
         },
+        seperator: true,
         afterIcon: () => <IconMoreHorizontal />,
         icon: () => <Avatar />,
         label: 'This is a container',

@@ -19,6 +19,7 @@ export type ContainerProps = {
   description?: ReactNode
   children?: ReactNode
   onClick?: ClickHandler
+  seperator?: boolean
 }
 
 export const Container: FC<ContainerProps> = ({
@@ -26,6 +27,7 @@ export const Container: FC<ContainerProps> = ({
   size = 'medium',
   children,
   style,
+  seperator,
   expandable,
   isExpanded,
   icon,
@@ -46,7 +48,6 @@ export const Container: FC<ContainerProps> = ({
         flexDirection: 'column',
         flexGrow: 1,
         borderRadius: 8,
-        padding: 16,
         backgroundColor: genColor('background', color, 'subtle'),
         border: border(1),
         width: '100%',
@@ -64,8 +65,13 @@ export const Container: FC<ContainerProps> = ({
       {hasHeader ? (
         <RowSpaced
           style={{
+            paddingLeft: 16,
+            paddingRight: 16,
+            paddingTop: 16,
+            paddingBottom: seperator ? 16 : 4,
             alignItems: 'flex-start',
             position: 'relative',
+            borderBottom: seperator ? border(1) : undefined,
           }}
         >
           {
@@ -99,17 +105,16 @@ export const Container: FC<ContainerProps> = ({
       {children ? (
         <styled.div
           style={{
-            marginTop: icon || description ? 12 : hasHeader ? 4 : 0,
+            paddingLeft: 16,
+            paddingRight: 16,
+            paddingBottom: 16,
+            marginTop: icon || description ? 12 : hasHeader ? 4 : 16,
             flexGrow: 1,
           }}
         >
           {children}
         </styled.div>
       ) : null}
-      <RowSpaced>
-        {/* {bottomLeft}
-        {bottomRight} */}
-      </RowSpaced>
     </styled.div>
   )
 }
