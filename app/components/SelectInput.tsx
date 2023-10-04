@@ -7,7 +7,13 @@ const example: ComponentDef = {
   name: 'SelectInput',
   component: Input,
   description: 'Select input',
-  properties: {},
+  properties: {
+    label: { type: 'string' },
+    description: { type: 'string' },
+    placeholder: { type: 'string' },
+    clearbutton: { type: 'boolean' },
+    searchable: { type: 'boolean' },
+  },
   examples: [
     {
       props: {

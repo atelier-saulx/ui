@@ -25,8 +25,8 @@ const example: ComponentDef = {
           <div style={{ display: 'flex', gap: 20 }}>
             <Badge>{value}</Badge>
             <Menu
-              shrunk
-              collapse
+              // shrunk
+              // collapse
               onChange={(v) => {
                 setValue(v)
               }}
@@ -53,6 +53,18 @@ const example: ComponentDef = {
                     flappie: {
                       value: 'hellow',
                       label: 'hallow',
+                    },
+                    floepie: {
+                      value: 'herrow',
+                      label: 'halrwo',
+                    },
+                    flyexie: {
+                      value: 'heraima',
+                      label: 'heuanlae',
+                      snrupie: {
+                        value: 'snrupt',
+                        label: 'niepow',
+                      },
                     },
                   },
                   flop: {
