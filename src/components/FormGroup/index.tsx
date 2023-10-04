@@ -178,7 +178,7 @@ export type SettingGroupItem = {
   default?: any
 }
 
-export type SettingsProps = {
+export type FormGroupProps = {
   style?: Style
   fieldWidth?: number
   labelWidth?: number
@@ -249,7 +249,7 @@ const equalChanges = (
   return true
 }
 
-export const Settings: FC<SettingsProps> = ({
+export const FormGroup: FC<FormGroupProps> = ({
   onChange,
   data = [],
   style,

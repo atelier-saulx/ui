@@ -103,6 +103,7 @@ const App = () => {
   const forms = components
     .filter((c) => {
       if (
+        c.name === 'FormGroup' ||
         c.name === 'CheckboxInput' ||
         c.name === 'Code Editor' ||
         c.name === 'Color Input' ||

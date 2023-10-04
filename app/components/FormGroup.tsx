@@ -1,13 +1,13 @@
 import React from 'react'
-import { Settings } from '../../src'
+import { FormGroup } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
-  name: 'Settings',
-  component: Settings,
-  description: 'Settings component',
-  properties: props.props.SettingsProps.props,
+  name: 'FormGroup',
+  component: FormGroup,
+  description: 'FormGroup Component',
+  properties: props.props.FormGroupProps.props,
   examples: [
     {
       props: {

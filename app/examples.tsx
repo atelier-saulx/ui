@@ -37,7 +37,7 @@ import sidePanel from './components/SidePanel'
 import Menu from './components/Menu'
 import slider from './components/Slider'
 import status from './components/Status'
-import settings from './components/Settings'
+import formGroup from './components/FormGroup'
 import container from './components/Container'
 import table from './components/Table'
 import tabs from './components/Tabs'
@@ -53,7 +53,6 @@ import newTable from './components/NewTable'
 import thumbnail from './components/Thumbnail'
 import list from './components/List'
 import styledDivs from './components/StyledDivs'
-
 import modal from './components/Modal'
 
 export const hooks: ComponentDef[] = [useContextState]
@@ -79,6 +78,7 @@ export const components: ComponentDef[] = [
   divider,
   dropdown,
   fileInput,
+  formGroup,
   icon,
   list,
   linegraph,
@@ -95,7 +95,6 @@ export const components: ComponentDef[] = [
   scrollArea,
   searchInput,
   segmentedControl,
-  settings,
   selectInput,
   sidePanel,
   slider,
