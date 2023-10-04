@@ -14,16 +14,33 @@ import { ComponentDef } from '../types'
 import { useClient } from '@based/react'
 import { CloseObserve } from '@based/client/dist/types'
 
+function useCallbackRef<T extends (...args: any[]) => any>(
+  callback: T | undefined
+): T {
+  const callbackRef = React.useRef(callback)
+
+  React.useEffect(() => {
+    callbackRef.current = callback
+  })
+
+  return React.useMemo(
+    () => ((...args) => callbackRef.current?.(...args)) as T,
+    []
+  )
+}
+
 type UseInfiniteQueryProps = {
   queryFn: (offset: number) => any
   accessFn: (data: any) => any
 }
 
-function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
+function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const client = useClient()
   const subscriptions = useRef<(CloseObserve | null)[]>([])
   const fetchingMore = useRef(false)
   const [data, setData] = useState<any[]>([])
+  const queryFn = useCallbackRef(props.queryFn)
+  const accessFn = useCallbackRef(props.accessFn)
   const chunkSize = useMemo(
     () => Math.max(...data.map((e) => (e ? accessFn(e) : []).length)),
     [data, accessFn]
@@ -98,10 +115,6 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
       }
     }
   }, [visibleElements, chunkSize])
-
-  useEffect(() => {
-    console.log(subscriptions.current)
-  })
 
   return { data: flatData, fetchMore, setVisibleElements }
 }
