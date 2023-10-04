@@ -1,6 +1,7 @@
 import { Text } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import { faker } from '@faker-js/faker'
 
 const example: ComponentDef = {
   name: 'Text',
@@ -12,7 +13,6 @@ const example: ComponentDef = {
       props: {
         children: 'Some Text',
         weight: 'medium',
-        style: { color: 'red' },
       },
     },
     {
@@ -20,6 +20,12 @@ const example: ComponentDef = {
       props: {
         children: 'Light text, for descriptions.',
         light: true,
+      },
+    },
+    {
+      name: 'Long text',
+      props: {
+        children: faker.lorem.paragraph(50),
       },
     },
     {

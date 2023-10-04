@@ -2,12 +2,13 @@ import React from 'react'
 import {
   Avatar,
   Container,
-  IconMenu,
   IconMoreHorizontal,
+  Thumbnail,
   Text,
 } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import { faker } from '@faker-js/faker'
 
 const example: ComponentDef = {
   name: 'Container',
@@ -31,7 +32,9 @@ const example: ComponentDef = {
         },
       },
     },
+
     {
+      name: 'Expandable',
       props: {
         style: {
           width: 700,
@@ -45,12 +48,29 @@ const example: ComponentDef = {
       },
     },
     {
+      name: 'Variations',
+      description: 'No description / no seperator',
       props: {
         style: {
           width: 700,
         },
         label: 'This is a container',
         children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      description: 'No seperator',
+      props: {
+        style: {
+          width: 700,
+        },
+        icon: () => <Thumbnail label="Jim" color="blue" size="medium" />,
+        afterIcon: () => <IconMoreHorizontal />,
+        label: 'This is a container',
+        description: 'This is a description',
+        children: () => {
+          return <Text>{faker.lorem.sentences(20)}</Text>
+        },
       },
     },
     {
