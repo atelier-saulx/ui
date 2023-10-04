@@ -68,6 +68,7 @@ const Icons: FC<{
         style={{
           width: 300,
           padding: 0,
+          color: color('content', 'default'),
           // backgroundColor: 'transparent',
           marginTop: '5vh',
           marginBottom: '5vh',
