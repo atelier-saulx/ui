@@ -53,62 +53,64 @@ import newTable from './components/NewTable'
 import thumbnail from './components/Thumbnail'
 import list from './components/List'
 import styledDivs from './components/StyledDivs'
-
 import modal from './components/Modal'
 
 export const hooks: ComponentDef[] = [useContextState]
 
-export const components: ComponentDef[] = [
-  newTable,
-  accordion,
+export const components: ComponentDef[] = [button, text]
+
+export const forms = [
+  checkboxInput,
+  colorInput,
+  confirmation,
+  datePicker,
+  dateRange,
+  fileInput,
+  multlineInput,
+  numberInput,
+  radioButtons,
+  searchInput,
+  segmentedControl,
+  selectInput,
+  slider,
+  textInput,
+  toggle,
+]
+
+export const misc = [code, colorPicker, logsText, styledDivs, tag]
+
+export const overlay = [dropdown, modal, pill, popover, sidePanel]
+
+export const feedback = [
   alertBanner,
   avatar,
   badge,
-  barGraph,
-  breadCrumbs,
-  button,
-  checkboxInput,
-  code,
-  container,
-  colorInput,
-  colorPicker,
-  confirmation,
   counter,
-  datePicker,
-  dateRange,
-  divider,
-  dropdown,
-  fileInput,
-  icon,
-  list,
-  linegraph,
-  logsText,
-  Menu,
-  metricsWidget,
-  modal,
-  multlineInput,
-  numberInput,
-  pieGraph,
-  pill,
-  popover,
-  radioButtons,
-  scrollArea,
-  searchInput,
-  segmentedControl,
-  settings,
-  selectInput,
-  sidePanel,
-  slider,
   status,
-  styledDivs,
-  table,
   thumbnail,
-  tabs,
-  tag,
-  text,
-  textInput,
   toast,
-  toggle,
   tooltipTest,
-  topNavigation,
+]
+
+export const icons = [icon]
+
+export const layout = [
+  accordion,
+  container,
+  divider,
+  list,
+  scrollArea,
+  settings,
+  tabs,
+]
+
+export const navigation = [breadCrumbs, topNavigation, Menu]
+
+export const dataDisplay = [
+  barGraph,
+  newTable,
+  linegraph,
+  pieGraph,
+  metricsWidget,
+  table,
 ]
