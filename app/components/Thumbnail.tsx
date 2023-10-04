@@ -76,6 +76,9 @@ const example: ComponentDef = {
     {
       name: 'Icon',
       props: {
+        light: true,
+        outline: true,
+        color: 'raspberry',
         icon: () => <IconBulb />,
         size: 'small',
       },
