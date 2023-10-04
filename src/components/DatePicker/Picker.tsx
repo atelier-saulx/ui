@@ -3,8 +3,10 @@ import { Calendar } from './Calendar'
 import { IconChevronDown, IconChevronTop } from '../../icons'
 import { color as genColor } from '../../varsUtilities'
 import { styled } from 'inlines'
-import { Text, removeAllOverlays } from '../../components'
+import { Text } from '../../components'
 import { useContextState } from '../../hooks'
+
+//TODO removeAllOverLays
 
 type PickerProps = {
   setValue: (e: any) => void
@@ -289,7 +291,8 @@ export const Picker = ({
           style={{ display: 'flex', marginTop: '6px' }}
           onClick={() => {
             setValue(0)
-            removeAllOverlays()
+
+            // removeAllOverlays()
           }}
         >
           Clear

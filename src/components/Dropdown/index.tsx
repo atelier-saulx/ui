@@ -3,6 +3,7 @@ import * as DropdownBase from '@radix-ui/react-dropdown-menu'
 import { color } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { IconCheckLarge, IconChevronRight } from '../../icons'
+import { ScrollArea } from '../ScrollArea'
 
 export type DropdownRootProps = {
   children: ReactNode
@@ -33,7 +34,7 @@ export function Items({ children }: DropdownItemsProps) {
           e.preventDefault()
         }}
       >
-        <styled.div
+        <ScrollArea
           style={{
             width: 267,
             padding: 8,
@@ -52,7 +53,7 @@ export function Items({ children }: DropdownItemsProps) {
           }}
         >
           {children}
-        </styled.div>
+        </ScrollArea>
       </DropdownBase.Content>
     </DropdownBase.Portal>
   )
