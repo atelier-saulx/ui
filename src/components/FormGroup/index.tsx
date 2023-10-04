@@ -48,7 +48,15 @@ export const SettingsField: FC<{
 }> = ({
   fieldWidth = 185,
   width = 160,
-  item: { type, field, label, description, options, default: defaultValue },
+  item: {
+    props,
+    type,
+    field,
+    label,
+    description,
+    options,
+    default: defaultValue,
+  },
   value,
   style,
   onChange,
@@ -80,6 +88,7 @@ export const SettingsField: FC<{
           {React.createElement(type, {
             value,
             onChange,
+            ...props,
           })}
         </styled.div>
       </Label>
@@ -87,7 +96,7 @@ export const SettingsField: FC<{
   }
 
   if (options) {
-    console.log(options)
+    // --------
 
     return (
       <Label
@@ -103,13 +112,18 @@ export const SettingsField: FC<{
         <Input
           type="select"
           value={value}
-          style={{ width: fieldWidth }}
           onChange={(v) => {
             onChange(field, v)
           }}
-          options={options.map((v) => {
-            return typeof v !== 'object' ? { value: v } : v
+          options={options.map((value, i) => {
+            if (typeof value !== 'object') {
+              return { value: String(i), label: value }
+            }
+            return { value }
           })}
+          {...props}
+          // @ts-ignore
+          style={Object.assign({ width: fieldWidth }, props?.style)}
         />
       </Label>
     )
@@ -136,9 +150,11 @@ export const SettingsField: FC<{
               })
             }}
             value={value?.min}
-            style={{ width: 90, marginRight: 8 }}
             type="number"
             placeholder="Min"
+            {...props}
+            // @ts-ignore
+            style={Object.assign({ width: 90, marginRight: 8 }, props?.style)}
           />
           <Input
             onChange={(v) => {
@@ -148,9 +164,11 @@ export const SettingsField: FC<{
               })
             }}
             value={value?.max}
-            style={{ width: 90 }}
             type="number"
             placeholder="Max"
+            {...props}
+            // @ts-ignore
+            style={Object.assign({ width: 90 }, props?.style)}
           />
         </Row>
       </Label>
@@ -163,11 +181,13 @@ export const SettingsField: FC<{
         type="checkbox"
         value={value}
         onChange={(v) => onChange(field, v)}
-        style={{
-          marginBottom: 16,
-          marginRight: 32,
-        }}
         label={label}
+        {...props}
+        // @ts-ignore
+        style={Object.assign(
+          { marginBottom: 16, marginRight: 32 },
+          props?.style
+        )}
       />
     )
   }
@@ -184,11 +204,16 @@ export const SettingsField: FC<{
     >
       {/* @ts-ignore FIX THIS TYPE */}
       <Input
-        style={{ minWidth: fieldWidth, width: '100%' }}
         placeholder={label}
         value={value ?? ''}
         type={type || 'text'}
         onChange={(v) => onChange(field, v)}
+        {...props}
+        // @ts-ignore
+        style={Object.assign(
+          { minWidth: fieldWidth, width: '100%' },
+          props?.style
+        )}
       />
     </Label>
   )
@@ -196,6 +221,7 @@ export const SettingsField: FC<{
 
 export type SettingGroupItem = {
   label?: ReactNode
+  props?: { [key: string]: string }
   value?: any
   type?: 'number' | 'text' | 'range' | 'boolean'
   description?: ReactNode
@@ -210,7 +236,7 @@ export type FormGroupProps = {
   labelWidth?: number
   onChange: (changes: { [field: string]: any }) => void | Promise<void>
   values?: { [field: string]: any }
-  data?:
+  config?:
     | SettingGroupItem[]
     | {
         [field: string]:
@@ -277,7 +303,7 @@ const equalChanges = (
 
 export const FormGroup: FC<FormGroupProps> = ({
   onChange,
-  data = [],
+  config = [],
   style,
   alwaysAccept,
   labelWidth = 160,
@@ -307,10 +333,10 @@ export const FormGroup: FC<FormGroupProps> = ({
 
   let parsedData: SettingGroupItem[]
 
-  if (!Array.isArray(data)) {
+  if (!Array.isArray(config)) {
     parsedData = []
-    for (const field in data) {
-      const item = data[field]
+    for (const field in config) {
+      const item = config[field]
       if (item === null) {
         continue
       }
@@ -325,7 +351,7 @@ export const FormGroup: FC<FormGroupProps> = ({
       }
     }
   } else {
-    parsedData = data
+    parsedData = config
   }
 
   const checkBoxes: ReactNode[] = []

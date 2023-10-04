@@ -11,7 +11,7 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        data: {
+        config: {
           port: {
             type: 'number',
             description: 'Network port',
@@ -25,6 +25,17 @@ const example: ComponentDef = {
             label: 'Status',
             description: 'status time',
             options: ['good', 'bad', 'medium'],
+            props: {
+              placeholder: 'FLAP',
+              style: {
+                transform: 'rotate(3deg)',
+              },
+            },
+          },
+          range: {
+            label: 'Bla',
+            description: 'hello',
+            type: 'range',
           },
           custom: {
             label: 'Status',
@@ -32,12 +43,21 @@ const example: ComponentDef = {
             type:
               () =>
               ({ onChange, value }) => {
-                return <Button onClick={() => {}}>bla {value.x}</Button>
+                return (
+                  <Button
+                    onClick={() => {
+                      onChange('custom', { x: value.x + 1 })
+                    }}
+                  >
+                    bla {value.x}
+                  </Button>
+                )
               },
           },
         },
         values: {
           port: 443,
+          range: { min: 0, max: 1 },
           custom: { x: 100 },
           args: {
             name: 'hello',
