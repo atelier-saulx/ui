@@ -1352,6 +1352,48 @@
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: ReactNode\n  width?: number\n  height?: number\n}",
       "file": "/components/Linegraph/index.tsx"
     },
+    "ListProps": {
+      "name": "ListProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "filter": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "description": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "data": {
+          "type": {
+            "array": "T"
+          }
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "action": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "headers": {
+          "optional": true,
+          "type": {
+            "array": "string"
+          }
+        }
+      },
+      "code": "type ListProps<T = any> = {\n  style?: Style\n  filter?: boolean\n  label?: ReactNode\n  description?: ReactNode\n  data: T[]\n  onClick?: (data: T) => void | Promise<void>\n  action?: ReactNode\n  headers?: string[]\n}",
+      "file": "/components/List/index.tsx"
+    },
     "LogProps": {
       "name": "LogProps",
       "props": {
