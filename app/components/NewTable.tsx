@@ -21,13 +21,18 @@ type UseInfiniteQueryProps = {
 
 function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
   const client = useClient()
-  const subscriptions = useRef<CloseObserve[]>([])
+  const subscriptions = useRef<(CloseObserve | null)[]>([])
   const fetchingMore = useRef(false)
   const [data, setData] = useState<any[]>([])
+  const chunkSize = useMemo(
+    () => Math.max(...data.map((e) => (e ? accessFn(e) : []).length)),
+    [data, accessFn]
+  )
   const flatData = useMemo(
     () => data.flatMap((e) => (e ? accessFn(e) : [])),
     [data, accessFn]
   )
+  const [visibleElements, setVisibleElements] = useState<number[] | null>()
 
   const fetchMore = useCallback(() => {
     if (!fetchingMore.current) {
@@ -38,10 +43,12 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
       subscriptions.current[index] = client
         .query('db', queryFn(flatData.length))
         .subscribe((chunk) => {
-          const newData = [...data]
-          newData[index] = chunk
+          setData((prevData) => {
+            const newData = [...prevData]
+            newData[index] = chunk
 
-          setData(newData)
+            return newData
+          })
 
           fetchingMore.current = false
         })
@@ -53,12 +60,50 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
 
     return () => {
       for (const unsubscribe of subscriptions.current) {
-        unsubscribe()
+        unsubscribe?.()
       }
     }
   }, [])
 
-  return { data: flatData, fetchMore }
+  useEffect(() => {
+    if (visibleElements?.length) {
+      const firstVisibleChunkIndex = Math.floor(
+        Math.min(...visibleElements) / chunkSize
+      )
+      const lastVisibleChunkIndex = Math.ceil(
+        Math.max(...visibleElements) / chunkSize
+      )
+
+      for (let i = 0; i < subscriptions.current.length; i++) {
+        if (i < firstVisibleChunkIndex || i > lastVisibleChunkIndex) {
+          const unsubscribe = subscriptions.current[i]
+          if (unsubscribe) {
+            unsubscribe()
+            subscriptions.current[i] = null
+          }
+        } else {
+          if (subscriptions.current[i] === null) {
+            subscriptions.current[i] = client
+              .query('db', queryFn(i * chunkSize))
+              .subscribe((chunk) => {
+                setData((prevData) => {
+                  const newData = [...prevData]
+                  newData[i] = chunk
+
+                  return newData
+                })
+              })
+          }
+        }
+      }
+    }
+  }, [visibleElements, chunkSize])
+
+  useEffect(() => {
+    console.log(subscriptions.current)
+  })
+
+  return { data: flatData, fetchMore, setVisibleElements }
 }
 
 const example: ComponentDef = {
@@ -72,7 +117,7 @@ const example: ComponentDef = {
       customRenderer: () => {
         const [open, setOpen] = useState<string | null>(null)
 
-        const { data, fetchMore } = useInfiniteQuery({
+        const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
           accessFn: (data) => data.files,
           queryFn: (offset) => ({
             $id: 'root',
@@ -103,6 +148,7 @@ const example: ComponentDef = {
           >
             <NewTable
               data={data}
+              onVisibleElementsChange={setVisibleElements}
               onScrollToBottom={() => {
                 fetchMore()
               }}
