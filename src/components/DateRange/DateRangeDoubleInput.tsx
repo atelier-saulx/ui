@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Text, removeOverlay } from '../../components'
-import { useOverlay } from '../../hooks'
 import { IconCalendar } from '../../icons'
 import { BpTablet } from '../../utils'
 import { styled, Style } from 'inlines'
@@ -146,32 +145,6 @@ export const DateRangeDoubleInput = ({
     setTillMonth(newTillMonth || '')
     setTillYear(newTillYear || '')
   }, [tillValue])
-
-  // if is range
-  const openFromRangePicker = useOverlay(
-    FromRangePicker,
-    { setValue: setFromValue, timeString, stringToMilliseconds },
-    { width: '100%', position: 'bottom' },
-    undefined,
-    undefined,
-    {
-      style: { scrollbarGutter: 'unset' },
-      transparent: true,
-    }
-  )
-
-  // if is range
-  const openTillRangePicker = useOverlay(
-    TillRangePicker,
-    { setValue: setTillValue, timeString, stringToMilliseconds },
-    { width: '100%', position: 'bottom' },
-    undefined,
-    undefined,
-    {
-      style: { scrollbarGutter: 'unset' },
-      transparent: true,
-    }
-  )
 
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()

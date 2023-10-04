@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { ReactNode, FC } from 'react'
 import { Style, styled } from 'inlines'
 import { Text, Badge } from '../../components'
 import { IconAlertFill } from '../../icons'
@@ -11,7 +11,7 @@ export type SingleLogItemProps = {
   style?: Style
   ts?: number
   type?: string
-  label?: string
+  label?: ReactNode
 }
 
 export const SingleLogItem: FC<SingleLogItemProps> = ({

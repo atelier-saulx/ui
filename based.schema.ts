@@ -1,5 +1,10 @@
 export default {
   languages: ['en'],
+  rootType: {
+    fields: {
+      demoState: { type: 'record', values: { type: 'string' } },
+    },
+  },
   types: {
     file: {
       prefix: 'fi',

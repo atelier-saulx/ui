@@ -228,7 +228,15 @@ export const Menu: FC<MenuProps> = ({
               }}
             >
               {icon ? <styled.div>{icon}</styled.div> : null}
-              <Text selectable="none">{label}</Text>
+              <Text
+                light
+                selectable="none"
+                weight="strong"
+                size={12}
+                transform="uppercase"
+              >
+                {label}
+              </Text>
               {collapse && (
                 <StyledChevron id={`${i}-menuchevron`}>
                   <IconChevronDown />
@@ -323,7 +331,7 @@ export const Menu: FC<MenuProps> = ({
           onClick={() => setOpen(!open)}
           style={{
             position: 'absolute',
-            border: '1px solid',
+            borderRight: '1px solid',
             borderColor: color('inputBorder', 'neutralNormal', 'default'),
             '&:hover': {
               borderColor: color('inputBorder', 'neutralHover', 'default'),
@@ -348,7 +356,6 @@ export const Menu: FC<MenuProps> = ({
               backgroundColor: color('background', 'default', 'muted'),
               // borderRight: border(1),
               // position: 'relative',
-
               padding: '24px 20px 20px 20px',
               height: '100%',
               width: '100%',

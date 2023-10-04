@@ -10,7 +10,7 @@ export type TextInputProps = {
   defaultValue?: string
   onChange?: (value: string) => void
   onFocus?: () => void
-  onBlur?: () => void
+  onBlur?: (value: string) => void
   disabled?: boolean
   placeholder?: ReactNode
   prefix?: BadgeProps
@@ -110,7 +110,7 @@ export function TextInput({
           setValue(e.target.value)
         }}
         onFocus={onFocus}
-        onBlur={onBlur}
+        onBlur={(e) => onBlur?.(e.target.value)}
         style={{
           width: '100%',
           height: 38,

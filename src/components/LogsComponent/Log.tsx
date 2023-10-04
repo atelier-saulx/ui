@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
+import React, { ReactNode, FC } from 'react'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 import { color as useColor } from '../../varsUtilities'
 import { prettyDate } from '@based/pretty-date'
 
 export type LogProps = {
-  label?: string
+  label?: ReactNode
   log?: string
   type?: 'error' | 'warning' | 'log' | 'info' | 'brand'
   ts?: number

@@ -18,6 +18,7 @@ const example: ComponentDef = {
           <div style={{ display: 'flex', gap: 20 }}>
             <Badge>{value}</Badge>
             <Menu
+              collapse
               onChange={(v) => {
                 setValue(v)
               }}

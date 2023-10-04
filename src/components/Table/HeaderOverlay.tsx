@@ -36,9 +36,7 @@ export const HeaderOverlay = ({ headers, setFilteredHeaders, setHeaders }) => {
       style={{
         backgroundColor: color('background', 'default', 'surface'),
         borderRadius: 8,
-        border: `1px solid ${color('border', 'default', 'strong')}`,
-        boxShadow:
-          '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+
         padding: 8,
         width: 216,
       }}

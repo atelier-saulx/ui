@@ -47,7 +47,7 @@ export const Container: FC<ContainerProps> = ({
         flexGrow: 1,
         borderRadius: 8,
         padding: 16,
-        backgroundColor: genColor('background', color),
+        backgroundColor: genColor('background', color, 'subtle'),
         border: border(1),
         width: '100%',
         cursor: onClick ? 'pointer' : null,

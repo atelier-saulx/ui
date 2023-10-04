@@ -20,6 +20,7 @@ export type TableProps<T extends any = any> = {
   rowCount?: number
   rowHeight?: number
   selectable?: boolean
+  arrangeAble?: boolean
   setSortKey?: any
   sortKey?: any
   style?: Style

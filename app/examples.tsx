@@ -38,7 +38,6 @@ import Menu from './components/Menu'
 import slider from './components/Slider'
 import status from './components/Status'
 import settings from './components/Settings'
-import patterns from './components/Patterns'
 import container from './components/Container'
 import table from './components/Table'
 import tabs from './components/Tabs'
@@ -50,13 +49,14 @@ import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
+import newTable from './components/NewTable'
 
 import modal from './components/Modal'
 
 export const hooks: ComponentDef[] = [useContextState]
 
 export const components: ComponentDef[] = [
-  patterns,
+  newTable,
   accordion,
   alertBanner,
   avatar,

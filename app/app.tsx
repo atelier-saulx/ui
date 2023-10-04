@@ -5,7 +5,15 @@ import React, { useState } from 'react'
 import { styled } from 'inlines'
 import '../src/fonts.css'
 import based from '@based/client'
-import { color, Menu, Input, Provider, ScrollArea } from '../src'
+import {
+  color,
+  Menu,
+  Input,
+  Provider,
+  ScrollArea,
+  BpTablet,
+  BpMobile,
+} from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
@@ -98,6 +106,10 @@ const App = () => {
           backgroundColor: color('background', 'default', 'muted'),
           paddingLeft: '64px',
           paddingRight: '64px',
+          [BpMobile]: {
+            paddingLeft: '0px',
+            paddingRight: '0px',
+          },
           paddingTop: '24px',
           paddingBottom: '24px',
           display: 'flex',

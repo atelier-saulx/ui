@@ -1,7 +1,6 @@
 import React, { ReactNode, FC } from 'react'
 import {
   Button,
-  useOverlay,
   Text,
   useContextState,
   StateProvider,

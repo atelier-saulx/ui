@@ -35,7 +35,6 @@ export function Items({ children }: DropdownItemsProps) {
       >
         <styled.div
           style={{
-            zIndex: 60,
             width: 267,
             padding: 8,
             borderRadius: 8,
@@ -182,7 +181,6 @@ export function SubItems({ children }: DropdownSubItemsProps) {
       <DropdownBase.SubContent asChild>
         <styled.div
           style={{
-            zIndex: 60,
             width: 267,
             padding: 8,
             borderRadius: 8,

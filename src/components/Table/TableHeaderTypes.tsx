@@ -151,6 +151,7 @@ type TableHeaderTypesProps = {
     | 'CheckboxSelectItem'
     | 'id'
     | 'img'
+    | 'image'
     | 'number'
     | 'string'
     | 'timestamp'
@@ -188,7 +189,7 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
   return type === 'author' ? (
     <>
       <Avatar size="small">{itemData}</Avatar>
-      <Text weight="medium" style={{ marginLeft: 8 }}>
+      <Text weight="medium" style={{ marginLeft: 8 }} truncate>
         {itemData}
       </Text>
     </>
@@ -212,8 +213,8 @@ export const TableHeaderTypes: FC<TableHeaderTypesProps> = ({
     />
   ) : type === 'id' ? (
     <IdBadge>{itemData}</IdBadge>
-  ) : type === 'img' ? (
-    <Avatar src={itemData} squared size="large" />
+  ) : type === 'img' || type === 'image' ? (
+    <Avatar src={itemData} squared size="large" color="grey" light />
   ) : type === 'string' ? (
     <StringItem
       item={rowData}

@@ -59,7 +59,7 @@ export const Cell = (props) => {
       setLastShiftKeyIndex={data.setLastShiftKeyIndex}
     />
   ) : (
-    <Text weight="medium">
+    <Text weight="medium" truncate>
       {type === 'bytes'
         ? prettyNumber(itemData, 'number-bytes')
         : typeof itemData === 'object'
@@ -113,6 +113,7 @@ export const Cell = (props) => {
       style={{
         display: 'flex',
         alignItems: 'center',
+        overflow: 'hidden',
         paddingLeft: 16,
         cursor: onClick ? 'pointer' : 'default',
         borderBottom: `1px solid ${color('border', 'default', 'strong')}`,

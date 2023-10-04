@@ -100,7 +100,9 @@ export function SelectInput({
 
   function handleOpen() {
     setOpen(true)
-    inputRef.current?.select()
+    if (searchable) {
+      inputRef.current?.select()
+    }
   }
 
   useEffect(() => {
@@ -118,7 +120,7 @@ export function SelectInput({
         >
           <Component
             {...componentProps}
-            tabindex="0"
+            tabIndex={0}
             ref={inputRef}
             onClick={() => {
               handleOpen()
