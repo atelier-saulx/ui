@@ -49,7 +49,7 @@ const App = () => {
     >
       <Menu
         header={
-          <styled.div style={{ marginBottom: 16 }}>
+          <styled.div style={{ marginBottom: 16, width: '100%' }}>
             <styled.div
               style={{
                 marginBottom: 16,
@@ -62,7 +62,7 @@ const App = () => {
             <Input
               value={filter}
               type="search"
-              style={{ width: 220 }}
+              style={{ width: '100%' }}
               placeholder="Filter..."
               onChange={(v) => {
                 setFilter(v)

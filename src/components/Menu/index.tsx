@@ -5,6 +5,7 @@ import { ScrollArea, Text, Button } from '../../components'
 import { Style, styled } from 'inlines'
 import { IconMenu, IconClose, IconChevronDown } from '../../icons'
 import { MenuItem } from './MenuItem'
+import { BpMobile } from 'src/utils'
 
 type MenuHeaderProps = {
   children?: ReactNode
@@ -242,6 +243,8 @@ export const Menu: FC<MenuProps> = ({
                     key={index}
                     onClick={(e: any) => {
                       if (onChange) {
+                        // if changed on mobile close the menu
+                        setOpen(false)
                         onChange(value, topValue)
                       }
                       if (onClick) {
@@ -257,8 +260,6 @@ export const Menu: FC<MenuProps> = ({
                     {!icon && !open && typeof label === 'string' ? (
                       <>{label.split('').splice(0, 2)}</>
                     ) : null}
-
-                    {/* <div style={{ width: '100%', border: '1px solid red' }} /> */}
 
                     {open && label}
                   </MenuItem>
@@ -298,17 +299,24 @@ export const Menu: FC<MenuProps> = ({
           position: 'fixed',
           right: 16,
           top: 16,
+          display: 'none',
+          '@media only screen and (max-width: 480px )': {
+            display: 'block',
+          },
         }}
       >
         <Button
           color="system"
-          icon={<IconMenu />}
+          icon={open ? <IconClose /> : <IconMenu />}
           size="small"
-          onClick={() => {}}
+          onClick={() => {
+            setOpen(!open)
+          }}
         />
       </styled.div>
       <ScrollArea
         style={{
+          display: 'block',
           flexShrink: 0,
           backgroundColor: color('background', 'default', 'muted'),
           padding: '24px 12px',
@@ -321,6 +329,13 @@ export const Menu: FC<MenuProps> = ({
             'neutralNormal',
             'default'
           )}`,
+          '@media only screen and (max-width: 480px )': {
+            display: open ? 'block' : 'none',
+            zIndex: 1,
+            position: 'absolute',
+            width: '264px',
+            paddingRight: '4px !important',
+          },
           ...style,
         }}
       >
