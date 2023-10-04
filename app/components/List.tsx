@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { List } from '../../src'
+import { List, Thumbnail, styled } from '../../src'
 import { ComponentDef } from '../types'
 import { faker } from '@faker-js/faker'
 import props from '../props.json'
@@ -36,7 +36,10 @@ const example: ComponentDef = {
           },
           {
             key: 'status',
-            type: 'badge',
+            type:
+              () =>
+              ({ row }) =>
+                <Thumbnail size="small" label={row.status} />,
           },
           {
             key: 'avatar',
