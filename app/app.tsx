@@ -28,9 +28,10 @@ const App = () => {
   const filtered = [...components, ...hooks].filter((c) => {
     return c.name === component
   })
+
   const [filter, setFilter] = useState('')
 
-  console.log(components)
+  // console.log(components)
 
   // basic elements
   const basics = components
@@ -51,7 +52,8 @@ const App = () => {
         c.name === 'Container' ||
         c.name === 'Divider' ||
         c.name === 'Tabs' ||
-        c.name === 'ScrollArea'
+        c.name === 'ScrollArea' ||
+        c.name === 'Settings'
       ) {
         return { label: c.name, value: c.name }
       }
@@ -104,14 +106,16 @@ const App = () => {
         c.name === 'CheckboxInput' ||
         c.name === 'Code Editor' ||
         c.name === 'Color Input' ||
+        c.name === 'Confirmation' ||
         c.name === 'Date Picker' ||
         c.name === 'Date Range' ||
         c.name === 'FileInput' ||
         c.name === 'NumberInput' ||
         c.name === 'Radiobuttons' ||
         c.name === 'SearchInput' ||
-        c.name === 'Slider' ||
+        c.name === 'SegmentedControl' ||
         c.name === 'SelectInput' ||
+        c.name === 'Slider' ||
         c.name === 'TextAreaInput' ||
         c.name === 'TextInput' ||
         c.name === 'Toggle'
@@ -148,6 +152,22 @@ const App = () => {
       return { label: c.name, value: c.name }
     })
 
+  const overlays = components
+    .filter((c) => {
+      if (
+        c.name === 'Dropdown' ||
+        c.name === 'Modal' ||
+        c.name === 'Pill' ||
+        c.name === 'Popover' ||
+        c.name === 'SidePanel'
+      ) {
+        return { label: c.name, value: c.name }
+      }
+    })
+    .map((c) => {
+      return { label: c.name, value: c.name }
+    })
+
   // just to filter out the names that are allready in categorys
   let basicsArray = basics.map((item) => Object.values(item)[0])
   let formsArray = forms.map((item) => Object.values(item)[0])
@@ -156,6 +176,7 @@ const App = () => {
   let navigationArray = navigation.map((item) => Object.values(item)[0])
   let feedbackArray = feedback.map((item) => Object.values(item)[0])
   let iconArray = icon.map((item) => Object.values(item)[0])
+  let overlayArray = overlays.map((item) => Object.values(item)[0])
 
   const restOfComponents = components
     .filter((c) => !basicsArray.includes(c.name))
@@ -165,6 +186,7 @@ const App = () => {
     .filter((c) => !navigationArray.includes(c.name))
     .filter((c) => !feedbackArray.includes(c.name))
     .filter((c) => !iconArray.includes(c.name))
+    .filter((c) => !overlayArray.includes(c.name))
     .filter(
       (c) => !filter || c.name.toLowerCase().includes(filter.toLowerCase())
     )
@@ -182,6 +204,21 @@ const App = () => {
   // feedback
   // navigation
   // data display
+
+  const filterThis = (comp) => {
+    let a = comp
+      .filter(
+        (c) => !filter || c.value.toLowerCase().includes(filter.toLowerCase())
+      )
+      .map((c) => {
+        return {
+          label: c.value,
+          value: c.value,
+        }
+      })
+
+    return a
+  }
 
   return (
     <styled.div
@@ -212,14 +249,25 @@ const App = () => {
           </styled.div>
         }
         data={{
-          basics: basics,
-          ['Data Display']: dataDisplay,
-          feedback: feedback,
-          forms: forms,
-          icons: icon,
-          layout: layout,
-          navigation: navigation,
-          misc: restOfComponents,
+          basics: basics
+            .filter(
+              (c) =>
+                !filter || c.value.toLowerCase().includes(filter.toLowerCase())
+            )
+            .map((c) => {
+              return {
+                label: c.value,
+                value: c.value,
+              }
+            }),
+          ['Data Display']: filterThis(dataDisplay),
+          feedback: filterThis(feedback),
+          forms: filterThis(forms),
+          icons: filterThis(icon),
+          layout: filterThis(layout),
+          overlays: filterThis(overlays),
+          navigation: filterThis(navigation),
+          misc: filterThis(restOfComponents),
 
           // components: components
           //   .filter(

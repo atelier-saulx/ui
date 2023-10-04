@@ -52,6 +52,7 @@ import useContextState from './hooks/useContextState'
 import newTable from './components/NewTable'
 import thumbnail from './components/Thumbnail'
 import list from './components/List'
+import styledDivs from './components/StyledDivs'
 
 import modal from './components/Modal'
 
@@ -99,6 +100,7 @@ export const components: ComponentDef[] = [
   sidePanel,
   slider,
   status,
+  styledDivs,
   table,
   thumbnail,
   tabs,
