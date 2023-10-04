@@ -10,7 +10,13 @@ import { color } from '../../varsUtilities'
 import { useWindowResize } from '../../hooks'
 import { ScrollArea, Text, Button } from '../../components'
 import { Style, styled } from 'inlines'
-import { IconMenu, IconClose, IconChevronDown } from '../../icons'
+import {
+  IconMenu,
+  IconClose,
+  IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
+} from '../../icons'
 import { MenuItem } from './MenuItem'
 import { BpMobile } from 'src/utils'
 
@@ -341,14 +347,58 @@ export const Menu: FC<MenuProps> = ({
           onClick={() => setShrink(!shrink)}
           style={{
             width: 8,
-            background: 'blue',
+            background: 'transparent',
             position: 'absolute',
             height: '100%',
+            cursor: 'pointer',
             right: 0,
-            left: 272,
+            left: !shrink ? 240 : 58,
+            transition: '0.3s all',
             zIndex: 2,
+            '& div': {
+              display: 'none',
+            },
+            '&:hover': {
+              '& div': {
+                display: 'flex',
+              },
+            },
+            [BpMobile]: {
+              left: !shrink ? '272px' : '62px',
+              '& div': {
+                display: 'flex',
+              },
+            },
           }}
-        ></styled.div>
+        >
+          <styled.div
+            style={{
+              position: 'relative',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              padding: 3,
+              borderRadius: 32,
+              // display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 16,
+              height: 16,
+              marginLeft: -4,
+              backgroundColor: color('background', 'default', 'muted'),
+              border: `1px solid ${color(
+                'inputBorder',
+                'neutralNormal',
+                'default'
+              )} `,
+              '& svg': {
+                width: '12px',
+                height: '12px',
+              },
+            }}
+          >
+            {!shrink ? <IconChevronLeft /> : <IconChevronRight />}
+          </styled.div>
+        </styled.div>
       )}
       <ScrollArea
         style={{
@@ -358,7 +408,7 @@ export const Menu: FC<MenuProps> = ({
           padding: '24px 12px',
           height: '100%',
           width: !shrink ? 224 : 42,
-          transition: '0.5s all',
+          transition: '0.3s all',
           overflowX: 'clip',
           borderRight: `1px solid ${color(
             'inputBorder',
