@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
 import { IconSortAsc, IconSortDesc, Text, color } from '../..'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 
 export type NewTableProps = {
   columns: {
@@ -17,9 +17,15 @@ export type NewTableProps = {
   }[]
   data: any
   onScrollToBottom?: () => void
+  onVisibleElementsChange?: (visibleElements: number[]) => void
 }
 
-export function NewTable({ columns, data, onScrollToBottom }: NewTableProps) {
+export function NewTable({
+  columns,
+  data,
+  onScrollToBottom,
+  onVisibleElementsChange,
+}: NewTableProps) {
   const table = useReactTable({
     data,
     columns: columns.map((c) => ({
@@ -40,7 +46,7 @@ export function NewTable({ columns, data, onScrollToBottom }: NewTableProps) {
     parentRef: tableContainerRef,
     size: rows.length,
     estimateSize: useCallback(() => 61, []),
-    overscan: 11,
+    overscan: 10,
   })
   const { virtualItems: virtualRows, totalSize } = rowVirtualizer
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
@@ -60,6 +66,12 @@ export function NewTable({ columns, data, onScrollToBottom }: NewTableProps) {
     },
     [onScrollToBottom]
   )
+
+  useEffect(() => {
+    if (onVisibleElementsChange) {
+      onVisibleElementsChange(virtualRows.map((e) => e.index))
+    }
+  }, [onVisibleElementsChange, virtualRows])
 
   return (
     <div

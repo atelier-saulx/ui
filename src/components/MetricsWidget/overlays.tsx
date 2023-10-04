@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled } from 'inlines'
 import { color } from '../../varsUtilities'
-import { removeOverlay, Text } from '../../components'
+import { Text } from '../../components'
 import {
   IconCheckLarge,
   IconChartLine,

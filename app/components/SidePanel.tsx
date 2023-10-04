@@ -1,60 +1,235 @@
 import React, { useState } from 'react'
-import { SidePanel, useSidePanel, Button } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import { Button, Input, SidePanel, Tab, Tabs, Text } from '../../src'
+import { CheckboxInput } from '../../src/components/Input/CheckboxInput'
 
 const example: ComponentDef = {
   name: 'SidePanel',
-  component: SidePanel,
-  description: 'SidePaneltest',
-  properties: {
-    ...props.props.SidePanelProps.props,
-  },
+  properties: {},
+  description: '',
+  component: SidePanel.Root,
   examples: [
     {
-      props: {
-        children: (
-          <div
-            style={{ width: '100%', height: '100%' }}
-            onClick={() => {
-              console.log('asdasd')
-            }}
-          >
-            <div
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundImage:
-                  'url("https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187.jpg?w=1272&h=848")',
-                backgroundRepeat: 'no-repeat',
-              }}
-            />
-          </div>
-        ),
-        position: 'right',
-        style: {
-          textTransform: 'uppercase',
-        },
-        title: 'This is a title',
-        cancel: { onClick: () => console.log('ligma'), label: 'asdasd' },
-        primaryAction: {
-          onClick: () => {
-            console.log('snurp')
-          },
-          label: 'Primary Action',
-        },
-      },
-      customRenderer: (props) => {
-        const { open } = useSidePanel(
-          props.children,
-          props.position,
-          props.style,
-          props.title,
-          props.cancel,
-          props.primaryAction
-        )
+      description: 'Change SidePanel',
+      props: {},
+      customRenderer: () => {
+        return (
+          <SidePanel.Root>
+            <SidePanel.Trigger>
+              <Button>Open modal</Button>
+            </SidePanel.Trigger>
+            <SidePanel.Content>
+              {({ close }) => (
+                <>
+                  <SidePanel.Title>Title of modal</SidePanel.Title>
 
-        return <Button onClick={(e: any) => open(e)}>Open SidePanel</Button>
+                  <SidePanel.Body>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                    </div>
+                    <div style={{ display: 'grid', gap: 24 }}>
+                      <Input
+                        type="text"
+                        label="Name of company"
+                        value="Apex"
+                        onChange={() => {}}
+                      />
+                      <Input
+                        label="Type of company"
+                        type="select"
+                        value="value2"
+                        onChange={() => {}}
+                        options={[
+                          { label: 'Item one', value: 'value1' },
+                          { label: 'Item two', value: 'value2' },
+                          { label: 'Item three', value: 'value3' },
+                        ]}
+                      />
+                      asdfasdfasdfadf
+                    </div>
+                  </SidePanel.Body>
+                  <SidePanel.Actions>
+                    <Button onClick={close} color="system">
+                      Cancel
+                    </Button>
+                    <Button onClick={close} color="primary">
+                      Save
+                    </Button>
+                  </SidePanel.Actions>
+                </>
+              )}
+            </SidePanel.Content>
+          </SidePanel.Root>
+        )
       },
     },
   ],

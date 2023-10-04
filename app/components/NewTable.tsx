@@ -14,16 +14,38 @@ import { ComponentDef } from '../types'
 import { useClient } from '@based/react'
 import { CloseObserve } from '@based/client/dist/types'
 
+function useCallbackRef<T extends (...args: any[]) => any>(
+  callback: T | undefined
+): T {
+  const callbackRef = React.useRef(callback)
+
+  callbackRef.current = callback
+
+  return React.useMemo(
+    () => ((...args) => callbackRef.current?.(...args)) as T,
+    []
+  )
+}
+
 type UseInfiniteQueryProps = {
   queryFn: (offset: number) => any
   accessFn: (data: any) => any
 }
 
-function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
+function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const client = useClient()
-  const subscriptions = useRef<CloseObserve[]>([])
+  const subscriptions = useRef<(CloseObserve | null)[]>([])
+  const dataChecksums = useRef<number[]>([])
   const fetchingMore = useRef(false)
+  const queryFn = useCallbackRef(props.queryFn)
+  const accessFn = useCallbackRef(props.accessFn)
+  const [visibleElements, setVisibleElements] = useState<number[] | null>()
+
   const [data, setData] = useState<any[]>([])
+  const chunkSize = useMemo(
+    () => Math.max(...data.map((e) => (e ? accessFn(e) : []).length)),
+    [data, accessFn]
+  )
   const flatData = useMemo(
     () => data.flatMap((e) => (e ? accessFn(e) : [])),
     [data, accessFn]
@@ -37,11 +59,14 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
 
       subscriptions.current[index] = client
         .query('db', queryFn(flatData.length))
-        .subscribe((chunk) => {
-          const newData = [...data]
-          newData[index] = chunk
+        .subscribe((chunk, checksum) => {
+          dataChecksums.current[index] = checksum
+          setData((prevData) => {
+            const newData = [...prevData]
+            newData[index] = chunk
 
-          setData(newData)
+            return newData
+          })
 
           fetchingMore.current = false
         })
@@ -53,12 +78,51 @@ function useInfiniteQuery({ queryFn, accessFn }: UseInfiniteQueryProps) {
 
     return () => {
       for (const unsubscribe of subscriptions.current) {
-        unsubscribe()
+        unsubscribe?.()
       }
     }
   }, [])
 
-  return { data: flatData, fetchMore }
+  useEffect(() => {
+    if (visibleElements?.length) {
+      const firstVisibleChunkIndex = Math.floor(
+        Math.min(...visibleElements) / chunkSize
+      )
+      const lastVisibleChunkIndex = Math.ceil(
+        Math.max(...visibleElements) / chunkSize
+      )
+
+      for (let i = 0; i < subscriptions.current.length; i++) {
+        if (i < firstVisibleChunkIndex || i > lastVisibleChunkIndex) {
+          const unsubscribe = subscriptions.current[i]
+          if (unsubscribe) {
+            unsubscribe()
+            subscriptions.current[i] = null
+          }
+        } else {
+          if (subscriptions.current[i] === null) {
+            const unsubscribe = client
+              .query('db', queryFn(i * chunkSize))
+              .subscribe((chunk, checksum) => {
+                if (dataChecksums.current[i] !== checksum) {
+                  dataChecksums.current[i] = checksum
+                  setData((prevData) => {
+                    const newData = [...prevData]
+                    newData[i] = chunk
+
+                    return newData
+                  })
+                }
+              })
+
+            subscriptions.current[i] = unsubscribe
+          }
+        }
+      }
+    }
+  }, [visibleElements, chunkSize])
+
+  return { data: flatData, fetchMore, setVisibleElements }
 }
 
 const example: ComponentDef = {
@@ -72,7 +136,7 @@ const example: ComponentDef = {
       customRenderer: () => {
         const [open, setOpen] = useState<string | null>(null)
 
-        const { data, fetchMore } = useInfiniteQuery({
+        const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
           accessFn: (data) => data.files,
           queryFn: (offset) => ({
             $id: 'root',
@@ -103,6 +167,7 @@ const example: ComponentDef = {
           >
             <NewTable
               data={data}
+              onVisibleElementsChange={setVisibleElements}
               onScrollToBottom={() => {
                 fetchMore()
               }}

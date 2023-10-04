@@ -1,25 +1,92 @@
-import React, { FC, ReactNode } from 'react'
+import React, { useState, FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Input, Text, border, color, ScrollArea, Popover } from '../src'
-import { parseProps } from './parseProps'
+import { Input, Text, border, color, Dropdown } from '../src'
+import * as DropdownBase from '@radix-ui/react-dropdown-menu'
 import * as colors from '../src/vars'
 import * as ui from '../src'
-import { AllIcons } from './components/Icon'
+// import { AllIcons } from './components/Icon'
 
-const IconsWrapped: FC<{ onSelect: any }> = ({ onSelect }) => {
+export const AllIcons: FC<{ onSelect: any }> = (props) => {
+  const icons = []
+
+  const [filter, setFilter] = useState('')
+
+  for (const key in ui) {
+    if (
+      key.startsWith('Icon') &&
+      !key.startsWith('IconSmall') &&
+      (!filter || key.toLowerCase().includes(filter.toLowerCase()))
+    ) {
+      icons.push(
+        // @ts-ignore
+        <DropdownBase.Item>
+          <styled.div
+            key={key}
+            style={{
+              display: 'flex',
+              outline: 'none',
+              padding: 8,
+              borderRadius: 4,
+              width: 300,
+              cursor: props.onSelect ? 'pointer' : 'auto',
+              alignItems: 'center',
+              '&:hover': { background: color('action', 'system', 'hover') },
+              '&:not([data-disabled]):hover': {
+                background: color('action', 'system', 'hover'),
+              },
+            }}
+            onClick={() => {
+              if (props.onSelect) {
+                props.onSelect(key)
+              }
+            }}
+          >
+            {React.createElement(ui[key], props)}
+            <Text
+              selectable={props.onSelect ? 'none' : 'all'}
+              light
+              style={{ marginLeft: 20 }}
+            >
+              {key}
+            </Text>
+          </styled.div>
+        </DropdownBase.Item>
+      )
+    }
+  }
   return (
-    <ScrollArea
+    <div
       style={{
+        gap: 12,
         display: 'flex',
-        flexDirection: 'column',
-        padding: 16,
-        height: '90vh',
-        overflowX: 'hidden',
+        flexWrap: 'wrap',
       }}
     >
-      <AllIcons onSelect={onSelect} />
-    </ScrollArea>
+      <styled.div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Input
+          clearButton
+          style={{
+            width: 350,
+            marginBottom: 16,
+          }}
+          placeholder="Filter..."
+          type="search"
+          value={filter}
+          onChange={(v) => {
+            setFilter(v)
+          }}
+        />
+      </styled.div>
+
+      {icons}
+    </div>
   )
 }
 
@@ -29,62 +96,49 @@ const Icons: FC<{
   name?: string
 }> = ({ update, value, name }) => {
   return (
-    <styled.div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        width: '100%',
-        paddingBottom: 16,
-        marginBottom: 8,
-        paddingTop: 8,
-        paddingLeft: 16,
-        borderBottom: border(1),
-      }}
-    >
-      <Text style={{ width: 100 }} weight="strong">
-        {name}
-      </Text>
-      <Popover.Trigger>
-        <styled.div
-          // onClick={onClick}
-          style={{
-            cursor: 'pointer',
-            '&:hover': {
-              border: border(1, 'brand'),
-            },
-            marginLeft: 16,
-            padding: 16,
-            border: border(1),
-            borderRadius: 8,
-          }}
-        >
-          {value ?? <ui.IconPlaceholder style={{ opacity: 0.1 }} />}
-        </styled.div>
-      </Popover.Trigger>
-      <Popover.Content
-        forceMount
-        side="right"
-        sticky="partial"
+    <Dropdown.Root>
+      <styled.div
         style={{
-          width: 300,
-          padding: 0,
-          color: color('content', 'default'),
-          // backgroundColor: 'transparent',
-          marginTop: '5vh',
-          marginBottom: '5vh',
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
+          paddingBottom: 16,
+          marginBottom: 8,
+          paddingTop: 8,
+          paddingLeft: 16,
+          borderBottom: border(1),
         }}
       >
-        {/*@ts-ignore*/}
-        {({ close }) => (
-          <IconsWrapped
+        <Text style={{ width: 100 }} weight="strong">
+          {name}
+        </Text>
+        <Dropdown.Trigger>
+          <styled.div
+            // onClick={onClick}
+            style={{
+              cursor: 'pointer',
+              '&:hover': {
+                border: border(1, 'brand'),
+              },
+              marginLeft: 16,
+              padding: 16,
+              border: border(1),
+              borderRadius: 8,
+            }}
+          >
+            {value ?? <ui.IconPlaceholder style={{ opacity: 0.1 }} />}
+          </styled.div>
+        </Dropdown.Trigger>
+        <Dropdown.Items>
+          <AllIcons
             onSelect={(icon) => {
               close()
               update(() => React.createElement(ui[icon]))
             }}
           />
-        )}
-      </Popover.Content>
-    </styled.div>
+        </Dropdown.Items>
+      </styled.div>
+    </Dropdown.Root>
   )
 }
 
@@ -407,62 +461,60 @@ export const PropsEditor: FC<{
   const hasColor = !!component.properties.color
 
   return (
-    <Popover.Root>
+    <styled.div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 12,
+      }}
+    >
+      {hasColor ? (
+        <styled.div
+          style={{
+            display: 'flex',
+            paddingTop: 8,
+            paddingBottom: 8,
+          }}
+        >
+          <Prop
+            parsedProps={parsedProps}
+            example={example}
+            update={(value) => {
+              updateState({ props: { color: value } })
+            }}
+            state={state}
+            name={'color'}
+            prop={component.properties.color}
+          />
+        </styled.div>
+      ) : null}
+
+      <styled.div style={{ display: 'flex', flexDirection: 'column' }}>
+        {parsedPropsDef}
+      </styled.div>
+
       <styled.div
         style={{
           display: 'flex',
-          flexDirection: 'column',
-          padding: 12,
+          flexWrap: 'wrap',
+          paddingTop: 8,
+          paddingBottom: 8,
+          borderBottom: parsedPropsBoolean.length ? border(1) : null,
         }}
       >
-        {hasColor ? (
-          <styled.div
-            style={{
-              display: 'flex',
-              paddingTop: 8,
-              paddingBottom: 8,
-            }}
-          >
-            <Prop
-              parsedProps={parsedProps}
-              example={example}
-              update={(value) => {
-                updateState({ props: { color: value } })
-              }}
-              state={state}
-              name={'color'}
-              prop={component.properties.color}
-            />
-          </styled.div>
-        ) : null}
-
-        <styled.div style={{ display: 'flex', flexDirection: 'column' }}>
-          {parsedPropsDef}
-        </styled.div>
-
-        <styled.div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            paddingTop: 8,
-            paddingBottom: 8,
-            borderBottom: parsedPropsBoolean.length ? border(1) : null,
-          }}
-        >
-          {parsedPropsBoolean}
-        </styled.div>
-
-        <styled.div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            paddingTop: 8,
-            paddingBottom: 8,
-          }}
-        >
-          {pasedPropsEvents}
-        </styled.div>
+        {parsedPropsBoolean}
       </styled.div>
-    </Popover.Root>
+
+      <styled.div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          paddingTop: 8,
+          paddingBottom: 8,
+        }}
+      >
+        {pasedPropsEvents}
+      </styled.div>
+    </styled.div>
   )
 }

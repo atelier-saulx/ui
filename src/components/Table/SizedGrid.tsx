@@ -25,6 +25,52 @@ type RowSelectTypes = {
   setLastShiftKeyIndex?: (n: number | undefined) => void
 }
 
+const scrollbarColor = color('border', 'default', 'strong')
+const transparentAreaColor = color('background', 'default', 'surface')
+
+const StyledScrollBar = styled('div', {
+  '& div': {
+    scrollbarGutter: 'stable',
+    overflowY: 'overlay',
+    overflowX: 'overlay',
+    // minWidth: 'fit-content', // <=== this breaks it
+    // firefox
+    scrollbarColor: `${scrollbarColor} transparent`,
+    scrollbarWidth: 'thin',
+    '&::-webkit-scrollbar': {
+      visibility: 'hidden',
+    },
+    // the rest
+    '&::-webkit-scrollbar:vertical': {
+      width: '8px',
+    },
+    '&::-webkit-scrollbar:horizontal': {
+      height: '8px',
+    },
+    '@media (hover: hover)': {
+      '&:hover': {
+        // the rest
+        '&::-webkit-scrollbar': {
+          visibility: 'visible',
+        },
+
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: scrollbarColor,
+          borderRadius: '4px',
+        },
+        '&::-webkit-scrollbar-thumb:vertical': {
+          borderRight: `2px solid ${transparentAreaColor}`,
+          minHeight: '32px',
+        },
+        '&::-webkit-scrollbar-thumb:horizontal': {
+          borderBottom: `2px solid ${transparentAreaColor}`,
+          minWidth: '32px',
+        },
+      },
+    },
+  },
+})
+
 export const SizedGrid: FC<TableProps & RowSelectTypes> = (props) => {
   const {
     query,
@@ -165,34 +211,35 @@ export const SizedGrid: FC<TableProps & RowSelectTypes> = (props) => {
         />
       </styled.div>
       {/* TODO: wrap in styled and share froms scroll area */}
-
-      <Grid
-        //  className="go2015383901 go3565260572 go2201354693 go4127164290"
-        onScroll={(e) => {
-          result.onScrollY(e.scrollTop)
-          headerWrapper.current.scrollLeft = e.scrollLeft
-        }}
-        columnCount={columnCount}
-        columnWidth={(colIndex) => {
-          return headers[colIndex].width ?? defW - 16 / headers.length
-        }}
-        height={height - 40}
-        rowCount={itemCount}
-        rowHeight={rowH}
-        width={width}
-        //@ts-ignore
-        shiftKeyIsDown={shiftKeyIsDown}
-        shiftKeyIndex={shiftKeyIndex}
-        setShiftKeyIndex={setShiftKeyIndex}
-        setLastShiftKeyIndex={setLastShiftKeyIndex}
-        itemData={{
-          ...props,
-          data: parsedData,
-        }}
-        ref={gridRef}
-      >
-        {Cell}
-      </Grid>
+      <StyledScrollBar>
+        <Grid
+          //  className="go2015383901 go3565260572 go2201354693 go4127164290"
+          onScroll={(e) => {
+            result.onScrollY(e.scrollTop)
+            headerWrapper.current.scrollLeft = e.scrollLeft
+          }}
+          columnCount={columnCount}
+          columnWidth={(colIndex) => {
+            return headers[colIndex].width ?? defW - 16 / headers.length
+          }}
+          height={height - 40}
+          rowCount={itemCount}
+          rowHeight={rowH}
+          width={width}
+          //@ts-ignore
+          shiftKeyIsDown={shiftKeyIsDown}
+          shiftKeyIndex={shiftKeyIndex}
+          setShiftKeyIndex={setShiftKeyIndex}
+          setLastShiftKeyIndex={setLastShiftKeyIndex}
+          itemData={{
+            ...props,
+            data: parsedData,
+          }}
+          ref={gridRef}
+        >
+          {Cell}
+        </Grid>
+      </StyledScrollBar>
     </>
   )
 }
