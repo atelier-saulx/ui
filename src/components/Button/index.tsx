@@ -114,11 +114,12 @@ export const getButtonStyle = (
         ),
       },
     },
-    // '&:active': {
-    //  backgroundColor: isGhost
-    //   ? 'transparent'
-    //   : genColor('action', colorProp, isLight ? 'subtleNormal' : 'normal'),
-    // },
+    '&:active': {
+      transform: 'scale(0.98)',
+      backgroundColor: isGhost
+        ? 'transparent'
+        : genColor('action', colorProp, isLight ? 'subtleNormal' : 'active'),
+    },
     width: 'fit-content',
     opacity: disabled ? 0.6 : 1,
   }
@@ -167,7 +168,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const extendedOnClick = useCallback(
       async (e: any) => {
         const t = buttonElem.current
-        t.style.transform = 'scale(0.96)'
         t.blur()
         if (!t) {
           return
@@ -193,9 +193,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         isSet = true
         setIsLoading(false)
         clearTimeout(timer)
-        setTimeout(() => {
-          t.style.transform = 'scale(1)'
-        }, 100)
       },
       [onClick]
     )
@@ -209,6 +206,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }, [])
       const onKeyUp = useCallback(
         (event: any) => {
+          const t = buttonElem.current
+          t.style.transform = 'scale(0.96)'
+          if (!t) {
+            return
+          }
+          setTimeout(() => {
+            t.style.transform = 'scale(1)'
+          }, 100)
           extendedOnClick(event)
         },
         [extendedOnClick, timeRef]
