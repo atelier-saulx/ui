@@ -39,6 +39,7 @@ function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const fetchingMore = useRef(false)
   const queryFn = useCallbackRef(props.queryFn)
   const accessFn = useCallbackRef(props.accessFn)
+  const [visibleElements, setVisibleElements] = useState<number[] | null>()
 
   const [data, setData] = useState<any[]>([])
   const chunkSize = useMemo(
@@ -49,7 +50,6 @@ function useInfiniteQuery(props: UseInfiniteQueryProps) {
     () => data.flatMap((e) => (e ? accessFn(e) : [])),
     [data, accessFn]
   )
-  const [visibleElements, setVisibleElements] = useState<number[] | null>()
 
   const fetchMore = useCallback(() => {
     if (!fetchingMore.current) {
