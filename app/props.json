@@ -1352,6 +1352,25 @@
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: ReactNode\n  width?: number\n  height?: number\n}",
       "file": "/components/Linegraph/index.tsx"
     },
+    "ListItemProps": {
+      "name": "ListItemProps",
+      "props": {
+        "row": {
+          "type": "TSAnyKeyword"
+        },
+        "fields": {
+          "type": {
+            "array": "Field"
+          }
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type ListItemProps = {\n  row: any\n  fields: Field[]\n  onClick?: (data: any) => void | Promise<void>\n}",
+      "file": "/components/List/index.tsx"
+    },
     "ListProps": {
       "name": "ListProps",
       "props": {
@@ -1384,14 +1403,14 @@
           "optional": true,
           "type": "ReactNode"
         },
-        "headers": {
+        "fields": {
           "optional": true,
           "type": {
-            "array": "string"
+            "array": "Field"
           }
         }
       },
-      "code": "type ListProps<T = any> = {\n  style?: Style\n  filter?: boolean\n  label?: ReactNode\n  description?: ReactNode\n  data: T[]\n  onClick?: (data: T) => void | Promise<void>\n  action?: ReactNode\n  headers?: string[]\n}",
+      "code": "type ListProps<T = any> = {\n  style?: Style\n  filter?: boolean\n  label?: ReactNode\n  description?: ReactNode\n  data: T[]\n  onClick?: (data: T) => void | Promise<void>\n  action?: ReactNode\n  fields?: Field[]\n  // showFields?: boolean // headers later\n}",
       "file": "/components/List/index.tsx"
     },
     "LogProps": {
