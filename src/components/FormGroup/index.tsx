@@ -88,6 +88,7 @@ export const SettingsField: FC<{
 
   if (options) {
     console.log(options)
+
     return (
       <Label
         style={{
@@ -106,7 +107,9 @@ export const SettingsField: FC<{
           onChange={(v) => {
             onChange(field, v)
           }}
-          options={options}
+          options={options.map((v) => {
+            return typeof v !== 'object' ? { value: v } : v
+          })}
         />
       </Label>
     )

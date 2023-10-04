@@ -179,6 +179,7 @@ export function SelectInput({
               lineHeight: '24px',
               background: 'transparent',
               fontFamily: 'Inter',
+              height: 42,
               fontWeight: '500',
               color: searchable
                 ? color('content', 'default', 'primary')
