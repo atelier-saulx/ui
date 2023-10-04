@@ -902,6 +902,76 @@
       "code": "type DropdownRadioItemProps = {\n  children: ReactNode\n  value: string\n}",
       "file": "/components/Dropdown/index.tsx"
     },
+    "LabelProps": {
+      "name": "LabelProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "description": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "labelWidth": {
+          "optional": true,
+          "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type LabelProps = {\n  label?: ReactNode\n  description?: ReactNode\n  icon?: ReactNode\n  children?: ReactNode\n  labelWidth?: number\n  style?: Style\n}",
+      "file": "/components/FormGroup/Label.tsx"
+    },
+    "FormGroupProps": {
+      "name": "FormGroupProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "fieldWidth": {
+          "optional": true,
+          "type": "number"
+        },
+        "labelWidth": {
+          "optional": true,
+          "type": "number"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "values": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "data": {
+          "optional": true,
+          "type": [
+            {
+              "array": "SettingGroupItem"
+            },
+            "TSTypeLiteral"
+          ]
+        },
+        "alwaysAccept": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type FormGroupProps = {\n  style?: Style\n  fieldWidth?: number\n  labelWidth?: number\n  onChange: (changes: { [field: string]: any }) => void | Promise<void>\n  values?: { [field: string]: any }\n  data?:\n    | SettingGroupItem[]\n    | {\n        [field: string]:\n          | null\n          | ReactNode\n          | (Omit<SettingGroupItem, 'field'> & { field?: string })\n      }\n  alwaysAccept?: boolean\n}",
+      "file": "/components/FormGroup/index.tsx"
+    },
     "CheckboxInputProps": {
       "name": "CheckboxInputProps",
       "props": {
@@ -1851,105 +1921,14 @@
         "onScrollToBottom": {
           "optional": true,
           "type": "function"
+        },
+        "onVisibleElementsChange": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type NewTableProps = {\n  columns: {\n    header: string\n    accessor: string\n    cell?: (any) => JSX.Element\n    id?: string\n  }[]\n  data: any\n  onScrollToBottom?: () => void\n}",
+      "code": "type NewTableProps = {\n  columns: {\n    header: string\n    accessor: string\n    cell?: (any) => JSX.Element\n    id?: string\n  }[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n}",
       "file": "/components/NewTable/index.tsx"
-    },
-    "PositionProps": {
-      "name": "PositionProps",
-      "props": {
-        "width": {
-          "optional": true,
-          "type": [
-            "number",
-            {
-              "value": "100%"
-            },
-            {
-              "value": "target"
-            },
-            {
-              "value": "auto"
-            }
-          ]
-        },
-        "position": {
-          "optional": true,
-          "type": [
-            {
-              "value": "left"
-            },
-            {
-              "value": "right"
-            },
-            {
-              "value": "top"
-            },
-            {
-              "value": "bottom"
-            }
-          ]
-        },
-        "placement": {
-          "optional": true,
-          "type": [
-            {
-              "value": "center"
-            },
-            {
-              "value": "left"
-            },
-            {
-              "value": "right"
-            }
-          ]
-        },
-        "variant": {
-          "optional": true,
-          "type": [
-            {
-              "value": "over"
-            },
-            {
-              "value": "detached"
-            }
-          ]
-        },
-        "offset": {
-          "optional": true,
-          "type": "TSTypeLiteral"
-        },
-        "selectTarget": {
-          "optional": true,
-          "type": "SelectTarget"
-        }
-      },
-      "code": "type PositionProps = {\n  width?: number | '100%' | 'target' | 'auto'\n  position?: 'left' | 'right' | 'top' | 'bottom'\n  placement?: 'center' | 'left' | 'right'\n  variant?: 'over' | 'detached'\n  offset?: { x: number; y: number }\n  selectTarget?: SelectTarget\n}",
-      "file": "/components/Overlay/index.tsx"
-    },
-    "OverlayProps": {
-      "name": "OverlayProps",
-      "props": {
-        "Component": {
-          "type": "ComponentType"
-        },
-        "props": {
-          "type": "P"
-        },
-        "target": {
-          "type": "Target"
-        },
-        "positionProps": {
-          "type": "PositionProps"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        }
-      },
-      "code": "type OverlayProps<P = any> = {\n  Component: ComponentType<P>\n  props: P\n  target: Target\n  positionProps: PositionProps\n  style?: Style\n}",
-      "file": "/components/Overlay/index.tsx"
     },
     "PieGraphProps": {
       "name": "PieGraphProps",
@@ -2227,75 +2206,131 @@
       "code": "type SegmentedControlProps = {\n  data?: (string | number)[]\n  onChange?: (value: number) => void\n  style?: Style\n}",
       "file": "/components/SegmentedControl/index.tsx"
     },
-    "LabelProps": {
-      "name": "LabelProps",
+    "UseSidePanelProps": {
+      "name": "UseSidePanelProps",
       "props": {
-        "label": {
-          "optional": true,
+        "open": {
+          "type": "boolean"
+        },
+        "setOpen": {}
+      },
+      "code": "type UseSidePanelProps = {\n  open: boolean\n  setOpen: React.Dispatch<React.SetStateAction<boolean>>\n}",
+      "file": "/components/SidePanel/index.tsx"
+    },
+    "SidePanelRootProps": {
+      "name": "SidePanelRootProps",
+      "props": {
+        "children": {
           "type": "ReactNode"
         },
-        "description": {
+        "open": {
           "optional": true,
-          "type": "ReactNode"
+          "type": "boolean"
         },
-        "icon": {
+        "onOpenChange": {
           "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type SidePanelRootProps = {\n  children: ReactNode\n  open?: boolean\n  onOpenChange?: (open: boolean) => void\n}",
+      "file": "/components/SidePanel/index.tsx"
+    },
+    "SidePanelTriggerProps": {
+      "name": "SidePanelTriggerProps",
+      "props": {
+        "children": {
           "type": "ReactNode"
+        }
+      },
+      "code": "type SidePanelTriggerProps = {\n  children: ReactNode\n}",
+      "file": "/components/SidePanel/index.tsx"
+    },
+    "SidePanelContentProps": {
+      "name": "SidePanelContentProps",
+      "props": {
+        "children": {
+          "type": [
+            "TSParenthesizedType",
+            "ReactNode"
+          ]
+        },
+        "width": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "position": {
+          "optional": true,
+          "type": [
+            {
+              "value": "left"
+            },
+            {
+              "value": "right"
+            }
+          ]
+        }
+      },
+      "code": "type SidePanelContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n  width?: string | number\n  position?: 'left' | 'right'\n}",
+      "file": "/components/SidePanel/index.tsx"
+    },
+    "SidePanelWarningProps": {
+      "name": "SidePanelWarningProps",
+      "props": {
+        "type": {
+          "optional": true,
+          "type": [
+            {
+              "value": "warning"
+            },
+            {
+              "value": "alert"
+            }
+          ]
         },
         "children": {
           "optional": true,
           "type": "ReactNode"
         },
-        "labelWidth": {
-          "optional": true,
-          "type": "number"
-        },
         "style": {
           "optional": true,
           "type": "Style"
         }
       },
-      "code": "type LabelProps = {\n  label?: ReactNode\n  description?: ReactNode\n  icon?: ReactNode\n  children?: ReactNode\n  labelWidth?: number\n  style?: Style\n}",
-      "file": "/components/Settings/Label.tsx"
+      "code": "type SidePanelWarningProps = {\n  type?: 'warning' | 'alert'\n  children?: ReactNode\n  style?: Style\n}",
+      "file": "/components/SidePanel/index.tsx"
     },
-    "SettingsProps": {
-      "name": "SettingsProps",
+    "SidePanelTitleProps": {
+      "name": "SidePanelTitleProps",
       "props": {
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "fieldWidth": {
-          "optional": true,
-          "type": "number"
-        },
-        "labelWidth": {
-          "optional": true,
-          "type": "number"
-        },
-        "onChange": {
-          "type": "function"
-        },
-        "values": {
-          "optional": true,
-          "type": "TSTypeLiteral"
-        },
-        "data": {
-          "optional": true,
-          "type": [
-            {
-              "array": "SettingGroupItem"
-            },
-            "TSTypeLiteral"
-          ]
-        },
-        "alwaysAccept": {
-          "optional": true,
-          "type": "boolean"
+        "children": {
+          "type": "string"
         }
       },
-      "code": "type SettingsProps = {\n  style?: Style\n  fieldWidth?: number\n  labelWidth?: number\n  onChange: (changes: { [field: string]: any }) => void | Promise<void>\n  values?: { [field: string]: any }\n  data?:\n    | SettingGroupItem[]\n    | {\n        [field: string]:\n          | null\n          | ReactNode\n          | (Omit<SettingGroupItem, 'field'> & { field?: string })\n      }\n  alwaysAccept?: boolean\n}",
-      "file": "/components/Settings/index.tsx"
+      "code": "type SidePanelTitleProps = {\n  children: string\n}",
+      "file": "/components/SidePanel/index.tsx"
+    },
+    "SidePanelBodyProps": {
+      "name": "SidePanelBodyProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type SidePanelBodyProps = {\n  children: ReactNode\n}",
+      "file": "/components/SidePanel/index.tsx"
+    },
+    "SidePanelActionsProps": {
+      "name": "SidePanelActionsProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type SidePanelActionsProps = {\n  children: ReactNode\n}",
+      "file": "/components/SidePanel/index.tsx"
     },
     "SliderProps": {
       "name": "SliderProps",
@@ -2930,45 +2965,6 @@
       },
       "code": "type TopNavigationProps = {\n  sticky?: boolean\n  children?: ReactNode | ReactNode[]\n  style?: Style\n}",
       "file": "/components/TopNavigation/index.tsx"
-    },
-    "SidePanelProps": {
-      "name": "SidePanelProps",
-      "props": {
-        "children": {
-          "type": [
-            "ReactNode",
-            {
-              "array": "ReactNode"
-            }
-          ]
-        },
-        "position": {
-          "type": [
-            {
-              "value": "left"
-            },
-            {
-              "value": "right"
-            }
-          ]
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "title": {
-          "optional": true,
-          "type": "string"
-        },
-        "cancel": {
-          "type": "TSTypeLiteral"
-        },
-        "primaryAction": {
-          "type": "TSTypeLiteral"
-        }
-      },
-      "code": "type SidePanelProps = {\n  children: ReactNode | ReactNode[]\n  position: 'left' | 'right'\n  style?: Style\n  title?: string\n  cancel: { onClick: () => void; label: string }\n  primaryAction: { onClick: () => void; label: string }\n}",
-      "file": "/hooks/useSidePanel.tsx"
     },
     "UseThemeProps": {
       "name": "UseThemeProps",
