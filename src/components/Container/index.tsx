@@ -1,5 +1,5 @@
-import React, { FC, MouseEventHandler, ReactNode } from 'react'
-import { IconErrorFill, IconAlertFill, IconInfoFill } from '../../icons'
+import React, { FC, useState, ReactNode } from 'react'
+import { IconChevronRight } from '../../icons'
 import { styled, Style } from 'inlines'
 import { RowSpaced, Row, Column } from '../Styled'
 import { Text } from '../Text'
@@ -10,8 +10,8 @@ import { ClickHandler } from 'src/types'
 export type ContainerProps = {
   color?: ColorBackgroundColors
   style?: Style
-  size?: 'medium' | 'small'
   expandable?: boolean
+  onExpand?: (expanded: boolean) => void
   isExpanded?: boolean //(same can be controlled etc) undefined means uncontrolled
   icon?: ReactNode
   afterIcon?: ReactNode
@@ -19,21 +19,29 @@ export type ContainerProps = {
   description?: ReactNode
   children?: ReactNode
   onClick?: ClickHandler
+  seperator?: boolean
 }
 
 export const Container: FC<ContainerProps> = ({
   color = 'default',
-  size = 'medium',
   children,
   style,
+  seperator,
   expandable,
   isExpanded,
   icon,
+  onExpand,
   afterIcon,
   label,
   description,
   onClick,
 }) => {
+  const [isExpandedState, setExpanded] = useState(false)
+
+  if (isExpanded === undefined) {
+    isExpanded = isExpandedState
+  }
+
   const contentColor = color === 'default' ? 'default' : 'inverted'
 
   const hasHeader = icon || label || description
@@ -46,7 +54,6 @@ export const Container: FC<ContainerProps> = ({
         flexDirection: 'column',
         flexGrow: 1,
         borderRadius: 8,
-        padding: 16,
         backgroundColor: genColor('background', color, 'subtle'),
         border: border(1),
         width: '100%',
@@ -60,13 +67,42 @@ export const Container: FC<ContainerProps> = ({
         },
         ...style,
       }}
+      onClick={onClick}
     >
       {hasHeader ? (
         <RowSpaced
           style={{
-            alignItems: 'flex-start',
+            cursor: !onClick && expandable ? 'pointer' : null,
+            paddingLeft: 16,
+            paddingRight: 16,
+            paddingTop: 16,
+            paddingBottom: seperator ? 16 : 4,
             position: 'relative',
+            '@media (hover: hover)': {
+              '&:hover':
+                !onClick && expandable
+                  ? {
+                      backgroundColor: genColor(
+                        'action',
+                        'system',
+                        'subtleHover'
+                      ),
+                    }
+                  : null,
+            },
+            borderBottom:
+              seperator && !(expandable && !isExpanded) ? border(1) : undefined,
           }}
+          onClick={
+            !onClick
+              ? () => {
+                  setExpanded(!isExpanded)
+                  if (onExpand) {
+                    onExpand(!isExpanded)
+                  }
+                }
+              : null
+          }
         >
           {
             <Row
@@ -75,9 +111,27 @@ export const Container: FC<ContainerProps> = ({
                 marginRight: 12,
               }}
             >
+              {expandable ? (
+                <IconChevronRight
+                  onClick={() => {
+                    setExpanded(!isExpanded)
+                    if (onExpand) {
+                      onExpand(!isExpanded)
+                    }
+                  }}
+                  style={{
+                    transition: 'transform 0.15s',
+                    transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                  }}
+                />
+              ) : null}
               {icon ? <styled.div>{icon}</styled.div> : null}
               <Column>
-                <Text weight="strong" style={{ marginBottom: -6 }}>
+                <Text
+                  selectable="none"
+                  weight="strong"
+                  style={{ marginBottom: -6 }}
+                >
                   {label}
                 </Text>
                 <Text weight="normal" light>
@@ -96,20 +150,20 @@ export const Container: FC<ContainerProps> = ({
           </Row>
         </RowSpaced>
       ) : null}
-      {children ? (
+      {!(expandable && !isExpanded) && children ? (
         <styled.div
           style={{
-            marginTop: icon || description ? 12 : hasHeader ? 4 : 0,
+            paddingLeft: 16,
+            paddingRight: 16,
+            paddingBottom: 16,
+            marginTop:
+              icon || description || seperator ? 12 : hasHeader ? 4 : 16,
             flexGrow: 1,
           }}
         >
           {children}
         </styled.div>
       ) : null}
-      <RowSpaced>
-        {/* {bottomLeft}
-        {bottomRight} */}
-      </RowSpaced>
     </styled.div>
   )
 }
