@@ -9,7 +9,7 @@ type MenuItemProps = {
   active: boolean
   onClick: ClickHandler
   children: ReactNode | ReactNode[] | ((e) => void)
-  open?: boolean
+  shrink?: boolean
   style?: Style
 }
 
@@ -17,7 +17,7 @@ export const MenuItem: FC<MenuItemProps> = ({
   active,
   onClick = (e) => {},
   children,
-  open,
+  shrink,
   style,
 }) => {
   return (
@@ -29,7 +29,7 @@ export const MenuItem: FC<MenuItemProps> = ({
         marginBottom: '8px',
         boxSizing: 'content-box',
         transition: '0.5s width',
-        width: open ? 'calc(100% - 24px)' : '20px',
+        width: !shrink ? 'calc(100% - 24px)' : '20px',
         height: '24px',
         display: 'flex',
         alignItems: 'center',
@@ -67,7 +67,7 @@ export const MenuItem: FC<MenuItemProps> = ({
         weight={active ? 'strong' : 'medium'}
         //   wrap
         style={{
-          gap: open ? 10 : 0,
+          gap: !shrink ? 10 : 0,
           display: 'flex',
           alignItems: 'center',
           cursor: 'pointer',

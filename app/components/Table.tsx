@@ -12,7 +12,7 @@ const example: ComponentDef = {
   properties: {}, // props.props.TableProps.props,
   examples: [
     {
-      props: {},
+      props: { arrangeAble: true, selectable: true },
       customRenderer: (props) => {
         const newPerson = () => {
           return {
@@ -75,14 +75,18 @@ const example: ComponentDef = {
                 },
                 {
                   key: 'stage',
+                  label: 'Status',
                   width: 200,
                 },
                 {
+                  label: 'Author',
                   key: 'author',
                   width: 200,
+                  type: 'author',
                 },
               ]}
-              selectable
+              {...props}
+
               // query={}
               // getQueryItems={data}
             />
@@ -96,6 +100,8 @@ const example: ComponentDef = {
       props: {},
       customRenderer: (props) => {
         const client = useClient()
+
+        // { data, loading, error, checksum, next } = usePageQuery('db', )
 
         return (
           <div
@@ -112,7 +118,7 @@ const example: ComponentDef = {
                   todo: {
                     $all: true,
                     $list: {
-                      $sort: { $field: 'updatedAt', $order: 'desc' },
+                      $sort: { $field: 'createdAt', $order: 'desc' },
                       $offset: offset,
                       $limit: limit,
                       $find: {

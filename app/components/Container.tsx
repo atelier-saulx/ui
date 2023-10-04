@@ -1,7 +1,14 @@
 import React from 'react'
-import { Container } from '../../src'
+import {
+  Avatar,
+  Container,
+  IconMoreHorizontal,
+  Thumbnail,
+  Text,
+} from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import { faker } from '@faker-js/faker'
 
 const example: ComponentDef = {
   name: 'Container',
@@ -11,24 +18,120 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        style: { width: 500 },
-        codeLanguage: 'markup',
-        color: 'neutral',
-        value: `<style>
-  .class{
-      background-color:yellow;
-      font-size:14px;
-      padding:24px;
-  }
-</style>
-
-<div class="snurp"><h2>hellow</h2>
-  <p>paragraph</p>
-  <button>press</button>
-</div>`,
-        onChange: (v) => {
+        style: {
+          width: 700,
+        },
+        seperator: true,
+        afterIcon: () => <IconMoreHorizontal />,
+        icon: () => <Avatar />,
+        label: 'This is a container',
+        description: 'This is a description',
+        children: () => <Text>These are some children...</Text>,
+        onClick: (v) => {
           console.log(v)
         },
+      },
+    },
+
+    {
+      name: 'Expandable',
+      props: {
+        style: {
+          width: 700,
+        },
+        expandable: true,
+        seperator: true,
+        afterIcon: () => <IconMoreHorizontal />,
+        label: 'This is a container',
+        description: 'This is a description',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      name: 'Variations',
+      description: 'No description / no seperator',
+      props: {
+        style: {
+          width: 700,
+        },
+        label: 'This is a container',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      description: 'No seperator',
+      props: {
+        style: {
+          width: 700,
+        },
+        icon: () => <Thumbnail label="Jim" color="blue" size="medium" />,
+        afterIcon: () => <IconMoreHorizontal />,
+        label: 'This is a container',
+        description: 'This is a description',
+        children: () => {
+          return <Text>{faker.lorem.sentences(20)}</Text>
+        },
+      },
+    },
+    {
+      props: {
+        style: {
+          width: 700,
+        },
+        color: 'positive',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      props: {
+        style: {
+          width: 700,
+        },
+        color: 'neutral',
+        label: 'This is a container',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      props: {
+        style: {
+          width: 700,
+        },
+        color: 'brand',
+        label: 'This is a container',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      props: {
+        style: {
+          width: 700,
+        },
+        seperator: true,
+        color: 'brand',
+        label: 'This is a container',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      props: {
+        style: {
+          width: 700,
+        },
+        color: 'warning',
+        afterIcon: () => <IconMoreHorizontal />,
+        label: 'This is a container',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      props: {
+        style: {
+          width: 700,
+        },
+        color: 'neutral',
+        afterIcon: () => <IconMoreHorizontal />,
+        children: () => <Text>These are some children...</Text>,
       },
     },
   ],

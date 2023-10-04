@@ -8,7 +8,7 @@ const example: ComponentDef = {
   name: 'Popover',
   component: Popover.Root,
   description: 'PopoverTest',
-  properties: props.props.PopoverProps.props,
+  properties: {}, //props.props.PopoverProps.props,
   examples: [
     {
       props: {

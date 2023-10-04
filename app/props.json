@@ -477,20 +477,52 @@
           "optional": true,
           "type": "ColorBackgroundColors"
         },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
         "style": {
           "optional": true,
           "type": "Style"
         },
-        "action": {
+        "expandable": {
           "optional": true,
-          "type": "TSTypeLiteral"
+          "type": "boolean"
+        },
+        "onExpand": {
+          "optional": true,
+          "type": "function"
+        },
+        "isExpanded": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "afterIcon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "description": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "ClickHandler"
+        },
+        "seperator": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type ContainerProps = {\n  color?: ColorBackgroundColors\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
+      "code": "type ContainerProps = {\n  color?: ColorBackgroundColors\n  style?: Style\n  expandable?: boolean\n  onExpand?: (expanded: boolean) => void\n  isExpanded?: boolean //(same can be controlled etc) undefined means uncontrolled\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  label?: ReactNode\n  description?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  seperator?: boolean\n}",
       "file": "/components/Container/index.tsx"
     },
     "CounterProps": {
@@ -521,7 +553,7 @@
         },
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "icon": {
           "optional": true,
@@ -532,7 +564,7 @@
           "type": "NumberFormat"
         }
       },
-      "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  label?: string\n  icon?: ReactNode\n  valueFormat?: NumberFormat\n}",
+      "code": "type CounterProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  label?: ReactNode\n  icon?: ReactNode\n  valueFormat?: NumberFormat\n}",
       "file": "/components/Counter/index.tsx"
     },
     "CalendarProps": {
@@ -1227,7 +1259,7 @@
           "type": "number"
         }
       },
-      "code": "type TextInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value: string) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: boolean\n  message?: ReactNode\n  password?: boolean\n  maxLength?: number\n}",
+      "code": "type TextInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value: string) => void\n  onFocus?: () => void\n  onBlur?: (value: string) => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: boolean\n  message?: ReactNode\n  password?: boolean\n  maxLength?: number\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "CommonInputProps": {
@@ -1306,7 +1338,7 @@
         },
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "width": {
           "optional": true,
@@ -1317,7 +1349,7 @@
           "type": "number"
         }
       },
-      "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n  width?: number\n  height?: number\n}",
+      "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: ReactNode\n  width?: number\n  height?: number\n}",
       "file": "/components/Linegraph/index.tsx"
     },
     "LogProps": {
@@ -1325,7 +1357,7 @@
       "props": {
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "log": {
           "optional": true,
@@ -1364,7 +1396,7 @@
           "type": "number"
         }
       },
-      "code": "type LogProps = {\n  label?: string\n  log?: string\n  type?: 'error' | 'warning' | 'log' | 'info' | 'brand'\n  ts?: number\n  data?: any\n  index?: number\n}",
+      "code": "type LogProps = {\n  label?: ReactNode\n  log?: string\n  type?: 'error' | 'warning' | 'log' | 'info' | 'brand'\n  ts?: number\n  data?: any\n  index?: number\n}",
       "file": "/components/LogsComponent/Log.tsx"
     },
     "LogGroupsProps": {
@@ -1432,10 +1464,10 @@
         },
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         }
       },
-      "code": "type SingleLogItemProps = {\n  msg?: string\n  status?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  style?: Style\n  ts?: number\n  type?: string\n  label?: string\n}",
+      "code": "type SingleLogItemProps = {\n  msg?: string\n  status?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  style?: Style\n  ts?: number\n  type?: string\n  label?: ReactNode\n}",
       "file": "/components/LogsComponent/SingleLogItem.tsx"
     },
     "LogsTextProps": {
@@ -1472,7 +1504,7 @@
             "TSParenthesizedType"
           ]
         },
-        "open": {
+        "shrink": {
           "optional": true,
           "type": "boolean"
         },
@@ -1481,7 +1513,7 @@
           "type": "Style"
         }
       },
-      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  children: ReactNode | ReactNode[] | ((e) => void)\n  open?: boolean\n  style?: Style\n}",
+      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  children: ReactNode | ReactNode[] | ((e) => void)\n  shrink?: boolean\n  style?: Style\n}",
       "file": "/components/Menu/MenuItem.tsx"
     },
     "MenuHeaderProps": {
@@ -1552,12 +1584,16 @@
           "optional": true,
           "type": "boolean"
         },
-        "tempProp": {
+        "shrinkable": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "shrunk": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type MenuProps = {\n  data?: MenuData\n  active?: any\n  isActive?: (value: any) => boolean\n  onChange?: (value: any, header?: any) => void\n  style?: Style\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  collapse?: boolean\n  tempProp?: boolean\n}",
+      "code": "type MenuProps = {\n  data?: MenuData\n  active?: any\n  isActive?: (value: any) => boolean\n  onChange?: (value: any, header?: any) => void\n  style?: Style\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  collapse?: boolean\n  shrinkable?: boolean\n  shrunk?: boolean\n}",
       "file": "/components/Menu/index.tsx"
     },
     "MetricsWidgetProps": {
@@ -1740,6 +1776,25 @@
       "code": "type ModalActionsProps = {\n  children: ReactNode\n}",
       "file": "/components/Modal/index.tsx"
     },
+    "NewTableProps": {
+      "name": "NewTableProps",
+      "props": {
+        "columns": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "data": {
+          "type": "TSAnyKeyword"
+        },
+        "onScrollToBottom": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type NewTableProps = {\n  columns: {\n    header: string\n    accessor: string\n    cell?: (any) => JSX.Element\n    id?: string\n  }[]\n  data: any\n  onScrollToBottom?: () => void\n}",
+      "file": "/components/NewTable/index.tsx"
+    },
     "PositionProps": {
       "name": "PositionProps",
       "props": {
@@ -1890,44 +1945,52 @@
       "code": "type PillProps = {\n  prefix?: string\n  value: string\n  onChange: (value) => void\n  options: PillOption[]\n  placeholder?: string\n  style?: Style\n}",
       "file": "/components/Pill/index.tsx"
     },
-    "PopoverProps": {
-      "name": "PopoverProps",
+    "usePopoverProps": {
+      "name": "usePopoverProps",
+      "props": {
+        "open": {
+          "type": "boolean"
+        },
+        "setOpen": {}
+      },
+      "code": "type usePopoverProps = {\n  open: boolean\n  setOpen: React.Dispatch<React.SetStateAction<boolean>>\n}",
+      "file": "/components/Popover/index.tsx"
+    },
+    "PopoverRootProps": {
+      "name": "PopoverRootProps",
       "props": {
         "children": {
-          "optional": true,
-          "type": [
-            "ReactNode",
-            {
-              "array": "ReactNode"
-            }
-          ]
+          "type": "ReactNode"
         },
-        "position": {
+        "open": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onOpenChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type PopoverRootProps = {\n  children: ReactNode\n  open?: boolean\n  onOpenChange?: (open: boolean) => void\n}",
+      "file": "/components/Popover/index.tsx"
+    },
+    "PopoverTriggerProps": {
+      "name": "PopoverTriggerProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type PopoverTriggerProps = {\n  children: ReactNode\n}",
+      "file": "/components/Popover/index.tsx"
+    },
+    "PopoverContentProps": {
+      "name": "PopoverContentProps",
+      "props": {
+        "children": {
           "type": [
-            {
-              "value": "top"
-            },
-            {
-              "value": "top-right"
-            },
-            {
-              "value": "top-left"
-            },
-            {
-              "value": "bottom"
-            },
-            {
-              "value": "bottom-right"
-            },
-            {
-              "value": "bottom-left"
-            },
-            {
-              "value": "left"
-            },
-            {
-              "value": "right"
-            }
+            "TSParenthesizedType",
+            "ReactNode"
           ]
         },
         "style": {
@@ -1935,7 +1998,7 @@
           "type": "Style"
         }
       },
-      "code": "type PopoverProps = {\n  children?: ReactNode | ReactNode[]\n  position:\n    | 'top'\n    | 'top-right'\n    | 'top-left'\n    | 'bottom'\n    | 'bottom-right'\n    | 'bottom-left'\n    | 'left'\n    | 'right'\n  style?: Style\n}",
+      "code": "type PopoverContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n  style?: Style\n}",
       "file": "/components/Popover/index.tsx"
     },
     "ProgressCircleProps": {
@@ -2068,7 +2131,7 @@
           ]
         }
       },
-      "code": "type RadioButtonsProps = {\n  color?: ColorActionColors\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  direction?: 'horizontal' | 'vertical'\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  value?: string | boolean | number\n}",
+      "code": "type RadioButtonsProps = {\n  color?: ColorActionColors\n  data?: Array<{\n    label?: ReactNode\n    value: string | boolean | number\n    description?: string\n  }>\n  direction?: 'horizontal' | 'vertical'\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  value?: string | boolean | number\n}",
       "file": "/components/RadioButtons/index.tsx"
     },
     "ScrollAreaProps": {
@@ -2292,6 +2355,9 @@
               "value": "img"
             },
             {
+              "value": "image"
+            },
+            {
               "value": "number"
             },
             {
@@ -2341,7 +2407,7 @@
           "type": "function"
         }
       },
-      "code": "type TableHeaderTypesProps = {\n  type:\n    | 'author'\n    | 'boolean'\n    | 'checkbox'\n    | 'CheckboxSelectItem'\n    | 'id'\n    | 'img'\n    | 'number'\n    | 'string'\n    | 'timestamp'\n  itemData: any\n  rowData: {}\n  rowIndex: number\n  key: any\n  renderCounter: any\n  setRenderCounter: any\n  editable?: boolean\n  shiftKeyIsDown?: boolean\n  setShiftKeyIndex?: (num: number | undefined) => void | undefined\n  shiftKeyIndex?: number\n  setLastShiftKeyIndex?: (num: number | undefined) => void | undefined\n}",
+      "code": "type TableHeaderTypesProps = {\n  type:\n    | 'author'\n    | 'boolean'\n    | 'checkbox'\n    | 'CheckboxSelectItem'\n    | 'id'\n    | 'img'\n    | 'image'\n    | 'number'\n    | 'string'\n    | 'timestamp'\n  itemData: any\n  rowData: {}\n  rowIndex: number\n  key: any\n  renderCounter: any\n  setRenderCounter: any\n  editable?: boolean\n  shiftKeyIsDown?: boolean\n  setShiftKeyIndex?: (num: number | undefined) => void | undefined\n  shiftKeyIndex?: number\n  setLastShiftKeyIndex?: (num: number | undefined) => void | undefined\n}",
       "file": "/components/Table/TableHeaderTypes.tsx"
     },
     "TabProps": {
@@ -2447,7 +2513,12 @@
         },
         "color": {
           "optional": true,
-          "type": "ColorContentColors"
+          "type": [
+            "ColorContentColors",
+            {
+              "value": "inherit"
+            }
+          ]
         },
         "size": {
           "optional": true,
@@ -2595,8 +2666,68 @@
           ]
         }
       },
-      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  underline?: boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n  valueFormat?: NumberFormat | DateFormat\n}",
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors | 'inherit'\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  underline?: boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n  valueFormat?: NumberFormat | DateFormat\n}",
       "file": "/components/Text/index.tsx"
+    },
+    "ThumbnailProps": {
+      "name": "ThumbnailProps",
+      "props": {
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": "small"
+            },
+            {
+              "value": "medium"
+            },
+            {
+              "value": "large"
+            }
+          ]
+        },
+        "src": {
+          "optional": true,
+          "type": "string"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "outline": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "counter": {
+          "optional": true,
+          "type": "number"
+        },
+        "light": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "ClickHandler"
+        }
+      },
+      "code": "type ThumbnailProps = {\n  size?: 'small' | 'medium' | 'large'\n  src?: string\n  icon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  style?: Style\n  label?: string // If no color is provided will use this by default\n  outline?: boolean\n  counter?: number\n  light?: boolean\n  onClick?: ClickHandler\n}",
+      "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
       "name": "ToastProps",
@@ -2619,7 +2750,7 @@
         },
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "strong": {
           "optional": true,
@@ -2630,7 +2761,7 @@
           "type": "Style"
         }
       },
-      "code": "type ToastProps = {\n  action?: { onClick: () => void; label: string }\n  closeable?: boolean\n  color?: ColorBackgroundColors\n  id?: any\n  label?: string\n  strong?: boolean\n  style?: Style\n}",
+      "code": "type ToastProps = {\n  action?: { onClick: () => void; label: string }\n  closeable?: boolean\n  color?: ColorBackgroundColors\n  id?: any\n  label?: ReactNode\n  strong?: boolean\n  style?: Style\n}",
       "file": "/components/Toast/Toast.tsx"
     },
     "ToggleProps": {
