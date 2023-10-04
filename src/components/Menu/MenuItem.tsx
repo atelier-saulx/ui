@@ -23,7 +23,7 @@ export const MenuItem: FC<MenuItemProps> = ({
   style,
   data,
 }) => {
-  console.log(' --> menu item data', data)
+  // console.log(' --> menu item data', data)
 
   const [showNested, setShowNested] = useState(false)
 
@@ -37,7 +37,7 @@ export const MenuItem: FC<MenuItemProps> = ({
     }
   }
 
-  console.log('nested??', nested)
+  // console.log('nested??', nested)
 
   return (
     <>

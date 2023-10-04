@@ -318,8 +318,7 @@ export const DateRangeDoubleInput = ({
                 setTillDay(daysInMonth(newTillMonth, newTillYear) + 1)
               }
               if (e.key === 'ArrowLeft') {
-                //TODO
-                // removeOverlay()
+                setOpen(false)
               }
             }}
             onKeyUp={(e) => {
