@@ -51,6 +51,7 @@ import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
 import newTable from './components/NewTable'
 import thumbnail from './components/Thumbnail'
+import list from './components/List'
 
 import modal from './components/Modal'
 
@@ -64,7 +65,6 @@ export const components: ComponentDef[] = [
   badge,
   barGraph,
   breadCrumbs,
-  thumbnail,
   button,
   checkboxInput,
   code,
@@ -79,6 +79,7 @@ export const components: ComponentDef[] = [
   dropdown,
   fileInput,
   icon,
+  list,
   linegraph,
   logsText,
   Menu,
@@ -99,6 +100,7 @@ export const components: ComponentDef[] = [
   slider,
   status,
   table,
+  thumbnail,
   tabs,
   tag,
   text,
