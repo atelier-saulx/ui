@@ -48,6 +48,9 @@ export type PopoverTriggerProps = {
 export function Trigger({ children }: PopoverTriggerProps) {
   return <PopoverBase.Trigger asChild>{children}</PopoverBase.Trigger>
 }
+export function Anchor({ children }: PopoverBase.PopoverAnchorProps) {
+  return <PopoverBase.Anchor asChild>{children}</PopoverBase.Anchor>
+}
 
 export type PopoverContentProps = {
   children:
@@ -82,6 +85,9 @@ export function Content(
             border: `1px solid ${color('border', 'default')}`,
             borderRadius: 4,
             padding: 24,
+            overflowY: 'scroll',
+            maxHeight:
+              'calc(var(--radix-dropdown-menu-content-available-height) - 16px)',
             ...props.style,
           }}
         >

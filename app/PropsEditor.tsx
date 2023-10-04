@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Input, Text, border, color, useOverlay } from '../src'
+import { Input, Text, border, color, ScrollArea, Popover } from '../src'
 import { parseProps } from './parseProps'
 import * as colors from '../src/vars'
 import * as ui from '../src'
@@ -9,13 +9,17 @@ import { AllIcons } from './components/Icon'
 
 const IconsWrapped: FC<{ onSelect: any }> = ({ onSelect }) => {
   return (
-    <styled.div
+    <ScrollArea
       style={{
+        display: 'flex',
+        flexDirection: 'column',
         padding: 16,
+        height: '90vh',
+        overflowX: 'hidden',
       }}
     >
       <AllIcons onSelect={onSelect} />
-    </styled.div>
+    </ScrollArea>
   )
 }
 
@@ -24,17 +28,6 @@ const Icons: FC<{
   value?: FC
   name?: string
 }> = ({ update, value, name }) => {
-  const onClick = useOverlay(
-    IconsWrapped,
-    {
-      onSelect: (icon) => {
-        ui.removeAllOverlays()
-        update(() => React.createElement(ui[icon]))
-      },
-    },
-    { width: 300 }
-  )
-
   return (
     <styled.div
       style={{
@@ -51,21 +44,45 @@ const Icons: FC<{
       <Text style={{ width: 100 }} weight="strong">
         {name}
       </Text>
-      <styled.div
-        onClick={onClick}
+      <Popover.Trigger>
+        <styled.div
+          // onClick={onClick}
+          style={{
+            cursor: 'pointer',
+            '&:hover': {
+              border: border(1, 'brand'),
+            },
+            marginLeft: 16,
+            padding: 16,
+            border: border(1),
+            borderRadius: 8,
+          }}
+        >
+          {value ?? <ui.IconPlaceholder style={{ opacity: 0.1 }} />}
+        </styled.div>
+      </Popover.Trigger>
+      <Popover.Content
+        forceMount
+        side="right"
+        sticky="partial"
         style={{
-          cursor: 'pointer',
-          '&:hover': {
-            border: border(1, 'brand'),
-          },
-          marginLeft: 16,
-          padding: 16,
-          border: border(1),
-          borderRadius: 8,
+          width: 300,
+          padding: 0,
+          // backgroundColor: 'transparent',
+          marginTop: '5vh',
+          marginBottom: '5vh',
         }}
       >
-        {value ?? <ui.IconPlaceholder style={{ opacity: 0.1 }} />}
-      </styled.div>
+        {/*@ts-ignore*/}
+        {({ close }) => (
+          <IconsWrapped
+            onSelect={(icon) => {
+              close()
+              update(() => React.createElement(ui[icon]))
+            }}
+          />
+        )}
+      </Popover.Content>
     </styled.div>
   )
 }
@@ -390,60 +407,62 @@ export const PropsEditor: FC<{
   const hasColor = !!component.properties.color
 
   return (
-    <styled.div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        padding: 12,
-      }}
-    >
-      {hasColor ? (
+    <Popover.Root>
+      <styled.div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: 12,
+        }}
+      >
+        {hasColor ? (
+          <styled.div
+            style={{
+              display: 'flex',
+              paddingTop: 8,
+              paddingBottom: 8,
+            }}
+          >
+            <Prop
+              parsedProps={parsedProps}
+              example={example}
+              update={(value) => {
+                updateState({ props: { color: value } })
+              }}
+              state={state}
+              name={'color'}
+              prop={component.properties.color}
+            />
+          </styled.div>
+        ) : null}
+
+        <styled.div style={{ display: 'flex', flexDirection: 'column' }}>
+          {parsedPropsDef}
+        </styled.div>
+
         <styled.div
           style={{
             display: 'flex',
+            flexWrap: 'wrap',
+            paddingTop: 8,
+            paddingBottom: 8,
+            borderBottom: parsedPropsBoolean.length ? border(1) : null,
+          }}
+        >
+          {parsedPropsBoolean}
+        </styled.div>
+
+        <styled.div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
             paddingTop: 8,
             paddingBottom: 8,
           }}
         >
-          <Prop
-            parsedProps={parsedProps}
-            example={example}
-            update={(value) => {
-              updateState({ props: { color: value } })
-            }}
-            state={state}
-            name={'color'}
-            prop={component.properties.color}
-          />
+          {pasedPropsEvents}
         </styled.div>
-      ) : null}
-
-      <styled.div style={{ display: 'flex', flexDirection: 'column' }}>
-        {parsedPropsDef}
       </styled.div>
-
-      <styled.div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          paddingTop: 8,
-          paddingBottom: 8,
-          borderBottom: parsedPropsBoolean.length ? border(1) : null,
-        }}
-      >
-        {parsedPropsBoolean}
-      </styled.div>
-
-      <styled.div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          paddingTop: 8,
-          paddingBottom: 8,
-        }}
-      >
-        {pasedPropsEvents}
-      </styled.div>
-    </styled.div>
+    </Popover.Root>
   )
 }
