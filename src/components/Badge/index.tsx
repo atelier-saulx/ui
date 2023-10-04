@@ -162,6 +162,10 @@ const BadgeInner: FC<BadgeProps> = ({
             maxHeight: '100%',
             alignItems: 'center',
             justifyContent: 'center',
+            '& svg': {
+              width: children ? '14px' : '16px',
+              height: children ? '14px' : '16px',
+            },
           }}
         >
           {afterIcon}
