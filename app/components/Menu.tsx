@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { Menu, IconHome, IconEmojiSmile, Badge } from '../../src'
+import {
+  Menu,
+  IconHome,
+  IconEmojiSmile,
+  Badge,
+  IconEdit,
+  IconAlarmClock,
+} from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
@@ -28,32 +35,30 @@ const example: ComponentDef = {
                   flyp: {
                     //@ts-ignore
                     value: 'yowza1',
-                    label: 'Label one',
-                    // icon: () => <IconHome />,
+                    label: 'Home',
+                    icon: <IconHome />,
                   },
                 },
-                title: {
+                Database: {
                   flyp: {
                     value: 'yow1',
-                    label: 'Menu Label1',
-                    // icon: () => <IconEmojiSmile />,
+                    label: 'Builder',
+                    icon: <IconEmojiSmile />,
                   },
                   flip: {
                     value: 'yow2',
-                    label: 'Menu Label2',
-                    // icon: () => <IconHome />,
+                    label: 'Content',
+                    icon: <IconEdit />,
+                    flappie: {
+                      value: 'hellow',
+                      label: 'hallow',
+                    },
                   },
                   flop: {
                     value: 'yow3',
-                    label: 'Menu Label3',
-                    // icon: () => <IconHome />,
+                    label: 'Assets',
+                    icon: <IconAlarmClock />,
                   },
-                  test: {
-                    value: 'x',
-                    label: 'more 0',
-                    items: [{ value: 'yow4', label: 'flipe' }],
-                  },
-                  flap: 'Menu Text',
                 },
               }}
             />

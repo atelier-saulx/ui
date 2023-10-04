@@ -1,7 +1,7 @@
 import React, { FC, Fragment, ReactNode, MouseEvent, useState } from 'react'
 import { color } from '../../varsUtilities'
 import { useWindowResize } from '../../hooks'
-import { ScrollArea, Text } from '../../components'
+import { ScrollArea, Text, Button } from '../../components'
 import { Style, styled } from 'inlines'
 import { IconMenu, IconClose, IconChevronDown } from '../../icons'
 import { MenuItem } from './MenuItem'
@@ -44,19 +44,6 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
   )
 }
 
-// export const MenuButton: FC<ButtonProps> = ({ style, ...props }) => {
-//   return (
-//     <Button
-//       {...props}
-//       style={{
-//         padding: '4px 12px',
-//         margin: '-4px -12px',
-//         ...style,
-//       }}
-//     />
-//   )
-// }
-
 const HideableStyledDiv = styled('div', {
   display: 'block',
   '&.hidden': {
@@ -67,7 +54,6 @@ const HideableStyledDiv = styled('div', {
 const StyledChevron = styled('div', {
   transition: 'transform 0.2s',
   position: 'absolute',
-
   right: 12,
   '&.closed ': {
     transform: 'rotate(180deg)',
@@ -151,7 +137,6 @@ type MenuProps = {
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
-  tempProp?: boolean
 }
 
 export const Menu: FC<MenuProps> = ({
@@ -163,11 +148,10 @@ export const Menu: FC<MenuProps> = ({
   header,
   isActive,
   collapse,
-  tempProp,
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
   const { width } = useWindowResize()
-  const [open, setOpen] = useState(width > 800)
+  const [open, setOpen] = useState(true)
 
   if (isMenuDataObject(data)) {
     for (const key in data) {
@@ -306,90 +290,44 @@ export const Menu: FC<MenuProps> = ({
       )
     }
   )
-  if (width > 800 || tempProp)
-    return (
-      <span style={{ position: 'relative' }}>
-        <ScrollArea
-          style={{
-            flexShrink: 0,
-            backgroundColor: color('background', 'default', 'muted'),
-            padding: open ? '24px 20px 20px 20px' : 0,
-            paddingLeft: open ? 20 : 10,
-            height: '100%',
-            width: open ? 224 : 68,
-            transition: '0.5s all',
-            overflowX: 'clip',
-            ...style,
-          }}
-        >
-          <MenuHeader>{header}</MenuHeader>
-          {items}
-          {children}
-          <styled.div style={{ height: '40px' }} />
-        </ScrollArea>
-        <styled.div
-          onClick={() => setOpen(!open)}
-          style={{
-            position: 'absolute',
-            borderRight: '1px solid',
-            borderColor: color('inputBorder', 'neutralNormal', 'default'),
-            '&:hover': {
-              borderColor: color('inputBorder', 'neutralHover', 'default'),
-            },
-            '&:active': {
-              borderColor: color('inputBorder', 'neutralActive', 'default'),
-            },
-            right: 0,
-            top: 0,
-            bottom: 0,
-          }}
-        ></styled.div>
-      </span>
-    )
-  else
-    return (
-      <>
-        {open ? (
-          <ScrollArea
-            style={{
-              flexShrink: 0,
-              backgroundColor: color('background', 'default', 'muted'),
-              // borderRight: border(1),
-              // position: 'relative',
-              padding: '24px 20px 20px 20px',
-              height: '100%',
-              width: '100%',
-              overflowX: 'clip',
-              ...style,
-            }}
-          >
-            <IconClose
-              onClick={() => setOpen(false)}
-              style={{
-                position: 'fixed',
-                top: 0,
-                right: 0,
-                padding: 10,
-                border: '1px solid grey',
-              }}
-            />
-            <MenuHeader>{header}</MenuHeader>
-            {items}
-            {children}
-            <styled.div style={{ height: '40px' }} />
-          </ScrollArea>
-        ) : (
-          <IconMenu
-            style={{
-              position: 'fixed',
-              top: 0,
-              right: 0,
-              padding: 10,
-              border: '1px solid grey',
-            }}
-            onClick={() => setOpen(true)}
-          />
-        )}
-      </>
-    )
+
+  return (
+    <>
+      <styled.div
+        style={{
+          position: 'fixed',
+          right: 16,
+          top: 16,
+        }}
+      >
+        <Button
+          color="system"
+          icon={<IconMenu />}
+          size="small"
+          onClick={() => {}}
+        />
+      </styled.div>
+      <ScrollArea
+        style={{
+          flexShrink: 0,
+          backgroundColor: color('background', 'default', 'muted'),
+          padding: '24px 12px',
+          height: '100%',
+          width: 224,
+          transition: '0.5s all',
+          overflowX: 'clip',
+          borderRight: `1px solid ${color(
+            'inputBorder',
+            'neutralNormal',
+            'default'
+          )}`,
+          ...style,
+        }}
+      >
+        <MenuHeader>{header}</MenuHeader>
+        {items}
+        {children}
+      </ScrollArea>
+    </>
+  )
 }
