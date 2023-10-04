@@ -265,48 +265,22 @@ export const Menu: FC<MenuProps> = ({
                 const { value, label, onClick, icon } = item
 
                 return (
-                  <>
-                    <MenuItem
-                      data={item}
-                      key={index}
-                      onClick={(e: any) => {
-                        if (onChange) {
-                          // if changed on mobile close the menu
-                          setOpen(false)
-                          onChange(value, topValue)
-                        }
-                        if (onClick) {
-                          onClick(e)
-                        }
-                      }}
-                      active={isActive ? isActive(value) : active === value}
-                      shrink={shrink}
-                    >
-                      {/* {icon ? (
-                        <styled.div style={{ marginLeft: 0 }}>
-                          {icon}
-                        </styled.div>
-                      ) : null}
-                      {!icon && shrink && typeof label === 'string' ? (
-                        <>{label.split('').splice(0, 2)}</>
-                      ) : null}
-
-                      {!shrink && label}
-                      {nested.length > 0 && (
-                        <IconChevronDown
-                          style={{ position: 'absolute', right: '12px' }}
-                        />
-                      )} */}
-                    </MenuItem>
-                    {/* {nested.map((item, idx) => (
-                      <MenuItem
-                        onClick={() => {}}
-                        active={isActive ? isActive(value) : active === value}
-                      >
-                        {item.label}
-                      </MenuItem>
-                    ))} */}
-                  </>
+                  <MenuItem
+                    data={item}
+                    key={index}
+                    onClick={(e: any) => {
+                      if (onChange) {
+                        // if changed on mobile close the menu
+                        setOpen(false)
+                        onChange(value, topValue)
+                      }
+                      if (onClick) {
+                        onClick(e)
+                      }
+                    }}
+                    active={isActive ? isActive(value) : active === value}
+                    shrink={shrink}
+                  />
                 )
               })}
             </HideableStyledDiv>
@@ -327,12 +301,7 @@ export const Menu: FC<MenuProps> = ({
               onClick(e)
             }
           }}
-        >
-          {icon ? (
-            <styled.div style={{ marginRight: 8 }}>{icon}</styled.div>
-          ) : null}
-          {label}
-        </MenuItem>
+        />
       )
     }
   )

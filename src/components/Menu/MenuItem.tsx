@@ -2,14 +2,15 @@ import React, { FC, ReactNode, useState } from 'react'
 import { color as genColor } from '../../varsUtilities'
 import { styled, Style } from 'inlines'
 import { Text } from '../Text'
+import { Button } from '../Button'
 import { ClickHandler } from '../../types'
 import { BpTablet } from '../../utils/breakpoints'
-import { IconChevronDown } from 'src/icons'
+import { IconChevronDown, IconChevronTop } from 'src/icons'
 
 type MenuItemProps = {
   active: boolean
   onClick: ClickHandler
-  children: ReactNode | ReactNode[] | ((e) => void)
+  // children: ReactNode | ReactNode[] | ((e) => void)
   shrink?: boolean
   style?: Style
   data?: any
@@ -18,12 +19,12 @@ type MenuItemProps = {
 export const MenuItem: FC<MenuItemProps> = ({
   active,
   onClick = (e) => {},
-  children,
+  // children,
   shrink,
   style,
   data,
 }) => {
-  console.log(' --> menu item data', data)
+  // console.log(' --> menu item data', data)
 
   const [showNested, setShowNested] = useState(false)
 
@@ -31,13 +32,13 @@ export const MenuItem: FC<MenuItemProps> = ({
   // check if item has an object with label and value inside it
   for (const [key] of Object.entries(data)) {
     if (key !== 'value' && key !== 'label' && key !== 'icon') {
-      console.log('🫔', key)
-      console.log('🥩', data[key])
+      // console.log('🫔', key)
+      // console.log('🥩', data[key])
       nested.push(data[key])
     }
   }
 
-  console.log('nested??', nested)
+  // console.log('nested??', nested)
 
   return (
     <>
@@ -112,23 +113,27 @@ export const MenuItem: FC<MenuItemProps> = ({
 
           {!shrink && data.label}
           {nested.length > 0 && (
-            <IconChevronDown
+            <Button
+              size="xsmall"
+              icon={showNested ? <IconChevronDown /> : <IconChevronTop />}
               style={{ position: 'absolute', right: '12px' }}
               onClick={() => setShowNested(!showNested)}
-            />
+            ></Button>
           )}
         </Text>
       </styled.div>
       {showNested &&
         nested.map((item, idx) => (
           <MenuItem
+            key={idx}
             data={item}
-            active={false}
-            onClick={() => {}}
-            //   active={isActive ? isActive(value) : active === value}
-          >
-            {item.label}
-          </MenuItem>
+            onClick={(e: any) => {
+              if (onClick) {
+                onClick(e)
+              }
+            }}
+            active={active === item.value}
+          />
         ))}
     </>
   )
