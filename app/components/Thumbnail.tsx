@@ -1,4 +1,5 @@
-import { Thumbnail } from '../../src'
+import React from 'react'
+import { IconBulb, Thumbnail } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 import { faker } from '@faker-js/faker'
@@ -69,6 +70,16 @@ const example: ComponentDef = {
         light: true,
         outline: true,
         label: faker.person.fullName(),
+        size: 'small',
+      },
+    },
+    {
+      name: 'Icon',
+      props: {
+        light: true,
+        outline: true,
+        color: 'raspberry',
+        icon: () => <IconBulb />,
         size: 'small',
       },
     },

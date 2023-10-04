@@ -25,6 +25,7 @@ const example: ComponentDef = {
           <div style={{ display: 'flex', gap: 20 }}>
             <Badge>{value}</Badge>
             <Menu
+              shrunk
               collapse
               onChange={(v) => {
                 setValue(v)

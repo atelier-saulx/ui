@@ -428,6 +428,7 @@ export const Menu: FC<MenuProps> = ({
         <MenuHeader>{header}</MenuHeader>
         {items}
         {children}
+        <styled.div style={{ height: 24 }} />
       </ScrollArea>
     </>
   )
