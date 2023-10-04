@@ -37,7 +37,7 @@ import sidePanel from './components/SidePanel'
 import Menu from './components/Menu'
 import slider from './components/Slider'
 import status from './components/Status'
-import settings from './components/Settings'
+import formGroup from './components/FormGroup'
 import container from './components/Container'
 import table from './components/Table'
 import tabs from './components/Tabs'
@@ -100,7 +100,7 @@ export const layout = [
   divider,
   list,
   scrollArea,
-  settings,
+  formGroup,
   tabs,
 ]
 

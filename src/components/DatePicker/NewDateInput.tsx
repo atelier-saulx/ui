@@ -447,6 +447,7 @@ export const NewDateInput = ({
             }}
           >
             <Picker
+              setOpen={setOpen}
               setValue={setValue}
               timeString={timeString}
               stringToMilliseconds={stringToMilliseconds}
