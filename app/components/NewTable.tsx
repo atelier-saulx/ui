@@ -19,9 +19,7 @@ function useCallbackRef<T extends (...args: any[]) => any>(
 ): T {
   const callbackRef = React.useRef(callback)
 
-  React.useEffect(() => {
-    callbackRef.current = callback
-  })
+  callbackRef.current = callback
 
   return React.useMemo(
     () => ((...args) => callbackRef.current?.(...args)) as T,
@@ -39,9 +37,10 @@ function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const subscriptions = useRef<(CloseObserve | null)[]>([])
   const dataChecksums = useRef<number[]>([])
   const fetchingMore = useRef(false)
-  const [data, setData] = useState<any[]>([])
   const queryFn = useCallbackRef(props.queryFn)
   const accessFn = useCallbackRef(props.accessFn)
+
+  const [data, setData] = useState<any[]>([])
   const chunkSize = useMemo(
     () => Math.max(...data.map((e) => (e ? accessFn(e) : []).length)),
     [data, accessFn]
