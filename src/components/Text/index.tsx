@@ -9,7 +9,7 @@ import { DateFormat } from '@based/pretty-date'
 
 type TextProps = {
   children: ReactNode
-  color?: ColorContentColors
+  color?: ColorContentColors | 'inherit'
   size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48
   style?: Style
   light?: boolean
@@ -69,11 +69,10 @@ export const Text: FC<TextProps> = ({
       ? '64px'
       : '16px'
 
-  const parsedColor = genColor(
-    'content',
-    color,
-    light ? 'secondary' : 'primary'
-  )
+  const parsedColor =
+    color === 'inherit'
+      ? 'inherit'
+      : genColor('content', color, light ? 'secondary' : 'primary')
 
   if (onClick) {
     selectable = 'none'

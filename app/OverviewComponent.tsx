@@ -18,8 +18,6 @@ import { propsToCode, toComponent } from './objectToCode'
 import { PropsEditor } from './PropsEditor'
 import { BpTablet } from '../src/utils/breakpoints'
 
-//xx
-
 const displayType = (propType: PropType): string | number | ReactNode => {
   if (typeof propType.type === 'object') {
     if (Array.isArray(propType.type)) {
@@ -173,7 +171,11 @@ const ComponentViewer: FC<{ component: ComponentDef; index: number }> = ({
         </Text>
       ) : null}
       {example.description ? (
-        <styled.div>
+        <styled.div
+          style={{
+            marginTop: !example.name ? 24 : 0,
+          }}
+        >
           <Text size={12}>{example.description}</Text>
         </styled.div>
       ) : (

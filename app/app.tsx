@@ -13,6 +13,7 @@ import {
   ScrollArea,
   BpTablet,
   BpMobile,
+  RowSpaced,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -20,6 +21,7 @@ import { OverviewComponent } from './OverviewComponent'
 import { components, hooks } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 import { useQuery } from '@based/react'
+import { BasedLogo } from '../src/icons/BasedLogo'
 
 export const client = based(basedConfig)
 
@@ -51,19 +53,14 @@ const App = () => {
         shrinkable
         header={
           <styled.div style={{ marginBottom: 16, width: '100%' }}>
-            <styled.div
-              style={{
-                marginBottom: 16,
-                display: 'flex',
-                justifyContent: 'end',
-              }}
-            >
+            <RowSpaced style={{ marginLeft: 8 }}>
+              <BasedLogo />
               <ThemeSwitch />
-            </styled.div>
+            </RowSpaced>
             <Input
               value={filter}
               type="search"
-              style={{ width: '100%' }}
+              style={{ width: '100%', marginTop: 24 }}
               placeholder="Filter..."
               onChange={(v) => {
                 setFilter(v)
