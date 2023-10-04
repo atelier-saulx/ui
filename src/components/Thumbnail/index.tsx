@@ -64,23 +64,27 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   style,
   label,
   outline,
+  onClick,
   light,
   counter,
-  ...props
 }) => {
   const calcedSize = size === 'small' ? 40 : size === 'large' ? 80 : 60
 
-  const contentColor: ColorContentColors | ColorNonSemanticContentColors =
-    COLORGUARD.includes(color)
-      ? color === 'warning' || color === 'default'
-        ? 'default'
-        : 'inverted'
-      : color === 'orange'
-      ? 'grey'
-      : 'white'
+  const contentColor: ColorContentColors | ColorNonSemanticContentColors = light
+    ? color === 'neutral'
+      ? 'default'
+      : color
+    : COLORGUARD.includes(color)
+    ? color === 'warning' || color === 'default'
+      ? 'default'
+      : 'inverted'
+    : color === 'orange'
+    ? 'grey'
+    : 'white'
 
   const labelNode = label ? (
     <Text
+      weight={size === 'small' ? 'strong' : 'medium'}
       color="inherit"
       selectable="none"
       size={size === 'small' ? 14 : size === 'large' ? 32 : 24}
@@ -101,7 +105,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
     <styled.div
       style={{
         backgroundColor,
-        borderRadius: 8,
+        borderRadius: size === 'small' ? 6 : 8,
         color: genColor(
           COLORGUARD.includes(color) ? 'content' : 'nonSemanticContent',
           contentColor,
@@ -117,6 +121,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
             )}`
           : 'none',
         display: 'flex',
+        cursor: onClick ? 'pointer' : 'default',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundImage: src ? `url(${src})` : null,
@@ -128,7 +133,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         height: calcedSize,
         ...style,
       }}
-      {...props}
+      onClick={onClick}
     >
       {counter && (
         <CounterBadge>

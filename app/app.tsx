@@ -51,15 +51,15 @@ const App = () => {
     >
       <Menu
         header={
-          <styled.div style={{ marginBottom: 16 }}>
-            <RowSpaced>
+          <styled.div style={{ marginBottom: 16, width: '100%' }}>
+            <RowSpaced style={{ marginLeft: 8 }}>
               <BasedLogo />
               <ThemeSwitch />
             </RowSpaced>
             <Input
               value={filter}
               type="search"
-              style={{ width: 220, marginTop: 24 }}
+              style={{ width: '100%', marginTop: 24 }}
               placeholder="Filter..."
               onChange={(v) => {
                 setFilter(v)

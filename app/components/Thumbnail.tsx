@@ -62,6 +62,18 @@ const example: ComponentDef = {
         src: faker.image.url(),
       },
     },
+    {
+      name: 'Counter',
+      props: {
+        onClick: () => {
+          console.log('hell')
+        },
+        light: true,
+        outline: true,
+        label: faker.person.fullName(),
+        size: 'small',
+      },
+    },
   ],
 }
 

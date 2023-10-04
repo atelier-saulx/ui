@@ -1,10 +1,11 @@
 import React, { FC, Fragment, ReactNode, MouseEvent, useState } from 'react'
 import { color } from '../../varsUtilities'
 import { useWindowResize } from '../../hooks'
-import { ScrollArea, Text } from '../../components'
+import { ScrollArea, Text, Button } from '../../components'
 import { Style, styled } from 'inlines'
 import { IconMenu, IconClose, IconChevronDown } from '../../icons'
 import { MenuItem } from './MenuItem'
+import { BpMobile } from 'src/utils'
 
 type MenuHeaderProps = {
   children?: ReactNode
@@ -44,19 +45,6 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
   )
 }
 
-// export const MenuButton: FC<ButtonProps> = ({ style, ...props }) => {
-//   return (
-//     <Button
-//       {...props}
-//       style={{
-//         padding: '4px 12px',
-//         margin: '-4px -12px',
-//         ...style,
-//       }}
-//     />
-//   )
-// }
-
 const HideableStyledDiv = styled('div', {
   display: 'block',
   '&.hidden': {
@@ -67,7 +55,6 @@ const HideableStyledDiv = styled('div', {
 const StyledChevron = styled('div', {
   transition: 'transform 0.2s',
   position: 'absolute',
-
   right: 12,
   '&.closed ': {
     transform: 'rotate(180deg)',
@@ -151,7 +138,8 @@ type MenuProps = {
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
-  tempProp?: boolean
+  shrinkable?: boolean
+  shrunk?: boolean
 }
 
 export const Menu: FC<MenuProps> = ({
@@ -163,11 +151,13 @@ export const Menu: FC<MenuProps> = ({
   header,
   isActive,
   collapse,
-  tempProp,
+  shrinkable,
+  shrunk = false,
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
   const { width } = useWindowResize()
-  const [open, setOpen] = useState(width > 800)
+  const [open, setOpen] = useState(true)
+  const [shrink, setShrink] = useState(shrunk)
 
   if (isMenuDataObject(data)) {
     for (const key in data) {
@@ -237,7 +227,7 @@ export const Menu: FC<MenuProps> = ({
               >
                 {label}
               </Text>
-              {collapse && (
+              {collapse && !shrink && (
                 <StyledChevron id={`${i}-menuchevron`}>
                   <IconChevronDown />
                 </StyledChevron>
@@ -258,6 +248,8 @@ export const Menu: FC<MenuProps> = ({
                     key={index}
                     onClick={(e: any) => {
                       if (onChange) {
+                        // if changed on mobile close the menu
+                        setOpen(false)
                         onChange(value, topValue)
                       }
                       if (onClick) {
@@ -265,18 +257,16 @@ export const Menu: FC<MenuProps> = ({
                       }
                     }}
                     active={isActive ? isActive(value) : active === value}
-                    open={open}
+                    shrink={shrink}
                   >
                     {icon ? (
                       <styled.div style={{ marginLeft: 0 }}>{icon}</styled.div>
                     ) : null}
-                    {!icon && !open && typeof label === 'string' ? (
+                    {!icon && shrink && typeof label === 'string' ? (
                       <>{label.split('').splice(0, 2)}</>
                     ) : null}
 
-                    {/* <div style={{ width: '100%', border: '1px solid red' }} /> */}
-
-                    {open && label}
+                    {!shrink && label}
                   </MenuItem>
                 )
               })}
@@ -306,90 +296,58 @@ export const Menu: FC<MenuProps> = ({
       )
     }
   )
-  if (width > 800 || tempProp)
-    return (
-      <span style={{ position: 'relative' }}>
-        <ScrollArea
-          style={{
-            flexShrink: 0,
-            backgroundColor: color('background', 'default', 'muted'),
-            padding: open ? '24px 20px 20px 20px' : 0,
-            paddingLeft: open ? 20 : 10,
-            height: '100%',
-            width: open ? 224 : 68,
-            transition: '0.5s all',
-            overflowX: 'clip',
-            ...style,
+
+  return (
+    <>
+      <styled.div
+        style={{
+          position: 'fixed',
+          right: 16,
+          top: 16,
+          display: 'none',
+          '@media only screen and (max-width: 480px )': {
+            display: 'block',
+          },
+        }}
+      >
+        <Button
+          color="system"
+          icon={open ? <IconClose /> : <IconMenu />}
+          size="small"
+          onClick={() => {
+            setOpen(!open)
           }}
-        >
-          <MenuHeader>{header}</MenuHeader>
-          {items}
-          {children}
-          <styled.div style={{ height: '40px' }} />
-        </ScrollArea>
-        <styled.div
-          onClick={() => setOpen(!open)}
-          style={{
+        />
+      </styled.div>
+      <ScrollArea
+        style={{
+          display: 'block',
+          flexShrink: 0,
+          backgroundColor: color('background', 'default', 'muted'),
+          padding: '24px 12px',
+          height: '100%',
+          width: !shrink ? 224 : 42,
+          transition: '0.5s all',
+          overflowX: 'clip',
+          borderRight: `1px solid ${color(
+            'inputBorder',
+            'neutralNormal',
+            'default'
+          )}`,
+          '@media only screen and (max-width: 480px )': {
+            display: open ? 'block' : 'none',
+            zIndex: 1,
             position: 'absolute',
-            borderRight: '1px solid',
-            borderColor: color('inputBorder', 'neutralNormal', 'default'),
-            '&:hover': {
-              borderColor: color('inputBorder', 'neutralHover', 'default'),
-            },
-            '&:active': {
-              borderColor: color('inputBorder', 'neutralActive', 'default'),
-            },
-            right: 0,
-            top: 0,
-            bottom: 0,
-          }}
-        ></styled.div>
-      </span>
-    )
-  else
-    return (
-      <>
-        {open ? (
-          <ScrollArea
-            style={{
-              flexShrink: 0,
-              backgroundColor: color('background', 'default', 'muted'),
-              // borderRight: border(1),
-              // position: 'relative',
-              padding: '24px 20px 20px 20px',
-              height: '100%',
-              width: '100%',
-              overflowX: 'clip',
-              ...style,
-            }}
-          >
-            <IconClose
-              onClick={() => setOpen(false)}
-              style={{
-                position: 'fixed',
-                top: 0,
-                right: 0,
-                padding: 10,
-                border: '1px solid grey',
-              }}
-            />
-            <MenuHeader>{header}</MenuHeader>
-            {items}
-            {children}
-            <styled.div style={{ height: '40px' }} />
-          </ScrollArea>
-        ) : (
-          <IconMenu
-            style={{
-              position: 'fixed',
-              top: 0,
-              right: 0,
-              padding: 10,
-              border: '1px solid grey',
-            }}
-            onClick={() => setOpen(true)}
-          />
-        )}
-      </>
-    )
+            width: !shrink ? '264px' : 42,
+            paddingRight: '4px !important',
+          },
+          ...style,
+        }}
+      >
+        <MenuHeader>{header}</MenuHeader>
+        {items}
+        {children}
+      </ScrollArea>
+    </>
+  )
 }

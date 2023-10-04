@@ -198,21 +198,6 @@ export const Table: FC<TableProps> = (props) => {
           userSelect: shiftKeyIsDown ? 'none' : 'default',
         }}
       >
-        {arrangeAble && (
-          <Button
-            icon={<IconPlus />}
-            size="small"
-            color="neutral"
-            ghost
-            style={{
-              position: 'absolute',
-              right: 12,
-              top: selectedRows?.length > 0 ? 74 : 6,
-              padding: 3,
-              zIndex: 1,
-            }}
-          />
-        )}
         {selectedRows?.length > 0 && (
           <SelectedRowOptions
             clearAllRows={clearAllRows}
@@ -220,41 +205,43 @@ export const Table: FC<TableProps> = (props) => {
           />
         )}
 
-        <Popover.Root>
-          <Popover.Trigger>
-            <Button
-              icon={<IconPlus />}
-              size="small"
-              color="neutral"
-              ghost
+        {arrangeAble && (
+          <Popover.Root>
+            <Popover.Trigger>
+              <Button
+                icon={<IconPlus />}
+                size="small"
+                color="neutral"
+                ghost
+                style={{
+                  position: 'absolute',
+                  right: 12,
+                  top: selectedRows?.length > 0 ? 74 : 6,
+                  padding: 3,
+                  zIndex: 1,
+                }}
+              />
+            </Popover.Trigger>
+            {selectedRows?.length > 0 && (
+              <SelectedRowOptions
+                clearAllRows={clearAllRows}
+                selectedRowsLength={selectedRows?.length}
+              />
+            )}
+            <Popover.Content
               style={{
-                position: 'absolute',
-                right: 12,
-                top: selectedRows?.length > 0 ? 74 : 6,
-                padding: 3,
-                zIndex: 1,
+                // border: '0px',
+                padding: 0,
               }}
-            />
-          </Popover.Trigger>
-          {selectedRows?.length > 0 && (
-            <SelectedRowOptions
-              clearAllRows={clearAllRows}
-              selectedRowsLength={selectedRows?.length}
-            />
-          )}
-          <Popover.Content
-            style={{
-              // border: '0px',
-              padding: 0,
-            }}
-          >
-            <HeaderOverlay
-              headers={headers}
-              setFilteredHeaders={setFilteredHeaders}
-              setHeaders={setHeaders}
-            />
-          </Popover.Content>
-        </Popover.Root>
+            >
+              <HeaderOverlay
+                headers={headers}
+                setFilteredHeaders={setFilteredHeaders}
+                setHeaders={setHeaders}
+              />
+            </Popover.Content>
+          </Popover.Root>
+        )}
         <AutoSizer>
           {({ width, height }) => {
             return (

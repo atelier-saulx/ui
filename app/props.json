@@ -1504,7 +1504,7 @@
             "TSParenthesizedType"
           ]
         },
-        "open": {
+        "shrink": {
           "optional": true,
           "type": "boolean"
         },
@@ -1513,7 +1513,7 @@
           "type": "Style"
         }
       },
-      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  children: ReactNode | ReactNode[] | ((e) => void)\n  open?: boolean\n  style?: Style\n}",
+      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  children: ReactNode | ReactNode[] | ((e) => void)\n  shrink?: boolean\n  style?: Style\n}",
       "file": "/components/Menu/MenuItem.tsx"
     },
     "MenuHeaderProps": {
@@ -1584,12 +1584,16 @@
           "optional": true,
           "type": "boolean"
         },
-        "tempProp": {
+        "shrinkable": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "shrunk": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type MenuProps = {\n  data?: MenuData\n  active?: any\n  isActive?: (value: any) => boolean\n  onChange?: (value: any, header?: any) => void\n  style?: Style\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  collapse?: boolean\n  tempProp?: boolean\n}",
+      "code": "type MenuProps = {\n  data?: MenuData\n  active?: any\n  isActive?: (value: any) => boolean\n  onChange?: (value: any, header?: any) => void\n  style?: Style\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  collapse?: boolean\n  shrinkable?: boolean\n  shrunk?: boolean\n}",
       "file": "/components/Menu/index.tsx"
     },
     "MetricsWidgetProps": {
@@ -2509,7 +2513,12 @@
         },
         "color": {
           "optional": true,
-          "type": "ColorContentColors"
+          "type": [
+            "ColorContentColors",
+            {
+              "value": "inherit"
+            }
+          ]
         },
         "size": {
           "optional": true,
@@ -2657,7 +2666,7 @@
           ]
         }
       },
-      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  underline?: boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n  valueFormat?: NumberFormat | DateFormat\n}",
+      "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors | 'inherit'\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  underline?: boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n  valueFormat?: NumberFormat | DateFormat\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {
