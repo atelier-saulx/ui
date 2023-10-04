@@ -48,6 +48,7 @@ const App = () => {
       }}
     >
       <Menu
+        shrinkable
         header={
           <styled.div style={{ marginBottom: 16, width: '100%' }}>
             <styled.div

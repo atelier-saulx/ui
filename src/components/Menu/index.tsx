@@ -1,4 +1,11 @@
-import React, { FC, Fragment, ReactNode, MouseEvent, useState } from 'react'
+import React, {
+  FC,
+  Fragment,
+  ReactNode,
+  MouseEvent,
+  useState,
+  useEffect,
+} from 'react'
 import { color } from '../../varsUtilities'
 import { useWindowResize } from '../../hooks'
 import { ScrollArea, Text, Button } from '../../components'
@@ -182,6 +189,12 @@ export const Menu: FC<MenuProps> = ({
     }
   }
 
+  useEffect(() => {
+    if (width > 480) {
+      setOpen(true)
+    }
+  }, [width])
+
   const items = menuDataItems.map(
     ({ label, value, icon, items, onClick }, i) => {
       // menu header thing not working>?
@@ -299,13 +312,14 @@ export const Menu: FC<MenuProps> = ({
 
   return (
     <>
+      {/* mobile button menu */}
       <styled.div
         style={{
           position: 'fixed',
           right: 16,
           top: 16,
           display: 'none',
-          '@media only screen and (max-width: 480px )': {
+          [BpMobile]: {
             display: 'block',
           },
         }}
@@ -319,6 +333,23 @@ export const Menu: FC<MenuProps> = ({
           }}
         />
       </styled.div>
+
+      {/* mobile menu */}
+
+      {shrinkable && open && (
+        <styled.div
+          onClick={() => setShrink(!shrink)}
+          style={{
+            width: 8,
+            background: 'blue',
+            position: 'absolute',
+            height: '100%',
+            right: 0,
+            left: 272,
+            zIndex: 2,
+          }}
+        ></styled.div>
+      )}
       <ScrollArea
         style={{
           display: 'block',
@@ -334,11 +365,11 @@ export const Menu: FC<MenuProps> = ({
             'neutralNormal',
             'default'
           )}`,
-          '@media only screen and (max-width: 480px )': {
+          [BpMobile]: {
             display: open ? 'block' : 'none',
             zIndex: 1,
             position: 'absolute',
-            width: !shrink ? '264px' : 42,
+            width: !shrink ? '264px' : '54px',
             paddingRight: '4px !important',
           },
           ...style,
