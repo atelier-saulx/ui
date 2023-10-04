@@ -7,6 +7,7 @@ import { styled } from 'inlines'
 import { Text } from '../../components'
 
 type RangeTillPickerProps = {
+  setOpen: (e: any) => void
   setValue: (e: any) => void
   timeString?: string
   stringToMilliseconds?: (str: string, time?: string) => number
@@ -72,6 +73,7 @@ const MscToString = (value: number): string => {
 //TODO REMOVE ALL OVERLAYS
 
 export const TillRangePicker = ({
+  setOpen,
   setValue,
   timeString,
   stringToMilliseconds,
@@ -285,7 +287,7 @@ export const TillRangePicker = ({
           style={{ display: 'flex', marginTop: '6px' }}
           onClick={() => {
             setValue(0)
-            // removeAllOverlays()
+            setOpen(false)
           }}
         >
           Clear

@@ -6,22 +6,17 @@ import { styled } from 'inlines'
 import { Text } from '../../components'
 import { useContextState } from '../../hooks'
 
-//TODO removeAllOverLays
-
 type PickerProps = {
   setValue: (e: any) => void
   timeString?: string
   stringToMilliseconds?: (str: string, time?: string) => number
+  setOpen: (e: any) => void
 }
 
 const StyledDatePickerBox = styled('div', {
   background: genColor('background', 'default', 'strong'),
-  // borderBottomLeftRadius: 4,
-  // borderBottomRightRadius: 4,
   borderRadius: 4,
   width: 280,
-  // height: 396,
-  // scrollBarGutter: 'none',
 })
 
 const StyledChevronHolders = styled('div', {
@@ -80,6 +75,7 @@ export const Picker = ({
   setValue,
   timeString,
   stringToMilliseconds,
+  setOpen,
 }: PickerProps) => {
   const dateObj = new Date()
 
@@ -280,9 +276,7 @@ export const Picker = ({
           style={{
             borderTop: `1px solid ${genColor('border', 'default', 'strong')}`,
             height: 0,
-            // position: 'absolute',
             margin: '0 -8px',
-            // width: '100%',
             borderRadius: 0,
             padding: 0,
           }}
@@ -290,9 +284,8 @@ export const Picker = ({
         <Text
           style={{ display: 'flex', marginTop: '6px' }}
           onClick={() => {
-            setValue(0)
-
-            // removeAllOverlays()
+            setValue(undefined)
+            setOpen(false)
           }}
         >
           Clear

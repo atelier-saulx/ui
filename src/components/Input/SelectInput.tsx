@@ -286,15 +286,37 @@ export function SelectInput({
                   <styled.div
                     id={`combobox-item-${index}`}
                     style={{
+                      marginTop: 2,
                       cursor: 'pointer',
+                      //TODO is it this?
                       background:
                         index === activeIndex
                           ? color('action', 'system', 'hover')
+                          : item.value === value
+                          ? color('action', 'primary', 'subtleSelected')
                           : 'transparent',
+                      //Or this
+                      // background:
+                      //   item.value === value
+                      //     ? color('action', 'primary', 'subtleSelected')
+                      //     : index === activeIndex
+                      //     ? color('action', 'system', 'hover')
+                      //     : 'transparent',
                       padding: '4px 12px 4px 42px',
                       borderRadius: 8,
                       position: 'relative',
                       scrollMargin: '8px 0',
+                      color: color(
+                        'content',
+                        item.value === value ? 'brand' : 'default',
+                        'primary'
+                      ),
+                      '&:active': {
+                        background:
+                          item.value === value
+                            ? color('action', 'primary', 'subtleSelected')
+                            : color('action', 'system', 'active'),
+                      },
                     }}
                     onClick={() => {
                       handleSelectItem(index)
@@ -306,10 +328,10 @@ export function SelectInput({
                   >
                     {item.value === value && (
                       <span style={{ position: 'absolute', left: 12, top: 6 }}>
-                        <IconCheckLarge color="default" />
+                        <IconCheckLarge color="inherit" />
                       </span>
                     )}
-                    <Text color="default" size={14} weight="medium">
+                    <Text size={14} weight="medium" color="inherit">
                       {item.label ?? item.value}
                     </Text>
                   </styled.div>
