@@ -36,6 +36,19 @@ const example: ComponentDef = {
         style: {
           width: 700,
         },
+        expandable: true,
+        seperator: true,
+        afterIcon: () => <IconMoreHorizontal />,
+        label: 'This is a container',
+        description: 'This is a description',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      props: {
+        style: {
+          width: 700,
+        },
         label: 'This is a container',
         children: () => <Text>These are some children...</Text>,
       },
@@ -64,6 +77,17 @@ const example: ComponentDef = {
         style: {
           width: 700,
         },
+        color: 'brand',
+        label: 'This is a container',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+    {
+      props: {
+        style: {
+          width: 700,
+        },
+        seperator: true,
         color: 'brand',
         label: 'This is a container',
         children: () => <Text>These are some children...</Text>,
