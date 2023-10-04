@@ -64,6 +64,28 @@ export const SettingsField: FC<{
     value = defaultValue
   }
 
+  if (typeof type === 'function') {
+    return (
+      <Label
+        style={{
+          margin: 8,
+          marginBottom: 16,
+          ...style,
+        }}
+        labelWidth={width}
+        label={label}
+        description={description}
+      >
+        <styled.div style={{ width: fieldWidth }}>
+          {React.createElement(type, {
+            value,
+            onChange,
+          })}
+        </styled.div>
+      </Label>
+    )
+  }
+
   if (options) {
     return (
       <Label

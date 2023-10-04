@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormGroup } from '../../src'
+import { FormGroup, Button } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
@@ -26,9 +26,19 @@ const example: ComponentDef = {
             description: 'status time',
             options: ['good', 'bad', 'medium'],
           },
+          custom: {
+            label: 'Status',
+            description: 'status time',
+            type:
+              () =>
+              ({ onChange, value }) => {
+                return <Button onClick={() => {}}>bla {value.x}</Button>
+              },
+          },
         },
         values: {
           port: 443,
+          custom: { x: 100 },
           args: {
             name: 'hello',
             x: {
