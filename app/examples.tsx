@@ -50,6 +50,7 @@ import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
 import newTable from './components/NewTable'
+import thumbnail from './components/Thumbnail'
 
 import modal from './components/Modal'
 
@@ -63,6 +64,7 @@ export const components: ComponentDef[] = [
   badge,
   barGraph,
   breadCrumbs,
+  thumbnail,
   button,
   checkboxInput,
   code,

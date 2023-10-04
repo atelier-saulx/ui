@@ -481,20 +481,13 @@
           "optional": true,
           "type": "Style"
         },
-        "size": {
-          "optional": true,
-          "type": [
-            {
-              "value": "medium"
-            },
-            {
-              "value": "small"
-            }
-          ]
-        },
         "expandable": {
           "optional": true,
           "type": "boolean"
+        },
+        "onExpand": {
+          "optional": true,
+          "type": "function"
         },
         "isExpanded": {
           "optional": true,
@@ -529,7 +522,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ContainerProps = {\n  color?: ColorBackgroundColors\n  style?: Style\n  size?: 'medium' | 'small'\n  expandable?: boolean\n  isExpanded?: boolean //(same can be controlled etc) undefined means uncontrolled\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  label?: ReactNode\n  description?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  seperator?: boolean\n}",
+      "code": "type ContainerProps = {\n  color?: ColorBackgroundColors\n  style?: Style\n  expandable?: boolean\n  onExpand?: (expanded: boolean) => void\n  isExpanded?: boolean //(same can be controlled etc) undefined means uncontrolled\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  label?: ReactNode\n  description?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  seperator?: boolean\n}",
       "file": "/components/Container/index.tsx"
     },
     "CounterProps": {
@@ -2666,6 +2659,66 @@
       },
       "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  underline?: boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n  valueFormat?: NumberFormat | DateFormat\n}",
       "file": "/components/Text/index.tsx"
+    },
+    "ThumbnailProps": {
+      "name": "ThumbnailProps",
+      "props": {
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": "small"
+            },
+            {
+              "value": "medium"
+            },
+            {
+              "value": "large"
+            }
+          ]
+        },
+        "src": {
+          "optional": true,
+          "type": "string"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "outline": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "counter": {
+          "optional": true,
+          "type": "number"
+        },
+        "light": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "ClickHandler"
+        }
+      },
+      "code": "type ThumbnailProps = {\n  size?: 'small' | 'medium' | 'large'\n  src?: string\n  icon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  style?: Style\n  label?: string // If no color is provided will use this by default\n  outline?: boolean\n  counter?: number\n  light?: boolean\n  onClick?: ClickHandler\n}",
+      "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
       "name": "ToastProps",
