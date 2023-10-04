@@ -9,11 +9,13 @@ import { DateFormat } from '@based/pretty-date'
 import { Thumbnail } from '../Thumbnail'
 import { Badge } from '../Badge'
 import { Avatar } from '../Avatar'
+import { Toggle } from '../Toggle'
 
 type FieldType =
   | 'badge'
   | 'image'
   | 'avatar'
+  | 'toggle'
   | NumberFormat
   | DateFormat
   | 'strong'
@@ -59,8 +61,12 @@ export const ListItem: FC<ListItemProps> = ({ row, fields, onClick }) => {
     }
 
     let innerNode: ReactNode
-    if (typeof type === 'function') {
-      innerNode = type({
+
+    if (type === 'toggle') {
+      innerNode = <Toggle value={fieldData} />
+    } else if (typeof type === 'function') {
+      innerNode = React.createElement(type, {
+        // @ts-ignore
         row,
         fieldData,
         key,
@@ -192,6 +198,8 @@ export const List: FC<ListProps> = ({
             type: 'date-time-human',
           }
         }
+
+        // want more
 
         // TODO: Can check type of fields as well
         return {
