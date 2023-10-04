@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, IconClipboard } from '../../src'
+import { Button, IconAlarmClock, IconClipboard } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 import { wait } from '@saulx/utils'
@@ -87,6 +87,17 @@ const example: ComponentDef = {
         children: 'Yes!',
         displayShortcut: true,
         keyboardShortcut: 'Enter',
+        onClick: async () => {
+          console.info('bla')
+          // alert('hello!')
+        },
+      },
+    },
+    {
+      name: 'Ghost icon button',
+      props: {
+        icon: () => <IconAlarmClock />,
+        ghost: true,
         onClick: async () => {
           console.info('bla')
           // alert('hello!')

@@ -101,9 +101,11 @@ export const getButtonStyle = (
         },
     '&:hover': {
       outline: 'none',
-      backgroundColor: isGhost
-        ? 'transparent'
-        : genColor('action', colorProp, isLight ? 'subtleHover' : 'hover'),
+      backgroundColor: genColor(
+        'action',
+        colorProp,
+        isLight || isGhost ? 'subtleHover' : 'hover'
+      ),
     },
     [BpTablet]: {
       '&:hover': {

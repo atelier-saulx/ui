@@ -87,6 +87,7 @@ export const SettingsField: FC<{
   }
 
   if (options) {
+    console.log(options)
     return (
       <Label
         style={{
