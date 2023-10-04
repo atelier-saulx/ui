@@ -32,7 +32,6 @@ const example: ComponentDef = {
       },
     },
     {
-      name: 'Counter',
       props: {
         counter: 2,
         label: 'once',
@@ -40,7 +39,6 @@ const example: ComponentDef = {
       },
     },
     {
-      name: 'Counter',
       props: {
         counter: 2,
         label: 'once',
@@ -48,14 +46,14 @@ const example: ComponentDef = {
       },
     },
     {
-      name: 'Counter',
+      name: 'Image',
       props: {
         size: 'large',
         src: faker.image.url(),
       },
     },
     {
-      name: 'Counter',
+      description: 'Image + label',
       props: {
         label: faker.person.fullName(),
         size: 'large',
@@ -63,7 +61,7 @@ const example: ComponentDef = {
       },
     },
     {
-      name: 'Counter',
+      name: 'Event handler',
       props: {
         onClick: () => {
           console.log('hell')
