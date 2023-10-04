@@ -35,7 +35,7 @@ const App = () => {
   // basic elements
   const basics = components
     .filter((c) => {
-      if (c.name === 'Text') {
+      if (c.name === 'Text' || c.name === 'Button') {
         return { label: c.name, value: c.name }
       }
     })
@@ -76,6 +76,22 @@ const App = () => {
       return { label: c.name, value: c.name }
     })
 
+  // feedback
+  const feedback = components
+    .filter((c) => {
+      if (
+        c.name === 'Alert Banner' ||
+        c.name === 'Badge' ||
+        c.name === 'Counter' ||
+        c.name === 'Status' ||
+        c.name === 'Toast'
+      ) {
+        return { label: c.name, value: c.name }
+      }
+    })
+    .map((c) => {
+      return { label: c.name, value: c.name }
+    })
   // forms
   const forms = components
     .filter((c) => {
@@ -87,8 +103,10 @@ const App = () => {
         c.name === 'Date Range' ||
         c.name === 'FileInput' ||
         c.name === 'NumberInput' ||
-        c.name === 'RadioButtons' ||
+        c.name === 'Radiobuttons' ||
         c.name === 'SearchInput' ||
+        c.name === 'Slider' ||
+        c.name === 'SelectInput' ||
         c.name === 'TextAreaInput' ||
         c.name === 'TextInput' ||
         c.name === 'Toggle'
@@ -100,22 +118,36 @@ const App = () => {
       return { label: c.name, value: c.name }
     })
 
-  console.log(
-    '--> 🍗',
-    forms.map((item) => Object.values(item)[0])
-  )
+  // navigation
+  const navigation = components
+    .filter((c) => {
+      if (
+        c.name === 'Menu' ||
+        c.name === 'Breadcrumbs' ||
+        c.name === 'Top Navigation'
+      ) {
+        return { label: c.name, value: c.name }
+      }
+    })
+    .map((c) => {
+      return { label: c.name, value: c.name }
+    })
 
   // just to filter out the names that are allready in categorys
   let basicsArray = basics.map((item) => Object.values(item)[0])
   let formsArray = forms.map((item) => Object.values(item)[0])
   let layoutArray = layout.map((item) => Object.values(item)[0])
   let dataDisplayArray = dataDisplay.map((item) => Object.values(item)[0])
+  let navigationArray = navigation.map((item) => Object.values(item)[0])
+  let feedbackArray = feedback.map((item) => Object.values(item)[0])
 
   const restOfComponents = components
     .filter((c) => !basicsArray.includes(c.name))
     .filter((c) => !formsArray.includes(c.name))
     .filter((c) => !layoutArray.includes(c.name))
     .filter((c) => !dataDisplayArray.includes(c.name))
+    .filter((c) => !navigationArray.includes(c.name))
+    .filter((c) => !feedbackArray.includes(c.name))
     .filter(
       (c) => !filter || c.name.toLowerCase().includes(filter.toLowerCase())
     )
@@ -165,9 +197,12 @@ const App = () => {
         data={{
           basics: basics,
           ['Data Display']: dataDisplay,
+          feedback: feedback,
           forms: forms,
           layout: layout,
-          components: restOfComponents,
+          navigation: navigation,
+          misc: restOfComponents,
+
           // components: components
           //   .filter(
           //     (c) =>
