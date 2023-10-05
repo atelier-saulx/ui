@@ -54,6 +54,7 @@ const example: ComponentDef = {
       name: 'Auto generate color',
       description: 'Based on children',
       props: {
+        light: true,
         autoColor: true,
         size: 'large',
       },

@@ -42,7 +42,7 @@ const example: ComponentDef = {
       description: 'Based on label',
       props: {
         label: '*',
-        size: 'medium',
+        size: 'small',
         autoColor: true,
       },
     },
