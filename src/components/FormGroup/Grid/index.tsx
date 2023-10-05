@@ -49,13 +49,16 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
   values,
   alwaysAccept,
   setChanges,
+  autoFocus,
   style,
 }) => {
   const checkBoxes: ReactNode[] = []
   const rest: ReactNode[] = []
 
+  let hasAutoFocus = false
+
   for (const d of parsedData) {
-    if (d.type === 'boolean') {
+    if (d.type === 'checkbox') {
       checkBoxes.push(
         <FormItem
           fieldWidth={fieldWidth}
@@ -76,6 +79,7 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
     } else {
       rest.push(
         <FormItem
+          autoFocus={!hasAutoFocus && autoFocus}
           fieldWidth={fieldWidth}
           width={labelWidth}
           key={d.field}
@@ -90,6 +94,7 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
           }
         />
       )
+      hasAutoFocus = true
     }
   }
 

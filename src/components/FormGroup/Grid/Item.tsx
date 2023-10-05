@@ -6,6 +6,7 @@ import { Input, Row } from '../..'
 
 export const FormItem: FC<{
   item: FormItemProps
+  autoFocus?: boolean
   value?: any
   style?: Style
   width?: number
@@ -13,8 +14,10 @@ export const FormItem: FC<{
   onChange: (field: string, value: any) => void
 }> = ({
   fieldWidth = 185,
+  autoFocus,
   width = 160,
   item: {
+    validation,
     props,
     type,
     field,
@@ -53,6 +56,7 @@ export const FormItem: FC<{
           {React.createElement(type, {
             value,
             onChange,
+            autoFocus,
             ...props,
           })}
         </styled.div>
@@ -74,6 +78,7 @@ export const FormItem: FC<{
         <Input
           type="select"
           value={value}
+          autoFocus={autoFocus}
           onChange={(v) => {
             onChange(field, v)
           }}
@@ -104,6 +109,7 @@ export const FormItem: FC<{
       >
         <Row style={{ minWidth: fieldWidth }}>
           <Input
+            autoFocus={autoFocus}
             onChange={(v) => {
               onChange(field, {
                 min: v,
@@ -121,6 +127,7 @@ export const FormItem: FC<{
             )}
           />
           <Input
+            autoFocus={autoFocus}
             onChange={(v) => {
               onChange(field, {
                 max: v,
@@ -139,9 +146,10 @@ export const FormItem: FC<{
     )
   }
 
-  if (type === 'boolean') {
+  if (type === 'checkbox') {
     return (
       <Input
+        autoFocus={autoFocus}
         type="checkbox"
         value={value}
         onChange={(v) => onChange(field, v)}
@@ -156,6 +164,10 @@ export const FormItem: FC<{
     )
   }
 
+  const errorMessage = validation ? validation(value) : false
+  const isString = typeof errorMessage === 'string'
+  const isError = isString ? true : errorMessage
+
   return (
     <Label
       style={style}
@@ -165,8 +177,13 @@ export const FormItem: FC<{
     >
       {/* @ts-ignore FIX THIS TYPE */}
       <Input
-        placeholder={label}
+        error={isError}
+        message={
+          isError ? (isString ? errorMessage : 'Incorrect value') : undefined
+        }
+        autoFocus={autoFocus}
         value={value ?? ''}
+        // @ts-ignore
         type={type || 'text'}
         onChange={(v) => onChange(field, v)}
         {...props}

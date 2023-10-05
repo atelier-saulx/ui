@@ -13,6 +13,9 @@ const fieldProps = {
       label: 'Name',
       type: 'text',
       description: 'Instance name',
+      validation: () => (val) => {
+        return !val || val.length < 4 ? 'Wrong!' : false
+      },
     },
     'args.x.y': {
       label: 'Status',
@@ -27,6 +30,11 @@ const fieldProps = {
       description: 'hello',
       type: 'range',
     },
+    file: {
+      label: 'File',
+      description: 'hello',
+      type: 'file',
+    },
     custom: {
       label: 'Status',
       description: 'status time',
@@ -35,6 +43,7 @@ const fieldProps = {
         ({ onChange, value }) => {
           return (
             <Button
+              color="system"
               onClick={() => {
                 onChange('custom', { x: value.x + 1 })
               }}
@@ -43,6 +52,11 @@ const fieldProps = {
             </Button>
           )
         },
+    },
+    isThisNce: {
+      label: 'Nice',
+      description: 'is it nice?',
+      type: 'checkbox',
     },
   },
   values: {
@@ -69,6 +83,7 @@ const example: ComponentDef = {
       props: {
         ...fieldProps,
         variant: 'grid',
+        autoFocus: true,
       },
     },
     {
@@ -76,7 +91,10 @@ const example: ComponentDef = {
       description: 'Sameform displayed as a colum',
       props: {
         ...fieldProps,
-        alwaysAccept: true,
+        style: {
+          width: 750,
+        },
+        // alwaysAccept: true,
         variant: 'column',
       },
     },

@@ -17,13 +17,16 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   values,
   alwaysAccept,
   setChanges,
+  autoFocus,
   style,
 }) => {
   const fields: ReactNode[] = []
+  let hasAutoFocus = false
 
   for (const d of parsedData) {
     fields.push(
       <FormItem
+        autoFocus={!hasAutoFocus && autoFocus}
         fieldWidth={fieldWidth}
         width={labelWidth}
         key={d.field}
@@ -38,7 +41,42 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
         }
       />
     )
+    hasAutoFocus = true
   }
 
-  return <Column style={style}>{fields}</Column>
+  return (
+    <Column
+      style={{
+        width: '100%',
+        ...style,
+      }}
+    >
+      {fields}
+
+      {alwaysAccept || !hasChanges ? null : (
+        <RowEnd
+          style={{
+            borderTop: border(1),
+            width: '100%',
+            marginTop: 16,
+            paddingTop: 16,
+            marginRight: 8,
+          }}
+        >
+          <Text light>Apply changes</Text>
+          <Confirmation
+            onCancel={() => {
+              valuesChanged.current = {}
+              setChanges(false)
+            }}
+            onAccept={async () => {
+              await onChange(valuesChanged.current)
+              valuesChanged.current = {}
+              setChanges(false)
+            }}
+          />
+        </RowEnd>
+      )}
+    </Column>
+  )
 }
