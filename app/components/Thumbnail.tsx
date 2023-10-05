@@ -1,5 +1,5 @@
-import React from 'react'
-import { IconBulb, Thumbnail } from '../../src'
+import React, { ReactNode } from 'react'
+import { IconBulb, Thumbnail, Row } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 import { faker } from '@faker-js/faker'
@@ -19,6 +19,33 @@ const example: ComponentDef = {
       },
     },
 
+    {
+      customRenderer: (props) => {
+        const thumbs: ReactNode[] = new Array(100).fill(null).map((_, i) => {
+          return (
+            <Thumbnail key={i} {...props} label={faker.person.fullName()} />
+          )
+        })
+
+        return (
+          <Row
+            style={{
+              flexWrap: 'wrap',
+              gap: 16,
+            }}
+          >
+            {thumbs}
+          </Row>
+        )
+      },
+      name: 'Auto generate color',
+      description: 'Based on label',
+      props: {
+        label: '*',
+        size: 'medium',
+        autoColor: true,
+      },
+    },
     {
       name: 'Counter',
       description: 'large',
