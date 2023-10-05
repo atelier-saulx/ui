@@ -158,7 +158,6 @@ export function NewTable({
           width: '100%',
           borderCollapse: 'separate',
           tableLayout: 'fixed',
-          background: color('background', 'default', 'strong'),
           borderSpacing: 0,
         }}
       >
@@ -219,7 +218,9 @@ export function NewTable({
               top: 0,
               margin: 0,
               textAlign: 'left',
-              background: color('background', 'default', 'strong'),
+              background: virtualized
+                ? color('background', 'default', 'strong')
+                : 'none',
             }}
           >
             {table.getHeaderGroups().map((headerGroup) => (

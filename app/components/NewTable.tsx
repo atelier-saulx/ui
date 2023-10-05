@@ -9,6 +9,7 @@ import {
   Input,
   Modal,
   NewTable,
+  Text,
   Thumbnail,
   useInfiniteQuery,
 } from '../../src'
@@ -22,7 +23,8 @@ const example: ComponentDef = {
   properties: {},
   examples: [
     {
-      description: 'Simple (non-virtualized, non-scrollable)',
+      name: 'Simple',
+      description: 'Non-virtualized, non-scrollable',
       props: {},
       customRenderer: () => {
         const [data] = useState(() =>
@@ -86,6 +88,81 @@ const example: ComponentDef = {
       },
     },
     {
+      name: 'Almost like a list',
+      description: 'No header',
+      props: {},
+      customRenderer: () => {
+        const [data] = useState(() =>
+          new Array(6).fill(null).map(() => ({
+            name: faker.person.fullName(),
+            avatar: faker.image.avatar(),
+            tag: faker.lorem.words(1),
+            role: faker.lorem.words(1),
+            createdAt: faker.date.anytime().getTime(),
+          }))
+        )
+
+        return (
+          <div style={{ width: 900 }}>
+            <NewTable
+              header={false}
+              columns={[
+                {
+                  key: 'name',
+                  renderAs: (row) => (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 12,
+                      }}
+                    >
+                      <Thumbnail
+                        color="neutral"
+                        size="small"
+                        src={row.avatar}
+                      />
+                      <Text weight="medium">{row.name}</Text>
+                    </div>
+                  ),
+                  header: 'Name',
+                },
+                {
+                  key: 'tag',
+                  renderAs: 'badge',
+                  header: 'Tag',
+                },
+                {
+                  key: 'createdAt',
+                  renderAs: 'date-time-human',
+                  header: 'Created at',
+                },
+                {
+                  id: 'actions',
+                  renderAs: (row) => (
+                    <Dropdown.Root>
+                      <Dropdown.Trigger>
+                        <Button ghost icon={<IconMoreHorizontal />} />
+                      </Dropdown.Trigger>
+                      <Dropdown.Items>
+                        <Dropdown.Item icon={<IconEdit />}>Edit</Dropdown.Item>
+                        <Dropdown.Separator />
+                        <Dropdown.Item icon={<IconDelete />}>
+                          Delete
+                        </Dropdown.Item>
+                      </Dropdown.Items>
+                    </Dropdown.Root>
+                  ),
+                },
+              ]}
+              data={data}
+            />
+          </div>
+        )
+      },
+    },
+    {
+      name: 'Virtualized',
       description: 'Virtualized, infinite scrollable',
       props: {},
       customRenderer: () => {
