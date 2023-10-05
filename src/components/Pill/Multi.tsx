@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from 'react'
+import React, { Fragment, ReactNode, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
@@ -15,8 +15,8 @@ import { scrollAreaStyle } from '../ScrollArea'
 
 export type PillOption = { label?: ReactNode; value: string }
 
-export type SelectPillProps = {
-  value: string
+export type MultiPillProps = {
+  value: string[]
   options: PillOption[]
   placeholder?: string
   prefix?: string
@@ -25,15 +25,7 @@ export type SelectPillProps = {
   icon?: ReactNode
 }
 
-const inputToString = (input: PillOption | void): string => {
-  return typeof input === 'object'
-    ? typeof input.label === 'string'
-      ? input.label
-      : input.value
-    : ''
-}
-
-export function SelectPill({
+export function MultiPill({
   value,
   options,
   placeholder,
@@ -42,28 +34,31 @@ export function SelectPill({
   onChange,
   icon,
 }: // props,
-SelectPillProps) {
+MultiPillProps) {
   const [open, setOpen] = useState(false)
 
-  const [inputValue, setInputValue] = useState<PillOption | void>(() => {
-    return options.find((e) => {
-      console.log('-----------', e)
-      e.value === value
-    })
+  const [inputValue, setInputValue] = useState<Array<PillOption>>(() => {
+    return options.filter((option) => value.includes(option.value))
   })
-
+  const valueCheck = inputValue.length !== 0 ?? false
+  console.log(valueCheck)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   function handleSelectItem(index: number) {
-    onChange(options[index].value)
-    setInputValue(options[index])
+    if (inputValue.includes(options[index])) {
+      onChange(value.filter((v) => v !== options[index].value))
+      setInputValue(inputValue.filter((v) => v !== options[index]))
+      return
+    }
+    onChange([...value, options[index].value])
+    setInputValue([...inputValue, options[index]])
     setOpen(false)
     setActiveIndex(null)
   }
 
   function handleClose() {
-    setInputValue(options.find((e) => e.value === value))
+    setInputValue(options.filter((option) => value.includes(option.value)))
     setOpen(false)
     setActiveIndex(null)
   }
@@ -72,8 +67,6 @@ SelectPillProps) {
     setOpen(true)
     inputRef.current?.select()
   }
-
-  console.log(inputValue)
 
   return (
     <Popover.Root open={open}>
@@ -96,25 +89,25 @@ SelectPillProps) {
             padding: '4px 8px',
             fontSize: 14,
             lineHeight: '24px',
-            border: inputValue
+            border: valueCheck
               ? `1px solid ${color('inputBorder', 'neutralNormal')}`
               : 'none',
-            background: inputValue
+            background: valueCheck
               ? color('background', 'default', 'strong')
               : color('action', 'neutral', 'subtleNormal'),
             '&:hover': {
-              background: inputValue
+              background: valueCheck
                 ? color('background', 'default', 'strong')
                 : color('action', 'neutral', 'subtleHover'),
-              border: inputValue
+              border: valueCheck
                 ? `1px solid ${color('inputBorder', 'neutralHover')}`
                 : 'none',
             },
             '&:active': {
-              background: inputValue
+              background: valueCheck
                 ? color('background', 'default', 'strong')
                 : color('action', 'neutral', 'subtleActive'),
-              border: inputValue
+              border: valueCheck
                 ? `1px solid ${color('inputBorder', 'neutralActive')}`
                 : 'none',
             },
@@ -125,12 +118,12 @@ SelectPillProps) {
           }}
         >
           <styled.input
-            value={inputToString(inputValue)}
+            value={inputValue}
             ref={inputRef}
             onChange={(e) => {
               e.preventDefault()
               e.stopPropagation()
-              setInputValue({ value: e.target.value })
+              setInputValue([...inputValue, e.target.value])
               setActiveIndex(null)
             }}
             onKeyDown={(e) => {
@@ -177,19 +170,23 @@ SelectPillProps) {
               {prefix}:
             </Text>
             <Text selectable="none" style={{ marginLeft: 6 }}>
-              {inputValue ? inputToString(inputValue) : placeholder}
+              {valueCheck
+                ? inputValue.length === 1
+                  ? inputValue[0].label
+                  : inputValue.map((v) => (
+                      <Fragment key={v.label + '12'}>{v.label}, </Fragment>
+                    ))
+                : placeholder}
             </Text>
           </styled.div>
-          {inputValue ? (
+          {valueCheck ? (
             <styled.div
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                setInputValue(() => {
-                  return options.find(() => '' === value)
-                })
                 setActiveIndex(0)
-                onChange(0)
+                setInputValue([])
+                onChange([])
               }}
               style={{
                 marginLeft: 'auto',
@@ -202,9 +199,6 @@ SelectPillProps) {
                 '&:hover': {
                   backgroundColor: color('action', 'neutral', 'subtleHover'),
                 },
-                // [BpTablet]: {
-                //   backgroundColor: 'transparent',
-                // },
                 '&:active': {
                   backgroundColor: color('action', 'neutral', 'subtleActive'),
                 },
@@ -238,7 +232,6 @@ SelectPillProps) {
                 overflowY: 'auto',
                 maxHeight:
                   'min(300px, calc(var(--radix-popover-content-available-height) - 16px))',
-                // width: 'var(--radix-popover-trigger-width)',
                 border: `1px solid ${color('border', 'default', 'strong')}`,
                 borderRadius: 8,
                 padding: 8,
@@ -271,7 +264,7 @@ SelectPillProps) {
                     }}
                     key={item.value}
                   >
-                    {item.value === value && (
+                    {value.includes(item.value) && (
                       <span style={{ position: 'absolute', left: 12, top: 6 }}>
                         <IconCheckLarge />
                       </span>

@@ -15,8 +15,9 @@ const example: ComponentDef = {
   examples: [
     {
       props: { prefix: 'Identity', placeholder: 'Select one' },
+      description: 'Single-Select Pill',
       customRenderer: (props) => {
-        const [value, setValue] = useState<string>('')
+        const [value, setValue] = useState<any>('')
         const [options] = useState(() =>
           Array.from({ length: 25 }).map((_, i) => ({
             label: faker.person.fullName(),
@@ -25,22 +26,51 @@ const example: ComponentDef = {
         )
 
         return (
-          //TODO help
           <>
             <Pill
               value={value}
               onChange={(v) => {
                 setValue(v)
+                // console.log(v)
               }}
               options={options}
               {...props}
-              type="select"
+              type="multi"
             />
           </>
         )
       },
     },
     {
+      props: { prefix: 'Identity', placeholder: 'Select more' },
+      description: 'Multi-Select Pill',
+      customRenderer: (props) => {
+        const [value, setValue] = useState<any>('')
+        const [options] = useState(() =>
+          Array.from({ length: 25 }).map((_, i) => ({
+            label: faker.person.fullName(),
+            value: `id${i}`,
+          }))
+        )
+
+        return (
+          <>
+            <Pill
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+                // console.log(v)
+              }}
+              options={options}
+              {...props}
+              type="multi"
+            />
+          </>
+        )
+      },
+    },
+    {
+      description: 'Boolean Pill',
       props: {
         type: 'boolean',
         // icon: <IconAlarmClock />,
