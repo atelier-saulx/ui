@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Badge,
   Button,
@@ -9,126 +9,15 @@ import {
   Input,
   Modal,
   NewTable,
+  useInfiniteQuery,
 } from '../../src'
 import { ComponentDef } from '../types'
-import { useClient } from '@based/react'
-import { CloseObserve } from '@based/client/dist/types'
-
-function useCallbackRef<T extends (...args: any[]) => any>(
-  callback: T | undefined
-): T {
-  const callbackRef = React.useRef(callback)
-
-  callbackRef.current = callback
-
-  return React.useMemo(
-    () => ((...args) => callbackRef.current?.(...args)) as T,
-    []
-  )
-}
-
-type UseInfiniteQueryProps = {
-  queryFn: (offset: number) => any
-  accessFn: (data: any) => any
-}
-
-function useInfiniteQuery(props: UseInfiniteQueryProps) {
-  const client = useClient()
-  const subscriptions = useRef<(CloseObserve | null)[]>([])
-  const dataChecksums = useRef<number[]>([])
-  const fetchingMore = useRef(false)
-  const queryFn = useCallbackRef(props.queryFn)
-  const accessFn = useCallbackRef(props.accessFn)
-  const [visibleElements, setVisibleElements] = useState<number[] | null>()
-
-  const [data, setData] = useState<any[]>([])
-  const chunkSize = useMemo(
-    () => Math.max(...data.map((e) => (e ? accessFn(e) : []).length)),
-    [data, accessFn]
-  )
-  const flatData = useMemo(
-    () => data.flatMap((e) => (e ? accessFn(e) : [])),
-    [data, accessFn]
-  )
-
-  const fetchMore = useCallback(() => {
-    if (!fetchingMore.current) {
-      fetchingMore.current = true
-
-      const index = subscriptions.current.length
-
-      subscriptions.current[index] = client
-        .query('db', queryFn(flatData.length))
-        .subscribe((chunk, checksum) => {
-          dataChecksums.current[index] = checksum
-          setData((prevData) => {
-            const newData = [...prevData]
-            newData[index] = chunk
-
-            return newData
-          })
-
-          fetchingMore.current = false
-        })
-    }
-  }, [flatData.length])
-
-  useEffect(() => {
-    fetchMore()
-
-    return () => {
-      for (const unsubscribe of subscriptions.current) {
-        unsubscribe?.()
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (visibleElements?.length) {
-      const firstVisibleChunkIndex = Math.floor(
-        Math.min(...visibleElements) / chunkSize
-      )
-      const lastVisibleChunkIndex = Math.ceil(
-        Math.max(...visibleElements) / chunkSize
-      )
-
-      for (let i = 0; i < subscriptions.current.length; i++) {
-        if (i < firstVisibleChunkIndex || i > lastVisibleChunkIndex) {
-          const unsubscribe = subscriptions.current[i]
-          if (unsubscribe) {
-            unsubscribe()
-            subscriptions.current[i] = null
-          }
-        } else {
-          if (subscriptions.current[i] === null) {
-            const unsubscribe = client
-              .query('db', queryFn(i * chunkSize))
-              .subscribe((chunk, checksum) => {
-                if (dataChecksums.current[i] !== checksum) {
-                  dataChecksums.current[i] = checksum
-                  setData((prevData) => {
-                    const newData = [...prevData]
-                    newData[i] = chunk
-
-                    return newData
-                  })
-                }
-              })
-
-            subscriptions.current[i] = unsubscribe
-          }
-        }
-      }
-    }
-  }, [visibleElements, chunkSize])
-
-  return { data: flatData, fetchMore, setVisibleElements }
-}
+import { useQuery } from '@based/react'
 
 const example: ComponentDef = {
   name: 'NewTable',
   component: NewTable,
-  description: 'Infinite scrollable virtualized table with rich content',
+  description: 'Virtualized, infinite scrollable',
   properties: {},
   examples: [
     {
@@ -166,6 +55,7 @@ const example: ComponentDef = {
             }}
           >
             <NewTable
+              virtualized
               data={data}
               onVisibleElementsChange={setVisibleElements}
               onScrollToBottom={() => {
@@ -263,6 +153,97 @@ const example: ComponentDef = {
               </Modal.Content>
             </Modal.Root>
           </div>
+        )
+      },
+    },
+    {
+      name: 'NewTable',
+      description: 'Simple (non-virtualized, non-scrollable)',
+      props: {},
+      customRenderer: () => {
+        const { data } = useQuery('db', {
+          $id: 'root',
+          files: {
+            $all: true,
+            $list: {
+              $sort: { $field: 'updatedAt', $order: 'desc' },
+              $limit: 6,
+              $find: {
+                $traverse: 'children',
+                $filter: {
+                  $operator: '=',
+                  $field: 'type',
+                  $value: 'todo',
+                },
+              },
+            },
+          },
+        })
+
+        return (
+          <NewTable
+            data={data?.files ?? []}
+            columns={[
+              { header: 'ID', accessor: 'id' },
+              { header: 'Name', accessor: 'name' },
+              {
+                header: 'Type',
+                accessor: 'type',
+                cell: (value) => <Badge light>{value}</Badge>,
+              },
+              {
+                header: 'Created',
+                accessor: 'createdAt',
+                cell: (value) => <div>{new Date(value).toISOString()}</div>,
+              },
+            ]}
+          />
+        )
+      },
+    },
+    {
+      name: 'NewTable',
+      description: 'Simple, no header',
+      props: {},
+      customRenderer: () => {
+        const { data } = useQuery('db', {
+          $id: 'root',
+          files: {
+            $all: true,
+            $list: {
+              $sort: { $field: 'updatedAt', $order: 'desc' },
+              $limit: 6,
+              $find: {
+                $traverse: 'children',
+                $filter: {
+                  $operator: '=',
+                  $field: 'type',
+                  $value: 'todo',
+                },
+              },
+            },
+          },
+        })
+
+        return (
+          <NewTable
+            data={data?.files ?? []}
+            header={false}
+            columns={[
+              { header: 'ID', accessor: 'id' },
+              { header: 'Name', accessor: 'name' },
+              {
+                header: 'Type',
+                accessor: 'type',
+                cell: (value) => <Badge light>{value}</Badge>,
+              },
+              {
+                header: 'Created',
+                accessor: 'createdAt',
+                cell: (value) => <div>{new Date(value).toISOString()}</div>,
+              },
+            ]}
+          />
         )
       },
     },
