@@ -7,7 +7,7 @@ export type FormItemProps = {
   label?: ReactNode
   props?: { [key: string]: string }
   value?: any
-  type?: 'number' | 'text' | 'range' | 'boolean'
+  type?: 'number' | 'text' | 'range' | 'boolean' | 'file'
   description?: ReactNode
   field: string
   options?: any[]

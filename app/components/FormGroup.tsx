@@ -27,6 +27,11 @@ const fieldProps = {
       description: 'hello',
       type: 'range',
     },
+    file: {
+      label: 'File',
+      description: 'hello',
+      type: 'file',
+    },
     custom: {
       label: 'Status',
       description: 'status time',

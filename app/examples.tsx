@@ -59,7 +59,7 @@ export const hooks: ComponentDef[] = [useContextState]
 
 export const components: ComponentDef[] = [button, text]
 
-export const forms = [
+export const input = [
   checkboxInput,
   colorInput,
   confirmation,
@@ -75,6 +75,7 @@ export const forms = [
   slider,
   textInput,
   toggle,
+  formGroup,
 ]
 
 export const misc = [code, colorPicker, logsText, styledDivs, tag]
@@ -94,15 +95,7 @@ export const feedback = [
 
 export const icons = [icon]
 
-export const layout = [
-  accordion,
-  container,
-  divider,
-  list,
-  scrollArea,
-  formGroup,
-  tabs,
-]
+export const layout = [accordion, container, divider, list, scrollArea, tabs]
 
 export const navigation = [breadCrumbs, topNavigation, Menu]
 

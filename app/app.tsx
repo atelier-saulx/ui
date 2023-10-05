@@ -24,7 +24,7 @@ import {
   dataDisplay,
   feedback,
   icons,
-  forms,
+  input,
   overlay,
   misc,
 } from './examples'
@@ -44,7 +44,7 @@ const App = () => {
     ...dataDisplay,
     ...feedback,
     ...icons,
-    ...forms,
+    ...input,
     ...overlay,
     ...misc,
   ].filter((c) => {
@@ -100,7 +100,7 @@ const App = () => {
           components: filterThis(components),
           dataDisplay: filterThis(dataDisplay),
           feedback: filterThis(feedback),
-          forms: filterThis(forms),
+          input: filterThis(input),
           layout: filterThis(layout),
           icons: filterThis(icons),
           navigation: filterThis(navigation),
