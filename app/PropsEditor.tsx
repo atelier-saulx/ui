@@ -5,7 +5,6 @@ import { Input, Text, border, color, Dropdown } from '../src'
 import * as DropdownBase from '@radix-ui/react-dropdown-menu'
 import * as colors from '../src/vars'
 import * as ui from '../src'
-// import { AllIcons } from './components/Icon'
 
 export const AllIcons: FC<{ onSelect: any }> = (props) => {
   const icons = []
@@ -20,9 +19,8 @@ export const AllIcons: FC<{ onSelect: any }> = (props) => {
     ) {
       icons.push(
         // @ts-ignore
-        <DropdownBase.Item>
+        <DropdownBase.Item key={key}>
           <styled.div
-            key={key}
             style={{
               display: 'flex',
               outline: 'none',

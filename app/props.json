@@ -629,9 +629,12 @@
         "stringToMilliseconds": {
           "optional": true,
           "type": "function"
+        },
+        "setOpen": {
+          "type": "function"
         }
       },
-      "code": "type PickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
+      "code": "type PickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n  setOpen: (e: any) => void\n}",
       "file": "/components/DatePicker/Picker.tsx"
     },
     "DatePickerProps": {
@@ -700,9 +703,12 @@
         "stringToMilliseconds": {
           "optional": true,
           "type": "function"
+        },
+        "setOpen": {
+          "type": "function"
         }
       },
-      "code": "type RangeFromPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
+      "code": "type RangeFromPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n  setOpen: (e: any) => void\n}",
       "file": "/components/DateRange/FromRangePicker.tsx"
     },
     "RangeCalendarProps": {
@@ -740,6 +746,9 @@
     "RangeTillPickerProps": {
       "name": "RangeTillPickerProps",
       "props": {
+        "setOpen": {
+          "type": "function"
+        },
         "setValue": {
           "type": "function"
         },
@@ -752,7 +761,7 @@
           "type": "function"
         }
       },
-      "code": "type RangeTillPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
+      "code": "type RangeTillPickerProps = {\n  setOpen: (e: any) => void\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
       "file": "/components/DateRange/TillRangePicker.tsx"
     },
     "DateRangeProps": {
@@ -955,7 +964,7 @@
           "optional": true,
           "type": "TSTypeLiteral"
         },
-        "data": {
+        "config": {
           "optional": true,
           "type": [
             {
@@ -969,7 +978,7 @@
           "type": "boolean"
         }
       },
-      "code": "type FormGroupProps = {\n  style?: Style\n  fieldWidth?: number\n  labelWidth?: number\n  onChange: (changes: { [field: string]: any }) => void | Promise<void>\n  values?: { [field: string]: any }\n  data?:\n    | SettingGroupItem[]\n    | {\n        [field: string]:\n          | null\n          | ReactNode\n          | (Omit<SettingGroupItem, 'field'> & { field?: string })\n      }\n  alwaysAccept?: boolean\n}",
+      "code": "type FormGroupProps = {\n  style?: Style\n  fieldWidth?: number\n  labelWidth?: number\n  onChange: (changes: { [field: string]: any }) => void | Promise<void>\n  values?: { [field: string]: any }\n  config?:\n    | SettingGroupItem[]\n    | {\n        [field: string]:\n          | null\n          | ReactNode\n          | (Omit<SettingGroupItem, 'field'> & { field?: string })\n      }\n  alwaysAccept?: boolean\n}",
       "file": "/components/FormGroup/index.tsx"
     },
     "CheckboxInputProps": {
@@ -1626,15 +1635,6 @@
         "onClick": {
           "type": "ClickHandler"
         },
-        "children": {
-          "type": [
-            "ReactNode",
-            {
-              "array": "ReactNode"
-            },
-            "TSParenthesizedType"
-          ]
-        },
         "shrink": {
           "optional": true,
           "type": "boolean"
@@ -1642,9 +1642,13 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "data": {
+          "optional": true,
+          "type": "TSAnyKeyword"
         }
       },
-      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  children: ReactNode | ReactNode[] | ((e) => void)\n  shrink?: boolean\n  style?: Style\n}",
+      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  // children: ReactNode | ReactNode[] | ((e) => void)\n  shrink?: boolean\n  style?: Style\n  data?: any\n}",
       "file": "/components/Menu/MenuItem.tsx"
     },
     "MenuHeaderProps": {
@@ -1955,18 +1959,57 @@
       "code": "type PieGraphProps = {\n  data: PieGraphSingleItem[]\n  valueFormat?: 'percentages' | NumberFormat\n  style?: Style\n}",
       "file": "/components/PieGraph/index.tsx"
     },
-    "PillProps": {
-      "name": "PillProps",
+    "BooleanPillProps": {
+      "name": "BooleanPillProps",
       "props": {
+        "value": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "defaultValue": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "props": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "ReactNode"
+        },
         "prefix": {
           "optional": true,
           "type": "string"
         },
-        "value": {
-          "type": "string"
+        "style": {
+          "optional": true,
+          "type": "Style"
         },
         "onChange": {
           "type": "function"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type BooleanPillProps = {\n  value?: boolean\n  defaultValue?: boolean\n  disabled?: boolean\n  props?: any\n  label?: ReactNode\n  placeholder?: ReactNode\n  prefix?: string\n  style?: Style\n  onChange: (value: boolean) => void\n  icon?: ReactNode\n}",
+      "file": "/components/Pill/Boolean.tsx"
+    },
+    "SelectPillProps": {
+      "name": "SelectPillProps",
+      "props": {
+        "value": {
+          "type": "string"
         },
         "options": {
           "type": {
@@ -1977,12 +2020,25 @@
           "optional": true,
           "type": "string"
         },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "onChange": {
+          "type": "function"
         }
       },
-      "code": "type PillProps = {\n  prefix?: string\n  value: string\n  onChange: (value) => void\n  options: PillOption[]\n  placeholder?: string\n  style?: Style\n}",
+      "code": "type SelectPillProps = {\n  value: string\n  options: PillOption[]\n  placeholder?: string\n  prefix?: string\n  style?: Style\n  onChange: (value) => void\n}",
+      "file": "/components/Pill/Select.tsx"
+    },
+    "InputProps": {
+      "name": "InputProps",
+      "props": {},
+      "code": "type InputProps =\n  | (CommonInputProps & { type: 'select' } & SelectPillProps)\n  | ({ type: 'boolean' } & BooleanPillProps)",
       "file": "/components/Pill/index.tsx"
     },
     "usePopoverProps": {
