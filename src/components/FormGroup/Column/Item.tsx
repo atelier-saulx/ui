@@ -18,6 +18,7 @@ export const FormItem: FC<{
     field,
     label,
     description,
+    validation,
     options,
     default: defaultValue,
   },
@@ -132,10 +133,18 @@ export const FormItem: FC<{
     )
   }
 
+  const errorMessage = validation ? validation(value) : false
+  const isString = typeof errorMessage === 'string'
+  const isError = isString ? true : errorMessage
+
   return (
     <Label label={label} description={description}>
       {/* @ts-ignore FIX THIS TYPE */}
       <Input
+        error={isError}
+        message={
+          isError ? (isString ? errorMessage : 'Incorrect value') : undefined
+        }
         autoFocus={autoFocus}
         value={value ?? ''}
         //  @ts-ignore

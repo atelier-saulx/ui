@@ -178,7 +178,9 @@ export const FormItem: FC<{
       {/* @ts-ignore FIX THIS TYPE */}
       <Input
         error={isError}
-        message={isError && (isString ? errorMessage : 'Incorrect value')}
+        message={
+          isError ? (isString ? errorMessage : 'Incorrect value') : undefined
+        }
         autoFocus={autoFocus}
         value={value ?? ''}
         // @ts-ignore
