@@ -75,6 +75,7 @@ const example: ComponentDef = {
       props: {
         ...fieldProps,
         variant: 'grid',
+        autoFocus: true,
       },
     },
     {

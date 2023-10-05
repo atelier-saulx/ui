@@ -20,6 +20,7 @@ export type FormGroupProps = {
   style?: Style
   fieldWidth?: number
   labelWidth?: number
+  autoFocus?: boolean
   variant?: 'column' | 'grid'
   onChange: onChange
   values?: FormGroupValues
@@ -50,6 +51,7 @@ export type FormGroupVariantProps = {
   values: FormGroupValues
   alwaysAccept: boolean
   setChanges: (val: boolean) => any
+  autoFocus: boolean
 }
 
 export type LabelProps = {

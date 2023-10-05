@@ -6,6 +6,7 @@ import { Input, Row } from '../..'
 
 export const FormItem: FC<{
   item: FormItemProps
+  autoFocus?: boolean
   value?: any
   style?: Style
   width?: number
@@ -13,6 +14,7 @@ export const FormItem: FC<{
   onChange: (field: string, value: any) => void
 }> = ({
   fieldWidth = 185,
+  autoFocus,
   width = 160,
   item: {
     props,
@@ -53,6 +55,7 @@ export const FormItem: FC<{
           {React.createElement(type, {
             value,
             onChange,
+            autoFocus,
             ...props,
           })}
         </styled.div>
@@ -74,6 +77,7 @@ export const FormItem: FC<{
         <Input
           type="select"
           value={value}
+          autoFocus={autoFocus}
           onChange={(v) => {
             onChange(field, v)
           }}
@@ -104,6 +108,7 @@ export const FormItem: FC<{
       >
         <Row style={{ minWidth: fieldWidth }}>
           <Input
+            autoFocus={autoFocus}
             onChange={(v) => {
               onChange(field, {
                 min: v,
@@ -121,6 +126,7 @@ export const FormItem: FC<{
             )}
           />
           <Input
+            autoFocus={autoFocus}
             onChange={(v) => {
               onChange(field, {
                 max: v,
@@ -142,6 +148,7 @@ export const FormItem: FC<{
   if (type === 'boolean') {
     return (
       <Input
+        autoFocus={autoFocus}
         type="checkbox"
         value={value}
         onChange={(v) => onChange(field, v)}
@@ -165,6 +172,7 @@ export const FormItem: FC<{
     >
       {/* @ts-ignore FIX THIS TYPE */}
       <Input
+        autoFocus={autoFocus}
         placeholder={label}
         value={value ?? ''}
         type={type || 'text'}

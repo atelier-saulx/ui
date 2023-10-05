@@ -17,6 +17,7 @@ export const FormGroup: FC<FormGroupProps> = ({
   alwaysAccept,
   values,
   variant = 'column',
+  autoFocus,
   // only relevant for grid
   labelWidth = 160,
   fieldWidth = 185,
@@ -68,6 +69,7 @@ export const FormGroup: FC<FormGroupProps> = ({
   if (variant === 'grid') {
     return (
       <FormGroupGrid
+        autoFocus={autoFocus}
         onChange={onChange}
         parsedData={parsedData}
         labelWidth={labelWidth}
@@ -85,6 +87,7 @@ export const FormGroup: FC<FormGroupProps> = ({
 
   return (
     <FormGroupColumn
+      autoFocus={autoFocus}
       onChange={onChange}
       parsedData={parsedData}
       labelWidth={labelWidth}
