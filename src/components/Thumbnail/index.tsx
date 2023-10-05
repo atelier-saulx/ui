@@ -6,15 +6,15 @@ import {
   ColorBackgroundColors,
   ColorContentColors,
   ColorNonSemanticContentColors,
-} from 'src/varsTypes'
-import { border, color as genColor, boxShadow } from 'src/varsUtilities'
+} from '../../varsTypes'
+import {
+  border,
+  color as genColor,
+  boxShadow,
+  colorHash,
+} from '../../varsUtilities'
 import { ClickHandler } from 'src/types'
-import { vars } from 'src/vars'
 import { Center } from '../Styled'
-import { useTheme } from 'src/hooks'
-
-const nonSemanticBackground = vars.nonSemanticBackground
-const colorBg = vars.nonSemanticBackground
 
 const COLORGUARD = [
   'default',
@@ -38,6 +38,7 @@ type ThumbnailProps = {
   counter?: number
   light?: boolean
   onClick?: ClickHandler
+  autoColor?: boolean
 }
 
 const CounterBadge = styled('div', {
@@ -59,7 +60,7 @@ const CounterBadge = styled('div', {
 export const Thumbnail: FC<ThumbnailProps> = ({
   size = 'medium',
   src,
-  color = 'brand',
+  color,
   icon,
   style,
   label,
@@ -67,7 +68,14 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   onClick,
   light,
   counter,
+  autoColor,
 }) => {
+  if (autoColor && !color) {
+    color = colorHash('nonSemanticBackground', label ?? src)
+  } else if (!color) {
+    color = 'brand'
+  }
+
   const calcedSize = size === 'small' ? 40 : size === 'large' ? 80 : 60
 
   const contentColor: ColorContentColors | ColorNonSemanticContentColors = light

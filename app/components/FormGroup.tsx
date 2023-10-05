@@ -77,7 +77,7 @@ const example: ComponentDef = {
   name: 'FormGroup',
   component: FormGroup,
   description: 'FormGroup Component, can be grid or column',
-  properties: props.props.FormGroupProps.props,
+  properties: {}, //props.props.FormGroupProps.props,
   examples: [
     {
       props: {

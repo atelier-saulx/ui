@@ -911,76 +911,6 @@
       "code": "type DropdownRadioItemProps = {\n  children: ReactNode\n  value: string\n}",
       "file": "/components/Dropdown/index.tsx"
     },
-    "LabelProps": {
-      "name": "LabelProps",
-      "props": {
-        "label": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "description": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "icon": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "labelWidth": {
-          "optional": true,
-          "type": "number"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        }
-      },
-      "code": "type LabelProps = {\n  label?: ReactNode\n  description?: ReactNode\n  icon?: ReactNode\n  children?: ReactNode\n  labelWidth?: number\n  style?: Style\n}",
-      "file": "/components/FormGroup/Label.tsx"
-    },
-    "FormGroupProps": {
-      "name": "FormGroupProps",
-      "props": {
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "fieldWidth": {
-          "optional": true,
-          "type": "number"
-        },
-        "labelWidth": {
-          "optional": true,
-          "type": "number"
-        },
-        "onChange": {
-          "type": "function"
-        },
-        "values": {
-          "optional": true,
-          "type": "TSTypeLiteral"
-        },
-        "config": {
-          "optional": true,
-          "type": [
-            {
-              "array": "SettingGroupItem"
-            },
-            "TSTypeLiteral"
-          ]
-        },
-        "alwaysAccept": {
-          "optional": true,
-          "type": "boolean"
-        }
-      },
-      "code": "type FormGroupProps = {\n  style?: Style\n  fieldWidth?: number\n  labelWidth?: number\n  onChange: (changes: { [field: string]: any }) => void | Promise<void>\n  values?: { [field: string]: any }\n  config?:\n    | SettingGroupItem[]\n    | {\n        [field: string]:\n          | null\n          | ReactNode\n          | (Omit<SettingGroupItem, 'field'> & { field?: string })\n      }\n  alwaysAccept?: boolean\n}",
-      "file": "/components/FormGroup/index.tsx"
-    },
     "CheckboxInputProps": {
       "name": "CheckboxInputProps",
       "props": {
@@ -1221,9 +1151,13 @@
         "searchable": {
           "optional": true,
           "type": "boolean"
+        },
+        "hugContent": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SelectInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value) => void\n  options: SelectOption[]\n  placeholder?: string\n  clearbutton?: boolean\n  size?: 'small' | 'normal'\n  style?: Style\n  searchable?: boolean\n}",
+      "code": "type SelectInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value) => void\n  options: SelectOption[]\n  placeholder?: string\n  clearbutton?: boolean\n  size?: 'small' | 'normal'\n  style?: Style\n  searchable?: boolean\n  hugContent?: boolean\n}",
       "file": "/components/Input/SelectInput.tsx"
     },
     "TextAreaInputProps": {
@@ -1431,67 +1365,6 @@
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: ReactNode\n  width?: number\n  height?: number\n}",
       "file": "/components/Linegraph/index.tsx"
     },
-    "ListItemProps": {
-      "name": "ListItemProps",
-      "props": {
-        "row": {
-          "type": "TSAnyKeyword"
-        },
-        "fields": {
-          "type": {
-            "array": "Field"
-          }
-        },
-        "onClick": {
-          "optional": true,
-          "type": "function"
-        }
-      },
-      "code": "type ListItemProps = {\n  row: any\n  fields: Field[]\n  onClick?: (data: any) => void | Promise<void>\n}",
-      "file": "/components/List/index.tsx"
-    },
-    "ListProps": {
-      "name": "ListProps",
-      "props": {
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "filter": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "label": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "description": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "data": {
-          "type": {
-            "array": "T"
-          }
-        },
-        "onClick": {
-          "optional": true,
-          "type": "function"
-        },
-        "action": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "fields": {
-          "optional": true,
-          "type": {
-            "array": "Field"
-          }
-        }
-      },
-      "code": "type ListProps<T = any> = {\n  style?: Style\n  filter?: boolean\n  label?: ReactNode\n  description?: ReactNode\n  data: T[]\n  onClick?: (data: T) => void | Promise<void>\n  action?: ReactNode\n  fields?: Field[]\n  // showFields?: boolean // headers later\n}",
-      "file": "/components/List/index.tsx"
-    },
     "LogProps": {
       "name": "LogProps",
       "props": {
@@ -1635,6 +1508,10 @@
         "onClick": {
           "type": "ClickHandler"
         },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
         "shrink": {
           "optional": true,
           "type": "boolean"
@@ -1648,7 +1525,7 @@
           "type": "TSAnyKeyword"
         }
       },
-      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  // children: ReactNode | ReactNode[] | ((e) => void)\n  shrink?: boolean\n  style?: Style\n  data?: any\n}",
+      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  onChange?: (e) => void\n  // children: ReactNode | ReactNode[] | ((e) => void)\n  shrink?: boolean\n  style?: Style\n  data?: any\n}",
       "file": "/components/Menu/MenuItem.tsx"
     },
     "MenuHeaderProps": {
@@ -1911,29 +1788,6 @@
       "code": "type ModalActionsProps = {\n  children: ReactNode\n}",
       "file": "/components/Modal/index.tsx"
     },
-    "NewTableProps": {
-      "name": "NewTableProps",
-      "props": {
-        "columns": {
-          "type": {
-            "array": "TSTypeLiteral"
-          }
-        },
-        "data": {
-          "type": "TSAnyKeyword"
-        },
-        "onScrollToBottom": {
-          "optional": true,
-          "type": "function"
-        },
-        "onVisibleElementsChange": {
-          "optional": true,
-          "type": "function"
-        }
-      },
-      "code": "type NewTableProps = {\n  columns: {\n    header: string\n    accessor: string\n    cell?: (any) => JSX.Element\n    id?: string\n  }[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n}",
-      "file": "/components/NewTable/index.tsx"
-    },
     "PieGraphProps": {
       "name": "PieGraphProps",
       "props": {
@@ -2005,6 +1859,42 @@
       "code": "type BooleanPillProps = {\n  value?: boolean\n  defaultValue?: boolean\n  disabled?: boolean\n  props?: any\n  label?: ReactNode\n  placeholder?: ReactNode\n  prefix?: string\n  style?: Style\n  onChange: (value: boolean) => void\n  icon?: ReactNode\n}",
       "file": "/components/Pill/Boolean.tsx"
     },
+    "MultiPillProps": {
+      "name": "MultiPillProps",
+      "props": {
+        "value": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "options": {
+          "type": {
+            "array": "PillOption"
+          }
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type MultiPillProps = {\n  value: string[]\n  options: PillOption[]\n  placeholder?: string\n  prefix?: string\n  style?: Style\n  onChange: (value) => void\n  icon?: ReactNode\n}",
+      "file": "/components/Pill/Multi.tsx"
+    },
     "SelectPillProps": {
       "name": "SelectPillProps",
       "props": {
@@ -2030,15 +1920,37 @@
         },
         "onChange": {
           "type": "function"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
         }
       },
-      "code": "type SelectPillProps = {\n  value: string\n  options: PillOption[]\n  placeholder?: string\n  prefix?: string\n  style?: Style\n  onChange: (value) => void\n}",
+      "code": "type SelectPillProps = {\n  value: string\n  options: PillOption[]\n  placeholder?: string\n  prefix?: string\n  style?: Style\n  onChange: (value) => void\n  icon?: ReactNode\n}",
       "file": "/components/Pill/Select.tsx"
     },
-    "InputProps": {
-      "name": "InputProps",
+    "CommonPillProps": {
+      "name": "CommonPillProps",
+      "props": {
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onChange": {
+          "type": "function"
+        }
+      },
+      "code": "type CommonPillProps = {\n  prefix?: string\n  style?: Style\n  onChange: (value) => void\n}",
+      "file": "/components/Pill/index.tsx"
+    },
+    "PillProps": {
+      "name": "PillProps",
       "props": {},
-      "code": "type InputProps =\n  | (CommonInputProps & { type: 'select' } & SelectPillProps)\n  | ({ type: 'boolean' } & BooleanPillProps)",
+      "code": "type PillProps =\n  | (CommonPillProps & { type: 'select' } & SelectPillProps)\n  | ({ type: 'boolean' } & BooleanPillProps)\n  | ({ type: 'multi' } & MultiPillProps)",
       "file": "/components/Pill/index.tsx"
     },
     "usePopoverProps": {
@@ -2470,97 +2382,36 @@
       "code": "type StatusProps = {\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  ghost?: boolean\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n}",
       "file": "/components/Status/index.tsx"
     },
-    "SelectedRowOptionsProps": {
-      "name": "SelectedRowOptionsProps",
+    "TableProps": {
+      "name": "TableProps",
       "props": {
-        "clearAllRows": {
+        "columns": {
+          "type": {
+            "array": "TableColumn"
+          }
+        },
+        "data": {
+          "type": "TSAnyKeyword"
+        },
+        "onScrollToBottom": {
+          "optional": true,
           "type": "function"
         },
-        "selectedRowsLength": {
-          "type": "number"
-        }
-      },
-      "code": "type SelectedRowOptionsProps = {\n  clearAllRows: () => void\n  selectedRowsLength: number\n}",
-      "file": "/components/Table/SelectedRowOptions.tsx"
-    },
-    "TableHeaderTypesProps": {
-      "name": "TableHeaderTypesProps",
-      "props": {
-        "type": {
-          "type": [
-            {
-              "value": "author"
-            },
-            {
-              "value": "boolean"
-            },
-            {
-              "value": "checkbox"
-            },
-            {
-              "value": "CheckboxSelectItem"
-            },
-            {
-              "value": "id"
-            },
-            {
-              "value": "img"
-            },
-            {
-              "value": "image"
-            },
-            {
-              "value": "number"
-            },
-            {
-              "value": "string"
-            },
-            {
-              "value": "timestamp"
-            }
-          ]
+        "onVisibleElementsChange": {
+          "optional": true,
+          "type": "function"
         },
-        "itemData": {
-          "type": "TSAnyKeyword"
-        },
-        "rowData": {
-          "type": "TSTypeLiteral"
-        },
-        "rowIndex": {
-          "type": "number"
-        },
-        "key": {
-          "type": "TSAnyKeyword"
-        },
-        "renderCounter": {
-          "type": "TSAnyKeyword"
-        },
-        "setRenderCounter": {
-          "type": "TSAnyKeyword"
-        },
-        "editable": {
+        "virtualized": {
           "optional": true,
           "type": "boolean"
         },
-        "shiftKeyIsDown": {
+        "header": {
           "optional": true,
           "type": "boolean"
-        },
-        "setShiftKeyIndex": {
-          "optional": true,
-          "type": "function"
-        },
-        "shiftKeyIndex": {
-          "optional": true,
-          "type": "number"
-        },
-        "setLastShiftKeyIndex": {
-          "optional": true,
-          "type": "function"
         }
       },
-      "code": "type TableHeaderTypesProps = {\n  type:\n    | 'author'\n    | 'boolean'\n    | 'checkbox'\n    | 'CheckboxSelectItem'\n    | 'id'\n    | 'img'\n    | 'image'\n    | 'number'\n    | 'string'\n    | 'timestamp'\n  itemData: any\n  rowData: {}\n  rowIndex: number\n  key: any\n  renderCounter: any\n  setRenderCounter: any\n  editable?: boolean\n  shiftKeyIsDown?: boolean\n  setShiftKeyIndex?: (num: number | undefined) => void | undefined\n  shiftKeyIndex?: number\n  setLastShiftKeyIndex?: (num: number | undefined) => void | undefined\n}",
-      "file": "/components/Table/TableHeaderTypes.tsx"
+      "code": "type TableProps = {\n  columns: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: boolean\n}",
+      "file": "/components/Table/index.tsx"
     },
     "TabProps": {
       "name": "TabProps",
@@ -2876,9 +2727,13 @@
         "onClick": {
           "optional": true,
           "type": "ClickHandler"
+        },
+        "autoColor": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type ThumbnailProps = {\n  size?: 'small' | 'medium' | 'large'\n  src?: string\n  icon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  style?: Style\n  label?: string // If no color is provided will use this by default\n  outline?: boolean\n  counter?: number\n  light?: boolean\n  onClick?: ClickHandler\n}",
+      "code": "type ThumbnailProps = {\n  size?: 'small' | 'medium' | 'large'\n  src?: string\n  icon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  style?: Style\n  label?: string // If no color is provided will use this by default\n  outline?: boolean\n  counter?: number\n  light?: boolean\n  onClick?: ClickHandler\n  autoColor?: boolean\n}",
       "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
