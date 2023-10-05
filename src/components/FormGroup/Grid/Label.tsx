@@ -1,6 +1,6 @@
 import React, { ReactNode, FC } from 'react'
 import { Style } from 'inlines'
-import { Row, Text } from '../../components'
+import { Row, Text } from '../../'
 
 type LabelProps = {
   label?: ReactNode
