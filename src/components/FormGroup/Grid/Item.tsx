@@ -17,6 +17,7 @@ export const FormItem: FC<{
   autoFocus,
   width = 160,
   item: {
+    validation,
     props,
     type,
     field,
@@ -163,6 +164,10 @@ export const FormItem: FC<{
     )
   }
 
+  const errorMessage = validation ? validation(value) : false
+  const isString = typeof errorMessage === 'string'
+  const isError = isString ? true : errorMessage
+
   return (
     <Label
       style={style}
@@ -172,6 +177,8 @@ export const FormItem: FC<{
     >
       {/* @ts-ignore FIX THIS TYPE */}
       <Input
+        error={isError}
+        message={isError && (isString ? errorMessage : 'Incorrect value')}
         autoFocus={autoFocus}
         placeholder={label}
         value={value ?? ''}

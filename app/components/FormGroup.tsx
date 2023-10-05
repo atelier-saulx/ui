@@ -13,6 +13,9 @@ const fieldProps = {
       label: 'Name',
       type: 'text',
       description: 'Instance name',
+      validation: () => (val) => {
+        return !val || val.length < 4 ? 'Wrong!' : false
+      },
     },
     'args.x.y': {
       label: 'Status',
