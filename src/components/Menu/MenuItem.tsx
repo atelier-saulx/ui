@@ -10,6 +10,7 @@ import { IconChevronDown, IconChevronTop } from 'src/icons'
 type MenuItemProps = {
   active: boolean
   onClick: ClickHandler
+  onChange?: (e) => void
   // children: ReactNode | ReactNode[] | ((e) => void)
   shrink?: boolean
   style?: Style
@@ -20,12 +21,11 @@ export const MenuItem: FC<MenuItemProps> = ({
   active,
   onClick = (e) => {},
   // children,
+  onChange,
   shrink,
   style,
   data,
 }) => {
-  // console.log(' --> menu item data', data)
-
   const [showNested, setShowNested] = useState(false)
 
   let nested = []
@@ -38,12 +38,15 @@ export const MenuItem: FC<MenuItemProps> = ({
     }
   }
 
-  // console.log('nested??', nested)
-
   return (
     <>
       <styled.div
-        onClick={(e) => onClick(e)}
+        onClick={(e) => {
+          if (onChange) {
+            console.log('clikie 🍔', data.value)
+            onChange(data.value)
+          }
+        }}
         style={{
           cursor: 'pointer',
           position: 'relative',
@@ -112,7 +115,7 @@ export const MenuItem: FC<MenuItemProps> = ({
           ) : null}
 
           {!shrink && data.label}
-          {nested.length > 0 && (
+          {!shrink && nested.length > 0 && (
             <Button
               size="xsmall"
               icon={showNested ? <IconChevronDown /> : <IconChevronTop />}
@@ -127,6 +130,7 @@ export const MenuItem: FC<MenuItemProps> = ({
           <MenuItem
             key={idx}
             data={item}
+            onChange={onChange}
             onClick={(e: any) => {
               if (onClick) {
                 onClick(e)
