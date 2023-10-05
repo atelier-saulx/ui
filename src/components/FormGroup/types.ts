@@ -3,7 +3,7 @@ import { Style } from 'inlines'
 
 type onChange = (changes: { [field: string]: any }) => void | Promise<void>
 
-export type SettingGroupItem = {
+export type FormItemProps = {
   label?: ReactNode
   props?: { [key: string]: string }
   value?: any
@@ -24,12 +24,12 @@ export type FormGroupProps = {
   onChange: onChange
   values?: FormGroupValues
   config?:
-    | SettingGroupItem[]
+    | FormItemProps[]
     | {
         [field: string]:
           | null
           | ReactNode
-          | (Omit<SettingGroupItem, 'field'> & { field?: string })
+          | (Omit<FormItemProps, 'field'> & { field?: string })
       }
   alwaysAccept?: boolean
 }
@@ -40,7 +40,7 @@ export type OnChangeField = (field: string, value: any) => void
 
 export type FormGroupVariantProps = {
   onChange: onChange
-  parsedData: SettingGroupItem[]
+  parsedData: FormItemProps[]
   fieldWidth: number
   labelWidth: number
   onChangeField: OnChangeField
@@ -50,4 +50,12 @@ export type FormGroupVariantProps = {
   values: FormGroupValues
   alwaysAccept: boolean
   setChanges: (val: boolean) => any
+}
+
+export type LabelProps = {
+  label?: ReactNode
+  description?: ReactNode
+  children?: ReactNode
+  labelWidth?: number
+  style?: Style
 }

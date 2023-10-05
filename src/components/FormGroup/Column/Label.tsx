@@ -8,15 +8,10 @@ export const Label: FC<LabelProps> = ({
   description,
   children,
   style,
-  labelWidth,
 }) => {
-  if (!label && !description) {
-    return null
-  }
   return (
     <styled.div
       style={{
-        margin: 8,
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',
@@ -25,17 +20,18 @@ export const Label: FC<LabelProps> = ({
     >
       <styled.div
         style={{
-          minWidth: labelWidth,
           display: 'flex',
           marginRight: 16,
           flexDirection: 'column',
         }}
       >
-        <Row>
-          <Text style={{ marginBottom: description ? 0 : 0 }} weight="strong">
-            {label}
-          </Text>
-        </Row>
+        {label ? (
+          <Row>
+            <Text style={{ marginBottom: description ? 0 : 0 }} weight="strong">
+              {label}
+            </Text>
+          </Row>
+        ) : null}
         {description && <Text light>{description}</Text>}
       </styled.div>
       {children}

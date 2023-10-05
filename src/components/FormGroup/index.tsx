@@ -5,20 +5,21 @@ import {
   FormGroupProps,
   OnChangeField,
   ValuesChanged,
-  SettingGroupItem,
+  FormItemProps,
 } from './types'
 import { FormGroupGrid } from './Grid'
+import { FormGroupColumn } from './Column'
 
 export const FormGroup: FC<FormGroupProps> = ({
   onChange,
   config = [],
   style,
   alwaysAccept,
+  values,
+  variant = 'column',
   // only relevant for grid
   labelWidth = 160,
   fieldWidth = 185,
-  values,
-  variant = 'column',
 }) => {
   const valuesChanged = useRef<ValuesChanged>({})
 
@@ -41,7 +42,7 @@ export const FormGroup: FC<FormGroupProps> = ({
     }
   }
 
-  let parsedData: SettingGroupItem[]
+  let parsedData: FormItemProps[]
 
   if (!Array.isArray(config)) {
     parsedData = []
@@ -82,5 +83,19 @@ export const FormGroup: FC<FormGroupProps> = ({
     )
   }
 
-  return null
+  return (
+    <FormGroupColumn
+      onChange={onChange}
+      parsedData={parsedData}
+      labelWidth={labelWidth}
+      fieldWidth={fieldWidth}
+      onChangeField={onChangeField}
+      style={style}
+      hasChanges={hasChanges}
+      valuesChanged={valuesChanged}
+      values={values}
+      setChanges={setChanges}
+      alwaysAccept={alwaysAccept}
+    />
+  )
 }
