@@ -49,7 +49,6 @@ import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
-import newTable from './components/NewTable'
 import thumbnail from './components/Thumbnail'
 import list from './components/List'
 import styledDivs from './components/StyledDivs'
@@ -99,11 +98,4 @@ export const layout = [accordion, container, divider, list, scrollArea, tabs]
 
 export const navigation = [breadCrumbs, topNavigation, Menu]
 
-export const dataDisplay = [
-  barGraph,
-  newTable,
-  linegraph,
-  pieGraph,
-  metricsWidget,
-  table,
-]
+export const dataDisplay = [barGraph, linegraph, pieGraph, metricsWidget, table]

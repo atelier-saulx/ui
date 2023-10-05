@@ -1,229 +1,297 @@
 import React, { useState } from 'react'
-import { Avatar, Badge, Table, Text } from '../../src'
-import { faker } from '@faker-js/faker'
-import props from '../props.json'
+import {
+  Button,
+  Dropdown,
+  IconDelete,
+  IconEdit,
+  IconMoreHorizontal,
+  Input,
+  Modal,
+  Table,
+  Text,
+  Thumbnail,
+  useInfiniteQuery,
+} from '../../src'
 import { ComponentDef } from '../types'
-import { useQuery, useClient } from '@based/react'
+import { faker } from '@faker-js/faker'
 
 const example: ComponentDef = {
   name: 'Table',
   component: Table,
-  description: 'Infinite scrollable virtualized table with rich content',
-  properties: {}, // props.props.TableProps.props,
+  description: '',
+  properties: {},
   examples: [
     {
-      props: { arrangeAble: true, selectable: true },
-      customRenderer: (props) => {
-        const newPerson = () => {
-          return {
-            id: faker.string.nanoid(),
-            stage: faker.helpers.arrayElement(['Published', 'Draft']),
-            title: faker.animal.dog(),
-            image: faker.image.url(),
-            author: faker.person.fullName(),
-            createdAt: faker.date.anytime(),
-            updatedAt: faker.date.anytime(),
-          }
-        }
-
-        function makeData(count: number) {
-          return Array.from({ length: count }).map(() => {
-            return newPerson()
-          })
-        }
-
-        const [data, setData] = useState(() => makeData(50))
-        const [isLoadingMoreData, setIsLoadingMoreData] = useState(false)
-
-        async function fetchMoreData() {
-          if (isLoadingMoreData) return
-
-          setIsLoadingMoreData(true)
-          await new Promise((resolve) => {
-            setTimeout(resolve, 200)
-          })
-          setData((p) => [...p, ...makeData(50)])
-          setIsLoadingMoreData(false)
-        }
+      name: 'Simple',
+      description: 'Non-virtualized, non-scrollable',
+      props: {},
+      customRenderer: () => {
+        const [data] = useState(() =>
+          new Array(6).fill(null).map(() => ({
+            logo: faker.image.avatar(),
+            name: faker.person.fullName(),
+            status: faker.lorem.words(1),
+            avatar: faker.internet.emoji(),
+            id: faker.datatype.uuid().slice(0, 8),
+            createdAt: faker.date.anytime().getTime(),
+            price: Math.random() * 1e4,
+          }))
+        )
 
         return (
-          <div
-            style={{
-              height: 700,
-              width: '676px',
-            }}
-          >
+          <div style={{ width: 900 }}>
             <Table
+              columns={[
+                {
+                  key: 'id',
+                  renderAs: 'badge',
+                  header: 'ID',
+                },
+                {
+                  key: 'logo',
+                  renderAs: 'image',
+                  header: 'Logo',
+                },
+                {
+                  key: 'name',
+                  renderAs: 'medium',
+                  header: 'Name',
+                },
+                {
+                  key: 'status',
+                  renderAs: (row) => (
+                    <Thumbnail size="small" label={row.status} />
+                  ),
+                  header: 'Status',
+                },
+                {
+                  key: 'avatar',
+                  renderAs: 'avatar',
+                  header: 'Avatar',
+                },
+                {
+                  key: 'price',
+                  renderAs: 'number-euro',
+                  header: 'Price',
+                },
+                {
+                  key: 'createdAt',
+                  renderAs: 'date-time-human',
+                  header: 'Created At',
+                },
+              ]}
               data={data}
-              headers={[
-                {
-                  label: 'ID',
-                  key: 'id',
-                  type: 'id',
-                  width: 200,
-                },
-                {
-                  label: 'Title',
-                  key: 'title',
-                  width: 200,
-                },
-                {
-                  label: 'Img',
-                  key: 'image',
-                  type: 'img',
-                  width: 80,
-                },
-                {
-                  key: 'stage',
-                  label: 'Status',
-                  width: 200,
-                },
-                {
-                  label: 'Author',
-                  key: 'author',
-                  width: 200,
-                  type: 'author',
-                },
-              ]}
-              {...props}
-
-              // query={}
-              // getQueryItems={data}
             />
           </div>
         )
       },
     },
-
     {
-      name: 'Query',
+      name: 'Almost like a list',
+      description: 'No header',
       props: {},
-      customRenderer: (props) => {
-        const client = useClient()
-
-        // { data, loading, error, checksum, next } = usePageQuery('db', )
+      customRenderer: () => {
+        const [data] = useState(() =>
+          new Array(6).fill(null).map(() => ({
+            name: faker.person.fullName(),
+            avatar: faker.image.avatar(),
+            tag: faker.lorem.words(1),
+            role: faker.lorem.words(1),
+            createdAt: faker.date.anytime().getTime(),
+          }))
+        )
 
         return (
-          <div
-            style={{
-              height: 500,
-              width: '500px',
-            }}
-          >
+          <div style={{ width: 900 }}>
             <Table
-              queryId={'bla'}
-              query={(offset, limit) => {
-                return client.query('db', {
-                  $id: 'root',
-                  todo: {
-                    $all: true,
-                    $list: {
-                      $sort: { $field: 'createdAt', $order: 'desc' },
-                      $offset: offset,
-                      $limit: limit,
-                      $find: {
-                        $traverse: 'children',
-                        $filter: {
-                          $operator: '=',
-                          $field: 'type',
-                          $value: 'todo',
-                        },
-                      },
-                    },
-                  },
-                })
-              }}
-              getQueryItems={(d) => {
-                console.log('', d)
-                return d.todo
-              }}
-              // want to have inifity
-              itemCount={50000}
-              headers={[
+              header={false}
+              columns={[
                 {
-                  label: 'ID',
-                  key: 'id',
-                  type: 'id',
-                  width: 242,
+                  key: 'name',
+                  renderAs: (row) => (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 12,
+                      }}
+                    >
+                      <Thumbnail
+                        color="neutral"
+                        size="small"
+                        src={row.avatar}
+                      />
+                      <Text weight="medium">{row.name}</Text>
+                    </div>
+                  ),
+                  header: 'Name',
                 },
                 {
-                  label: 'Name',
-                  key: 'name',
-                  width: 242,
+                  key: 'tag',
+                  renderAs: 'badge',
+                  header: 'Tag',
+                },
+                {
+                  key: 'createdAt',
+                  renderAs: 'date-time-human',
+                  header: 'Created at',
+                },
+                {
+                  id: 'actions',
+                  renderAs: (row) => (
+                    <Dropdown.Root>
+                      <Dropdown.Trigger>
+                        <Button ghost icon={<IconMoreHorizontal />} />
+                      </Dropdown.Trigger>
+                      <Dropdown.Items>
+                        <Dropdown.Item icon={<IconEdit />}>Edit</Dropdown.Item>
+                        <Dropdown.Separator />
+                        <Dropdown.Item icon={<IconDelete />}>
+                          Delete
+                        </Dropdown.Item>
+                      </Dropdown.Items>
+                    </Dropdown.Root>
+                  ),
                 },
               ]}
-              // query={}
-              // getQueryItems={data}
+              data={data}
             />
           </div>
         )
       },
     },
-
     {
+      name: 'Virtualized',
+      description: 'Virtualized, infinite scrollable',
       props: {},
-      customRenderer: (props) => {
-        const client = useClient()
+      customRenderer: () => {
+        const [open, setOpen] = useState<string | null>(null)
+
+        const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
+          accessFn: (data) => data.files,
+          queryFn: (offset) => ({
+            $id: 'root',
+            files: {
+              $all: true,
+              $list: {
+                $sort: { $field: 'updatedAt', $order: 'desc' },
+                $offset: offset,
+                $limit: 25,
+                $find: {
+                  $traverse: 'children',
+                  $filter: {
+                    $operator: '=',
+                    $field: 'type',
+                    $value: 'todo',
+                  },
+                },
+              },
+            },
+          }),
+        })
 
         return (
           <div
             style={{
+              width: 900,
               height: 500,
-              width: '676px',
             }}
           >
             <Table
-              queryId={'bla'}
-              query={(offset, limit) => {
-                return client.query('db', {
-                  $id: 'root',
-                  file: {
-                    $all: true,
-                    $list: {
-                      $sort: { $field: 'updatedAt', $order: 'desc' },
-                      $offset: offset,
-                      $limit: limit,
-                      $find: {
-                        $traverse: 'children',
-                        $filter: {
-                          $operator: '=',
-                          $field: 'type',
-                          $value: 'file',
-                        },
-                      },
-                    },
-                  },
-                })
+              virtualized
+              data={data}
+              onVisibleElementsChange={setVisibleElements}
+              onScrollToBottom={() => {
+                fetchMore()
               }}
-              getQueryItems={(d) => {
-                console.log('', d)
-                return d.file
-              }}
-              // want to have inifity
-              itemCount={100}
-              headers={[
+              columns={[
+                { header: 'ID', key: 'id' },
+                { header: 'Name', key: 'name' },
                 {
-                  label: 'ID',
-                  key: 'id',
-                  type: 'id',
+                  header: 'Type',
+                  key: 'type',
+                  renderAs: 'badge',
                 },
                 {
-                  label: 'Name',
-                  key: 'name',
+                  header: 'Created',
+                  key: 'createdAt',
+                  renderAs: 'date',
                 },
                 {
-                  label: 'SRC',
-                  key: 'src',
-                  type: 'image',
-                },
-                {
-                  label: 'Good Size',
-                  key: 'size',
+                  id: 'actions',
+                  header: 'More',
+                  renderAs: (row) => (
+                    <Dropdown.Root>
+                      <Dropdown.Trigger>
+                        <Button ghost icon={<IconMoreHorizontal />} />
+                      </Dropdown.Trigger>
+                      <Dropdown.Items>
+                        <Dropdown.Item
+                          onClick={() => {
+                            setOpen(row.id)
+                          }}
+                          icon={<IconEdit />}
+                        >
+                          Edit
+                        </Dropdown.Item>
+                        <Dropdown.Separator />
+                        <Dropdown.Item icon={<IconDelete />}>
+                          Delete
+                        </Dropdown.Item>
+                      </Dropdown.Items>
+                    </Dropdown.Root>
+                  ),
                 },
               ]}
-              // query={}
-              // getQueryItems={data}
             />
+
+            <Modal.Root
+              open={!!open}
+              onOpenChange={() => {
+                setOpen(null)
+              }}
+            >
+              <Modal.Content>
+                <Modal.Title>{`Editing item with ID: ${open}`}</Modal.Title>
+                <Modal.Description>Description of modal</Modal.Description>
+                <Modal.Body>
+                  <div style={{ display: 'grid', gap: 24 }}>
+                    <Input
+                      type="text"
+                      defaultValue={data.find((e) => e.id === open)?.name}
+                      label="Name"
+                    />
+                    <Input
+                      type="select"
+                      defaultValue={data.find((e) => e.id === open)?.type}
+                      label="Status"
+                      options={[
+                        { label: 'To do', value: 'todo' },
+                        { label: 'Done', value: 'done' },
+                      ]}
+                    />
+                  </div>
+                </Modal.Body>
+                <Modal.Actions>
+                  <Button
+                    onClick={() => {
+                      setOpen(null)
+                    }}
+                    color="system"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setOpen(null)
+                    }}
+                    color="primary"
+                  >
+                    Save
+                  </Button>
+                </Modal.Actions>
+              </Modal.Content>
+            </Modal.Root>
           </div>
         )
       },

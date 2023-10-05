@@ -1,272 +1,292 @@
-import React, { FC, useState, useEffect } from 'react'
-import { color } from '../../varsUtilities'
-import { HeaderOverlay } from './HeaderOverlay'
-import AutoSizer from 'react-virtualized-auto-sizer'
-import { TableProps } from './types'
-import { SizedGrid } from './SizedGrid'
-import { styled, Style } from 'inlines'
-import { SelectedRowOptions } from './SelectedRowOptions'
-import { Button, Popover } from '../../components'
-import { IconPlus } from '../../icons'
+import {
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
+import { useVirtual } from '@tanstack/react-virtual'
+import {
+  Avatar,
+  Badge,
+  IconSortAsc,
+  IconSortDesc,
+  Text,
+  Thumbnail,
+  Toggle,
+  color,
+} from '../..'
+import React, { ReactNode, useCallback, useEffect } from 'react'
+import { useCallbackRef } from 'src/hooks/useCallbackRef'
+import { NumberFormat } from '@based/pretty-number'
+import { DateFormat } from '@based/pretty-date'
 
-const sortBasedBasedOnHeaderItem = (keyName, data, order) => {
-  if (!order) {
-    return data.sort((a, b) => (a[keyName] > b[keyName] ? -1 : 1))
-  } else {
-    return data.sort((a, b) => (a[keyName] > b[keyName] ? 1 : -1))
-  }
-}
+type RenderAs =
+  | 'badge'
+  | 'image'
+  | 'avatar'
+  | 'toggle'
+  | NumberFormat
+  | DateFormat
+  | 'strong'
+  | 'medium'
+  | 'normal'
+  | ((row: any) => ReactNode)
 
-export const Table: FC<TableProps> = (props) => {
-  const {
-    data = [],
-    width,
-    itemCount = data.length,
-    rowHeight = 60,
-    height = itemCount < 20 ? data.length * rowHeight + 40 : 200,
-    selectable,
-    arrangeAble,
-  } = props
+type TableColumn =
+  | {
+      key: string
+      header: string
+      renderAs?: RenderAs
+    }
+  | { id: string; header?: string; renderAs: (row: any) => ReactNode }
 
-  const [renderCounter, setRenderCounter] = useState(1)
-  const [selectedRows, setSelectedRows] = useState([])
-  const [headers, setHeaders] = useState(props.headers)
-  const [sortKey, setSortKey] = useState({
-    counter: 1,
-    key: '',
-    ascOrder: true,
-  })
-
-  let newData =
-    sortKey.key && sortKey.counter
-      ? sortBasedBasedOnHeaderItem(sortKey.key, data, sortKey.ascOrder)
-      : props.data
-
-  const selectedItems = newData?.filter((item, idx) => item?.meta?.selected)
-
-  if (
-    selectable &&
-    props.headers &&
-    !Object.values(props.headers[0]).includes('selected')
-  ) {
-    props?.headers?.unshift({
-      key: 'selected',
-      label: '',
-      type: 'CheckboxSelectItem',
-      width: 42,
-    })
-    newData.map(
-      (item, idx) => (item.meta = { selected: false, selectedIndex: null })
+function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
+  if (typeof renderAs === 'function') return renderAs(row)
+  if (renderAs === 'normal') return <Text>{row[key]}</Text>
+  if (renderAs === 'medium') return <Text weight="medium">{row[key]}</Text>
+  if (renderAs === 'strong') return <Text weight="strong">{row[key]}</Text>
+  if (renderAs === 'image')
+    return <Thumbnail color="neutral" size="small" src={row[key]} />
+  if (renderAs === 'badge')
+    return (
+      <Badge copy copyValue={row[key]}>
+        {row[key]}
+      </Badge>
     )
+  if (renderAs === 'avatar') return <Avatar>{row[key]}</Avatar>
+  if (renderAs === 'toggle') return <Toggle value={row[key]} />
+
+  let content = row[key]
+  if (row[key] instanceof Date) {
+    content = row[key].getTime()
   }
-
-  // headers selecting and ordering
-  if (headers) {
-    for (const header of headers) {
-      if (!header?.meta?.hasOwnProperty('visible')) {
-        header.meta = { visible: true }
-      }
-    }
+  if (typeof row[key] === 'object') {
+    content = JSON.stringify(row[key])
   }
-
-  const [filteredHeaders, setFilteredHeaders] = useState(
-    headers?.filter((item) => item?.meta?.visible)
-  )
-
-  const selectAllRows = () => {
-    newData.map((item) => (item.meta.selected = true))
-    setRenderCounter(renderCounter + 1)
-  }
-
-  const clearAllRows = () => {
-    newData.map((item) => (item.meta.selected = false))
-    setRenderCounter(renderCounter + 1)
-  }
-
-  useEffect(() => {
-    setRenderCounter(renderCounter + 1)
-  }, [filteredHeaders])
-
-  useEffect(() => {
-    if (selectable) {
-      setSelectedRows(selectedItems)
-    }
-  }, [renderCounter])
-
-  // console.log('newdata --->', newData)
-
-  // ShiftClick to multiSelect Logic here
-  const [shiftKeyIsDown, setShiftKeyIsDown] = useState<boolean>(false)
-  const [shiftKeyIndex, setShiftKeyIndex] = useState<number | undefined>(
-    undefined
-  )
-  const [lastShifKeyIndex, setLastShiftKeyIndex] = useState<number | undefined>(
-    undefined
-  )
-
-  const ShiftKeySelectionRows = (firstIndex, lastIndex) => {
-    let smallerIndex = firstIndex > lastIndex ? lastIndex : firstIndex
-    let largerIndex = firstIndex < lastIndex ? lastIndex : firstIndex
-
-    // set selected row indexes anew
-    newData.map(
-      (item, idx) =>
-        (item.meta = { selectedIndex: idx, selected: item.meta.selected })
-    )
-
-    console.log('smaller -->', smallerIndex, 'bigger --> ', largerIndex)
-
-    // check if they are allready selected , if thats the case they should unselect
-    if (
-      !newData[firstIndex].meta.selected &&
-      !newData[lastIndex].meta.selected
-    ) {
-      const areAllInBetweenSelected = newData
-        .filter(
-          (item) =>
-            item.meta.selectedIndex > smallerIndex &&
-            item.meta.selectedIndex < largerIndex
-        )
-        .every((item) => item.meta.selected)
-
-      if (areAllInBetweenSelected) {
-        newData
-          .filter(
-            (item) =>
-              item.meta.selectedIndex > smallerIndex &&
-              item.meta.selectedIndex < largerIndex
-          )
-          .map((item) => (item.meta.selected = false))
-      }
-
-      // console.log('🦈🦀', areAllInBetweenSelected)
-    } else {
-      newData
-        .filter(
-          (item) =>
-            item.meta.selectedIndex >= smallerIndex &&
-            item.meta.selectedIndex <= largerIndex
-        )
-        .map((item) => (item.meta.selected = true))
-    }
-    // count selected row items
-    setSelectedRows(newData?.filter((item, idx) => item?.meta?.selected))
-  }
-
-  useEffect(() => {
-    console.log('add listener')
-    window.addEventListener('keydown', (e) =>
-      e.key === 'Shift' ? setShiftKeyIsDown(true) : null
-    )
-    window.addEventListener('keyup', (e) => {
-      if (e.key === 'Shift') {
-        setShiftKeyIsDown(false)
-        setShiftKeyIndex(undefined)
-        setLastShiftKeyIndex(undefined)
-      } else {
-        return null
-      }
-    })
-  }, [])
-
-  useEffect(() => {
-    if (typeof lastShifKeyIndex === 'number') {
-      ShiftKeySelectionRows(shiftKeyIndex, lastShifKeyIndex)
-    }
-  }, [lastShifKeyIndex])
 
   return (
-    <>
-      {/* {'is shift key down: ' + shiftKeyIsDown}
-      <br />
-      {'shiftkey index' + shiftKeyIndex}
-      <br />
-      {'last shiftkey index' + lastShifKeyIndex}
-      <br /> */}
-      <styled.div
+    <Text
+      valueFormat={renderAs}
+      light={renderAs?.includes?.('date') || renderAs?.includes?.('time')}
+    >
+      {content}
+    </Text>
+  )
+}
+
+export type TableProps = {
+  columns: TableColumn[]
+  data: any
+  onScrollToBottom?: () => void
+  onVisibleElementsChange?: (visibleElements: number[]) => void
+  virtualized?: boolean
+  header?: boolean
+}
+
+export function Table({
+  columns,
+  data,
+  onScrollToBottom: onScrollToBottomProp,
+  onVisibleElementsChange: onVisibleElementsChangeProp,
+  virtualized,
+  header = true,
+}: TableProps) {
+  const table = useReactTable({
+    data,
+    columns: columns.map((c) => {
+      if ('id' in c) {
+        return {
+          id: c.id,
+          header: c.header,
+          cell: ({ row }) => c.renderAs(row.original),
+        }
+      }
+
+      return {
+        header: c.header,
+        accessorKey: c.key,
+        cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
+      }
+    }),
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  })
+  const { rows } = table.getRowModel()
+
+  const tableContainerRef = React.useRef<HTMLDivElement>(null)
+  const rowVirtualizer = useVirtual({
+    parentRef: tableContainerRef,
+    size: rows.length,
+    estimateSize: useCallback(() => 61, []),
+    overscan: 10,
+  })
+  const { virtualItems: virtualRows, totalSize } = rowVirtualizer
+  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
+  const paddingBottom =
+    virtualRows.length > 0
+      ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
+      : 0
+
+  const onVisibleElementsChange = useCallbackRef(onVisibleElementsChangeProp)
+  useEffect(() => {
+    if (onVisibleElementsChange) {
+      onVisibleElementsChange(virtualRows.map((e) => e.index))
+    }
+  }, [onVisibleElementsChange, virtualRows])
+
+  const onScrollToBottom = useCallbackRef(onScrollToBottomProp)
+  const handleScroll = React.useCallback(
+    (containerRefElement: HTMLDivElement) => {
+      if (onScrollToBottom) {
+        const { scrollHeight, scrollTop, clientHeight } = containerRefElement
+        if (scrollHeight - scrollTop - clientHeight < 300) {
+          onScrollToBottom()
+        }
+      }
+    },
+    [onScrollToBottom]
+  )
+
+  return (
+    <div
+      ref={tableContainerRef}
+      style={{ overflow: 'auto', height: '100%', width: '100%' }}
+      onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
+    >
+      <table
         style={{
-          backgroundColor: color('background', 'default', 'strong'),
-          minHeight: height,
-          height: '100%',
           width: '100%',
-          position: 'relative',
-          minWidth: width,
-          border: props.outline
-            ? `1px solid ${color('border', 'default', 'strong')}`
-            : 'none',
-          borderBottom: 'none',
-          userSelect: shiftKeyIsDown ? 'none' : 'default',
+          borderCollapse: 'separate',
+          tableLayout: 'fixed',
+          borderSpacing: 0,
         }}
       >
-        {selectedRows?.length > 0 && (
-          <SelectedRowOptions
-            clearAllRows={clearAllRows}
-            selectedRowsLength={selectedRows?.length}
-          />
+        <tbody>
+          {virtualized && paddingTop > 0 && (
+            <tr>
+              <td style={{ height: `${paddingTop}px` }} />
+            </tr>
+          )}
+          {(virtualized ? virtualRows.map((row) => rows[row.index]) : rows).map(
+            (row, index) => {
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <td
+                        style={{
+                          boxSizing: 'border-box',
+                          height: 61,
+                          padding: '0 12px',
+                          borderBottom: `1px solid ${color(
+                            'border',
+                            'default',
+                            'strong'
+                          )}`,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          maxWidth: '100%',
+                          borderTop:
+                            !header &&
+                            index === 0 &&
+                            `1px solid ${color('border', 'default', 'strong')}`,
+                        }}
+                        key={cell.id}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            }
+          )}
+          {virtualized && paddingBottom > 0 && (
+            <tr>
+              <td style={{ height: `${paddingBottom}px` }} />
+            </tr>
+          )}
+        </tbody>
+        {header && (
+          <thead
+            style={{
+              position: 'sticky',
+              top: 0,
+              margin: 0,
+              textAlign: 'left',
+              background: virtualized
+                ? color('background', 'default', 'strong')
+                : 'none',
+            }}
+          >
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <th
+                      key={header.id}
+                      style={{
+                        padding: '0 12px',
+                        height: 42,
+                        boxSizing: 'border-box',
+                        borderTop: `1px solid ${color(
+                          'border',
+                          'default',
+                          'strong'
+                        )}`,
+                        borderBottom: `1px solid ${color(
+                          'border',
+                          'default',
+                          'strong'
+                        )}`,
+                      }}
+                    >
+                      {header.isPlaceholder ? null : (
+                        <div
+                          onClick={header.column.getToggleSortingHandler()}
+                          style={{
+                            display: 'flex',
+                            height: '100%',
+                            alignItems: 'center',
+                            userSelect: 'none',
+                            cursor: header.column.getCanSort()
+                              ? 'pointer'
+                              : 'default',
+                            color: header.column.getIsSorted()
+                              ? color('content', 'brand', 'primary')
+                              : color('content', 'default', 'secondary'),
+                          }}
+                        >
+                          {{
+                            asc: (
+                              <IconSortAsc
+                                style={{
+                                  marginRight: 8,
+                                }}
+                              />
+                            ),
+                            desc: <IconSortDesc style={{ marginRight: 8 }} />,
+                          }[header.column.getIsSorted() as string] ?? null}
+                          <Text>
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                          </Text>
+                        </div>
+                      )}
+                    </th>
+                  )
+                })}
+              </tr>
+            ))}
+          </thead>
         )}
-
-        {arrangeAble && (
-          <Popover.Root>
-            <Popover.Trigger>
-              <Button
-                icon={<IconPlus />}
-                size="small"
-                color="neutral"
-                ghost
-                style={{
-                  position: 'absolute',
-                  right: 12,
-                  top: selectedRows?.length > 0 ? 74 : 6,
-                  padding: 3,
-                  zIndex: 1,
-                }}
-              />
-            </Popover.Trigger>
-            {selectedRows?.length > 0 && (
-              <SelectedRowOptions
-                clearAllRows={clearAllRows}
-                selectedRowsLength={selectedRows?.length}
-              />
-            )}
-            <Popover.Content
-              style={{
-                // border: '0px',
-                padding: 0,
-              }}
-            >
-              <HeaderOverlay
-                headers={headers}
-                setFilteredHeaders={setFilteredHeaders}
-                setHeaders={setHeaders}
-              />
-            </Popover.Content>
-          </Popover.Root>
-        )}
-        <AutoSizer>
-          {({ width, height }) => {
-            return (
-              <SizedGrid
-                {...props}
-                data={newData}
-                height={height}
-                width={width}
-                sortKey={sortKey}
-                setSortKey={setSortKey}
-                renderCounter={renderCounter}
-                setRenderCounter={setRenderCounter}
-                selectAllRows={selectAllRows}
-                clearAllRows={clearAllRows}
-                selectedRows={selectedRows}
-                headers={filteredHeaders}
-                shiftKeyIsDown={shiftKeyIsDown}
-                setShiftKeyIndex={setShiftKeyIndex}
-                shiftKeyIndex={shiftKeyIndex}
-                setLastShiftKeyIndex={setLastShiftKeyIndex}
-              />
-            )
-          }}
-        </AutoSizer>
-      </styled.div>
-    </>
+      </table>
+    </div>
   )
 }
