@@ -18,7 +18,7 @@ import {
   IconChevronRight,
 } from '../../icons'
 import { MenuItem } from './MenuItem'
-import { BpMobile } from 'src/utils'
+import { BpMobile, BpSmall } from 'src/utils'
 
 type MenuHeaderProps = {
   children?: ReactNode
@@ -219,7 +219,7 @@ export const Menu: FC<MenuProps> = ({
                 }}
                 onClick={(e) => {
                   // if (onChange) {
-                  //   onChange(value)
+                  //   onChange(value, topValue)
                   // }
                   if (onClick) {
                     onClick(e)
@@ -270,6 +270,7 @@ export const Menu: FC<MenuProps> = ({
                   <MenuItem
                     data={item}
                     key={index}
+                    onChange={onChange}
                     onClick={(e: any) => {
                       if (onChange) {
                         // if changed on mobile close the menu
@@ -290,21 +291,21 @@ export const Menu: FC<MenuProps> = ({
         )
       }
 
-      return (
-        <MenuItem
-          key={i}
-          active={isActive ? isActive(value) : active === value}
-          onClick={(e: any) => {
-            if (onChange) {
-              setOpen(false)
-              onChange(value)
-            }
-            if (onClick) {
-              onClick(e)
-            }
-          }}
-        />
-      )
+      // return (
+      //   <MenuItem
+      //     key={i}
+      //     active={isActive ? isActive(value) : active === value}
+      //     onClick={(e: any) => {
+      //       if (onChange) {
+      //         setOpen(false)
+      //         onChange(value)
+      //       }
+      //       if (onClick) {
+      //         onClick(e)
+      //       }
+      //     }}
+      //   />
+      // )
     }
   )
 
@@ -317,7 +318,7 @@ export const Menu: FC<MenuProps> = ({
           right: 16,
           top: 16,
           display: 'none',
-          [BpMobile]: {
+          [BpSmall]: {
             display: 'block',
           },
         }}
@@ -355,7 +356,7 @@ export const Menu: FC<MenuProps> = ({
                 display: 'flex',
               },
             },
-            [BpMobile]: {
+            [BpSmall]: {
               left: !shrink ? '272px' : '62px',
               '& div': {
                 display: 'flex',
@@ -407,7 +408,7 @@ export const Menu: FC<MenuProps> = ({
             'neutralNormal',
             'default'
           )}`,
-          [BpMobile]: {
+          [BpSmall]: {
             display: open ? 'block' : 'none',
             zIndex: 1,
             position: 'absolute',
