@@ -144,9 +144,13 @@
         "light": {
           "optional": true,
           "type": "boolean"
+        },
+        "autoColor": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type AvatarProps = {\n  children?: ReactNode\n  color?: ColorNonSemanticBackgroundColors\n  src?: string\n  onClick?: ClickHandler\n  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'\n  squared?: boolean\n  style?: Style\n  light?: boolean\n}",
+      "code": "type AvatarProps = {\n  children?: ReactNode\n  color?: ColorNonSemanticBackgroundColors\n  src?: string\n  onClick?: ClickHandler\n  size?: 'large' | 'medium' | 'small' | 'xsmall' | 'xxsmall'\n  squared?: boolean\n  style?: Style\n  light?: boolean\n  autoColor?: boolean\n}",
       "file": "/components/Avatar/index.tsx"
     },
     "BadgeProps": {
@@ -1016,9 +1020,15 @@
         },
         "onDelete": {
           "type": "function"
+        },
+        "onFullscreen": {
+          "type": "function"
+        },
+        "onOpenNewTab": {
+          "type": "function"
         }
       },
-      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n  // onCopy: ()=>void\n}",
+      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n  onFullscreen: () => void\n  onOpenNewTab: (e) => void\n  // onCopy: ()=>void\n}",
       "file": "/components/Input/FileInput.tsx"
     },
     "MarkdownInputProps": {
@@ -1039,6 +1049,38 @@
       },
       "code": "type MarkdownInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n}",
       "file": "/components/Input/MarkdownInput.tsx"
+    },
+    "MultiSelectProps": {
+      "name": "MultiSelectProps",
+      "props": {
+        "value": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "options": {
+          "type": {
+            "array": "MultiSelectOption"
+          }
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "hugContent": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type MultiSelectProps = {\n  value: string[]\n  options: MultiSelectOption[]\n  placeholder?: string\n  style?: Style\n  onChange: (value) => void\n  hugContent?: boolean\n}",
+      "file": "/components/Input/MultiSelect.tsx"
     },
     "NumberInputOwnProps": {
       "name": "NumberInputOwnProps",
@@ -2415,10 +2457,24 @@
         },
         "header": {
           "optional": true,
+          "type": [
+            {
+              "value": true
+            },
+            {
+              "value": false
+            },
+            {
+              "value": "sticky"
+            }
+          ]
+        },
+        "border": {
+          "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type TableProps = {\n  columns: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: boolean\n}",
+      "code": "type TableProps = {\n  columns: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {

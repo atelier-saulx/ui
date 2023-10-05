@@ -13,6 +13,7 @@ import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
 import { TextAreaInput, TextAreaInputProps } from './TextAreaInput'
 import { ColorInput, ColorInputProps } from './ColorInput'
 import { expectNever } from '../../utils/expectNever'
+import { MultiSelect, MultiSelectProps } from './MultiSelect'
 
 export type CommonInputProps = {
   label?: ReactNode
@@ -29,6 +30,7 @@ export type InputProps = CommonInputProps &
     | ({ type: 'textarea' } & TextAreaInputProps)
     | ({ type: 'search' } & SearchInputProps)
     | ({ type: 'select' } & SelectInputProps)
+    | ({ type: 'multi-select' } & MultiSelectProps)
     | ({ type: 'number' } & NumberInputProps)
     | ({ type: 'color' } & ColorInputProps)
     | ({ type: 'file' } & FileInputProps)
@@ -83,6 +85,18 @@ export function Input(props: InputProps) {
           error={props.error}
         >
           <SelectInput {...narrowedProps} />
+        </LabelAndErrorWrapper>
+      )
+    }
+    case 'multi-select': {
+      const { type, ...narrowedProps } = props
+      return (
+        <LabelAndErrorWrapper
+          message={props.message}
+          label={props.label}
+          error={props.error}
+        >
+          <MultiSelect {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
     }

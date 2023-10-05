@@ -52,6 +52,7 @@ import useContextState from './hooks/useContextState'
 import thumbnail from './components/Thumbnail'
 import styledDivs from './components/StyledDivs'
 import modal from './components/Modal'
+import multiSelect from './components/MultiSelectInput'
 
 export const hooks: ComponentDef[] = [useContextState]
 
@@ -69,6 +70,7 @@ export const input = [
   searchInput,
   segmentedControl,
   selectInput,
+  multiSelect,
   slider,
   textInput,
   toggle,
