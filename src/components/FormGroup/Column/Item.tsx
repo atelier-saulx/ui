@@ -137,7 +137,6 @@ export const FormItem: FC<{
       {/* @ts-ignore FIX THIS TYPE */}
       <Input
         autoFocus={autoFocus}
-        placeholder={label}
         value={value ?? ''}
         //  @ts-ignore
         type={type || 'text'}

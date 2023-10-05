@@ -180,7 +180,6 @@ export const FormItem: FC<{
         error={isError}
         message={isError && (isString ? errorMessage : 'Incorrect value')}
         autoFocus={autoFocus}
-        placeholder={label}
         value={value ?? ''}
         // @ts-ignore
         type={type || 'text'}
