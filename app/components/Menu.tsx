@@ -6,6 +6,8 @@ import {
   Badge,
   IconEdit,
   IconAlarmClock,
+  IconAnchor,
+  IconArchive,
 } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
@@ -19,6 +21,7 @@ const example: ComponentDef = {
     {
       props: {},
       customRenderer: ({}) => {
+        const [smallMenuValue, setSmallMenuValue] = useState('flippie')
         const [value, setValue] = useState('yowza1')
 
         useEffect(() => {
@@ -26,59 +29,78 @@ const example: ComponentDef = {
         }, [value])
 
         return (
-          <div style={{ display: 'flex', gap: 20 }}>
-            <Badge>{value}</Badge>
-            <Menu
-              // shrunk
-              // collapse
-              onChange={(v) => {
-                setValue(v)
-              }}
-              active={value}
-              data={{
-                Label: {
-                  flyp: {
-                    //@ts-ignore
-                    value: 'yowza1',
-                    label: 'Home',
-                    icon: <IconHome />,
+          <div>
+            <div style={{ display: 'flex', marginBottom: 12, gap: 16 }}>
+              <Badge>{smallMenuValue}</Badge>
+              <Badge>{value}</Badge>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <Menu
+                shrunk
+                onChange={(v) => {
+                  setSmallMenuValue(v)
+                }}
+                data={{
+                  items: {
+                    x: { value: 'x', label: 'XX', icon: <IconAlarmClock /> },
+                    y: { value: 'y', label: 'YY', icon: <IconEmojiSmile /> },
+                    z: { value: 'z', label: 'ZZ', icon: <IconAnchor /> },
+                    a: { value: 'a', label: 'AA', icon: <IconArchive /> },
                   },
-                },
-                Database: {
-                  flyp: {
-                    value: 'yow1',
-                    label: 'Builder',
-                    icon: <IconEmojiSmile />,
+                }}
+              />
+              <Menu
+                // shrunk
+                // collapse
+                onChange={(v) => {
+                  setValue(v)
+                }}
+                active={value}
+                data={{
+                  Label: {
+                    flyp: {
+                      //@ts-ignore
+                      value: 'yowza1',
+                      label: 'Home',
+                      icon: <IconHome />,
+                    },
                   },
-                  flip: {
-                    value: 'yow2',
-                    label: 'Content',
-                    icon: <IconEdit />,
-                    flappie: {
-                      value: 'hellow',
-                      label: 'hallow',
+                  Database: {
+                    flyp: {
+                      value: 'yow1',
+                      label: 'Builder',
+                      icon: <IconEmojiSmile />,
                     },
-                    floepie: {
-                      value: 'herrow',
-                      label: 'halrwo',
-                    },
-                    flyexie: {
-                      value: 'heraima',
-                      label: 'heuanlae',
-                      snrupie: {
-                        value: 'snrupt',
-                        label: 'niepow',
+                    flip: {
+                      value: 'yow2',
+                      label: 'Content',
+                      icon: <IconEdit />,
+                      flappie: {
+                        value: 'hellow',
+                        label: 'hallow',
+                      },
+                      floepie: {
+                        value: 'herrow',
+                        label: 'halrwo',
+                      },
+                      flyexie: {
+                        value: 'heraima',
+                        label: 'heuanlae',
+                        snrupie: {
+                          value: 'snrupt',
+                          label: 'niepow',
+                        },
                       },
                     },
+                    flop: {
+                      value: 'yow3',
+                      label: 'Assets',
+                      icon: <IconAlarmClock />,
+                    },
                   },
-                  flop: {
-                    value: 'yow3',
-                    label: 'Assets',
-                    icon: <IconAlarmClock />,
-                  },
-                },
-              }}
-            />
+                }}
+              />
+            </div>
           </div>
         )
       },
