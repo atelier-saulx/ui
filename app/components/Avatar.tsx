@@ -52,7 +52,7 @@ const example: ComponentDef = {
         )
       },
       name: 'Auto generate color',
-      description: 'Based on label',
+      description: 'Based on children',
       props: {
         autoColor: true,
         size: 'large',
