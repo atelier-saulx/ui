@@ -8,6 +8,7 @@ import {
   IconAlarmClock,
   IconAnchor,
   IconArchive,
+  Text,
 } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
@@ -37,7 +38,7 @@ const example: ComponentDef = {
                   setSmallMenuValue(v)
                 }}
                 active={smallMenuValue}
-                data={{
+                config={{
                   items: {
                     // @ts-ignore
                     x: { value: 'x', label: 'XX', icon: <IconAlarmClock /> },
@@ -49,12 +50,22 @@ const example: ComponentDef = {
               />
               <Menu
                 // shrunk
+                header={
+                  <div style={{ background: 'yellow', width: '100%' }}>
+                    <Text>Header</Text>
+                  </div>
+                }
+                footer={
+                  <div style={{ background: 'orange', width: '100%' }}>
+                    <Text>Footer</Text>
+                  </div>
+                }
                 // collapse
                 onChange={(v) => {
                   setValue(v)
                 }}
                 active={value}
-                data={{
+                config={{
                   Label: {
                     flyp: {
                       //@ts-ignore

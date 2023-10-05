@@ -13,13 +13,13 @@ const example: ComponentDef = {
     {
       props: {
         color: 'informative',
-        children: 24,
+        children: 0,
       },
     },
     {
       props: {
         color: 'warning',
-        children: 8833,
+        children: 1562,
         icon: () => React.createElement(IconChartPie),
         valueFormat: 'number-bytes',
       },

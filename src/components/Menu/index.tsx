@@ -20,14 +20,19 @@ import {
 import { MenuItem } from './MenuItem'
 import { BpMobile, BpSmall } from '../../utils'
 
-type MenuHeaderProps = {
+type MenuItemsHeaderProps = {
   children?: ReactNode
   style?: Style
   onClick?: (e: MouseEvent<HTMLDivElement>) => void
   id?: string
 }
 
-const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
+const MenuItemsHeader: FC<MenuItemsHeaderProps> = ({
+  children,
+  style,
+  onClick,
+  id,
+}) => {
   return (
     <styled.div
       id={id}
@@ -108,12 +113,12 @@ const isMenuDataObject = (data: MenuData): data is MenuDataObject => {
 }
 
 export const isMenuDataObjectItem = (
-  data: MenuDataObjectItem | ReactNode | MenuDataItem[]
-): data is MenuDataObjectItem => {
+  config: MenuDataObjectItem | ReactNode | MenuDataItem[]
+): config is MenuDataObjectItem => {
   return (
-    typeof data === 'object' &&
-    !Array.isArray(data) &&
-    !React.isValidElement(data)
+    typeof config === 'object' &&
+    !Array.isArray(config) &&
+    !React.isValidElement(config)
   )
 }
 
@@ -144,25 +149,27 @@ const toMenuItemObject = (
 }
 
 type MenuProps = {
-  data?: MenuData
+  config?: MenuData
   active?: any
   isActive?: (value: any) => boolean
   onChange?: (value: any, header?: any) => void
   style?: Style
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
+  footer?: ReactNode | ReactNode[]
   collapse?: boolean
   shrinkable?: boolean
   shrunk?: boolean
 }
 
 export const Menu: FC<MenuProps> = ({
-  data = {},
+  config = {},
   onChange,
   active,
   style,
   children,
   header,
+  footer,
   isActive,
   collapse,
   shrinkable,
@@ -173,9 +180,9 @@ export const Menu: FC<MenuProps> = ({
   const [open, setOpen] = useState(true)
   const [shrink, setShrink] = useState(shrunk)
 
-  if (isMenuDataObject(data)) {
-    for (const key in data) {
-      const item = data[key]
+  if (isMenuDataObject(config)) {
+    for (const key in config) {
+      const item = config[key]
       if (isMenuDataObjectItem(item)) {
         const items: MenuDataItemObject[] = []
         for (const itemKey in item) {
@@ -191,7 +198,7 @@ export const Menu: FC<MenuProps> = ({
       }
     }
   } else {
-    for (const item of data) {
+    for (const item of config) {
       menuDataItems.push(toMenuItemObject(item))
     }
   }
@@ -209,14 +216,13 @@ export const Menu: FC<MenuProps> = ({
         return (
           <Fragment key={i}>
             {items.length > 0 && !shrink && (
-              <MenuHeader
+              <MenuItemsHeader
                 id={`${i}-menuheader`}
                 style={{
-                  // marginTop: i && 36,
+                  marginTop: i && 36,
                   justifyContent: collapse ? 'space-between' : 'unset',
                   display: collapse ? 'flex' : 'flex',
-                  // marginBottom: '12px',
-                  // marginTop: 24,
+                  marginBottom: '12px',
                 }}
                 onClick={(e) => {
                   // if (onChange) {
@@ -253,7 +259,7 @@ export const Menu: FC<MenuProps> = ({
                     <IconChevronDown />
                   </StyledChevron>
                 )}
-              </MenuHeader>
+              </MenuItemsHeader>
             )}
             <HideableStyledDiv
               id={`${i}-menuitems`}
@@ -400,6 +406,8 @@ export const Menu: FC<MenuProps> = ({
           flexShrink: 0,
           backgroundColor: color('background', 'default', 'muted'),
           padding: '24px 12px',
+          paddingLeft: !shrink ? '16px' : '6px',
+          paddingRight: '8px',
           height: 'auto',
           minHeight: '100%',
           width: !shrink ? 224 : 42,
@@ -416,14 +424,24 @@ export const Menu: FC<MenuProps> = ({
             position: 'absolute',
             width: !shrink ? '264px' : '54px',
             paddingRight: '4px !important',
+            paddingLeft: '12px',
           },
           ...style,
         }}
       >
-        <MenuHeader>{header}</MenuHeader>
+        <div style={{ display: 'flex', width: '100%' }}>{header}</div>
         {items}
         {children}
-        <styled.div style={{ height: 46 }} />
+        <styled.div
+          style={{
+            marginTop: '24px',
+            marginBottom: '12px',
+            display: 'flex',
+            width: '100%',
+          }}
+        >
+          {footer}
+        </styled.div>
       </ScrollArea>
     </>
   )
