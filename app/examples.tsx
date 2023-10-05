@@ -55,9 +55,8 @@ import modal from './components/Modal'
 
 export const hooks: ComponentDef[] = [useContextState]
 
-export const components: ComponentDef[] = [button, text]
-
 export const input = [
+  button,
   checkboxInput,
   colorInput,
   confirmation,
@@ -76,20 +75,11 @@ export const input = [
   formGroup,
 ]
 
-export const misc = [code, colorPicker, logsText, styledDivs, tag]
+export const misc = [colorPicker, code, logsText, styledDivs, tag]
 
 export const overlay = [dropdown, modal, pill, popover, sidePanel]
 
-export const feedback = [
-  alertBanner,
-  avatar,
-  badge,
-  counter,
-  status,
-  thumbnail,
-  toast,
-  tooltipTest,
-]
+export const feedback = [alertBanner, badge, toast, tooltipTest]
 
 export const icons = [icon]
 
@@ -97,4 +87,6 @@ export const layout = [accordion, container, divider, scrollArea, tabs]
 
 export const navigation = [breadCrumbs, topNavigation, Menu]
 
-export const dataDisplay = [barGraph, linegraph, pieGraph, metricsWidget, table]
+export const graphs = [barGraph, linegraph, pieGraph, metricsWidget]
+
+export const display = [text, table, counter, status, avatar, thumbnail]

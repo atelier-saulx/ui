@@ -35,7 +35,7 @@ const example: ComponentDef = {
               }}
               options={options}
               {...props}
-              type="multi"
+              type="select"
             />
           </>
         )
