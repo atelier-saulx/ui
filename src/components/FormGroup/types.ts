@@ -20,7 +20,8 @@ export type FormItemProps<T = any> = {
   field: string
   options?: any[]
   default?: T
-  validation?: (value: T) => boolean
+  // string is message , true | false
+  validation?: (value: T) => boolean | string
 }
 
 export type FormGroupValues = { [field: string]: any }
