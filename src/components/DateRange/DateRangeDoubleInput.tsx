@@ -186,9 +186,9 @@ export const DateRangeDoubleInput = ({
               if (e.key === 'Backspace') {
                 setFromDay('')
               }
-              if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
-                setFromDay(daysInMonth(newFromMonth, newFromYear) + 1)
-              }
+              // if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
+              //   setFromDay(daysInMonth(newFromMonth - 1, newFromYear) + 1)
+              // }
             }}
             onKeyUp={(e) => {
               if (+e.key > 3) {
@@ -225,9 +225,11 @@ export const DateRangeDoubleInput = ({
               if (e.key === 'Backspace') {
                 setFromMonth('')
               }
-              if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
-                setFromMonth(13)
-              }
+              // if (e.key === 'ArrowDown' && fromMonth === 1) {
+              //   setFromDay(fromDay)
+              //   setFromYear(fromYear)
+              //   setFromMonth(13)
+              // }
             }}
             onKeyUp={(e) => {
               if (+e.key > 1 && +e.currentTarget.value > 1) {
@@ -314,9 +316,9 @@ export const DateRangeDoubleInput = ({
               if (e.key === 'Backspace') {
                 setTillDay('')
               }
-              if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
-                setTillDay(daysInMonth(newTillMonth, newTillYear) + 1)
-              }
+              // if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
+              //   setTillDay(daysInMonth(newTillMonth, newTillYear) + 1)
+              // }
               if (e.key === 'ArrowLeft') {
                 setOpen(false)
               }
@@ -362,9 +364,9 @@ export const DateRangeDoubleInput = ({
               if (e.key === 'Backspace') {
                 setTillMonth('')
               }
-              if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
-                setTillMonth(13)
-              }
+              // if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
+              //   setTillMonth(13)
+              // }
             }}
             onKeyUp={(e) => {
               if (+e.key > 1 && +e.currentTarget.value > 1) {

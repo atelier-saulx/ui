@@ -17,11 +17,10 @@ import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
 import { OverviewComponent } from './OverviewComponent'
 import {
-  components,
   layout,
   hooks,
   navigation,
-  dataDisplay,
+  display,
   feedback,
   icons,
   input,
@@ -37,11 +36,10 @@ const App = () => {
   const route = useRoute('[component]')
   const component = route.query.component
   const filtered = [
-    ...components,
     ...layout,
     ...hooks,
     ...navigation,
-    ...dataDisplay,
+    ...display,
     ...feedback,
     ...icons,
     ...input,
@@ -97,8 +95,7 @@ const App = () => {
           </styled.div>
         }
         data={{
-          components: filterThis(components),
-          dataDisplay: filterThis(dataDisplay),
+          display: filterThis(display),
           feedback: filterThis(feedback),
           input: filterThis(input),
           layout: filterThis(layout),
