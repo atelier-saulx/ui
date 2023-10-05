@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
-import { Pill } from '../../src'
+import { IconAlarmClock, Pill } from '../../src'
 import { ComponentDef } from '../types'
 import { faker } from '@faker-js/faker'
+import props from '../props.json'
 
 const example: ComponentDef = {
   name: 'Pill',
   component: Pill,
   description: 'Pill ',
-  properties: {},
+  properties: {
+    ...props.props.SelectPillProps.props,
+    ...props.props.BooleanPillProps.props,
+  },
   examples: [
     {
-      props: {},
-      customRenderer: () => {
+      props: { prefix: 'Identity', placeholder: 'Select one' },
+      customRenderer: (props) => {
         const [value, setValue] = useState<string>('')
         const [options] = useState(() =>
           Array.from({ length: 25 }).map((_, i) => ({
@@ -21,16 +25,27 @@ const example: ComponentDef = {
         )
 
         return (
-          <Pill
-            prefix="lala"
-            value={value}
-            onChange={(v) => {
-              setValue(v)
-            }}
-            options={options}
-            placeholder="Select one"
-          />
+          //TODO help
+          <>
+            <Pill
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+              }}
+              options={options}
+              {...props}
+              type="select"
+            />
+          </>
         )
+      },
+    },
+    {
+      props: {
+        type: 'boolean',
+        // icon: <IconAlarmClock />,
+        defaultValue: true,
+        onChange: (e) => console.log(e),
       },
     },
   ],

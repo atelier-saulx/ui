@@ -1,38 +1,11 @@
-import React, { FC, useMemo, ReactNode } from 'react'
-import { border } from '../../../varsUtilities'
+import React, { FC, useMemo } from 'react'
 import { styled, Style } from 'inlines'
 import { Label } from './Label'
-import { RowSpaced, Input, Row } from '../../../components'
-import { SettingGroupItem } from '../types'
+import { FormItemProps } from '../types'
+import { Input, Row } from '../..'
 
-export const Empty = styled('div', {
-  minWidth: 350,
-  width: 350,
-})
-
-export const Group: FC<{ children: ReactNode; style?: Style }> = ({
-  children,
-  style,
-}) => {
-  return (
-    <RowSpaced
-      style={{
-        ...style,
-        borderTop: border(1),
-        marginLeft: -8,
-        marginRight: -8,
-        marginTop: 16,
-        paddingTop: 8,
-        flexWrap: 'wrap',
-      }}
-    >
-      {children}
-    </RowSpaced>
-  )
-}
-
-export const SettingsField: FC<{
-  item: SettingGroupItem
+export const FormItem: FC<{
+  item: FormItemProps
   value?: any
   style?: Style
   width?: number
@@ -69,7 +42,6 @@ export const SettingsField: FC<{
     return (
       <Label
         style={{
-          margin: 8,
           marginBottom: 16,
           ...style,
         }}
@@ -92,7 +64,6 @@ export const SettingsField: FC<{
     return (
       <Label
         style={{
-          margin: 8,
           marginBottom: 16,
           ...style,
         }}
@@ -124,7 +95,6 @@ export const SettingsField: FC<{
     return (
       <Label
         style={{
-          margin: 8,
           marginBottom: 16,
           ...style,
         }}
@@ -188,10 +158,7 @@ export const SettingsField: FC<{
 
   return (
     <Label
-      style={{
-        margin: 8,
-        ...style,
-      }}
+      style={style}
       labelWidth={width}
       label={label}
       description={description}

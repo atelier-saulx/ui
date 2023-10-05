@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Input } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'

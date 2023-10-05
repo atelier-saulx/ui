@@ -1,15 +1,41 @@
 import React, { FC, ReactNode } from 'react'
 import { border } from '../../../varsUtilities'
-import { Text, Confirmation, RowEnd, Row } from '../..'
-import { SettingsField, Group } from './Item'
+import { Text, Confirmation, RowEnd, Row, RowSpaced } from '../..'
+import { FormItem } from './Item'
 import { getValue } from '../utils'
+import { Style, styled } from 'inlines'
 import { FormGroupVariantProps } from '../types'
-import { Empty } from './Item'
+
+export const Empty = styled('div', {
+  minWidth: 350,
+  width: 350,
+})
 
 export const emptyDivs = (arr: ReactNode[]) => {
   for (let i = 0; i < 5; i++) {
     arr.push(<Empty key={'e' + i} />)
   }
+}
+
+const Group: FC<{ children: ReactNode; style?: Style }> = ({
+  children,
+  style,
+}) => {
+  return (
+    <RowSpaced
+      style={{
+        ...style,
+        borderTop: border(1),
+        marginLeft: -8,
+        marginRight: -8,
+        marginTop: 16,
+        paddingTop: 8,
+        flexWrap: 'wrap',
+      }}
+    >
+      {children}
+    </RowSpaced>
+  )
 }
 
 export const FormGroupGrid: FC<FormGroupVariantProps> = ({
@@ -31,7 +57,7 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
   for (const d of parsedData) {
     if (d.type === 'boolean') {
       checkBoxes.push(
-        <SettingsField
+        <FormItem
           fieldWidth={fieldWidth}
           width={labelWidth}
           key={d.field}
@@ -49,7 +75,7 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
       )
     } else {
       rest.push(
-        <SettingsField
+        <FormItem
           fieldWidth={fieldWidth}
           width={labelWidth}
           key={d.field}
