@@ -8,6 +8,7 @@ import {
   IconMoreHorizontal,
   IconOpenInNew,
   IconRefresh,
+  IconFullscreen,
   IconUpload,
 } from '../../icons'
 import { color } from '../../varsUtilities'
@@ -23,10 +24,17 @@ export type FileInputProps = {
 type FileListItemProps = {
   file: File
   onDelete: () => void
+  onFullscreen: () => void
+  onOpenNewTab: (e) => void
   // onCopy: ()=>void
 }
 
-function FileListItem({ file, onDelete }: FileListItemProps) {
+function FileListItem({
+  file,
+  onDelete,
+  onFullscreen,
+  onOpenNewTab,
+}: FileListItemProps) {
   const [showMore, setShowMore] = useState(false)
   const [fullScreen, setFullScreen] = useState(false)
   const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null)
@@ -50,13 +58,13 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
     },
     {
       label: 'Full Screen',
-      Icon: IconDelete,
-      callback: onDelete,
+      Icon: IconFullscreen,
+      callback: onFullscreen,
     },
     {
       label: 'Open in new tab',
       Icon: IconOpenInNew,
-      callback: onDelete,
+      callback: (url) => onOpenNewTab(url),
     },
     {
       label: 'Rename',
@@ -169,7 +177,7 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
                   position: 'absolute',
                   left: 0,
                   top: 28,
-                  widht: '100%',
+                  minWidth: 200,
                   background: color('background', 'default', 'surface'),
                   border: `1px solid ${color(
                     'inputBorder',
@@ -190,7 +198,7 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
                     onClick={(e) => {
                       e.stopPropagation()
                       setShowMore(false)
-                      action.callback()
+                      action.callback(e)
                     }}
                     style={{
                       position: 'relative',
@@ -224,7 +232,7 @@ function FileListItem({ file, onDelete }: FileListItemProps) {
                     >
                       <action.Icon />
                     </div>
-                    {action.label}
+                    <Text>{action.label}</Text>
                   </styled.div>
                 ))}
               </styled.div>
@@ -264,6 +272,16 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
               if (inputRef.current) {
                 inputRef.current.value = ''
               }
+            }}
+            onFullscreen={() => console.log('hellow 🍿')}
+            onOpenNewTab={(imagePreviewURL) => {
+              console.log(imagePreviewURL)
+              // const newWindow = window.open(
+              //   imagePreviewURL,
+              //   '_blank',
+              //   'noopener,noreferrer'
+              // )
+              // if (newWindow) newWindow.opener = null
             }}
           />
         ))}
