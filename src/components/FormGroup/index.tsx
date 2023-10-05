@@ -1,321 +1,32 @@
-import React, { FC, useMemo, ReactNode, useRef, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { useUpdate } from '../../hooks'
-import { border } from '../../varsUtilities'
-import { styled, Style } from 'inlines'
-import { Label } from './Label'
+import { setValue, equalChanges } from './utils'
 import {
-  RowSpaced,
-  Input,
-  Text,
-  Confirmation,
-  RowEnd,
-  Row,
-} from '../../components'
-
-const Empty = styled('div', {
-  minWidth: 350,
-  width: 350,
-})
-
-const Group: FC<{ children: ReactNode; style?: Style }> = ({
-  children,
-  style,
-}) => {
-  return (
-    <RowSpaced
-      style={{
-        ...style,
-        borderTop: border(1),
-        marginLeft: -8,
-        marginRight: -8,
-        marginTop: 16,
-        paddingTop: 8,
-        flexWrap: 'wrap',
-      }}
-    >
-      {children}
-    </RowSpaced>
-  )
-}
-
-export const SettingsField: FC<{
-  item: SettingGroupItem
-  value?: any
-  style?: Style
-  width?: number
-  fieldWidth?: number
-  onChange: (field: string, value: any) => void
-}> = ({
-  fieldWidth = 185,
-  width = 160,
-  item: {
-    props,
-    type,
-    field,
-    label,
-    description,
-    options,
-    default: defaultValue,
-  },
-  value,
-  style,
-  onChange,
-}) => {
-  if (!label) {
-    label = useMemo(
-      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
-      [field]
-    )
-  }
-
-  if ((defaultValue && value === undefined) || value === '') {
-    value = defaultValue
-  }
-
-  if (typeof type === 'function') {
-    return (
-      <Label
-        style={{
-          margin: 8,
-          marginBottom: 16,
-          ...style,
-        }}
-        labelWidth={width}
-        label={label}
-        description={description}
-      >
-        <styled.div style={{ width: fieldWidth }}>
-          {React.createElement(type, {
-            value,
-            onChange,
-            ...props,
-          })}
-        </styled.div>
-      </Label>
-    )
-  }
-
-  if (options) {
-    // --------
-
-    return (
-      <Label
-        style={{
-          margin: 8,
-          marginBottom: 16,
-          ...style,
-        }}
-        labelWidth={width}
-        label={label}
-        description={description}
-      >
-        <Input
-          type="select"
-          value={value}
-          onChange={(v) => {
-            onChange(field, v)
-          }}
-          options={options.map((value, i) => {
-            if (typeof value !== 'object') {
-              return { value: String(i), label: value }
-            }
-            return { value }
-          })}
-          {...props}
-          // @ts-ignore
-          style={Object.assign({ width: fieldWidth }, props?.style)}
-        />
-      </Label>
-    )
-  }
-
-  if (type === 'range') {
-    return (
-      <Label
-        style={{
-          margin: 8,
-          marginBottom: 16,
-          ...style,
-        }}
-        labelWidth={width}
-        label={label}
-        description={description}
-      >
-        <Row style={{ minWidth: fieldWidth }}>
-          <Input
-            onChange={(v) => {
-              onChange(field, {
-                min: v,
-                max: v > value?.max ? v : value?.max ?? v,
-              })
-            }}
-            value={value?.min}
-            type="number"
-            placeholder="Min"
-            {...props}
-            // @ts-ignore
-            style={Object.assign({ width: 90, marginRight: 8 }, props?.style)}
-          />
-          <Input
-            onChange={(v) => {
-              onChange(field, {
-                max: v,
-                min: v < value?.min ? v : value?.min ?? 0,
-              })
-            }}
-            value={value?.max}
-            type="number"
-            placeholder="Max"
-            {...props}
-            // @ts-ignore
-            style={Object.assign({ width: 90 }, props?.style)}
-          />
-        </Row>
-      </Label>
-    )
-  }
-
-  if (type === 'boolean') {
-    return (
-      <Input
-        type="checkbox"
-        value={value}
-        onChange={(v) => onChange(field, v)}
-        label={label}
-        {...props}
-        // @ts-ignore
-        style={Object.assign(
-          { marginBottom: 16, marginRight: 32 },
-          props?.style
-        )}
-      />
-    )
-  }
-
-  return (
-    <Label
-      style={{
-        margin: 8,
-        ...style,
-      }}
-      labelWidth={width}
-      label={label}
-      description={description}
-    >
-      {/* @ts-ignore FIX THIS TYPE */}
-      <Input
-        placeholder={label}
-        value={value ?? ''}
-        type={type || 'text'}
-        onChange={(v) => onChange(field, v)}
-        {...props}
-        // @ts-ignore
-        style={Object.assign(
-          { minWidth: fieldWidth, width: '100%' },
-          props?.style
-        )}
-      />
-    </Label>
-  )
-}
-
-export type SettingGroupItem = {
-  label?: ReactNode
-  props?: { [key: string]: string }
-  value?: any
-  type?: 'number' | 'text' | 'range' | 'boolean'
-  description?: ReactNode
-  field: string
-  options?: any[]
-  default?: any
-}
-
-export type FormGroupProps = {
-  style?: Style
-  fieldWidth?: number
-  labelWidth?: number
-  onChange: (changes: { [field: string]: any }) => void | Promise<void>
-  values?: { [field: string]: any }
-  config?:
-    | SettingGroupItem[]
-    | {
-        [field: string]:
-          | null
-          | ReactNode
-          | (Omit<SettingGroupItem, 'field'> & { field?: string })
-      }
-  alwaysAccept?: boolean
-}
-
-const getValue = (field, values?: { [field: string]: any }): any => {
-  const path = field.split('.')
-  let v = values
-  for (const f of path) {
-    if (v === undefined || v === null) {
-      return undefined // or emptty string...
-    }
-    v = v[f]
-  }
-  return v
-}
-
-const setValue = (field, values: { [field: string]: any }, value: any) => {
-  const path = field.split('.')
-  let v = values
-  for (let i = 0; i < path.length - 1; i++) {
-    const f = path[i]
-    v = v[f] ?? (v[f] = {})
-  }
-  v[path[path.length - 1]] = value
-}
-
-const emptyDivs = (arr: ReactNode[]) => {
-  for (let i = 0; i < 5; i++) {
-    arr.push(<Empty key={'e' + i} />)
-  }
-}
-
-const equalChanges = (
-  changes: { [key: string]: any },
-  values: { [key: string]: any }
-): boolean => {
-  for (const key in changes) {
-    const c = changes[key]
-    const v = values[key]
-    const cType = typeof c
-    const vType = typeof v
-    if (cType !== vType) {
-      return false
-    }
-    if (cType === 'object' && c !== null) {
-      if (v === null) {
-        return false
-      }
-      if (!equalChanges(c, v)) {
-        return false
-      }
-    } else if (c !== v) {
-      return false
-    }
-  }
-  return true
-}
+  FormGroupProps,
+  OnChangeField,
+  ValuesChanged,
+  FormItemProps,
+} from './types'
+import { FormGroupGrid } from './Grid'
+import { FormGroupColumn } from './Column'
 
 export const FormGroup: FC<FormGroupProps> = ({
   onChange,
   config = [],
   style,
   alwaysAccept,
+  values,
+  variant = 'column',
+  // only relevant for grid
   labelWidth = 160,
   fieldWidth = 185,
-  values,
 }) => {
-  const valuesChanged = useRef<{ [field: string]: any }>({})
+  const valuesChanged = useRef<ValuesChanged>({})
 
   const [hasChanges, setChanges] = useState(false)
   const update = useUpdate()
 
-  const onChangeField = (field: string, value: any) => {
+  const onChangeField: OnChangeField = (field, value) => {
     if (alwaysAccept) {
       const newV = {}
       setValue(field, newV, value)
@@ -331,7 +42,7 @@ export const FormGroup: FC<FormGroupProps> = ({
     }
   }
 
-  let parsedData: SettingGroupItem[]
+  let parsedData: FormItemProps[]
 
   if (!Array.isArray(config)) {
     parsedData = []
@@ -354,99 +65,37 @@ export const FormGroup: FC<FormGroupProps> = ({
     parsedData = config
   }
 
-  const checkBoxes: ReactNode[] = []
-  const rest: ReactNode[] = []
-
-  for (const d of parsedData) {
-    if (d.type === 'boolean') {
-      checkBoxes.push(
-        <SettingsField
-          fieldWidth={fieldWidth}
-          width={labelWidth}
-          key={d.field}
-          item={d}
-          onChange={onChangeField}
-          value={
-            d.value ??
-            (hasChanges
-              ? getValue(d.field, valuesChanged.current) ??
-                d.value ??
-                getValue(d.field, values)
-              : getValue(d.field, values))
-          }
-        />
-      )
-    } else {
-      rest.push(
-        <SettingsField
-          fieldWidth={fieldWidth}
-          width={labelWidth}
-          key={d.field}
-          item={d}
-          onChange={onChangeField}
-          value={
-            hasChanges
-              ? getValue(d.field, valuesChanged.current) ??
-                d.value ??
-                getValue(d.field, values)
-              : d.value ?? getValue(d.field, values)
-          }
-        />
-      )
-    }
-  }
-
-  if (rest.length) {
-    emptyDivs(rest)
-  }
-
-  if (checkBoxes.length) {
-    emptyDivs(checkBoxes)
+  if (variant === 'grid') {
+    return (
+      <FormGroupGrid
+        onChange={onChange}
+        parsedData={parsedData}
+        labelWidth={labelWidth}
+        fieldWidth={fieldWidth}
+        onChangeField={onChangeField}
+        style={style}
+        hasChanges={hasChanges}
+        valuesChanged={valuesChanged}
+        values={values}
+        setChanges={setChanges}
+        alwaysAccept={alwaysAccept}
+      />
+    )
   }
 
   return (
-    <Group style={style}>
-      {rest}
-      {checkBoxes.length && rest.length ? (
-        <Row
-          style={{
-            width: '100%',
-            borderTop: border(1),
-            marginTop: 16,
-            padding: 8,
-            paddingTop: 16,
-            flexWrap: 'wrap',
-          }}
-        >
-          {checkBoxes}
-        </Row>
-      ) : (
-        checkBoxes
-      )}
-      {alwaysAccept || !hasChanges ? null : (
-        <RowEnd
-          style={{
-            borderTop: border(1),
-            width: '100%',
-            marginTop: 16,
-            paddingTop: 16,
-            marginRight: 8,
-          }}
-        >
-          <Text light>Apply changes</Text>
-          <Confirmation
-            onCancel={() => {
-              valuesChanged.current = {}
-              setChanges(false)
-            }}
-            onAccept={async () => {
-              await onChange(valuesChanged.current)
-              valuesChanged.current = {}
-              setChanges(false)
-            }}
-          />
-        </RowEnd>
-      )}
-    </Group>
+    <FormGroupColumn
+      onChange={onChange}
+      parsedData={parsedData}
+      labelWidth={labelWidth}
+      fieldWidth={fieldWidth}
+      onChangeField={onChangeField}
+      style={style}
+      hasChanges={hasChanges}
+      valuesChanged={valuesChanged}
+      values={values}
+      setChanges={setChanges}
+      alwaysAccept={alwaysAccept}
+    />
   )
 }

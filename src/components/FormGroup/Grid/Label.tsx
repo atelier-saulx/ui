@@ -1,37 +1,29 @@
-import React, { ReactNode, FC } from 'react'
-import { Style } from 'inlines'
-import { Row, Text } from '../../components'
-
-type LabelProps = {
-  label?: ReactNode
-  description?: ReactNode
-  icon?: ReactNode
-  children?: ReactNode
-  labelWidth?: number
-  style?: Style
-}
+import React, { FC } from 'react'
+import { styled } from 'inlines'
+import { Row, Text } from '../../'
+import { LabelProps } from '../types'
 
 export const Label: FC<LabelProps> = ({
   label,
   description,
-  icon,
   children,
   style,
   labelWidth,
 }) => {
-  if (!label && !description && !icon) {
+  if (!label && !description) {
     return null
   }
   return (
-    <div
+    <styled.div
       style={{
+        margin: 8,
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',
         ...style,
       }}
     >
-      <div
+      <styled.div
         style={{
           minWidth: labelWidth,
           display: 'flex',
@@ -40,24 +32,13 @@ export const Label: FC<LabelProps> = ({
         }}
       >
         <Row>
-          {icon && (
-            <div
-              style={{
-                display: 'inline-block',
-                marginRight: 8,
-                marginBottom: description ? 2 : 0,
-              }}
-            >
-              {icon}
-            </div>
-          )}
           <Text style={{ marginBottom: description ? 0 : 0 }} weight="strong">
             {label}
           </Text>
         </Row>
         {description && <Text light>{description}</Text>}
-      </div>
+      </styled.div>
       {children}
-    </div>
+    </styled.div>
   )
 }
