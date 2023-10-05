@@ -138,6 +138,7 @@ const example: ComponentDef = {
                 },
                 {
                   id: 'actions',
+                  align: 'end',
                   renderAs: (row) => (
                     <Dropdown.Root>
                       <Dropdown.Trigger>
@@ -219,7 +220,7 @@ const example: ComponentDef = {
                 },
                 {
                   id: 'actions',
-                  header: 'More',
+                  align: 'end',
                   renderAs: (row) => (
                     <Dropdown.Root>
                       <Dropdown.Trigger>

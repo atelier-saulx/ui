@@ -19,6 +19,7 @@ import React, { ReactNode, useCallback, useEffect } from 'react'
 import { useCallbackRef } from 'src/hooks/useCallbackRef'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
+import { styled } from 'inlines'
 
 type RenderAs =
   | 'badge'
@@ -32,14 +33,14 @@ type RenderAs =
   | 'normal'
   | ((row: any) => ReactNode)
 
-type TableColumn =
+type TableColumn = { align?: 'start' | 'center' | 'end' } & (
   | {
       key: string
       header: string
       renderAs?: RenderAs
     }
   | { id: string; header?: string; renderAs: (row: any) => ReactNode }
-
+)
 function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
   if (typeof renderAs === 'function') return renderAs(row)
   if (renderAs === 'normal') return <Text>{row[key]}</Text>
@@ -96,6 +97,7 @@ export function Table({
     columns: columns.map((c) => {
       if ('id' in c) {
         return {
+          align: c.align,
           id: c.id,
           header: c.header,
           cell: ({ row }) => c.renderAs(row.original),
@@ -103,6 +105,7 @@ export function Table({
       }
 
       return {
+        align: c.align,
         header: c.header,
         accessorKey: c.key,
         cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
@@ -148,16 +151,59 @@ export function Table({
   )
 
   return (
-    <div
+    <styled.div
       ref={tableContainerRef}
-      style={{ overflow: 'auto', height: '100%', width: '100%' }}
+      style={{
+        overflow: 'auto',
+        height: '100%',
+        width: '100%',
+        scrollbarGutter: 'stable',
+        scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
+        scrollbarWidth: 'thin',
+        '&::-webkit-scrollbar': {
+          visibility: 'hidden',
+        },
+        '&::-webkit-scrollbar:vertical': {
+          width: '8px',
+        },
+        '&::-webkit-scrollbar:horizontal': {
+          height: '8px',
+        },
+        '@media (hover: hover)': {
+          '&:hover': {
+            '&::-webkit-scrollbar': {
+              visibility: 'visible',
+            },
+
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: color('border', 'default', 'strong'),
+              borderRadius: '4px',
+            },
+            '&::-webkit-scrollbar-thumb:vertical': {
+              borderRight: `2px solid ${color(
+                'background',
+                'default',
+                'surface'
+              )}`,
+              minHeight: '32px',
+            },
+            '&::-webkit-scrollbar-thumb:horizontal': {
+              borderBottom: `2px solid ${color(
+                'background',
+                'default',
+                'surface'
+              )}`,
+              minWidth: '32px',
+            },
+          },
+        },
+      }}
       onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
     >
       <table
         style={{
           width: '100%',
           borderCollapse: 'separate',
-          tableLayout: 'fixed',
           borderSpacing: 0,
         }}
       >
@@ -194,10 +240,19 @@ export function Table({
                         }}
                         key={cell.id}
                       >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent:
+                              (cell.column.columnDef as any).align ?? 'start',
+                            alignItems: 'center',
+                          }}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </div>
                       </td>
                     )
                   })}
@@ -251,6 +306,8 @@ export function Table({
                           style={{
                             display: 'flex',
                             height: '100%',
+                            justifyContent:
+                              (header.column.columnDef as any).align ?? 'start',
                             alignItems: 'center',
                             userSelect: 'none',
                             cursor: header.column.getCanSort()
@@ -287,6 +344,6 @@ export function Table({
           </thead>
         )}
       </table>
-    </div>
+    </styled.div>
   )
 }
