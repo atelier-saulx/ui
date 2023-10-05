@@ -86,6 +86,16 @@ export function SelectInput({
       }
 
   function handleSelectItem(index: number) {
+    // && or || or just one of them idk TODO
+    if (
+      value === filteredOptions[index].value ||
+      inputValue === filteredOptions[index]
+    ) {
+      setValue('')
+      setInputValue('')
+      setOpen(false)
+      return
+    }
     setValue(filteredOptions[index].value)
     setInputValue(filteredOptions[index])
     setInputValueChanged(false)
