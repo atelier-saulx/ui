@@ -12,7 +12,7 @@ import { styled } from 'inlines'
 import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
 import { TextAreaInput, TextAreaInputProps } from './TextAreaInput'
 import { ColorInput, ColorInputProps } from './ColorInput'
-import { expectNever } from 'src/utils/expectNever'
+import { expectNever } from '../../utils/expectNever'
 
 export type CommonInputProps = {
   label?: ReactNode

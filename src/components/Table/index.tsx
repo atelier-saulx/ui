@@ -16,7 +16,7 @@ import {
   color,
 } from '../..'
 import React, { ReactNode, useCallback, useEffect } from 'react'
-import { useCallbackRef } from 'src/hooks/useCallbackRef'
+import { useCallbackRef } from '../../hooks/useCallbackRef'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
 import { styled } from 'inlines'
