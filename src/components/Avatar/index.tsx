@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import { color as genColor } from '../../varsUtilities'
+import { color as genColor, colorHash } from '../../varsUtilities'
 import { Text } from '../Text'
 import { Center } from '../Styled'
 import { Style } from 'inlines'
@@ -15,10 +15,11 @@ export type AvatarProps = {
   squared?: boolean
   style?: Style
   light?: boolean
+  autoColor?: boolean
 }
 
 export const Avatar: FC<AvatarProps> = ({
-  color = 'aquamarine',
+  color,
   squared = false,
   src,
   onClick,
@@ -26,8 +27,15 @@ export const Avatar: FC<AvatarProps> = ({
   size: sizeProp = 'medium',
   style,
   light,
+  autoColor,
   ...rest
 }) => {
+  if (autoColor && !color) {
+    color = colorHash('nonSemanticBackground', children ?? src)
+  } else if (!color) {
+    color = 'grey'
+  }
+
   const size =
     sizeProp === 'large'
       ? 48
