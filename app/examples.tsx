@@ -50,7 +50,6 @@ import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
 import thumbnail from './components/Thumbnail'
-import list from './components/List'
 import styledDivs from './components/StyledDivs'
 import modal from './components/Modal'
 
@@ -94,7 +93,7 @@ export const feedback = [
 
 export const icons = [icon]
 
-export const layout = [accordion, container, divider, list, scrollArea, tabs]
+export const layout = [accordion, container, divider, scrollArea, tabs]
 
 export const navigation = [breadCrumbs, topNavigation, Menu]
 
