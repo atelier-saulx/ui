@@ -14,18 +14,19 @@ import {
 } from '../../src'
 import { ComponentDef } from '../types'
 import { faker } from '@faker-js/faker'
+import props from '../props.json'
 
 const example: ComponentDef = {
   name: 'Table',
   component: Table,
   description: '',
-  properties: {},
+  properties: props.props.TableProps.props,
   examples: [
     {
       name: 'Simple',
       description: 'Non-virtualized, non-scrollable',
-      props: {},
-      customRenderer: () => {
+      props: { header: true, virtualized: false },
+      customRenderer: ({ header, virtualized }) => {
         const [data] = useState(() =>
           new Array(6).fill(null).map(() => ({
             logo: faker.image.avatar(),
@@ -41,6 +42,8 @@ const example: ComponentDef = {
         return (
           <div style={{ width: 900 }}>
             <Table
+              header={header}
+              virtualized={virtualized}
               columns={[
                 {
                   key: 'id',
@@ -89,8 +92,8 @@ const example: ComponentDef = {
     {
       name: 'Almost like a list',
       description: 'No header',
-      props: {},
-      customRenderer: () => {
+      props: { header: false, virtualized: false },
+      customRenderer: ({ header, virtualized }) => {
         const [data] = useState(() =>
           new Array(6).fill(null).map(() => ({
             name: faker.person.fullName(),
@@ -104,7 +107,8 @@ const example: ComponentDef = {
         return (
           <div style={{ width: 900 }}>
             <Table
-              header={false}
+              header={header}
+              virtualized={virtualized}
               columns={[
                 {
                   key: 'name',
@@ -164,8 +168,8 @@ const example: ComponentDef = {
     {
       name: 'Virtualized',
       description: 'Virtualized, infinite scrollable',
-      props: {},
-      customRenderer: () => {
+      props: { header: true, virtualized: true },
+      customRenderer: ({ header, virtualized }) => {
         const [open, setOpen] = useState<string | null>(null)
 
         const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
@@ -199,7 +203,8 @@ const example: ComponentDef = {
             }}
           >
             <Table
-              virtualized
+              header={header}
+              virtualized={virtualized}
               data={data}
               onVisibleElementsChange={setVisibleElements}
               onScrollToBottom={() => {
