@@ -76,7 +76,7 @@ function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
 }
 
 export type TableProps = {
-  columns: TableColumn[]
+  columns?: TableColumn[]
   data: any
   onScrollToBottom?: () => void
   onVisibleElementsChange?: (visibleElements: number[]) => void
@@ -85,15 +85,56 @@ export type TableProps = {
   border?: boolean
 }
 
+function generateColumDefinitionsFromData(element) {
+  return Object.entries(element).map(([key, value]) => {
+    const columnDefinition: TableColumn = {
+      key,
+      header: key.charAt(0).toUpperCase() + key.slice(1),
+    }
+
+    if (value instanceof Date) {
+      columnDefinition.renderAs = 'date-time-human'
+    }
+
+    if (key === 'price') {
+      columnDefinition.renderAs = 'number-euro'
+    }
+
+    if (key === 'bytes') {
+      columnDefinition.renderAs = 'number-bytes'
+    }
+
+    if (key === 'avatar') {
+      columnDefinition.renderAs = 'avatar'
+    }
+
+    if (key === 'image' || key === 'img' || key === 'logo') {
+      columnDefinition.renderAs = 'image'
+    }
+
+    if (key === 'createdAt' || key === 'updatedAt') {
+      columnDefinition.renderAs = 'date-time-human'
+    }
+
+    if (key === 'name' || key === 'title') {
+      columnDefinition.renderAs = 'medium'
+    }
+
+    return columnDefinition
+  })
+}
+
 export function Table({
-  columns,
-  data,
+  columns: columnsProp,
+  data = [],
   onScrollToBottom: onScrollToBottomProp,
   onVisibleElementsChange: onVisibleElementsChangeProp,
   virtualized,
   header = true,
   border,
 }: TableProps) {
+  const columns = columnsProp ?? generateColumDefinitionsFromData(data[0])
+
   const table = useReactTable({
     data,
     columns: columns.map((c) => {
