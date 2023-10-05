@@ -38,7 +38,7 @@ const example: ComponentDef = {
                   setSmallMenuValue(v)
                 }}
                 active={smallMenuValue}
-                data={{
+                config={{
                   items: {
                     // @ts-ignore
                     x: { value: 'x', label: 'XX', icon: <IconAlarmClock /> },
@@ -65,7 +65,7 @@ const example: ComponentDef = {
                   setValue(v)
                 }}
                 active={value}
-                data={{
+                config={{
                   Label: {
                     flyp: {
                       //@ts-ignore

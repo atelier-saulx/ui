@@ -119,7 +119,9 @@ export const Counter: FC<CounterProps> = ({
         weight="strong"
         size={12}
       >
-        {prettyNumber(Number(children), valueFormat)}
+        {typeof children === 'number'
+          ? prettyNumber(Number(children), valueFormat)
+          : ''}
       </Text>
     </Center>
   )

@@ -96,7 +96,7 @@ const App = () => {
             />
           </styled.div>
         }
-        data={{
+        config={{
           display: filterThis(display),
           feedback: filterThis(feedback),
           input: filterThis(input),

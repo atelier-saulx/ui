@@ -113,12 +113,12 @@ const isMenuDataObject = (data: MenuData): data is MenuDataObject => {
 }
 
 export const isMenuDataObjectItem = (
-  data: MenuDataObjectItem | ReactNode | MenuDataItem[]
-): data is MenuDataObjectItem => {
+  config: MenuDataObjectItem | ReactNode | MenuDataItem[]
+): config is MenuDataObjectItem => {
   return (
-    typeof data === 'object' &&
-    !Array.isArray(data) &&
-    !React.isValidElement(data)
+    typeof config === 'object' &&
+    !Array.isArray(config) &&
+    !React.isValidElement(config)
   )
 }
 
@@ -149,7 +149,7 @@ const toMenuItemObject = (
 }
 
 type MenuProps = {
-  data?: MenuData
+  config?: MenuData
   active?: any
   isActive?: (value: any) => boolean
   onChange?: (value: any, header?: any) => void
@@ -163,7 +163,7 @@ type MenuProps = {
 }
 
 export const Menu: FC<MenuProps> = ({
-  data = {},
+  config = {},
   onChange,
   active,
   style,
@@ -180,9 +180,9 @@ export const Menu: FC<MenuProps> = ({
   const [open, setOpen] = useState(true)
   const [shrink, setShrink] = useState(shrunk)
 
-  if (isMenuDataObject(data)) {
-    for (const key in data) {
-      const item = data[key]
+  if (isMenuDataObject(config)) {
+    for (const key in config) {
+      const item = config[key]
       if (isMenuDataObjectItem(item)) {
         const items: MenuDataItemObject[] = []
         for (const itemKey in item) {
@@ -198,7 +198,7 @@ export const Menu: FC<MenuProps> = ({
       }
     }
   } else {
-    for (const item of data) {
+    for (const item of config) {
       menuDataItems.push(toMenuItemObject(item))
     }
   }
