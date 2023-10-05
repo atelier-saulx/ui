@@ -9,18 +9,84 @@ import {
   Input,
   Modal,
   NewTable,
+  Thumbnail,
   useInfiniteQuery,
 } from '../../src'
 import { ComponentDef } from '../types'
-import { useQuery } from '@based/react'
+import { faker } from '@faker-js/faker'
 
 const example: ComponentDef = {
   name: 'NewTable',
   component: NewTable,
-  description: 'Virtualized, infinite scrollable',
+  description: '',
   properties: {},
   examples: [
     {
+      description: 'Simple (non-virtualized, non-scrollable)',
+      props: {},
+      customRenderer: () => {
+        const [data] = useState(() =>
+          new Array(6).fill(null).map(() => ({
+            logo: faker.image.avatar(),
+            name: faker.person.fullName(),
+            status: faker.lorem.words(1),
+            avatar: faker.internet.emoji(),
+            id: faker.datatype.uuid().slice(0, 8),
+            createdAt: faker.date.anytime().getTime(),
+            price: Math.random() * 1e4,
+          }))
+        )
+
+        return (
+          <div style={{ width: 900 }}>
+            <NewTable
+              columns={[
+                {
+                  key: 'id',
+                  renderAs: 'badge',
+                  header: 'ID',
+                },
+                {
+                  key: 'logo',
+                  renderAs: 'image',
+                  header: 'Logo',
+                },
+                {
+                  key: 'name',
+                  renderAs: 'medium',
+                  header: 'Name',
+                },
+                {
+                  key: 'status',
+                  renderAs: (row) => (
+                    <Thumbnail size="small" label={row.status} />
+                  ),
+                  header: 'Status',
+                },
+                {
+                  key: 'avatar',
+                  renderAs: 'avatar',
+                  header: 'Avatar',
+                },
+                {
+                  key: 'price',
+                  renderAs: 'number-euro',
+                  header: 'Price',
+                },
+                {
+                  key: 'createdAt',
+                  renderAs: 'date-time-human',
+                  header: 'Created At',
+                },
+              ]}
+              data={data}
+            />
+          </div>
+        )
+      },
+    },
+    {
+      description: 'Virtualized, infinite scrollable',
       props: {},
       customRenderer: () => {
         const [open, setOpen] = useState<string | null>(null)
@@ -51,7 +117,7 @@ const example: ComponentDef = {
         return (
           <div
             style={{
-              width: '100%',
+              width: 900,
               height: 500,
             }}
           >
@@ -63,22 +129,23 @@ const example: ComponentDef = {
                 fetchMore()
               }}
               columns={[
-                { header: 'ID', accessor: 'id' },
-                { header: 'Name', accessor: 'name' },
+                { header: 'ID', key: 'id' },
+                { header: 'Name', key: 'name' },
                 {
                   header: 'Type',
-                  accessor: 'type',
-                  cell: (value) => <Badge light>{value}</Badge>,
+                  key: 'type',
+                  renderAs: (row) => <Badge light>{row.type}</Badge>,
                 },
                 {
                   header: 'Created',
-                  accessor: 'createdAt',
-                  cell: (value) => <div>{new Date(value).toISOString()}</div>,
+                  key: 'createdAt',
+                  renderAs: (row) => (
+                    <div>{new Date(row.createdAt).toISOString()}</div>
+                  ),
                 },
                 {
-                  header: 'More',
-                  accessor: 'id',
-                  cell: (value) => (
+                  id: 'actions',
+                  renderAs: (row) => (
                     <Dropdown.Root>
                       <Dropdown.Trigger>
                         <Button ghost icon={<IconMoreHorizontal />} />
@@ -86,7 +153,7 @@ const example: ComponentDef = {
                       <Dropdown.Items>
                         <Dropdown.Item
                           onClick={() => {
-                            setOpen(value)
+                            setOpen(row.id)
                           }}
                           icon={<IconEdit />}
                         >
@@ -151,97 +218,6 @@ const example: ComponentDef = {
               </Modal.Content>
             </Modal.Root>
           </div>
-        )
-      },
-    },
-    {
-      name: 'NewTable',
-      description: 'Simple (non-virtualized, non-scrollable)',
-      props: {},
-      customRenderer: () => {
-        const { data } = useQuery('db', {
-          $id: 'root',
-          files: {
-            $all: true,
-            $list: {
-              $sort: { $field: 'updatedAt', $order: 'desc' },
-              $limit: 6,
-              $find: {
-                $traverse: 'children',
-                $filter: {
-                  $operator: '=',
-                  $field: 'type',
-                  $value: 'todo',
-                },
-              },
-            },
-          },
-        })
-
-        return (
-          <NewTable
-            data={data?.files ?? []}
-            columns={[
-              { header: 'ID', accessor: 'id' },
-              { header: 'Name', accessor: 'name' },
-              {
-                header: 'Type',
-                accessor: 'type',
-                cell: (value) => <Badge light>{value}</Badge>,
-              },
-              {
-                header: 'Created',
-                accessor: 'createdAt',
-                cell: (value) => <div>{new Date(value).toISOString()}</div>,
-              },
-            ]}
-          />
-        )
-      },
-    },
-    {
-      name: 'NewTable',
-      description: 'Simple, no header',
-      props: {},
-      customRenderer: () => {
-        const { data } = useQuery('db', {
-          $id: 'root',
-          files: {
-            $all: true,
-            $list: {
-              $sort: { $field: 'updatedAt', $order: 'desc' },
-              $limit: 6,
-              $find: {
-                $traverse: 'children',
-                $filter: {
-                  $operator: '=',
-                  $field: 'type',
-                  $value: 'todo',
-                },
-              },
-            },
-          },
-        })
-
-        return (
-          <NewTable
-            data={data?.files ?? []}
-            header={false}
-            columns={[
-              { header: 'ID', accessor: 'id' },
-              { header: 'Name', accessor: 'name' },
-              {
-                header: 'Type',
-                accessor: 'type',
-                cell: (value) => <Badge light>{value}</Badge>,
-              },
-              {
-                header: 'Created',
-                accessor: 'createdAt',
-                cell: (value) => <div>{new Date(value).toISOString()}</div>,
-              },
-            ]}
-          />
         )
       },
     },
