@@ -3,15 +3,25 @@ import { Style } from 'inlines'
 
 type onChange = (changes: { [field: string]: any }) => void | Promise<void>
 
-export type FormItemProps = {
+export type FormItemProps<T = any> = {
   label?: ReactNode
   props?: { [key: string]: string }
-  value?: any
-  type?: 'number' | 'text' | 'range' | 'boolean'
+  value?: T
+  type?:
+    | 'number'
+    | 'text'
+    | 'range'
+    | 'checkbox'
+    | 'file'
+    | 'color'
+    | 'password'
+    | 'textarea'
   description?: ReactNode
   field: string
   options?: any[]
-  default?: any
+  default?: T
+  // change validation to something else error or something
+  validation?: (value: T) => boolean | string
 }
 
 export type FormGroupValues = { [field: string]: any }
@@ -20,6 +30,7 @@ export type FormGroupProps = {
   style?: Style
   fieldWidth?: number
   labelWidth?: number
+  autoFocus?: boolean
   variant?: 'column' | 'grid'
   onChange: onChange
   values?: FormGroupValues
@@ -50,6 +61,7 @@ export type FormGroupVariantProps = {
   values: FormGroupValues
   alwaysAccept: boolean
   setChanges: (val: boolean) => any
+  autoFocus: boolean
 }
 
 export type LabelProps = {

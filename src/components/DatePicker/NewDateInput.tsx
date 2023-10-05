@@ -123,7 +123,9 @@ export const NewDateInput = ({
                 setDay('')
               }
               if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
-                setDay(daysInMonth(newMonth, newYear) + 1)
+                setDay(day)
+                setYear(year)
+                setMonth(month)
               }
             }}
             onKeyUp={(e) => {
@@ -161,8 +163,10 @@ export const NewDateInput = ({
               if (e.key === 'Backspace') {
                 setMonth('')
               }
-              if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
+              if (e.key === 'ArrowDown' && +e.currentTarget.value < 1) {
                 setMonth(13)
+                setYear(year)
+                setDay(day)
               }
             }}
             onKeyUp={(e) => {

@@ -153,6 +153,7 @@ export type SidePanelTitleProps = {
 }
 
 export function Title({ children }: SidePanelTitleProps) {
+  const theContext = useContext(SidePanelContext)
   return (
     <DialogBase.Title asChild style={{}}>
       <styled.div
@@ -179,6 +180,9 @@ export function Title({ children }: SidePanelTitleProps) {
           style={{ borderRadius: '50%' }}
           light
           hideFocusState
+          onClick={() => {
+            theContext.setOpen(false)
+          }}
         />
       </styled.div>
     </DialogBase.Title>

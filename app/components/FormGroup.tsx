@@ -13,6 +13,9 @@ const fieldProps = {
       label: 'Name',
       type: 'text',
       description: 'Instance name',
+      validation: () => (val) => {
+        return val && val.length > 4
+      },
     },
     'args.x.y': {
       label: 'Status',
@@ -26,6 +29,11 @@ const fieldProps = {
       label: 'Bla',
       description: 'hello',
       type: 'range',
+    },
+    file: {
+      label: 'File',
+      description: 'hello',
+      type: 'file',
     },
     custom: {
       label: 'Status',
@@ -44,6 +52,11 @@ const fieldProps = {
             </Button>
           )
         },
+    },
+    isThisNce: {
+      label: 'Nice',
+      description: 'is it nice?',
+      type: 'checkbox',
     },
   },
   values: {
@@ -70,6 +83,7 @@ const example: ComponentDef = {
       props: {
         ...fieldProps,
         variant: 'grid',
+        autoFocus: true,
       },
     },
     {
