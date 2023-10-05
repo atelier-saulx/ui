@@ -3,10 +3,10 @@ import { Style } from 'inlines'
 
 type onChange = (changes: { [field: string]: any }) => void | Promise<void>
 
-export type FormItemProps<T = any> = {
+export type FormItemProps = {
   label?: ReactNode
   props?: { [key: string]: string }
-  value?: T
+  value?: any
   type?:
     | 'number'
     | 'text'
@@ -19,9 +19,9 @@ export type FormItemProps<T = any> = {
   description?: ReactNode
   field: string
   options?: any[]
-  default?: T
+  default?: any
   // change validation to something else error or something
-  validation?: (value: T) => boolean | string
+  validation?: (value: any) => boolean | string
 }
 
 export type FormGroupValues = { [field: string]: any }
