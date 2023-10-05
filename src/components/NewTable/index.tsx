@@ -5,108 +5,78 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useVirtual } from '@tanstack/react-virtual'
-import { IconSortAsc, IconSortDesc, Text, color } from '../..'
-import React, { RefObject, useCallback, useEffect } from 'react'
+import {
+  Avatar,
+  Badge,
+  IconSortAsc,
+  IconSortDesc,
+  Text,
+  Thumbnail,
+  Toggle,
+  color,
+} from '../..'
+import React, { ReactNode, useCallback, useEffect } from 'react'
 import { useCallbackRef } from 'src/hooks/useCallbackRef'
+import { NumberFormat } from '@based/pretty-number'
+import { DateFormat } from '@based/pretty-date'
 
-type VirtualizedBodyProps = {
-  rows: any[]
-  parentRef: RefObject<HTMLDivElement>
-  onVisibleElementsChange?: (visibleElements: number[]) => void
-  header?: boolean
-}
+type RenderAs =
+  | 'badge'
+  | 'image'
+  | 'avatar'
+  | 'toggle'
+  | NumberFormat
+  | DateFormat
+  | 'strong'
+  | 'medium'
+  | 'normal'
+  | ((row: any) => ReactNode)
 
-const VirtualizedBody = ({
-  rows,
-  parentRef,
-  onVisibleElementsChange: onVisibleElementsChangeProp,
-  header,
-}: VirtualizedBodyProps) => {
-  const onVisibleElementsChange = useCallbackRef(onVisibleElementsChangeProp)
-  const rowVirtualizer = useVirtual({
-    parentRef,
-    size: rows.length,
-    estimateSize: useCallback(() => 61, []),
-    overscan: 10,
-  })
-  const { virtualItems: virtualRows, totalSize } = rowVirtualizer
-  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
-  const paddingBottom =
-    virtualRows.length > 0
-      ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
-      : 0
-
-  useEffect(() => {
-    if (onVisibleElementsChange) {
-      onVisibleElementsChange(virtualRows.map((e) => e.index))
+type TableColumn =
+  | {
+      key: string
+      header: string
+      renderAs?: RenderAs
     }
-  }, [onVisibleElementsChange, virtualRows])
+  | { id: string; renderAs: (row: any) => ReactNode }
 
+function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
+  if (typeof renderAs === 'function') return renderAs(row)
+  if (renderAs === 'normal') return <Text>{row[key]}</Text>
+  if (renderAs === 'medium') return <Text weight="medium">{row[key]}</Text>
+  if (renderAs === 'strong') return <Text weight="strong">{row[key]}</Text>
+  if (renderAs === 'image')
+    return <Thumbnail color="neutral" size="small" src={row[key]} />
+  if (renderAs === 'badge')
+    return (
+      <Badge copy copyValue={row[key]}>
+        {row[key]}
+      </Badge>
+    )
+  if (renderAs === 'avatar') return <Avatar>{row[key]}</Avatar>
+  if (renderAs === 'toggle') return <Toggle value={row[key]} />
+
+  let content = row[key]
+  if (row[key] instanceof Date) {
+    content = row[key].getTime()
+  }
+  if (typeof row[key] === 'object') {
+    content = JSON.stringify(row[key])
+  }
+
+  console.log(renderAs)
   return (
-    <>
-      {paddingTop > 0 && (
-        <tr>
-          <td style={{ height: `${paddingTop}px` }} />
-        </tr>
-      )}
-
-      {virtualRows
-        .map((row) => rows[row.index])
-        .map((row, index) => {
-          return (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => {
-                return (
-                  <td
-                    style={{
-                      boxSizing: 'border-box',
-                      height: 61,
-                      padding: '0 12px',
-                      borderBottom: `1px solid ${color(
-                        'border',
-                        'default',
-                        'strong'
-                      )}`,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      maxWidth: '100%',
-                      borderTop:
-                        !header &&
-                        index === 0 &&
-                        `1px solid ${color('border', 'default', 'strong')}`,
-                    }}
-                    key={cell.id}
-                  >
-                    <Text>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </Text>
-                  </td>
-                )
-              })}
-            </tr>
-          )
-        })}
-
-      {paddingBottom > 0 && (
-        <tr>
-          <td style={{ height: `${paddingBottom}px` }} />
-        </tr>
-      )}
-    </>
+    <Text
+      valueFormat={renderAs}
+      light={renderAs?.includes?.('date') || renderAs?.includes?.('time')}
+    >
+      {content}
+    </Text>
   )
 }
 
 export type NewTableProps = {
-  columns: {
-    header: string
-    accessor: string
-    cell?: (any) => JSX.Element
-    id?: string
-  }[]
+  columns: TableColumn[]
   data: any
   onScrollToBottom?: () => void
   onVisibleElementsChange?: (visibleElements: number[]) => void
@@ -118,25 +88,51 @@ export function NewTable({
   columns,
   data,
   onScrollToBottom: onScrollToBottomProp,
-  onVisibleElementsChange,
+  onVisibleElementsChange: onVisibleElementsChangeProp,
   virtualized,
   header = true,
 }: NewTableProps) {
   const table = useReactTable({
     data,
-    columns: columns.map((c) => ({
-      header: c.header,
-      accessorKey: c.accessor,
-      cell: ({ getValue, renderValue }) =>
-        c.cell ? c.cell(getValue()) : renderValue(),
-      id: c.id,
-    })),
+    columns: columns.map((c) => {
+      if ('id' in c) {
+        return {
+          id: c.id,
+          cell: ({ row }) => c.renderAs(row.original),
+        }
+      }
+
+      return {
+        header: c.header,
+        accessorKey: c.key,
+        cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
+      }
+    }),
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   })
+  const { rows } = table.getRowModel()
 
   const tableContainerRef = React.useRef<HTMLDivElement>(null)
-  const { rows } = table.getRowModel()
+  const rowVirtualizer = useVirtual({
+    parentRef: tableContainerRef,
+    size: rows.length,
+    estimateSize: useCallback(() => 61, []),
+    overscan: 10,
+  })
+  const { virtualItems: virtualRows, totalSize } = rowVirtualizer
+  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
+  const paddingBottom =
+    virtualRows.length > 0
+      ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0)
+      : 0
+
+  const onVisibleElementsChange = useCallbackRef(onVisibleElementsChangeProp)
+  useEffect(() => {
+    if (onVisibleElementsChange) {
+      onVisibleElementsChange(virtualRows.map((e) => e.index))
+    }
+  }, [onVisibleElementsChange, virtualRows])
 
   const onScrollToBottom = useCallbackRef(onScrollToBottomProp)
   const handleScroll = React.useCallback(
@@ -167,15 +163,13 @@ export function NewTable({
         }}
       >
         <tbody>
-          {virtualized ? (
-            <VirtualizedBody
-              rows={rows}
-              parentRef={tableContainerRef}
-              onVisibleElementsChange={onVisibleElementsChange}
-              header={header}
-            />
-          ) : (
-            rows.map((row, index) => {
+          {virtualized && paddingTop > 0 && (
+            <tr>
+              <td style={{ height: `${paddingTop}px` }} />
+            </tr>
+          )}
+          {(virtualized ? virtualRows.map((row) => rows[row.index]) : rows).map(
+            (row, index) => {
               return (
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => {
@@ -201,18 +195,21 @@ export function NewTable({
                         }}
                         key={cell.id}
                       >
-                        <Text>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </Text>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
                       </td>
                     )
                   })}
                 </tr>
               )
-            })
+            }
+          )}
+          {virtualized && paddingBottom > 0 && (
+            <tr>
+              <td style={{ height: `${paddingBottom}px` }} />
+            </tr>
           )}
         </tbody>
         {header && (
@@ -255,7 +252,9 @@ export function NewTable({
                             height: '100%',
                             alignItems: 'center',
                             userSelect: 'none',
-                            cursor: 'pointer',
+                            cursor: header.column.getCanSort()
+                              ? 'pointer'
+                              : 'default',
                             color: header.column.getIsSorted()
                               ? color('content', 'brand', 'primary')
                               : color('content', 'default', 'secondary'),
