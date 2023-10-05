@@ -27,9 +27,6 @@ const example: ComponentDef = {
             options: ['good', 'bad', 'medium'],
             props: {
               placeholder: 'FLAP',
-              style: {
-                transform: 'rotate(3deg)',
-              },
             },
           },
           range: {

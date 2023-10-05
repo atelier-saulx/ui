@@ -96,8 +96,6 @@ export const SettingsField: FC<{
   }
 
   if (options) {
-    // --------
-
     return (
       <Label
         style={{
@@ -154,7 +152,10 @@ export const SettingsField: FC<{
             placeholder="Min"
             {...props}
             // @ts-ignore
-            style={Object.assign({ width: 90, marginRight: 8 }, props?.style)}
+            style={Object.assign(
+              { width: (fieldWidth - 9) / 2, marginRight: 9 },
+              props?.style
+            )}
           />
           <Input
             onChange={(v) => {
@@ -168,7 +169,7 @@ export const SettingsField: FC<{
             placeholder="Max"
             {...props}
             // @ts-ignore
-            style={Object.assign({ width: 90 }, props?.style)}
+            style={Object.assign({ width: (fieldWidth - 9) / 2 }, props?.style)}
           />
         </Row>
       </Label>
