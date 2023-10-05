@@ -2727,9 +2727,13 @@
         "onClick": {
           "optional": true,
           "type": "ClickHandler"
+        },
+        "autoColor": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type ThumbnailProps = {\n  size?: 'small' | 'medium' | 'large'\n  src?: string\n  icon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  style?: Style\n  label?: string // If no color is provided will use this by default\n  outline?: boolean\n  counter?: number\n  light?: boolean\n  onClick?: ClickHandler\n}",
+      "code": "type ThumbnailProps = {\n  size?: 'small' | 'medium' | 'large'\n  src?: string\n  icon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  style?: Style\n  label?: string // If no color is provided will use this by default\n  outline?: boolean\n  counter?: number\n  light?: boolean\n  onClick?: ClickHandler\n  autoColor?: boolean\n}",
       "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
