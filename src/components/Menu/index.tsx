@@ -32,7 +32,8 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
     <styled.div
       id={id}
       style={{
-        marginBottom: '8px',
+        marginTop: '24px',
+        marginBottom: '12px',
         '&.closed': {
           marginBottom: '-12px',
         },
@@ -211,10 +212,11 @@ export const Menu: FC<MenuProps> = ({
               <MenuHeader
                 id={`${i}-menuheader`}
                 style={{
-                  marginTop: i && 36,
+                  // marginTop: i && 36,
                   justifyContent: collapse ? 'space-between' : 'unset',
                   display: collapse ? 'flex' : 'flex',
-                  marginBottom: '12px',
+                  // marginBottom: '12px',
+                  // marginTop: 24,
                 }}
                 onClick={(e) => {
                   // if (onChange) {
