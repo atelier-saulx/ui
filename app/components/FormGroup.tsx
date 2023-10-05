@@ -14,7 +14,7 @@ const fieldProps = {
       type: 'text',
       description: 'Instance name',
       validation: () => (val) => {
-        return !val || val.length < 4 ? 'Wrong!' : false
+        return val && val.length > 4
       },
     },
     'args.x.y': {
