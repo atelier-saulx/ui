@@ -13,7 +13,7 @@ import {
   boxShadow,
   colorHash,
 } from '../../varsUtilities'
-import { ClickHandler } from 'src/types'
+import { ClickHandler } from '../../types'
 import { Center } from '../Styled'
 
 const COLORGUARD = [

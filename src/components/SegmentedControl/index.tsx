@@ -1,11 +1,13 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Text } from '../Text'
 import { color as genColor } from '../../varsUtilities'
+import { usePropState } from 'src/hooks'
 
 type SegmentedControlProps = {
   data?: (string | number)[]
   onChange?: (value: number) => void
+  active?: number
   style?: Style
 }
 
@@ -25,9 +27,13 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
   data = [],
   onChange,
   style,
+  active = 0,
   // iundex
 }) => {
-  const [activeOption, setActiveOption] = useState(0)
+  const [activeOption, setActiveOption] = usePropState(
+    active >= data.length ? data.length : active <= 0 ? 0 : data.length
+  )
+
   const calc = (100 / data.length) * activeOption
 
   return (

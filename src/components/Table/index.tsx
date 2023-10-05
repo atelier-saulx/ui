@@ -16,7 +16,7 @@ import {
   color,
 } from '../..'
 import React, { ReactNode, useCallback, useEffect } from 'react'
-import { useCallbackRef } from 'src/hooks/useCallbackRef'
+import { useCallbackRef } from '../../hooks/useCallbackRef'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
 import { styled } from 'inlines'
@@ -54,7 +54,7 @@ function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
         {row[key]}
       </Badge>
     )
-  if (renderAs === 'avatar') return <Avatar>{row[key]}</Avatar>
+  if (renderAs === 'avatar') return <Avatar autoColor>{row[key]}</Avatar>
   if (renderAs === 'toggle') return <Toggle value={row[key]} />
 
   let content = row[key]
@@ -76,22 +76,65 @@ function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
 }
 
 export type TableProps = {
-  columns: TableColumn[]
+  columns?: TableColumn[]
   data: any
   onScrollToBottom?: () => void
   onVisibleElementsChange?: (visibleElements: number[]) => void
   virtualized?: boolean
-  header?: boolean
+  header?: true | false | 'sticky'
+  border?: boolean
+}
+
+function generateColumDefinitionsFromData(element) {
+  return Object.entries(element).map(([key, value]) => {
+    const columnDefinition: TableColumn = {
+      key,
+      header: key.charAt(0).toUpperCase() + key.slice(1),
+    }
+
+    if (value instanceof Date) {
+      columnDefinition.renderAs = 'date-time-human'
+    }
+
+    if (key === 'price') {
+      columnDefinition.renderAs = 'number-euro'
+    }
+
+    if (key === 'bytes') {
+      columnDefinition.renderAs = 'number-bytes'
+    }
+
+    if (key === 'avatar') {
+      columnDefinition.renderAs = 'avatar'
+    }
+
+    if (key === 'image' || key === 'img' || key === 'logo') {
+      columnDefinition.renderAs = 'image'
+    }
+
+    if (key === 'createdAt' || key === 'updatedAt') {
+      columnDefinition.renderAs = 'date-time-human'
+    }
+
+    if (key === 'name' || key === 'title') {
+      columnDefinition.renderAs = 'medium'
+    }
+
+    return columnDefinition
+  })
 }
 
 export function Table({
-  columns,
-  data,
+  columns: columnsProp,
+  data = [],
   onScrollToBottom: onScrollToBottomProp,
   onVisibleElementsChange: onVisibleElementsChangeProp,
   virtualized,
   header = true,
+  border,
 }: TableProps) {
+  const columns = columnsProp ?? generateColumDefinitionsFromData(data[0])
+
   const table = useReactTable({
     data,
     columns: columns.map((c) => {
@@ -157,7 +200,12 @@ export function Table({
         overflow: 'auto',
         height: '100%',
         width: '100%',
-        scrollbarGutter: 'stable',
+        ...(border
+          ? {
+              border: `1px solid ${color('border', 'default', 'strong')}`,
+              borderRadius: 16,
+            }
+          : {}),
         scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
         scrollbarWidth: 'thin',
         '&::-webkit-scrollbar': {
@@ -224,16 +272,20 @@ export function Table({
                           boxSizing: 'border-box',
                           height: 61,
                           padding: '0 12px',
-                          borderBottom: `1px solid ${color(
-                            'border',
-                            'default',
-                            'strong'
-                          )}`,
+                          borderBottom:
+                            index !==
+                              (virtualized
+                                ? virtualRows.map((row) => rows[row.index])
+                                : rows
+                              ).length -
+                                1 &&
+                            `1px solid ${color('border', 'default', 'strong')}`,
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
                           maxWidth: '100%',
                           borderTop:
+                            !border &&
                             !header &&
                             index === 0 &&
                             `1px solid ${color('border', 'default', 'strong')}`,
@@ -269,13 +321,15 @@ export function Table({
         {header && (
           <thead
             style={{
-              position: 'sticky',
-              top: 0,
-              margin: 0,
-              textAlign: 'left',
-              background: virtualized
-                ? color('background', 'default', 'strong')
-                : 'none',
+              ...(header === 'sticky'
+                ? {
+                    position: 'sticky',
+                    top: 0,
+                    margin: 0,
+                    textAlign: 'left',
+                    background: color('background', 'default', 'strong'),
+                  }
+                : {}),
             }}
           >
             {table.getHeaderGroups().map((headerGroup) => (
@@ -288,11 +342,9 @@ export function Table({
                         padding: '0 12px',
                         height: 42,
                         boxSizing: 'border-box',
-                        borderTop: `1px solid ${color(
-                          'border',
-                          'default',
-                          'strong'
-                        )}`,
+                        borderTop:
+                          !border &&
+                          `1px solid ${color('border', 'default', 'strong')}`,
                         borderBottom: `1px solid ${color(
                           'border',
                           'default',

@@ -5,7 +5,7 @@ import { Text } from '../Text'
 import { Button } from '../Button'
 import { ClickHandler } from '../../types'
 import { BpTablet } from '../../utils/breakpoints'
-import { IconChevronDown, IconChevronTop } from 'src/icons'
+import { IconChevronDown, IconChevronTop } from '../../icons'
 
 type MenuItemProps = {
   active: boolean

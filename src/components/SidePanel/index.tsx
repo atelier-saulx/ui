@@ -5,7 +5,7 @@ import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { IconAlertFill, IconClose } from '../../icons'
 import { scrollAreaStyle } from '../ScrollArea'
-import { useControllableState } from 'src/hooks/useControllableState'
+import { useControllableState } from '../../hooks/useControllableState'
 import { Button } from '../Button'
 
 type UseSidePanelProps = {

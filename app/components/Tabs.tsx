@@ -11,7 +11,7 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        activeTab: 2,
+        active: 1,
         borderColor: 'primary',
       },
       customRenderer: (props) => {
@@ -36,7 +36,7 @@ const example: ComponentDef = {
     },
     {
       props: {
-        activeTab: 1,
+        active: 1,
         borderColor: 'neutral',
       },
       customRenderer: (props) => {

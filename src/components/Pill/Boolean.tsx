@@ -8,7 +8,7 @@ import {
 import { Style, styled } from 'inlines'
 import { Text } from '../Text'
 import { color } from '../../varsUtilities'
-import { useControllableState } from 'src/hooks/useControllableState'
+import { useControllableState } from '../../hooks/useControllableState'
 
 export type BooleanPillProps = {
   value?: boolean

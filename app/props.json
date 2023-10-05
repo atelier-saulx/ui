@@ -961,6 +961,14 @@
           "optional": true,
           "type": "string"
         },
+        "defaultValue": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
         "placeholder": {
           "optional": true,
           "type": "string"
@@ -973,16 +981,12 @@
           "optional": true,
           "type": "CSSProperties"
         },
-        "onChange": {
-          "optional": true,
-          "type": "function"
-        },
         "error": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type ColorInputProps = {\n  inputRef?: RefObject<HTMLInputElement>\n  value?: string\n  placeholder?: string\n  disabled?: boolean\n  style?: CSSProperties\n  onChange?: (target) => void\n  error?: boolean\n}",
+      "code": "type ColorInputProps = {\n  inputRef?: RefObject<HTMLInputElement>\n  value?: string\n  defaultValue?: string\n  onChange?: (target) => void\n  placeholder?: string\n  disabled?: boolean\n  style?: CSSProperties\n  error?: boolean\n}",
       "file": "/components/Input/ColorInput.tsx"
     },
     "FileInputProps": {
@@ -2166,12 +2170,16 @@
           "optional": true,
           "type": "function"
         },
+        "active": {
+          "optional": true,
+          "type": "number"
+        },
         "style": {
           "optional": true,
           "type": "Style"
         }
       },
-      "code": "type SegmentedControlProps = {\n  data?: (string | number)[]\n  onChange?: (value: number) => void\n  style?: Style\n}",
+      "code": "type SegmentedControlProps = {\n  data?: (string | number)[]\n  onChange?: (value: number) => void\n  active?: number\n  style?: Style\n}",
       "file": "/components/SegmentedControl/index.tsx"
     },
     "UseSidePanelProps": {
@@ -2450,7 +2458,7 @@
           "optional": true,
           "type": "Style"
         },
-        "activeTab": {
+        "active": {
           "optional": true,
           "type": "number"
         },
@@ -2474,7 +2482,7 @@
           ]
         }
       },
-      "code": "type TabsProps = {\n  children: ReactNode\n  style?: Style\n  activeTab?: number\n  setActiveTab?: (index: number) => void\n  sameHeight?: boolean\n  borderColor?: 'primary' | 'neutral'\n}",
+      "code": "type TabsProps = {\n  children: ReactNode\n  style?: Style\n  active?: number\n  setActiveTab?: (index: number) => void\n  sameHeight?: boolean\n  borderColor?: 'primary' | 'neutral'\n}",
       "file": "/components/Tabs/Tabs.tsx"
     },
     "TagProps": {
