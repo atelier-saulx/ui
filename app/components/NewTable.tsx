@@ -5,7 +5,7 @@ import {
   Dropdown,
   IconDelete,
   IconEdit,
-  IconMoreVertical,
+  IconMoreHorizontal,
   Input,
   Modal,
   NewTable,
@@ -51,6 +51,7 @@ const example: ComponentDef = {
         return (
           <div
             style={{
+              width: '100%',
               height: 500,
             }}
           >
@@ -75,31 +76,28 @@ const example: ComponentDef = {
                   cell: (value) => <div>{new Date(value).toISOString()}</div>,
                 },
                 {
-                  id: 'extras',
-                  header: '',
+                  header: 'More',
                   accessor: 'id',
                   cell: (value) => (
-                    <div style={{ display: 'flex', justifyContent: 'end' }}>
-                      <Dropdown.Root>
-                        <Dropdown.Trigger>
-                          <Button ghost icon={<IconMoreVertical />} />
-                        </Dropdown.Trigger>
-                        <Dropdown.Items>
-                          <Dropdown.Item
-                            onClick={() => {
-                              setOpen(value)
-                            }}
-                            icon={<IconEdit />}
-                          >
-                            Edit
-                          </Dropdown.Item>
-                          <Dropdown.Separator />
-                          <Dropdown.Item icon={<IconDelete />}>
-                            Delete
-                          </Dropdown.Item>
-                        </Dropdown.Items>
-                      </Dropdown.Root>
-                    </div>
+                    <Dropdown.Root>
+                      <Dropdown.Trigger>
+                        <Button ghost icon={<IconMoreHorizontal />} />
+                      </Dropdown.Trigger>
+                      <Dropdown.Items>
+                        <Dropdown.Item
+                          onClick={() => {
+                            setOpen(value)
+                          }}
+                          icon={<IconEdit />}
+                        >
+                          Edit
+                        </Dropdown.Item>
+                        <Dropdown.Separator />
+                        <Dropdown.Item icon={<IconDelete />}>
+                          Delete
+                        </Dropdown.Item>
+                      </Dropdown.Items>
+                    </Dropdown.Root>
                   ),
                 },
               ]}

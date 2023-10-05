@@ -40,5 +40,39 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
     )
   }
 
-  return <Column style={style}>{fields}</Column>
+  return (
+    <Column
+      style={{
+        width: '100%',
+        ...style,
+      }}
+    >
+      {fields}
+
+      {alwaysAccept || !hasChanges ? null : (
+        <RowEnd
+          style={{
+            borderTop: border(1),
+            width: '100%',
+            marginTop: 16,
+            paddingTop: 16,
+            marginRight: 8,
+          }}
+        >
+          <Text light>Apply changes</Text>
+          <Confirmation
+            onCancel={() => {
+              valuesChanged.current = {}
+              setChanges(false)
+            }}
+            onAccept={async () => {
+              await onChange(valuesChanged.current)
+              valuesChanged.current = {}
+              setChanges(false)
+            }}
+          />
+        </RowEnd>
+      )}
+    </Column>
+  )
 }

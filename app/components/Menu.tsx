@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Menu,
   IconHome,
@@ -20,6 +20,10 @@ const example: ComponentDef = {
       props: {},
       customRenderer: ({}) => {
         const [value, setValue] = useState('yowza1')
+
+        useEffect(() => {
+          console.log('🎾')
+        }, [value])
 
         return (
           <div style={{ display: 'flex', gap: 20 }}>
