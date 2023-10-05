@@ -20,7 +20,7 @@ export type FormItemProps<T = any> = {
   field: string
   options?: any[]
   default?: T
-  // string is message , true | false
+  // change validation to something else error or something
   validation?: (value: T) => boolean | string
 }
 
