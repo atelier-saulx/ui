@@ -81,7 +81,8 @@ export type TableProps = {
   onScrollToBottom?: () => void
   onVisibleElementsChange?: (visibleElements: number[]) => void
   virtualized?: boolean
-  header?: boolean
+  header?: true | false | 'sticky'
+  border?: boolean
 }
 
 export function Table({
@@ -91,6 +92,7 @@ export function Table({
   onVisibleElementsChange: onVisibleElementsChangeProp,
   virtualized,
   header = true,
+  border,
 }: TableProps) {
   const table = useReactTable({
     data,
@@ -157,7 +159,12 @@ export function Table({
         overflow: 'auto',
         height: '100%',
         width: '100%',
-        scrollbarGutter: 'stable',
+        ...(border
+          ? {
+              border: `1px solid ${color('border', 'default', 'strong')}`,
+              borderRadius: 16,
+            }
+          : {}),
         scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
         scrollbarWidth: 'thin',
         '&::-webkit-scrollbar': {
@@ -224,16 +231,20 @@ export function Table({
                           boxSizing: 'border-box',
                           height: 61,
                           padding: '0 12px',
-                          borderBottom: `1px solid ${color(
-                            'border',
-                            'default',
-                            'strong'
-                          )}`,
+                          borderBottom:
+                            index !==
+                              (virtualized
+                                ? virtualRows.map((row) => rows[row.index])
+                                : rows
+                              ).length -
+                                1 &&
+                            `1px solid ${color('border', 'default', 'strong')}`,
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
                           maxWidth: '100%',
                           borderTop:
+                            !border &&
                             !header &&
                             index === 0 &&
                             `1px solid ${color('border', 'default', 'strong')}`,
@@ -269,13 +280,15 @@ export function Table({
         {header && (
           <thead
             style={{
-              position: 'sticky',
-              top: 0,
-              margin: 0,
-              textAlign: 'left',
-              background: virtualized
-                ? color('background', 'default', 'strong')
-                : 'none',
+              ...(header === 'sticky'
+                ? {
+                    position: 'sticky',
+                    top: 0,
+                    margin: 0,
+                    textAlign: 'left',
+                    background: color('background', 'default', 'strong'),
+                  }
+                : {}),
             }}
           >
             {table.getHeaderGroups().map((headerGroup) => (
@@ -288,11 +301,9 @@ export function Table({
                         padding: '0 12px',
                         height: 42,
                         boxSizing: 'border-box',
-                        borderTop: `1px solid ${color(
-                          'border',
-                          'default',
-                          'strong'
-                        )}`,
+                        borderTop:
+                          !border &&
+                          `1px solid ${color('border', 'default', 'strong')}`,
                         borderBottom: `1px solid ${color(
                           'border',
                           'default',
