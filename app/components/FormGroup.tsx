@@ -50,6 +50,11 @@ const fieldProps = {
           )
         },
     },
+    isThisNce: {
+      label: 'Nice',
+      description: 'is it nice?',
+      type: 'checkbox',
+    },
   },
   values: {
     port: 443,

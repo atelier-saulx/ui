@@ -115,21 +115,20 @@ export const FormItem: FC<{
     )
   }
 
-  if (type === 'boolean') {
+  if (type === 'checkbox') {
     return (
-      <Input
-        type="checkbox"
-        value={value}
-        autoFocus={autoFocus}
-        onChange={(v) => onChange(field, v)}
-        label={label}
-        {...props}
-        // @ts-ignore
-        style={Object.assign(
-          { marginBottom: 16, marginRight: 32 },
-          props?.style
-        )}
-      />
+      <Label description={description}>
+        <Input
+          label={label}
+          type="checkbox"
+          value={value}
+          autoFocus={autoFocus}
+          onChange={(v) => onChange(field, v)}
+          {...props}
+          // @ts-ignore
+          style={props?.style}
+        />
+      </Label>
     )
   }
 

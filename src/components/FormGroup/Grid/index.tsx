@@ -58,7 +58,7 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
   let hasAutoFocus = false
 
   for (const d of parsedData) {
-    if (d.type === 'boolean') {
+    if (d.type === 'checkbox') {
       checkBoxes.push(
         <FormItem
           fieldWidth={fieldWidth}

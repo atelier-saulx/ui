@@ -145,7 +145,7 @@ export const FormItem: FC<{
     )
   }
 
-  if (type === 'boolean') {
+  if (type === 'checkbox') {
     return (
       <Input
         autoFocus={autoFocus}
@@ -175,6 +175,7 @@ export const FormItem: FC<{
         autoFocus={autoFocus}
         placeholder={label}
         value={value ?? ''}
+        // @ts-ignore
         type={type || 'text'}
         onChange={(v) => onChange(field, v)}
         {...props}
