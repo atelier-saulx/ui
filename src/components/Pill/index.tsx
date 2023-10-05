@@ -4,6 +4,7 @@ import { SelectPill, SelectPillProps } from './Select'
 
 import { styled, Style } from 'inlines'
 import { BooleanPill, BooleanPillProps } from './Boolean'
+import { MultiPill, MultiPillProps } from './Multi'
 
 export type CommonPillProps = {
   prefix?: string
@@ -14,7 +15,7 @@ export type CommonPillProps = {
 export type PillProps =
   | (CommonPillProps & { type: 'select' } & SelectPillProps)
   | ({ type: 'boolean' } & BooleanPillProps)
-  | ({ type: 'multi' } & SelectPillProps)
+  | ({ type: 'multi' } & MultiPillProps)
 
 export function Pill(props: PillProps) {
   switch (props.type) {
@@ -26,14 +27,10 @@ export function Pill(props: PillProps) {
       const { type, ...narrowedProps } = props
       return <BooleanPill {...narrowedProps} />
     }
-    // case 'multi': {
-    //   const { type, ...narrowedProps } = props
-    //   return (
-
-    //       <MultiPill {...narrowedProps} />
-
-    //   )
-    // }
+    case 'multi': {
+      const { type, ...narrowedProps } = props
+      return <MultiPill {...narrowedProps} />
+    }
 
     default:
       //@ts-ignore

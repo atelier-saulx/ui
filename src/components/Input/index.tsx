@@ -12,6 +12,7 @@ import { styled } from 'inlines'
 import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
 import { TextAreaInput, TextAreaInputProps } from './TextAreaInput'
 import { ColorInput, ColorInputProps } from './ColorInput'
+import { expectNever } from 'src/utils/expectNever'
 
 export type CommonInputProps = {
   label?: ReactNode
@@ -258,8 +259,4 @@ function LabelAndErrorWrapper({
       )}
     </styled.div>
   )
-}
-
-const expectNever = (value: never): never => {
-  throw new TypeError('Unexpected value: ' + JSON.stringify(value))
 }
