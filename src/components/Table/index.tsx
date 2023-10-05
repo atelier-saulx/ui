@@ -54,7 +54,7 @@ function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
         {row[key]}
       </Badge>
     )
-  if (renderAs === 'avatar') return <Avatar>{row[key]}</Avatar>
+  if (renderAs === 'avatar') return <Avatar autoColor>{row[key]}</Avatar>
   if (renderAs === 'toggle') return <Toggle value={row[key]} />
 
   let content = row[key]
