@@ -205,7 +205,6 @@ export const Menu: FC<MenuProps> = ({
     ({ label, value, icon, items, onClick }, i) => {
       // menu header thing not working>?
       if (items) {
-        const topValue = value
         return (
           <Fragment key={i}>
             {items.length > 0 && (
@@ -399,7 +398,8 @@ export const Menu: FC<MenuProps> = ({
           flexShrink: 0,
           backgroundColor: color('background', 'default', 'muted'),
           padding: '24px 12px',
-          height: '100%',
+          height: 'auto',
+          minHeight: '100%',
           width: !shrink ? 224 : 42,
           transition: '0.3s all',
           overflowX: 'clip',
@@ -421,7 +421,7 @@ export const Menu: FC<MenuProps> = ({
         <MenuHeader>{header}</MenuHeader>
         {items}
         {children}
-        <styled.div style={{ height: 24 }} />
+        <styled.div style={{ height: 46 }} />
       </ScrollArea>
     </>
   )
