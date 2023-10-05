@@ -5,44 +5,24 @@ import { styled, Style } from 'inlines'
 import {
   IconCheckLarge,
   IconChevronDown,
-  IconClose,
   IconEmojiSad,
   IconSmallClose,
 } from '../../icons'
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
-// import { BpTablet } from 'src/utils'
-
-// type BooleanProps = {
-//   type:'boolean'
-//   value:boolean
-// }
-
-// type SelectProps = {
-//   type:'select'
-//   value: string
-//   options: PillOption[]
-// }
-
-// export type PillProps = {
-//   prefix?: string
-//   onChange: (value) => void
-//   placeholder?: string
-//   style?: Style
-//   props:any
-// } & (  SelectProps | BooleanProps)
 
 import { scrollAreaStyle } from '../ScrollArea'
 
 export type PillOption = { label?: ReactNode; value: string }
 
-export type PillProps = {
-  prefix?: string
+export type SelectPillProps = {
   value: string
-  onChange: (value) => void
   options: PillOption[]
   placeholder?: string
+  prefix?: string
   style?: Style
+  onChange: (value) => void
+  icon?: ReactNode
 }
 
 const inputToString = (input: PillOption | void): string => {
@@ -53,14 +33,16 @@ const inputToString = (input: PillOption | void): string => {
     : ''
 }
 
-export function Pill({
-  prefix = 'Prefix',
+export function SelectPill({
   value,
-  onChange,
   options,
   placeholder,
+  prefix = 'Prefix',
   style,
-}: PillProps) {
+  onChange,
+  icon,
+}: // props,
+SelectPillProps) {
   const [open, setOpen] = useState(false)
 
   const [inputValue, setInputValue] = useState<PillOption | void>(() => {
@@ -143,6 +125,8 @@ export function Pill({
             value={inputToString(inputValue)}
             ref={inputRef}
             onChange={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
               setInputValue({ value: e.target.value })
               setActiveIndex(null)
             }}
@@ -184,6 +168,7 @@ export function Pill({
             placeholder={placeholder}
             style={{ position: 'relative', display: 'none' }}
           />
+          {icon}
           <styled.div style={{ display: 'flex', gap: 6 }}>
             <Text selectable="none" light>
               {prefix}:
