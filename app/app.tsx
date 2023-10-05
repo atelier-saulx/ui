@@ -25,11 +25,11 @@ import {
   icons,
   input,
   overlay,
+  graphs,
   misc,
 } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 import { BasedLogo } from '../src/icons/BasedLogo'
-import { SelectInput } from '../src/components/Input/SelectInput'
 
 export const client = based(basedConfig)
 
@@ -46,6 +46,7 @@ const App = () => {
     ...input,
     ...overlay,
     ...misc,
+    ...graphs,
   ].filter((c) => {
     return c.name === component
   })
@@ -104,6 +105,7 @@ const App = () => {
           navigation: filterThis(navigation),
           overlays: filterThis(overlay),
           misc: filterThis(misc),
+          graphs: filterThis(graphs),
           hooks: filterThis(hooks),
         }}
         active={component}

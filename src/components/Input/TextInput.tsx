@@ -3,7 +3,7 @@ import { color } from '../../varsUtilities'
 import { IconClose } from '../../icons'
 import { Badge, BadgeProps, Text } from '../../components'
 import { Style, styled } from 'inlines'
-import { useControllableState } from 'src/hooks/useControllableState'
+import { useControllableState } from '../../hooks/useControllableState'
 
 export type TextInputProps = {
   value?: string

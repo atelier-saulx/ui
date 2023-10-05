@@ -16,9 +16,10 @@ import {
   color,
 } from '../..'
 import React, { ReactNode, useCallback, useEffect } from 'react'
-import { useCallbackRef } from 'src/hooks/useCallbackRef'
+import { useCallbackRef } from '../../hooks/useCallbackRef'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
+import { styled } from 'inlines'
 
 type RenderAs =
   | 'badge'
@@ -32,14 +33,14 @@ type RenderAs =
   | 'normal'
   | ((row: any) => ReactNode)
 
-type TableColumn =
+type TableColumn = { align?: 'start' | 'center' | 'end' } & (
   | {
       key: string
       header: string
       renderAs?: RenderAs
     }
   | { id: string; header?: string; renderAs: (row: any) => ReactNode }
-
+)
 function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
   if (typeof renderAs === 'function') return renderAs(row)
   if (renderAs === 'normal') return <Text>{row[key]}</Text>
@@ -53,7 +54,7 @@ function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
         {row[key]}
       </Badge>
     )
-  if (renderAs === 'avatar') return <Avatar>{row[key]}</Avatar>
+  if (renderAs === 'avatar') return <Avatar autoColor>{row[key]}</Avatar>
   if (renderAs === 'toggle') return <Toggle value={row[key]} />
 
   let content = row[key]
@@ -80,7 +81,8 @@ export type TableProps = {
   onScrollToBottom?: () => void
   onVisibleElementsChange?: (visibleElements: number[]) => void
   virtualized?: boolean
-  header?: boolean
+  header?: true | false | 'sticky'
+  border?: boolean
 }
 
 export function Table({
@@ -90,12 +92,14 @@ export function Table({
   onVisibleElementsChange: onVisibleElementsChangeProp,
   virtualized,
   header = true,
+  border,
 }: TableProps) {
   const table = useReactTable({
     data,
     columns: columns.map((c) => {
       if ('id' in c) {
         return {
+          align: c.align,
           id: c.id,
           header: c.header,
           cell: ({ row }) => c.renderAs(row.original),
@@ -103,6 +107,7 @@ export function Table({
       }
 
       return {
+        align: c.align,
         header: c.header,
         accessorKey: c.key,
         cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
@@ -148,16 +153,64 @@ export function Table({
   )
 
   return (
-    <div
+    <styled.div
       ref={tableContainerRef}
-      style={{ overflow: 'auto', height: '100%', width: '100%' }}
+      style={{
+        overflow: 'auto',
+        height: '100%',
+        width: '100%',
+        ...(border
+          ? {
+              border: `1px solid ${color('border', 'default', 'strong')}`,
+              borderRadius: 16,
+            }
+          : {}),
+        scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
+        scrollbarWidth: 'thin',
+        '&::-webkit-scrollbar': {
+          visibility: 'hidden',
+        },
+        '&::-webkit-scrollbar:vertical': {
+          width: '8px',
+        },
+        '&::-webkit-scrollbar:horizontal': {
+          height: '8px',
+        },
+        '@media (hover: hover)': {
+          '&:hover': {
+            '&::-webkit-scrollbar': {
+              visibility: 'visible',
+            },
+
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: color('border', 'default', 'strong'),
+              borderRadius: '4px',
+            },
+            '&::-webkit-scrollbar-thumb:vertical': {
+              borderRight: `2px solid ${color(
+                'background',
+                'default',
+                'surface'
+              )}`,
+              minHeight: '32px',
+            },
+            '&::-webkit-scrollbar-thumb:horizontal': {
+              borderBottom: `2px solid ${color(
+                'background',
+                'default',
+                'surface'
+              )}`,
+              minWidth: '32px',
+            },
+          },
+        },
+      }}
       onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
     >
       <table
         style={{
           width: '100%',
           borderCollapse: 'separate',
-          tableLayout: 'fixed',
           borderSpacing: 0,
         }}
       >
@@ -178,26 +231,39 @@ export function Table({
                           boxSizing: 'border-box',
                           height: 61,
                           padding: '0 12px',
-                          borderBottom: `1px solid ${color(
-                            'border',
-                            'default',
-                            'strong'
-                          )}`,
+                          borderBottom:
+                            index !==
+                              (virtualized
+                                ? virtualRows.map((row) => rows[row.index])
+                                : rows
+                              ).length -
+                                1 &&
+                            `1px solid ${color('border', 'default', 'strong')}`,
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
                           maxWidth: '100%',
                           borderTop:
+                            !border &&
                             !header &&
                             index === 0 &&
                             `1px solid ${color('border', 'default', 'strong')}`,
                         }}
                         key={cell.id}
                       >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent:
+                              (cell.column.columnDef as any).align ?? 'start',
+                            alignItems: 'center',
+                          }}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </div>
                       </td>
                     )
                   })}
@@ -214,13 +280,15 @@ export function Table({
         {header && (
           <thead
             style={{
-              position: 'sticky',
-              top: 0,
-              margin: 0,
-              textAlign: 'left',
-              background: virtualized
-                ? color('background', 'default', 'strong')
-                : 'none',
+              ...(header === 'sticky'
+                ? {
+                    position: 'sticky',
+                    top: 0,
+                    margin: 0,
+                    textAlign: 'left',
+                    background: color('background', 'default', 'strong'),
+                  }
+                : {}),
             }}
           >
             {table.getHeaderGroups().map((headerGroup) => (
@@ -233,11 +301,9 @@ export function Table({
                         padding: '0 12px',
                         height: 42,
                         boxSizing: 'border-box',
-                        borderTop: `1px solid ${color(
-                          'border',
-                          'default',
-                          'strong'
-                        )}`,
+                        borderTop:
+                          !border &&
+                          `1px solid ${color('border', 'default', 'strong')}`,
                         borderBottom: `1px solid ${color(
                           'border',
                           'default',
@@ -251,6 +317,8 @@ export function Table({
                           style={{
                             display: 'flex',
                             height: '100%',
+                            justifyContent:
+                              (header.column.columnDef as any).align ?? 'start',
                             alignItems: 'center',
                             userSelect: 'none',
                             cursor: header.column.getCanSort()
@@ -287,6 +355,6 @@ export function Table({
           </thead>
         )}
       </table>
-    </div>
+    </styled.div>
   )
 }

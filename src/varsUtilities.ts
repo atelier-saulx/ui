@@ -5,6 +5,7 @@ import {
   ColorGroupsOptions,
 } from './varsTypes'
 import { vars } from './vars'
+import { hash } from '@saulx/hash'
 
 const selectVar = <T extends keyof ColorGroups>(
   group: T,
@@ -44,6 +45,18 @@ const selectVar = <T extends keyof ColorGroups>(
   }
 
   return c[g._[option]]
+}
+
+export const colorHash = <T extends keyof ColorGroups>(
+  group: T,
+  value: any
+): ColorGroups[T] => {
+  const hashed = value === undefined ? 0 : hash(value)
+  const g: any = vars[group]
+  const colors = Object.keys(g)
+  const index = Math.floor(Math.abs(Math.sin(hashed)) * (colors.length - 1)) + 1
+  // @ts-ignore
+  return colors[index]
 }
 
 export const color = <T extends keyof ColorGroups>(

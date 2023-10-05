@@ -11,7 +11,7 @@ import {
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 import { scrollAreaStyle } from '../ScrollArea'
-import { useControllableState } from 'src/hooks/useControllableState'
+import { useControllableState } from '../../hooks/useControllableState'
 
 export type SelectOption = { label?: ReactNode; value: string }
 

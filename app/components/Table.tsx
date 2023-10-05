@@ -14,18 +14,18 @@ import {
 } from '../../src'
 import { ComponentDef } from '../types'
 import { faker } from '@faker-js/faker'
+import props from '../props.json'
 
 const example: ComponentDef = {
   name: 'Table',
   component: Table,
   description: '',
-  properties: {},
+  properties: props.props.TableProps.props,
   examples: [
     {
-      name: 'Simple',
-      description: 'Non-virtualized, non-scrollable',
-      props: {},
-      customRenderer: () => {
+      name: 'Header, no border, no virtualization',
+      props: { header: true, virtualized: false },
+      customRenderer: ({ header, virtualized }) => {
         const [data] = useState(() =>
           new Array(6).fill(null).map(() => ({
             logo: faker.image.avatar(),
@@ -41,6 +41,8 @@ const example: ComponentDef = {
         return (
           <div style={{ width: 900 }}>
             <Table
+              header={header}
+              virtualized={virtualized}
               columns={[
                 {
                   key: 'id',
@@ -87,10 +89,10 @@ const example: ComponentDef = {
       },
     },
     {
-      name: 'Almost like a list',
+      name: 'No header, no border, no virtualization',
       description: 'No header',
-      props: {},
-      customRenderer: () => {
+      props: { header: false, virtualized: false },
+      customRenderer: ({ header, virtualized }) => {
         const [data] = useState(() =>
           new Array(6).fill(null).map(() => ({
             name: faker.person.fullName(),
@@ -104,7 +106,8 @@ const example: ComponentDef = {
         return (
           <div style={{ width: 900 }}>
             <Table
-              header={false}
+              header={header}
+              virtualized={virtualized}
               columns={[
                 {
                   key: 'name',
@@ -138,6 +141,7 @@ const example: ComponentDef = {
                 },
                 {
                   id: 'actions',
+                  align: 'end',
                   renderAs: (row) => (
                     <Dropdown.Root>
                       <Dropdown.Trigger>
@@ -161,10 +165,9 @@ const example: ComponentDef = {
       },
     },
     {
-      name: 'Virtualized',
-      description: 'Virtualized, infinite scrollable',
-      props: {},
-      customRenderer: () => {
+      name: 'Virtualized, sticky header, no border',
+      props: { header: 'sticky', virtualized: true },
+      customRenderer: ({ header, virtualized }) => {
         const [open, setOpen] = useState<string | null>(null)
 
         const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
@@ -198,7 +201,8 @@ const example: ComponentDef = {
             }}
           >
             <Table
-              virtualized
+              header={header}
+              virtualized={virtualized}
               data={data}
               onVisibleElementsChange={setVisibleElements}
               onScrollToBottom={() => {
@@ -219,7 +223,7 @@ const example: ComponentDef = {
                 },
                 {
                   id: 'actions',
-                  header: 'More',
+                  align: 'end',
                   renderAs: (row) => (
                     <Dropdown.Root>
                       <Dropdown.Trigger>
@@ -292,6 +296,73 @@ const example: ComponentDef = {
                 </Modal.Actions>
               </Modal.Content>
             </Modal.Root>
+          </div>
+        )
+      },
+    },
+    {
+      name: 'Header, border, no virtualization',
+      props: { header: true, virtualized: false, border: true },
+      customRenderer: ({ header, virtualized, border }) => {
+        const [data] = useState(() =>
+          new Array(6).fill(null).map(() => ({
+            logo: faker.image.avatar(),
+            name: faker.person.fullName(),
+            status: faker.lorem.words(1),
+            avatar: faker.internet.emoji(),
+            id: faker.datatype.uuid().slice(0, 8),
+            createdAt: faker.date.anytime().getTime(),
+            price: Math.random() * 1e4,
+          }))
+        )
+
+        return (
+          <div style={{ width: 900 }}>
+            <Table
+              header={header}
+              virtualized={virtualized}
+              border={border}
+              columns={[
+                {
+                  key: 'id',
+                  renderAs: 'badge',
+                  header: 'ID',
+                },
+                {
+                  key: 'logo',
+                  renderAs: 'image',
+                  header: 'Logo',
+                },
+                {
+                  key: 'name',
+                  renderAs: 'medium',
+                  header: 'Name',
+                },
+                {
+                  key: 'status',
+                  renderAs: (row) => (
+                    <Thumbnail size="small" label={row.status} />
+                  ),
+                  header: 'Status',
+                },
+                {
+                  key: 'avatar',
+                  renderAs: 'avatar',
+                  header: 'Avatar',
+                },
+                {
+                  key: 'price',
+                  renderAs: 'number-euro',
+                  header: 'Price',
+                },
+                {
+                  key: 'createdAt',
+                  renderAs: 'date-time-human',
+                  header: 'Created At',
+                },
+              ]}
+              data={data}
+            />
           </div>
         )
       },
