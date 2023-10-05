@@ -2,7 +2,7 @@ import React from 'react'
 import { color } from '../../varsUtilities'
 import { Text } from '..'
 import { Style, styled } from 'inlines'
-import { useControllableState } from 'src/hooks/useControllableState'
+import { useControllableState } from '../../hooks/useControllableState'
 
 export type TextAreaInputProps = {
   value?: string

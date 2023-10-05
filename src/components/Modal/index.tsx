@@ -5,7 +5,7 @@ import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { IconAlertFill } from '../../icons'
 import { scrollAreaStyle } from '../ScrollArea'
-import { useControllableState } from 'src/hooks/useControllableState'
+import { useControllableState } from '../../hooks/useControllableState'
 
 type UseModalProps = {
   open: boolean

@@ -18,7 +18,7 @@ import {
   IconChevronRight,
 } from '../../icons'
 import { MenuItem } from './MenuItem'
-import { BpMobile, BpSmall } from 'src/utils'
+import { BpMobile, BpSmall } from '../../utils'
 
 type MenuHeaderProps = {
   children?: ReactNode

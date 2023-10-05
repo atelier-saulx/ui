@@ -5,7 +5,7 @@ import { RowSpaced, Row, Column } from '../Styled'
 import { Text } from '../Text'
 import { border, color as genColor } from '../../varsUtilities'
 import { ColorBackgroundColors } from '../../varsTypes'
-import { ClickHandler } from 'src/types'
+import { ClickHandler } from '../../types'
 
 export type ContainerProps = {
   color?: ColorBackgroundColors

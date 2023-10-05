@@ -3,7 +3,7 @@ import * as PopoverBase from '@radix-ui/react-popover'
 import { Style } from 'inlines'
 import { color } from '../../varsUtilities'
 import { ScrollArea } from '../ScrollArea'
-import { useControllableState } from 'src/hooks/useControllableState'
+import { useControllableState } from '../../hooks/useControllableState'
 
 type usePopoverProps = {
   open: boolean
