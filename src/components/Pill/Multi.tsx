@@ -41,7 +41,7 @@ MultiPillProps) {
     return options.filter((option) => value.includes(option.value))
   })
   const valueCheck = inputValue.length !== 0 ?? false
-  console.log(valueCheck)
+
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
@@ -53,7 +53,7 @@ MultiPillProps) {
     }
     onChange([...value, options[index].value])
     setInputValue([...inputValue, options[index]])
-    setOpen(false)
+    // setOpen(false)
     setActiveIndex(null)
   }
 
@@ -65,19 +65,61 @@ MultiPillProps) {
 
   function handleOpen() {
     setOpen(true)
-    inputRef.current?.select()
   }
 
   return (
     <Popover.Root open={open}>
       <Popover.Anchor asChild>
         <styled.div
-          tabIndex={1}
+          tabIndex={0}
           onClick={() => {
             handleOpen()
           }}
           onFocus={() => {
             handleOpen()
+          }}
+          value={inputValue}
+          ref={inputRef}
+          onChange={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            setInputValue([...inputValue, e.target.value])
+            setActiveIndex(null)
+          }}
+          onKeyDown={(e) => {
+            if (open && e.key === 'ArrowDown') {
+              e.preventDefault()
+              const newIndex =
+                activeIndex === null
+                  ? 0
+                  : Math.min(activeIndex + 1, options.length - 1)
+              setActiveIndex(newIndex)
+              document
+                .querySelector(`#combobox-item-${newIndex}`)
+                .scrollIntoView({ block: 'nearest' })
+            }
+
+            if (open && e.key === 'ArrowUp') {
+              e.preventDefault()
+              const newIndex =
+                activeIndex === null ? 0 : Math.max(0, activeIndex - 1)
+              setActiveIndex(newIndex)
+              document
+                .querySelector(`#combobox-item-${newIndex}`)
+                .scrollIntoView({ block: 'nearest' })
+            }
+
+            if (e.key === 'Enter') {
+              e.preventDefault()
+
+              if (open) {
+                if (activeIndex !== null) {
+                  handleSelectItem(activeIndex)
+                }
+              } else {
+                handleOpen()
+              }
+            }
           }}
           style={{
             display: 'flex',
@@ -117,53 +159,6 @@ MultiPillProps) {
             ...style,
           }}
         >
-          <styled.input
-            value={inputValue}
-            ref={inputRef}
-            onChange={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              setInputValue([...inputValue, e.target.value])
-              setActiveIndex(null)
-            }}
-            onKeyDown={(e) => {
-              if (open && e.key === 'ArrowDown') {
-                e.preventDefault()
-                const newIndex =
-                  activeIndex === null
-                    ? 0
-                    : Math.min(activeIndex + 1, options.length - 1)
-                setActiveIndex(newIndex)
-                document
-                  .querySelector(`#combobox-item-${newIndex}`)
-                  .scrollIntoView({ block: 'nearest' })
-              }
-
-              if (open && e.key === 'ArrowUp') {
-                e.preventDefault()
-                const newIndex =
-                  activeIndex === null ? 0 : Math.max(0, activeIndex - 1)
-                setActiveIndex(newIndex)
-                document
-                  .querySelector(`#combobox-item-${newIndex}`)
-                  .scrollIntoView({ block: 'nearest' })
-              }
-
-              if (e.key === 'Enter') {
-                e.preventDefault()
-
-                if (open) {
-                  if (activeIndex !== null) {
-                    handleSelectItem(activeIndex)
-                  }
-                } else {
-                  handleOpen()
-                }
-              }
-            }}
-            placeholder={placeholder}
-            style={{ position: 'relative', display: 'none' }}
-          />
           {icon}
           <styled.div style={{ display: 'flex', gap: 6 }}>
             <Text selectable="none" light>
