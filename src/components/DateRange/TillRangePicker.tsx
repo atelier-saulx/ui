@@ -70,7 +70,6 @@ const MscToString = (value: number): string => {
 //   const outputMs = new Date(dateString).getTime()
 //   return outputMs
 // }
-//TODO REMOVE ALL OVERLAYS
 
 export const TillRangePicker = ({
   setOpen,
