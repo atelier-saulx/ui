@@ -208,50 +208,52 @@ export const Menu: FC<MenuProps> = ({
         const topValue = value
         return (
           <Fragment key={i}>
-            <MenuHeader
-              id={`${i}-menuheader`}
-              style={{
-                marginTop: i && 36,
-                justifyContent: collapse ? 'space-between' : 'unset',
-                display: collapse ? 'flex' : 'flex',
-                marginBottom: '12px',
-              }}
-              onClick={(e) => {
-                if (onChange) {
-                  onChange(value)
-                }
-                if (onClick) {
-                  onClick(e)
-                }
-                if (collapse) {
-                  // @ts-ignore FIX THIS
-                  e.currentTarget.parentNode.nextSibling.classList.toggle(
-                    'hidden'
-                  )
+            {items.length > 0 && (
+              <MenuHeader
+                id={`${i}-menuheader`}
+                style={{
+                  marginTop: i && 36,
+                  justifyContent: collapse ? 'space-between' : 'unset',
+                  display: collapse ? 'flex' : 'flex',
+                  marginBottom: '12px',
+                }}
+                onClick={(e) => {
+                  // if (onChange) {
+                  //   onChange(value)
+                  // }
+                  if (onClick) {
+                    onClick(e)
+                  }
+                  if (collapse) {
+                    // @ts-ignore FIX THIS
+                    e.currentTarget.parentNode.nextSibling.classList.toggle(
+                      'hidden'
+                    )
 
-                  // @ts-ignore FIX THIS
-                  e.currentTarget.parentNode?.childNodes[0]?.childNodes[0]?.childNodes[1]?.classList.toggle(
-                    'closed'
-                  )
-                }
-              }}
-            >
-              {icon ? <styled.div>{icon}</styled.div> : null}
-              <Text
-                light
-                selectable="none"
-                weight="strong"
-                size={12}
-                transform="uppercase"
+                    // @ts-ignore FIX THIS
+                    e.currentTarget.parentNode?.childNodes[0]?.childNodes[0]?.childNodes[1]?.classList.toggle(
+                      'closed'
+                    )
+                  }
+                }}
               >
-                {label}
-              </Text>
-              {collapse && !shrink && (
-                <StyledChevron id={`${i}-menuchevron`}>
-                  <IconChevronDown />
-                </StyledChevron>
-              )}
-            </MenuHeader>
+                {icon ? <styled.div>{icon}</styled.div> : null}
+                <Text
+                  light
+                  selectable="none"
+                  weight="strong"
+                  size={12}
+                  transform="uppercase"
+                >
+                  {label}
+                </Text>
+                {collapse && !shrink && (
+                  <StyledChevron id={`${i}-menuchevron`}>
+                    <IconChevronDown />
+                  </StyledChevron>
+                )}
+              </MenuHeader>
+            )}
             <HideableStyledDiv
               id={`${i}-menuitems`}
               style={{
@@ -272,7 +274,7 @@ export const Menu: FC<MenuProps> = ({
                       if (onChange) {
                         // if changed on mobile close the menu
                         setOpen(false)
-                        onChange(value, topValue)
+                        onChange(value)
                       }
                       if (onClick) {
                         onClick(e)
