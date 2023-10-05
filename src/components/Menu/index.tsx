@@ -32,6 +32,9 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
     <styled.div
       id={id}
       style={{
+        display: 'flex',
+        position: 'relative',
+        width: '100%',
         marginTop: '24px',
         marginBottom: '12px',
         '&.closed': {
@@ -39,22 +42,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
         },
       }}
     >
-      <styled.span onClick={onClick}>
-        <Text
-          weight="strong"
-          color="default"
-          size={12}
-          light
-          style={{
-            // marginBottom: 16,
-            display: 'flex',
-            position: 'relative',
-            textTransform: 'uppercase',
-          }}
-        >
-          {children}
-        </Text>
-      </styled.span>
+      {children}
     </styled.div>
   )
 }
@@ -400,6 +388,8 @@ export const Menu: FC<MenuProps> = ({
           flexShrink: 0,
           backgroundColor: color('background', 'default', 'muted'),
           padding: '24px 12px',
+          paddingLeft: '16px',
+          paddingRight: '8px',
           height: 'auto',
           minHeight: '100%',
           width: !shrink ? 224 : 42,
@@ -416,6 +406,7 @@ export const Menu: FC<MenuProps> = ({
             position: 'absolute',
             width: !shrink ? '264px' : '54px',
             paddingRight: '4px !important',
+            paddingLeft: '12px',
           },
           ...style,
         }}

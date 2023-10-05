@@ -8,6 +8,7 @@ import {
   IconAlarmClock,
   IconAnchor,
   IconArchive,
+  Input,
 } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
@@ -31,7 +32,7 @@ const example: ComponentDef = {
               <Badge>{value}</Badge>
             </div>
             <div style={{ display: 'flex' }}>
-              <Menu
+              {/* <Menu
                 shrunk
                 onChange={(v) => {
                   setSmallMenuValue(v)
@@ -46,9 +47,17 @@ const example: ComponentDef = {
                     a: { value: 'a', label: 'AA', icon: <IconArchive /> },
                   },
                 }}
-              />
+              /> */}
               <Menu
                 // shrunk
+                header={
+                  <Input
+                    label="header test"
+                    type="text"
+                    value="xxx"
+                    onChange={() => {}}
+                  />
+                }
                 // collapse
                 onChange={(v) => {
                   setValue(v)
