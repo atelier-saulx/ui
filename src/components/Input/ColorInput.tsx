@@ -13,6 +13,7 @@ import { usePropState } from '../../hooks'
 import { rgbaToArr } from '../ColorPicker/utils'
 import { ColorPicker } from '../ColorPicker'
 import { transparent } from '../ColorPicker/bg'
+import { useControllableState } from '../../hooks'
 
 let tester
 const valueToRgba = (value) => {
@@ -34,25 +35,32 @@ const valueToRgba = (value) => {
 export type ColorInputProps = {
   inputRef?: RefObject<HTMLInputElement>
   value?: string
+  defaultValue?: string
+  onChange?: (target) => void
   placeholder?: string
   disabled?: boolean
   style?: CSSProperties
-  onChange?: (target) => void
   error?: boolean
 }
 
 export const ColorInput = ({
   inputRef,
   placeholder,
+  defaultValue: defaultValueProp,
   value: valueProp,
   disabled,
   style,
   error,
-  onChange = (e) => console.log(e),
+  onChange: onChangeProp = (e) => console.log(),
   ...props
 }: ColorInputProps) => {
-  const [value, setValue] = usePropState(valueProp, true)
-  const [rgba, setRgba] = usePropState(() => valueToRgba(valueProp), true)
+  const [focus, setFocus] = useState(false)
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
+  const [rgba, setRgba] = usePropState(valueToRgba(value))
   const [open, setOpen] = useState(false)
   const rgbaRef = useRef(rgba)
 
@@ -60,7 +68,7 @@ export const ColorInput = ({
     if (rgba !== value) {
       if (rgbaRef.current !== rgba) {
         rgbaRef.current = rgba
-        onChange({ target: { value: rgba } })
+        onChangeProp({ target: { value: rgba } })
       }
     }
   }, [rgba])
@@ -69,6 +77,9 @@ export const ColorInput = ({
     <Popover.Root open={open}>
       <Popover.Trigger asChild>
         <styled.div
+          tabIndex={0}
+          onFocus={() => console.log('focussss')}
+          onBlur={() => console.log('bnluuuuuuuuuuur')}
           style={{
             display: 'flex',
             position: 'relative',
@@ -82,6 +93,14 @@ export const ColorInput = ({
             onChange={(e) => {
               setValue(e.target.value)
               setRgba(() => valueToRgba(e.target.value))
+            }}
+            onFocus={() => {
+              setFocus(true)
+              console.log('input:focused')
+            }}
+            onBlur={() => {
+              setFocus(false)
+              console.log('input:blurred')
             }}
             placeholder={placeholder}
             disabled={disabled}
@@ -172,9 +191,9 @@ export const ColorInput = ({
               (value) => {
                 setValue(value)
                 setRgba(value)
-                onChange?.(value)
+                // onChange?.(value)
               },
-              [onChange]
+              [onChangeProp]
             )}
           />
         </Popover.Content>

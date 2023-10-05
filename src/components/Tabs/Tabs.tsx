@@ -12,11 +12,12 @@ import { styled, Style } from 'inlines'
 import { Text } from '../Text'
 import { color as genColor } from '../../varsUtilities'
 import { BpTablet } from '../../utils/'
+import { usePropState } from 'src/hooks'
 
 export type TabsProps = {
   children: ReactNode
   style?: Style
-  activeTab?: number
+  active?: number
   setActiveTab?: (index: number) => void
   sameHeight?: boolean
   borderColor?: 'primary' | 'neutral'
@@ -24,21 +25,20 @@ export type TabsProps = {
 
 const TabWrapper: FC<{
   children: ReactNode | ReactNode[] | ReactElement | Symbol | Object | any
-  activeTabState: number
+  activeTab: number
   index: number
-  setActiveTabInternal: Dispatch<SetStateAction<number>>
-  setHoverTab: Dispatch<SetStateAction<number>>
+  setActiveTab: Dispatch<SetStateAction<number>>
   borderColor?: 'primary' | 'neutral'
 }> = ({
   children,
   index,
-  activeTabState,
-  setHoverTab,
-  setActiveTabInternal,
+  activeTab,
+  setActiveTab,
   borderColor = 'primary',
 }) => {
   const icon = children?.props?.icon
-
+  //TODO WHY IS THIS A STRING??
+  console.log(index, activeTab)
   return (
     <styled.div
       style={{
@@ -49,38 +49,31 @@ const TabWrapper: FC<{
         cursor: 'pointer',
         alignItems: 'center',
         borderBottom:
-          index === activeTabState
+          index === parseInt(activeTab)
             ? `3px solid ${genColor('action', borderColor, 'normal')}`
             : '3px solid transparent',
         '&:hover': {
           borderBottom:
-            index !== activeTabState &&
+            index !== parseInt(activeTab) &&
             `3px solid ${genColor('action', 'neutral', 'subtleHover')}`,
         },
         [BpTablet]: {
           '&:hover': {
             borderBottom:
-              index === activeTabState
+              index === parseInt(activeTab)
                 ? `3px solid ${genColor('action', 'primary', 'normal')}`
                 : '3px solid transparent',
           },
         },
         '&:active': {
           borderBottom:
-            index !== activeTabState &&
+            index !== parseInt(activeTab) &&
             `3px solid ${genColor('action', 'neutral', 'subtleActive')}`,
         },
       }}
       onClick={() => {
-        setHoverTab(-1)
-        setActiveTabInternal(index)
+        setActiveTab(index)
       }}
-      onMouseEnter={useCallback(() => {
-        setHoverTab(index)
-      }, [])}
-      onMouseLeave={useCallback(() => {
-        setHoverTab(-1)
-      }, [])}
       key={index}
     >
       {icon && (
@@ -96,7 +89,7 @@ const TabWrapper: FC<{
       {typeof children === 'string' ? (
         <Text
           selectable="none"
-          weight={index === activeTabState ? 'strong' : 'medium'}
+          weight={index === activeTab ? 'strong' : 'medium'}
         >
           {children}
         </Text>
@@ -104,7 +97,7 @@ const TabWrapper: FC<{
         <Text
           size={16}
           selectable="none"
-          weight={index === activeTabState ? 'strong' : 'medium'}
+          weight={index === activeTab ? 'strong' : 'medium'}
         >
           {children.props.label}
         </Text>
@@ -116,21 +109,15 @@ const TabWrapper: FC<{
 export const Tabs: FC<TabsProps> = ({
   children,
   style,
-  activeTab = 0,
-  setActiveTab,
+  active = 0,
   sameHeight,
   borderColor = 'primary',
   ...props
 }) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
-  let activeTabState: number = activeTab
-  let setActiveTabInternal = setActiveTab
-  if (!setActiveTab) {
-    ;[activeTabState, setActiveTabInternal] = useState(activeTab)
-  } else {
-    useState(null)
-  }
-  const [hoverTab, setHoverTab] = useState(-1)
+  // this is weird
+  console.log(arrayChildren)
+  const [activeTab, setActiveTab] = usePropState(active)
   const elem = useRef<HTMLElement>(null)
 
   const tabRef = useRef<HTMLDivElement>(null)
@@ -160,9 +147,8 @@ export const Tabs: FC<TabsProps> = ({
               borderColor={borderColor}
               key={index}
               index={index}
-              activeTabState={activeTabState}
-              setHoverTab={setHoverTab}
-              setActiveTabInternal={setActiveTabInternal as any}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab as any}
             >
               {child}
             </TabWrapper>
@@ -178,7 +164,7 @@ export const Tabs: FC<TabsProps> = ({
           display: 'flex',
         }}
       >
-        {children?.[activeTabState]}
+        {children?.[activeTab]}
       </styled.div>
     </>
   )

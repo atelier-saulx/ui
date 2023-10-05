@@ -12,7 +12,7 @@ const example: ComponentDef = {
     {
       props: {
         onChange: (v) => {
-          console.log(v)
+          console.log()
         },
       },
     },
