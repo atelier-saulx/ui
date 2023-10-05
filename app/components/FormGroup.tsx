@@ -35,6 +35,7 @@ const fieldProps = {
         ({ onChange, value }) => {
           return (
             <Button
+              color="system"
               onClick={() => {
                 onChange('custom', { x: value.x + 1 })
               }}
@@ -76,7 +77,10 @@ const example: ComponentDef = {
       description: 'Sameform displayed as a colum',
       props: {
         ...fieldProps,
-        alwaysAccept: true,
+        style: {
+          width: 750,
+        },
+        // alwaysAccept: true,
         variant: 'column',
       },
     },

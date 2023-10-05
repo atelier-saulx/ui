@@ -1,7 +1,8 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { styled } from 'inlines'
-import { Row, Text } from '../../'
+import { Column, Row, Text } from '../../'
 import { LabelProps } from '../types'
+import { border } from '../../../varsUtilities'
 
 export const Label: FC<LabelProps> = ({
   label,
@@ -9,32 +10,38 @@ export const Label: FC<LabelProps> = ({
   children,
   style,
 }) => {
+  const [isFocus, setFocus] = useState(false)
   return (
-    <styled.div
+    <Column
+      onFocus={() => {
+        setFocus(true)
+      }}
+      onBlur={() => {
+        setFocus(false)
+      }}
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'row',
+        marginBottom: 32,
+        paddingLeft: 12,
+        borderLeft: border(2, isFocus ? 'brand' : 'default'),
         ...style,
       }}
     >
+      {label ? (
+        <Row>
+          <Text style={{ marginBottom: description ? 0 : 0 }} weight="strong">
+            {label}
+          </Text>
+        </Row>
+      ) : null}
       <styled.div
         style={{
-          display: 'flex',
-          marginRight: 16,
-          flexDirection: 'column',
+          marginTop: 8,
+          marginBottom: 8,
         }}
       >
-        {label ? (
-          <Row>
-            <Text style={{ marginBottom: description ? 0 : 0 }} weight="strong">
-              {label}
-            </Text>
-          </Row>
-        ) : null}
-        {description && <Text light>{description}</Text>}
+        {children}
       </styled.div>
-      {children}
-    </styled.div>
+      {description && <Text light>{description}</Text>}
+    </Column>
   )
 }
