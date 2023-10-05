@@ -23,7 +23,7 @@ const example: ComponentDef = {
           label: faker.person.fullName(),
           value: `id${i}`,
         })),
-        defaultValue: 'id2',
+        // defaultValue: 'id2',
         placeholder: 'select one',
       },
     },

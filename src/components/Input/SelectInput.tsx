@@ -25,6 +25,7 @@ export type SelectInputProps = {
   size?: 'small' | 'normal'
   style?: Style
   searchable?: boolean
+  hugContent?: boolean
 }
 
 const inputToString = (input: SelectOption | ''): string => {
@@ -45,6 +46,7 @@ export function SelectInput({
   size = 'normal',
   style,
   searchable = false,
+  hugContent = true,
 }: SelectInputProps) {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -109,13 +111,19 @@ export function SelectInput({
     setInputValue(options.find((e) => e.value === value))
   }, [value])
 
+  const [hug, setHug] = useState(inputRef.current?.offsetWidth)
+
+  useEffect(() => {
+    setHug(inputRef.current?.offsetWidth)
+  }, [inputRef.current])
+
   return (
     <Popover.Root open={open}>
       <Popover.Anchor asChild>
         <div
           style={{
             position: 'relative',
-            width: size === 'small' ? '60%' : '100%',
+            width: hugContent ? hug : size === 'small' ? '60%' : '100%',
           }}
         >
           <Component
@@ -217,6 +225,9 @@ export function SelectInput({
                       )}`,
                     },
                   }),
+              whiteSpace: hugContent ? 'nowrap' : 'initial',
+              overflow: hugContent ? 'hidden' : 'initial',
+              textOverflow: hugContent ? 'ellipsis' : 'initial',
               ...style,
             }}
           />
