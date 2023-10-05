@@ -29,6 +29,7 @@ import {
 } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 import { BasedLogo } from '../src/icons/BasedLogo'
+import { SelectInput } from '../src/components/Input/SelectInput'
 
 export const client = based(basedConfig)
 
@@ -110,7 +111,6 @@ const App = () => {
           route.setQuery({ component: v })
         }}
       />
-
       <ScrollArea
         style={{
           color: color('content', 'default', 'primary'),

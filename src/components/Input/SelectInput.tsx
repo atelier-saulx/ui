@@ -46,7 +46,7 @@ export function SelectInput({
   size = 'normal',
   style,
   searchable = false,
-  hugContent = true,
+  hugContent = false,
 }: SelectInputProps) {
   const [value, setValue] = useControllableState({
     prop: valueProp,
