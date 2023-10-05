@@ -7,7 +7,7 @@ import { Input, Row, Text } from '../..'
 export const FormItem: FC<{
   item: FormItemProps
   value?: any
-  style?: Style
+  autoFocus?: boolean
   width?: number
   fieldWidth?: number
   onChange: (field: string, value: any) => void
@@ -21,9 +21,9 @@ export const FormItem: FC<{
     options,
     default: defaultValue,
   },
+  autoFocus,
   fieldWidth,
   value,
-  style,
   onChange,
 }) => {
   if (!label) {
@@ -43,6 +43,7 @@ export const FormItem: FC<{
         {React.createElement(type, {
           value,
           onChange,
+          autoFocus,
           ...props,
         })}
       </Label>
@@ -55,6 +56,7 @@ export const FormItem: FC<{
         <Input
           type="select"
           value={value}
+          autoFocus={autoFocus}
           onChange={(v) => {
             onChange(field, v)
           }}
@@ -83,6 +85,7 @@ export const FormItem: FC<{
                 max: v > value?.max ? v : value?.max ?? v,
               })
             }}
+            autoFocus={autoFocus}
             value={value?.min}
             type="number"
             placeholder="Min"
@@ -112,20 +115,20 @@ export const FormItem: FC<{
     )
   }
 
-  if (type === 'boolean') {
+  if (type === 'checkbox') {
     return (
-      <Input
-        type="checkbox"
-        value={value}
-        onChange={(v) => onChange(field, v)}
-        label={label}
-        {...props}
-        // @ts-ignore
-        style={Object.assign(
-          { marginBottom: 16, marginRight: 32 },
-          props?.style
-        )}
-      />
+      <Label description={description}>
+        <Input
+          label={label}
+          type="checkbox"
+          value={value}
+          autoFocus={autoFocus}
+          onChange={(v) => onChange(field, v)}
+          {...props}
+          // @ts-ignore
+          style={props?.style}
+        />
+      </Label>
     )
   }
 
@@ -133,6 +136,7 @@ export const FormItem: FC<{
     <Label label={label} description={description}>
       {/* @ts-ignore FIX THIS TYPE */}
       <Input
+        autoFocus={autoFocus}
         placeholder={label}
         value={value ?? ''}
         //  @ts-ignore

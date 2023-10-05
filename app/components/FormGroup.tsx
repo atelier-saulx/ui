@@ -27,6 +27,11 @@ const fieldProps = {
       description: 'hello',
       type: 'range',
     },
+    file: {
+      label: 'File',
+      description: 'hello',
+      type: 'file',
+    },
     custom: {
       label: 'Status',
       description: 'status time',
@@ -44,6 +49,11 @@ const fieldProps = {
             </Button>
           )
         },
+    },
+    isThisNce: {
+      label: 'Nice',
+      description: 'is it nice?',
+      type: 'checkbox',
     },
   },
   values: {
@@ -70,6 +80,7 @@ const example: ComponentDef = {
       props: {
         ...fieldProps,
         variant: 'grid',
+        autoFocus: true,
       },
     },
     {

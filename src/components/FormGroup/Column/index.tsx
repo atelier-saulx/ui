@@ -17,13 +17,16 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   values,
   alwaysAccept,
   setChanges,
+  autoFocus,
   style,
 }) => {
   const fields: ReactNode[] = []
+  let hasAutoFocus = false
 
   for (const d of parsedData) {
     fields.push(
       <FormItem
+        autoFocus={!hasAutoFocus && autoFocus}
         fieldWidth={fieldWidth}
         width={labelWidth}
         key={d.field}
@@ -38,6 +41,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
         }
       />
     )
+    hasAutoFocus = true
   }
 
   return (
