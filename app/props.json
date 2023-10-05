@@ -1151,9 +1151,13 @@
         "searchable": {
           "optional": true,
           "type": "boolean"
+        },
+        "hugContent": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SelectInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value) => void\n  options: SelectOption[]\n  placeholder?: string\n  clearbutton?: boolean\n  size?: 'small' | 'normal'\n  style?: Style\n  searchable?: boolean\n}",
+      "code": "type SelectInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value) => void\n  options: SelectOption[]\n  placeholder?: string\n  clearbutton?: boolean\n  size?: 'small' | 'normal'\n  style?: Style\n  searchable?: boolean\n  hugContent?: boolean\n}",
       "file": "/components/Input/SelectInput.tsx"
     },
     "TextAreaInputProps": {

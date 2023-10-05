@@ -40,6 +40,21 @@ const example: ComponentDef = {
         placeholder: 'select one',
       },
     },
+    {
+      props: {
+        type: 'select',
+        label: 'This one hugs initial width and truncates rest',
+        searchable: true,
+        options: Array.from({ length: 25 }).map((_, i) => ({
+          label: faker.person.fullName(),
+          value: `id${i}`,
+        })),
+        // defaultValue: 'id2',
+        hugContent: true,
+        placeholder:
+          'This is a very long message that will probably be way too long',
+      },
+    },
   ],
 }
 
