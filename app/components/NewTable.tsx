@@ -134,17 +134,16 @@ const example: ComponentDef = {
                 {
                   header: 'Type',
                   key: 'type',
-                  renderAs: (row) => <Badge light>{row.type}</Badge>,
+                  renderAs: 'badge',
                 },
                 {
                   header: 'Created',
                   key: 'createdAt',
-                  renderAs: (row) => (
-                    <div>{new Date(row.createdAt).toISOString()}</div>
-                  ),
+                  renderAs: 'date',
                 },
                 {
                   id: 'actions',
+                  header: 'More',
                   renderAs: (row) => (
                     <Dropdown.Root>
                       <Dropdown.Trigger>

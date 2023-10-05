@@ -38,7 +38,7 @@ type TableColumn =
       header: string
       renderAs?: RenderAs
     }
-  | { id: string; renderAs: (row: any) => ReactNode }
+  | { id: string; header?: string; renderAs: (row: any) => ReactNode }
 
 function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
   if (typeof renderAs === 'function') return renderAs(row)
@@ -97,6 +97,7 @@ export function NewTable({
       if ('id' in c) {
         return {
           id: c.id,
+          header: c.header,
           cell: ({ row }) => c.renderAs(row.original),
         }
       }
