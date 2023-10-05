@@ -43,7 +43,7 @@ export const MenuItem: FC<MenuItemProps> = ({
       <styled.div
         onClick={(e) => {
           if (onChange) {
-            console.log('clikie 🍔', data.value)
+            // console.log('clikie 🍔', data.value)
             onChange(data.value)
           }
         }}
@@ -136,6 +136,8 @@ export const MenuItem: FC<MenuItemProps> = ({
                 onClick(e)
               }
             }}
+            //   active={isActive ? isActive(item.value) : active === item.value}
+            // active={item.value}
             active={active === item.value}
           />
         ))}

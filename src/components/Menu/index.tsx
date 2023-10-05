@@ -196,7 +196,7 @@ export const Menu: FC<MenuProps> = ({
   }
 
   useEffect(() => {
-    if (width > 480) {
+    if (width > 640) {
       setOpen(true)
     }
   }, [width])
@@ -207,7 +207,7 @@ export const Menu: FC<MenuProps> = ({
       if (items) {
         return (
           <Fragment key={i}>
-            {items.length > 0 && (
+            {items.length > 0 && !shrink && (
               <MenuHeader
                 id={`${i}-menuheader`}
                 style={{

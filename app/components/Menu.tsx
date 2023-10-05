@@ -24,10 +24,6 @@ const example: ComponentDef = {
         const [smallMenuValue, setSmallMenuValue] = useState('flippie')
         const [value, setValue] = useState('yowza1')
 
-        useEffect(() => {
-          console.log('🎾')
-        }, [value])
-
         return (
           <div>
             <div style={{ display: 'flex', marginBottom: 12, gap: 16 }}>
@@ -40,8 +36,10 @@ const example: ComponentDef = {
                 onChange={(v) => {
                   setSmallMenuValue(v)
                 }}
+                active={smallMenuValue}
                 data={{
                   items: {
+                    // @ts-ignore
                     x: { value: 'x', label: 'XX', icon: <IconAlarmClock /> },
                     y: { value: 'y', label: 'YY', icon: <IconEmojiSmile /> },
                     z: { value: 'z', label: 'ZZ', icon: <IconAnchor /> },
