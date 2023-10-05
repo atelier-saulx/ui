@@ -64,7 +64,6 @@ function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
     content = JSON.stringify(row[key])
   }
 
-  console.log(renderAs)
   return (
     <Text
       valueFormat={renderAs}
