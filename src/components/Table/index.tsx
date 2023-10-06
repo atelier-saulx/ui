@@ -132,6 +132,10 @@ function generateColumDefinitionsFromData(element) {
       columnDefinition.renderAs = 'medium'
     }
 
+    if (key === 'status') {
+      columnDefinition.renderAs = 'badge'
+    }
+
     return columnDefinition
   })
 
