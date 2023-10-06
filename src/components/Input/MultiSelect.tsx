@@ -11,7 +11,7 @@ import {
 } from '../../icons'
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
-
+import { useControllableState } from '../../hooks'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Tag } from '../Tag'
 
@@ -26,14 +26,16 @@ export type MultiSelectProps = {
   style?: Style
   onChange: (value) => void
   hugContent?: boolean
+  defaultValue: string[]
 }
 
 export function MultiSelect({
-  value = [],
+  value: valueProp = [],
+  defaultValue: defaultValueProp,
   options,
   placeholder,
   style,
-  onChange,
+  onChange: onChangeProp,
   hugContent,
 }: // props,
 MultiSelectProps) {
@@ -42,21 +44,29 @@ MultiSelectProps) {
   const [open, setOpen] = useState(false)
   const [hug, setHug] = useState(inputRef.current?.offsetWidth)
 
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
+
   const [inputValue, setInputValue] = useState<Array<MultiSelectOption>>(() => {
     return options.filter((option) => value.includes(option.value))
   })
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const filteredOptions = options.filter((item) => !value.includes(item.value))
+  const filteredOptions = options.filter(
+    (item) => !inputValue.map((thing) => thing.value).includes(item.value)
+  )
 
   function handleSelectItem(index: number) {
-    onChange([...value, filteredOptions[index].value])
+    setValue([...value, filteredOptions[index].value])
     setInputValue([...inputValue, filteredOptions[index]])
     setActiveIndex(null)
   }
 
   function handleClose() {
-    setInputValue(options.filter((option) => value.includes(option.value)))
+    // setInputValue(options.filter((option) => value.includes(option.value)))
     setOpen(false)
     setActiveIndex(null)
   }
@@ -194,7 +204,7 @@ MultiSelectProps) {
                   style={{ display: 'inline-flex', flexGrow: 0 }}
                   key={v.value}
                   onClose={() => {
-                    onChange(value.filter((value) => value !== v.value))
+                    setValue(value.filter((value) => value !== v.value))
                     setInputValue(inputValue.filter((value) => value !== v))
                   }}
                 >

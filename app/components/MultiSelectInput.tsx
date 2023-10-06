@@ -32,12 +32,29 @@ const example: ComponentDef = {
               value={value}
               onChange={(v) => {
                 setValue(v)
-                // console.log(v)
               }}
               options={options}
               {...props}
               type="multi-select"
             />
+          </>
+        )
+      },
+    },
+    {
+      props: { prefix: 'Identity', placeholder: 'Select more' },
+      description: 'uncontrolled multiinput',
+      customRenderer: (props) => {
+        const [options] = useState(() =>
+          Array.from({ length: 25 }).map((_, i) => ({
+            label: faker.person.fullName(),
+            value: `id${i}`,
+          }))
+        )
+
+        return (
+          <>
+            <Input options={options} {...props} type="multi-select" />
           </>
         )
       },
