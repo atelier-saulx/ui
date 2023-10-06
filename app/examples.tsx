@@ -54,6 +54,7 @@ import styledDivs from './components/StyledDivs'
 import modal from './components/Modal'
 import multiSelect from './components/MultiSelectInput'
 import action from './components/Action'
+import sectionHeader from './components/SectionHeader'
 
 export const hooks: ComponentDef[] = [useContextState]
 
@@ -93,4 +94,12 @@ export const navigation = [breadCrumbs, topNavigation, Menu]
 
 export const graphs = [barGraph, linegraph, pieGraph, metricsWidget]
 
-export const display = [text, table, counter, status, avatar, thumbnail]
+export const display = [
+  text,
+  sectionHeader,
+  table,
+  counter,
+  status,
+  avatar,
+  thumbnail,
+]
