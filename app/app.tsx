@@ -31,8 +31,6 @@ import {
 import { ThemeSwitch } from './ThemeSwitch'
 import { BasedLogo } from '../src/icons/BasedLogo'
 
-import { MultiSelect } from '../src/components/Input/MultiSelect'
-
 export const client = based(basedConfig)
 
 const App = () => {
@@ -133,12 +131,6 @@ const App = () => {
           flexDirection: 'column',
         }}
       >
-        <MultiSelect
-          placeholder="asdasdas"
-          value={value}
-          options={[{ value: 'asdasd', label: 'asdasd' }]}
-          onChange={(e) => setValue(e)}
-        />
         {filtered.map((c) => {
           return <OverviewComponent component={c} key={c.name} />
         })}

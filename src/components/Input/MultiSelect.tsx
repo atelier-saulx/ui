@@ -47,16 +47,11 @@ MultiSelectProps) {
   })
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const filteredOptions = options.filter((item) => !value.includes(item.value))
 
   function handleSelectItem(index: number) {
-    if (inputValue.includes(options[index])) {
-      onChange(value.filter((v) => v !== options[index].value))
-      setInputValue(inputValue.filter((v) => v !== options[index]))
-      return
-    }
-    onChange([...value, options[index].value])
-    setInputValue([...inputValue, options[index]])
-    // setOpen(false)
+    onChange([...value, filteredOptions[index].value])
+    setInputValue([...inputValue, filteredOptions[index]])
     setActiveIndex(null)
   }
 
@@ -77,7 +72,12 @@ MultiSelectProps) {
   return (
     <Popover.Root open={open}>
       <Popover.Anchor asChild>
-        <div style={{ position: 'relative', width: hugContent ? hug : '100%' }}>
+        <div
+          style={{
+            position: 'relative',
+            maxWidth: hugContent ? hug : '100%',
+          }}
+        >
           <styled.div
             tabIndex={0}
             onClick={() => {
@@ -102,9 +102,6 @@ MultiSelectProps) {
                     ? 0
                     : Math.min(activeIndex + 1, options.length - 1)
                 setActiveIndex(newIndex)
-                document
-                  .querySelector(`#combobox-item-${newIndex}`)
-                  .scrollIntoView({ block: 'nearest' })
               }
 
               if (open && e.key === 'ArrowUp') {
@@ -112,9 +109,6 @@ MultiSelectProps) {
                 const newIndex =
                   activeIndex === null ? 0 : Math.max(0, activeIndex - 1)
                 setActiveIndex(newIndex)
-                document
-                  .querySelector(`#combobox-item-${newIndex}`)
-                  .scrollIntoView({ block: 'nearest' })
               }
 
               if (e.key === 'Enter') {
@@ -139,7 +133,7 @@ MultiSelectProps) {
               lineHeight: '24px',
               background: 'transparent',
               fontFamily: 'Inter',
-              height: 42,
+              minHeight: 42,
               fontWeight: '500',
               color:
                 inputValue.length > 0
@@ -181,46 +175,46 @@ MultiSelectProps) {
               textOverflow: hugContent ? 'ellipsis' : 'initial',
               ...style,
             }}
-          />
-          <styled.div
-            onClick={() => {
-              handleOpen()
-            }}
-            style={{
-              position: 'absolute',
-              top: 8,
-              left: 12,
-              right: 40,
-              bottom: 8,
-              display: 'flex',
-              flexDirection: 'row',
-              gap: 8,
-            }}
           >
-            {inputValue.map((v, i) => (
-              <Tag
-                key={v.value}
-                onClose={() => {
-                  setInputValue(
-                    inputValue.filter((v) => v.value !== options[i].value)
-                  )
-                  onChange(value.filter((v) => v !== options[i].value))
-                }}
-              >
-                {v.label}
-              </Tag>
-            ))}
+            <styled.div
+              onClick={() => {
+                handleOpen()
+              }}
+              style={{
+                // border: '1px solid red',
+                marginTop: '8px 40px 8px 12px',
+                display: 'flex',
+                flexWrap: 'wrap',
+                flexDirection: 'row',
+                gap: 8,
+              }}
+            >
+              {inputValue.map((v) => (
+                <Tag
+                  style={{ display: 'inline-flex', flexGrow: 0 }}
+                  key={v.value}
+                  onClose={() => {
+                    onChange(value.filter((value) => value !== v.value))
+                    setInputValue(inputValue.filter((value) => value !== v))
+                  }}
+                >
+                  {v.label}
+                </Tag>
+              ))}
 
-            <Text selectable="none" light>
-              {placeholder}
-            </Text>
+              <Text selectable="none" light>
+                {placeholder}
+              </Text>
+            </styled.div>
           </styled.div>
+
           <span
             style={{
               pointerEvents: 'none',
               position: 'absolute',
               right: 12,
-              top: 10,
+              top: '50%',
+              transform: 'translateY(-50%)',
             }}
           >
             <IconChevronDown color="default" />
@@ -258,10 +252,9 @@ MultiSelectProps) {
                 ...scrollAreaStyle,
               }}
             >
-              {options.length ? (
-                options.map((item, index) => (
+              {filteredOptions.length ? (
+                filteredOptions.map((item, index) => (
                   <styled.div
-                    id={`combobox-item-${index}`}
                     style={{
                       cursor: 'pointer',
                       background:
