@@ -27,8 +27,8 @@ export type FormItemProps<T = any> = {
 export type FormGroupValues = { [field: string]: any }
 
 export type FormGroupProps = {
-  acceptVariant?: 'buttons' | 'icons'
-  acceptLabel?: ReactNode
+  confirmationLabel?: ReactNode
+  confirmationVariant?: 'buttons' | 'icons'
   style?: Style
   fieldWidth?: number
   labelWidth?: number
@@ -52,8 +52,8 @@ export type ValuesChanged = { [field: string]: any }
 export type OnChangeField = (field: string, value: any) => void
 
 export type FormGroupVariantProps = {
-  acceptVariant?: 'buttons' | 'icons'
-  acceptLabel?: ReactNode
+  confirmationLabel?: ReactNode
+  confirmationVariant?: 'buttons' | 'icons'
   onChange: onChange
   parsedData: FormItemProps[]
   fieldWidth: number

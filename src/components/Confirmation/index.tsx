@@ -1,31 +1,54 @@
-import React, { FC } from 'react'
-import { styled, Style } from 'inlines'
+import React, { FC, ReactNode } from 'react'
+import { Style } from 'inlines'
 import { Button } from '../Button'
+import { RowEnd } from '../Styled'
 import { IconClose, IconCheckLarge } from '../../icons'
+import { border } from '../../varsUtilities'
+import { Text } from '../Text'
+import { useModal } from '../Modal'
 
-// for props gen
 type ConfirmationProps = {
   style?: Style
+  variant?: 'buttons' | 'icons'
   value?: any
-  onAccept: ((value: any) => void) | ((value: any) => Promise<void>)
+  label?: ReactNode
+  onConfirm: ((value: any) => void) | ((value: any) => Promise<void>)
   onCancel: (value: any) => void
 }
 
 export const Confirmation = <T,>({
-  onAccept,
+  onConfirm,
   onCancel,
   value,
   style,
+  variant,
+  label,
 }: {
+  label?: ReactNode
+  variant?: 'buttons' | 'icons'
   style?: Style
   value?: T
-  onAccept: ((value: T) => void) | ((value: T) => Promise<void>)
+  onConfirm: ((value: T) => void) | ((value: T) => Promise<void>)
   onCancel: (value: T) => void
 }): ReturnType<FC> => {
-  return (
-    <styled.div style={{ display: 'flex', alignItems: 'center', ...style }}>
+  const modal = useModal()
+
+  return variant === 'icons' ? (
+    <RowEnd
+      style={{
+        borderTop: border(1),
+        width: '100%',
+        marginTop: 16,
+        paddingTop: 16,
+        marginRight: 8,
+      }}
+    >
+      {label ? <Text light>{label}</Text> : null}
       <Button
         onClick={() => {
+          if (modal) {
+            modal.setOpen(false)
+          }
           return onCancel(value)
         }}
         ghost
@@ -35,12 +58,44 @@ export const Confirmation = <T,>({
       <Button
         color="primary"
         onClick={async () => {
-          return onAccept(value)
+          if (modal) {
+            modal.setOpen(false)
+          }
+          return onConfirm(value)
         }}
         ghost
         style={{ marginLeft: 4 }}
         icon={<IconCheckLarge />}
       />
-    </styled.div>
+    </RowEnd>
+  ) : (
+    <RowEnd>
+      <Button
+        onClick={() => {
+          if (modal) {
+            modal.setOpen(false)
+          }
+          return onCancel(value)
+        }}
+        style={{ marginRight: 24, marginLeft: 16 }}
+        color="system"
+        displayShortcut
+        keyboardShortcut="Esc"
+      >
+        Cancel
+      </Button>
+      <Button
+        displayShortcut
+        keyboardShortcut="Enter"
+        onClick={async () => {
+          if (modal) {
+            modal.setOpen(false)
+          }
+          return onConfirm(value)
+        }}
+      >
+        {label ?? 'Confirm'}
+      </Button>
+    </RowEnd>
   )
 }

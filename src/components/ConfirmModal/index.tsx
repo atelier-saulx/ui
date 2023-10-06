@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react'
-import { Button, Modal } from '..'
+import { Confirmation, Modal } from '..'
 
 export type ConfirmModalProps = {
   children: ReactNode
   title?: string
-  description?: string
-  onCancel: () => void
+  description?: ReactNode
+  onCancel?: () => void
   onConfirm: () => void
 }
 
@@ -30,23 +30,7 @@ export function ConfirmModal({
               <div />
             </Modal.Body>
             <Modal.Actions>
-              <Button
-                color="system"
-                onClick={() => {
-                  onCancel()
-                  close()
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  onConfirm()
-                  close()
-                }}
-              >
-                Confirm
-              </Button>
+              <Confirmation onCancel={onCancel} onConfirm={onConfirm} />
             </Modal.Actions>
           </>
         )}

@@ -16,11 +16,10 @@ export const FormGroup: FC<FormGroupProps> = ({
   style,
   alwaysAccept,
   values,
-  acceptLabel,
-  acceptVariant,
+  confirmationLabel,
+  confirmationVariant,
   variant = 'column',
   autoFocus,
-  // only relevant for grid
   labelWidth = 160,
   fieldWidth = 185,
 }) => {
@@ -89,8 +88,8 @@ export const FormGroup: FC<FormGroupProps> = ({
 
   return (
     <FormGroupColumn
-      acceptLabel={acceptLabel}
-      acceptVariant={acceptVariant}
+      confirmationLabel={confirmationLabel}
+      confirmationVariant={confirmationVariant}
       autoFocus={autoFocus}
       onChange={onChange}
       parsedData={parsedData}

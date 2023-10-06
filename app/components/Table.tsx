@@ -47,6 +47,9 @@ const example: ComponentDef = {
               header={header}
               virtualized={virtualized}
               data={data}
+              onRowClick={(row) => {
+                console.log(row)
+              }}
               rowAction={(row) => (
                 <Dropdown.Root>
                   <Dropdown.Trigger>
@@ -85,6 +88,9 @@ const example: ComponentDef = {
               header={header}
               virtualized={virtualized}
               data={data}
+              onRowClick={(row) => {
+                console.log(row)
+              }}
               rowAction={(row) => (
                 <ConfirmModal onCancel={() => {}} onConfirm={() => {}}>
                   <Button ghost icon={<IconDelete />} />

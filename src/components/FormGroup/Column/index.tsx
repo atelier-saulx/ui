@@ -18,8 +18,8 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   setChanges,
   autoFocus,
   style,
-  acceptLabel,
-  acceptVariant,
+  confirmationLabel,
+  confirmationVariant,
 }) => {
   const fields: ReactNode[] = []
   let hasAutoFocus = false
@@ -53,46 +53,20 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
       }}
     >
       {fields}
-
-      {alwaysAccept || !hasChanges ? null : acceptVariant === 'icons' ? (
-        <RowEnd
-          style={{
-            borderTop: border(1),
-            width: '100%',
-            marginTop: 16,
-            paddingTop: 16,
-            marginRight: 8,
+      {alwaysAccept || !hasChanges ? null : (
+        <Confirmation
+          label={confirmationLabel}
+          variant={confirmationVariant}
+          onCancel={() => {
+            valuesChanged.current = {}
+            setChanges(false)
           }}
-        >
-          <Text light>{acceptLabel ?? 'Apply changes'}</Text>
-          <Confirmation
-            onCancel={() => {
-              valuesChanged.current = {}
-              setChanges(false)
-            }}
-            onAccept={async () => {
-              await onChange(valuesChanged.current)
-              valuesChanged.current = {}
-              setChanges(false)
-            }}
-          />
-        </RowEnd>
-      ) : (
-        <RowEnd>
-          <Row>
-            <Button
-              style={{ marginRight: 24 }}
-              color="system"
-              displayShortcut
-              keyboardShortcut="Esc"
-            >
-              Cancel
-            </Button>
-            <Button displayShortcut keyboardShortcut="Enter">
-              {acceptLabel ?? 'Apply changes'}
-            </Button>
-          </Row>
-        </RowEnd>
+          onConfirm={async () => {
+            await onChange(valuesChanged.current)
+            valuesChanged.current = {}
+            setChanges(false)
+          }}
+        />
       )}
     </Column>
   )

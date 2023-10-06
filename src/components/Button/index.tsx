@@ -170,6 +170,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const extendedOnClick = useCallback(
       async (e: any) => {
         const t = buttonElem.current
+        e.stopPropagation()
         t.blur()
         if (!t) {
           return
