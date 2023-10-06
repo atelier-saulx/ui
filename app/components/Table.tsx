@@ -47,6 +47,9 @@ const example: ComponentDef = {
               header={header}
               virtualized={virtualized}
               data={data}
+              onRowClick={(row) => {
+                console.log(row)
+              }}
               rowAction={(row) => (
                 <Dropdown.Root>
                   <Dropdown.Trigger>
