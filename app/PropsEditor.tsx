@@ -7,7 +7,7 @@ import * as colors from '../src/vars'
 import * as ui from '../src'
 
 export const AllIcons: FC<{ onSelect: any }> = (props) => {
-  const icons = []
+  const icons = [] as ReactNode[]
 
   const [filter, setFilter] = useState('')
 
@@ -18,18 +18,19 @@ export const AllIcons: FC<{ onSelect: any }> = (props) => {
       (!filter || key.toLowerCase().includes(filter.toLowerCase()))
     ) {
       icons.push(
-        // @ts-ignore
         <DropdownBase.Item key={key}>
           <styled.div
+            tabIndex={0}
             style={{
               display: 'flex',
               outline: 'none',
               padding: 8,
               borderRadius: 4,
-              width: 300,
+              width: 'calc(100% - 16px)',
               cursor: props.onSelect ? 'pointer' : 'auto',
               alignItems: 'center',
               '&:hover': { background: color('action', 'system', 'hover') },
+
               '&:not([data-disabled]):hover': {
                 background: color('action', 'system', 'hover'),
               },
@@ -56,9 +57,10 @@ export const AllIcons: FC<{ onSelect: any }> = (props) => {
   return (
     <div
       style={{
+        width: '100%',
         gap: 12,
         display: 'flex',
-        flexWrap: 'wrap',
+        flexDirection: 'column',
       }}
     >
       <styled.div
@@ -71,7 +73,7 @@ export const AllIcons: FC<{ onSelect: any }> = (props) => {
         <Input
           clearButton
           style={{
-            width: 350,
+            // width: 350,
             marginBottom: 16,
           }}
           placeholder="Filter..."
@@ -112,7 +114,6 @@ const Icons: FC<{
         </Text>
         <Dropdown.Trigger>
           <styled.div
-            // onClick={onClick}
             style={{
               cursor: 'pointer',
               '&:hover': {
