@@ -15,7 +15,7 @@ import {
   Toggle,
   color,
 } from '../..'
-import React, { ReactNode, useCallback, useEffect } from 'react'
+import React, { ReactNode, useCallback, useEffect, useMemo } from 'react'
 import { useCallbackRef } from '../../hooks/useCallbackRef'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
@@ -157,15 +157,17 @@ function generateColumDefinitionsFromData(element) {
 }
 
 export function Table({
-  columns: columnsProp,
   data = [],
+  columns: columnsProp,
   onScrollToBottom: onScrollToBottomProp,
   onVisibleElementsChange: onVisibleElementsChangeProp,
   virtualized,
   header = true,
   border,
 }: TableProps) {
-  const columns = columnsProp ?? generateColumDefinitionsFromData(data[0])
+  const columns = useMemo(() => {
+    return columnsProp ?? generateColumDefinitionsFromData(data[0] ?? {})
+  }, [columnsProp, data])
 
   const table = useReactTable({
     data,

@@ -279,7 +279,7 @@ const example: ComponentDef = {
               header={header}
               virtualized={virtualized}
               border={border}
-              data={data}
+              data={undefined}
             />
           </div>
         )
