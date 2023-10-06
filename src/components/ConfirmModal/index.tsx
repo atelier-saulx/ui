@@ -5,7 +5,7 @@ export type ConfirmModalProps = {
   children: ReactNode
   title?: string
   description?: ReactNode
-  onCancel: () => void
+  onCancel?: () => void
   onConfirm: () => void
 }
 
