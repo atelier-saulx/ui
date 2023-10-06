@@ -37,13 +37,19 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
         .query('db', queryFn(flatData.length))
         .subscribe((chunk, checksum) => {
           dataChecksums.current[index] = checksum
+
+          // TODO: can be greatly optmized by not copying stuff
+          // just use checksum
+
+          // test with 100 items at least and updating every 1ms youll see
+
+          // checksum based
+
           setData((prevData) => {
             const newData = [...prevData]
             newData[index] = chunk
-
             return newData
           })
-
           fetchingMore.current = false
         })
     }
@@ -51,7 +57,6 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
 
   useEffect(() => {
     fetchMore()
-
     return () => {
       for (const unsubscribe of subscriptions.current) {
         unsubscribe?.()
@@ -82,6 +87,8 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
               .subscribe((chunk, checksum) => {
                 if (dataChecksums.current[i] !== checksum) {
                   dataChecksums.current[i] = checksum
+
+                  // yes
                   setData((prevData) => {
                     const newData = [...prevData]
                     newData[i] = chunk

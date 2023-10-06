@@ -793,15 +793,32 @@
       "code": "type DateRangeProps = {\n  value?: number[]\n  onChange?: (v) => void\n  numbered?: boolean\n}",
       "file": "/components/DateRange/index.tsx"
     },
-    "DividerProps": {
-      "name": "DividerProps",
+    "SectionHeaderProps": {
+      "name": "SectionHeaderProps",
       "props": {
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "action": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": [
+            "ColorContentColors",
+            {
+              "value": "inherit"
+            }
+          ]
         }
       },
-      "code": "type DividerProps = {\n  style?: Style\n}",
+      "code": "type SectionHeaderProps = {\n  style?: Style\n  children?: ReactNode\n  action?: ReactNode\n  color?: ColorContentColors | 'inherit'\n}",
       "file": "/components/Divider/index.tsx"
     },
     "DropdownRootProps": {
@@ -1808,10 +1825,10 @@
       "name": "ModalTitleProps",
       "props": {
         "children": {
-          "type": "string"
+          "type": "ReactNode"
         }
       },
-      "code": "type ModalTitleProps = {\n  children: string\n}",
+      "code": "type ModalTitleProps = {\n  children: ReactNode\n}",
       "file": "/components/Modal/index.tsx"
     },
     "ModalDescriptionProps": {
@@ -2211,6 +2228,17 @@
       },
       "code": "type ScrollAreaProps = {\n  style?: Style\n}",
       "file": "/components/ScrollArea/index.tsx"
+    },
+    "DividerProps": {
+      "name": "DividerProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type DividerProps = {\n  style?: Style\n}",
+      "file": "/components/SectionHeader/index.tsx"
     },
     "SegmentedControlProps": {
       "name": "SegmentedControlProps",

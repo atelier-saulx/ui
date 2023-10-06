@@ -1,9 +1,8 @@
 import React, { FC, ReactNode } from 'react'
 import { border } from '../../../varsUtilities'
-import { Text, Confirmation, RowEnd, Row, RowSpaced, Column } from '../..'
+import { Text, Confirmation, RowEnd, Row, Column, Button } from '../..'
 import { FormItem } from './Item'
 import { getValue } from '../utils'
-import { Style, styled } from 'inlines'
 import { FormGroupVariantProps } from '../types'
 
 export const FormGroupColumn: FC<FormGroupVariantProps> = ({
@@ -19,6 +18,8 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   setChanges,
   autoFocus,
   style,
+  acceptLabel,
+  acceptVariant,
 }) => {
   const fields: ReactNode[] = []
   let hasAutoFocus = false
@@ -53,7 +54,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
     >
       {fields}
 
-      {alwaysAccept || !hasChanges ? null : (
+      {alwaysAccept || !hasChanges ? null : acceptVariant === 'icons' ? (
         <RowEnd
           style={{
             borderTop: border(1),
@@ -63,7 +64,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
             marginRight: 8,
           }}
         >
-          <Text light>Apply changes</Text>
+          <Text light>{acceptLabel ?? 'Apply changes'}</Text>
           <Confirmation
             onCancel={() => {
               valuesChanged.current = {}
@@ -75,6 +76,22 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
               setChanges(false)
             }}
           />
+        </RowEnd>
+      ) : (
+        <RowEnd>
+          <Row>
+            <Button
+              style={{ marginRight: 24 }}
+              color="system"
+              displayShortcut
+              keyboardShortcut="Esc"
+            >
+              Cancel
+            </Button>
+            <Button displayShortcut keyboardShortcut="Enter">
+              {acceptLabel ?? 'Apply changes'}
+            </Button>
+          </Row>
         </RowEnd>
       )}
     </Column>

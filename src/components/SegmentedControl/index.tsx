@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Text } from '../Text'
 import { color as genColor } from '../../varsUtilities'
-import { usePropState } from 'src/hooks'
+import { usePropState } from '../../hooks'
 
 type SegmentedControlProps = {
   data?: (string | number)[]
@@ -14,7 +14,6 @@ type SegmentedControlProps = {
 const StyledSegmentOption = styled('div', {
   alignItems: 'center',
   borderRadius: 4,
-  cursor: 'pointer',
   display: 'flex',
   padding: '4px 12px',
 
