@@ -58,7 +58,6 @@ MultiPillProps) {
   }
 
   function handleClose() {
-    setInputValue(options.filter((option) => value.includes(option.value)))
     setOpen(false)
     setActiveIndex(null)
   }

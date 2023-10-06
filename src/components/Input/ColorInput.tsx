@@ -54,13 +54,12 @@ export const ColorInput = ({
   onChange: onChangeProp = (e) => console.log(),
   ...props
 }: ColorInputProps) => {
-  const [focus, setFocus] = useState(false)
   const [value, setValue] = useControllableState({
     prop: valueProp,
     defaultProp: defaultValueProp,
     onChange: onChangeProp,
   })
-  const [rgba, setRgba] = usePropState(valueToRgba(value))
+  const [rgba, setRgba] = useState(valueToRgba(value))
   const [open, setOpen] = useState(false)
   const rgbaRef = useRef(rgba)
 
@@ -68,7 +67,7 @@ export const ColorInput = ({
     if (rgba !== value) {
       if (rgbaRef.current !== rgba) {
         rgbaRef.current = rgba
-        onChangeProp({ target: { value: rgba } })
+        setValue({ target: { value: rgba } })
       }
     }
   }, [rgba])
@@ -78,8 +77,6 @@ export const ColorInput = ({
       <Popover.Trigger asChild>
         <styled.div
           tabIndex={0}
-          onFocus={() => console.log('focussss')}
-          onBlur={() => console.log('bnluuuuuuuuuuur')}
           style={{
             display: 'flex',
             position: 'relative',
@@ -93,14 +90,6 @@ export const ColorInput = ({
             onChange={(e) => {
               setValue(e.target.value)
               setRgba(() => valueToRgba(e.target.value))
-            }}
-            onFocus={() => {
-              setFocus(true)
-              console.log('input:focused')
-            }}
-            onBlur={() => {
-              setFocus(false)
-              console.log('input:blurred')
             }}
             placeholder={placeholder}
             disabled={disabled}
@@ -193,7 +182,7 @@ export const ColorInput = ({
                 setRgba(value)
                 // onChange?.(value)
               },
-              [onChangeProp]
+              [setValue]
             )}
           />
         </Popover.Content>
