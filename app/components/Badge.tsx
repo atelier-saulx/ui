@@ -1,7 +1,8 @@
-import React from 'react'
-import { Badge, IconHelpFill, IconSmallBolt } from '../../src'
+import React, { ReactNode } from 'react'
+import { Badge, IconHelpFill, IconSmallBolt, Row } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import { faker } from '@faker-js/faker'
 
 const example: ComponentDef = {
   name: 'Badge',
@@ -36,6 +37,33 @@ const example: ComponentDef = {
         copy: true,
         color: 'inverted',
         children: 'Copy me!',
+      },
+    },
+    {
+      customRenderer: (props) => {
+        const thumbs: ReactNode[] = new Array(100).fill(null).map((_, i) => {
+          return (
+            <Badge key={i} {...props}>
+              {faker.person.fullName()}
+            </Badge>
+          )
+        })
+        return (
+          <Row
+            style={{
+              flexWrap: 'wrap',
+              gap: 16,
+            }}
+          >
+            {thumbs}
+          </Row>
+        )
+      },
+      name: 'Auto generate color',
+      description: 'Based on children',
+      props: {
+        autoColor: true,
+        size: 'large',
       },
     },
   ],

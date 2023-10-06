@@ -197,9 +197,13 @@
         "copy": {
           "optional": true,
           "type": "boolean"
+        },
+        "autoColor": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  copyValue?: string | number\n  copy?: boolean\n}",
+      "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  copyValue?: string | number\n  copy?: boolean\n  autoColor?: boolean\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BarGraphProps": {
@@ -1574,8 +1578,8 @@
       "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  onChange?: (e) => void\n  // children: ReactNode | ReactNode[] | ((e) => void)\n  shrink?: boolean\n  style?: Style\n  data?: any\n}",
       "file": "/components/Menu/MenuItem.tsx"
     },
-    "MenuHeaderProps": {
-      "name": "MenuHeaderProps",
+    "MenuItemsHeaderProps": {
+      "name": "MenuItemsHeaderProps",
       "props": {
         "children": {
           "optional": true,
@@ -1594,13 +1598,13 @@
           "type": "string"
         }
       },
-      "code": "type MenuHeaderProps = {\n  children?: ReactNode\n  style?: Style\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  id?: string\n}",
+      "code": "type MenuItemsHeaderProps = {\n  children?: ReactNode\n  style?: Style\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  id?: string\n}",
       "file": "/components/Menu/index.tsx"
     },
     "MenuProps": {
       "name": "MenuProps",
       "props": {
-        "data": {
+        "config": {
           "optional": true,
           "type": "MenuData"
         },
@@ -1638,6 +1642,15 @@
             }
           ]
         },
+        "footer": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
         "collapse": {
           "optional": true,
           "type": "boolean"
@@ -1651,7 +1664,7 @@
           "type": "boolean"
         }
       },
-      "code": "type MenuProps = {\n  data?: MenuData\n  active?: any\n  isActive?: (value: any) => boolean\n  onChange?: (value: any, header?: any) => void\n  style?: Style\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  collapse?: boolean\n  shrinkable?: boolean\n  shrunk?: boolean\n}",
+      "code": "type MenuProps = {\n  config?: MenuData\n  active?: any\n  isActive?: (value: any) => boolean\n  onChange?: (value: any, header?: any) => void\n  style?: Style\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  footer?: ReactNode | ReactNode[]\n  collapse?: boolean\n  shrinkable?: boolean\n  shrunk?: boolean\n}",
       "file": "/components/Menu/index.tsx"
     },
     "MetricsWidgetProps": {
@@ -2436,6 +2449,7 @@
       "name": "TableProps",
       "props": {
         "columns": {
+          "optional": true,
           "type": {
             "array": "TableColumn"
           }
@@ -2474,7 +2488,7 @@
           "type": "boolean"
         }
       },
-      "code": "type TableProps = {\n  columns: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n}",
+      "code": "type TableProps = {\n  columns?: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {

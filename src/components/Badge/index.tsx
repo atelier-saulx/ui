@@ -10,7 +10,7 @@ import {
 import { useTheme, useCopyToClipboard } from '../../hooks'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
-import { color as genColor } from '../../varsUtilities'
+import { color as genColor, colorHash } from '../../varsUtilities'
 
 const COLORGUARD = [
   'default',
@@ -33,6 +33,7 @@ export type BadgeProps = {
   light?: boolean
   copyValue?: string | number
   copy?: boolean
+  autoColor?: boolean
 }
 
 const CopyBadgeInner: FC<BadgeProps & { copyValue?: string | number }> = ({
@@ -70,9 +71,19 @@ const BadgeInner: FC<BadgeProps> = ({
   light,
   children,
   afterIcon,
-  color: colorProp = 'neutral',
+  color: colorProp,
+  autoColor,
 }) => {
   const { theme } = useTheme()
+
+  if (!colorProp) {
+    if (autoColor) {
+      colorProp = colorHash('nonSemanticBackground', children)
+    } else {
+      colorProp = 'neutral'
+    }
+  }
+
   const color =
     colorProp === 'white'
       ? theme === 'dark'
