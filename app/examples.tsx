@@ -53,11 +53,13 @@ import thumbnail from './components/Thumbnail'
 import styledDivs from './components/StyledDivs'
 import modal from './components/Modal'
 import multiSelect from './components/MultiSelectInput'
+import action from './components/Action'
 
 export const hooks: ComponentDef[] = [useContextState]
 
 export const input = [
   button,
+  action,
   checkboxInput,
   colorInput,
   confirmation,

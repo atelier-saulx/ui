@@ -88,13 +88,26 @@ const example: ComponentDef = {
     },
     {
       name: 'Column',
-      description: 'Sameform displayed as a colum',
+      description: 'Same form displayed as a colum',
       props: {
         ...fieldProps,
         style: {
           width: 750,
         },
         // alwaysAccept: true,
+        variant: 'column',
+      },
+    },
+    {
+      name: 'Column',
+      description: 'Same modified accept buttons',
+      props: {
+        ...fieldProps,
+        style: {
+          width: 750,
+        },
+        acceptVariant: 'buttons',
+        acceptLabel: 'Add user',
         variant: 'column',
       },
     },

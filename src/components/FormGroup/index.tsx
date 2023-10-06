@@ -16,6 +16,8 @@ export const FormGroup: FC<FormGroupProps> = ({
   style,
   alwaysAccept,
   values,
+  acceptLabel,
+  acceptVariant,
   variant = 'column',
   autoFocus,
   // only relevant for grid
@@ -87,6 +89,8 @@ export const FormGroup: FC<FormGroupProps> = ({
 
   return (
     <FormGroupColumn
+      acceptLabel={acceptLabel}
+      acceptVariant={acceptVariant}
       autoFocus={autoFocus}
       onChange={onChange}
       parsedData={parsedData}

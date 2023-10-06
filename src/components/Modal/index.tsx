@@ -146,13 +146,13 @@ export const Warning = ({
 }
 
 export type ModalTitleProps = {
-  children: string
+  children: ReactNode
 }
 
 export function Title({ children }: ModalTitleProps) {
   return (
     <DialogBase.Title asChild>
-      <div
+      <styled.div
         style={{
           fontWeight: 700,
           fontFamily: 'Inter',
@@ -162,7 +162,7 @@ export function Title({ children }: ModalTitleProps) {
         }}
       >
         {children}
-      </div>
+      </styled.div>
     </DialogBase.Title>
   )
 }
