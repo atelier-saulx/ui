@@ -132,6 +132,10 @@ function generateColumDefinitionsFromData(element) {
       columnDefinition.renderAs = 'medium'
     }
 
+    if (key === 'status') {
+      columnDefinition.renderAs = 'badge'
+    }
+
     return columnDefinition
   })
 
@@ -257,12 +261,6 @@ export function Table({
         overflow: 'auto',
         height: '100%',
         width: '100%',
-        ...(border
-          ? {
-              border: `1px solid ${color('border', 'default', 'strong')}`,
-              borderRadius: 16,
-            }
-          : {}),
         scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
         scrollbarWidth: 'thin',
         '&::-webkit-scrollbar': {
@@ -310,6 +308,12 @@ export function Table({
           width: '100%',
           borderCollapse: 'separate',
           borderSpacing: 0,
+          ...(border
+            ? {
+                border: `1px solid ${color('border', 'default', 'strong')}`,
+                borderRadius: 16,
+              }
+            : {}),
         }}
       >
         <tbody>
