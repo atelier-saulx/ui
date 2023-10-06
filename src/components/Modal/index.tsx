@@ -17,6 +17,10 @@ const ModalContext = createContext<UseModalProps>({
   setOpen: () => {},
 })
 
+export const useModal = () => {
+  return useContext(ModalContext)
+}
+
 export type ModalRootProps = {
   children: ReactNode
   open?: boolean

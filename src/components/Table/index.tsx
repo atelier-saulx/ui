@@ -327,7 +327,9 @@ export function Table({
               return (
                 <tr
                   onClick={(e) => {
-                    onRowClick(row.original)
+                    if (onRowClick) {
+                      onRowClick(row.original)
+                    }
                   }}
                   key={row.id}
                 >

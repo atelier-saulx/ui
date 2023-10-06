@@ -141,7 +141,7 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
               valuesChanged.current = {}
               setChanges(false)
             }}
-            onAccept={async () => {
+            onConfirm={async () => {
               await onChange(valuesChanged.current)
               valuesChanged.current = {}
               setChanges(false)

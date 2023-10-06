@@ -94,7 +94,6 @@ const example: ComponentDef = {
         style: {
           width: 750,
         },
-        // alwaysAccept: true,
         variant: 'column',
       },
     },
@@ -106,8 +105,7 @@ const example: ComponentDef = {
         style: {
           width: 750,
         },
-        acceptVariant: 'buttons',
-        acceptLabel: 'Add user',
+        confirmationLabel: 'Add user',
         variant: 'column',
       },
     },
