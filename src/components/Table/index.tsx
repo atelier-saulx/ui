@@ -88,6 +88,8 @@ export type TableProps = {
   virtualized?: boolean
   header?: true | false | 'sticky'
   border?: boolean
+  rowAction?: (row: any) => ReactNode
+  onRowClick?: (row: any) => void
 }
 
 function generateColumDefinitionsFromData(element) {
@@ -169,9 +171,23 @@ export function Table({
   virtualized,
   header = true,
   border,
+  rowAction,
+  onRowClick: onRowClickProp,
 }: TableProps) {
   const columns = useMemo(() => {
-    return columnsProp ?? generateColumDefinitionsFromData(data[0] ?? {})
+    return [
+      ...(columnsProp ?? generateColumDefinitionsFromData(data[0] ?? {})),
+      ...(rowAction
+        ? [
+            {
+              align: 'end',
+              id: 'internal_row_action',
+              header: '',
+              renderAs: rowAction,
+            },
+          ]
+        : []),
+    ]
   }, [columnsProp, data])
 
   const table = useReactTable({
@@ -231,6 +247,8 @@ export function Table({
     },
     [onScrollToBottom]
   )
+
+  const onRowClick = useCallbackRef(onRowClickProp)
 
   return (
     <styled.div
@@ -303,7 +321,12 @@ export function Table({
           {(virtualized ? virtualRows.map((row) => rows[row.index]) : rows).map(
             (row, index) => {
               return (
-                <tr key={row.id}>
+                <tr
+                  onClick={(e) => {
+                    onRowClick(row.original)
+                  }}
+                  key={row.id}
+                >
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <td

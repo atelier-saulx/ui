@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
   Button,
+  ConfirmModal,
   Dropdown,
   IconDelete,
   IconEdit,
@@ -42,7 +43,23 @@ const example: ComponentDef = {
 
         return (
           <div style={{ width: 900 }}>
-            <Table header={header} virtualized={virtualized} data={data} />
+            <Table
+              header={header}
+              virtualized={virtualized}
+              data={data}
+              rowAction={(row) => (
+                <Dropdown.Root>
+                  <Dropdown.Trigger>
+                    <Button ghost icon={<IconMoreHorizontal />} />
+                  </Dropdown.Trigger>
+                  <Dropdown.Items>
+                    <Dropdown.Item icon={<IconEdit />}>Edit</Dropdown.Item>
+                    <Dropdown.Separator />
+                    <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+                  </Dropdown.Items>
+                </Dropdown.Root>
+              )}
+            />
           </div>
         )
       },
@@ -67,57 +84,12 @@ const example: ComponentDef = {
             <Table
               header={header}
               virtualized={virtualized}
-              columns={[
-                {
-                  key: 'name',
-                  renderAs: (row) => (
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 12,
-                      }}
-                    >
-                      <Thumbnail
-                        color="neutral"
-                        size="small"
-                        src={row.avatar}
-                      />
-                      <Text weight="medium">{row.name}</Text>
-                    </div>
-                  ),
-                  header: 'Name',
-                },
-                {
-                  key: 'tag',
-                  renderAs: 'badge',
-                  header: 'Tag',
-                },
-                {
-                  key: 'createdAt',
-                  renderAs: 'date-time-human',
-                  header: 'Created at',
-                },
-                {
-                  id: 'actions',
-                  align: 'end',
-                  renderAs: (row) => (
-                    <Dropdown.Root>
-                      <Dropdown.Trigger>
-                        <Button ghost icon={<IconMoreHorizontal />} />
-                      </Dropdown.Trigger>
-                      <Dropdown.Items>
-                        <Dropdown.Item icon={<IconEdit />}>Edit</Dropdown.Item>
-                        <Dropdown.Separator />
-                        <Dropdown.Item icon={<IconDelete />}>
-                          Delete
-                        </Dropdown.Item>
-                      </Dropdown.Items>
-                    </Dropdown.Root>
-                  ),
-                },
-              ]}
               data={data}
+              rowAction={(row) => (
+                <ConfirmModal onCancel={() => {}} onConfirm={() => {}}>
+                  <Button ghost icon={<IconDelete />} />
+                </ConfirmModal>
+              )}
             />
           </div>
         )
