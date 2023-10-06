@@ -86,7 +86,7 @@ export type TableProps = {
 }
 
 function generateColumDefinitionsFromData(element) {
-  return Object.entries(element).map(([key, value]) => {
+  let columnDefinitions = Object.entries(element).map(([key, value]) => {
     const columnDefinition: TableColumn = {
       key,
       header: key.charAt(0).toUpperCase() + key.slice(1),
@@ -94,6 +94,11 @@ function generateColumDefinitionsFromData(element) {
 
     if (value instanceof Date) {
       columnDefinition.renderAs = 'date-time-human'
+    }
+
+    if (key === 'id') {
+      columnDefinition.header = 'ID'
+      columnDefinition.renderAs = 'badge'
     }
 
     if (key === 'price') {
@@ -122,6 +127,33 @@ function generateColumDefinitionsFromData(element) {
 
     return columnDefinition
   })
+
+  const maybeNameIndex = columnDefinitions.findIndex(
+    (e) => e.key === 'name' || e.key === 'title'
+  )
+  const maybeImageIndex = columnDefinitions.findIndex(
+    (e, i) => e.renderAs === 'image' && Math.abs(maybeNameIndex - i) < 2
+  )
+
+  if (maybeNameIndex > -1 && maybeImageIndex > -1) {
+    const nameColumn = columnDefinitions[maybeNameIndex]
+    const imageColumn = columnDefinitions[maybeImageIndex]
+
+    columnDefinitions = columnDefinitions.filter(
+      (_, i) => i !== maybeImageIndex
+    )
+
+    columnDefinitions[
+      columnDefinitions.findIndex((e) => e.key === 'name' || e.key === 'title')
+    ].renderAs = (row) => (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <Thumbnail color="neutral" size="small" src={row[imageColumn.key]} />
+        <Text>{row[nameColumn.key]}</Text>
+      </div>
+    )
+  }
+
+  return columnDefinitions
 }
 
 export function Table({

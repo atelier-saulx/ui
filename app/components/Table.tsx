@@ -28,11 +28,11 @@ const example: ComponentDef = {
       customRenderer: ({ header, virtualized }) => {
         const [data] = useState(() =>
           new Array(6).fill(null).map(() => ({
+            id: faker.datatype.uuid().slice(0, 8),
             logo: faker.image.avatar(),
             name: faker.person.fullName(),
             status: faker.lorem.words(1),
             avatar: faker.internet.emoji(),
-            id: faker.datatype.uuid().slice(0, 8),
             createdAt: faker.date.anytime().getTime(),
             price: Math.random() * 1e4,
           }))
@@ -263,11 +263,11 @@ const example: ComponentDef = {
       customRenderer: ({ header, virtualized, border }) => {
         const [data] = useState(() =>
           new Array(6).fill(null).map(() => ({
+            id: faker.datatype.uuid().slice(0, 8),
             logo: faker.image.avatar(),
             name: faker.person.fullName(),
             status: faker.lorem.words(1),
             avatar: faker.internet.emoji(),
-            id: faker.datatype.uuid().slice(0, 8),
             createdAt: faker.date.anytime().getTime(),
             price: Math.random() * 1e4,
           }))
@@ -279,45 +279,6 @@ const example: ComponentDef = {
               header={header}
               virtualized={virtualized}
               border={border}
-              columns={[
-                {
-                  key: 'id',
-                  renderAs: 'badge',
-                  header: 'ID',
-                },
-                {
-                  key: 'logo',
-                  renderAs: 'image',
-                  header: 'Logo',
-                },
-                {
-                  key: 'name',
-                  renderAs: 'medium',
-                  header: 'Name',
-                },
-                {
-                  key: 'status',
-                  renderAs: (row) => (
-                    <Thumbnail size="small" label={row.status} />
-                  ),
-                  header: 'Status',
-                },
-                {
-                  key: 'avatar',
-                  renderAs: 'avatar',
-                  header: 'Avatar',
-                },
-                {
-                  key: 'price',
-                  renderAs: 'number-euro',
-                  header: 'Price',
-                },
-                {
-                  key: 'createdAt',
-                  renderAs: 'date-time-human',
-                  header: 'Created At',
-                },
-              ]}
               data={data}
             />
           </div>
