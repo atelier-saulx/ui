@@ -12,7 +12,7 @@ import { styled, Style } from 'inlines'
 import { Text } from '../Text'
 import { color as genColor } from '../../varsUtilities'
 import { BpTablet } from '../../utils/'
-import { usePropState } from 'src/hooks'
+import { usePropState } from '../../hooks'
 
 export type TabsProps = {
   children: ReactNode
