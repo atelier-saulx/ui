@@ -16,6 +16,8 @@ import { ComponentDef } from '../types'
 import { faker } from '@faker-js/faker'
 import props from '../props.json'
 
+// move to based/react
+
 const example: ComponentDef = {
   name: 'Table',
   component: Table,

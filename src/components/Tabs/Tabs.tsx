@@ -23,22 +23,26 @@ export type TabsProps = {
   borderColor?: 'primary' | 'neutral'
 }
 
+const castToNumber = (tab: number | string): number => {
+  return typeof tab === 'number' ? tab : parseInt(tab)
+}
+
 const TabWrapper: FC<{
   children: ReactNode | ReactNode[] | ReactElement | Symbol | Object | any
-  activeTab: number
+  activeTab: number | string // TODO:  fix this maybe
   index: number
   setActiveTab: Dispatch<SetStateAction<number>>
   borderColor?: 'primary' | 'neutral'
 }> = ({
   children,
   index,
-  activeTab,
+  activeTab: activeTabUnparsed,
   setActiveTab,
   borderColor = 'primary',
 }) => {
   const icon = children?.props?.icon
-  //TODO WHY IS THIS A STRING??
-  console.log(index, activeTab)
+  const activeTab = castToNumber(activeTabUnparsed)
+  const isActive = index === activeTab
   return (
     <styled.div
       style={{
@@ -48,26 +52,24 @@ const TabWrapper: FC<{
         display: 'flex',
         cursor: 'pointer',
         alignItems: 'center',
-        borderBottom:
-          index === parseInt(activeTab)
-            ? `3px solid ${genColor('action', borderColor, 'normal')}`
-            : '3px solid transparent',
+        borderBottom: isActive
+          ? `3px solid ${genColor('action', borderColor, 'normal')}`
+          : '3px solid transparent',
         '&:hover': {
           borderBottom:
-            index !== parseInt(activeTab) &&
+            !isActive &&
             `3px solid ${genColor('action', 'neutral', 'subtleHover')}`,
         },
         [BpTablet]: {
           '&:hover': {
-            borderBottom:
-              index === parseInt(activeTab)
-                ? `3px solid ${genColor('action', 'primary', 'normal')}`
-                : '3px solid transparent',
+            borderBottom: isActive
+              ? `3px solid ${genColor('action', 'primary', 'normal')}`
+              : '3px solid transparent',
           },
         },
         '&:active': {
           borderBottom:
-            index !== parseInt(activeTab) &&
+            !isActive &&
             `3px solid ${genColor('action', 'neutral', 'subtleActive')}`,
         },
       }}

@@ -50,11 +50,16 @@ function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
     return <Thumbnail color="neutral" size="small" src={row[key]} />
   if (renderAs === 'badge')
     return (
-      <Badge copy copyValue={row[key]}>
+      <Badge autoColor light copy copyValue={row[key]}>
         {row[key]}
       </Badge>
     )
-  if (renderAs === 'avatar') return <Avatar autoColor>{row[key]}</Avatar>
+  if (renderAs === 'avatar')
+    return (
+      <Avatar light autoColor>
+        {row[key]}
+      </Avatar>
+    )
   if (renderAs === 'toggle') return <Toggle value={row[key]} />
 
   let content = row[key]

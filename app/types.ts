@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 type PropTypeAtomic =
   | string
-  | { value: string | number }
+  | { value: string | number | boolean }
   | { array: PropTypeAtomic }
 
 export type PropType = {

@@ -63,7 +63,7 @@ const example: ComponentDef = {
       description: 'Based on children',
       props: {
         autoColor: true,
-        size: 'large',
+        light: true,
       },
     },
   ],
