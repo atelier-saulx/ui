@@ -21,6 +21,8 @@ export const FormItem: FC<{
     validation,
     options,
     default: defaultValue,
+    multiple,
+    addMultipleLabel = 'Add',
   },
   autoFocus,
   fieldWidth,
@@ -129,6 +131,52 @@ export const FormItem: FC<{
           // @ts-ignore
           style={props?.style}
         />
+      </Label>
+    )
+  }
+
+  if (multiple) {
+    return (
+      <Label description={description}>
+        <Text weight="strong">{label}</Text>
+        <styled.div
+          style={{ margin: '8px 0', '& > * + *': { marginTop: '8px' } }}
+        >
+          {value.map((v, index) => (
+            <Input
+              type={type === 'number' ? 'number' : 'text'}
+              clearButton
+              value={v}
+              onChange={(newStringValue) => {
+                const newValue =
+                  type === 'number' ? parseInt(newStringValue) : newStringValue
+
+                if (!newStringValue && value.length > 1) {
+                  onChange(
+                    field,
+                    value.filter((_, i) => i !== index)
+                  )
+                  return
+                }
+
+                const newFieldValue = [...value]
+                newFieldValue[index] = newValue
+                onChange(field, newFieldValue)
+              }}
+            />
+          ))}
+        </styled.div>
+        <styled.div style={{ display: 'flex', justifyContent: 'end' }}>
+          <Text
+            size={12}
+            weight="strong"
+            onClick={() => {
+              onChange(field, [...value, ''])
+            }}
+          >
+            {addMultipleLabel}
+          </Text>
+        </styled.div>
       </Label>
     )
   }
