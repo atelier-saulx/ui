@@ -36,19 +36,13 @@ const stateData = [
   },
   {
     log: 'thisisalog',
-    ts: 1234123412341234,
+    ts: 123412341234,
     type: 'info',
     label: 'service 1',
   },
   {
     log: 'thisisalog',
-    ts: 12341234123412341,
-    type: 'info',
-    label: 'service 1',
-  },
-  {
-    log: 'thisisalog',
-    ts: 12341234,
+    ts: 1234123412341,
     type: 'info',
     label: 'service 1',
   },
@@ -72,38 +66,44 @@ const stateData = [
   },
   {
     log: 'thisisalog',
-    ts: 12341234123412341234,
+    ts: 12341234,
     type: 'info',
     label: 'service 1',
   },
   {
     log: 'thisisalog',
-    ts: 12341234123412341234,
+    ts: 1234123412341,
     type: 'info',
     label: 'service 1',
   },
   {
     log: 'thisisalog',
-    ts: 12341234123412341234,
+    ts: 12341234123,
     type: 'info',
     label: 'service 1',
   },
   {
     log: 'thisisalog',
-    ts: 1233333333333333333331,
+    ts: 12341234123,
     type: 'info',
     label: 'service 1',
   },
   {
     log: 'thisisalog',
-    ts: 1233333333333333333331,
+    ts: 1233333333333,
+    type: 'info',
+    label: 'service 1',
+  },
+  {
+    log: 'thisisalog',
+    ts: 12333333333331,
     type: 'info',
     label: 'service 1',
   },
 ]
 
 const example: ComponentDef = {
-  name: 'LogsText',
+  name: 'Logs',
   properties: props.props.LogsTextProps.props,
   component: LogsText,
   description: 'Accordions to annoy ppl with on the street',

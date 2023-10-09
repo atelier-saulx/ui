@@ -15,9 +15,17 @@ export type LogProps = {
 
 export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
   let d = prettyDate(~~(ts / 60e3) * 60e3, 'date-time')
-  if (data[index - 1]?.ts === ts) {
-    d = ''
-  }
+
+  const date = new Date(ts)
+  const result = date
+    .toLocaleDateString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    })
+    .split(', ')
 
   const color =
     type === 'error'
@@ -43,11 +51,12 @@ export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
       {d && (
         <styled.div
           style={{
+            width: '145px',
             userSelect: 'text',
             color: useColor('content', 'default', 'secondary'),
           }}
         >
-          {d}
+          {result[1] + ' ' + result[0]}
         </styled.div>
       )}
       <styled.div
