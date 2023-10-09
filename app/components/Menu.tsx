@@ -60,52 +60,76 @@ const example: ComponentDef = {
                     <Text>Footer</Text>
                   </div>
                 }
-                // collapse
+                collapse
                 onChange={(v) => {
                   setValue(v)
                 }}
                 active={value}
+                //@ts-ignore
                 config={{
-                  Label: {
-                    flyp: {
-                      //@ts-ignore
-                      value: 'yowza1',
-                      label: 'Home',
-                      icon: <IconHome />,
-                    },
-                  },
-                  Database: {
-                    flyp: {
-                      value: 'yow1',
-                      label: 'Builder',
-                      icon: <IconEmojiSmile />,
-                    },
-                    flip: {
-                      value: 'yow2',
-                      label: 'Content',
-                      icon: <IconEdit />,
-                      flappie: {
-                        value: 'hellow',
-                        label: 'hallow',
-                      },
-                      floepie: {
-                        value: 'herrow',
-                        label: 'halrwo',
-                      },
-                      flyexie: {
-                        value: 'heraima',
-                        label: 'heuanlae',
-                        snrupie: {
-                          value: 'snrupt',
-                          label: 'niepow',
-                        },
-                      },
-                    },
-                    flop: {
-                      value: 'yow3',
-                      label: 'Assets',
+                  display: {
+                    '0': {
+                      label: 'Text',
+                      value: 'Text',
                       icon: <IconAlarmClock />,
                     },
+                    '1': {
+                      label: 'SectionHeader',
+                      value: 'SectionHeader',
+                      icon: <IconAlarmClock />,
+                    },
+                    '2': {
+                      label: 'Table',
+                      value: 'Table',
+                    },
+                    '3': {
+                      label: 'Counter',
+                      value: 'Counter',
+                    },
+                    '4': {
+                      label: 'Status',
+                      value: 'Status',
+                      icon: <IconAlarmClock />,
+                    },
+                    '5': {
+                      label: 'Avatar',
+                      value: 'Avatar',
+                    },
+                    '6': {
+                      label: 'Thumbnail',
+                      value: 'Thumbnail',
+                    },
+                    display2: [
+                      {
+                        label: 'Text2',
+                        value: 'Text2',
+                        icon: <IconAlarmClock />,
+                      },
+                      {
+                        label: 'SectionHeader2',
+                        value: 'SectionHeader2',
+                      },
+                      {
+                        label: 'Table2',
+                        value: 'Table2',
+                      },
+                      {
+                        label: 'Counter2',
+                        value: 'Counter2',
+                      },
+                      {
+                        label: 'Status2',
+                        value: 'Status2',
+                      },
+                      {
+                        label: 'Avatar2',
+                        value: 'Avatar2',
+                      },
+                      {
+                        label: 'Thumbnail2',
+                        value: 'Thumbnail2',
+                      },
+                    ],
                   },
                 }}
               />

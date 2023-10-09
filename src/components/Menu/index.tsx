@@ -209,110 +209,113 @@ export const Menu: FC<MenuProps> = ({
     }
   }, [width])
 
-  const items = menuDataItems.map(
-    ({ label, value, icon, items, onClick }, i) => {
-      // menu header thing not working>?
-      if (items) {
-        return (
-          <Fragment key={i}>
-            {items.length > 0 && !shrink && (
-              <MenuItemsHeader
-                id={`${i}-menuheader`}
-                style={{
-                  marginTop: i && 36,
-                  justifyContent: collapse ? 'space-between' : 'unset',
-                  display: collapse ? 'flex' : 'flex',
-                  marginBottom: '12px',
-                }}
-                onClick={(e) => {
-                  // if (onChange) {
-                  //   onChange(value, topValue)
-                  // }
-                  if (onClick) {
-                    onClick(e)
-                  }
-                  if (collapse) {
-                    // @ts-ignore FIX THIS
-                    e.currentTarget.parentNode.nextSibling.classList.toggle(
-                      'hidden'
-                    )
-
-                    // @ts-ignore FIX THIS
-                    e.currentTarget.parentNode?.childNodes[0]?.childNodes[0]?.childNodes[1]?.classList.toggle(
-                      'closed'
-                    )
-                  }
-                }}
-              >
-                {icon ? <styled.div>{icon}</styled.div> : null}
-                <Text
-                  light
-                  selectable="none"
-                  weight="strong"
-                  size={12}
-                  transform="uppercase"
-                >
-                  {label}
-                </Text>
-                {collapse && !shrink && (
-                  <StyledChevron id={`${i}-menuchevron`}>
-                    <IconChevronDown />
-                  </StyledChevron>
-                )}
-              </MenuItemsHeader>
-            )}
-            <HideableStyledDiv
-              id={`${i}-menuitems`}
+  const ItemThing = ({ label, icon, items, onClick, i, value, depth }) => {
+    if (items) {
+      return (
+        <div
+          style={{
+            width: `calc(100% - ${depth * 20}px)`,
+            paddingLeft: depth * 20,
+          }}
+          // key={i + label + depth}
+        >
+          {items.length > 0 && !shrink && (
+            <MenuItemsHeader
+              id={`${i}-menuheader`}
               style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start',
+                marginTop: i && 36,
+                justifyContent: collapse ? 'space-between' : 'unset',
+                display: collapse ? 'flex' : 'flex',
+                marginBottom: '12px',
+              }}
+              onClick={(e) => {
+                if (onClick) {
+                  onClick(e)
+                }
+                if (collapse) {
+                  // @ts-ignore FIX THIS
+                  e.currentTarget.parentNode.nextSibling.classList.toggle(
+                    'hidden'
+                  )
+
+                  // @ts-ignore FIX THIS
+                  e.currentTarget.parentNode?.childNodes[0]?.childNodes[0]?.childNodes[1]?.classList.toggle(
+                    'closed'
+                  )
+                }
               }}
             >
-              {items.map((item, index: number) => {
-                const { value, label, onClick, icon } = item
+              {icon ? <styled.div>{icon}</styled.div> : null}
+              <Text
+                light
+                selectable="none"
+                weight="strong"
+                size={12}
+                transform="uppercase"
+              >
+                {label}
+              </Text>
+              {collapse && !shrink && (
+                <StyledChevron id={`${i}-menuchevron`}>
+                  <IconChevronDown />
+                </StyledChevron>
+              )}
+            </MenuItemsHeader>
+          )}
+          <HideableStyledDiv
+            id={`${i}-menuitems`}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: 'flex-start',
+            }}
+          >
+            {items.map(({ label, icon, items, onClick, value }, i) => {
+              return (
+                <ItemThing
+                  key={i + label + depth}
+                  depth={depth + 1}
+                  value={value}
+                  label={label}
+                  icon={icon}
+                  onClick={onClick}
+                  i={i}
+                  items={items}
+                />
+              )
+            })}
+          </HideableStyledDiv>
+        </div>
+      )
+    }
+    return (
+      <MenuItem
+        key={i + label + depth}
+        value={value}
+        label={label}
+        icon={icon}
+        onChange={onChange}
+        active={isActive ? isActive(value) : active === value}
+        shrink={shrink}
+      />
+    )
+  }
 
-                return (
-                  <MenuItem
-                    data={item}
-                    key={index}
-                    onChange={onChange}
-                    onClick={(e: any) => {
-                      if (onChange) {
-                        // if changed on mobile close the menu
-                        setOpen(false)
-                        onChange(value)
-                      }
-                      if (onClick) {
-                        onClick(e)
-                      }
-                    }}
-                    active={isActive ? isActive(value) : active === value}
-                    shrink={shrink}
-                  />
-                )
-              })}
-            </HideableStyledDiv>
-          </Fragment>
-        )
-      }
-
-      // return (
-      //   <MenuItem
-      //     key={i}
-      //     active={isActive ? isActive(value) : active === value}
-      //     onClick={(e: any) => {
-      //       if (onChange) {
-      //         setOpen(false)
-      //         onChange(value)
-      //       }
-      //       if (onClick) {
-      //         onClick(e)
-      //       }
-      //     }}
-      //   />
-      // )
+  const items = menuDataItems.map(
+    ({ label, icon, items, onClick, value }, i) => {
+      return (
+        <ItemThing
+          key={Math.random()}
+          depth={0}
+          value={value}
+          label={label}
+          icon={icon}
+          onClick={onClick}
+          i={i}
+          items={items}
+        />
+      )
     }
   )
 

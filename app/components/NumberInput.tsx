@@ -24,6 +24,7 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
+        defaultValue: 12,
         type: 'number',
         placeholder: 'Some Number',
         onChange: (e) => console.log(e, typeof e),

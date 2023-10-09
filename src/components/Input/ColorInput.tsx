@@ -67,7 +67,7 @@ export const ColorInput = ({
   const [open, setOpen] = useState(false)
 
   return (
-    <Popover.Root open={true}>
+    <Popover.Root open={open}>
       <Popover.Trigger asChild>
         <styled.div
           tabIndex={0}

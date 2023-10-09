@@ -1,50 +1,35 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { color as genColor } from '../../varsUtilities'
 import { styled, Style } from 'inlines'
 import { Text } from '../Text'
-import { Button } from '../Button'
-import { ClickHandler } from '../../types'
 import { BpTablet } from '../../utils/breakpoints'
-import { IconChevronDown, IconChevronTop } from '../../icons'
 
 type MenuItemProps = {
   active: boolean
-  onClick: ClickHandler
   onChange?: (e) => void
-  // children: ReactNode | ReactNode[] | ((e) => void)
   shrink?: boolean
   style?: Style
-  data?: any
+  value?: string
+  icon?: ReactNode
+  label?: ReactNode
 }
 
 export const MenuItem: FC<MenuItemProps> = ({
   active,
-  onClick = (e) => {},
-  // children,
   onChange,
   shrink,
   style,
-  data,
+  value,
+  icon,
+  label,
 }) => {
-  const [showNested, setShowNested] = useState(false)
-
-  let nested = []
-  // check if item has an object with label and value inside it
-  for (const [key] of Object.entries(data)) {
-    if (key !== 'value' && key !== 'label' && key !== 'icon') {
-      // console.log('🫔', key)
-      // console.log('🥩', data[key])
-      nested.push(data[key])
-    }
-  }
-
   return (
     <>
       <styled.div
         onClick={(e) => {
           if (onChange) {
-            // console.log('clikie 🍔', data.value)
-            onChange(data.value)
+            // console.log('clikie 🍔', value)
+            onChange(value)
           }
         }}
         style={{
@@ -99,48 +84,16 @@ export const MenuItem: FC<MenuItemProps> = ({
             ...style,
           }}
         >
-          {/* @ts-ignore
-        {typeof children === 'function'
-          ? children({
-              active,
-            })
-          : children}
-    */}
-
-          {data.icon ? (
-            <styled.div style={{ marginLeft: 0 }}>{data.icon}</styled.div>
+          {icon ? (
+            <styled.div style={{ marginLeft: 0 }}>{icon}</styled.div>
           ) : null}
-          {!data.icon && shrink && typeof data.label === 'string' ? (
-            <>{data.label.split('').splice(0, 2)}</>
+          {!icon && shrink && typeof label === 'string' ? (
+            <>{label.split('').splice(0, 2)}</>
           ) : null}
 
-          {!shrink && data.label}
-          {!shrink && nested.length > 0 && (
-            <Button
-              size="xsmall"
-              icon={showNested ? <IconChevronDown /> : <IconChevronTop />}
-              style={{ position: 'absolute', right: '12px' }}
-              onClick={() => setShowNested(!showNested)}
-            ></Button>
-          )}
+          {!shrink && label}
         </Text>
       </styled.div>
-      {showNested &&
-        nested.map((item, idx) => (
-          <MenuItem
-            key={idx}
-            data={item}
-            onChange={onChange}
-            onClick={(e: any) => {
-              if (onClick) {
-                onClick(e)
-              }
-            }}
-            //   active={isActive ? isActive(item.value) : active === item.value}
-            // active={item.value}
-            active={active === item.value}
-          />
-        ))}
     </>
   )
 }
