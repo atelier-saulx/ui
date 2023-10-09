@@ -174,7 +174,7 @@ export const FormItem: FC<{
             size={12}
             weight="strong"
             onClick={() => {
-              onChange(field, [...value, ''])
+              onChange(field, [...(value ?? []), ''])
             }}
           >
             {addMultipleLabel}
