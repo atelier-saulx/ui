@@ -138,13 +138,15 @@ export const FormItem: FC<{
 
   if (multiple) {
     return (
-      <Label description={description}>
+      <Label description="">
         <Text weight="strong">{label}</Text>
+        <Text light>{description}</Text>
         <styled.div
           style={{ margin: '8px 0', '& > * + *': { marginTop: '8px' } }}
         >
-          {value.map((v, index) => (
+          {(value ?? ['']).map((v, index) => (
             <Input
+              key={index}
               type={type === 'number' ? 'number' : 'text'}
               clearButton
               value={v}
@@ -160,7 +162,7 @@ export const FormItem: FC<{
                   return
                 }
 
-                const newFieldValue = [...value]
+                const newFieldValue = [...(value ?? [])]
                 newFieldValue[index] = newValue
                 onChange(field, newFieldValue)
               }}

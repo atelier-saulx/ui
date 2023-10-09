@@ -23,7 +23,7 @@ export type FormItemProps<T = any> = {
   default?: T
   // change validation to something else error or something
   validation?: (value: T) => boolean | string
-  multiple?: false
+  multiple?: boolean
   addMultipleLabel?: string
 }
 

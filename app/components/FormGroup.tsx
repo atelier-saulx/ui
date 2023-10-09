@@ -12,14 +12,14 @@ const fieldProps = {
     arrayOfStrings: {
       type: 'text',
       multiple: true,
-      default: ['123', '346'],
       addMultipleLabel: 'Add extra string',
+      description: 'bla',
     },
     arrayOfNumbers: {
       type: 'number',
       multiple: true,
-      default: [123, 456],
       addMultipleLabel: 'Add extra number',
+      description: 'bla',
     },
     'args.name': {
       label: 'Name',
