@@ -133,7 +133,8 @@ export const PieGraph: FC<PieGraphProps> = ({
                 style={{
                   transform: `rotate(${item.degrees}deg)`,
                   transformOrigin: '60px 60px',
-                  opacity: featured && item.label !== featured.label ? 0.4 : 1,
+                  opacity:
+                    featured && item?.label !== featured?.label ? 0.4 : 1,
                 }}
               />
             )
@@ -155,15 +156,19 @@ export const PieGraph: FC<PieGraphProps> = ({
             {featured
               ? valueFormat !== 'percentages'
                 ? prettyNumber(featured.value, valueFormat)
-                : featured?.percentage.toFixed(1) + '%'
+                : objectWithLargestValue?.percentage
+                ? featured?.percentage.toFixed(1) + '%'
+                : ''
               : valueFormat !== 'percentages'
               ? prettyNumber(objectWithLargestValue.value, valueFormat)
               : objectWithLargestValue
-              ? objectWithLargestValue.percentage.toFixed(1) + '%'
+              ? objectWithLargestValue?.percentage
+                ? objectWithLargestValue?.percentage?.toFixed(1) + '%'
+                : ''
               : ''}
           </Text>
           <Text weight="strong" size={12}>
-            {featured ? featured?.label : objectWithLargestValue.label}
+            {featured ? featured?.label : objectWithLargestValue?.label}
           </Text>
         </styled.div>
       </styled.div>
