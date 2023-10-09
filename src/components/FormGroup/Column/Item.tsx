@@ -40,6 +40,10 @@ export const FormItem: FC<{
     value = defaultValue
   }
 
+  if (multiple && !value && !defaultValue) {
+    value = ['']
+  }
+
   if (typeof type === 'function') {
     return (
       <Label label={label} description={description}>
@@ -144,7 +148,7 @@ export const FormItem: FC<{
         <styled.div
           style={{ margin: '8px 0', '& > * + *': { marginTop: '8px' } }}
         >
-          {(value ?? ['']).map((v, index) => (
+          {value.map((v, index) => (
             <Input
               key={index}
               type={type === 'number' ? 'number' : 'text'}
@@ -162,7 +166,7 @@ export const FormItem: FC<{
                   return
                 }
 
-                const newFieldValue = [...(value ?? [])]
+                const newFieldValue = [...value]
                 newFieldValue[index] = newValue
                 onChange(field, newFieldValue)
               }}
@@ -174,7 +178,7 @@ export const FormItem: FC<{
             size={12}
             weight="strong"
             onClick={() => {
-              onChange(field, [...(value ?? []), ''])
+              onChange(field, [...value, ''])
             }}
           >
             {addMultipleLabel}
