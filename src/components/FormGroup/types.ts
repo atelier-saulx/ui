@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, FC } from 'react'
 import { Style } from 'inlines'
 
 type onChange = (changes: { [field: string]: any }) => void | Promise<void>
@@ -16,6 +16,7 @@ export type FormItemProps<T = any> = {
     | 'color'
     | 'password'
     | 'textarea'
+    | FC
   description?: ReactNode
   field: string
   options?: any[]
