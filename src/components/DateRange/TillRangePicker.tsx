@@ -77,8 +77,6 @@ export const TillRangePicker = ({
   timeString,
   stringToMilliseconds,
 }: RangeTillPickerProps) => {
-  const dateObj = new Date()
-
   const [millisecondsValue] = useContextState('tillValue')
 
   useEffect(() => {
@@ -248,17 +246,7 @@ export const TillRangePicker = ({
       >
         <Text
           onClick={() => {
-            setSelectedYear(dateObj.getFullYear().toString())
-            setSelectedMonth(
-              dateObj.getMonth() < 10
-                ? `0${dateObj.getMonth() + 1}`
-                : `${dateObj.getMonth() + 1}`
-            )
-            setSelectedDay(
-              dateObj.getDate() < 10
-                ? `0${dateObj.getDate()}`
-                : `${dateObj.getDate()}`
-            )
+            setValue(new Date().getTime())
           }}
           style={{ display: 'flex' }}
         >

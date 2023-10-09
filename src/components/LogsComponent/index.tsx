@@ -93,14 +93,9 @@ export type LogsTextProps = {
   style?: Style
 }
 
-export const LogsText: FC<LogsTextProps> = ({
-  data,
-  style,
-  // autoScroll: autoScrollProp = true,
-}) => {
+export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
   const parentRef = useRef(null)
   const size = data.length
-  //why are there so many conflicting docs on the tanstack website lol
 
   const rowVirtualizer = useVirtual({
     parentRef: parentRef,
