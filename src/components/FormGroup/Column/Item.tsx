@@ -44,6 +44,7 @@ export const FormItem: FC<{
     return (
       <Label label={label} description={description}>
         {React.createElement(type, {
+          // @ts-ignore
           value,
           onChange,
           autoFocus,
