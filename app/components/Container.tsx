@@ -5,6 +5,7 @@ import {
   IconMoreHorizontal,
   Thumbnail,
   Text,
+  styled,
 } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
@@ -47,6 +48,26 @@ const example: ComponentDef = {
         children: () => <Text>These are some children...</Text>,
       },
     },
+
+    {
+      description: 'No description',
+      customRenderer: (props) => {
+        return (
+          <styled.div>
+            <Container {...props} />
+          </styled.div>
+        )
+      },
+      props: {
+        style: {
+          width: 700,
+        },
+        expandable: true,
+        label: 'This is a container',
+        children: () => <Text>These are some children...</Text>,
+      },
+    },
+
     {
       name: 'Variations',
       description: 'No description / no seperator',

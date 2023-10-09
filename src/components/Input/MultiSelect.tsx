@@ -2,20 +2,12 @@ import React, { useEffect, ReactNode, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
-import {
-  IconCheckLarge,
-  IconChevronDown,
-  IconClose,
-  IconEmojiSad,
-  IconSmallClose,
-} from '../../icons'
+import { IconCheckLarge, IconChevronDown, IconEmojiSad } from '../../icons'
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 import { useControllableState } from '../../hooks'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Tag } from '../Tag'
-
-//TODO TEMP MULTISELECT NEEDS NOT CONTROLLED STATE
 
 export type MultiSelectOption = { label?: ReactNode; value: string }
 
@@ -27,6 +19,7 @@ export type MultiSelectProps = {
   onChange: (value) => void
   hugContent?: boolean
   defaultValue: string[]
+  searchable?: boolean
 }
 
 export function MultiSelect({
@@ -37,12 +30,15 @@ export function MultiSelect({
   style,
   onChange: onChangeProp,
   hugContent,
+  searchable = true,
 }: // props,
 MultiSelectProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const textRef = useRef<HTMLInputElement | null>(null)
 
   const [open, setOpen] = useState(false)
   const [hug, setHug] = useState(inputRef.current?.offsetWidth)
+  const [searchInput, setSearchInput] = useState('')
 
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -55,14 +51,28 @@ MultiSelectProps) {
   })
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const filteredOptions = options.filter(
-    (item) => !inputValue.map((thing) => thing.value).includes(item.value)
-  )
+  const filteredOptions =
+    searchable && searchInput !== ''
+      ? options
+          .filter(
+            (item) =>
+              !inputValue.map((thing) => thing.value).includes(item.value)
+          )
+          .filter((item) => {
+            return item.label
+              .toString()
+              .toLocaleLowerCase()
+              .includes(searchInput.toLocaleLowerCase())
+          })
+      : options.filter(
+          (item) => !inputValue.map((thing) => thing.value).includes(item.value)
+        )
 
   function handleSelectItem(index: number) {
     setValue([...value, filteredOptions[index].value])
     setInputValue([...inputValue, filteredOptions[index]])
     setActiveIndex(null)
+    setSearchInput('')
   }
 
   function handleClose() {
@@ -72,6 +82,9 @@ MultiSelectProps) {
   }
 
   function handleOpen() {
+    if (searchable) {
+      textRef.current.focus()
+    }
     setOpen(true)
   }
 
@@ -99,10 +112,10 @@ MultiSelectProps) {
             value={inputValue}
             ref={inputRef}
             onChange={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              setInputValue([...inputValue, e.target.value])
-              setActiveIndex(null)
+              // e.preventDefault()
+              // e.stopPropagation()
+              // setInputValue([...inputValue, e.target.value])
+              // setActiveIndex(null)
             }}
             onKeyDown={(e) => {
               if (open && e.key === 'ArrowDown') {
@@ -132,6 +145,23 @@ MultiSelectProps) {
                   handleOpen()
                 }
               }
+              // if (e.key === 'Backspace') {
+              //   e.preventDefault()
+              //   if (
+              //     searchInput === '' &&
+              //     value instanceof Array &&
+              //     inputValue instanceof Array
+              //   ) {
+              //     setValue(value.pop())
+              //     setInputValue(inputValue.pop())
+              //     console.log(
+              //       typeof value,
+              //       value,
+              //       typeof inputValue,
+              //       inputValue
+              //     )
+              //   }
+              // }
             }}
             placeholder={placeholder}
             style={{
@@ -211,10 +241,30 @@ MultiSelectProps) {
                   {v.label}
                 </Tag>
               ))}
-
-              <Text selectable="none" light>
-                {placeholder}
-              </Text>
+              {searchable ? (
+                <input
+                  style={{
+                    lineHeight: '24px',
+                    background: 'transparent',
+                    padding: 0,
+                    border: 'none',
+                    outline: 'none',
+                    fontFamily: 'Inter',
+                    fontSize: 14,
+                  }}
+                  value={searchInput}
+                  placeholder={placeholder}
+                  onChange={(e) => {
+                    setSearchInput(e.target.value)
+                    setActiveIndex(0)
+                  }}
+                  ref={textRef}
+                />
+              ) : (
+                <Text selectable="none" light>
+                  {placeholder}
+                </Text>
+              )}
             </styled.div>
           </styled.div>
 

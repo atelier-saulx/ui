@@ -12,10 +12,15 @@ const example: ComponentDef = {
     ...props.props.MultiSelectProps.props,
     label: { type: 'string' },
     description: { type: 'string' },
+    searchable: { type: 'boolean' },
   },
   examples: [
     {
-      props: { prefix: 'Identity', placeholder: 'Select more' },
+      props: {
+        prefix: 'Identity',
+        placeholder: 'Select more',
+        searchable: true,
+      },
       description: 'Multi-Select MultiSelectInput',
       customRenderer: (props) => {
         const [value, setValue] = useState<any>('')
@@ -42,7 +47,11 @@ const example: ComponentDef = {
       },
     },
     {
-      props: { prefix: 'Identity', placeholder: 'Select more' },
+      props: {
+        prefix: 'Identity',
+        placeholder: 'Select more',
+        searchable: false,
+      },
       description: 'uncontrolled multiinput',
       customRenderer: (props) => {
         const [options] = useState(() =>

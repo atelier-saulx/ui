@@ -21,12 +21,11 @@ export type NumberInputOwnProps = {
   message?: ReactNode
   min?: number
   max?: number
+  step?: number
 }
 
 export type NumberInputProps = NumberInputOwnProps &
   Omit<React.ComponentPropsWithoutRef<'input'>, 'prefix'>
-
-//TODO onblur do min max check
 
 export const NumberInput: FC<NumberInputProps> = ({
   value,
@@ -44,19 +43,9 @@ export const NumberInput: FC<NumberInputProps> = ({
   onFocus,
   onBlur,
   placeholder,
+  step = 'any',
   ...props
 }) => {
-  // const handleBlur = () => {
-  //   console.log('hasdasdas', value)
-  //   if (min && value < min) {
-  //     onChange(min)
-  //   }
-  //   if (max && value > max) {
-  //     onChange(max)
-  //   }
-  //   onBlur?.()
-  // }
-
   return (
     <styled.div
       style={{
@@ -115,11 +104,12 @@ export const NumberInput: FC<NumberInputProps> = ({
       <styled.input
         value={value}
         onChange={(e) => {
-          onChange(e.target.value)
+          onChange(parseFloat(e.target.value))
         }}
         onFocus={onFocus}
         onBlur={onBlur}
         // onBlur={() => handleBlur()}
+        step={step}
         min={min}
         max={max}
         style={{
