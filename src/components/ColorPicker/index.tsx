@@ -9,6 +9,7 @@ import type { RGB } from './types'
 import { Style, styled } from 'inlines'
 import { Column } from '../../components'
 import { color } from '../../varsUtilities'
+import { useControllableState } from 'src/hooks'
 
 type ColorPickerProps = {
   value?: string
@@ -17,11 +18,15 @@ type ColorPickerProps = {
 }
 
 export const ColorPicker: FC<ColorPickerProps> = ({
-  value = 'rgba(255,0,0,1)',
+  value: valueProp = 'rgba(255,0,0,1)',
   style,
-  onChange,
+  onChange: onChangeProp,
 }) => {
-  const valueRef = useRef(value)
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    // defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
   const rgba = rgbaToArr(value)
   const [rgb, setRgb] = useState(rgba.slice(0, 3) as RGB)
   const [hue, setHue] = useState(rgbToHue(rgb))
@@ -29,7 +34,7 @@ export const ColorPicker: FC<ColorPickerProps> = ({
   const colorValue = `rgba(${rgb.map(Math.round).join(',')},${alpha})`
 
   useEffect(() => {
-    if (value !== valueRef.current) {
+    if (value !== value) {
       const rgb = rgba.slice(0, 3) as RGB
       setRgb(rgb)
       setHue(rgbToHue(rgb))
@@ -38,11 +43,10 @@ export const ColorPicker: FC<ColorPickerProps> = ({
   }, [value])
 
   useEffect(() => {
-    if (onChange && colorValue !== value) {
-      valueRef.current = colorValue
-      onChange(colorValue)
+    if (setValue && colorValue !== value) {
+      setValue(colorValue)
     }
-  }, [onChange, colorValue])
+  }, [setValue, colorValue])
 
   return (
     <Column

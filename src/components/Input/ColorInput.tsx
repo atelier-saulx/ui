@@ -33,7 +33,6 @@ const valueToRgba = (value) => {
 }
 
 export type ColorInputProps = {
-  inputRef?: RefObject<HTMLInputElement>
   value?: string
   defaultValue?: string
   onChange?: (target) => void
@@ -44,9 +43,8 @@ export type ColorInputProps = {
 }
 
 export const ColorInput = ({
-  inputRef,
   placeholder,
-  defaultValue: defaultValueProp,
+  defaultValue: defaultValueProp = valueToRgba(''),
   value: valueProp,
   disabled,
   style,
@@ -59,21 +57,17 @@ export const ColorInput = ({
     defaultProp: defaultValueProp,
     onChange: onChangeProp,
   })
-  const [rgba, setRgba] = useState(valueToRgba(value))
-  const [open, setOpen] = useState(false)
-  const rgbaRef = useRef(rgba)
+
+  const [inputVal, setInputVal] = useState(value)
 
   useEffect(() => {
-    if (rgba !== value) {
-      if (rgbaRef.current !== rgba) {
-        rgbaRef.current = rgba
-        setValue({ target: { value: rgba } })
-      }
-    }
-  }, [rgba])
+    setInputVal(value)
+  }, [value])
+
+  const [open, setOpen] = useState(false)
 
   return (
-    <Popover.Root open={open}>
+    <Popover.Root open={true}>
       <Popover.Trigger asChild>
         <styled.div
           tabIndex={0}
@@ -85,11 +79,9 @@ export const ColorInput = ({
           <styled.input
             {...props}
             type="text"
-            ref={inputRef}
-            value={value}
+            value={inputVal || ''}
             onChange={(e) => {
               setValue(e.target.value)
-              setRgba(() => valueToRgba(e.target.value))
             }}
             placeholder={placeholder}
             disabled={disabled}
@@ -151,7 +143,7 @@ export const ColorInput = ({
               borderRadius: 4,
               marginRight: 8,
               marginLeft: -4,
-              backgroundColor: rgba,
+              backgroundColor: value,
               userSelect: 'none',
               WebkitUserSelect: 'none',
               border: `1px solid ${color('inputBorder', 'neutralNormal')}`,
@@ -174,17 +166,7 @@ export const ColorInput = ({
           }}
           sideOffset={8}
         >
-          <ColorPicker
-            value={rgba}
-            onChange={useCallback(
-              (value) => {
-                setValue(value)
-                setRgba(value)
-                // onChange?.(value)
-              },
-              [setValue]
-            )}
-          />
+          <ColorPicker value={value} onChange={(v) => setValue(v)} />
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
