@@ -54,6 +54,7 @@ export const FormItem: FC<{
       >
         <styled.div style={{ width: fieldWidth }}>
           {React.createElement(type, {
+            // @ts-ignore
             value,
             onChange,
             autoFocus,
