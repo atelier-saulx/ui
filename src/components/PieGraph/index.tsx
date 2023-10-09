@@ -46,10 +46,10 @@ export const PieGraph: FC<PieGraphProps> = ({
     percentage: number
     value: number
   }>()
-  const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
+  const totalValue = data?.map((item) => item.value).reduce((a, b) => a + b, 0)
 
   // percentages
-  data = data.map((item) => ({
+  data = data?.map((item) => ({
     ...item,
     percentage: (item.value / totalValue) * 100,
     degrees: 0,
@@ -64,14 +64,21 @@ export const PieGraph: FC<PieGraphProps> = ({
     }
   }
 
-  const objectWithLargestValue = data.reduce(function (prev, current) {
-    return prev.value > current.value ? prev : current
-  })
+  const objectWithLargestValue: {
+    value?: any
+    percentage?: number
+    label?: string
+  } =
+    data?.length > 0
+      ? data?.reduce(function (prev, current) {
+          return prev?.value > current?.value ? prev : current
+        })
+      : { value: undefined }
 
   // if biggest strokeWidth = 32 and smallest 22
   const onePercentSmallestStrokeWidth = objectWithLargestValue.value / 100
 
-  data = data.map((item) => ({
+  data = data?.map((item) => ({
     ...item,
     strokeWidth:
       Math.round(item.value / onePercentSmallestStrokeWidth) / 10 + 22,
@@ -98,7 +105,7 @@ export const PieGraph: FC<PieGraphProps> = ({
             overflow: 'visible',
           }}
         >
-          {data.map((item, idx) => {
+          {data?.map((item, idx) => {
             return (
               <circle
                 onMouseEnter={() => {
@@ -151,7 +158,9 @@ export const PieGraph: FC<PieGraphProps> = ({
                 : featured?.percentage.toFixed(1) + '%'
               : valueFormat !== 'percentages'
               ? prettyNumber(objectWithLargestValue.value, valueFormat)
-              : objectWithLargestValue.percentage.toFixed(1) + '%'}
+              : objectWithLargestValue
+              ? objectWithLargestValue.percentage.toFixed(1) + '%'
+              : ''}
           </Text>
           <Text weight="strong" size={12}>
             {featured ? featured?.label : objectWithLargestValue.label}

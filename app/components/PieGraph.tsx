@@ -11,7 +11,7 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        valueFormat: 'number-bytes',
+        valueFormat: 'percentages',
       },
       customRenderer: (props) => {
         const data = [
@@ -37,29 +37,18 @@ const example: ComponentDef = {
           },
         ]
 
-        const advancedPieData = [
+        const dataX = [
           {
-            label: 'Some countries',
-            value: { en: 675, de: 200, nl: 600 },
-            color: '#BADA55',
+            value: 3,
+            label: 'groep1',
           },
           {
-            label: 'More data',
-            value: { en: 275, de: 600, nl: 50 },
-          },
-          {
-            label: 'What logo?',
-            value: { ax: 75, bc: 201, qr: 30 },
-            color: '#0000ff',
-          },
-          {
-            label: 'more data',
-            value: { en: 70, de: 201, nl: 130 },
-            color: '#ff8a00',
+            value: 4,
+            label: 'groep2',
           },
         ]
 
-        return <PieGraph data={data} {...props} />
+        return <PieGraph data={dataX} {...props} />
       },
     },
   ],
