@@ -25,7 +25,7 @@ type FileListItemProps = {
   file: File
   onDelete: () => void
   onFullscreen: () => void
-  onOpenNewTab: (e) => void
+  onOpenNewTab: () => void
   // onCopy: ()=>void
 }
 
@@ -38,6 +38,8 @@ function FileListItem({
   const [showMore, setShowMore] = useState(false)
   const [fullScreen, setFullScreen] = useState(false)
   const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null)
+
+  console.log('--> image preview', imagePreviewURL)
 
   useEffect(() => {
     if (!file.type.startsWith('image/')) return
@@ -64,7 +66,8 @@ function FileListItem({
     {
       label: 'Open in new tab',
       Icon: IconOpenInNew,
-      callback: (url) => onOpenNewTab(url),
+      callback: onOpenNewTab,
+      previewImg: imagePreviewURL,
     },
     {
       label: 'Rename',
@@ -198,7 +201,7 @@ function FileListItem({
                     onClick={(e) => {
                       e.stopPropagation()
                       setShowMore(false)
-                      action.callback(e)
+                      action.callback()
                     }}
                     style={{
                       position: 'relative',
@@ -274,8 +277,8 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
               }
             }}
             onFullscreen={() => console.log('hellow 🍿')}
-            onOpenNewTab={(imagePreviewURL) => {
-              console.log(imagePreviewURL)
+            onOpenNewTab={() => {
+              console.log('⚽️', files)
               // const newWindow = window.open(
               //   imagePreviewURL,
               //   '_blank',

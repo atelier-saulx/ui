@@ -76,7 +76,7 @@ export const Container: FC<ContainerProps> = ({
             paddingLeft: 16,
             paddingRight: 16,
             paddingTop: 16,
-            paddingBottom: seperator ? 16 : 4,
+            paddingBottom: seperator || (label && !description) ? 16 : 4,
             position: 'relative',
             '@media (hover: hover)': {
               '&:hover':
@@ -130,7 +130,7 @@ export const Container: FC<ContainerProps> = ({
                 <Text
                   selectable="none"
                   weight="strong"
-                  style={{ marginBottom: -6 }}
+                  style={{ marginBottom: description ? -6 : 0 }}
                 >
                   {label}
                 </Text>
