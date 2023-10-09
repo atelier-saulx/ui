@@ -97,7 +97,7 @@ export const Counter: FC<CounterProps> = ({
           style={{
             display: 'flex',
             marginLeft: 2,
-            marginRight: children ? 6 : 0,
+            marginRight: children !== undefined ? 6 : 0,
             width: 12,
             height: 12,
             maxWidth: '100%',

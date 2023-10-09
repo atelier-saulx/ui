@@ -1,5 +1,5 @@
-import React from 'react'
-import { Counter } from '../../src'
+import React, { ReactNode } from 'react'
+import { Counter, Row } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 import { IconChartPie, IconWifi } from '../../src/icons/index'
@@ -31,6 +31,31 @@ const example: ComponentDef = {
         children: 0.21,
         icon: () => React.createElement(IconWifi),
         valueFormat: 'number-ratio',
+      },
+    },
+    {
+      customRenderer: (props) => {
+        const thumbs: ReactNode[] = new Array(100).fill(null).map((_, i) => {
+          return (
+            <Counter key={i} {...props}>
+              {~~(Math.random() * 10)}
+            </Counter>
+          )
+        })
+
+        return (
+          <Row
+            style={{
+              flexWrap: 'wrap',
+              gap: 16,
+            }}
+          >
+            {thumbs}
+          </Row>
+        )
+      },
+      props: {
+        icon: () => React.createElement(IconWifi),
       },
     },
   ],
