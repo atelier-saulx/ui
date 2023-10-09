@@ -58,6 +58,13 @@ export const FormItem: FC<{
             value,
             onChange,
             autoFocus,
+            type,
+            field,
+            label,
+            description,
+            validation,
+            options,
+            defaultValue,
             ...props,
           })}
         </styled.div>

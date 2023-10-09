@@ -33,6 +33,7 @@ export const Label: FC<LabelProps> = ({
           </Text>
         </Row>
       ) : null}
+      {description && <Text light>{description}</Text>}
       <styled.div
         style={{
           marginTop: 8,
@@ -41,7 +42,6 @@ export const Label: FC<LabelProps> = ({
       >
         {children}
       </styled.div>
-      {description && <Text light>{description}</Text>}
     </Column>
   )
 }
