@@ -9,6 +9,18 @@ const fieldProps = {
       type: 'number',
       description: 'Network port',
     },
+    arrayOfStrings: {
+      type: 'text',
+      multiple: true,
+      addMultipleLabel: 'Add extra string',
+      description: 'bla',
+    },
+    arrayOfNumbers: {
+      type: 'number',
+      multiple: true,
+      addMultipleLabel: 'Add extra number',
+      description: 'bla',
+    },
     'args.name': {
       label: 'Name',
       type: 'text',
