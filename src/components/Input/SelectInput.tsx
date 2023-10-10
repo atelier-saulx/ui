@@ -19,6 +19,7 @@ export type SelectInputProps = {
   value?: string
   defaultValue?: string
   onChange?: (value) => void
+  onOpen?: () => void
   options: SelectOption[]
   placeholder?: string
   clearbutton?: boolean
@@ -43,6 +44,9 @@ export function SelectInput({
   clearbutton,
   options,
   placeholder,
+  onOpen = () => {
+    return undefined
+  },
   size = 'normal',
   style,
   searchable = false,
@@ -112,6 +116,7 @@ export function SelectInput({
 
   function handleOpen() {
     setOpen(true)
+    onOpen()
     if (searchable) {
       inputRef.current?.select()
     }
