@@ -17,6 +17,7 @@ export type MultiSelectProps = {
   placeholder?: string
   style?: Style
   onChange: (value) => void
+  onOpen: () => void
   hugContent?: boolean
   defaultValue: string[]
   searchable?: boolean
@@ -29,6 +30,9 @@ export function MultiSelect({
   placeholder,
   style,
   onChange: onChangeProp,
+  onOpen = () => {
+    return undefined
+  },
   hugContent,
   searchable = true,
 }: // props,
@@ -86,6 +90,7 @@ MultiSelectProps) {
       textRef.current.focus()
     }
     setOpen(true)
+    onOpen()
   }
 
   useEffect(() => {
