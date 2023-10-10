@@ -2207,6 +2207,148 @@
       "code": "type ProgressCircleProps = {\n  color?: ColorContentColors\n  style?: Style\n  loading?: boolean\n  // value is progress in decimal 1 === complete\n  value?: number\n}",
       "file": "/components/ProgressCircle/index.tsx"
     },
+    "PromptAlertProps": {
+      "name": "PromptAlertProps",
+      "props": {
+        "open": {
+          "type": "boolean"
+        },
+        "setOpen": {}
+      },
+      "code": "type PromptAlertProps = {\n  open: boolean\n  setOpen: React.Dispatch<React.SetStateAction<boolean>>\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
+    "PromptAlertRootProps": {
+      "name": "PromptAlertRootProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "open": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onOpenChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type PromptAlertRootProps = {\n  children: ReactNode\n  open?: boolean\n  onOpenChange?: (open: boolean) => void\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
+    "PromptAlertTriggerProps": {
+      "name": "PromptAlertTriggerProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type PromptAlertTriggerProps = {\n  children: ReactNode\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
+    "PromptAlertContentProps": {
+      "name": "PromptAlertContentProps",
+      "props": {
+        "children": {
+          "type": [
+            "TSParenthesizedType",
+            "ReactNode"
+          ]
+        },
+        "width": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        }
+      },
+      "code": "type PromptAlertContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n  width?: string | number\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
+    "PromptAlertTitleProps": {
+      "name": "PromptAlertTitleProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type PromptAlertTitleProps = {\n  children: ReactNode\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
+    "PromptAlertDescriptionProps": {
+      "name": "PromptAlertDescriptionProps",
+      "props": {
+        "children": {
+          "type": [
+            "string",
+            "ReactNode"
+          ]
+        }
+      },
+      "code": "type PromptAlertDescriptionProps = {\n  children: string | ReactNode\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
+    "PromptAlertBodyProps": {
+      "name": "PromptAlertBodyProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type PromptAlertBodyProps = {\n  children: ReactNode\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
+    "PromptAlertActionsProps": {
+      "name": "PromptAlertActionsProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type PromptAlertActionsProps = {\n  children: ReactNode\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
+    "AlertProps": {
+      "name": "AlertProps",
+      "props": {
+        "title": {
+          "type": "ReactNode"
+        },
+        "description": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "action": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type AlertProps = {\n  title: ReactNode\n  description?: ReactNode\n  // action?: { action: (e) => void; label: string }\n  action?: (e) => void\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
+    "PromptProps": {
+      "name": "PromptProps",
+      "props": {
+        "title": {
+          "type": "ReactNode"
+        },
+        "description": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "action": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type PromptProps = {\n  title: ReactNode\n  description?: ReactNode\n  action?: { action: (e) => void; label: string }\n  onChange?: (e) => void\n}",
+      "file": "/components/PromptAlert/index.tsx"
+    },
     "ProviderProps": {
       "name": "ProviderProps",
       "props": {

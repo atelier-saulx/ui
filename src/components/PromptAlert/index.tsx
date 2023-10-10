@@ -92,7 +92,6 @@ export function Content({ children, width = 552 }: PromptAlertContentProps) {
       >
         <styled.div
           style={{
-            border: '1px solid red',
             position: 'fixed',
             top: '2%',
             left: '50%',
@@ -216,10 +215,11 @@ function Actions({ children }: PromptAlertActionsProps) {
   )
 }
 
-export type Alert = {
+export type AlertProps = {
   title: ReactNode
   description?: ReactNode
-  action?: { action: (e) => void; label: string }
+  // action?: { action: (e) => void; label: string }
+  action?: (e) => void
 }
 
 export function Alert({ title, description, action }) {
@@ -234,12 +234,12 @@ export function Alert({ title, description, action }) {
           <Actions>
             <Button
               onClick={(e) => {
-                action.action(e)
+                action(e)
                 close()
               }}
               color={'primary'}
             >
-              {action.label}
+              OK
             </Button>
           </Actions>
         </>
@@ -248,15 +248,16 @@ export function Alert({ title, description, action }) {
   )
 }
 
-export type Prompt = {
+export type PromptProps = {
   title: ReactNode
   description?: ReactNode
   action?: { action: (e) => void; label: string }
-  value?: string
   onChange?: (e) => void
 }
 
-export function Prompt({ title, description, action, value, onChange }) {
+export function Prompt({ title, description, onChange }) {
+  const [value, setValue] = useState('')
+
   return (
     <Content>
       {({ close }) => (
@@ -264,19 +265,27 @@ export function Prompt({ title, description, action, value, onChange }) {
           <Title>{title}</Title>
           <Body>
             <Description>{description}</Description>
-            <Input type="text" value={value} onChange={(e) => onChange(e)} />
+            <Input type="text" value={value} onChange={(e) => setValue(e)} />
           </Body>
           <Actions>
-            <Button onClick={close} color="system">
+            <Button
+              onClick={() => {
+                setValue('')
+                close()
+              }}
+              color="system"
+            >
               Cancel
             </Button>
             <Button
-              onClick={(e) => {
-                action.action(e)
+              onClick={() => {
+                onChange(value)
+                setValue('')
                 close()
               }}
             >
-              {action.label}
+              {/* {action.label} */}
+              OK
             </Button>
           </Actions>
         </>

@@ -1,6 +1,7 @@
 import React from 'react'
 import '../src/fonts.css'
 import { ComponentDef } from './types'
+import alert from './components/Alert'
 import accordion from './components/Accordion'
 import alertBanner from './components/AlertBanner'
 import avatar from './components/Avatar'
@@ -28,6 +29,7 @@ import numberInput from './components/NumberInput'
 import pieGraph from './components/PieGraph'
 import pill from './components/Pill'
 import popover from './components/Popover'
+import prompt from './components/Prompt'
 import radioButtons from './components/RadioButtons'
 import scrollArea from './components/ScrollArea'
 import searchInput from './components/SearchInput'
@@ -84,11 +86,13 @@ export const input = [
 export const misc = [colorPicker, code, logsText, styledDivs, tag]
 
 export const overlay = [
+  alert,
   dropdown,
   modal,
   modalConfirmation,
   pill,
   popover,
+  prompt,
   sidePanel,
 ]
 
