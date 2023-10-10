@@ -17,6 +17,7 @@ export const Label: FC<LabelProps> = ({
     <styled.div
       style={{
         margin: 8,
+        maxWidth: 'min-content',
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',

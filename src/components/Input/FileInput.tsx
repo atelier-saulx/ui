@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, createContext } from 'react'
 import {
   IconAttachment,
   IconCopy,
@@ -14,6 +14,7 @@ import {
 import { color } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { Text } from '../Text'
+import { useModal } from '../Modal'
 
 export type FileInputProps = {
   disabled?: boolean
@@ -26,6 +27,9 @@ type FileListItemProps = {
   onDelete: () => void
   onFullscreen: () => void
   onOpenNewTab: () => void
+  onDownload: () => void
+  onReplace: () => void
+  // onRename: () => void
   // onCopy: ()=>void
 }
 
@@ -34,7 +38,10 @@ function FileListItem({
   onDelete,
   onFullscreen,
   onOpenNewTab,
-}: FileListItemProps) {
+  onDownload,
+  onReplace,
+}: // onRename,
+FileListItemProps) {
   const [showMore, setShowMore] = useState(false)
   const [fullScreen, setFullScreen] = useState(false)
   const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null)
@@ -53,11 +60,11 @@ function FileListItem({
   }, [file])
   // todo options array
   const optionsArr = [
-    {
-      label: 'Duplicate',
-      Icon: IconCopy,
-      callback: onDelete,
-    },
+    // {
+    //   label: 'Duplicate',
+    //   Icon: IconCopy,
+    //   callback: onDelete,
+    // },
     {
       label: 'Full Screen',
       Icon: IconFullscreen,
@@ -67,22 +74,21 @@ function FileListItem({
       label: 'Open in new tab',
       Icon: IconOpenInNew,
       callback: onOpenNewTab,
-      previewImg: imagePreviewURL,
     },
-    {
-      label: 'Rename',
-      Icon: IconFileEdit,
-      callback: onDelete,
-    },
+    // {
+    //   label: 'Rename',
+    //   Icon: IconFileEdit,
+    //   callback: onRename,
+    // },
     {
       label: 'Replace',
       Icon: IconRefresh,
-      callback: onDelete,
+      callback: onReplace,
     },
     {
       label: 'Download',
       Icon: IconDownload,
-      callback: onDelete,
+      callback: onDownload,
     },
     {
       label: 'Delete',
@@ -160,6 +166,7 @@ function FileListItem({
           >
             <IconMoreHorizontal />
           </styled.button>
+
           {showMore && (
             <>
               <div
@@ -262,6 +269,8 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
     }
   }
 
+  const modal = useModal()
+
   return (
     <>
       <styled.div style={{ '& > * + *': { marginTop: '8px' } }}>
@@ -276,15 +285,26 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
                 inputRef.current.value = ''
               }
             }}
-            onFullscreen={() => console.log('hellow 🍿')}
+            onFullscreen={() => {
+              console.log('opne modal')
+              if (modal) {
+                modal.setOpen(true)
+              }
+            }}
             onOpenNewTab={() => {
-              console.log('⚽️', files)
-              // const newWindow = window.open(
-              //   imagePreviewURL,
-              //   '_blank',
-              //   'noopener,noreferrer'
-              // )
-              // if (newWindow) newWindow.opener = null
+              const url = URL.createObjectURL(file)
+              window.open(url, '_blank', 'noopener,noreferrer')
+            }}
+            onDownload={() => {
+              const url = URL.createObjectURL(file)
+              const link = document.createElement('a')
+              link.download = file.name
+              link.href = url
+              link.click()
+            }}
+            onReplace={() => {
+              setFiles((p) => p.filter((_, i) => i !== index))
+              inputRef.current.click()
             }}
           />
         ))}
