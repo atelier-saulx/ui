@@ -3,6 +3,7 @@ import * as DialogBase from '@radix-ui/react-dialog'
 import { styled, Style } from 'inlines'
 import { color } from '../../varsUtilities'
 import { Text } from '../Text'
+import { Button } from '../Button'
 import { IconAlertFill } from '../../icons'
 import { scrollAreaStyle } from '../ScrollArea'
 import { useControllableState } from '../../hooks/useControllableState'
@@ -118,7 +119,7 @@ export function Content({ children, width = 552 }: ModalContentProps) {
 }
 
 export type ModalWarningProps = {
-  type?: 'warning' | 'alert'
+  type?: 'warning' | 'alert' | 'info'
   children?: ReactNode
   style?: Style
 }
@@ -128,7 +129,12 @@ export const Warning = ({
   children,
   style,
 }: ModalWarningProps) => {
-  const genColor = type === 'warning' ? 'warning' : 'negative'
+  const genColor =
+    type === 'warning'
+      ? 'warning'
+      : type === 'info'
+      ? 'informative'
+      : 'negative'
 
   return (
     <styled.div
@@ -239,5 +245,49 @@ export function Actions({ children }: ModalActionsProps) {
     >
       {children}
     </styled.div>
+  )
+}
+
+export type ModalConfirmationProps = {
+  title: ReactNode
+  description?: ReactNode
+  label?: ReactNode
+  type?: 'info' | 'warning' | 'alert'
+  action?: { action: (e) => void; label: string }
+}
+
+export function Confirmation({
+  title,
+  description,
+  label,
+  type,
+  action,
+}: ModalConfirmationProps) {
+  return (
+    <Content>
+      {({ close }) => (
+        <>
+          <Title>{title}</Title>
+          <Body>
+            <Text>{description}</Text>
+            <Warning type={type}>{label}</Warning>
+          </Body>
+          <Actions>
+            <Button onClick={close} color="system">
+              Cancel
+            </Button>
+            <Button
+              onClick={(e) => {
+                action.action(e)
+                close()
+              }}
+              color={type === 'alert' ? 'alert' : 'primary'}
+            >
+              {action.label}
+            </Button>
+          </Actions>
+        </>
+      )}
+    </Content>
   )
 }

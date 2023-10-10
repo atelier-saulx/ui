@@ -52,6 +52,7 @@ import useContextState from './hooks/useContextState'
 import thumbnail from './components/Thumbnail'
 import styledDivs from './components/StyledDivs'
 import modal from './components/Modal'
+import modalConfirmation from './components/ModalConfirmation'
 import multiSelect from './components/MultiSelectInput'
 import action from './components/Action'
 import sectionHeader from './components/SectionHeader'
@@ -82,7 +83,14 @@ export const input = [
 
 export const misc = [colorPicker, code, logsText, styledDivs, tag]
 
-export const overlay = [dropdown, modal, pill, popover, sidePanel]
+export const overlay = [
+  dropdown,
+  modal,
+  modalConfirmation,
+  pill,
+  popover,
+  sidePanel,
+]
 
 export const feedback = [alertBanner, badge, toast, tooltipTest]
 

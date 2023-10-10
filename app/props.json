@@ -454,6 +454,31 @@
       "code": "type ColorPickerProps = {\n  value?: string\n  style?: Style\n  onChange?: (color: string) => void\n}",
       "file": "/components/ColorPicker/index.tsx"
     },
+    "ConfirmModalProps": {
+      "name": "ConfirmModalProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "title": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "onCancel": {
+          "optional": true,
+          "type": "function"
+        },
+        "onConfirm": {
+          "type": "function"
+        }
+      },
+      "code": "type ConfirmModalProps = {\n  children: ReactNode\n  title?: string\n  description?: ReactNode\n  onCancel?: () => void\n  onConfirm: () => void\n}",
+      "file": "/components/ConfirmModal/index.tsx"
+    },
     "ConfirmationProps": {
       "name": "ConfirmationProps",
       "props": {
@@ -461,11 +486,26 @@
           "optional": true,
           "type": "Style"
         },
+        "variant": {
+          "optional": true,
+          "type": [
+            {
+              "value": "buttons"
+            },
+            {
+              "value": "icons"
+            }
+          ]
+        },
         "value": {
           "optional": true,
           "type": "TSAnyKeyword"
         },
-        "onAccept": {
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "onConfirm": {
           "type": [
             "TSParenthesizedType",
             "TSParenthesizedType"
@@ -475,7 +515,7 @@
           "type": "function"
         }
       },
-      "code": "type ConfirmationProps = {\n  style?: Style\n  value?: any\n  onAccept: ((value: any) => void) | ((value: any) => Promise<void>)\n  onCancel: (value: any) => void\n}",
+      "code": "type ConfirmationProps = {\n  style?: Style\n  variant?: 'buttons' | 'icons'\n  value?: any\n  label?: ReactNode\n  onConfirm: ((value: any) => void) | ((value: any) => Promise<void>)\n  onCancel: (value: any) => void\n}",
       "file": "/components/Confirmation/index.tsx"
     },
     "ContainerProps": {
@@ -978,10 +1018,6 @@
     "ColorInputProps": {
       "name": "ColorInputProps",
       "props": {
-        "inputRef": {
-          "optional": true,
-          "type": "RefObject"
-        },
         "value": {
           "optional": true,
           "type": "string"
@@ -1011,7 +1047,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ColorInputProps = {\n  inputRef?: RefObject<HTMLInputElement>\n  value?: string\n  defaultValue?: string\n  onChange?: (target) => void\n  placeholder?: string\n  disabled?: boolean\n  style?: CSSProperties\n  error?: boolean\n}",
+      "code": "type ColorInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (target) => void\n  placeholder?: string\n  disabled?: boolean\n  style?: CSSProperties\n  error?: boolean\n}",
       "file": "/components/Input/ColorInput.tsx"
     },
     "FileInputProps": {
@@ -1047,9 +1083,15 @@
         },
         "onOpenNewTab": {
           "type": "function"
+        },
+        "onDownload": {
+          "type": "function"
+        },
+        "onReplace": {
+          "type": "function"
         }
       },
-      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n  onFullscreen: () => void\n  onOpenNewTab: (e) => void\n  // onCopy: ()=>void\n}",
+      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n  onFullscreen: () => void\n  onOpenNewTab: () => void\n  onDownload: () => void\n  onReplace: () => void\n  // onRename: () => void\n  // onCopy: ()=>void\n}",
       "file": "/components/Input/FileInput.tsx"
     },
     "MarkdownInputProps": {
@@ -1098,9 +1140,18 @@
         "hugContent": {
           "optional": true,
           "type": "boolean"
+        },
+        "defaultValue": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "searchable": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type MultiSelectProps = {\n  value: string[]\n  options: MultiSelectOption[]\n  placeholder?: string\n  style?: Style\n  onChange: (value) => void\n  hugContent?: boolean\n}",
+      "code": "type MultiSelectProps = {\n  value: string[]\n  options: MultiSelectOption[]\n  placeholder?: string\n  style?: Style\n  onChange: (value) => void\n  hugContent?: boolean\n  defaultValue: string[]\n  searchable?: boolean\n}",
       "file": "/components/Input/MultiSelect.tsx"
     },
     "NumberInputOwnProps": {
@@ -1167,9 +1218,13 @@
         "max": {
           "optional": true,
           "type": "number"
+        },
+        "step": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type NumberInputOwnProps = {\n  value: number\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  style?: Style\n  onChange: (value: number) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  min?: number\n  max?: number\n}",
+      "code": "type NumberInputOwnProps = {\n  value: number\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  style?: Style\n  onChange: (value: number) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  min?: number\n  max?: number\n  step?: number\n}",
       "file": "/components/Input/NumberInput.tsx"
     },
     "SelectInputProps": {
@@ -1572,9 +1627,6 @@
         "active": {
           "type": "boolean"
         },
-        "onClick": {
-          "type": "ClickHandler"
-        },
         "onChange": {
           "optional": true,
           "type": "function"
@@ -1587,12 +1639,20 @@
           "optional": true,
           "type": "Style"
         },
-        "data": {
+        "value": {
           "optional": true,
-          "type": "TSAnyKeyword"
+          "type": "string"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
         }
       },
-      "code": "type MenuItemProps = {\n  active: boolean\n  onClick: ClickHandler\n  onChange?: (e) => void\n  // children: ReactNode | ReactNode[] | ((e) => void)\n  shrink?: boolean\n  style?: Style\n  data?: any\n}",
+      "code": "type MenuItemProps = {\n  active: boolean\n  onChange?: (e) => void\n  shrink?: boolean\n  style?: Style\n  value?: string\n  icon?: ReactNode\n  label?: ReactNode\n}",
       "file": "/components/Menu/MenuItem.tsx"
     },
     "MenuItemsHeaderProps": {
@@ -1806,6 +1866,9 @@
             },
             {
               "value": "alert"
+            },
+            {
+              "value": "info"
             }
           ]
         },
@@ -1818,7 +1881,7 @@
           "type": "Style"
         }
       },
-      "code": "type ModalWarningProps = {\n  type?: 'warning' | 'alert'\n  children?: ReactNode\n  style?: Style\n}",
+      "code": "type ModalWarningProps = {\n  type?: 'warning' | 'alert' | 'info'\n  children?: ReactNode\n  style?: Style\n}",
       "file": "/components/Modal/index.tsx"
     },
     "ModalTitleProps": {
@@ -1862,6 +1925,42 @@
         }
       },
       "code": "type ModalActionsProps = {\n  children: ReactNode\n}",
+      "file": "/components/Modal/index.tsx"
+    },
+    "ModalConfirmationProps": {
+      "name": "ModalConfirmationProps",
+      "props": {
+        "title": {
+          "type": "ReactNode"
+        },
+        "description": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "type": {
+          "optional": true,
+          "type": [
+            {
+              "value": "info"
+            },
+            {
+              "value": "warning"
+            },
+            {
+              "value": "alert"
+            }
+          ]
+        },
+        "action": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        }
+      },
+      "code": "type ModalConfirmationProps = {\n  title: ReactNode\n  description?: ReactNode\n  label?: ReactNode\n  type?: 'info' | 'warning' | 'alert'\n  action?: { action: (e) => void; label: string }\n}",
       "file": "/components/Modal/index.tsx"
     },
     "PieGraphProps": {
@@ -2514,9 +2613,17 @@
         "border": {
           "optional": true,
           "type": "boolean"
+        },
+        "rowAction": {
+          "optional": true,
+          "type": "function"
+        },
+        "onRowClick": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type TableProps = {\n  columns?: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n}",
+      "code": "type TableProps = {\n  columns?: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n  rowAction?: (row: any) => ReactNode\n  onRowClick?: (row: any) => void\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
