@@ -68,66 +68,14 @@ const example: ComponentDef = {
                 //@ts-ignore
                 config={{
                   display: {
-                    '0': {
-                      label: 'Text',
-                      value: 'Text',
-                      icon: <IconAlarmClock />,
-                    },
-                    '1': {
-                      label: 'SectionHeader',
-                      value: 'SectionHeader',
-                      icon: <IconAlarmClock />,
-                    },
-                    '2': {
-                      label: 'Table',
-                      value: 'Table',
-                    },
-                    '3': {
-                      label: 'Counter',
-                      value: 'Counter',
-                    },
-                    '4': {
-                      label: 'Status',
-                      value: 'Status',
-                      icon: <IconAlarmClock />,
-                    },
-                    '5': {
-                      label: 'Avatar',
-                      value: 'Avatar',
-                    },
-                    '6': {
-                      label: 'Thumbnail',
-                      value: 'Thumbnail',
-                    },
-                    display2: [
+                    label: 'display',
+                    value: 'display',
+                    layer2: [
+                      { label: 'display3', value: 'display5' },
                       {
-                        label: 'Text2',
-                        value: 'Text2',
-                        icon: <IconAlarmClock />,
-                      },
-                      {
-                        label: 'SectionHeader2',
-                        value: 'SectionHeader2',
-                      },
-                      {
-                        label: 'Table2',
-                        value: 'Table2',
-                      },
-                      {
-                        label: 'Counter2',
-                        value: 'Counter2',
-                      },
-                      {
-                        label: 'Status2',
-                        value: 'Status2',
-                      },
-                      {
-                        label: 'Avatar2',
-                        value: 'Avatar2',
-                      },
-                      {
-                        label: 'Thumbnail2',
-                        value: 'Thumbnail2',
+                        label: 'display3',
+                        value: 'display2',
+                        items: [{ label: 'display' }],
                       },
                     ],
                   },

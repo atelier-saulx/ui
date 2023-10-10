@@ -301,7 +301,7 @@ export const Menu: FC<MenuProps> = ({
       />
     )
   }
-
+  // console.log(menuDataItems)
   const items = menuDataItems.map(
     ({ label, icon, items, onClick, value }, i) => {
       return (
