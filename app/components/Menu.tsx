@@ -75,7 +75,7 @@ const example: ComponentDef = {
                       {
                         label: 'display3',
                         value: 'display2',
-                        items: [{ label: 'display' }],
+                        items: [{ label: 'display', value: 'thing' }],
                       },
                     ],
                   },
