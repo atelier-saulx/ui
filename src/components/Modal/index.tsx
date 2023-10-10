@@ -260,7 +260,7 @@ export function Confirmation({
   title,
   description,
   label,
-  type,
+  type = 'info',
   action,
 }: ModalConfirmationProps) {
   return (
