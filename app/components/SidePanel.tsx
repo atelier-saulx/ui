@@ -6,20 +6,20 @@ import { CheckboxInput } from '../../src/components/Input/CheckboxInput'
 
 const example: ComponentDef = {
   name: 'SidePanel',
-  properties: {},
+  properties: props.props.SidePanelContentProps.props,
   description: '',
   component: SidePanel.Root,
   examples: [
     {
       description: 'Change SidePanel',
-      props: {},
-      customRenderer: () => {
+      props: { position: 'left' },
+      customRenderer: (props) => {
         return (
           <SidePanel.Root>
             <SidePanel.Trigger>
               <Button>Open modal</Button>
             </SidePanel.Trigger>
-            <SidePanel.Content>
+            <SidePanel.Content {...props}>
               {({ close }) => (
                 <>
                   <SidePanel.Title>Title of modal</SidePanel.Title>

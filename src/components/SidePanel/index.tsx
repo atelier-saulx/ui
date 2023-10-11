@@ -7,6 +7,7 @@ import { IconAlertFill, IconClose } from '../../icons'
 import { scrollAreaStyle } from '../ScrollArea'
 import { useControllableState } from '../../hooks/useControllableState'
 import { Button } from '../Button'
+import { BpMobile } from '../../utils'
 
 type UseSidePanelProps = {
   open: boolean
@@ -89,27 +90,39 @@ export function Content({
         <styled.div
           style={{
             position: 'fixed',
-            top: '24px',
-            bottom: '24px',
-            left: position === 'left' ? '24px' : 'auto',
-            right: position === 'left' ? 'auto' : '24px',
-            width: '90vw',
-            maxWidth: width,
-            background: color('standalone', 'modal', 'default'),
-            borderRadius: 12,
-            // padding: '24px 32px 0',
-            overflowY: 'auto',
-            ...scrollAreaStyle,
+            inset: 0,
+            display: 'flex',
+            padding: 24,
+            [BpMobile]: {
+              padding: 16,
+            },
           }}
         >
-          {typeof children === 'function'
-            ? children({
-                open,
-                close: () => {
-                  setOpen(false)
-                },
-              })
-            : children}
+          <styled.div
+            style={{
+              marginRight: position === 'right' ? '0px' : 'auto',
+              marginLeft: position === 'right' ? 'auto' : '0px',
+              height: '100%',
+              width: '90vw',
+              maxWidth: width,
+              [BpMobile]: {
+                maxWidth: '100%',
+              },
+              background: color('standalone', 'modal', 'default'),
+              borderRadius: 12,
+              overflowY: 'auto',
+              ...scrollAreaStyle,
+            }}
+          >
+            {typeof children === 'function'
+              ? children({
+                  open,
+                  close: () => {
+                    setOpen(false)
+                  },
+                })
+              : children}
+          </styled.div>
         </styled.div>
       </DialogBase.Content>
     </DialogBase.Portal>
