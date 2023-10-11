@@ -90,7 +90,9 @@ export const getButtonStyle = (
       : {
           outline: 'none',
           border:
-            isGhost || colorProp === 'system'
+            props.size === 'xsmall'
+              ? '1px solid transparent'
+              : isGhost || colorProp === 'system'
               ? `1px solid ${genColor(
                   'inputBorder',
                   'neutralNormal',
@@ -101,19 +103,20 @@ export const getButtonStyle = (
         },
     '&:hover': {
       outline: 'none',
-      backgroundColor: genColor(
-        'action',
-        colorProp,
-        isLight || isGhost ? 'subtleHover' : 'hover'
-      ),
+      backgroundColor:
+        props.size === 'xsmall'
+          ? 'transparent'
+          : genColor(
+              'action',
+              colorProp,
+              isLight || isGhost ? 'subtleHover' : 'hover'
+            ),
     },
     [BpTablet]: {
       '&:hover': {
-        backgroundColor: genColor(
-          'action',
-          colorProp,
-          isLight ? 'subtleNormal' : 'normal'
-        ),
+        backgroundColor: isGhost
+          ? 'transparent'
+          : genColor('action', colorProp, isLight ? 'subtleNormal' : 'normal'),
       },
     },
     '&:active': {
