@@ -273,7 +273,7 @@ SelectPillProps) {
                   >
                     {item.value === value && (
                       <span style={{ position: 'absolute', left: 12, top: 6 }}>
-                        <IconCheckLarge />
+                        <IconCheckLarge color="default" />
                       </span>
                     )}
                     <Text color="default" size={14} weight="medium">

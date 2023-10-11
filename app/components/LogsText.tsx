@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LogsText, Button, Input } from '../../src'
+import { Button, Input, Logs } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
@@ -105,7 +105,7 @@ const stateData = [
 const example: ComponentDef = {
   name: 'Logs',
   properties: props.props.LogsTextProps.props,
-  component: LogsText,
+  component: Logs,
   description: 'Accordions to annoy ppl with on the street',
   examples: [
     {
@@ -158,10 +158,13 @@ const example: ComponentDef = {
                 style={{}}
               />
             </div>
-            <Button onClick={() => genLog(amount, type)}>
+            <Button
+              onClick={() => genLog(amount, type)}
+              style={{ marginBottom: '20px' }}
+            >
               Gen {amount} Log
             </Button>
-            <LogsText
+            <Logs
               // autoScroll
               style={{ width: 374, height: 400 }}
               //@ts-ignore
