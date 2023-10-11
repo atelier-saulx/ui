@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { color as genColor } from '../../varsUtilities'
 import { ColorActionColors } from '../../varsTypes'
 import { styled } from 'inlines'
+import { BpTablet } from 'src/utils'
 
 type RadioButtonProps = {
   disabled?: boolean
@@ -41,6 +42,9 @@ export const RadioButton: FC<RadioButtonProps> = ({
           borderColor: active
             ? genColor('action', color as ColorActionColors, 'hover')
             : genColor('inputBorder', 'neutralNormal', 'default'),
+        },
+        [BpTablet]: {
+          '&:hover': null,
         },
         '&:focus': {
           outline: '3px solid',

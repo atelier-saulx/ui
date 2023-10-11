@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { color as genColor } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { Text } from '../Text'
+import { BpTablet } from 'src/utils'
 
 type CalendarProps = {
   days: string[]
@@ -157,6 +158,11 @@ export const Calendar = ({
                       ? genColor('action', 'primary', 'hover')
                       : genColor('action', 'neutral', 'subtleHover'),
                   cursor: 'pointer',
+                },
+                [BpTablet]: {
+                  '&:hover': {
+                    background: 'transparent',
+                  },
                 },
               }}
               key={i}

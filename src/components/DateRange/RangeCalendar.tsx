@@ -4,6 +4,7 @@ import { styled } from 'inlines'
 import { color as genColor } from '../../varsUtilities'
 import { useContextState } from '../../hooks/ContextState'
 import { Text } from '../Text'
+import { BpTablet } from 'src/utils'
 
 type RangeCalendarProps = {
   days: string[]
@@ -336,8 +337,14 @@ export const RangeCalendar = ({
                       ? 0
                       : '4px'
                     : 0,
+
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
+                [BpTablet]: {
+                  '&:hover': {
+                    background: 'transparent',
+                  },
+                },
               }}
               key={i}
               onClick={() => {

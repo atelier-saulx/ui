@@ -12,6 +12,7 @@ import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 
 import { scrollAreaStyle } from '../ScrollArea'
+import { BpTablet } from 'src/utils'
 
 export type PillOption = { label?: ReactNode; value: string }
 
@@ -254,6 +255,9 @@ SelectPillProps) {
                         index === activeIndex
                           ? color('action', 'system', 'hover')
                           : 'transparent',
+                      [BpTablet]: {
+                        background: 'transparent',
+                      },
                       padding: '4px 12px 4px 42px',
                       borderRadius: 8,
                       position: 'relative',

@@ -4,6 +4,7 @@ import { Style, styled } from 'inlines'
 import { Text } from '../Text'
 import { color } from '../../varsUtilities'
 import { useControllableState } from '../../hooks/useControllableState'
+import { BpTablet } from 'src/utils'
 
 export type CheckboxInputProps = {
   title?: ReactNode
@@ -127,6 +128,16 @@ export function CheckboxInput({
                   ? color('action', 'primary', 'hover')
                   : 'transparent'
               } !important`,
+            },
+
+            [BpTablet]: {
+              '&:hover': {
+                background: intermediate
+                  ? color('action', 'primary', 'normal')
+                  : value
+                  ? color('action', 'primary', 'normal')
+                  : 'transparent',
+              },
             },
             '.checkbox-group:focus-within &': {
               boxShadow: `0 0 0 1px ${color(
