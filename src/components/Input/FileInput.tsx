@@ -14,7 +14,8 @@ import {
 import { color } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { Text } from '../Text'
-import { useModal } from '../Modal'
+import { Button } from '..'
+import { Modal } from '..'
 
 export type FileInputProps = {
   disabled?: boolean
@@ -29,8 +30,6 @@ type FileListItemProps = {
   onOpenNewTab: () => void
   onDownload: () => void
   onReplace: () => void
-  // onRename: () => void
-  // onCopy: ()=>void
 }
 
 function FileListItem({
@@ -43,7 +42,6 @@ function FileListItem({
 }: // onRename,
 FileListItemProps) {
   const [showMore, setShowMore] = useState(false)
-  const [fullScreen, setFullScreen] = useState(false)
   const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null)
 
   console.log('--> image preview', imagePreviewURL)
@@ -58,13 +56,8 @@ FileListItemProps) {
       URL.revokeObjectURL(url)
     }
   }, [file])
-  // todo options array
+
   const optionsArr = [
-    // {
-    //   label: 'Duplicate',
-    //   Icon: IconCopy,
-    //   callback: onDelete,
-    // },
     {
       label: 'Full Screen',
       Icon: IconFullscreen,
@@ -75,11 +68,6 @@ FileListItemProps) {
       Icon: IconOpenInNew,
       callback: onOpenNewTab,
     },
-    // {
-    //   label: 'Rename',
-    //   Icon: IconFileEdit,
-    //   callback: onRename,
-    // },
     {
       label: 'Replace',
       Icon: IconRefresh,
@@ -269,44 +257,65 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
     }
   }
 
-  const modal = useModal()
+  const triggerModalRef = useRef<HTMLButtonElement>()
+  const [fullScreenIdx, setFullScreenIdx] = useState(0)
 
   return (
     <>
       <styled.div style={{ '& > * + *': { marginTop: '8px' } }}>
+        <Modal.Root>
+          <Modal.Trigger>
+            <Button style={{ display: 'none' }} ref={triggerModalRef} />
+          </Modal.Trigger>
+          <Modal.Content
+            style={{
+              maxWidth: '95vw',
+              maxHeight: '95vh',
+              padding: '24px 32px 16px',
+            }}
+          >
+            <img
+              style={{ width: '100%' }}
+              src={
+                files.length > 0 && URL.createObjectURL(files[fullScreenIdx])
+              }
+            />
+          </Modal.Content>
+        </Modal.Root>
         {files.map((file, index) => (
-          <FileListItem
-            key={file.name}
-            file={file}
-            onDelete={() => {
-              setFiles((p) => p.filter((_, i) => i !== index))
-
-              if (inputRef.current) {
-                inputRef.current.value = ''
-              }
-            }}
-            onFullscreen={() => {
-              console.log('opne modal')
-              if (modal) {
-                modal.setOpen(true)
-              }
-            }}
-            onOpenNewTab={() => {
-              const url = URL.createObjectURL(file)
-              window.open(url, '_blank', 'noopener,noreferrer')
-            }}
-            onDownload={() => {
-              const url = URL.createObjectURL(file)
-              const link = document.createElement('a')
-              link.download = file.name
-              link.href = url
-              link.click()
-            }}
-            onReplace={() => {
-              setFiles((p) => p.filter((_, i) => i !== index))
-              inputRef.current.click()
-            }}
-          />
+          <React.Fragment key={index}>
+            <FileListItem
+              key={file.name}
+              file={file}
+              onDelete={() => {
+                setFiles((p) => p.filter((_, i) => i !== index))
+                if (inputRef.current) {
+                  inputRef.current.value = ''
+                }
+              }}
+              onFullscreen={() => {
+                console.log(file)
+                console.log('opne modal')
+                setFullScreenIdx(index)
+                triggerModalRef.current.click()
+              }}
+              onOpenNewTab={() => {
+                const url = URL.createObjectURL(file)
+                window.open(url, '_blank', 'noopener,noreferrer')
+              }}
+              onDownload={() => {
+                const url = URL.createObjectURL(file)
+                const link = document.createElement('a')
+                link.download = file.name
+                link.href = url
+                link.click()
+              }}
+              onReplace={() => {
+                setFiles((p) => p.filter((_, i) => i !== index))
+                inputRef.current.click()
+              }}
+            />
+          </React.Fragment>
         ))}
 
         {(multiple || (!multiple && !files.length)) && (
