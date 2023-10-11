@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, TouchEventHandler } from 'react'
 import { styled } from 'inlines'
 import { rgbToXY, xyToRgb } from './utils'
 
@@ -43,6 +43,24 @@ const Pointer = ({ x, y }) => {
   )
 }
 
+const preventBehavior = (e: Event) => {
+  e.preventDefault()
+}
+
+const preventBodyScroll = () => {
+  document.addEventListener('touchmove', preventBehavior, {
+    passive: false,
+  })
+}
+
+const onTouchStart = () => {
+  preventBodyScroll()
+}
+
+const onTouchEnd: TouchEventHandler<HTMLDivElement> = (e) => {
+  document.removeEventListener('touchmove', preventBehavior)
+}
+
 export const RgbPicker = ({ hue, rgb, onChange, style }) => {
   const { x, y } = rgbToXY(rgb, hue)
   const xRef = useRef(x)
@@ -72,12 +90,33 @@ export const RgbPicker = ({ hue, rgb, onChange, style }) => {
 
     addEventListener('mousemove', onMove)
     addEventListener('mouseup', onUp)
-
     onMove(e)
+  }
+  const onTouchMoveHandler: TouchEventHandler<HTMLDivElement> = (e) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
+
+    const onMove = ({ clientX, clientY }) => {
+      let x = (clientX - left) / width
+      let y = (clientY - top) / height
+
+      if (x > 1) x = 1
+      if (x < 0) x = 0
+      if (y > 1) y = 1
+      if (y < 0) y = 0
+
+      const rgb = xyToRgb(x, y, hue)
+      xRef.current = x
+      onChange(rgb)
+    }
+
+    onMove(e.touches[0])
   }
 
   return (
     <div
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMoveHandler}
+      onTouchEnd={onTouchEnd}
       onMouseDown={onDown}
       style={{
         position: 'relative',
