@@ -10,14 +10,16 @@ import {
 } from '../../icons'
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
-
+import { useControllableState } from '../../hooks'
 import { scrollAreaStyle } from '../ScrollArea'
 import { BpTablet } from '../../utils'
+import { Tag } from '../Tag'
 
 export type PillOption = { label?: ReactNode; value: string }
 
 export type MultiPillProps = {
   value: string[]
+  defaultValue?: string[]
   options: PillOption[]
   placeholder?: string
   prefix?: string
@@ -27,34 +29,40 @@ export type MultiPillProps = {
 }
 
 export function MultiPill({
-  value,
+  value: valueProp = [],
+  defaultValue: defaultValueProp,
+  onChange: onChangeProp,
   options,
   placeholder,
   prefix = 'Prefix',
   style,
-  onChange,
   icon,
 }: // props,
 MultiPillProps) {
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
   const [open, setOpen] = useState(false)
+
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
 
   const [inputValue, setInputValue] = useState<Array<PillOption>>(() => {
     return options.filter((option) => value.includes(option.value))
   })
-  const valueCheck = inputValue.length !== 0 ?? false
 
-  const inputRef = useRef<HTMLInputElement | null>(null)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const filteredOptions = options.filter(
+    (item) => !inputValue.map((thing) => thing.value).includes(item.value)
+  )
+
+  const valueCheck = inputValue.length > 0
 
   function handleSelectItem(index: number) {
-    if (inputValue.includes(options[index])) {
-      onChange(value.filter((v) => v !== options[index].value))
-      setInputValue(inputValue.filter((v) => v !== options[index]))
-      return
-    }
-    onChange([...value, options[index].value])
-    setInputValue([...inputValue, options[index]])
-    // setOpen(false)
+    setValue([...value, filteredOptions[index].value])
+    setInputValue([...inputValue, filteredOptions[index]])
     setActiveIndex(null)
   }
 
@@ -80,23 +88,15 @@ MultiPillProps) {
           }}
           value={inputValue}
           ref={inputRef}
-          onChange={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            setInputValue([...inputValue, e.target.value])
-            setActiveIndex(null)
-          }}
+          onChange={(e) => {}}
           onKeyDown={(e) => {
             if (open && e.key === 'ArrowDown') {
               e.preventDefault()
               const newIndex =
                 activeIndex === null
                   ? 0
-                  : Math.min(activeIndex + 1, options.length - 1)
+                  : Math.min(activeIndex + 1, filteredOptions.length - 1)
               setActiveIndex(newIndex)
-              document
-                .querySelector(`#combobox-item-${newIndex}`)
-                .scrollIntoView({ block: 'nearest' })
             }
 
             if (open && e.key === 'ArrowUp') {
@@ -104,9 +104,6 @@ MultiPillProps) {
               const newIndex =
                 activeIndex === null ? 0 : Math.max(0, activeIndex - 1)
               setActiveIndex(newIndex)
-              document
-                .querySelector(`#combobox-item-${newIndex}`)
-                .scrollIntoView({ block: 'nearest' })
             }
 
             if (e.key === 'Enter') {
@@ -121,6 +118,7 @@ MultiPillProps) {
               }
             }
           }}
+          placeholder={placeholder}
           style={{
             display: 'flex',
             boxSizing: 'border-box',
@@ -157,6 +155,9 @@ MultiPillProps) {
             gap: 8,
             alignItems: 'center',
             ...style,
+            '&:focus': {
+              backgroundColor: 'red',
+            },
           }}
         >
           {icon}
@@ -174,14 +175,14 @@ MultiPillProps) {
                 : placeholder}
             </Text>
           </styled.div>
-          {valueCheck ? (
+          {inputValue ? (
             <styled.div
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                setActiveIndex(0)
                 setInputValue([])
-                onChange([])
+                setActiveIndex(0)
+                setValue([])
               }}
               style={{
                 marginLeft: 'auto',
@@ -194,10 +195,9 @@ MultiPillProps) {
                 '&:hover': {
                   backgroundColor: color('action', 'neutral', 'subtleHover'),
                 },
-                [BpTablet]: {
-                  '&:hover': null,
-                },
-
+                // [BpTablet]: {
+                //   backgroundColor: 'transparent',
+                // },
                 '&:active': {
                   backgroundColor: color('action', 'neutral', 'subtleActive'),
                 },
@@ -229,6 +229,7 @@ MultiPillProps) {
               style={{
                 boxSizing: 'border-box',
                 overflowY: 'auto',
+                minWidth: 'var(--radix-popover-trigger-width)',
                 maxHeight:
                   'min(300px, calc(var(--radix-popover-content-available-height) - 16px))',
                 border: `1px solid ${color('border', 'default', 'strong')}`,
@@ -240,20 +241,22 @@ MultiPillProps) {
                 ...scrollAreaStyle,
               }}
             >
-              {options.length ? (
-                options.map((item, index) => (
+              {filteredOptions.length ? (
+                filteredOptions.map((item, index) => (
                   <styled.div
-                    id={`combobox-item-${index}`}
                     style={{
                       cursor: 'pointer',
                       background:
                         index === activeIndex
                           ? color('action', 'system', 'hover')
                           : 'transparent',
-                      [BpTablet]: {
-                        background: 'transparent',
-                      },
                       padding: '4px 12px 4px 42px',
+                      [BpTablet]: {
+                        background:
+                          item.value === value
+                            ? color('action', 'primary', 'subtleSelected')
+                            : 'transparent',
+                      },
                       borderRadius: 8,
                       position: 'relative',
                       scrollMargin: '8px 0',
@@ -266,7 +269,7 @@ MultiPillProps) {
                     }}
                     key={item.value}
                   >
-                    {value.includes(item.value) && (
+                    {inputValue.includes(item) && (
                       <span style={{ position: 'absolute', left: 12, top: 6 }}>
                         <IconCheckLarge color="default" />
                       </span>

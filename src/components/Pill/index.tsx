@@ -9,7 +9,7 @@ import { MultiPill, MultiPillProps } from './Multi'
 export type CommonPillProps = {
   prefix?: string
   style?: Style
-  onChange: (value) => void
+  // onChange: (value) => void
 }
 
 export type PillProps =

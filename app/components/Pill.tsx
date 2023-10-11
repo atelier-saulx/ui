@@ -45,7 +45,6 @@ const example: ComponentDef = {
       props: { prefix: 'Identity', placeholder: 'Select more' },
       description: 'Multi-Select Pill',
       customRenderer: (props) => {
-        const [value, setValue] = useState<any>('')
         const [options] = useState(() =>
           Array.from({ length: 25 }).map((_, i) => ({
             label: faker.person.fullName(),
@@ -55,16 +54,7 @@ const example: ComponentDef = {
 
         return (
           <>
-            <Pill
-              value={value}
-              onChange={(v) => {
-                setValue(v)
-                // console.log(v)
-              }}
-              options={options}
-              {...props}
-              type="multi"
-            />
+            <Pill options={options} {...props} type="multi" />
           </>
         )
       },
