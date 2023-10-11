@@ -14,7 +14,8 @@ import {
 import { color } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { Text } from '../Text'
-import { useModal } from '../Modal'
+import { Button } from '..'
+import { Modal } from '..'
 
 export type FileInputProps = {
   disabled?: boolean
@@ -269,121 +270,134 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
     }
   }
 
-  const modal = useModal()
+  const triggerModalRef = useRef()
 
   return (
     <>
       <styled.div style={{ '& > * + *': { marginTop: '8px' } }}>
-        {files.map((file, index) => (
-          <FileListItem
-            key={file.name}
-            file={file}
-            onDelete={() => {
-              setFiles((p) => p.filter((_, i) => i !== index))
+        <Modal.Root>
+          <Modal.Trigger>
+            <Button style={{ display: 'none' }} ref={triggerModalRef} />
+          </Modal.Trigger>
 
-              if (inputRef.current) {
-                inputRef.current.value = ''
-              }
-            }}
-            onFullscreen={() => {
-              console.log('opne modal')
-              if (modal) {
-                modal.setOpen(true)
-              }
-            }}
-            onOpenNewTab={() => {
-              const url = URL.createObjectURL(file)
-              window.open(url, '_blank', 'noopener,noreferrer')
-            }}
-            onDownload={() => {
-              const url = URL.createObjectURL(file)
-              const link = document.createElement('a')
-              link.download = file.name
-              link.href = url
-              link.click()
-            }}
-            onReplace={() => {
-              setFiles((p) => p.filter((_, i) => i !== index))
-              inputRef.current.click()
-            }}
-          />
-        ))}
+          {files.map((file, index) => (
+            <React.Fragment key={index}>
+              <Modal.Content>
+                <Modal.Body>
+                  <div>{index}</div>
+                </Modal.Body>
+              </Modal.Content>
 
-        {(multiple || (!multiple && !files.length)) && (
-          <styled.div
-            onClick={() => {
-              if (!inputRef.current) return
+              <FileListItem
+                key={file.name}
+                file={file}
+                onDelete={() => {
+                  setFiles((p) => p.filter((_, i) => i !== index))
 
-              inputRef.current.click()
-            }}
-            onDrop={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-
-              const files = e.dataTransfer.files
-              if (!files?.length) return
-
-              setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
-            }}
-            onDragOver={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              handleDrag(e)
-            }}
-            onDragLeave={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              handleDrag(e)
-            }}
-            onDragEnter={(e) => {}}
-            style={{
-              height: 40,
-              whiteSpace: 'nowrap',
-              boxSizing: 'border-box',
-              borderRadius: 8,
-              padding: '8px 12px',
-              display: 'flex',
-              justifyContent: 'start',
-              alignItems: 'center',
-              '& > * + *': {
-                marginLeft: '8px',
-              },
-              cursor: 'pointer',
-              border: dragState
-                ? `1px dashed ${color('inputBorder', 'active', 'default')}`
-                : `1px dashed ${color(
-                    'inputBorder',
-                    'neutralNormal',
-                    'default'
-                  )}`,
-              // '&:hover': {
-              //   border: `1px dashed ${color(
-              //     'inputBorder',
-              //     'neutralHover',
-              //     'default'
-              //   )}`,
-              // },
-              // '&:active': {
-              // border: `1px dashed ${color(
-              //   'inputBorder',
-              //   'active',
-              //   'default'
-              // )}`,
-              //   backgroundColor: color('background', 'brand', 'surface'),
-              // },
-              ...(disabled
-                ? {
-                    opacity: '50%',
+                  if (inputRef.current) {
+                    inputRef.current.value = ''
                   }
-                : {}),
-            }}
-          >
-            <IconUpload />
-            <Text selectable="none" weight="medium">
-              Upload new file
-            </Text>
-          </styled.div>
-        )}
+                }}
+                onFullscreen={() => {
+                  console.log(file)
+                  console.log('opne modal')
+                  triggerModalRef.current.click()
+                }}
+                onOpenNewTab={() => {
+                  const url = URL.createObjectURL(file)
+                  window.open(url, '_blank', 'noopener,noreferrer')
+                }}
+                onDownload={() => {
+                  const url = URL.createObjectURL(file)
+                  const link = document.createElement('a')
+                  link.download = file.name
+                  link.href = url
+                  link.click()
+                }}
+                onReplace={() => {
+                  setFiles((p) => p.filter((_, i) => i !== index))
+                  inputRef.current.click()
+                }}
+              />
+            </React.Fragment>
+          ))}
+
+          {(multiple || (!multiple && !files.length)) && (
+            <styled.div
+              onClick={() => {
+                if (!inputRef.current) return
+
+                inputRef.current.click()
+              }}
+              onDrop={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+
+                const files = e.dataTransfer.files
+                if (!files?.length) return
+
+                setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
+              }}
+              onDragOver={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleDrag(e)
+              }}
+              onDragLeave={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleDrag(e)
+              }}
+              onDragEnter={(e) => {}}
+              style={{
+                height: 40,
+                whiteSpace: 'nowrap',
+                boxSizing: 'border-box',
+                borderRadius: 8,
+                padding: '8px 12px',
+                display: 'flex',
+                justifyContent: 'start',
+                alignItems: 'center',
+                '& > * + *': {
+                  marginLeft: '8px',
+                },
+                cursor: 'pointer',
+                border: dragState
+                  ? `1px dashed ${color('inputBorder', 'active', 'default')}`
+                  : `1px dashed ${color(
+                      'inputBorder',
+                      'neutralNormal',
+                      'default'
+                    )}`,
+                // '&:hover': {
+                //   border: `1px dashed ${color(
+                //     'inputBorder',
+                //     'neutralHover',
+                //     'default'
+                //   )}`,
+                // },
+                // '&:active': {
+                // border: `1px dashed ${color(
+                //   'inputBorder',
+                //   'active',
+                //   'default'
+                // )}`,
+                //   backgroundColor: color('background', 'brand', 'surface'),
+                // },
+                ...(disabled
+                  ? {
+                      opacity: '50%',
+                    }
+                  : {}),
+              }}
+            >
+              <IconUpload />
+              <Text selectable="none" weight="medium">
+                Upload new file
+              </Text>
+            </styled.div>
+          )}
+        </Modal.Root>
       </styled.div>
       <input
         style={{ display: 'none' }}
