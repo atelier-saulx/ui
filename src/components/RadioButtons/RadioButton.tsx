@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { color as genColor } from '../../varsUtilities'
 import { ColorActionColors } from '../../varsTypes'
 import { styled } from 'inlines'
-import { BpTablet } from 'src/utils'
+import { BpTablet } from '../../utils'
 
 type RadioButtonProps = {
   disabled?: boolean

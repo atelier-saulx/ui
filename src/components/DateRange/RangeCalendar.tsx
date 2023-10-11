@@ -4,7 +4,7 @@ import { styled } from 'inlines'
 import { color as genColor } from '../../varsUtilities'
 import { useContextState } from '../../hooks/ContextState'
 import { Text } from '../Text'
-import { BpTablet } from 'src/utils'
+import { BpTablet } from '../../utils'
 
 type RangeCalendarProps = {
   days: string[]

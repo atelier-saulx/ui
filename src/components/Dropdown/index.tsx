@@ -4,7 +4,7 @@ import { color } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { IconCheckLarge, IconChevronRight } from '../../icons'
 import { ScrollArea } from '../ScrollArea'
-import { BpTablet } from 'src/utils'
+import { BpTablet } from '../../utils'
 
 export type DropdownRootProps = {
   children: ReactNode

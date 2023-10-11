@@ -4,7 +4,7 @@ import { Style, styled } from 'inlines'
 import { Text } from '../Text'
 import { color } from '../../varsUtilities'
 import { useControllableState } from '../../hooks/useControllableState'
-import { BpTablet } from 'src/utils'
+import { BpTablet } from '../../utils'
 
 export type CheckboxInputProps = {
   title?: ReactNode

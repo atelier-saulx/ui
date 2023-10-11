@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { color as genColor } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { Text } from '../Text'
-import { BpTablet } from 'src/utils'
+import { BpTablet } from '../../utils'
 
 type CalendarProps = {
   days: string[]

@@ -84,34 +84,42 @@ export function Content({ children, width = 552 }: ModalContentProps) {
         onCloseAutoFocus={(e) => {
           e.preventDefault()
         }}
+        style={{ left: 16, right: 16 }}
       >
         <styled.div
           style={{
             position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '90vw',
-            maxWidth: width,
-            height: 'auto',
-            maxHeight: '70vh',
-            background: color('standalone', 'modal', 'default'),
-            borderRadius: 8,
-            boxShadow:
-              '0px 16px 24px -6px rgba(27, 36, 44, 0.16), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
-            padding: '24px 32px 0',
-            overflowY: 'auto',
-            ...scrollAreaStyle,
+            inset: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 16,
           }}
         >
-          {typeof children === 'function'
-            ? children({
-                open,
-                close: () => {
-                  setOpen(false)
-                },
-              })
-            : children}
+          <styled.div
+            style={{
+              width: '90vw',
+              maxWidth: width,
+              height: 'auto',
+              maxHeight: '70vh',
+              background: color('standalone', 'modal', 'default'),
+              borderRadius: 8,
+              boxShadow:
+                '0px 16px 24px -6px rgba(27, 36, 44, 0.16), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+              padding: '24px 32px 0',
+              overflowY: 'auto',
+              ...scrollAreaStyle,
+            }}
+          >
+            {typeof children === 'function'
+              ? children({
+                  open,
+                  close: () => {
+                    setOpen(false)
+                  },
+                })
+              : children}
+          </styled.div>
         </styled.div>
       </DialogBase.Content>
     </DialogBase.Portal>

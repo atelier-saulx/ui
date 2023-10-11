@@ -12,7 +12,7 @@ import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 
 import { scrollAreaStyle } from '../ScrollArea'
-import { BpTablet } from 'src/utils'
+import { BpTablet } from '../../utils'
 
 export type PillOption = { label?: ReactNode; value: string }
 

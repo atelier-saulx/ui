@@ -8,7 +8,7 @@ import { RemoveScroll } from 'react-remove-scroll'
 import { useControllableState } from '../../hooks'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Tag } from '../Tag'
-import { BpTablet } from 'src/utils'
+import { BpTablet } from '../../utils'
 
 export type MultiSelectOption = { label?: ReactNode; value: string }
 
