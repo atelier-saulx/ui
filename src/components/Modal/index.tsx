@@ -61,9 +61,10 @@ export type ModalContentProps = {
     | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)
     | ReactNode
   width?: string | number
+  style?: Style
 }
 
-export function Content({ children, width = 552 }: ModalContentProps) {
+export function Content({ children, width = 552, style }: ModalContentProps) {
   const { open, setOpen } = useContext(ModalContext)
 
   if (!open) return null
@@ -109,6 +110,7 @@ export function Content({ children, width = 552 }: ModalContentProps) {
               padding: '24px 32px 0',
               overflowY: 'auto',
               ...scrollAreaStyle,
+              ...style,
             }}
           >
             {typeof children === 'function'
