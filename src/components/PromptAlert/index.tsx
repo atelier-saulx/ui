@@ -80,9 +80,9 @@ export function Content({ children, width = 552 }: PromptAlertContentProps) {
         onPointerDownOutside={(e) => {
           e.preventDefault()
         }}
-        onEscapeKeyDown={(e) => {
-          e.preventDefault()
-        }}
+        // onEscapeKeyDown={(e) => {
+        //   e.preventDefault()
+        // }}
         onOpenAutoFocus={(e) => {
           e.preventDefault()
         }}
@@ -93,17 +93,17 @@ export function Content({ children, width = 552 }: PromptAlertContentProps) {
         <styled.div
           style={{
             position: 'fixed',
-            top: '2%',
+            top: '3%',
             left: '50%',
             transform: 'translate(-50%, 0%)',
-            width: '90vw',
+            width: '80%',
             maxWidth: width,
             height: 'auto',
             maxHeight: '70vh',
             background: color('standalone', 'modal', 'default'),
             borderRadius: 8,
             boxShadow:
-              '0px 16px 24px -6px rgba(27, 36, 44, 0.16), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
+              '0px 16px 24px 6px rgba(27, 36, 44, 0.16), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
             padding: '24px 32px 0',
             overflowY: 'auto',
           }}
@@ -158,7 +158,6 @@ function Description({ children }: PromptAlertDescriptionProps) {
           fontSize: 14,
           lineHeight: '24px',
           color: color('content', 'default', 'secondary'),
-          marginTop: 16,
         }}
       >
         {children}
@@ -205,7 +204,7 @@ function Actions({ children }: PromptAlertActionsProps) {
         '& > * + *': {
           marginLeft: '24px',
         },
-        padding: '24px 32px 32px',
+        padding: '24px 24px 24px',
         margin: '0 -32px',
         borderTop: `1px solid ${color('border', 'default', 'strong')}`,
       }}

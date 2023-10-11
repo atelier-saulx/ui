@@ -4,6 +4,7 @@ import { color } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { IconCheckLarge, IconChevronRight } from '../../icons'
 import { ScrollArea } from '../ScrollArea'
+import { BpTablet } from '../../utils'
 
 export type DropdownRootProps = {
   children: ReactNode
@@ -86,6 +87,11 @@ export function Item({ icon, children, onClick, disabled }: DropdownItemProps) {
           '&:not([data-disabled]):hover': {
             background: color('action', 'system', 'active'),
           },
+          [BpTablet]: {
+            '&:not([data-disabled]):hover': {
+              background: color('action', 'system', 'normal'),
+            },
+          },
           '&:focus': { background: color('action', 'system', 'active') },
           '&:not([data-disabled])': {
             cursor: 'pointer',
@@ -153,6 +159,9 @@ export function SubTrigger({ children, icon }: DropdownSubTriggerProps) {
           cursor: 'pointer',
           color: color('content', 'default', 'primary'),
           '&:hover': { background: color('action', 'system', 'active') },
+          [BpTablet]: {
+            '&:hover': null,
+          },
           '&:focus': { background: color('action', 'system', 'active') },
           '&[data-state=open]': {
             background: color('action', 'system', 'active'),
@@ -247,6 +256,9 @@ export function RadioItem({ children, value }: DropdownRadioItemProps) {
           cursor: 'pointer',
           color: color('content', 'default', 'primary'),
           '&:hover': { background: color('action', 'system', 'active') },
+          [BpTablet]: {
+            '&:hover': null,
+          },
           '&:focus': { background: color('action', 'system', 'active') },
         }}
       >

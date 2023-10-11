@@ -76,6 +76,7 @@ export function Content(
         onCloseAutoFocus={(e) => {
           e.preventDefault()
         }}
+        style={{}}
       >
         <ScrollArea
           style={{
@@ -86,6 +87,8 @@ export function Content(
             borderRadius: 16,
             padding: 24,
             overflowY: 'scroll',
+            maxWidth:
+              'calc(var(--radix-dropdown-menu-content-available-width) - 16px)',
             maxHeight:
               'calc(var(--radix-dropdown-menu-content-available-height) - 16px)',
             ...props.style,

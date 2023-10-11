@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { useUpdate } from '../../hooks'
+import { useUpdate, useWindowResize } from '../../hooks'
 import { setValue, equalChanges } from './utils'
 import {
   FormGroupProps,
@@ -24,7 +24,7 @@ export const FormGroup: FC<FormGroupProps> = ({
   fieldWidth = 185,
 }) => {
   const valuesChanged = useRef<ValuesChanged>({})
-
+  const { width } = useWindowResize()
   const [hasChanges, setChanges] = useState(false)
   const update = useUpdate()
 
@@ -67,7 +67,7 @@ export const FormGroup: FC<FormGroupProps> = ({
     parsedData = config
   }
 
-  if (variant === 'grid') {
+  if (variant === 'grid' && width >= 480) {
     return (
       <FormGroupGrid
         autoFocus={autoFocus}

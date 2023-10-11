@@ -8,6 +8,7 @@ import { RemoveScroll } from 'react-remove-scroll'
 import { useControllableState } from '../../hooks'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Tag } from '../Tag'
+import { BpTablet } from '../../utils'
 
 export type MultiSelectOption = { label?: ReactNode; value: string }
 
@@ -327,6 +328,12 @@ MultiSelectProps) {
                           ? color('action', 'system', 'hover')
                           : 'transparent',
                       padding: '4px 12px 4px 42px',
+                      [BpTablet]: {
+                        background:
+                          item.value === value
+                            ? color('action', 'primary', 'subtleSelected')
+                            : 'transparent',
+                      },
                       borderRadius: 8,
                       position: 'relative',
                       scrollMargin: '8px 0',

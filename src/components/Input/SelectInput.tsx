@@ -12,6 +12,7 @@ import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
 import { scrollAreaStyle } from '../ScrollArea'
 import { useControllableState } from '../../hooks/useControllableState'
+import { BpTablet } from '../../utils'
 
 export type SelectOption = { label?: ReactNode; value: string }
 
@@ -343,6 +344,12 @@ export function SelectInput({
                           item.value === value
                             ? color('action', 'primary', 'subtleSelected')
                             : color('action', 'system', 'active'),
+                      },
+                      [BpTablet]: {
+                        background:
+                          item.value === value
+                            ? color('action', 'primary', 'subtleSelected')
+                            : 'transparent',
                       },
                     }}
                     onClick={() => {

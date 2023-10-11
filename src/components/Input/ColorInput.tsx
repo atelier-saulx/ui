@@ -166,7 +166,11 @@ export const ColorInput = ({
           }}
           sideOffset={8}
         >
-          <ColorPicker value={value} onChange={(v) => setValue(v)} />
+          <ColorPicker
+            style={{ maxWidth: 'calc(100vw - 32px)' }}
+            value={value}
+            onChange={(v) => setValue(v)}
+          />
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
