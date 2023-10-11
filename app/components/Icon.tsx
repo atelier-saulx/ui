@@ -50,6 +50,7 @@ export const AllIcons: FC<{ onSelect: any }> = (props) => {
         gap: 12,
         display: 'flex',
         flexWrap: 'wrap',
+        // width: '100%',
       }}
     >
       <styled.div
@@ -62,7 +63,8 @@ export const AllIcons: FC<{ onSelect: any }> = (props) => {
         <Input
           clearButton
           style={{
-            width: 350,
+            width: '100%',
+            maxWidth: 350,
             marginBottom: 16,
           }}
           placeholder="Filter..."
