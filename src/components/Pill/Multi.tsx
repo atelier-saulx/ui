@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode, useRef, useState } from 'react'
+import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
@@ -61,8 +61,22 @@ MultiPillProps) {
   const valueCheck = inputValue.length > 0
 
   function handleSelectItem(index: number) {
-    setValue([...value, filteredOptions[index].value])
-    setInputValue([...inputValue, filteredOptions[index]])
+    if (
+      inputValue.filter((obj) => obj.value === options[index].value).length > 0
+    ) {
+      setValue(value.filter((item) => item !== options[index].value))
+      setInputValue(
+        inputValue.filter((item) => item.value !== options[index].value)
+      )
+      // if (value.length === 0 && inputValue.length === 0) {
+      //   setInputValue([])
+      //   setValue([])
+      // }
+      return
+    }
+
+    setValue([...value, options[index].value])
+    setInputValue([...inputValue, options[index]])
     setActiveIndex(null)
   }
 
@@ -95,7 +109,7 @@ MultiPillProps) {
               const newIndex =
                 activeIndex === null
                   ? 0
-                  : Math.min(activeIndex + 1, filteredOptions.length - 1)
+                  : Math.min(activeIndex + 1, options.length - 1)
               setActiveIndex(newIndex)
             }
 
@@ -180,8 +194,8 @@ MultiPillProps) {
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                setInputValue([])
                 setActiveIndex(0)
+                setInputValue([])
                 setValue([])
               }}
               style={{
@@ -241,8 +255,8 @@ MultiPillProps) {
                 ...scrollAreaStyle,
               }}
             >
-              {filteredOptions.length ? (
-                filteredOptions.map((item, index) => (
+              {options.length ? (
+                options.map((item, index) => (
                   <styled.div
                     style={{
                       cursor: 'pointer',
@@ -269,12 +283,18 @@ MultiPillProps) {
                     }}
                     key={item.value}
                   >
-                    {inputValue.includes(item) && (
+                    {inputValue.filter((obj) => obj.value === item.value)
+                      .length > 0 && (
                       <span style={{ position: 'absolute', left: 12, top: 6 }}>
                         <IconCheckLarge color="default" />
                       </span>
                     )}
-                    <Text color="default" size={14} weight="medium">
+                    <Text
+                      color="default"
+                      selectable="none"
+                      size={14}
+                      weight="medium"
+                    >
                       {item.label ?? item.value}
                     </Text>
                   </styled.div>
