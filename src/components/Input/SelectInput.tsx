@@ -194,6 +194,7 @@ export function SelectInput({
             }}
             placeholder={placeholder}
             style={{
+              cursor: searchable ? 'auto' : 'pointer',
               boxSizing: 'border-box',
               outline: 'none',
               width: '100%',

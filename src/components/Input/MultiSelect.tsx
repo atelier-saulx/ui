@@ -180,6 +180,7 @@ MultiSelectProps) {
               background: 'transparent',
               fontFamily: 'Inter',
               minHeight: 42,
+              cursor: 'pointer',
               fontWeight: '500',
               color:
                 inputValue.length > 0
@@ -250,6 +251,7 @@ MultiSelectProps) {
               {searchable ? (
                 <input
                   style={{
+                    color: color('content', 'default', 'primary'),
                     lineHeight: '24px',
                     background: 'transparent',
                     padding: 0,
@@ -346,11 +348,6 @@ MultiSelectProps) {
                     }}
                     key={item.value}
                   >
-                    {value.includes(item.value) && (
-                      <span style={{ position: 'absolute', left: 12, top: 6 }}>
-                        <IconCheckLarge />
-                      </span>
-                    )}
                     <Text color="default" size={14} weight="medium">
                       {item.label ?? item.value}
                     </Text>
@@ -365,7 +362,7 @@ MultiSelectProps) {
                   }}
                 >
                   <span style={{ position: 'absolute', left: 12, top: 6 }}>
-                    <IconEmojiSad />
+                    <IconEmojiSad color="default" />
                   </span>
 
                   <Text color="default" size={14} weight="medium">
