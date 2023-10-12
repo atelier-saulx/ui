@@ -66,6 +66,7 @@ export function TextAreaInput({
           outline: 'none',
           boxSizing: 'border-box',
           resize: 'none',
+          background: color('background', 'default'),
           overflow: 'hidden',
           gridArea: '1 / 1 / 2 / 2',
           padding: '6px 12px',
