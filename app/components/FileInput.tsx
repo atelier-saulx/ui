@@ -18,6 +18,7 @@ const example: ComponentDef = {
       props: {
         type: 'file',
         // indent: true,
+        accept: ['image/png'],
       },
     },
     {
@@ -27,6 +28,7 @@ const example: ComponentDef = {
         label: 'Add multiple files',
         error: 'This is an error',
         description: 'This is a description',
+        accept: ['image/jpeg'],
       },
     },
     {

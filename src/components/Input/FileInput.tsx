@@ -21,6 +21,7 @@ export type FileInputProps = {
   disabled?: boolean
   multiple?: boolean
   indent?: boolean
+  accept?: string[]
 }
 
 type FileListItemProps = {
@@ -242,7 +243,7 @@ FileListItemProps) {
   )
 }
 
-export function FileInput({ disabled, multiple }: FileInputProps) {
+export function FileInput({ disabled, multiple, accept }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [files, setFiles] = useState<File[]>([])
   const [dragState, setDragState] = useState(false)
@@ -277,7 +278,10 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
             <img
               style={{ width: '100%' }}
               src={
-                files.length > 0 && URL.createObjectURL(files[fullScreenIdx])
+                files &&
+                files[fullScreenIdx]?.type.includes('image') &&
+                files.length > 0 &&
+                URL?.createObjectURL(files[fullScreenIdx])
               }
             />
           </Modal.Content>
@@ -329,10 +333,37 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
               e.preventDefault()
               e.stopPropagation()
 
-              const files = e.dataTransfer.files
+              let files = e.dataTransfer.files
+
+              console.log(files, 'snurp')
+
+              let arrOfFiles = []
+              let arrOfNonAcceptedTypes = []
+
+              if (accept) {
+                for (let i = 0; i < files.length; i++) {
+                  if (accept.includes(files[i].type)) {
+                    arrOfFiles.push(files[i])
+                  } else {
+                    arrOfNonAcceptedTypes.push(files[i].type)
+                  }
+                }
+              }
+
               if (!files?.length) return
 
-              setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
+              if (accept) {
+                arrOfFiles.length > 0 &&
+                  setFiles((p) => [
+                    ...p,
+                    ...(multiple ? arrOfFiles : [arrOfFiles[0]]),
+                  ])
+
+                arrOfNonAcceptedTypes.length > 0 &&
+                  console.log('not allowed', arrOfNonAcceptedTypes)
+              } else {
+                setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
+              }
             }}
             onDragOver={(e) => {
               e.preventDefault()
@@ -399,6 +430,7 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
         type="file"
         ref={inputRef}
         multiple={multiple}
+        accept={accept ? accept.join(',') : '/*'}
         onChange={(e) => {
           const files = e.target.files
           if (!files?.length) return
