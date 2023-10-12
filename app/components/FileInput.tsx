@@ -11,13 +11,16 @@ const example: ComponentDef = {
     ...props.props.FileInputProps.props,
     label: { type: 'string' },
     description: { type: 'string' },
-    error: { type: 'string' },
+    error: { type: 'boolean' },
   },
   examples: [
     {
       props: {
         type: 'file',
         // indent: true,
+        accept: ['image/png'],
+        error: true,
+        message: 'flap',
       },
     },
     {
@@ -27,6 +30,7 @@ const example: ComponentDef = {
         label: 'Add multiple files',
         error: 'This is an error',
         description: 'This is a description',
+        accept: ['image/jpeg'],
       },
     },
     {

@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState, createContext } from 'react'
+import React, { useEffect, useRef, useState, ReactNode } from 'react'
 import {
   IconAttachment,
-  IconCopy,
   IconDelete,
   IconDownload,
-  IconFileEdit,
   IconMoreHorizontal,
   IconOpenInNew,
   IconRefresh,
+  IconAlertFill,
   IconFullscreen,
   IconUpload,
 } from '../../icons'
@@ -21,6 +20,7 @@ export type FileInputProps = {
   disabled?: boolean
   multiple?: boolean
   indent?: boolean
+  accept?: string[]
 }
 
 type FileListItemProps = {
@@ -43,8 +43,6 @@ function FileListItem({
 FileListItemProps) {
   const [showMore, setShowMore] = useState(false)
   const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null)
-
-  console.log('--> image preview', imagePreviewURL)
 
   useEffect(() => {
     if (!file.type.startsWith('image/')) return
@@ -242,10 +240,11 @@ FileListItemProps) {
   )
 }
 
-export function FileInput({ disabled, multiple }: FileInputProps) {
+export function FileInput({ disabled, multiple, accept }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [files, setFiles] = useState<File[]>([])
   const [dragState, setDragState] = useState(false)
+  const [nonAcceptedFiles, setNonAcceptedFiles] = useState([])
 
   const handleDrag = function (e) {
     e.preventDefault()
@@ -277,7 +276,10 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
             <img
               style={{ width: '100%' }}
               src={
-                files.length > 0 && URL.createObjectURL(files[fullScreenIdx])
+                files &&
+                files[fullScreenIdx]?.type.includes('image') &&
+                files.length > 0 &&
+                URL?.createObjectURL(files[fullScreenIdx])
               }
             />
           </Modal.Content>
@@ -329,10 +331,38 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
               e.preventDefault()
               e.stopPropagation()
 
-              const files = e.dataTransfer.files
+              let files = e.dataTransfer.files
+
+              console.log(files, 'snurp')
+
+              let arrOfFiles = []
+              let arrOfNonAcceptedTypes = []
+
+              if (accept) {
+                for (let i = 0; i < files.length; i++) {
+                  if (accept.includes(files[i].type)) {
+                    arrOfFiles.push(files[i])
+                  } else {
+                    arrOfNonAcceptedTypes.push(files[i].type)
+                  }
+                }
+                setNonAcceptedFiles([...arrOfNonAcceptedTypes])
+              }
+
               if (!files?.length) return
 
-              setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
+              if (accept) {
+                arrOfFiles.length > 0 &&
+                  setFiles((p) => [
+                    ...p,
+                    ...(multiple ? arrOfFiles : [arrOfFiles[0]]),
+                  ])
+
+                arrOfNonAcceptedTypes.length > 0 &&
+                  console.log('not allowed', arrOfNonAcceptedTypes)
+              } else {
+                setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
+              }
             }}
             onDragOver={(e) => {
               e.preventDefault()
@@ -393,12 +423,29 @@ export function FileInput({ disabled, multiple }: FileInputProps) {
             </Text>
           </styled.div>
         )}
+
+        {accept && nonAcceptedFiles.length > 0 && (
+          <div
+            style={{
+              marginTop: 8,
+              display: 'flex',
+              alignItems: 'center',
+              color: color('content', 'negative'),
+            }}
+          >
+            <IconAlertFill color="inherit" />
+            <Text style={{ marginLeft: 5 }}>
+              {nonAcceptedFiles.map((item) => item + ', ')} are not allowed.
+            </Text>
+          </div>
+        )}
       </styled.div>
       <input
         style={{ display: 'none' }}
         type="file"
         ref={inputRef}
         multiple={multiple}
+        accept={accept ? accept.join(',') : '/*'}
         onChange={(e) => {
           const files = e.target.files
           if (!files?.length) return
