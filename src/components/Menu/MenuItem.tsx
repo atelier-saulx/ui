@@ -7,6 +7,7 @@ import { BpTablet } from '../../utils/breakpoints'
 type MenuItemProps = {
   active: boolean
   onChange?: (e) => void
+  onClick?: () => void
   shrink?: boolean
   style?: Style
   value?: string
@@ -16,6 +17,7 @@ type MenuItemProps = {
 
 export const MenuItem: FC<MenuItemProps> = ({
   active,
+  onClick,
   onChange,
   shrink,
   style,
@@ -30,6 +32,7 @@ export const MenuItem: FC<MenuItemProps> = ({
           if (onChange) {
             // console.log('clikie 🍔', value)
             onChange(value)
+            onClick()
           }
         }}
         style={{

@@ -295,6 +295,7 @@ export const Menu: FC<MenuProps> = ({
         value={value}
         label={label}
         icon={icon}
+        onClick={() => setOpen(false)}
         onChange={onChange}
         active={isActive ? isActive(value) : active === value}
         shrink={shrink}
@@ -388,7 +389,9 @@ export const Menu: FC<MenuProps> = ({
           display: 'block',
           position: 'relative',
           flexShrink: 0,
-          backgroundColor: color('background', 'default', 'muted'),
+          backgroundColor: open
+            ? color('background', 'default', 'muted')
+            : 'transparent',
           padding: '24px 12px',
           paddingLeft: !shrink ? '16px' : '6px',
           paddingRight: '8px',
