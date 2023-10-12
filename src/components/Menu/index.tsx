@@ -400,10 +400,16 @@ export const Menu: FC<MenuProps> = ({
           width: !shrink ? 224 : 42,
           transition: '0.3s all',
           overflowX: 'clip',
-          borderRight: open
-            ? `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`
-            : '1px solid transparent',
+          borderRight: `1px solid ${color(
+            'inputBorder',
+            'neutralNormal',
+            'default'
+          )}`,
+
           [BpSmall]: {
+            borderRight: open
+              ? `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`
+              : '1px solid transparent',
             zIndex: 1,
             // position: 'absolute',
             width: !open ? '20px' : !shrink ? '264px' : '54px',
@@ -413,7 +419,7 @@ export const Menu: FC<MenuProps> = ({
           ...style,
         }}
       >
-        {open ? (
+        {open || width > 640 ? (
           <>
             <div
               style={{
