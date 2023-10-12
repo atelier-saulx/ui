@@ -11,7 +11,7 @@ const example: ComponentDef = {
     ...props.props.FileInputProps.props,
     label: { type: 'string' },
     description: { type: 'string' },
-    error: { type: 'string' },
+    error: { type: 'boolean' },
   },
   examples: [
     {

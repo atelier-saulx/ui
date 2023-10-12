@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState, createContext } from 'react'
+import React, { useEffect, useRef, useState, ReactNode } from 'react'
 import {
   IconAttachment,
-  IconCopy,
   IconDelete,
   IconDownload,
-  IconFileEdit,
   IconMoreHorizontal,
   IconOpenInNew,
   IconRefresh,
@@ -44,8 +42,6 @@ function FileListItem({
 FileListItemProps) {
   const [showMore, setShowMore] = useState(false)
   const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null)
-
-  console.log('--> image preview', imagePreviewURL)
 
   useEffect(() => {
     if (!file.type.startsWith('image/')) return
