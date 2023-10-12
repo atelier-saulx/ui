@@ -240,6 +240,7 @@ export function Actions({ children }: ModalActionsProps) {
     <styled.div
       style={{
         position: 'sticky',
+        bottom: 0,
         overflow: 'hidden',
         background: color('standalone', 'modal', 'default'),
         display: 'flex',
