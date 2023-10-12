@@ -6,6 +6,7 @@ import {
   IconMoreHorizontal,
   IconOpenInNew,
   IconRefresh,
+  IconAlertFill,
   IconFullscreen,
   IconUpload,
 } from '../../icons'
@@ -243,6 +244,7 @@ export function FileInput({ disabled, multiple, accept }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [files, setFiles] = useState<File[]>([])
   const [dragState, setDragState] = useState(false)
+  const [nonAcceptedFiles, setNonAcceptedFiles] = useState([])
 
   const handleDrag = function (e) {
     e.preventDefault()
@@ -344,6 +346,7 @@ export function FileInput({ disabled, multiple, accept }: FileInputProps) {
                     arrOfNonAcceptedTypes.push(files[i].type)
                   }
                 }
+                setNonAcceptedFiles([...arrOfNonAcceptedTypes])
               }
 
               if (!files?.length) return
@@ -419,6 +422,22 @@ export function FileInput({ disabled, multiple, accept }: FileInputProps) {
               Upload new file
             </Text>
           </styled.div>
+        )}
+
+        {accept && nonAcceptedFiles.length > 0 && (
+          <div
+            style={{
+              marginTop: 8,
+              display: 'flex',
+              alignItems: 'center',
+              color: color('content', 'negative'),
+            }}
+          >
+            <IconAlertFill color="inherit" />
+            <Text style={{ marginLeft: 5 }}>
+              {nonAcceptedFiles.map((item) => item + ', ')} are not allowed.
+            </Text>
+          </div>
         )}
       </styled.div>
       <input

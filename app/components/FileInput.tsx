@@ -19,6 +19,8 @@ const example: ComponentDef = {
         type: 'file',
         // indent: true,
         accept: ['image/png'],
+        error: true,
+        message: 'flap',
       },
     },
     {
