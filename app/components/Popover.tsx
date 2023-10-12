@@ -39,6 +39,104 @@ const example: ComponentDef = {
                   ]}
                 />
               </div>
+              <div style={{ display: 'grid', gap: 24 }}>
+                <Input type="text" label="Name of company" />
+                <Input
+                  label="Type of company"
+                  type="select"
+                  value="value2"
+                  onChange={() => {}}
+                  options={[
+                    { label: 'Item one', value: 'value1' },
+                    { label: 'Item two', value: 'value2' },
+                    { label: 'Item three', value: 'value3' },
+                  ]}
+                />
+              </div>
+              <div style={{ display: 'grid', gap: 24 }}>
+                <Input type="text" label="Name of company" />
+                <Input
+                  label="Type of company"
+                  type="select"
+                  value="value2"
+                  onChange={() => {}}
+                  options={[
+                    { label: 'Item one', value: 'value1' },
+                    { label: 'Item two', value: 'value2' },
+                    { label: 'Item three', value: 'value3' },
+                  ]}
+                />
+              </div>
+              <div style={{ display: 'grid', gap: 24 }}>
+                <Input type="text" label="Name of company" />
+                <Input
+                  label="Type of company"
+                  type="select"
+                  value="value2"
+                  onChange={() => {}}
+                  options={[
+                    { label: 'Item one', value: 'value1' },
+                    { label: 'Item two', value: 'value2' },
+                    { label: 'Item three', value: 'value3' },
+                  ]}
+                />
+              </div>
+              <div style={{ display: 'grid', gap: 24 }}>
+                <Input type="text" label="Name of company" />
+                <Input
+                  label="Type of company"
+                  type="select"
+                  value="value2"
+                  onChange={() => {}}
+                  options={[
+                    { label: 'Item one', value: 'value1' },
+                    { label: 'Item two', value: 'value2' },
+                    { label: 'Item three', value: 'value3' },
+                  ]}
+                />
+              </div>
+              <div style={{ display: 'grid', gap: 24 }}>
+                <Input type="text" label="Name of company" />
+                <Input
+                  label="Type of company"
+                  type="select"
+                  value="value2"
+                  onChange={() => {}}
+                  options={[
+                    { label: 'Item one', value: 'value1' },
+                    { label: 'Item two', value: 'value2' },
+                    { label: 'Item three', value: 'value3' },
+                  ]}
+                />
+              </div>
+              <div style={{ display: 'grid', gap: 24 }}>
+                <Input type="text" label="Name of company" />
+                <Input
+                  label="Type of company"
+                  type="select"
+                  value="value2"
+                  onChange={() => {}}
+                  options={[
+                    { label: 'Item one', value: 'value1' },
+                    { label: 'Item two', value: 'value2' },
+                    { label: 'Item three', value: 'value3' },
+                  ]}
+                />
+              </div>
+              <div style={{ display: 'grid', gap: 24 }}>
+                <Input type="text" label="Name of company" />
+                <Input
+                  label="Type of company"
+                  type="select"
+                  value="value"
+                  onChange={() => {}}
+                  options={[
+                    { label: 'Item one', value: 'value1' },
+                    { label: 'Item two', value: 'value2' },
+                    { label: 'Item three', value: 'value3' },
+                  ]}
+                />
+              </div>
             </Popover.Content>
           </Popover.Root>
         )

@@ -11,7 +11,12 @@ export type IconProps = {
   children?: ReactNode
 }
 
-export const Icon: FC<IconProps> = ({ color, style, children, onClick }) => {
+export const Icon: FC<IconProps> = ({
+  color = 'default',
+  style,
+  children,
+  onClick,
+}) => {
   return (
     <styled.div
       onClick={onClick}

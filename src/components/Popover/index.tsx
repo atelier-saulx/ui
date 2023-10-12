@@ -69,6 +69,7 @@ export function Content(
   return (
     <PopoverBase.Portal>
       <PopoverBase.Content
+        asChild
         {...rest}
         onOpenAutoFocus={(e) => {
           e.preventDefault()
@@ -80,28 +81,33 @@ export function Content(
       >
         <styled.div
           style={{
+            display: 'flex',
+            alignItems: 'center',
+            // justifyContent: 'center',
+            flexDirection: 'column',
             boxShadow:
               '0px 8px 16px -2px rgba(27, 36, 44, 0.12), 0px 2px 2px -1px rgba(27, 35, 44, 0.04)',
             backgroundColor: color('background', 'default'),
             border: `1px solid ${color('border', 'default')}`,
             borderRadius: 16,
-            padding: 24,
-            // overflowY: 'scroll',
+            maxHeight: '600px',
+            overflow: 'auto',
             maxWidth:
               'calc(var(--radix-dropdown-menu-content-available-width) - 16px)',
-            maxHeight:
-              'calc(var(--radix-dropdown-menu-content-available-height) - 16px)',
-            ...props.style,
+            // maxHeight:
+            //   'calc(var(--radix-dropdown-menu-content-available-height) - 16px)',
           }}
         >
-          {typeof children === 'function'
-            ? children({
-                open,
-                close: () => {
-                  setOpen(false)
-                },
-              })
-            : children}
+          <ScrollArea style={{ padding: '24px 16px 24px 24px', ...style }}>
+            {typeof children === 'function'
+              ? children({
+                  open,
+                  close: () => {
+                    setOpen(false)
+                  },
+                })
+              : children}
+          </ScrollArea>
         </styled.div>
       </PopoverBase.Content>
     </PopoverBase.Portal>
