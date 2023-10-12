@@ -13,7 +13,7 @@ const example: ComponentDef = {
       props: {
         data: [2, '15d', 'Option', 'Option 2'],
         onChange: (v) => console.log(v),
-        active: 2,
+        active: 1,
       },
     },
   ],

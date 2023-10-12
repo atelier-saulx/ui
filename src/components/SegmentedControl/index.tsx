@@ -16,7 +16,7 @@ const StyledSegmentOption = styled('div', {
   borderRadius: 4,
   display: 'flex',
   padding: '4px 12px',
-
+  cursor: 'pointer',
   '&:focus': {
     backgroundColor: genColor('action', 'neutral', 'subtleActive'),
   },
@@ -38,17 +38,18 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
   return (
     <styled.div
       style={{
+        flexShrink: 0,
         position: 'relative',
         alignItems: 'center',
         backgroundColor: genColor('action', 'neutral', 'subtleNormal'),
         borderRadius: 8,
         display: 'grid',
         gridTemplateColumns: `repeat(${data.length}, 1fr)`,
+        // gridTemplateColumns: `repeat(${data.length}, minmax(40px, 1fr))`,
         gridColumnGap: '4px',
         padding: 4,
-        maxWidth: 'fit-content',
-        // gap: '4px',
-        // width: 'fit-content',
+        minWidth: 'fit-content',
+
         ...style,
       }}
     >
@@ -59,13 +60,14 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
           right: 0,
           left: `${calc}%`,
           transition: 'all 0.2s',
-          width: 'calc(100% / 4 - 8px)',
+          width: `calc(100% / ${data.length} - 8px)`,
           marginLeft: '4px',
           marginRight: '4px',
           position: 'absolute',
-          maxWidth: '25%',
+          // maxWidth: '25%',
           backgroundColor: genColor('standalone', 'foreground', 'default'),
           borderRadius: 4,
+          cursor: 'default',
         }}
       />
       {data?.map((item, idx) => (
@@ -77,11 +79,7 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
           }}
           style={{
             transform: 'translate3d(0px,0px,0px)',
-            // todo change this color
-            // backgroundColor:
-            //   activeOption === idx
-            //     ? genColor('standalone', 'foreground', 'default')
-            //     : '',
+            whiteSpace: 'nowrap',
             boxShadow:
               activeOption === idx
                 ? '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)'
