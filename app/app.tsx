@@ -79,6 +79,7 @@ const App = () => {
       }}
     >
       <Menu
+        // shrinkable
         collapse
         header={
           <styled.div style={{ marginBottom: 16, width: '100%' }}>
