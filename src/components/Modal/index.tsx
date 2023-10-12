@@ -109,6 +109,7 @@ export function Content({ children, width = 552, style }: ModalContentProps) {
                 '0px 16px 24px -6px rgba(27, 36, 44, 0.16), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
               padding: '24px 32px 0',
               overflowY: 'auto',
+              overflowX: 'hidden',
               ...scrollAreaStyle,
               ...style,
             }}
@@ -221,6 +222,7 @@ export function Body({ children }: ModalBodyProps) {
         padding: '24px 0 40px',
         display: 'flex',
         flexDirection: 'column',
+
         gap: 24,
       }}
     >
@@ -238,9 +240,7 @@ export function Actions({ children }: ModalActionsProps) {
     <styled.div
       style={{
         position: 'sticky',
-        bottom: 0,
-        left: 0,
-        right: 0,
+        overflow: 'hidden',
         background: color('standalone', 'modal', 'default'),
         display: 'flex',
         justifyContent: 'end',

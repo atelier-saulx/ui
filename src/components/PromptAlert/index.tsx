@@ -194,9 +194,6 @@ function Actions({ children }: PromptAlertActionsProps) {
     <styled.div
       style={{
         position: 'sticky',
-        bottom: 0,
-        left: 0,
-        right: 0,
         background: color('standalone', 'modal', 'default'),
         display: 'flex',
         justifyContent: 'end',
