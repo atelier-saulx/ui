@@ -323,10 +323,30 @@ export const Menu: FC<MenuProps> = ({
   return (
     <>
       {/* mobile button menu */}
+      <styled.div
+        style={{
+          position: 'fixed',
+          right: 16,
+          top: 16,
+          display: 'none',
+          [BpSmall]: {
+            display: 'block',
+          },
+        }}
+      >
+        <Button
+          color="system"
+          icon={open ? <IconClose /> : <IconMenu />}
+          size="small"
+          onClick={() => {
+            setOpen(!open)
+          }}
+        />
+      </styled.div>
 
       {/* mobile menu */}
 
-      {shrinkable && (
+      {shrinkable && open && (
         <styled.div
           onClick={() => setShrink(!shrink)}
           style={{
@@ -387,11 +407,8 @@ export const Menu: FC<MenuProps> = ({
       <ScrollArea
         style={{
           display: 'block',
-          position: 'relative',
           flexShrink: 0,
-          backgroundColor: open
-            ? color('background', 'default', 'muted')
-            : 'transparent',
+          backgroundColor: color('background', 'default', 'muted'),
           padding: '24px 12px',
           paddingLeft: !shrink ? '16px' : '6px',
           paddingRight: '8px',
@@ -405,86 +422,30 @@ export const Menu: FC<MenuProps> = ({
             'neutralNormal',
             'default'
           )}`,
-
           [BpSmall]: {
-            borderRight: open
-              ? `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`
-              : '1px solid transparent',
+            display: open ? 'block' : 'none',
             zIndex: 1,
-            // position: 'absolute',
-            width: !open ? '20px' : !shrink ? '264px' : '54px',
+            position: 'absolute',
+            width: !shrink ? '264px' : '54px',
             paddingRight: '4px !important',
             paddingLeft: '12px',
           },
           ...style,
         }}
       >
-        {open || width > 640 ? (
-          <>
-            <div
-              style={{
-                display: 'flex',
-                width: '100%',
-                // alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {header}
-              <styled.div
-                style={{
-                  display: 'none',
-                  [BpSmall]: {
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: 'fit-content',
-                  },
-                }}
-              >
-                <Button
-                  color="system"
-                  icon={open ? <IconClose /> : <IconMenu />}
-                  size="small"
-                  onClick={() => {
-                    setOpen(!open)
-                  }}
-                />
-              </styled.div>
-            </div>
-            {items}
-            {children}
-            <styled.div
-              style={{
-                marginTop: '24px',
-                marginBottom: '12px',
-                display: 'flex',
-                width: '100%',
-              }}
-            >
-              {footer}
-            </styled.div>
-          </>
-        ) : (
-          <styled.div
-            style={{
-              display: 'none',
-              [BpSmall]: {
-                display: 'block',
-                position: 'absolute',
-                left: 0,
-              },
-            }}
-          >
-            <Button
-              color="system"
-              icon={open ? <IconClose /> : <IconMenu />}
-              size="small"
-              onClick={() => {
-                setOpen(!open)
-              }}
-            />
-          </styled.div>
-        )}
+        <div style={{ display: 'flex', width: '100%' }}>{header}</div>
+        {items}
+        {children}
+        <styled.div
+          style={{
+            marginTop: '24px',
+            marginBottom: '12px',
+            display: 'flex',
+            width: '100%',
+          }}
+        >
+          {footer}
+        </styled.div>
       </ScrollArea>
     </>
   )
