@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useContext } from 'react'
 import * as PopoverBase from '@radix-ui/react-popover'
-import { Style } from 'inlines'
+import { Style, styled } from 'inlines'
 import { color } from '../../varsUtilities'
 import { ScrollArea } from '../ScrollArea'
 import { useControllableState } from '../../hooks/useControllableState'
@@ -78,7 +78,7 @@ export function Content(
         }}
         style={{}}
       >
-        <ScrollArea
+        <styled.div
           style={{
             boxShadow:
               '0px 8px 16px -2px rgba(27, 36, 44, 0.12), 0px 2px 2px -1px rgba(27, 35, 44, 0.04)',
@@ -86,7 +86,7 @@ export function Content(
             border: `1px solid ${color('border', 'default')}`,
             borderRadius: 16,
             padding: 24,
-            overflowY: 'scroll',
+            // overflowY: 'scroll',
             maxWidth:
               'calc(var(--radix-dropdown-menu-content-available-width) - 16px)',
             maxHeight:
@@ -102,7 +102,7 @@ export function Content(
                 },
               })
             : children}
-        </ScrollArea>
+        </styled.div>
       </PopoverBase.Content>
     </PopoverBase.Portal>
   )
