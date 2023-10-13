@@ -93,6 +93,7 @@ export const RgbPicker = ({ hue, rgb, onChange, style }) => {
     onMove(e)
   }
   const onTouchMoveHandler: TouchEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault()
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
 
     const onMove = ({ clientX, clientY }) => {
