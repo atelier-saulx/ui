@@ -17,6 +17,7 @@ type DataObj = {
 export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
   const RawTool = require('@editorjs/raw')
   const Header = require('@editorjs/header')
+  const List = require('@editorjs/list')
 
   const editor = new EditorJS({
     holder: 'editorjs',
@@ -35,6 +36,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         inlineToolbar: ['link'],
       },
       raw: RawTool,
+      list: List,
     },
     onChange: (v) => console.log(v),
   })
@@ -47,10 +49,20 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         border: `1px solid ${color('inputBorder', 'neutralNormal', 'default')}`,
         borderRadius: 8,
         '& .cdx-block': {
-          background: 'yellow',
+          //   background: 'yellow',
+          lineHeight: '1.45em',
         },
         '& .ce-toolbar': {
           fontFamily: 'Inter, sans-serif',
+        },
+        '& .codex-editor__redactor': {
+          paddingBottom: '74px !important',
+        },
+        '& .ce-popover-item__icon': {
+          width: '22px',
+          height: '22px',
+          margin: '2px',
+          marginRight: '8px',
         },
         ...style,
       }}
