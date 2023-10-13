@@ -428,7 +428,7 @@ export const Menu: FC<MenuProps> = ({
             display: open ? 'block' : 'none',
             zIndex: 1,
             maxHeight: '100%',
-            position: 'sticky',
+            // position: 'absolute',
             width: 'calc(100% - 16px)',
             maxWidth: '100%',
             paddingRight: '4px !important',
