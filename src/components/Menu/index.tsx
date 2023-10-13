@@ -160,6 +160,7 @@ type MenuProps = {
   collapse?: boolean
   shrinkable?: boolean
   shrunk?: boolean
+  mobileAllowed?: boolean
 }
 
 export const Menu: FC<MenuProps> = ({
@@ -174,6 +175,7 @@ export const Menu: FC<MenuProps> = ({
   collapse,
   shrinkable,
   shrunk = false,
+  mobileAllowed = false,
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
   const { width } = useWindowResize()
@@ -330,7 +332,7 @@ export const Menu: FC<MenuProps> = ({
           top: 24,
           height: 'fit-content',
           display: 'none',
-          [BpSmall]: {
+          [true ? BpSmall : null]: {
             display: open ? 'none' : 'block',
           },
         }}
@@ -367,7 +369,7 @@ export const Menu: FC<MenuProps> = ({
                 display: 'flex',
               },
             },
-            [BpSmall]: {
+            [mobileAllowed ? BpSmall : null]: {
               left: !shrink ? '272px' : '62px',
               '& div': {
                 display: 'flex',
@@ -422,7 +424,7 @@ export const Menu: FC<MenuProps> = ({
             'neutralNormal',
             'default'
           )}`,
-          [BpSmall]: {
+          [mobileAllowed ? BpSmall : null]: {
             display: open ? 'block' : 'none',
             zIndex: 1,
             position: 'absolute',
@@ -443,7 +445,7 @@ export const Menu: FC<MenuProps> = ({
               marginLeft: 8,
               height: 'fit-content',
               display: 'none',
-              [BpSmall]: {
+              [mobileAllowed ? BpSmall : null]: {
                 display: 'inline-block',
               },
             }}
