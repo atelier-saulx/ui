@@ -5,6 +5,7 @@ import { styled } from 'inlines'
 import { IconCheckLarge, IconChevronRight } from '../../icons'
 import { ScrollArea } from '../ScrollArea'
 import { BpTablet } from '../../utils'
+import { useWindowResize } from '../../hooks'
 
 export type DropdownRootProps = {
   children: ReactNode
@@ -30,6 +31,8 @@ export function Items({ children }: DropdownItemsProps) {
   return (
     <DropdownBase.Portal>
       <DropdownBase.Content
+        // side="top"
+        // sideOffset={-40}
         asChild
         onCloseAutoFocus={(e) => {
           e.preventDefault()
@@ -46,6 +49,7 @@ export function Items({ children }: DropdownItemsProps) {
               '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
             boxSizing: 'border-box',
             overflowY: 'auto',
+
             maxHeight:
               'calc(var(--radix-dropdown-menu-content-available-height) - 16px)',
             '& > * + *': {
@@ -187,9 +191,11 @@ export type DropdownSubItemsProps = {
 }
 
 export function SubItems({ children }: DropdownSubItemsProps) {
+  const { width } = useWindowResize()
+
   return (
     <DropdownBase.Portal>
-      <DropdownBase.SubContent asChild>
+      <DropdownBase.SubContent sideOffset={width < 640 ? -200 : 0} asChild>
         <styled.div
           style={{
             width: 267,
