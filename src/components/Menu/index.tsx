@@ -160,6 +160,7 @@ type MenuProps = {
   collapse?: boolean
   shrinkable?: boolean
   shrunk?: boolean
+  mobileAllowed?: boolean
 }
 
 export const Menu: FC<MenuProps> = ({
@@ -174,10 +175,11 @@ export const Menu: FC<MenuProps> = ({
   collapse,
   shrinkable,
   shrunk = false,
+  mobileAllowed = false,
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
   const { width } = useWindowResize()
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [shrink, setShrink] = useState(shrunk)
 
   if (isMenuDataObject(config)) {
@@ -205,7 +207,7 @@ export const Menu: FC<MenuProps> = ({
 
   useEffect(() => {
     if (width > 640) {
-      setOpen(true)
+      setOpen(false)
     }
   }, [width])
 
@@ -326,11 +328,12 @@ export const Menu: FC<MenuProps> = ({
       <styled.div
         style={{
           position: 'fixed',
-          right: 16,
-          top: 16,
+          right: 12,
+          top: 24,
+          height: 'fit-content',
           display: 'none',
-          [BpSmall]: {
-            display: 'block',
+          [true ? BpSmall : null]: {
+            display: open ? 'none' : 'block',
           },
         }}
       >
@@ -343,7 +346,6 @@ export const Menu: FC<MenuProps> = ({
           }}
         />
       </styled.div>
-
       {/* mobile menu */}
 
       {shrinkable && open && (
@@ -367,7 +369,7 @@ export const Menu: FC<MenuProps> = ({
                 display: 'flex',
               },
             },
-            [BpSmall]: {
+            [mobileAllowed ? BpSmall : null]: {
               left: !shrink ? '272px' : '62px',
               '& div': {
                 display: 'flex',
@@ -422,18 +424,42 @@ export const Menu: FC<MenuProps> = ({
             'neutralNormal',
             'default'
           )}`,
-          [BpSmall]: {
+          [mobileAllowed ? BpSmall : null]: {
             display: open ? 'block' : 'none',
             zIndex: 1,
             position: 'absolute',
-            width: !shrink ? '264px' : '54px',
+            width: 'calc(100% - 16px)',
+            overflowX: 'hidden',
+            maxWidth: '100%',
             paddingRight: '4px !important',
             paddingLeft: '12px',
           },
           ...style,
         }}
       >
-        <div style={{ display: 'flex', width: '100%' }}>{header}</div>
+        <div style={{ display: 'flex', width: '100%' }}>
+          {header}
+          <styled.div
+            style={{
+              position: open ? 'static' : 'fixed',
+              marginLeft: 8,
+              height: 'fit-content',
+              display: 'none',
+              [mobileAllowed ? BpSmall : null]: {
+                display: 'inline-block',
+              },
+            }}
+          >
+            <Button
+              color="system"
+              icon={open ? <IconClose /> : <IconMenu />}
+              size="small"
+              onClick={() => {
+                setOpen(!open)
+              }}
+            />
+          </styled.div>
+        </div>
         {items}
         {children}
         <styled.div

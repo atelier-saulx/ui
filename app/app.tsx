@@ -80,6 +80,7 @@ const App = () => {
     >
       <Menu
         // shrinkable
+        mobileAllowed
         collapse
         header={
           <styled.div style={{ marginBottom: 16, width: '100%' }}>
