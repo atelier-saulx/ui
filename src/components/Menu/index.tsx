@@ -179,7 +179,7 @@ export const Menu: FC<MenuProps> = ({
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
   const { width } = useWindowResize()
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [shrink, setShrink] = useState(shrunk)
 
   if (isMenuDataObject(config)) {
@@ -207,7 +207,7 @@ export const Menu: FC<MenuProps> = ({
 
   useEffect(() => {
     if (width > 640) {
-      setOpen(true)
+      setOpen(false)
     }
   }, [width])
 
