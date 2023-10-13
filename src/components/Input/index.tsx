@@ -14,6 +14,7 @@ import { TextAreaInput, TextAreaInputProps } from './TextAreaInput'
 import { ColorInput, ColorInputProps } from './ColorInput'
 import { expectNever } from '../../utils/expectNever'
 import { MultiSelect, MultiSelectProps } from './MultiSelect'
+import { RichTextEditor, RichTextEditorProps } from '../RichTextEditor'
 
 export type CommonInputProps = {
   label?: ReactNode
@@ -36,6 +37,7 @@ export type InputProps = CommonInputProps &
     | ({ type: 'file' } & FileInputProps)
     | ({ type: 'checkbox' } & CheckboxInputProps)
     | ({ type: 'password' } & TextInputProps)
+    | ({ type: 'rich-text' } & RichTextEditorProps)
   )
 
 export function Input(props: InputProps) {
@@ -147,6 +149,14 @@ export function Input(props: InputProps) {
       return (
         <LabelAndErrorWrapper label={props.label} error={props.error}>
           <TextInput {...narrowedProps} password />
+        </LabelAndErrorWrapper>
+      )
+    }
+    case 'rich-text': {
+      const { type, ...narrowedProps } = props
+      return (
+        <LabelAndErrorWrapper label={props.label} error={props.error}>
+          <RichTextEditor {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
     }

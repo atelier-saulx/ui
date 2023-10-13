@@ -1,8 +1,9 @@
 import React from 'react'
 import '../src/fonts.css'
 import { ComponentDef } from './types'
-import alert from './components/Alert'
 import accordion from './components/Accordion'
+import action from './components/Action'
+import alert from './components/Alert'
 import alertBanner from './components/AlertBanner'
 import avatar from './components/Avatar'
 import badge from './components/Badge'
@@ -14,16 +15,22 @@ import code from './components/Code'
 import colorInput from './components/ColorInput'
 import colorPicker from './components/ColorPicker'
 import confirmation from './components/Confirmation'
+import container from './components/Container'
 import counter from './components/Counter'
 import datePicker from './components/DatePicker'
 import dateRange from './components/DateRange'
 import divider from './components/Divider'
 import dropdown from './components/Dropdown'
 import fileInput from './components/FileInput'
+import formGroup from './components/FormGroup'
 import icon from './components/Icon'
 import linegraph from './components/Linegraph'
 import logsText from './components/LogsText'
+import Menu from './components/Menu'
 import metricsWidget from './components/MetricsWidget'
+import modal from './components/Modal'
+import modalConfirmation from './components/ModalConfirmation'
+import multiSelect from './components/MultiSelectInput'
 import multlineInput from './components/TextAreaInput'
 import numberInput from './components/NumberInput'
 import pieGraph from './components/PieGraph'
@@ -31,59 +38,54 @@ import pill from './components/Pill'
 import popover from './components/Popover'
 import prompt from './components/Prompt'
 import radioButtons from './components/RadioButtons'
+import richtTextEditor from './components/RichTextEditor'
 import scrollArea from './components/ScrollArea'
 import searchInput from './components/SearchInput'
+import sectionHeader from './components/SectionHeader'
 import segmentedControl from './components/SegmentedControl'
 import selectInput from './components/SelectInput'
 import sidePanel from './components/SidePanel'
-import Menu from './components/Menu'
 import slider from './components/Slider'
 import status from './components/Status'
-import formGroup from './components/FormGroup'
-import container from './components/Container'
+import styledDivs from './components/StyledDivs'
 import table from './components/Table'
 import tabs from './components/Tabs'
 import tag from './components/Tag'
 import text from './components/Text'
 import textInput from './components/TextInput'
+import thumbnail from './components/Thumbnail'
 import toast from './components/Toast'
 import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
-import thumbnail from './components/Thumbnail'
-import styledDivs from './components/StyledDivs'
-import modal from './components/Modal'
-import modalConfirmation from './components/ModalConfirmation'
-import multiSelect from './components/MultiSelectInput'
-import action from './components/Action'
-import sectionHeader from './components/SectionHeader'
 
 export const hooks: ComponentDef[] = [useContextState]
 
 export const input = [
-  button,
   action,
+  button,
   checkboxInput,
   colorInput,
   confirmation,
   datePicker,
   dateRange,
   fileInput,
+  formGroup,
+  multiSelect,
   multlineInput,
   numberInput,
   radioButtons,
+  richtTextEditor,
   searchInput,
   segmentedControl,
   selectInput,
-  multiSelect,
   slider,
   textInput,
   toggle,
-  formGroup,
 ]
 
-export const misc = [colorPicker, code, logsText, styledDivs, tag]
+export const misc = [code, colorPicker, logsText, styledDivs, tag]
 
 export const overlay = [
   alert,
@@ -102,16 +104,16 @@ export const icons = [icon]
 
 export const layout = [accordion, container, divider, scrollArea, tabs]
 
-export const navigation = [breadCrumbs, topNavigation, Menu]
+export const navigation = [breadCrumbs, Menu, topNavigation]
 
-export const graphs = [barGraph, linegraph, pieGraph, metricsWidget]
+export const graphs = [barGraph, linegraph, metricsWidget, pieGraph]
 
 export const display = [
-  text,
-  sectionHeader,
-  table,
-  counter,
-  status,
   avatar,
+  counter,
+  sectionHeader,
+  status,
+  table,
+  text,
   thumbnail,
 ]
