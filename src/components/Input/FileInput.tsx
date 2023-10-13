@@ -333,8 +333,6 @@ export function FileInput({ disabled, multiple, accept }: FileInputProps) {
 
               let files = e.dataTransfer.files
 
-              console.log(files, 'snurp')
-
               let arrOfFiles = []
               let arrOfNonAcceptedTypes = []
 
@@ -357,9 +355,6 @@ export function FileInput({ disabled, multiple, accept }: FileInputProps) {
                     ...p,
                     ...(multiple ? arrOfFiles : [arrOfFiles[0]]),
                   ])
-
-                arrOfNonAcceptedTypes.length > 0 &&
-                  console.log('not allowed', arrOfNonAcceptedTypes)
               } else {
                 setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
               }
