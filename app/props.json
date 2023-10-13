@@ -1064,9 +1064,15 @@
         "indent": {
           "optional": true,
           "type": "boolean"
+        },
+        "accept": {
+          "optional": true,
+          "type": {
+            "array": "string"
+          }
         }
       },
-      "code": "type FileInputProps = {\n  disabled?: boolean\n  multiple?: boolean\n  indent?: boolean\n}",
+      "code": "type FileInputProps = {\n  disabled?: boolean\n  multiple?: boolean\n  indent?: boolean\n  accept?: string[]\n}",
       "file": "/components/Input/FileInput.tsx"
     },
     "FileListItemProps": {
@@ -1091,7 +1097,7 @@
           "type": "function"
         }
       },
-      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n  onFullscreen: () => void\n  onOpenNewTab: () => void\n  onDownload: () => void\n  onReplace: () => void\n  // onRename: () => void\n  // onCopy: ()=>void\n}",
+      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n  onFullscreen: () => void\n  onOpenNewTab: () => void\n  onDownload: () => void\n  onReplace: () => void\n}",
       "file": "/components/Input/FileInput.tsx"
     },
     "MarkdownInputProps": {
@@ -1137,6 +1143,9 @@
         "onChange": {
           "type": "function"
         },
+        "onOpen": {
+          "type": "function"
+        },
         "hugContent": {
           "optional": true,
           "type": "boolean"
@@ -1151,7 +1160,7 @@
           "type": "boolean"
         }
       },
-      "code": "type MultiSelectProps = {\n  value: string[]\n  options: MultiSelectOption[]\n  placeholder?: string\n  style?: Style\n  onChange: (value) => void\n  hugContent?: boolean\n  defaultValue: string[]\n  searchable?: boolean\n}",
+      "code": "type MultiSelectProps = {\n  value: string[]\n  options: MultiSelectOption[]\n  placeholder?: string\n  style?: Style\n  onChange: (value) => void\n  onOpen: () => void\n  hugContent?: boolean\n  defaultValue: string[]\n  searchable?: boolean\n}",
       "file": "/components/Input/MultiSelect.tsx"
     },
     "NumberInputOwnProps": {
@@ -1242,6 +1251,10 @@
           "optional": true,
           "type": "function"
         },
+        "onOpen": {
+          "optional": true,
+          "type": "function"
+        },
         "options": {
           "type": {
             "array": "SelectOption"
@@ -1279,7 +1292,7 @@
           "type": "boolean"
         }
       },
-      "code": "type SelectInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value) => void\n  options: SelectOption[]\n  placeholder?: string\n  clearbutton?: boolean\n  size?: 'small' | 'normal'\n  style?: Style\n  searchable?: boolean\n  hugContent?: boolean\n}",
+      "code": "type SelectInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value) => void\n  onOpen?: () => void\n  options: SelectOption[]\n  placeholder?: string\n  clearbutton?: boolean\n  size?: 'small' | 'normal'\n  style?: Style\n  searchable?: boolean\n  hugContent?: boolean\n}",
       "file": "/components/Input/SelectInput.tsx"
     },
     "TextAreaInputProps": {
@@ -1574,6 +1587,22 @@
       "code": "type SingleLogProps = {\n  msg: any\n  style?: Style\n  ts?: number\n  type?: string\n  idx?: number\n}",
       "file": "/components/LogsComponent/LogGroups.tsx"
     },
+    "LogsTextProps": {
+      "name": "LogsTextProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "Exclude"
+          }
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type LogsTextProps = {\n  data: Exclude<LogProps, 'data' | 'index'>[]\n  style?: Style\n}",
+      "file": "/components/LogsComponent/LogsText.tsx"
+    },
     "SingleLogItemProps": {
       "name": "SingleLogItemProps",
       "props": {
@@ -1605,8 +1634,8 @@
       "code": "type SingleLogItemProps = {\n  msg?: string\n  status?: Exclude<ColorBackgroundColors, 'default' | 'inverted' | 'neutral'>\n  style?: Style\n  ts?: number\n  type?: string\n  label?: ReactNode\n}",
       "file": "/components/LogsComponent/SingleLogItem.tsx"
     },
-    "LogsTextProps": {
-      "name": "LogsTextProps",
+    "LogsProps": {
+      "name": "LogsProps",
       "props": {
         "data": {
           "type": {
@@ -1618,7 +1647,7 @@
           "type": "Style"
         }
       },
-      "code": "type LogsTextProps = {\n  data: Exclude<LogProps, 'data' | 'index'>[]\n  // autoScroll?: boolean\n  style?: Style\n}",
+      "code": "type LogsProps = {\n  data: Exclude<LogProps, 'data' | 'index'>[]\n  style?: Style\n}",
       "file": "/components/LogsComponent/index.tsx"
     },
     "MenuItemProps": {
@@ -1628,6 +1657,10 @@
           "type": "boolean"
         },
         "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "onClick": {
           "optional": true,
           "type": "function"
         },
@@ -1652,7 +1685,7 @@
           "type": "ReactNode"
         }
       },
-      "code": "type MenuItemProps = {\n  active: boolean\n  onChange?: (e) => void\n  shrink?: boolean\n  style?: Style\n  value?: string\n  icon?: ReactNode\n  label?: ReactNode\n}",
+      "code": "type MenuItemProps = {\n  active: boolean\n  onChange?: (e) => void\n  onClick?: () => void\n  shrink?: boolean\n  style?: Style\n  value?: string\n  icon?: ReactNode\n  label?: ReactNode\n}",
       "file": "/components/Menu/MenuItem.tsx"
     },
     "MenuItemsHeaderProps": {
@@ -1850,9 +1883,13 @@
             "string",
             "number"
           ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         }
       },
-      "code": "type ModalContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n  width?: string | number\n}",
+      "code": "type ModalContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n  width?: string | number\n  style?: Style\n}",
       "file": "/components/Modal/index.tsx"
     },
     "ModalWarningProps": {
@@ -2042,6 +2079,12 @@
             "array": "string"
           }
         },
+        "defaultValue": {
+          "optional": true,
+          "type": {
+            "array": "string"
+          }
+        },
         "options": {
           "type": {
             "array": "PillOption"
@@ -2067,7 +2110,7 @@
           "type": "ReactNode"
         }
       },
-      "code": "type MultiPillProps = {\n  value: string[]\n  options: PillOption[]\n  placeholder?: string\n  prefix?: string\n  style?: Style\n  onChange: (value) => void\n  icon?: ReactNode\n}",
+      "code": "type MultiPillProps = {\n  value: string[]\n  defaultValue?: string[]\n  options: PillOption[]\n  placeholder?: string\n  prefix?: string\n  style?: Style\n  onChange: (value) => void\n  icon?: ReactNode\n}",
       "file": "/components/Pill/Multi.tsx"
     },
     "SelectPillProps": {
@@ -2114,12 +2157,9 @@
         "style": {
           "optional": true,
           "type": "Style"
-        },
-        "onChange": {
-          "type": "function"
         }
       },
-      "code": "type CommonPillProps = {\n  prefix?: string\n  style?: Style\n  onChange: (value) => void\n}",
+      "code": "type CommonPillProps = {\n  prefix?: string\n  style?: Style\n  // onChange: (value) => void\n}",
       "file": "/components/Pill/index.tsx"
     },
     "PillProps": {
@@ -3167,46 +3207,32 @@
     "TooltipProps": {
       "name": "TooltipProps",
       "props": {
-        "label": {
-          "optional": true,
-          "type": "string"
+        "children": {
+          "type": "ReactNode"
         },
-        "style": {
-          "optional": true,
-          "type": "Style"
+        "text": {
+          "type": "string"
         },
         "position": {
           "optional": true,
           "type": [
             {
-              "value": "bottom-left"
-            },
-            {
-              "value": "bottom"
-            },
-            {
-              "value": "bottom-right"
-            },
-            {
-              "value": "left"
+              "value": "top"
             },
             {
               "value": "right"
             },
             {
-              "value": "top-left"
+              "value": "bottom"
             },
             {
-              "value": "top"
-            },
-            {
-              "value": "top-right"
+              "value": "left"
             }
           ]
         }
       },
-      "code": "type TooltipProps = {\n  label?: string\n  style?: Style\n  position?:\n    | 'bottom-left'\n    | 'bottom'\n    | 'bottom-right'\n    | 'left'\n    | 'right'\n    | 'top-left'\n    | 'top'\n    | 'top-right'\n}",
-      "file": "/types.ts"
+      "code": "type TooltipProps = {\n  children: ReactNode\n  text: string\n  position?: 'top' | 'right' | 'bottom' | 'left'\n}",
+      "file": "/components/Tooltip/index.tsx"
     },
     "TopNavigationProps": {
       "name": "TopNavigationProps",

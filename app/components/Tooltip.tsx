@@ -10,10 +10,10 @@ const example: ComponentDef = {
   properties: props.props.TooltipProps.props,
   examples: [
     {
-      props: {},
-      customRenderer: () => {
+      props: { text: 'Tooltip content', position: 'top' },
+      customRenderer: (props) => {
         return (
-          <Tooltip text="Tooltip content">
+          <Tooltip {...props}>
             <Button color="system">Hover me</Button>
           </Tooltip>
         )

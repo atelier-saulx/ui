@@ -5,9 +5,10 @@ import { color } from '../../varsUtilities'
 export type TooltipProps = {
   children: ReactNode
   text: string
+  position?: 'top' | 'right' | 'bottom' | 'left'
 }
 
-export function Tooltip({ children, text }) {
+export function Tooltip({ children, text, position }: TooltipProps) {
   return (
     <TooltipBase.Provider delayDuration={0}>
       <TooltipBase.Root>
@@ -16,6 +17,7 @@ export function Tooltip({ children, text }) {
         </TooltipBase.Trigger>
         <TooltipBase.Portal>
           <TooltipBase.Content
+            side={position}
             style={{
               fontSize: 12,
               lineHeight: '20px',
