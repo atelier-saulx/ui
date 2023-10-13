@@ -33,6 +33,32 @@ const example: ComponentDef = {
                 text: 'You want your tree to have some character.',
               },
             },
+            {
+              id: 'zbGZFPM-aa',
+              type: 'list',
+              data: {
+                type: 'unordered',
+                items: [
+                  'It is a block-style editor',
+                  'It returns clean data output in JSON',
+                  'Designed to be extendable and pluggable with a',
+                ],
+              },
+            },
+            {
+              id: '8hp7msbRKc',
+              type: 'raw',
+              data: {
+                html: '<div>raw html</div>',
+              },
+            },
+            {
+              id: '8hp7msbRKc',
+              type: 'image',
+              data: {
+                url: 'https://robohash.org/QYZ.png?set=set1',
+              },
+            },
           ],
           version: '2.8.1',
         }
