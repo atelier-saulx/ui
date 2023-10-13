@@ -1,12 +1,16 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Avatar } from '../../../Avatar'
+import { Input } from '../../../Input'
+import { styled } from 'inlines'
 
-const Wrapper = ({ children, elementRef }) => {
-  return <div ref={elementRef}>{children}</div>
-}
+const StyledImageContainer = styled('div', {
+  width: 200,
+  height: 200,
+  backgroundSize: 'contain',
+  border: '1px solid red',
+})
 
-export default class SimpleImage {
+export default class SimpleImage extends React.Component {
   static get toolbox() {
     return {
       title: 'Image',
@@ -14,13 +18,36 @@ export default class SimpleImage {
     }
   }
 
-  constructor({ data }) {
+  constructor({ data }, props) {
+    super(props)
     this.data = data
   }
 
   render() {
     const container = document.createElement('div')
-    createRoot(container).render(<Avatar />)
+
+    let flip = 'xx'
+
+    createRoot(container).render(
+      <>
+        {this.data?.url && (
+          <StyledImageContainer
+            style={{ backgroundImage: `url(${this.data.url})` }}
+          />
+        )}
+        <Input
+          label="Image url"
+          type="text"
+          value={flip}
+          onChange={(v) => (flip = v)}
+          // onChange={(v) => console.log(v)}
+          // value={this.data.url}
+          // value={this.data && this.data.url ? this.data.url : ''}
+          style={{ marginBottom: 12 }}
+        />
+      </>
+    )
+
     return container
   }
 
@@ -33,10 +60,10 @@ export default class SimpleImage {
   }
 
   save(blockContent) {
-    const input = blockContent.querySelector('input')
+    // const input = blockContent.querySelector('input')
 
     return {
-      url: input.value,
+      url: this.data.url,
     }
   }
 }

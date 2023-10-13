@@ -3,7 +3,7 @@ import { styled, Style } from 'inlines'
 import EditorJS from '@editorjs/editorjs'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
-import SimpleImage from './Plugins/simple-image/simple-image.js'
+import SimpleImage from './Plugins/simple-image/simple-image.jsx'
 require('./Plugins/simple-image/simple-image.css')
 
 export type RichTextEditorProps = {
