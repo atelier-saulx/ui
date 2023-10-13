@@ -326,11 +326,12 @@ export const Menu: FC<MenuProps> = ({
       <styled.div
         style={{
           position: 'fixed',
-          right: 16,
-          top: 16,
+          right: 12,
+          top: 24,
+          height: 'fit-content',
           display: 'none',
           [BpSmall]: {
-            display: 'block',
+            display: open ? 'none' : 'block',
           },
         }}
       >
@@ -343,7 +344,6 @@ export const Menu: FC<MenuProps> = ({
           }}
         />
       </styled.div>
-
       {/* mobile menu */}
 
       {shrinkable && open && (
@@ -426,14 +426,38 @@ export const Menu: FC<MenuProps> = ({
             display: open ? 'block' : 'none',
             zIndex: 1,
             position: 'absolute',
-            width: !shrink ? '264px' : '54px',
+            width: 'calc(100% - 16px)',
+            overflowX: 'hidden',
+            maxWidth: '100%',
             paddingRight: '4px !important',
             paddingLeft: '12px',
           },
           ...style,
         }}
       >
-        <div style={{ display: 'flex', width: '100%' }}>{header}</div>
+        <div style={{ display: 'flex', width: '100%' }}>
+          {header}
+          <styled.div
+            style={{
+              position: open ? 'static' : 'fixed',
+              marginLeft: 8,
+              height: 'fit-content',
+              display: 'none',
+              [BpSmall]: {
+                display: 'inline-block',
+              },
+            }}
+          >
+            <Button
+              color="system"
+              icon={open ? <IconClose /> : <IconMenu />}
+              size="small"
+              onClick={() => {
+                setOpen(!open)
+              }}
+            />
+          </styled.div>
+        </div>
         {items}
         {children}
         <styled.div
