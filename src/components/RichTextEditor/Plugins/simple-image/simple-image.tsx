@@ -1,3 +1,11 @@
+import React, { useRef } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Avatar } from '../../../Avatar'
+
+const Wrapper = ({ children, elementRef }) => {
+  return <div ref={elementRef}>{children}</div>
+}
+
 export default class SimpleImage {
   static get toolbox() {
     return {
@@ -11,16 +19,9 @@ export default class SimpleImage {
   }
 
   render() {
-    const wrapper = document.createElement('div')
-    const input = document.createElement('input')
-
-    wrapper.classList.add('simple-image')
-    wrapper.appendChild(input)
-
-    input.placeholder = 'Paste an image URL...'
-    input.value = this.data && this.data.url ? this.data.url : ''
-
-    return wrapper
+    const container = document.createElement('div')
+    createRoot(container).render(<Avatar />)
+    return container
   }
 
   //check if savedata is not empty
