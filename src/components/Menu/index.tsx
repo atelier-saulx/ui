@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 import { color } from '../../varsUtilities'
 import { useWindowResize } from '../../hooks'
-import { ScrollArea, Text, Button } from '../../components'
+import { ScrollArea, Text, Button, scrollAreaStyle } from '../../components'
 import { Style, styled } from 'inlines'
 import {
   IconMenu,
@@ -179,7 +179,7 @@ export const Menu: FC<MenuProps> = ({
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
   const { width } = useWindowResize()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(!mobileAllowed)
   const [shrink, setShrink] = useState(shrunk)
 
   if (isMenuDataObject(config)) {
@@ -206,7 +206,7 @@ export const Menu: FC<MenuProps> = ({
   }
 
   useEffect(() => {
-    if (width > 640) {
+    if (width > 640 && mobileAllowed) {
       setOpen(false)
     }
   }, [width])
@@ -418,7 +418,7 @@ export const Menu: FC<MenuProps> = ({
           minHeight: '100%',
           width: !shrink ? 224 : 42,
           transition: '0.3s all',
-          overflowX: 'clip',
+          // overflowX: 'clip',
           borderRight: `1px solid ${color(
             'inputBorder',
             'neutralNormal',
@@ -427,12 +427,13 @@ export const Menu: FC<MenuProps> = ({
           [mobileAllowed ? BpSmall : null]: {
             display: open ? 'block' : 'none',
             zIndex: 1,
-            position: 'absolute',
+            maxHeight: '100%',
+            // position: 'absolute',
             width: 'calc(100% - 16px)',
-            overflowX: 'hidden',
             maxWidth: '100%',
             paddingRight: '4px !important',
             paddingLeft: '12px',
+            ...scrollAreaStyle,
           },
           ...style,
         }}
@@ -441,7 +442,6 @@ export const Menu: FC<MenuProps> = ({
           {header}
           <styled.div
             style={{
-              position: open ? 'static' : 'fixed',
               marginLeft: 8,
               height: 'fit-content',
               display: 'none',
