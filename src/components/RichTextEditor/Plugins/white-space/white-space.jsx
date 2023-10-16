@@ -32,7 +32,7 @@ const WhiteSpaceComp = (data) => {
         }}
       />
 
-      <Row style={{ gap: 16, marginBottom: 12, marginTop: 12, maxWidth: 242 }}>
+      <Row style={{ gap: 16, marginBottom: 12, marginTop: 12, maxWidth: 278 }}>
         <Input
           label="Add Space"
           type="number"
@@ -43,16 +43,11 @@ const WhiteSpaceComp = (data) => {
           placeholder={'enter your desired space distance...'}
         />
         <Input
-          type="select"
-          label="Format"
+          label="Format(px, vh, rem)"
+          type="text"
           value={spaceFormat}
           onChange={(v) => setSpaceFormat(v)}
-          options={[
-            { label: 'px', value: 'px' },
-            { label: '%', value: '%' },
-            { label: 'rem', value: 'rem' },
-            { label: 'vh', value: 'vh' },
-          ]}
+          placeholder={'px'}
         />
       </Row>
     </>
@@ -96,11 +91,15 @@ export default class WhiteSpace extends React.Component {
 
   save(blockContent) {
     // space
-    let inputFieldValue = blockContent.querySelector('input').value
+
+    console.log(blockContent)
+
+    let inputFieldValue = blockContent.querySelectorAll('input')[0].value
+    let inputFieldFormat = blockContent.querySelectorAll('input')[1].value
     // space format
 
     return {
-      space: inputFieldValue,
+      space: inputFieldValue + inputFieldFormat,
     }
   }
 }
