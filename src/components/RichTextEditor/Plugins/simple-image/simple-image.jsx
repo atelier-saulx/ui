@@ -10,6 +10,36 @@ const StyledImageContainer = styled('div', {
   border: '1px solid red',
 })
 
+const ImageAndInputBlock = (data) => {
+  const [url, setUrl] = useState(data.value.url)
+
+  console.log(data, '??')
+
+  return (
+    <>
+      {url && (
+        <StyledImageContainer
+          className="snurp"
+          style={{
+            backgroundImage: `url(${url})`,
+          }}
+        />
+      )}
+
+      <Input
+        label="Image url"
+        type="text"
+        value={url}
+        onChange={(v) => {
+          setUrl(v)
+        }}
+        placeholder={url}
+        style={{ marginBottom: 12 }}
+      />
+    </>
+  )
+}
+
 export default class SimpleImage extends React.Component {
   static get toolbox() {
     return {
@@ -20,33 +50,17 @@ export default class SimpleImage extends React.Component {
 
   constructor({ data }, props) {
     super(props)
-    this.data = data
+    this.data = {
+      url: data.url || '',
+      renderCounter: 1,
+    }
+    this.state = { date: new Date(), test: 'x' }
   }
 
   render() {
     const container = document.createElement('div')
 
-    let flip = 'xx'
-
-    createRoot(container).render(
-      <>
-        {this.data?.url && (
-          <StyledImageContainer
-            style={{ backgroundImage: `url(${this.data.url})` }}
-          />
-        )}
-        <Input
-          label="Image url"
-          type="text"
-          value={flip}
-          onChange={(v) => (flip = v)}
-          // onChange={(v) => console.log(v)}
-          // value={this.data.url}
-          // value={this.data && this.data.url ? this.data.url : ''}
-          style={{ marginBottom: 12 }}
-        />
-      </>
-    )
+    createRoot(container).render(<ImageAndInputBlock value={this.data} />)
 
     return container
   }
@@ -60,10 +74,10 @@ export default class SimpleImage extends React.Component {
   }
 
   save(blockContent) {
-    // const input = blockContent.querySelector('input')
+    let inputFieldValue = blockContent.querySelector('input').value
 
     return {
-      url: this.data.url,
+      url: inputFieldValue,
     }
   }
 }
