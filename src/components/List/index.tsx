@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Style, styled } from 'inlines'
 import { Text } from '../Text'
 import { color } from '../../varsUtilities'
-import { IconArrowheadRight } from 'src/icons'
+import { IconArrowheadRight } from '../../icons'
 import { Button } from '../Button'
 
 export const List = () => {
