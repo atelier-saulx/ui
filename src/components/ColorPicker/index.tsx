@@ -9,7 +9,7 @@ import type { RGB } from './types'
 import { Style, styled } from 'inlines'
 import { Column } from '../../components'
 import { color } from '../../varsUtilities'
-import { useControllableState } from 'src/hooks'
+import { useControllableState } from '../../hooks'
 
 type ColorPickerProps = {
   value?: string

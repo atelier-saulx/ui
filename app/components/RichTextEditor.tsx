@@ -20,17 +20,17 @@ const example: ComponentDef = {
           time: 1550476186479,
           blocks: [
             {
-              id: 'zbGZFPM-iI',
-              type: 'paragraph',
-              data: {
-                text: "If you don't like it - change it. It's your world. If we're gonna walk though the woods, we need a little path. Isn't that fantastic that you can create an almighty tree that fast?",
-              },
-            },
-            {
               id: 'zbGZFPM-if',
               type: 'header',
               data: {
                 text: 'You want your tree to have some character.',
+              },
+            },
+            {
+              id: 'zbGZFPM-iI',
+              type: 'paragraph',
+              data: {
+                text: "If you don't like it - change it. It's your world. If we're gonna walk though the woods, we need a little path. Isn't that fantastic that you can create an almighty tree that fast?",
               },
             },
             {
@@ -47,7 +47,7 @@ const example: ComponentDef = {
             },
             {
               id: '8hp7msbRKc',
-              type: 'raw',
+              type: 'html',
               data: {
                 html: '<div>raw html</div>',
               },
@@ -56,7 +56,15 @@ const example: ComponentDef = {
               id: '8hp7msbRKc',
               type: 'image',
               data: {
-                url: 'https://robohash.org/QYZ.png?set=set1',
+                url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlPMlAI4LpTJQHrfUHdxtNSzs7p7kjOG8gejP_dPabUB1fJ-YU_0gjTbXioHSedzb-NGc&usqp=CAU',
+              },
+            },
+            {
+              id: '8hp7ms433bc',
+              type: 'space',
+              data: {
+                space: 46,
+                spaceFormat: 'px',
               },
             },
           ],

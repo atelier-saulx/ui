@@ -1,5 +1,6 @@
 import './colors.css'
 import './fonts.css'
+import './reset.css'
 
 export * from './varsUtilities'
 export * from './vars'

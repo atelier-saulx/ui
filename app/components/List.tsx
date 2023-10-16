@@ -19,7 +19,7 @@ const example: ComponentDef = {
         const [value, setValue] = useState([''])
         return (
           <List
-            type="string"
+            type="text"
             field="Array of strings"
             onChange={(v) => setValue(v)}
             value={value}

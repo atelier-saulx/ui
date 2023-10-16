@@ -126,5 +126,5 @@ export const Counter: FC<CounterProps> = ({
     </Center>
   )
 
-  return label ? <Tooltip text={label}>{center}</Tooltip> : center
+  return label ? <Tooltip text={label as string}>{center}</Tooltip> : center
 }
