@@ -16,6 +16,7 @@ const example: ComponentDef = {
     max: { type: 'number' },
     onChange: { type: 'OnChangeHandler' },
     label: { type: 'string' },
+    description: { type: 'string' },
     error: { type: 'boolean' },
     placeholder: { type: 'string' },
     clearButton: { type: 'boolean' },
@@ -25,6 +26,7 @@ const example: ComponentDef = {
     {
       props: {
         defaultValue: 12,
+        label: 'This is a label',
         type: 'number',
         placeholder: 'Some Number',
         onChange: (e) => console.log(e, typeof e),
