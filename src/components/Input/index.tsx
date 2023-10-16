@@ -105,7 +105,16 @@ export function Input(props: InputProps) {
     // TODO no official design for this just yet
     case 'number': {
       const { type, ...narrowedProps } = props
-      return <NumberInput {...narrowedProps} />
+      return (
+        <LabelAndErrorWrapper
+          message={props.message}
+          label={props.label}
+          error={props.error}
+          description={props.description}
+        >
+          <NumberInput {...narrowedProps} />
+        </LabelAndErrorWrapper>
+      )
     }
     case 'color': {
       const { type, ...narrowedProps } = props
