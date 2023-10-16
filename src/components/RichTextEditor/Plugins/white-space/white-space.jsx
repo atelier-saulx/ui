@@ -35,7 +35,7 @@ const WhiteSpaceComp = (data) => {
       <Row style={{ gap: 16, marginBottom: 12, marginTop: 12, maxWidth: 242 }}>
         <Input
           label="Add Space"
-          type="text"
+          type="number"
           value={space}
           onChange={(v) => {
             setSpace(v)
@@ -95,8 +95,9 @@ export default class WhiteSpace extends React.Component {
   }
 
   save(blockContent) {
+    // space
     let inputFieldValue = blockContent.querySelector('input').value
-    // check input value??
+    // space format
 
     return {
       space: inputFieldValue,
