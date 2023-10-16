@@ -1,10 +1,11 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { styled, Style } from 'inlines'
 import EditorJS from '@editorjs/editorjs'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
-import SimpleImage from './Plugins/simple-image/simple-image.jsx'
-import WhiteSpace from './Plugins/white-space/white-space.jsx'
+import SimpleImage from './Plugins/simple-image/simple-image'
+import WhiteSpace from './Plugins/white-space/white-space'
+import HtmlBlock from './Plugins/html-block/html-block'
 
 export type RichTextEditorProps = {
   data?: DataObj
@@ -38,10 +39,12 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         inlineToolbar: ['link'],
       },
       list: List,
+      html: HtmlBlock,
       image: SimpleImage,
       space: WhiteSpace,
     },
     onChange: (v) => console.log(v),
+    logLevel: 'WARN' as any,
   })
 
   return (
@@ -60,6 +63,9 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
             //   background: 'yellow',
             lineHeight: '1.45em',
           },
+          '& .ce-paragraph': {
+            marginBottom: '12px',
+          },
           '& .ce-toolbar': {
             fontFamily: 'Inter, sans-serif',
           },
@@ -71,6 +77,9 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
             height: '22px',
             margin: '2px',
             marginRight: '8px',
+          },
+          '& .codex-editor': {
+            fontSize: '15px',
           },
           '& .codex-editor ::selection, .ce-block--selected .ce-block__content':
             {
@@ -90,10 +99,11 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
               'subtleSelected'
             )}  !important`,
           },
-          // html tool
-          '& .ce-rawtool__textarea': {
-            height: 'auto !important',
-            minHeight: 'fit-content',
+          '& .cdx-list__item': {
+            lineHeight: '1.24em',
+          },
+          '& .cdx-list': {
+            marginBottom: '12px',
           },
           ...style,
         }}

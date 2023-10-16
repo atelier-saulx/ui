@@ -7,12 +7,34 @@ import { color } from '../../../../varsUtilities'
 
 const ImageAndInputBlock = (data) => {
   const [url, setUrl] = useState(data.value.url)
-
-  console.log(data, '??')
+  const [isMouseOver, setIsMouseOver] = useState(false)
+  const [isImageEmpty, setIsImageEmpty] = useState(false)
 
   return (
-    <>
-      <img src={url} style={{ maxWidth: 200, borderRadius: 8 }} />
+    <styled.div
+      style={{ display: 'flex', marginTop: 8 }}
+      onMouseEnter={() => {
+        setIsMouseOver(true)
+      }}
+      onMouseLeave={() => {
+        setIsMouseOver(false)
+      }}
+    >
+      <img
+        onLoad={() => setIsImageEmpty(false)}
+        onError={(e) => {
+          console.log(e, '🍟')
+          setIsImageEmpty(true)
+        }}
+        src={url}
+        style={{
+          maxWidth: 200,
+          borderRadius: 8,
+          marginBottom: 12,
+          marginRight: 16,
+        }}
+      />
+
       <Input
         label="Image url"
         type="text"
@@ -21,9 +43,14 @@ const ImageAndInputBlock = (data) => {
           setUrl(v)
         }}
         placeholder={url}
-        style={{ marginBottom: 12 }}
+        style={{
+          marginBottom: 12,
+          display: isMouseOver || isImageEmpty ? 'block' : 'none',
+        }}
       />
-    </>
+
+      {/* is mouse over:??{!isMouseOver ? 'false' : 'true'} */}
+    </styled.div>
   )
 }
 

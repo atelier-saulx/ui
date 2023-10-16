@@ -5,18 +5,28 @@ import { Input } from '../../../Input'
 import { styled } from 'inlines'
 import { Row } from '../../../Styled'
 import { color } from '../../../../varsUtilities'
+import { IconChevronTop, IconChevronDown } from '../../../../icons'
 
 const WhiteSpaceComp = (data) => {
   const [space, setSpace] = useState(data.value.space)
   const [spaceFormat, setSpaceFormat] = useState(data.value.spaceFormat)
-
-  console.log(data, 'from WhiteSpaceComp ??')
-  console.log(`${space} ${spaceFormat}`)
+  const [isMouseOver, setIsMouseOver] = useState(false)
 
   return (
-    <>
+    <styled.div
+      onMouseEnter={() => {
+        setIsMouseOver(true)
+      }}
+      onMouseLeave={() => {
+        setIsMouseOver(false)
+      }}
+    >
       <styled.div
         style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           width: '100%',
           background: color('action', 'neutral', 'subtleHover'),
           height: `${space}${spaceFormat}`,
@@ -30,10 +40,25 @@ const WhiteSpaceComp = (data) => {
             'neutralNormal',
             'default'
           )}`,
+          '& svg': {
+            width: '16px',
+            opacity: '0.33',
+          },
         }}
-      />
+      >
+        {space > 42 && <IconChevronTop />}
+        {space > 42 && <IconChevronDown />}
+      </styled.div>
 
-      <Row style={{ gap: 16, marginBottom: 12, marginTop: 12, maxWidth: 278 }}>
+      <Row
+        style={{
+          gap: 16,
+          marginBottom: 12,
+          marginTop: 12,
+          maxWidth: 278,
+          display: isMouseOver || space < 32 || !space ? 'flex' : 'none',
+        }}
+      >
         <Input
           label="Add Space"
           type="number"
@@ -51,7 +76,7 @@ const WhiteSpaceComp = (data) => {
           placeholder={'px'}
         />
       </Row>
-    </>
+    </styled.div>
   )
 }
 
@@ -69,7 +94,7 @@ export default class WhiteSpace extends React.Component {
   constructor({ data }, props) {
     super(props)
     this.data = {
-      space: data.space || 0,
+      space: data.space || 46,
       spaceFormat: data.spaceFormat || 'px',
     }
   }
@@ -100,7 +125,8 @@ export default class WhiteSpace extends React.Component {
     // space format
 
     return {
-      space: inputFieldValue + inputFieldFormat,
+      space: inputFieldValue,
+      spaceFormat: inputFieldFormat,
     }
   }
 }
