@@ -4,7 +4,7 @@ import EditorJS from '@editorjs/editorjs'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
 import SimpleImage from './Plugins/simple-image/simple-image.jsx'
-require('./Plugins/simple-image/simple-image.css')
+import WhiteSpace from './Plugins/white-space/white-space.jsx'
 
 export type RichTextEditorProps = {
   data?: DataObj
@@ -41,6 +41,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
       raw: RawTool,
       list: List,
       image: SimpleImage,
+      space: WhiteSpace,
     },
     onChange: (v) => console.log(v),
   })
