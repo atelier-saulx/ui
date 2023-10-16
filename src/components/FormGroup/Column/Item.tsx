@@ -1,8 +1,10 @@
-import React, { FC, useMemo } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Label } from './Label'
 import { FormItemProps } from '../types'
-import { Input, Row, Text } from '../..'
+import { Input, Row, Text, Button, Badge, List } from '../..'
+import { IconPlus, IconArrowheadRight } from '../../../icons'
+import { color } from '../../../varsUtilities'
 
 export const FormItem: FC<{
   item: FormItemProps
@@ -43,6 +45,7 @@ export const FormItem: FC<{
   if (multiple && !value && !defaultValue) {
     value = ['']
   }
+  const [open, setOpen] = useState(false)
 
   if (typeof type === 'function') {
     return (
@@ -150,49 +153,13 @@ export const FormItem: FC<{
 
   if (multiple) {
     return (
-      <Label description="">
-        <Text weight="strong">{label}</Text>
-        <Text light>{description}</Text>
-        <styled.div
-          style={{ margin: '8px 0', '& > * + *': { marginTop: '8px' } }}
-        >
-          {value.map((v, index) => (
-            <Input
-              key={index}
-              type={type === 'number' ? 'number' : 'text'}
-              clearButton
-              value={v}
-              onChange={(newStringValue) => {
-                const newValue =
-                  type === 'number' ? parseInt(newStringValue) : newStringValue
-
-                if (!newStringValue && value.length > 1) {
-                  onChange(
-                    field,
-                    value.filter((_, i) => i !== index)
-                  )
-                  return
-                }
-
-                const newFieldValue = [...value]
-                newFieldValue[index] = newValue
-                onChange(field, newFieldValue)
-              }}
-            />
-          ))}
-        </styled.div>
-        <styled.div style={{ display: 'flex', justifyContent: 'end' }}>
-          <Text
-            size={12}
-            weight="strong"
-            onClick={() => {
-              onChange(field, [...value, ''])
-            }}
-          >
-            {addMultipleLabel}
-          </Text>
-        </styled.div>
-      </Label>
+      <List
+        onChange={onChange}
+        field={field}
+        label={label}
+        type={type}
+        value={value}
+      />
     )
   }
 
