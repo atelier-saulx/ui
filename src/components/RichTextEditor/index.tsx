@@ -17,7 +17,6 @@ type DataObj = {
   version: string
 }
 
-const RawTool = require('@editorjs/raw')
 const Header = require('@editorjs/header')
 const List = require('@editorjs/list')
 
@@ -39,7 +38,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         inlineToolbar: ['link'],
       },
       list: List,
-      raw: RawTool,
       image: SimpleImage,
       space: WhiteSpace,
     },
