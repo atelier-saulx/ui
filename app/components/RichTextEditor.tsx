@@ -56,7 +56,7 @@ const example: ComponentDef = {
               id: '8hp7msbRKc',
               type: 'image',
               data: {
-                url: 'https://robohash.org/QYZ.png?set=set1',
+                url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlPMlAI4LpTJQHrfUHdxtNSzs7p7kjOG8gejP_dPabUB1fJ-YU_0gjTbXioHSedzb-NGc&usqp=CAU',
               },
             },
           ],
