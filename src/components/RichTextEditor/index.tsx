@@ -76,7 +76,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
           color={!displayVisual ? 'primary' : 'neutral'}
           onClick={() => {
             editor.save().then((outputData) => {
-              setTempVisualData(outputData)
+              //    setTempVisualData(outputData)
               setRawHtml(blocksToHtmlParser(outputData.blocks as []))
             })
             setDisplayVisual(false)
@@ -169,7 +169,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
             value={rawHtml}
             language="html"
             onChange={(v) => setRawHtml(v)}
-          ></Code>
+          />
         </div>
       )}
 

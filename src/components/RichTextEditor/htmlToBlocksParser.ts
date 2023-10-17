@@ -1,6 +1,6 @@
 export const htmlToBlocksParser = (data, html) => {
   console.log('🍿 --> the data', data)
-  console.log('🍟 --> the html', html)
+  //   console.log('🍟 --> the html', html)
 
   let DomParser = new DOMParser()
   let parsedHtml = DomParser.parseFromString(html, 'text/html')
@@ -62,23 +62,47 @@ export const htmlToBlocksParser = (data, html) => {
     }
     // space
     if (item.substring(0, 4) === '<div' && item.includes(`class="spacing"`)) {
-      //now get the style prop ->  height
+      let spacingEl = DomParser.parseFromString(item, 'text/html')
+      let spacingDiv: HTMLDivElement = spacingEl.querySelector('.spacing')
+      let height = spacingDiv.style.height.toString()
+
+      let newSpaceFormat
+      if (height.substring(height.length - 3) === 'rem') {
+        newSpaceFormat = 'rem'
+      } else {
+        newSpaceFormat = height.substring(height.length - 2)
+      }
+
+      let newSpace = height.replace(newSpaceFormat, '')
 
       newBlocks.push({
         id: 'todoSnurpSPACE',
         type: 'space',
         data: {
-          space: '666',
-          spaceFormat: 'px',
+          space: +newSpace,
+          spaceFormat: newSpaceFormat,
+        },
+      })
+    }
+    // raw html
+    if (item.substring(0, 4) === '<div' && item.includes(`class="rawHtml"`)) {
+      let htmlEl: any = DomParser.parseFromString(item, 'text/html')
+      const rawHtml = htmlEl.body.children[0].innerHTML
+
+      newBlocks.push({
+        id: 'todoSnurpHTML',
+        type: 'html',
+        data: {
+          html: rawHtml,
         },
       })
     }
   })
 
-  console.log(HTMLArray, '🔑??')
+  //   console.log(HTMLArray, '🔑??')
   console.log('NEWBLOCKS??', newBlocks)
 
   data.blocks = [...newBlocks]
 
-  return data
+  return { ...data }
 }
