@@ -30,7 +30,7 @@ export const SegmentedControl: FC<SegmentedControlProps> = ({
   // iundex
 }) => {
   const [activeOption, setActiveOption] = usePropState(
-    active >= data.length ? data.length : active <= 0 ? 0 : data.length
+    active >= data.length ? data.length - 1 : active < 0 ? 0 : active
   )
 
   const calc = (100 / data.length) * activeOption

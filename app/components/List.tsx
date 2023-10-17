@@ -16,8 +16,15 @@ const example: ComponentDef = {
         description: 'Enter a value',
       },
       customRenderer: (props) => {
-        const [value, setValue] = useState('')
-        return <List />
+        const [value, setValue] = useState([''])
+        return (
+          <List
+            type="text"
+            field="Array of strings"
+            onChange={(v) => setValue(v)}
+            value={value}
+          />
+        )
       },
     },
   ],
