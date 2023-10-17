@@ -8,7 +8,8 @@ import SimpleImage from './Plugins/simple-image/simple-image'
 import WhiteSpace from './Plugins/white-space/white-space'
 import HtmlBlock from './Plugins/html-block/html-block'
 import { IconEye, IconFile } from '../../icons'
-import { htmlBlocksParser } from './htmlBlocksParser'
+import { blocksToHtmlParser } from './blocksToHtmlParser'
+import { htmlToBlocksParser } from './htmlToBlocksParser'
 import { Code } from '../Code'
 
 export type RichTextEditorProps = {
@@ -27,7 +28,7 @@ const List = require('@editorjs/list')
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
   const [displayVisual, setDisplayVisual] = useState(true)
-  const [rawHtml, setRawHtml] = useState(htmlBlocksParser(data.blocks as []))
+  const [rawHtml, setRawHtml] = useState(blocksToHtmlParser(data.blocks as []))
   const [tempVisualData, setTempVisualData] = useState<any>(data)
 
   const editor = new EditorJS({
@@ -61,7 +62,11 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         <Button
           size="xsmall"
           color={displayVisual ? 'primary' : 'neutral'}
-          onClick={() => setDisplayVisual(true)}
+          onClick={() => {
+            // TODO: here turn html to visual again if html changed or something
+            setTempVisualData(htmlToBlocksParser(tempVisualData, rawHtml))
+            setDisplayVisual(true)
+          }}
           icon={<IconEye />}
         >
           Visual
@@ -72,7 +77,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
           onClick={() => {
             editor.save().then((outputData) => {
               setTempVisualData(outputData)
-              setRawHtml(htmlBlocksParser(outputData.blocks as []))
+              setRawHtml(blocksToHtmlParser(outputData.blocks as []))
             })
             setDisplayVisual(false)
           }}
@@ -160,7 +165,11 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
             ...style,
           }}
         >
-          <Code value={rawHtml} language="html"></Code>
+          <Code
+            value={rawHtml}
+            language="html"
+            onChange={(v) => setRawHtml(v)}
+          ></Code>
         </div>
       )}
 
@@ -170,11 +179,12 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
           editor
             .save()
             .then((outputData) => {
-              console.log('Article data: ', outputData)
-              console.log(
-                'Parsed 🐸',
-                htmlBlocksParser(outputData?.blocks as [])
-              )
+              // console.log('Article data: ', outputData)
+              // console.log(
+              //   'Parsed 🐸',
+              //   blocksToHtmlParser(outputData?.blocks as [])
+              // )
+              console.log(htmlToBlocksParser(outputData, rawHtml))
             })
             .catch((error) => {
               console.log('Saving failed: ', error)

@@ -1,9 +1,11 @@
 type blockTypes = 'header' | 'paragraph' | 'list' | 'html' | 'image' | 'space'
 
-export const htmlBlocksParser = (
+export const blocksToHtmlParser = (
   jsonBlocks: { type: blockTypes; id: string; data: any }[]
 ) => {
   let htmlString = ''
+
+  console.log(jsonBlocks, '🌲')
 
   jsonBlocks.map((block, idx) => {
     if (block.type === 'header') {
