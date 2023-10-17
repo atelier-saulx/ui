@@ -12,7 +12,7 @@ const example: ComponentDef = {
     {
       props: {
         style: { width: 500 },
-        codeLanguage: 'markup',
+        language: 'markup',
         color: 'neutral',
         value: `<style>
   .class{

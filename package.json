@@ -49,7 +49,6 @@
     "@babel/traverse": "^7.18.6",
     "@based/cli": "^5.11.1",
     "@based/functions": "^2.2.2",
-    "@editorjs/raw": "^2.4.0",
     "@faker-js/faker": "^8.0.2",
     "@saulx/eslint-config": "^1.1.1",
     "@saulx/prettier-config": "^1.0.0",

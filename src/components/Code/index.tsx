@@ -33,7 +33,7 @@ export type CodeProps = {
   header?: ReactNode
   color?: ColorBackgroundColors
   copy?: boolean
-  codeLanguage?: 'js' | 'html' | 'css' | 'json' | 'markup' | 'clike' | string
+  language?: 'js' | 'html' | 'css' | 'json' | 'markup' | 'clike' | string
   props?: any
 }
 
@@ -44,7 +44,7 @@ export const Code: FC<CodeProps> = ({
   header,
   color,
   copy,
-  codeLanguage = 'js',
+  language = 'js',
   ...props
 }) => {
   const [copied, copyIt] = useCopyToClipboard(value ?? '')
@@ -78,7 +78,7 @@ export const Code: FC<CodeProps> = ({
         highlight={(code) => {
           try {
             // @ts-ignore
-            const h = highlight(code, languages[codeLanguage])
+            const h = highlight(code, languages[language])
             return h
           } catch (err) {}
         }}

@@ -24,6 +24,7 @@ const example: ComponentDef = {
               type: 'header',
               data: {
                 text: 'You want your tree to have some character.',
+                level: 3,
               },
             },
             {

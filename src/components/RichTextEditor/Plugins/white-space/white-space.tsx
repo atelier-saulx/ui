@@ -109,8 +109,6 @@ export default class WhiteSpace extends React.Component {
   save(blockContent) {
     // space
 
-    console.log(blockContent)
-
     let inputFieldValue = blockContent.querySelectorAll('input')[0].value
     let inputFieldFormat = blockContent.querySelectorAll('input')[1].value
     // space format

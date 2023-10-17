@@ -8,6 +8,8 @@ import SimpleImage from './Plugins/simple-image/simple-image'
 import WhiteSpace from './Plugins/white-space/white-space'
 import HtmlBlock from './Plugins/html-block/html-block'
 import { IconEye, IconFile } from '../../icons'
+import { htmlBlocksParser } from './htmlBlocksParser'
+import { Code } from '../Code'
 
 export type RichTextEditorProps = {
   data?: DataObj
@@ -25,6 +27,7 @@ const List = require('@editorjs/list')
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
   const [displayVisual, setDisplayVisual] = useState(true)
+  const [rawHtml, setRawHtml] = useState(htmlBlocksParser(data.blocks as []))
 
   const editor = new EditorJS({
     holder: 'editorjs',
@@ -75,6 +78,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         <styled.div
           id="editorjs"
           style={{
+            display: displayVisual ? 'block' : 'none',
             fontFamily: 'Inter, sans-serif',
             padding: 16,
             border: `1px solid ${color(
@@ -149,7 +153,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
             ...style,
           }}
         >
-          html display
+          <Code value={rawHtml} language="html"></Code>
         </div>
       )}
 
@@ -160,6 +164,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
             .save()
             .then((outputData) => {
               console.log('Article data: ', outputData)
+              console.log(
+                'Parsed 🐸',
+                htmlBlocksParser(outputData?.blocks as [])
+              )
             })
             .catch((error) => {
               console.log('Saving failed: ', error)

@@ -10,6 +10,7 @@ const HtmlInputBlock = (data) => {
 
   return (
     <Code
+      language="html"
       value={html}
       onChange={(v) => {
         setHtml(v)
