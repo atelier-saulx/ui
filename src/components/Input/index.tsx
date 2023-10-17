@@ -102,7 +102,6 @@ export function Input(props: InputProps) {
         </LabelAndErrorWrapper>
       )
     }
-    // TODO no official design for this just yet
     case 'number': {
       const { type, ...narrowedProps } = props
       return (

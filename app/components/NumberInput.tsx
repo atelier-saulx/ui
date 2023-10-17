@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Input } from '../../src'
 import { ComponentDef } from '../types'
+import props from '../props.json'
 
 const example: ComponentDef = {
   name: 'NumberInput',
@@ -21,6 +22,8 @@ const example: ComponentDef = {
     placeholder: { type: 'string' },
     clearButton: { type: 'boolean' },
     message: { type: 'ReactNode' },
+    suffix: { ...props.props.BadgeProps.props },
+    prefix: { ...props.props.BadgeProps.props },
   },
   examples: [
     {
