@@ -21,7 +21,7 @@ const example: ComponentDef = {
           <List
             type="text"
             field="Array of strings"
-            onChange={(v) => setValue(v)}
+            onChange={(v) => setValue([v])}
             value={value}
           />
         )

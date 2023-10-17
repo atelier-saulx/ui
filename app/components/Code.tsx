@@ -14,7 +14,7 @@ const example: ComponentDef = {
         style: { width: 500 },
         language: 'markup',
         color: 'neutral',
-        value: `<style>
+        defaultValue: `<style>
   .class{
       background-color:yellow;
       font-size:14px;
@@ -26,9 +26,9 @@ const example: ComponentDef = {
   <p>paragraph</p>
   <button>press</button>
 </div>`,
-        onChange: (v) => {
-          console.log(v)
-        },
+        // onChange: (v) => {
+        //   console.log(v)
+        // },
       },
     },
   ],
