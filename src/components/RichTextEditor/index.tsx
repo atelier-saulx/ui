@@ -28,10 +28,11 @@ const List = require('@editorjs/list')
 export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
   const [displayVisual, setDisplayVisual] = useState(true)
   const [rawHtml, setRawHtml] = useState(htmlBlocksParser(data.blocks as []))
+  const [tempVisualData, setTempVisualData] = useState<any>(data)
 
   const editor = new EditorJS({
     holder: 'editorjs',
-    data: data,
+    data: tempVisualData,
     onReady: () => {
       console.log('Editor.js is ready to work!')
       // style changing of tooltip
@@ -50,7 +51,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
       image: SimpleImage,
       space: WhiteSpace,
     },
-    onChange: (v) => console.log(v),
+    // onChange: (v) => console.log(v),
     logLevel: 'WARN' as any,
   })
 
@@ -68,7 +69,13 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         <Button
           size="xsmall"
           color={!displayVisual ? 'primary' : 'neutral'}
-          onClick={() => setDisplayVisual(false)}
+          onClick={() => {
+            editor.save().then((outputData) => {
+              setTempVisualData(outputData)
+              setRawHtml(htmlBlocksParser(outputData.blocks as []))
+            })
+            setDisplayVisual(false)
+          }}
           icon={<IconFile />}
         >
           Html

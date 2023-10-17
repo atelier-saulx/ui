@@ -1,39 +1,34 @@
-// input json
-// output html as string
-
-/// block types -> header, paragraph, list, html, image, space
+type blockTypes = 'header' | 'paragraph' | 'list' | 'html' | 'image' | 'space'
 
 export const htmlBlocksParser = (
-  jsonBlocks: { type: string; id: string; data: any }[]
+  jsonBlocks: { type: blockTypes; id: string; data: any }[]
 ) => {
-  //  block are array of objects
-  // loop through the type and data
-  console.log(jsonBlocks, '👮🏼')
-
   let htmlString = ''
 
   jsonBlocks.map((block, idx) => {
     if (block.type === 'header') {
-      htmlString += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`
+      htmlString += `<h${block.data.level}>${block.data.text}</h${block.data.level}>\n`
     }
     if (block.type === 'paragraph') {
-      htmlString += `<p>${block.data.text}</p>`
+      htmlString += `<p>\n${block.data.text}\n</p>\n`
     }
     if (block.type === 'list') {
-      htmlString += `${block.data.style === 'ordered' ? '<ol>' : '<ul>'}
-      ${block.data.items.map((listItem) => `<li>${listItem}</li>`).join('')}
-      ${block.data.style === 'ordered' ? '</ol>' : '</ul>'}`
+      htmlString += `${
+        block.data.style === 'ordered' ? '<ol>\n' : '<ul>\n'
+      }${block.data.items
+        .map((listItem) => `\t<li>${listItem}</li>\n`)
+        .join('')}${block.data.style === 'ordered' ? '</ol>\n' : '</ul>\n'}`
     }
     if (block.type === 'html') {
-      htmlString += block.data.html
+      htmlString += block.data.html + '\n'
     }
     if (block.type === 'image') {
-      htmlString += `<img src="${block.data.url}" />`
+      htmlString += `<img src="${block.data.url}" />\n`
     }
     if (block.type === 'space') {
       htmlString += `<div style="height:${
         block.data.space + block.data.spaceFormat
-      };"/>`
+      };"/>\n`
     }
   })
 

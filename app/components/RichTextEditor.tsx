@@ -13,7 +13,7 @@ const example: ComponentDef = {
     {
       props: {
         label: 'Rich Text Editor',
-        style: { minWidth: 676 },
+        style: { width: 676 },
       },
       customRenderer: (props) => {
         let data = {
