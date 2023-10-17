@@ -4,22 +4,14 @@ import { createRoot } from 'react-dom/client'
 import { Input } from '../../../Input'
 import { styled } from 'inlines'
 import { color } from '../../../../varsUtilities'
+import { IconImageClose } from 'src/icons'
 
 const ImageAndInputBlock = (data) => {
   const [url, setUrl] = useState(data.value.url)
-  const [isMouseOver, setIsMouseOver] = useState(false)
   const [isImageEmpty, setIsImageEmpty] = useState(false)
 
   return (
-    <styled.div
-      style={{ display: 'flex', marginTop: 8 }}
-      onMouseEnter={() => {
-        setIsMouseOver(true)
-      }}
-      onMouseLeave={() => {
-        setIsMouseOver(false)
-      }}
-    >
+    <styled.div style={{ display: 'flex', marginTop: 8 }}>
       <img
         onLoad={() => setIsImageEmpty(false)}
         onError={(e) => {
@@ -28,12 +20,29 @@ const ImageAndInputBlock = (data) => {
         }}
         src={url}
         style={{
+          display: isImageEmpty ? 'none' : 'block',
           maxWidth: 200,
           borderRadius: 8,
           marginBottom: 12,
           marginRight: 16,
         }}
       />
+
+      <styled.div
+        style={{
+          display: !isImageEmpty ? 'none' : 'flex',
+          backgroundColor: color('action', 'neutral', 'subtleHover'),
+          alignItems: 'center',
+          justifyContent: 'center',
+          minWidth: 200,
+          height: 154,
+          borderRadius: 8,
+          marginBottom: 12,
+          marginRight: 16,
+        }}
+      >
+        <IconImageClose />
+      </styled.div>
 
       <Input
         label="Image url"
@@ -45,11 +54,8 @@ const ImageAndInputBlock = (data) => {
         placeholder={url}
         style={{
           marginBottom: 12,
-          display: isMouseOver || isImageEmpty ? 'block' : 'none',
         }}
       />
-
-      {/* is mouse over:??{!isMouseOver ? 'false' : 'true'} */}
     </styled.div>
   )
 }

@@ -10,15 +10,13 @@ import { IconChevronTop, IconChevronDown } from '../../../../icons'
 const WhiteSpaceComp = (data) => {
   const [space, setSpace] = useState(data.value.space)
   const [spaceFormat, setSpaceFormat] = useState(data.value.spaceFormat)
-  const [isMouseOver, setIsMouseOver] = useState(false)
 
   return (
-    <styled.div
-      onMouseEnter={() => {
-        setIsMouseOver(true)
-      }}
-      onMouseLeave={() => {
-        setIsMouseOver(false)
+    <Row
+      style={{
+        gap: 16,
+        marginBottom: 12,
+        marginTop: 12,
       }}
     >
       <styled.div
@@ -46,37 +44,30 @@ const WhiteSpaceComp = (data) => {
           },
         }}
       >
-        {space > 42 && <IconChevronTop />}
-        {space > 42 && <IconChevronDown />}
+        {space > 36 && <IconChevronTop />}
+        {space > 36 && <IconChevronDown />}
       </styled.div>
 
-      <Row
-        style={{
-          gap: 16,
-          marginBottom: 12,
-          marginTop: 12,
-          maxWidth: 278,
-          display: isMouseOver || space < 32 || !space ? 'flex' : 'none',
-        }}
-      >
+      <Row style={{ gap: 8, maxWidth: 278 }}>
         <Input
-          label="Add Space"
+          style={{ maxWidth: 84 }}
+          label="Space"
           type="number"
           value={space}
           onChange={(v) => {
             setSpace(v)
           }}
-          placeholder={'enter your desired space distance...'}
+          placeholder={'space...'}
         />
         <Input
-          label="Format(px, vh, rem)"
+          label="(px,vh,rem)"
           type="text"
           value={spaceFormat}
           onChange={(v) => setSpaceFormat(v)}
           placeholder={'px'}
         />
       </Row>
-    </styled.div>
+    </Row>
   )
 }
 
