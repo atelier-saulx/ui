@@ -62,14 +62,25 @@ export const htmlToBlocksParser = (data, html) => {
     }
     // space
     if (item.substring(0, 4) === '<div' && item.includes(`class="spacing"`)) {
-      //now get the style prop ->  height
+      let spacingEl = DomParser.parseFromString(item, 'text/html')
+      let spacingDiv: HTMLDivElement = spacingEl.querySelector('.spacing')
+      let height = spacingDiv.style.height.toString()
+
+      let newSpaceFormat
+      if (height.substring(height.length - 3) === 'rem') {
+        newSpaceFormat = 'rem'
+      } else {
+        newSpaceFormat = height.substring(height.length - 2)
+      }
+
+      let newSpace = height.replace(newSpaceFormat, '')
 
       newBlocks.push({
         id: 'todoSnurpSPACE',
         type: 'space',
         data: {
-          space: '666',
-          spaceFormat: 'px',
+          space: +newSpace,
+          spaceFormat: newSpaceFormat,
         },
       })
     }
