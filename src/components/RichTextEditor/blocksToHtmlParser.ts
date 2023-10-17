@@ -22,7 +22,7 @@ export const blocksToHtmlParser = (
         .join('')}${block.data.style === 'ordered' ? '</ol>\n' : '</ul>\n'}`
     }
     if (block.type === 'html') {
-      htmlString += block.data.html + '\n'
+      htmlString += `<div class="rawHtml">${block.data.html}</div>\n`
     }
     if (block.type === 'image') {
       htmlString += `<img src="${block.data.url}" />\n`

@@ -1,6 +1,6 @@
 export const htmlToBlocksParser = (data, html) => {
   console.log('🍿 --> the data', data)
-  console.log('🍟 --> the html', html)
+  //   console.log('🍟 --> the html', html)
 
   let DomParser = new DOMParser()
   let parsedHtml = DomParser.parseFromString(html, 'text/html')
@@ -84,12 +84,25 @@ export const htmlToBlocksParser = (data, html) => {
         },
       })
     }
+    // raw html
+    if (item.substring(0, 4) === '<div' && item.includes(`class="rawHtml"`)) {
+      let htmlEl: any = DomParser.parseFromString(item, 'text/html')
+      const rawHtml = htmlEl.body.children[0].innerHTML
+
+      newBlocks.push({
+        id: 'todoSnurpHTML',
+        type: 'html',
+        data: {
+          html: rawHtml,
+        },
+      })
+    }
   })
 
-  console.log(HTMLArray, '🔑??')
+  //   console.log(HTMLArray, '🔑??')
   console.log('NEWBLOCKS??', newBlocks)
 
   data.blocks = [...newBlocks]
 
-  return data
+  return { ...data }
 }
