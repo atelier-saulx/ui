@@ -28,7 +28,7 @@ export const blocksToHtmlParser = (
       htmlString += `<img src="${block.data.url}" />\n`
     }
     if (block.type === 'space') {
-      htmlString += `<div style="height:${
+      htmlString += `<div class="spacing" style="height:${
         block.data.space + block.data.spaceFormat
       };"/>\n`
     }
