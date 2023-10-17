@@ -13,7 +13,7 @@ const example: ComponentDef = {
     {
       props: {
         label: 'Rich Text Editor',
-        style: { minWidth: 676 },
+        style: { width: 676 },
       },
       customRenderer: (props) => {
         let data = {
@@ -24,6 +24,7 @@ const example: ComponentDef = {
               type: 'header',
               data: {
                 text: 'You want your tree to have some character.',
+                level: 3,
               },
             },
             {
