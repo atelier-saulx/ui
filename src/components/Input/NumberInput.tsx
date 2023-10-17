@@ -1,18 +1,26 @@
-import React, { useState, FC, ReactNode } from 'react'
-import { IconClose, IconSmallArrowheadDownSmall } from '../../icons'
+import React, { useState, useEffect, FC, ReactNode } from 'react'
+import {
+  IconClose,
+  IconSmallArrowheadDown,
+  IconSmallArrowheadDownSmall,
+  IconSmallArrowheadTop,
+  IconSmallArrowheadTopSmall,
+} from '../../icons'
 import { Badge, BadgeProps } from '../Badge'
 import { styled, Style } from 'inlines'
 import { color } from '../../varsUtilities'
+import { useControllableState } from '../../hooks'
 
 export type NumberInputOwnProps = {
-  value: number
+  value?: number
+  defaultValue?: number
+  onChange?: (value: number) => void
   clearButton?: boolean
   icon?: ReactNode
   afterIcon?: ReactNode
   prefix?: BadgeProps
   suffix?: BadgeProps
   style?: Style
-  onChange: (value: number) => void
   onFocus?: () => void
   onBlur?: () => void
   disabled?: boolean
@@ -28,12 +36,13 @@ export type NumberInputProps = NumberInputOwnProps &
   Omit<React.ComponentPropsWithoutRef<'input'>, 'prefix'>
 
 export const NumberInput: FC<NumberInputProps> = ({
-  value,
+  value: valueProp,
+  defaultValue: defaultValueProp = '',
+  onChange: onChangeProp,
   min,
   max,
   prefix,
   suffix,
-  onChange,
   icon,
   afterIcon,
   style,
@@ -43,9 +52,49 @@ export const NumberInput: FC<NumberInputProps> = ({
   onFocus,
   onBlur,
   placeholder,
-  step = 'any',
+  step = 1,
   ...props
 }) => {
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
+  const [focused, setFocused] = useState(false)
+
+  const handleIncre = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    //@ts-ignore its on purpose
+    setValue(parseFloat(value + step))
+  }
+  const handleDecre = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    //@ts-ignore its on purpose
+    setValue(parseFloat(value - step))
+  }
+
+  const handleBlur = () => {
+    setFocused(false)
+    if ((value as number) > max) {
+      setValue(max)
+    }
+    if ((value as number) < min) {
+      setValue(min)
+    }
+  }
+
+  useEffect(() => {
+    if (focused) return
+    if ((value as number) > max) {
+      setValue(max)
+    }
+    if ((value as number) < min) {
+      setValue(min)
+    }
+  }, [value])
+
   return (
     <styled.div
       style={{
@@ -88,7 +137,6 @@ export const NumberInput: FC<NumberInputProps> = ({
             : `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
         },
         '& > * + *': {
-          // px instead of raw number bc of https://github.com/atelier-saulx/inlines/issues/1
           marginLeft: '8px',
         },
         ...(disabled
@@ -104,12 +152,20 @@ export const NumberInput: FC<NumberInputProps> = ({
       <styled.input
         value={value}
         onChange={(e) => {
-          onChange(parseFloat(e.target.value))
+          if (!Number.isNaN(parseFloat(e.target.value))) {
+            setValue(parseFloat(e.target?.value))
+          } else {
+            setValue('')
+          }
         }}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        // onBlur={() => handleBlur()}
-        step={step}
+        onFocus={(e) => {
+          setFocused(true)
+          onFocus?.(e.target.value)
+        }}
+        onBlur={(e) => {
+          handleBlur()
+          onBlur?.(e.target.value)
+        }}
         min={min}
         max={max}
         style={{
@@ -134,13 +190,49 @@ export const NumberInput: FC<NumberInputProps> = ({
         type="number"
         {...props}
       />
+
+      <styled.div
+        style={{
+          position: 'absolute',
+          right: 4,
+          top: 0,
+          bottom: 0,
+          padding: 2,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          display: 'flex',
+        }}
+      >
+        <IconSmallArrowheadTop
+          onClick={handleIncre}
+          style={{
+            padding: '8px 4px 0px',
+            marginBottom: '-4px',
+          }}
+        />
+        <IconSmallArrowheadDown
+          onClick={handleDecre}
+          style={{
+            padding: '0px 4px 8px',
+            paddingTop: -4,
+            marginTop: '-4px',
+          }}
+        />
+      </styled.div>
       {suffix && <Badge {...suffix} />}
       {(clearButton || afterIcon) && (
-        <div style={{ flexShrink: 0 }}>
-          {clearButton && value ? (
+        <div
+          style={{
+            flexShrink: 0,
+            position: 'absolute',
+            right: 30,
+          }}
+        >
+          {Math.abs(value as number) > 0 && clearButton ? (
             <IconClose
               onClick={() => {
-                onChange(0)
+                setValue('')
               }}
             />
           ) : (
