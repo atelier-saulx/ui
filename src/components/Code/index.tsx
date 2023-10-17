@@ -24,12 +24,13 @@ import './syntax.css'
 import { Style, styled } from 'inlines'
 import { color as genColor } from '../../varsUtilities'
 import { ColorBackgroundColors } from '../../varsTypes'
-import { useCopyToClipboard } from '../../hooks'
+import { useCopyToClipboard, useControllableState } from '../../hooks'
 
 export type CodeProps = {
-  style?: Style
   value?: string
+  defaultValue?: string
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
+  style?: Style
   header?: ReactNode
   color?: ColorBackgroundColors
   copy?: boolean
@@ -38,15 +39,22 @@ export type CodeProps = {
 }
 
 export const Code: FC<CodeProps> = ({
-  value,
+  value: valueProp,
+  defaultValue: defaultValueProp = '',
+  onChange: onChangeProp,
   style,
-  onChange,
   header,
   color,
   copy,
   codeLanguage = 'js',
   ...props
 }) => {
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValueProp,
+    onChange: onChangeProp,
+  })
+  //@ts-ignore
   const [copied, copyIt] = useCopyToClipboard(value ?? '')
 
   return (
@@ -73,8 +81,9 @@ export const Code: FC<CodeProps> = ({
 
       {/* @ts-ignore */}
       <Editor
+        //@ts-ignore
         value={value}
-        onValueChange={onChange}
+        onValueChange={(v) => setValue(v)}
         highlight={(code) => {
           try {
             // @ts-ignore
@@ -83,7 +92,7 @@ export const Code: FC<CodeProps> = ({
           } catch (err) {}
         }}
         style={{
-          pointerEvents: !onChange ? 'none' : 'auto',
+          pointerEvents: !setValue ? 'none' : 'auto',
           margin: 16,
           fontSize: 14,
           color: genColor('content', 'brand', 'primary'),
