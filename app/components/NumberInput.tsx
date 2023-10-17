@@ -22,6 +22,7 @@ const example: ComponentDef = {
     placeholder: { type: 'string' },
     clearButton: { type: 'boolean' },
     message: { type: 'ReactNode' },
+    integer: { type: 'boolean' },
     // suffix: { ...props.props.BadgeProps.props },
     // prefix: { ...props.props.BadgeProps.props },
   },

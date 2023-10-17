@@ -30,6 +30,7 @@ export type NumberInputOwnProps = {
   min?: number
   max?: number
   step?: number
+  integer?: boolean
 }
 
 export type NumberInputProps = NumberInputOwnProps &
@@ -53,6 +54,7 @@ export const NumberInput: FC<NumberInputProps> = ({
   onBlur,
   placeholder,
   step = 1,
+  integer = false,
   ...props
 }) => {
   const [value, setValue] = useControllableState({
@@ -75,8 +77,11 @@ export const NumberInput: FC<NumberInputProps> = ({
     setValue(parseFloat(value - step))
   }
 
-  const handleBlur = () => {
-    setFocused(false)
+  const handleThing = () => {
+    if (integer && !Number.isInteger(value)) {
+      setValue(Math.round(value as number))
+    }
+
     if ((value as number) > max) {
       setValue(max)
     }
@@ -85,14 +90,14 @@ export const NumberInput: FC<NumberInputProps> = ({
     }
   }
 
+  const handleBlur = () => {
+    setFocused(false)
+    handleThing()
+  }
+
   useEffect(() => {
     if (focused) return
-    if ((value as number) > max) {
-      setValue(max)
-    }
-    if ((value as number) < min) {
-      setValue(min)
-    }
+    handleThing()
   }, [value])
 
   return (
@@ -166,6 +171,7 @@ export const NumberInput: FC<NumberInputProps> = ({
           handleBlur()
           onBlur?.(e.target.value)
         }}
+        step={step}
         min={min}
         max={max}
         style={{

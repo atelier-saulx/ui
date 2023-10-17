@@ -2,9 +2,22 @@ import React, { FC, useMemo, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Label } from './Label'
 import { FormItemProps } from '../types'
-import { Input, Row, Text, Button, Badge, List } from '../..'
+import { Input, Row, Text, Button, Badge, List, Toggle, Code } from '../..'
 import { IconPlus, IconArrowheadRight } from '../../../icons'
 import { color } from '../../../varsUtilities'
+
+// | 'timestamp'
+// | 'string'
+// | 'object'
+// | 'array'
+// | 'record'
+// | 'set'
+// | 'number'
+// | 'integer'
+// | 'reference'
+// | 'references'
+// | 'text'
+// | 'cardinality'
 
 export const FormItem: FC<{
   item: FormItemProps
@@ -45,7 +58,6 @@ export const FormItem: FC<{
   if (multiple && !value && !defaultValue) {
     value = ['']
   }
-  const [open, setOpen] = useState(false)
 
   if (typeof type === 'function') {
     return (
@@ -93,6 +105,32 @@ export const FormItem: FC<{
     )
   }
 
+  if (type === 'json') {
+    return (
+      <Label label={label} description={description}>
+        <Code
+          onChange={(v) => onChange(field, v)}
+          value={value}
+          language="json"
+        />
+      </Label>
+    )
+  }
+
+  if (type === 'boolean') {
+    return (
+      <Label description={description} label={label}>
+        <Toggle
+          label={label}
+          value={value}
+          onChange={(v) => onChange(field, v)}
+          // {...props}
+          // @ts-ignore
+          style={props?.style}
+        />
+      </Label>
+    )
+  }
   if (type === 'range') {
     return (
       <Label label={label} description={description}>
@@ -151,7 +189,7 @@ export const FormItem: FC<{
     )
   }
 
-  if (multiple) {
+  if (multiple || type === 'array' || type === 'set') {
     return (
       <List
         onChange={onChange}
@@ -171,12 +209,13 @@ export const FormItem: FC<{
     <Label label={label} description={description}>
       {/* @ts-ignore FIX THIS TYPE */}
       <Input
+        integer={type === 'integer' ? true : undefined}
         error={isError}
         message={isError && isString ? validateResult : undefined}
         autoFocus={autoFocus}
         value={value ?? ''}
         //  @ts-ignore
-        type={type || 'text'}
+        type={type === 'integer' ? 'number' : type || 'text'}
         onChange={(v) => onChange(field, v)}
         {...props}
         // @ts-ignore

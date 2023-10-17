@@ -3,17 +3,10 @@ import { styled } from 'inlines'
 import { IconArrowheadRight, IconPlus } from '../../icons'
 import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
+import { FormItemProps } from '../FormGroup/types'
 
 export const List: FC<{
-  type?:
-    | 'number'
-    | 'text'
-    | 'range'
-    | 'checkbox'
-    | 'file'
-    | 'color'
-    | 'password'
-    | 'textarea'
+  type?: FormItemProps['type']
   field: string
   label?: ReactNode
   value?: any

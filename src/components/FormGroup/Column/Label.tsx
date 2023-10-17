@@ -28,12 +28,20 @@ export const Label: FC<LabelProps> = ({
     >
       {label ? (
         <Row>
-          <Text style={{ marginBottom: description ? 0 : 0 }} weight="strong">
+          <Text
+            selectable="none"
+            style={{ marginBottom: description ? 0 : 0 }}
+            weight="strong"
+          >
             {label}
           </Text>
         </Row>
       ) : null}
-      {description && <Text light>{description}</Text>}
+      {description && (
+        <Text selectable="none" light>
+          {description}
+        </Text>
+      )}
       <styled.div
         style={{
           marginTop: 8,

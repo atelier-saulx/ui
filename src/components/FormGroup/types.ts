@@ -17,6 +17,20 @@ export type FormItemProps<T = any> = {
     | 'password'
     | 'textarea'
     | FC
+    | 'string'
+    | 'array'
+    | 'object'
+    | 'record'
+    | 'set'
+    | 'boolean'
+    | 'number'
+    | 'json'
+    | 'integer'
+    | 'timestamp'
+    | 'reference'
+    | 'references'
+    | 'text'
+    | 'cardinality'
   description?: ReactNode
   field: string
   options?: any[]

@@ -4,10 +4,47 @@ import props from '../props.json'
 import { ComponentDef } from '../types'
 
 const fieldProps = {
+  id: 1337,
   config: {
     port: {
       type: 'number',
       description: 'Network port',
+    },
+    json: {
+      type: 'json',
+      label: 'json',
+      value: `{
+        "glossary": {
+            "title": "example glossary",
+        "GlossDiv": {
+                "title": "S",
+          "GlossList": {
+                    "GlossEntry": {
+                        "ID": "SGML",
+              "SortAs": "SGML",
+              "GlossTerm": "Standard Generalized Markup Language",
+              "Acronym": "SGML",
+              "Abbrev": "ISO 8879:1986",
+              "GlossDef": {
+                            "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                "GlossSeeAlso": ["GML", "XML"]
+                        },
+              "GlossSee": "markup"
+                    }
+                }
+            }
+        }
+    }`,
+    },
+    toggle: {
+      type: 'boolean',
+      label: 'Boolean',
+      description: 'Network port',
+    },
+    integer: {
+      type: 'integer',
+      label: 'Integer',
+      description: 'Whole Numb(ers)',
     },
     arrayOfStrings: {
       type: 'text',
@@ -91,13 +128,13 @@ const example: ComponentDef = {
   description: 'FormGroup Component, can be grid or column',
   properties: {}, //props.props.FormGroupProps.props,
   examples: [
-    {
-      props: {
-        ...fieldProps,
-        variant: 'grid',
-        autoFocus: true,
-      },
-    },
+    // {
+    //   props: {
+    //     ...fieldProps,
+    //     variant: 'grid',
+    //     autoFocus: true,
+    //   },
+    // },
     {
       name: 'Column',
       description: 'Same form displayed as a colum',

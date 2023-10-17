@@ -2,7 +2,7 @@ import React, { FC, useMemo } from 'react'
 import { styled, Style } from 'inlines'
 import { Label } from './Label'
 import { FormItemProps } from '../types'
-import { Input, Row } from '../..'
+import { Code, Input, Row, Toggle } from '../..'
 
 export const FormItem: FC<{
   item: FormItemProps
@@ -103,7 +103,32 @@ export const FormItem: FC<{
       </Label>
     )
   }
+  if (type === 'json') {
+    return (
+      <Label label={label} description={description}>
+        <Code
+          onChange={(v) => onChange(field, v)}
+          value={value}
+          language="json"
+        />
+      </Label>
+    )
+  }
 
+  if (type === 'boolean') {
+    return (
+      <Label description={description} label={label}>
+        <Toggle
+          label={label}
+          value={value}
+          onChange={(v) => onChange(field, v)}
+          // {...props}
+          // @ts-ignore
+          style={props?.style}
+        />
+      </Label>
+    )
+  }
   if (type === 'range') {
     return (
       <Label
