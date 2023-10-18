@@ -5,9 +5,9 @@ export const blocksToHtmlParser = (
 ) => {
   let htmlString = ''
 
-  console.log(jsonBlocks, '🌲')
+  // console.log(jsonBlocks, '🌲')
 
-  jsonBlocks.map((block, idx) => {
+  jsonBlocks?.map((block, idx) => {
     if (block.type === 'header') {
       htmlString += `<h${block.data.level}>${block.data.text}</h${block.data.level}>\n`
     }
@@ -30,7 +30,7 @@ export const blocksToHtmlParser = (
     if (block.type === 'space') {
       htmlString += `<div class="spacing" style="height:${
         block.data.space + block.data.spaceFormat
-      };"/>\n`
+      };"></div>\n`
     }
   })
 

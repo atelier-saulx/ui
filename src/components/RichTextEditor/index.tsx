@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { styled, Style } from 'inlines'
 import EditorJS from '@editorjs/editorjs'
 import { Button } from '../Button'
@@ -11,6 +11,7 @@ import { IconEye, IconFile } from '../../icons'
 import { blocksToHtmlParser } from './blocksToHtmlParser'
 import { htmlToBlocksParser } from './htmlToBlocksParser'
 import { Code } from '../Code'
+import TextAlign from './InlineTools/text-align'
 
 export type RichTextEditorProps = {
   data?: DataObj
@@ -28,7 +29,7 @@ const List = require('@editorjs/list')
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
   const [displayVisual, setDisplayVisual] = useState(true)
-  const [rawHtml, setRawHtml] = useState(blocksToHtmlParser(data.blocks as []))
+  const [rawHtml, setRawHtml] = useState(blocksToHtmlParser(data?.blocks as []))
   const [tempVisualData, setTempVisualData] = useState<any>(data)
 
   const editor = new EditorJS({
@@ -45,14 +46,17 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
     tools: {
       header: {
         class: Header,
-        inlineToolbar: ['link'],
+        inlineToolbar: ['link', 'textAlign'],
       },
-      list: List,
+      list: {
+        class: List,
+        inlineToolbar: ['textAlign'],
+      },
       html: HtmlBlock,
       image: SimpleImage,
       space: WhiteSpace,
+      textAlign: TextAlign,
     },
-    // onChange: (v) => console.log(v),
     logLevel: 'WARN' as any,
   })
 
@@ -63,7 +67,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
           size="xsmall"
           color={displayVisual ? 'primary' : 'neutral'}
           onClick={() => {
-            // TODO: here turn html to visual again if html changed or something
+            // turn html to visual again if html changed or something
             setTempVisualData(htmlToBlocksParser(tempVisualData, rawHtml))
             setDisplayVisual(true)
           }}
@@ -76,8 +80,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
           color={!displayVisual ? 'primary' : 'neutral'}
           onClick={() => {
             editor.save().then((outputData) => {
-              //    setTempVisualData(outputData)
-              setRawHtml(blocksToHtmlParser(outputData.blocks as []))
+              setTempVisualData(outputData)
+              setRawHtml(blocksToHtmlParser(outputData?.blocks as []))
             })
             setDisplayVisual(false)
           }}
@@ -90,7 +94,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         <styled.div
           id="editorjs"
           style={{
-            display: displayVisual ? 'block' : 'none',
             fontFamily: 'Inter, sans-serif',
             padding: 16,
             border: `1px solid ${color(
@@ -110,10 +113,16 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
               fontFamily: 'Inter, sans-serif',
             },
             '& .codex-editor__redactor': {
-              paddingBottom: '74px !important',
+              paddingBottom: '2px !important',
             },
             '& .ce-toolbar__plus, .ce-toolbar__settings-btn': {
               color: color('content', 'default', 'primary'),
+            },
+            '& .ce-popover-item--confirmation': {
+              background: color('content', 'negative'),
+            },
+            '& .ce-popover-item--confirmation .ce-popover-item__icon': {
+              color: color('content', 'negative'),
             },
             '& .ce-popover-item__icon': {
               width: '22px',
@@ -136,7 +145,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
               color: color('action', 'primary', 'active'),
             },
             '& .ce-conversion-tool--focused': {
-              background: ` ${color(
+              background: `${color(
                 'action',
                 'primary',
                 'subtleSelected'
@@ -173,26 +182,30 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         </div>
       )}
 
-      <Button
-        style={{ marginTop: 24 }}
-        onClick={() => {
-          editor
-            .save()
-            .then((outputData) => {
-              // console.log('Article data: ', outputData)
-              // console.log(
-              //   'Parsed 🐸',
-              //   blocksToHtmlParser(outputData?.blocks as [])
-              // )
-              console.log(htmlToBlocksParser(outputData, rawHtml))
-            })
-            .catch((error) => {
-              console.log('Saving failed: ', error)
-            })
-        }}
-      >
-        Save test output
-      </Button>
+      {displayVisual && (
+        <Button
+          style={{
+            marginTop: 16,
+            marginLeft: 'auto',
+            position: 'relative',
+            display: 'block',
+          }}
+          size="small"
+          onClick={() => {
+            editor
+              .save()
+              .then((outputData) => {
+                //  console.log(htmlToBlocksParser(outputData, rawHtml))
+                console.log('Output?? -> ', outputData)
+              })
+              .catch((error) => {
+                console.log('Saving failed: ', error)
+              })
+          }}
+        >
+          Save test output
+        </Button>
+      )}
     </>
   )
 }
