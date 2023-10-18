@@ -1,3 +1,9 @@
+const generateString = (length) =>
+  Array(length)
+    .fill('')
+    .map((v) => Math.random().toString(36).charAt(2))
+    .join('')
+
 export const htmlToBlocksParser = (data, html) => {
   // console.log('🍿 --> the data', data)
   //   console.log('🍟 --> the html', html)
@@ -13,7 +19,7 @@ export const htmlToBlocksParser = (data, html) => {
     // headers
     if (item.substring(0, 2) === '<h') {
       newBlocks.push({
-        id: 'todoSnurpHead',
+        id: `hea-${generateString(6)}`,
         type: 'header',
         data: {
           text: item.slice(4).slice(0, -5),
@@ -24,7 +30,7 @@ export const htmlToBlocksParser = (data, html) => {
     // paragraphs
     if (item.substring(0, 2) === '<p') {
       newBlocks.push({
-        id: 'todoSnurp',
+        id: `par-${generateString(6)}`,
         type: 'paragraph',
         data: {
           text: item.slice(4).slice(0, -5),
@@ -38,7 +44,7 @@ export const htmlToBlocksParser = (data, html) => {
       let Arr = [...listItems].map((item) => item.innerHTML)
 
       newBlocks.push({
-        id: 'todoSnurpList',
+        id: `lis-${generateString(6)}`,
         type: 'list',
         data: {
           type: item.substring(0, 2) === '<u' ? 'unordered' : 'ordered',
@@ -53,7 +59,7 @@ export const htmlToBlocksParser = (data, html) => {
       const imgSrc = rex.exec(item)[1]
 
       newBlocks.push({
-        id: 'todoSnurpIMG',
+        id: `img-${generateString(6)}`,
         type: 'image',
         data: {
           url: imgSrc,
@@ -76,7 +82,7 @@ export const htmlToBlocksParser = (data, html) => {
       let newSpace = height.replace(newSpaceFormat, '')
 
       newBlocks.push({
-        id: 'todoSnurpSPACE',
+        id: `spa-${generateString(6)}`,
         type: 'space',
         data: {
           space: +newSpace,
@@ -90,7 +96,7 @@ export const htmlToBlocksParser = (data, html) => {
       const rawHtml = htmlEl.body.children[0].innerHTML
 
       newBlocks.push({
-        id: 'todoSnurpHTML',
+        id: `raw-${generateString(6)}`,
         type: 'html',
         data: {
           html: rawHtml,

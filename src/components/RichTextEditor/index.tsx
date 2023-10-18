@@ -11,6 +11,7 @@ import { IconEye, IconFile } from '../../icons'
 import { blocksToHtmlParser } from './blocksToHtmlParser'
 import { htmlToBlocksParser } from './htmlToBlocksParser'
 import { Code } from '../Code'
+import TextAlign from './InlineTools/text-align'
 
 export type RichTextEditorProps = {
   data?: DataObj
@@ -29,12 +30,7 @@ const List = require('@editorjs/list')
 export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
   const [displayVisual, setDisplayVisual] = useState(true)
   const [rawHtml, setRawHtml] = useState(blocksToHtmlParser(data?.blocks as []))
-  const [tempVisualData, setTempVisualData] = useState<any>()
-
-  useEffect(() => {
-    console.log('fire ❤️‍🔥')
-    setTempVisualData(data)
-  }, [])
+  const [tempVisualData, setTempVisualData] = useState<any>(data)
 
   const editor = new EditorJS({
     holder: 'editorjs',
@@ -53,12 +49,16 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
     tools: {
       header: {
         class: Header,
-        inlineToolbar: ['link'],
+        inlineToolbar: ['link', 'textAlign'],
       },
-      list: List,
+      list: {
+        class: List,
+        inlineToolbar: ['textAlign'],
+      },
       html: HtmlBlock,
       image: SimpleImage,
       space: WhiteSpace,
+      textAlign: TextAlign,
     },
     logLevel: 'WARN' as any,
   })
@@ -195,6 +195,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
           }}
           size="small"
           onClick={() => {
+            console.log(editor)
             editor
               .save()
               .then((outputData) => {

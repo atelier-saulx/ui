@@ -55,7 +55,7 @@ export default class HtmlBlock extends React.Component {
   }
 
   save(blockContent) {
-    console.log('some html?>?', blockContent)
+    // console.log('some html?>?', blockContent)
 
     let inputFieldValue = blockContent.querySelector('textarea').value
 
