@@ -10,48 +10,74 @@ const fieldProps = {
       type: 'number',
       description: 'Network port',
     },
-    json: {
-      type: 'json',
-      label: 'json',
-      value: `{
-        "glossary": {
-            "title": "example glossary",
-        "GlossDiv": {
-                "title": "S",
-          "GlossList": {
-                    "GlossEntry": {
-                        "ID": "SGML",
-              "SortAs": "SGML",
-              "GlossTerm": "Standard Generalized Markup Language",
-              "Acronym": "SGML",
-              "Abbrev": "ISO 8879:1986",
-              "GlossDef": {
-                            "para": "A meta-markup language, used to create markup languages such as DocBook.",
-                "GlossSeeAlso": ["GML", "XML"]
-                        },
-              "GlossSee": "markup"
-                    }
-                }
-            }
-        }
-    }`,
-    },
-    toggle: {
-      type: 'boolean',
-      label: 'Boolean',
-      description: 'Network port',
-    },
-    integer: {
-      type: 'integer',
-      label: 'Integer',
-      description: 'Whole Numb(ers)',
-    },
-    arrayOfStrings: {
-      type: 'text',
-      multiple: true,
-      addMultipleLabel: 'Add extra string',
-      description: 'bla',
-    },
+    // json: {
+    //   type: 'json',
+    //   label: 'json',
+    //   value: `{
+    //     "glossary": {
+    //         "title": "example glossary",
+    //     "GlossDiv": {
+    //             "title": "S",
+    //       "GlossList": {
+    //                 "GlossEntry": {
+    //                     "ID": "SGML",
+    //           "SortAs": "SGML",
+    //           "GlossTerm": "Standard Generalized Markup Language",
+    //           "Acronym": "SGML",
+    //           "Abbrev": "ISO 8879:1986",
+    //           "GlossDef": {
+    //                         "para": "A meta-markup language, used to create markup languages such as DocBook.",
+    //             "GlossSeeAlso": ["GML", "XML"]
+    //                     },
+    //           "GlossSee": "markup"
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }`,
+    // },
+    // toggle: {
+    //   type: 'boolean',
+    //   label: 'Boolean',
+    //   description: 'Network port',
+    // },
+    // array: {
+    //   type: 'array',
+    //   value: [1, 2, 3],
+    //   values: {
+    //     type: 'number',
+    //   },
+    // },
+    // integer: {
+    //   type: 'integer',
+    //   label: 'Integer',
+    //   description: 'Whole Numb(ers)',
+    // },
+    // arrayOfStrings: {
+    //   type: 'array',
+    //   description: 'this is nested array',
+
+    //   value: [
+    //     {
+    //       type: 'text',
+    //       multiple: true,
+    //       addMultipleLabel: 'Add extra string',
+    //       description: 'bla',
+    //     },
+    //     {
+    //       type: 'text',
+    //       multiple: true,
+    //       addMultipleLabel: 'Add extra string',
+    //       description: 'bla',
+    //     },
+    //     {
+    //       type: 'text',
+    //       multiple: true,
+    //       addMultipleLabel: 'Add extra string',
+    //       description: 'bla',
+    //     },
+    //   ],
+    // },
     arrayOfNumbers: {
       type: 'number',
       multiple: true,
