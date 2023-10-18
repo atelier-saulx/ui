@@ -16,6 +16,7 @@ export const setValue = (
   field,
   values: { [field: string]: any },
   value: any
+  // depth
 ) => {
   const path = field.split('.')
   let v = values
@@ -25,6 +26,19 @@ export const setValue = (
   }
   v[path[path.length - 1]] = value
 }
+// export const setValue = (
+//   field,
+//   values: { [field: string]: any },
+//   value: any
+// ) => {
+//   const path = field.split('.')
+//   let v = values
+//   for (let i = 0; i < path.length - 1; i++) {
+//     const f = path[i]
+//     v = v[f] ?? (v[f] = {})
+//   }
+//   v[path[path.length - 1]] = value
+// }
 
 export const equalChanges = (
   changes: { [key: string]: any },

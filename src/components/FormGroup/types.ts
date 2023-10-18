@@ -39,7 +39,8 @@ export type FormItemProps<T = any> = {
   validation?: (value: T) => boolean | string
   multiple?: boolean
   addMultipleLabel?: string
-  values?: { type: FormItemProps['type'] }
+  values?: { type: FormItemProps['type']; values: FormItemProps['values'] }
+  // values?: { type: FormItemProps['type']; values: any }
 }
 
 export type FormGroupValues = { [field: string]: any }
