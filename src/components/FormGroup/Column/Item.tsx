@@ -12,8 +12,6 @@ import { color } from '../../../varsUtilities'
 // | 'array'
 // | 'record'
 // | 'set'
-// | 'number'
-// | 'integer'
 // | 'reference'
 // | 'references'
 // | 'text'
@@ -37,6 +35,7 @@ export const FormItem: FC<{
     options,
     default: defaultValue,
     multiple,
+    values,
     addMultipleLabel = 'Add',
   },
   autoFocus,
@@ -192,6 +191,7 @@ export const FormItem: FC<{
   if (multiple || type === 'array' || type === 'set') {
     return (
       <List
+        values={values}
         onChange={onChange}
         field={field}
         label={label}

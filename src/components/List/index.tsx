@@ -4,15 +4,18 @@ import { IconArrowheadRight, IconPlus } from '../../icons'
 import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
+import { FormItem } from '../FormGroup/Column/Item'
 
 export const List: FC<{
   type?: FormItemProps['type']
   field: string
   label?: ReactNode
+  values?: { type: FormItemProps['type'] }
   value?: any
   onChange: (field: string, value: any) => void
-}> = ({ type, field, label, onChange, value }) => {
+}> = ({ type, field, label, onChange, value, values }) => {
   const [open, setOpen] = useState(false)
+  console.log(values?.type)
 
   return (
     <Label>
@@ -74,7 +77,14 @@ export const List: FC<{
                 // style={{ position: 'absolute' }}
                 onFocus={() => setOpen(true)}
                 key={index}
-                type={type === 'number' ? 'number' : 'text'}
+                //@ts-ignore
+                type={
+                  values?.type
+                    ? values?.type
+                    : type === 'number'
+                    ? 'number'
+                    : 'text'
+                }
                 clearButton
                 value={v}
                 // value={open ? v : value.length > 1 ? v + ',' : v}
@@ -105,7 +115,14 @@ export const List: FC<{
             .map((v, index) => (
               <Input
                 key={index + 1}
-                type={type === 'number' ? 'number' : 'text'}
+                //@ts-ignore
+                type={
+                  values?.type
+                    ? values?.type
+                    : type === 'number'
+                    ? 'number'
+                    : 'text'
+                }
                 clearButton
                 value={v}
                 onChange={(newStringValue) => {
@@ -138,6 +155,7 @@ export const List: FC<{
           icon={<IconPlus />}
           style={{ border: '1px solid transparent' }}
           onClick={() => {
+            setOpen(true)
             onChange(field, [...value, ''])
           }}
         >
