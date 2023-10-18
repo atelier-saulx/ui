@@ -22,7 +22,7 @@ class TextAlign {
     this.state = 'left'
     this.api = api
 
-    this.data = data || { alignment: this.state }
+    this.data = data
   }
 
   render() {
@@ -38,9 +38,15 @@ class TextAlign {
     return this.button
   }
 
+  private readonly commandName: string = 'justifyContent'
+  /// private readonly commandName: string = 'italic'
+
   surround(range) {
     //console.log("Surrounding")
     const firstParentNode = this.getParentNode(range.commonAncestorContainer)
+
+    //  document.execCommand(this.commandName)
+
     if (this.state === 'left') {
       firstParentNode.style.textAlign = 'center'
       this.state = 'center'
@@ -56,8 +62,7 @@ class TextAlign {
     }
   }
 
-  //   // test this shit
-
+  // test this shit
   checkState(text) {
     if (!text) {
       return
@@ -73,10 +78,8 @@ class TextAlign {
       node?.parentNode?.tagName === 'ul' ||
       node?.parentNode?.tagName === 'ol'
     ) {
-      console.log(this.data, '🎾')
       return node.parentNode
     } else {
-      console.log(this.data, '🍣')
       return this.getParentNode(node.parentNode)
     }
   }
@@ -93,7 +96,7 @@ class TextAlign {
     }
   }
 
-  static get sanitize() {
+  public static get sanitize() {
     return {
       style: true,
     }

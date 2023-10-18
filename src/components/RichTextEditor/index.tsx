@@ -43,9 +43,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         item.style.fontFamily = 'Inter'
       })
     },
-    onChange: () => {
-      console.log('something changed')
-    },
     tools: {
       header: {
         class: Header,
@@ -195,7 +192,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
           }}
           size="small"
           onClick={() => {
-            console.log(editor)
             editor
               .save()
               .then((outputData) => {
