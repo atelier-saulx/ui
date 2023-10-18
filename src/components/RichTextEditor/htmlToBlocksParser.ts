@@ -1,5 +1,5 @@
 export const htmlToBlocksParser = (data, html) => {
-  console.log('🍿 --> the data', data)
+  // console.log('🍿 --> the data', data)
   //   console.log('🍟 --> the html', html)
 
   let DomParser = new DOMParser()
@@ -99,8 +99,10 @@ export const htmlToBlocksParser = (data, html) => {
     }
   })
 
-  //   console.log(HTMLArray, '🔑??')
-  console.log('NEWBLOCKS??', newBlocks)
+  // console.log(HTMLArray, '🔑??')
+  // console.log('NEWBLOCKS??', newBlocks)
+
+  // if no data
 
   data.blocks = [...newBlocks]
 
