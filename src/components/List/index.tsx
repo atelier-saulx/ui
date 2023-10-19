@@ -1,10 +1,11 @@
-import React, { FC, useState, ReactNode } from 'react'
+import React, { FC, useState, ReactNode, useEffect } from 'react'
 import { styled } from 'inlines'
-import { IconArrowheadRight, IconPlus } from '../../icons'
+import { IconArrowheadRight, IconClose, IconPlus } from '../../icons'
 import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
 import { FormItem } from '../FormGroup/Column/Item'
+import { setValue } from '../FormGroup/utils'
 
 export const List: FC<{
   type?: FormItemProps['type']
@@ -13,15 +14,34 @@ export const List: FC<{
   values?: FormItemProps['values']
   value?: any
   onChange: (field: string, value: any) => void
-}> = ({ type = 'string', field, label, onChange, value = [], values }) => {
+  isChild?: boolean
+  deleteFunc?: () => void
+}> = ({
+  type = 'string',
+  field,
+  label,
+  onChange,
+  value = [],
+  values,
+  isChild = false,
+  deleteFunc,
+}) => {
   const [open, setOpen] = useState(false)
   const addType = type === 'array' ? [] : ''
+  useEffect(() => {
+    onChange(field, value)
+  }, [])
 
   return (
     <Label>
       <Text
         weight="strong"
-        style={{ display: 'flex', gap: 4, alignItems: 'center' }}
+        style={{
+          display: 'flex',
+          gap: 4,
+          alignItems: 'center',
+          width: '100%',
+        }}
       >
         {field}
         <Button
@@ -41,16 +61,37 @@ export const List: FC<{
             />
           }
         />
+        {isChild && (
+          <Button
+            hideFocusState
+            size="small"
+            light
+            color="system"
+            onClick={deleteFunc}
+            style={{
+              border: '1px solid transparent',
+              marginLeft: 'auto',
+            }}
+            icon={<IconClose color="default" />}
+          />
+        )}
       </Text>
       {values.type === 'array' ? (
-        value.map((item, i) => (
+        value.map((item, index) => (
           <List
+            deleteFunc={() =>
+              onChange(
+                field,
+                value.filter((_, i) => i !== index)
+              )
+            }
             values={values.values}
             onChange={onChange}
-            field={field + '.' + i}
+            field={field + '.' + index}
             label={label}
             type={values.values.type}
-            value={value[i]}
+            value={value[index]}
+            isChild
           />
         ))
       ) : (
