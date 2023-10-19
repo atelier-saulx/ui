@@ -18,9 +18,9 @@ export const setValue = (
   value: any
   // depth
 ) => {
-  console.log('field', field)
+  // console.log('field', field)
   const path = field.split('.')
-  console.log('path', path)
+  // console.log('path', path)
   let v = values
   console.log(v)
   for (let i = 0; i < path.length - 1; i++) {

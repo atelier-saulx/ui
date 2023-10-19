@@ -29,7 +29,11 @@ export const List: FC<{
   const [open, setOpen] = useState(false)
   const addType = type === 'array' ? [] : ''
   useEffect(() => {
-    onChange(field, value)
+    // console.log('-----------------------------------------  1', value)
+    // onChange(field, value)
+    // console.log('-----------------------------------------  2', value)
+    // onChange(field, value)
+    // console.log(field, value)
   }, [])
 
   return (
@@ -76,8 +80,9 @@ export const List: FC<{
           />
         )}
       </Text>
-      {values.type === 'array' ? (
+      {values.type === 'array' && Array.isArray(value) ? (
         value.map((item, index) => (
+          // <span onClick={isChild ? undefined : () => onChange(field, value)}>
           <List
             deleteFunc={() =>
               onChange(
@@ -93,75 +98,78 @@ export const List: FC<{
             value={value[index]}
             isChild
           />
+          // </span>
         ))
       ) : (
         <styled.div
           style={{ margin: '8px 0', '& > * + *': { marginTop: '8px' } }}
         >
-          {value
-            .filter((d, index) => index === 0)
-            .map((v, index) => (
-              <styled.div style={{ position: 'relative' }}>
-                {!open && value.length > 1 && (
-                  <styled.div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      padding: '0 12px',
-                      gap: 4,
-                    }}
-                  >
-                    <Text selectable="none" style={{ opacity: 0 }}>
-                      {v}
-                    </Text>
-                    <Badge light color="neutral">
-                      {value.length}
-                    </Badge>
-                  </styled.div>
-                )}
-                <Input
-                  // style={{ position: 'absolute' }}
-                  onFocus={() => setOpen(true)}
-                  key={index}
-                  //@ts-ignore
-                  type={
-                    // values?.type
-                    //   ? values?.type
-                    //   : type === 'number'
-                    //   ? 'number'
-                    //   : 'text'
-                    'text'
-                  }
-                  clearButton
-                  value={v}
-                  // value={open ? v : value.length > 1 ? v + ',' : v}
-                  onChange={(newStringValue) => {
-                    const newValue =
-                      type === 'number'
-                        ? parseInt(newStringValue)
-                        : newStringValue
-
-                    if (!newStringValue && value.length > 1) {
-                      onChange(
-                        field,
-                        value.filter((_, i) => i !== index)
-                      )
-                      return
+          {Array.isArray(value) &&
+            value
+              .filter((d, index) => index === 0)
+              .map((v, index) => (
+                <styled.div style={{ position: 'relative' }}>
+                  {!open && value.length > 1 && (
+                    <styled.div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '0 12px',
+                        gap: 4,
+                      }}
+                    >
+                      <Text selectable="none" style={{ opacity: 0 }}>
+                        {v}
+                      </Text>
+                      <Badge light color="neutral">
+                        {value.length}
+                      </Badge>
+                    </styled.div>
+                  )}
+                  <Input
+                    // style={{ position: 'absolute' }}
+                    onFocus={() => setOpen(true)}
+                    key={index}
+                    //@ts-ignore
+                    type={
+                      // values?.type
+                      //   ? values?.type
+                      //   : type === 'number'
+                      //   ? 'number'
+                      //   : 'text'
+                      'text'
                     }
+                    clearButton
+                    value={v}
+                    // value={open ? v : value.length > 1 ? v + ',' : v}
+                    onChange={(newStringValue) => {
+                      const newValue =
+                        type === 'number'
+                          ? parseInt(newStringValue)
+                          : newStringValue
 
-                    const newFieldValue = [...value]
-                    newFieldValue[index] = newValue
-                    onChange(field, newFieldValue)
-                  }}
-                />
-              </styled.div>
-            ))}
-          {open &&
+                      if (!newStringValue && value.length > 1) {
+                        onChange(
+                          field,
+                          value.filter((_, i) => i !== index)
+                        )
+                        return
+                      }
+
+                      const newFieldValue = [...value]
+                      newFieldValue[index] = newValue
+                      onChange(field, newFieldValue)
+                    }}
+                  />
+                </styled.div>
+              ))}
+          {Array.isArray(value) &&
+            open &&
             value
               .filter((d, index) => index !== 0)
               .map((v, index) => (
@@ -215,7 +223,7 @@ export const List: FC<{
             onChange(field, [...value, addType])
           }}
         >
-          Add {label}
+          Add {type as string}
         </Button>
       </styled.div>
     </Label>
