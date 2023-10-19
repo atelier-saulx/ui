@@ -5,14 +5,16 @@ export const blocksToHtmlParser = (
 ) => {
   let htmlString = ''
 
-  // console.log(jsonBlocks, '🌲')
+  console.log(jsonBlocks, '🌲')
 
   jsonBlocks?.map((block, idx) => {
     if (block.type === 'header') {
       htmlString += `<h${block.data.level}>${block.data.text}</h${block.data.level}>\n`
     }
     if (block.type === 'paragraph') {
-      htmlString += `<p>\n${block.data.text}\n</p>\n`
+      htmlString += `<p${
+        block.data.alignment && ` style="text-align:${block.data.alignment};"`
+      }>\n${block.data.text}\n</p>\n`
     }
     if (block.type === 'list') {
       htmlString += `${
@@ -22,15 +24,15 @@ export const blocksToHtmlParser = (
         .join('')}${block.data.style === 'ordered' ? '</ol>\n' : '</ul>\n'}`
     }
     if (block.type === 'html') {
-      htmlString += `<div class="rawHtml">${block.data.html}</div>\n`
+      htmlString += `${block.data.html}\n`
     }
     if (block.type === 'image') {
       htmlString += `<img src="${block.data.url}" />\n`
     }
     if (block.type === 'space') {
-      htmlString += `<div class="spacing" style="height:${
+      htmlString += `<div style="height:${
         block.data.space + block.data.spaceFormat
-      };"></div>\n`
+      };"/>\n`
     }
   })
 

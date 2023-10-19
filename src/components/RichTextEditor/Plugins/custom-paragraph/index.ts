@@ -109,6 +109,10 @@ export default class Paragraph {
     if (this._data.text) {
       div.innerHTML = this._data.text
     }
+    // align the text in the editor from incoming data
+    if (this._data.alignment) {
+      div.style.textAlign = this._data.alignment
+    }
 
     if (!this.readOnly) {
       div.contentEditable = true
@@ -169,6 +173,9 @@ export default class Paragraph {
    */
   save(toolsContent) {
     // heres the money
+
+    console.log('🍔', toolsContent)
+
     return {
       text: toolsContent.innerHTML,
       alignment: toolsContent.style.textAlign,
@@ -228,8 +235,9 @@ export default class Paragraph {
   get data() {
     if (this._element !== null) {
       const text = this._element.innerHTML
-
+      const aligment = this._element.style.textAlign
       this._data.text = text
+      this._data.aligment = aligment
     }
 
     return this._data
