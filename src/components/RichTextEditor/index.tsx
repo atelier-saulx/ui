@@ -12,6 +12,7 @@ import { blocksToHtmlParser } from './blocksToHtmlParser'
 import { htmlToBlocksParser } from './htmlToBlocksParser'
 import { Code } from '../Code'
 import TextAlign from './InlineTools/text-align'
+import Paragraph from './Plugins/custom-paragraph'
 
 export type RichTextEditorProps = {
   data?: DataObj
@@ -35,6 +36,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
   const editor = new EditorJS({
     holder: 'editorjs',
     data: tempVisualData,
+    defaultBlock: Paragraph as any,
     onReady: () => {
       console.log('Editor.js is ready to work!')
       // style changing of tooltip
@@ -46,11 +48,15 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
     tools: {
       header: {
         class: Header,
-        inlineToolbar: ['link', 'textAlign'],
+        //   inlineToolbar: ['link', 'textAlign'],
+      },
+      paragraph: {
+        class: Paragraph,
+        inlineToolbar: ['textAlign'],
       },
       list: {
         class: List,
-        inlineToolbar: ['textAlign'],
+        //  inlineToolbar: ['textAlign'],
       },
       html: HtmlBlock,
       image: SimpleImage,

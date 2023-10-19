@@ -99,6 +99,7 @@ class TextAlign {
   public static get sanitize() {
     return {
       style: true,
+      alignment: true,
     }
   }
 }
