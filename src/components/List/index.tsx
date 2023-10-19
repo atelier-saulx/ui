@@ -4,28 +4,18 @@ import { IconArrowheadRight, IconPlus } from '../../icons'
 import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
+import { FormItem } from '../FormGroup/Column/Item'
 
 export const List: FC<{
   type?: FormItemProps['type']
   field: string
   label?: ReactNode
+  values?: FormItemProps['values']
   value?: any
-  values?: any
   onChange: (field: string, value: any) => void
-}> = ({ type, field, label, onChange, value, values }) => {
+}> = ({ type = 'string', field, label, onChange, value = [], values }) => {
   const [open, setOpen] = useState(false)
-  if (!value) {
-    if (type === 'array') {
-      value = ['']
-      return
-    } else {
-      value = ''
-      return
-    }
-  }
-  const addType = type === 'array' ? [''] : ''
-  // console.log('value', value, 'Asldkja;sldkj;alskdfj')
-  console.log('value', value)
+  const addType = type === 'array' ? [] : ''
 
   return (
     <Label>
@@ -33,7 +23,7 @@ export const List: FC<{
         weight="strong"
         style={{ display: 'flex', gap: 4, alignItems: 'center' }}
       >
-        {label}
+        {field}
         <Button
           hideFocusState
           size="small"
@@ -52,15 +42,15 @@ export const List: FC<{
           }
         />
       </Text>
-      {type === 'array' ? (
+      {values.type === 'array' ? (
         value.map((item, i) => (
           <List
-            values={values}
-            type={values.type}
+            values={values.values}
+            onChange={onChange}
             field={field + '.' + i}
             label={label}
-            onChange={onChange}
-            value={item.value}
+            type={values.values.type}
+            value={value[i]}
           />
         ))
       ) : (
@@ -87,7 +77,6 @@ export const List: FC<{
                   >
                     <Text selectable="none" style={{ opacity: 0 }}>
                       {v}
-                      {/* {value.length > 1 ? v + ',' : v} */}
                     </Text>
                     <Badge light color="neutral">
                       {value.length}
@@ -98,7 +87,15 @@ export const List: FC<{
                   // style={{ position: 'absolute' }}
                   onFocus={() => setOpen(true)}
                   key={index}
-                  type={type === 'number' ? 'number' : 'text'}
+                  //@ts-ignore
+                  type={
+                    // values?.type
+                    //   ? values?.type
+                    //   : type === 'number'
+                    //   ? 'number'
+                    //   : 'text'
+                    'text'
+                  }
                   clearButton
                   value={v}
                   // value={open ? v : value.length > 1 ? v + ',' : v}
@@ -129,7 +126,15 @@ export const List: FC<{
               .map((v, index) => (
                 <Input
                   key={index + 1}
-                  type={type === 'number' ? 'number' : 'text'}
+                  //@ts-ignore
+                  type={
+                    'text'
+                    // values?.type
+                    //   ? values?.type
+                    //   : type === 'number'
+                    //   ? 'number'
+                    //   : 'text'
+                  }
                   clearButton
                   value={v}
                   onChange={(newStringValue) => {
@@ -143,8 +148,10 @@ export const List: FC<{
                         field,
                         value.filter((_, i) => i !== index + 1)
                       )
+
                       return
                     }
+
                     const newFieldValue = [...value]
                     newFieldValue[index + 1] = newValue
                     onChange(field, newFieldValue)
@@ -162,6 +169,8 @@ export const List: FC<{
           icon={<IconPlus />}
           style={{ border: '1px solid transparent' }}
           onClick={() => {
+            setOpen(true)
+
             onChange(field, [...value, addType])
           }}
         >
