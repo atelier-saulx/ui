@@ -19,6 +19,22 @@ const fieldProps = {
         },
       },
     },
+    // arrarray: {
+    //   type: 'array',
+    //   // value: [
+    //   //   ['1', '2'],
+    //   //   ['3', '4'],
+    //   // ],
+    //   values: {
+    //     type: 'array',
+    //     values: {
+    //       type: 'array',
+    //       values: {
+    //         type: 'string',
+    //       },
+    //     },
+    //   },
+    // },
     //   port: {
     //     type: 'number',
     //     description: 'Network port',
@@ -27,60 +43,34 @@ const fieldProps = {
     //     type: 'json',
     //     label: 'json',
     //     value: `{
-    //         "glossary": {
-    //             "title": "example glossary",
-    //         "GlossDiv": {
-    //                 "title": "S",
-    //           "GlossList": {
-    //                     "GlossEntry": {
-    //                         "ID": "SGML",
-    //               "SortAs": "SGML",
-    //               "GlossTerm": "Standard Generalized Markup Language",
-    //               "Acronym": "SGML",
-    //               "Abbrev": "ISO 8879:1986",
-    //               "GlossDef": {
-    //                             "para": "A meta-markup language, used to create markup languages such as DocBook.",
-    //                 "GlossSeeAlso": ["GML", "XML"]
-    //                         },
-    //               "GlossSee": "markup"
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }`,
+    //           "glossary": {
+    //               "title": "example glossary",
+    //           "GlossDiv": {
+    //                   "title": "S",
+    //             "GlossList": {
+    //                       "GlossEntry": {
+    //                           "ID": "SGML",
+    //                 "SortAs": "SGML",
+    //                 "GlossTerm": "Standard Generalized Markup Language",
+    //                 "Acronym": "SGML",
+    //                 "Abbrev": "ISO 8879:1986",
+    //                 "GlossDef": {
+    //                               "para": "A meta-markup language, used to create markup languages such as DocBook.",
+    //                   "GlossSeeAlso": ["GML", "XML"]
+    //                           },
+    //                 "GlossSee": "markup"
+    //                       }
+    //                   }
+    //               }
+    //           }
+    //       }`,
     //   },
     //   toggle: {
     //     type: 'boolean',
     //     label: 'Boolean',
     //     description: 'Network port',
     //   },
-    //   array: {
-    //     type: 'array',
-    //     value: [
-    //       ['1', '2'],
-    //       // [3, 4],
-    //     ],
-    //     values: {
-    //       type: 'array',
-    //       values: {
-    //         type: 'string',
-    //       },
-    //     },
-    //   },
 
-    //   arrayOfStrings: {
-    //     multiple: true,
-    //     values: {
-    //       type: 'string',
-    //     },
-    //     description: 'this is nested array',
-    //   },
-    //   arrayOfNumbers: {
-    //     type: 'number',
-    //     multiple: true,
-    //     addMultipleLabel: 'Add extra number',
-    //     description: 'bla',
-    //   },
     //   'args.name': {
     //     label: 'Name',
     //     type: 'text',
