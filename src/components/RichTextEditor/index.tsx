@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useRef } from 'react'
 import { styled, Style } from 'inlines'
 import { Row } from '../Styled'
 import { Button } from '../Button'
@@ -49,12 +49,15 @@ const makeTextItalic = () => {
 }
 
 const textAlign = (alignment: string) => {
-  console.log(window.getSelection().focusNode.parentElement)
+  // TODO make sure parentnode is not a b or i
+  console.log(window.getSelection())
   let parentEl = window.getSelection().focusNode.parentElement
   parentEl.style.textAlign = alignment
 }
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
+  const editorWrapRef = useRef()
+
   return (
     <styled.div>
       <Row
@@ -115,28 +118,36 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
         />
       </Row>
       <styled.div
+        ref={editorWrapRef}
         style={{
-          padding: 8,
+          padding: '6px 20px',
           border: `1px solid ${color(
             'inputBorder',
             'neutralNormal',
             'default'
           )}`,
-          marginTop: 16,
+          marginTop: 8,
           marginBottom: 16,
           '& p': {
-            padding: 12,
-            lineHeight: 1.36,
-            fontSize: 15,
+            lineHeight: '1.36',
+            fontSize: '15px',
           },
         }}
       >
+        <h3 contentEditable suppressContentEditableWarning>
+          Title here yo!
+        </h3>
         <p
           className="rte-paragraph"
           style={{ textAlign: 'left' }}
           contentEditable
           suppressContentEditableWarning
           autoFocus
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              console.log('MAKE NEW BLOCK')
+            }
+          }}
         >
           Do an almighty painting with us. Use what you see, don't plan it. This
           piece of canvas is your world. And that's when it becomes fun - you
