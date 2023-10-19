@@ -192,6 +192,7 @@ export const FormItem: FC<{
     return (
       <List
         values={values}
+        // onChange={(v) => onChange(field, v)}
         onChange={onChange}
         field={field}
         label={label}
