@@ -191,7 +191,7 @@ export const FormItem: FC<{
   if (multiple || type === 'array' || type === 'set') {
     return (
       <List
-        // values={values}
+        values={values}
         // onChange={(v) => onChange(field, v)}
         onChange={onChange}
         field={field}

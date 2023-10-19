@@ -6,46 +6,11 @@ import { ComponentDef } from '../types'
 const fieldProps = {
   id: 1337,
   config: {
-    port: {
-      type: 'number',
-      description: 'Network port',
-    },
-    json: {
-      type: 'json',
-      label: 'json',
-      value: `{
-          "glossary": {
-              "title": "example glossary",
-          "GlossDiv": {
-                  "title": "S",
-            "GlossList": {
-                      "GlossEntry": {
-                          "ID": "SGML",
-                "SortAs": "SGML",
-                "GlossTerm": "Standard Generalized Markup Language",
-                "Acronym": "SGML",
-                "Abbrev": "ISO 8879:1986",
-                "GlossDef": {
-                              "para": "A meta-markup language, used to create markup languages such as DocBook.",
-                  "GlossSeeAlso": ["GML", "XML"]
-                          },
-                "GlossSee": "markup"
-                      }
-                  }
-              }
-          }
-      }`,
-    },
-    toggle: {
-      type: 'boolean',
-      label: 'Boolean',
-      description: 'Network port',
-    },
     array: {
       type: 'array',
       value: [
         ['1', '2'],
-        // [3, 4],
+        ['3', '4'],
       ],
       values: {
         type: 'array',
@@ -54,84 +19,128 @@ const fieldProps = {
         },
       },
     },
-    integer: {
-      type: 'integer',
-      label: 'Integer',
-      description: 'Whole Numb(ers)',
-    },
-    arrayOfStrings: {
-      multiple: true,
-      values: {
-        type: 'string',
-      },
-      description: 'this is nested array',
-    },
-    arrayOfNumbers: {
-      type: 'number',
-      multiple: true,
-      addMultipleLabel: 'Add extra number',
-      description: 'bla',
-    },
-    'args.name': {
-      label: 'Name',
-      type: 'text',
-      description: 'Instance name',
-      validation: () => (val) => {
-        return val && val.length > 4
-      },
-    },
-    'args.x.y': {
-      label: 'Status',
-      description: 'status time',
-      options: ['good', 'bad', 'medium'],
-      props: {
-        placeholder: 'FLAP',
-      },
-    },
-    range: {
-      label: 'Bla',
-      description: 'hello',
-      type: 'range',
-    },
-    file: {
-      label: 'File',
-      description: 'hello',
-      type: 'file',
-    },
-    custom: {
-      label: 'Status',
-      description: 'status time',
-      type:
-        () =>
-        ({ onChange, value }) => {
-          return (
-            <Button
-              color="system"
-              onClick={() => {
-                onChange('custom', { x: value.x + 1 })
-              }}
-            >
-              bla {value.x}
-            </Button>
-          )
-        },
-    },
-    isThisNce: {
-      label: 'Nice',
-      description: 'is it nice?',
-      type: 'checkbox',
-    },
-  },
-  values: {
-    port: 443,
-    range: { min: 0, max: 1 },
-    custom: { x: 100 },
-    args: {
-      name: 'hello',
-      x: {
-        y: 'snapje',
-      },
-    },
+    //   port: {
+    //     type: 'number',
+    //     description: 'Network port',
+    //   },
+    //   json: {
+    //     type: 'json',
+    //     label: 'json',
+    //     value: `{
+    //         "glossary": {
+    //             "title": "example glossary",
+    //         "GlossDiv": {
+    //                 "title": "S",
+    //           "GlossList": {
+    //                     "GlossEntry": {
+    //                         "ID": "SGML",
+    //               "SortAs": "SGML",
+    //               "GlossTerm": "Standard Generalized Markup Language",
+    //               "Acronym": "SGML",
+    //               "Abbrev": "ISO 8879:1986",
+    //               "GlossDef": {
+    //                             "para": "A meta-markup language, used to create markup languages such as DocBook.",
+    //                 "GlossSeeAlso": ["GML", "XML"]
+    //                         },
+    //               "GlossSee": "markup"
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }`,
+    //   },
+    //   toggle: {
+    //     type: 'boolean',
+    //     label: 'Boolean',
+    //     description: 'Network port',
+    //   },
+    //   array: {
+    //     type: 'array',
+    //     value: [
+    //       ['1', '2'],
+    //       // [3, 4],
+    //     ],
+    //     values: {
+    //       type: 'array',
+    //       values: {
+    //         type: 'string',
+    //       },
+    //     },
+    //   },
+
+    //   arrayOfStrings: {
+    //     multiple: true,
+    //     values: {
+    //       type: 'string',
+    //     },
+    //     description: 'this is nested array',
+    //   },
+    //   arrayOfNumbers: {
+    //     type: 'number',
+    //     multiple: true,
+    //     addMultipleLabel: 'Add extra number',
+    //     description: 'bla',
+    //   },
+    //   'args.name': {
+    //     label: 'Name',
+    //     type: 'text',
+    //     description: 'Instance name',
+    //     validation: () => (val) => {
+    //       return val && val.length > 4
+    //     },
+    //   },
+    //   'args.x.y': {
+    //     label: 'Status',
+    //     description: 'status time',
+    //     options: ['good', 'bad', 'medium'],
+    //     props: {
+    //       placeholder: 'FLAP',
+    //     },
+    //   },
+    //   range: {
+    //     label: 'Bla',
+    //     description: 'hello',
+    //     type: 'range',
+    //   },
+    //   file: {
+    //     label: 'File',
+    //     description: 'hello',
+    //     type: 'file',
+    //   },
+    //   custom: {
+    //     label: 'Status',
+    //     description: 'status time',
+    //     type:
+    //       () =>
+    //       ({ onChange, value }) => {
+    //         return (
+    //           <Button
+    //             color="system"
+    //             onClick={() => {
+    //               onChange('custom', { x: value.x + 1 })
+    //             }}
+    //           >
+    //             bla {value.x}
+    //           </Button>
+    //         )
+    //       },
+    //   },
+    //   isThisNce: {
+    //     label: 'Nice',
+    //     description: 'is it nice?',
+    //     type: 'checkbox',
+    //   },
+    // },
+    // values: {
+    //   port: 443,
+    //   range: { min: 0, max: 1 },
+    //   custom: { x: 100 },
+    //   args: {
+    //     name: 'hello',
+    //     x: {
+    //       y: 'snapje',
+    //     },
+    //   },
   },
   onChange: (values) => console.info(values),
 }
