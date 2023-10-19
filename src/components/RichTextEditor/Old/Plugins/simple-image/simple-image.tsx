@@ -1,9 +1,9 @@
 // @ts-nocheck
 import React, { useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Input } from '../../../Input'
+import { Input } from '../../../../Input'
 import { styled } from 'inlines'
-import { color } from '../../../../varsUtilities'
+import { color } from '../../../../../varsUtilities'
 import { IconImageClose } from 'src/icons'
 
 const ImageAndInputBlock = (data) => {
