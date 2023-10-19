@@ -29,11 +29,19 @@ export const htmlToBlocksParser = (data, html) => {
     }
     // paragraphs
     if (item.substring(0, 2) === '<p') {
+      let parsedParagraph = DomParser.parseFromString(item, 'text/html')
+      let Par = parsedParagraph.querySelector('p')
+
+      console.log(parsedParagraph, '??')
+      console.log('paragarpah??', Par.style.textAlign)
+
       newBlocks.push({
         id: `par-${generateString(6)}`,
         type: 'paragraph',
         data: {
-          text: item.slice(4).slice(0, -5),
+          //  text: item.slice(4).slice(0, -5),
+          text: Par.innerHTML,
+          alignment: Par.style.textAlign.toString(),
         },
       })
     }

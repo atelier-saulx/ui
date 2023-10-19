@@ -32,6 +32,7 @@ const example: ComponentDef = {
               type: 'paragraph',
               data: {
                 text: "If you don't like it - change it. It's your world. If we're gonna walk though the woods, we need a little path. Isn't that fantastic that you can create an almighty tree that fast?",
+                alignment: 'right',
               },
             },
             {
