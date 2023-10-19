@@ -4,27 +4,15 @@ import { IconArrowheadRight, IconPlus } from '../../icons'
 import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
-import { FormItem } from '../FormGroup/Column/Item'
 
 export const List: FC<{
   type?: FormItemProps['type']
   field: string
   label?: ReactNode
-  values?: FormItemProps['values']
   value?: any
   onChange: (field: string, value: any) => void
-  topValue?: any
-}> = ({
-  type = 'string',
-  field,
-  label,
-  onChange,
-  value = [],
-  values,
-  topValue = value,
-}) => {
+}> = ({ type, field, label, onChange, value }) => {
   const [open, setOpen] = useState(false)
-  const addType = type === 'array' ? [] : ''
 
   return (
     <Label>
@@ -32,7 +20,7 @@ export const List: FC<{
         weight="strong"
         style={{ display: 'flex', gap: 4, alignItems: 'center' }}
       >
-        {field}
+        {label}
         <Button
           hideFocusState
           size="small"
@@ -51,123 +39,96 @@ export const List: FC<{
           }
         />
       </Text>
-      {values.type === 'array' ? (
-        value.map((item, i) => (
-          <List
-            topValue={value}
-            values={values.values}
-            onChange={onChange}
-            field={field}
-            label={label}
-            type={values.values.type}
-            value={value[i]}
-          />
-        ))
-      ) : (
-        <styled.div
-          style={{ margin: '8px 0', '& > * + *': { marginTop: '8px' } }}
-        >
-          {value
-            .filter((d, index) => index === 0)
+
+      <styled.div
+        style={{ margin: '8px 0', '& > * + *': { marginTop: '8px' } }}
+      >
+        {value
+          .filter((d, index) => index === 0)
+          .map((v, index) => (
+            <styled.div style={{ position: 'relative' }}>
+              {!open && value.length > 1 && (
+                <styled.div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0 12px',
+                    gap: 4,
+                  }}
+                >
+                  <Text selectable="none" style={{ opacity: 0 }}>
+                    {v}
+                    {/* {value.length > 1 ? v + ',' : v} */}
+                  </Text>
+                  <Badge light color="neutral">
+                    {value.length}
+                  </Badge>
+                </styled.div>
+              )}
+              <Input
+                // style={{ position: 'absolute' }}
+                onFocus={() => setOpen(true)}
+                key={index}
+                type={type === 'number' ? 'number' : 'text'}
+                clearButton
+                value={v}
+                // value={open ? v : value.length > 1 ? v + ',' : v}
+                onChange={(newStringValue) => {
+                  const newValue =
+                    type === 'number'
+                      ? parseInt(newStringValue)
+                      : newStringValue
+
+                  if (!newStringValue && value.length > 1) {
+                    onChange(
+                      field,
+                      value.filter((_, i) => i !== index)
+                    )
+                    return
+                  }
+
+                  const newFieldValue = [...value]
+                  newFieldValue[index] = newValue
+                  onChange(field, newFieldValue)
+                }}
+              />
+            </styled.div>
+          ))}
+        {open &&
+          value
+            .filter((d, index) => index !== 0)
             .map((v, index) => (
-              <styled.div style={{ position: 'relative' }}>
-                {!open && value.length > 1 && (
-                  <styled.div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      padding: '0 12px',
-                      gap: 4,
-                    }}
-                  >
-                    <Text selectable="none" style={{ opacity: 0 }}>
-                      {v}
-                    </Text>
-                    <Badge light color="neutral">
-                      {value.length}
-                    </Badge>
-                  </styled.div>
-                )}
-                <Input
-                  // style={{ position: 'absolute' }}
-                  onFocus={() => setOpen(true)}
-                  key={index}
-                  //@ts-ignore
-                  type={
-                    values?.type
-                      ? values?.type
-                      : type === 'number'
-                      ? 'number'
-                      : 'text'
+              <Input
+                key={index + 1}
+                type={type === 'number' ? 'number' : 'text'}
+                clearButton
+                value={v}
+                onChange={(newStringValue) => {
+                  const newValue =
+                    type === 'number'
+                      ? parseInt(newStringValue)
+                      : newStringValue
+
+                  if (!newStringValue && value.length > 1) {
+                    onChange(
+                      field,
+                      value.filter((_, i) => i !== index + 1)
+                    )
+                    return
                   }
-                  clearButton
-                  value={v}
-                  // value={open ? v : value.length > 1 ? v + ',' : v}
-                  onChange={(newStringValue) => {
-                    const newValue =
-                      type === 'number'
-                        ? parseInt(newStringValue)
-                        : newStringValue
 
-                    if (!newStringValue && value.length > 1) {
-                      onChange(
-                        field,
-                        value.filter((_, i) => i !== index)
-                      )
-                      return
-                    }
-
-                    const newFieldValue = [...value]
-                    newFieldValue[index] = newValue
-                    onChange(field, newFieldValue)
-                  }}
-                />
-              </styled.div>
+                  const newFieldValue = [...value]
+                  newFieldValue[index + 1] = newValue
+                  onChange(field, newFieldValue)
+                }}
+              />
             ))}
-          {open &&
-            value
-              .filter((d, index) => index !== 0)
-              .map((v, index) => (
-                <Input
-                  key={index + 1}
-                  //@ts-ignore
-                  type={
-                    values?.type
-                      ? values?.type
-                      : type === 'number'
-                      ? 'number'
-                      : 'text'
-                  }
-                  clearButton
-                  value={v}
-                  onChange={(newStringValue) => {
-                    const newValue =
-                      type === 'number'
-                        ? parseInt(newStringValue)
-                        : newStringValue
-
-                    if (!newStringValue && value.length > 1) {
-                      onChange(
-                        field,
-                        value.filter((_, i) => i !== index + 1)
-                      )
-
-                      return
-                    }
-
-                    const newFieldValue = [...value]
-                    newFieldValue[index + 1] = newValue
-                    onChange(field, newFieldValue)
-                  }}
-                />
-              ))}
-        </styled.div>
-      )}
+      </styled.div>
 
       <styled.div style={{ display: 'flex' }}>
         <Button
@@ -177,15 +138,7 @@ export const List: FC<{
           icon={<IconPlus />}
           style={{ border: '1px solid transparent' }}
           onClick={() => {
-            setOpen(true)
-            const index = topValue.indexOf(value)
-            console.log(index)
-            const newArray = topValue
-            newArray[index] = [...value, addType]
-            onChange(field, newArray)
-            // console.log('------------_>', [...value, [...value[0], '']])
-            // onChange(field, [...value, [...value[0], '']])
-            // onChange(field, [...value, addType])
+            onChange(field, [...value, ''])
           }}
         >
           Add {label}
