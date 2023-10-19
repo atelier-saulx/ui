@@ -2,7 +2,17 @@ import React, { FC, useMemo, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Label } from './Label'
 import { FormItemProps } from '../types'
-import { Input, Row, Text, Button, Badge, List, Toggle, Code } from '../..'
+import {
+  Input,
+  Row,
+  Text,
+  Button,
+  Badge,
+  List,
+  Toggle,
+  Code,
+  Modal,
+} from '../..'
 import { IconPlus, IconArrowheadRight } from '../../../icons'
 import { color } from '../../../varsUtilities'
 
@@ -77,6 +87,23 @@ export const FormItem: FC<{
           ...props,
         })}
       </Label>
+    )
+  }
+
+  if (type === 'object') {
+    return (
+      <Modal.Root>
+        <Modal.Trigger>
+          <Button onClick={() => console.log(value)}>
+            Open Overlay: {label}
+          </Button>
+        </Modal.Trigger>
+        <Modal.Content>
+          {({ close }) => {
+            return <>{value}</>
+          }}
+        </Modal.Content>
+      </Modal.Root>
     )
   }
 
