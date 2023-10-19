@@ -1,10 +1,11 @@
-import React, { FC, useState, ReactNode } from 'react'
+import React, { FC, useState, ReactNode, useEffect } from 'react'
 import { styled } from 'inlines'
-import { IconArrowheadRight, IconPlus } from '../../icons'
+import { IconArrowheadRight, IconClose, IconPlus } from '../../icons'
 import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
 import { FormItem } from '../FormGroup/Column/Item'
+import { setValue } from '../FormGroup/utils'
 
 export const List: FC<{
   type?: FormItemProps['type']
@@ -13,7 +14,8 @@ export const List: FC<{
   values?: FormItemProps['values']
   value?: any
   onChange: (field: string, value: any) => void
-  topValue?: any
+  isChild?: boolean
+  deleteFunc?: () => void
 }> = ({
   type = 'string',
   field,
@@ -21,16 +23,25 @@ export const List: FC<{
   onChange,
   value = [],
   values,
-  topValue = value,
+  isChild = false,
+  deleteFunc,
 }) => {
   const [open, setOpen] = useState(false)
   const addType = type === 'array' ? [] : ''
+  useEffect(() => {
+    onChange(field, value)
+  }, [])
 
   return (
     <Label>
       <Text
         weight="strong"
-        style={{ display: 'flex', gap: 4, alignItems: 'center' }}
+        style={{
+          display: 'flex',
+          gap: 4,
+          alignItems: 'center',
+          width: '100%',
+        }}
       >
         {field}
         <Button
@@ -50,17 +61,37 @@ export const List: FC<{
             />
           }
         />
+        {isChild && (
+          <Button
+            hideFocusState
+            size="small"
+            light
+            color="system"
+            onClick={deleteFunc}
+            style={{
+              border: '1px solid transparent',
+              marginLeft: 'auto',
+            }}
+            icon={<IconClose color="default" />}
+          />
+        )}
       </Text>
       {values.type === 'array' ? (
-        value.map((item, i) => (
+        value.map((item, index) => (
           <List
-            topValue={value}
+            deleteFunc={() =>
+              onChange(
+                field,
+                value.filter((_, i) => i !== index)
+              )
+            }
             values={values.values}
             onChange={onChange}
-            field={field}
+            field={field + '.' + index}
             label={label}
             type={values.values.type}
-            value={value[i]}
+            value={value[index]}
+            isChild
           />
         ))
       ) : (
@@ -99,11 +130,12 @@ export const List: FC<{
                   key={index}
                   //@ts-ignore
                   type={
-                    values?.type
-                      ? values?.type
-                      : type === 'number'
-                      ? 'number'
-                      : 'text'
+                    // values?.type
+                    //   ? values?.type
+                    //   : type === 'number'
+                    //   ? 'number'
+                    //   : 'text'
+                    'text'
                   }
                   clearButton
                   value={v}
@@ -137,11 +169,12 @@ export const List: FC<{
                   key={index + 1}
                   //@ts-ignore
                   type={
-                    values?.type
-                      ? values?.type
-                      : type === 'number'
-                      ? 'number'
-                      : 'text'
+                    'text'
+                    // values?.type
+                    //   ? values?.type
+                    //   : type === 'number'
+                    //   ? 'number'
+                    //   : 'text'
                   }
                   clearButton
                   value={v}
@@ -178,14 +211,8 @@ export const List: FC<{
           style={{ border: '1px solid transparent' }}
           onClick={() => {
             setOpen(true)
-            const index = topValue.indexOf(value)
-            console.log(index)
-            const newArray = topValue
-            newArray[index] = [...value, addType]
-            onChange(field, newArray)
-            // console.log('------------_>', [...value, [...value[0], '']])
-            // onChange(field, [...value, [...value[0], '']])
-            // onChange(field, [...value, addType])
+
+            onChange(field, [...value, addType])
           }}
         >
           Add {label}

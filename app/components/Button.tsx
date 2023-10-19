@@ -104,6 +104,18 @@ const example: ComponentDef = {
         },
       },
     },
+    {
+      name: 'Extra small button',
+      props: {
+        children: 'Extra small button',
+        color: 'system',
+        size: 'xsmall',
+        onClick: async () => {
+          console.info('bla')
+          // alert('hello!')
+        },
+      },
+    },
   ],
 }
 

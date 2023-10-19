@@ -1,16 +1,7 @@
-import React, { ReactNode } from 'react'
-import {
-  Badge,
-  IconHelpFill,
-  IconSmallBolt,
-  Row,
-  Action,
-  FormGroup,
-  IconMoreHorizontal,
-} from '../../src'
+import React from 'react'
+import { Action, FormGroup, IconMoreHorizontal } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
-import { faker } from '@faker-js/faker'
 
 const example: ComponentDef = {
   name: 'Action',
@@ -52,6 +43,26 @@ const example: ComponentDef = {
           />
         ),
         icon: () => <IconMoreHorizontal />,
+      },
+    },
+    {
+      name: 'Small button',
+      props: {
+        size: 'xsmall',
+        children: () => (
+          <FormGroup
+            config={{
+              name: {
+                description: 'Your full name',
+              },
+              email: {
+                description: 'Valid email addres',
+              },
+            }}
+            onChange={() => {}}
+          />
+        ),
+        label: 'Add someting',
       },
     },
   ],
