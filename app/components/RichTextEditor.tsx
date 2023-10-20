@@ -24,7 +24,7 @@ const example: ComponentDef = {
               type: 'heading',
               data: {
                 innerText: 'You want your tree to have some character.',
-                innerHTML: '<b>you want it</b>',
+                // innerHTML: '<b>you want it</b>',
                 level: 3,
                 alignment: 'center',
               },

@@ -5,13 +5,13 @@ type ParagaphBlockProps = {
   innerText?: string
   innerHTML?: string
   alignment?: 'left' | 'right' | 'center' | 'justify' | 'inherit'
-  style?: Style
+  style?: string
 }
 
 export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   innerText,
   innerHTML,
-  alignment = 'left',
+  alignment = 'inherit',
   style,
 }) => {
   // TODO: sanitze?
@@ -19,7 +19,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
 
   return (
     <p
-      style={{ textAlign: alignment, ...style }}
+      style={{ textAlign: alignment }}
       contentEditable
       suppressContentEditableWarning
       autoFocus

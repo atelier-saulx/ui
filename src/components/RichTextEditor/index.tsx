@@ -73,7 +73,15 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
               />
             )
           } else if (item.type === 'heading') {
-            return <HeadingBlock key={idx} />
+            return (
+              <HeadingBlock
+                key={idx}
+                innerHTML={item.data.innerHTML}
+                innerText={item.data.innerText}
+                alignment={item.data.alignment}
+                style={item.data.style}
+              />
+            )
           }
         })}
         {/* // pass ref to appendChild ?? */}
