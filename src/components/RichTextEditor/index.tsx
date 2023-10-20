@@ -1,5 +1,4 @@
 import React, { FC, useRef, useState } from 'react'
-import { createRoot } from 'react-dom/client'
 import { styled, Style } from 'inlines'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
@@ -14,23 +13,18 @@ export type RichTextEditorProps = {
 }
 
 // classic wp editor ->
-//  - bold
-//  - italic
+
 //  - unordered list
 //  - ordererd list
-//  - quote
-//  - text align left
-//  - text align center
-//  - text align right
 //  - link
 //  - add blocks
 //  - add media
 //  - preview html code
 
+// move blocks up and or down
+// convert block to other block.
 // option to add css style to element
 // option to add class to element
-
-const AddNewBlock = (type, arr, idx) => {}
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   time,
@@ -41,9 +35,26 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   const [blocks, setBlocks] = useState(data.blocks)
 
+  console.log(blocks)
+  const makeNewBlock = (type) => {
+    console.log(type)
+    // gen id
+
+    setBlocks((oldblocks) => [
+      ...oldblocks,
+      {
+        id: `${type.substring(0, 3)}-xx`,
+        type: type,
+        data: {
+          innerHTML: 'fff',
+        },
+      },
+    ])
+  }
+
   return (
     <styled.div>
-      <Header />
+      <Header makeNewBlock={makeNewBlock} />
       <styled.div
         id="flap"
         ref={editorWrapRef}

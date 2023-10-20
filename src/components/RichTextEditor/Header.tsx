@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
@@ -14,6 +14,8 @@ import {
   IconLink,
   IconPlus,
 } from '../../icons'
+import { Dropdown } from '..'
+import { Tooltip } from '..'
 
 const makeTextBold = () => {
   let selection = window.getSelection().getRangeAt(0)
@@ -38,16 +40,18 @@ const textAlign = (alignment: string) => {
   parentEl.style.textAlign = alignment
 }
 
-const makeLink = () => {
+const makeLink = (link) => {
   let selection = window.getSelection().getRangeAt(0)
   let selectedText = selection.extractContents()
   let a = document.createElement('a')
   a.appendChild(selectedText)
-  a.href = 'https://www.tutorialspoint.com/'
+  a.href = link
   selection.insertNode(a)
 }
 
-export const Header = () => {
+export const Header = ({ makeNewBlock }) => {
+  const [linkValue, setLinkValue] = useState('')
+
   return (
     <Row
       style={{
@@ -63,7 +67,22 @@ export const Header = () => {
         },
       }}
     >
-      <Button onClick={() => {}} size="small" icon={<IconPlus />} />
+      <Dropdown.Root>
+        <Tooltip text="Add block">
+          <Dropdown.Trigger>
+            <Button size="small" icon={<IconPlus />} />
+          </Dropdown.Trigger>
+        </Tooltip>
+        <Dropdown.Items>
+          <Dropdown.Item onClick={() => makeNewBlock('heading')}>
+            Heading
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => makeNewBlock('paragraph')}>
+            Paragraph
+          </Dropdown.Item>
+        </Dropdown.Items>
+      </Dropdown.Root>
+
       <Button
         onClick={makeTextBold}
         size="small"
@@ -106,8 +125,9 @@ export const Header = () => {
         color="neutral"
         icon={<IconFormatAlignJustify />}
       />
+
       <Button
-        onClick={() => makeLink()}
+        onClick={() => makeLink(linkValue)}
         size="small"
         light
         color="neutral"
