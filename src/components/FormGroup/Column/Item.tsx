@@ -12,6 +12,7 @@ import {
   Toggle,
   Code,
   Modal,
+  FormGroup,
 } from '../..'
 import { IconPlus, IconArrowheadRight } from '../../../icons'
 import { color } from '../../../varsUtilities'
@@ -47,11 +48,13 @@ export const FormItem: FC<{
     multiple,
     values,
     addMultipleLabel = 'Add',
+    properties,
   },
   autoFocus,
   fieldWidth,
   value,
   onChange,
+  item,
 }) => {
   if (!label) {
     label = useMemo(
@@ -66,6 +69,9 @@ export const FormItem: FC<{
 
   if (multiple && !value && !defaultValue) {
     value = ['']
+  }
+  if (type === 'object' || (type === 'record' && !value && !defaultValue)) {
+    value = {}
   }
 
   if (typeof type === 'function') {
@@ -100,7 +106,18 @@ export const FormItem: FC<{
         </Modal.Trigger>
         <Modal.Content>
           {({ close }) => {
-            return <>{value}</>
+            return (
+              <>
+                <Modal.Title>{label}</Modal.Title>
+                {console.log(item)}
+                <FormGroup
+                  variant="grid"
+                  config={properties}
+                  values={value}
+                  onChange={onChange}
+                />
+              </>
+            )
           }}
         </Modal.Content>
       </Modal.Root>

@@ -23,6 +23,18 @@ const fieldProps = {
       type: 'object',
       label: 'asdasd',
     },
+    x: {
+      type: 'object',
+      value: { flap: false },
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+      },
+    },
     // arrarray: {
     //   type: 'array',
     //   // value: [
