@@ -27,9 +27,10 @@ export type RichTextEditorProps = {
 //  - add media
 //  - preview html code
 
-const AddNewBlock = (type, arr, idx) => {
-  arr.push(type)
-}
+// option to add css style to element
+// option to add class to element
+
+const AddNewBlock = (type, arr, idx) => {}
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   time,
@@ -47,7 +48,9 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         id="flap"
         ref={editorWrapRef}
         style={{
+          backgroundColor: color('background', 'default'),
           padding: '6px 20px',
+          paddingBottom: '24px',
           border: `1px solid ${color(
             'inputBorder',
             'neutralNormal',
@@ -58,6 +61,9 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           '& p': {
             lineHeight: '1.36',
             fontSize: '15px',
+          },
+          '& a': {
+            color: '#0a57d0',
           },
         }}
       >
@@ -76,6 +82,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             return (
               <HeadingBlock
                 key={idx}
+                level={item.data.level}
                 innerHTML={item.data.innerHTML}
                 innerText={item.data.innerText}
                 alignment={item.data.alignment}
@@ -93,15 +100,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         onClick={() => {
           // get all html nodes inside the ref
           let snork = editorWrapRef.current.childNodes
-          console.log(snork, '📌')
-
-          const flappie = document.getElementById('flap')
-          console.log(flappie, 'flappie>>?')
-
-          const blah = document.createElement('p')
-          blah.textContent = 'aefaewfwaef'
-
-          flappie.appendChild(blah)
+          console.log(snork, '📌 -> now here you save the blocks')
 
           // TODO: for each childnode make an object
           // [

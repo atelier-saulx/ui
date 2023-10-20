@@ -11,6 +11,7 @@ import {
   IconFormatAlignCenter,
   IconFormatAlignRight,
   IconFormatAlignJustify,
+  IconLink,
   IconPlus,
 } from '../../icons'
 
@@ -35,6 +36,15 @@ const textAlign = (alignment: string) => {
   console.log(window.getSelection())
   let parentEl = window.getSelection().focusNode.parentElement
   parentEl.style.textAlign = alignment
+}
+
+const makeLink = () => {
+  let selection = window.getSelection().getRangeAt(0)
+  let selectedText = selection.extractContents()
+  let a = document.createElement('a')
+  a.appendChild(selectedText)
+  a.href = 'https://www.tutorialspoint.com/'
+  selection.insertNode(a)
 }
 
 export const Header = () => {
@@ -95,6 +105,13 @@ export const Header = () => {
         light
         color="neutral"
         icon={<IconFormatAlignJustify />}
+      />
+      <Button
+        onClick={() => makeLink()}
+        size="small"
+        light
+        color="neutral"
+        icon={<IconLink />}
       />
     </Row>
   )

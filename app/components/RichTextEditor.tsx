@@ -25,7 +25,7 @@ const example: ComponentDef = {
               data: {
                 innerText: 'You want your tree to have some character.',
                 // innerHTML: '<b>you want it</b>',
-                level: 3,
+                level: 'h2',
                 alignment: 'center',
               },
             },
@@ -35,10 +35,9 @@ const example: ComponentDef = {
               data: {
                 innerText:
                   "If you don't like it - change it. It's your world. If we're gonna walk though the woods, we need a little path. Isn't that fantastic that you can create an almighty tree that fast?",
-                innerHTML:
-                  "If you don't <b>like it - change it.</b> It's your world. If we're gonna walk though the woods, we need a little path. Isn't that fantastic that you can create an almighty tree that fast?",
-                alignment: 'center',
-                //   style: 'background:yellow;',
+                //       innerHTML: `lorem <b onmouseover="alert('mouseover');">ipsum sanitized this </b>`,
+                alignment: 'left',
+                //    style: 'background:yellow;color:red;border:1px solid blue;',
               },
             },
             // {

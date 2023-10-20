@@ -1,5 +1,12 @@
-import React, { FC, CSSProperties, createElement } from 'react'
+import React, {
+  FC,
+  CSSProperties,
+  createElement,
+  useRef,
+  useEffect,
+} from 'react'
 import { Style } from 'inlines'
+import DOMPurify = require('dompurify')
 
 type ParagaphBlockProps = {
   innerText?: string
@@ -17,9 +24,22 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   // TODO: sanitze?
   // TODO: fix style -> maybe set style throug js to this p tag.
 
+  console.log('style --> ', style)
+
+  const pRef = useRef<HTMLParagraphElement>()
+
+  console.log(pRef)
+
+  useEffect(() => {
+    if (pRef.current && style) {
+      pRef.current.style.cssText = style
+    }
+  }, [pRef.current])
+
   return (
     <p
       style={{ textAlign: alignment }}
+      ref={pRef}
       contentEditable
       suppressContentEditableWarning
       autoFocus
@@ -30,9 +50,9 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
           console.log('MAKE NEW BLOCK')
         }
       }}
-      dangerouslySetInnerHTML={{ __html: innerHTML || innerText }}
-    >
-      {/* {innerText || ''} */}
-    </p>
+      dangerouslySetInnerHTML={{
+        __html: DOMPurify.sanitize(innerHTML) || DOMPurify.sanitize(innerText),
+      }}
+    />
   )
 }
