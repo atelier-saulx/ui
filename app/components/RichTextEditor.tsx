@@ -38,6 +38,7 @@ const example: ComponentDef = {
                 innerHTML:
                   "If you don't <b>like it - change it.</b> It's your world. If we're gonna walk though the woods, we need a little path. Isn't that fantastic that you can create an almighty tree that fast?",
                 alignment: 'center',
+                //   style: 'background:yellow;',
               },
             },
             // {

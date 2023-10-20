@@ -14,14 +14,8 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   alignment = 'left',
   style,
 }) => {
-  const convertStringToHTML = (str) => {
-    const parser = new DOMParser()
-    const html = parser.parseFromString(str, 'text/html')
-
-    return html.body
-  }
-
-  let x = convertStringToHTML(innerHTML)
+  // TODO: sanitze?
+  // TODO: fix style -> maybe set style throug js to this p tag.
 
   return (
     <p
