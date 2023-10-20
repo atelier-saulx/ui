@@ -1,9 +1,9 @@
 // @ts-nocheck
 import React, { useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Code } from '../../../Code'
+import { Code } from '../../../../Code'
 import { styled } from 'inlines'
-import { color } from '../../../../varsUtilities'
+import { color } from '../../../../../varsUtilities'
 
 const HtmlInputBlock = (data) => {
   const [html, setHtml] = useState(data.value.html)

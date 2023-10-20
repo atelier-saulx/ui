@@ -1,19 +1,14 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useRef, useState } from 'react'
+import { createRoot } from 'react-dom/client'
 import { styled, Style } from 'inlines'
-import { Row } from '../Styled'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
-import {
-  IconFormatItalic,
-  IconText,
-  IconFormatBold,
-  IconFormatAlignLeft,
-  IconFormatAlignCenter,
-  IconFormatAlignRight,
-  IconFormatAlignJustify,
-} from '../../icons'
+import { Header } from './Header'
+import { ParagraphBlock } from './Blocks/ParagaphBlock'
+import { HeadingBlock } from './Blocks/HeadingBlock'
 
 export type RichTextEditorProps = {
+  time?: number
   data?: any
   style?: Style
 }
@@ -32,95 +27,30 @@ export type RichTextEditorProps = {
 //  - add media
 //  - preview html code
 
-const makeTextBold = () => {
-  let selection = window.getSelection().getRangeAt(0)
-  let selectedText = selection.extractContents()
-  let b = document.createElement('b')
-  b.appendChild(selectedText)
-  selection.insertNode(b)
-}
+// option to add css style to element
+// option to add class to element
 
-const makeTextItalic = () => {
-  let selection = window.getSelection().getRangeAt(0)
-  let selectedText = selection.extractContents()
-  let i = document.createElement('i')
-  i.appendChild(selectedText)
-  selection.insertNode(i)
-}
+const AddNewBlock = (type, arr, idx) => {}
 
-const textAlign = (alignment: string) => {
-  // TODO make sure parentnode is not a b or i
-  console.log(window.getSelection())
-  let parentEl = window.getSelection().focusNode.parentElement
-  parentEl.style.textAlign = alignment
-}
+export const RichTextEditor: FC<RichTextEditorProps> = ({
+  time,
+  data,
+  style,
+}) => {
+  const editorWrapRef = useRef<HTMLElement>()
 
-export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
-  const editorWrapRef = useRef()
+  const [blocks, setBlocks] = useState(data.blocks)
 
   return (
     <styled.div>
-      <Row
-        style={{
-          gap: 4,
-          '& button': {
-            width: '24px !important',
-            height: '24px',
-            borderRadius: '2px !important',
-          },
-          '& svg': {
-            width: '12px',
-            height: '12px',
-          },
-        }}
-      >
-        <Button
-          onClick={makeTextBold}
-          size="small"
-          light
-          color="neutral"
-          icon={<IconFormatBold />}
-        />
-        <Button
-          onClick={makeTextItalic}
-          size="small"
-          light
-          color="neutral"
-          icon={<IconFormatItalic />}
-        />
-        <Button
-          onClick={() => textAlign('left')}
-          size="small"
-          light
-          color="neutral"
-          icon={<IconFormatAlignLeft />}
-        />
-        <Button
-          onClick={() => textAlign('center')}
-          size="small"
-          light
-          color="neutral"
-          icon={<IconFormatAlignCenter />}
-        />
-        <Button
-          onClick={() => textAlign('right')}
-          size="small"
-          light
-          color="neutral"
-          icon={<IconFormatAlignRight />}
-        />
-        <Button
-          onClick={() => textAlign('justify')}
-          size="small"
-          light
-          color="neutral"
-          icon={<IconFormatAlignJustify />}
-        />
-      </Row>
+      <Header />
       <styled.div
+        id="flap"
         ref={editorWrapRef}
         style={{
+          backgroundColor: color('background', 'default'),
           padding: '6px 20px',
+          paddingBottom: '24px',
           border: `1px solid ${color(
             'inputBorder',
             'neutralNormal',
@@ -132,37 +62,47 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
             lineHeight: '1.36',
             fontSize: '15px',
           },
+          '& a': {
+            color: '#0a57d0',
+          },
         }}
       >
-        <h3 contentEditable suppressContentEditableWarning>
-          Title here yo!
-        </h3>
-        <p
-          className="rte-paragraph"
-          style={{ textAlign: 'left' }}
-          contentEditable
-          suppressContentEditableWarning
-          autoFocus
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              console.log('MAKE NEW BLOCK')
-            }
-          }}
-        >
-          Do an almighty painting with us. Use what you see, don't plan it. This
-          piece of canvas is your world. And that's when it becomes fun - you
-          don't have to spend your time thinking about what's happening - you
-          just let it happen.
-        </p>
+        {blocks.map((item, idx) => {
+          if (item.type === 'paragraph') {
+            return (
+              <ParagraphBlock
+                key={idx}
+                innerHTML={item.data.innerHTML}
+                innerText={item.data.innerText}
+                alignment={item.data.alignment}
+                style={item.data.style}
+              />
+            )
+          } else if (item.type === 'heading') {
+            return (
+              <HeadingBlock
+                key={idx}
+                level={item.data.level}
+                innerHTML={item.data.innerHTML}
+                innerText={item.data.innerText}
+                alignment={item.data.alignment}
+                style={item.data.style}
+              />
+            )
+          }
+        })}
+        {/* // pass ref to appendChild ?? */}
+
+        {/* <ParagraphBlock parent={flappie} /> */}
       </styled.div>
 
       <Button
         onClick={() => {
-          // testing for now
-          let snurp = document.getElementsByClassName('rte-paragraph')
-          console.log('snurp --> ', snurp)
+          // get all html nodes inside the ref
+          let snork = editorWrapRef.current.childNodes
+          console.log(snork, '📌 -> now here you save the blocks')
 
-          /// output can look something like this
+          // TODO: for each childnode make an object
           // [
           //   {
           //     id: 'par-blha',

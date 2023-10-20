@@ -1,11 +1,11 @@
 // @ts-nocheck
 import React, { useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Input } from '../../../Input'
+import { Input } from '../../../../Input'
 import { styled } from 'inlines'
-import { Row } from '../../../Styled'
-import { color } from '../../../../varsUtilities'
-import { IconChevronTop, IconChevronDown } from '../../../../icons'
+import { Row } from '../../../../Styled'
+import { color } from '../../../../../varsUtilities'
+import { IconChevronTop, IconChevronDown } from '../../../../../icons'
 
 const WhiteSpaceComp = (data) => {
   const [space, setSpace] = useState(data.value.space)
