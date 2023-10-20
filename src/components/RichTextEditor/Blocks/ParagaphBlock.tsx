@@ -1,10 +1,31 @@
-import React, { createElement } from 'react'
+import React, { FC, CSSProperties, createElement } from 'react'
+import { Style } from 'inlines'
 
-export const ParagraphBlock = () => {
+type ParagaphBlockProps = {
+  innerText?: string
+  innerHTML?: string
+  alignment?: 'left' | 'right' | 'center' | 'justify' | 'inherit'
+  style?: Style
+}
+
+export const ParagraphBlock: FC<ParagaphBlockProps> = ({
+  innerText,
+  innerHTML,
+  alignment = 'left',
+  style,
+}) => {
+  const convertStringToHTML = (str) => {
+    const parser = new DOMParser()
+    const html = parser.parseFromString(str, 'text/html')
+
+    return html.body
+  }
+
+  let x = convertStringToHTML(innerHTML)
+
   return (
     <p
-      className="rte-paragraph"
-      style={{ textAlign: 'left' }}
+      style={{ textAlign: alignment, ...style }}
       contentEditable
       suppressContentEditableWarning
       autoFocus
@@ -15,8 +36,9 @@ export const ParagraphBlock = () => {
           console.log('MAKE NEW BLOCK')
         }
       }}
+      dangerouslySetInnerHTML={{ __html: innerHTML || innerText }}
     >
-      xxx
+      {/* {innerText || ''} */}
     </p>
   )
 }

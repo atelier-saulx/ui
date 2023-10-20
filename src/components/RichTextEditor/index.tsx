@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { styled, Style } from 'inlines'
 import { Button } from '../Button'
@@ -8,6 +8,7 @@ import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
 
 export type RichTextEditorProps = {
+  time?: number
   data?: any
   style?: Style
 }
@@ -30,21 +31,17 @@ const AddNewBlock = (type, arr, idx) => {
   arr.push(type)
 }
 
-export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
+export const RichTextEditor: FC<RichTextEditorProps> = ({
+  time,
+  data,
+  style,
+}) => {
   const editorWrapRef = useRef<HTMLElement>()
 
-  const arrayOfDataBlocks = ['paragraph', 'header', 'paragraph']
+  const [blocks, setBlocks] = useState(data.blocks)
 
   return (
     <styled.div>
-      <Button
-        onClick={() => {
-          AddNewBlock('paragraph', arrayOfDataBlocks, 1)
-          console.log(arrayOfDataBlocks)
-        }}
-      >
-        test
-      </Button>
       <Header />
       <styled.div
         id="flap"
@@ -64,10 +61,18 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ data, style }) => {
           },
         }}
       >
-        {arrayOfDataBlocks.map((item, idx) => {
-          if (item === 'paragraph') {
-            return <ParagraphBlock key={idx} />
-          } else if (item === 'header') {
+        {blocks.map((item, idx) => {
+          if (item.type === 'paragraph') {
+            return (
+              <ParagraphBlock
+                key={idx}
+                innerHTML={item.data.innerHTML}
+                innerText={item.data.innerText}
+                alignment={item.data.alignment}
+                style={item.data.style}
+              />
+            )
+          } else if (item.type === 'heading') {
             return <HeadingBlock key={idx} />
           }
         })}
