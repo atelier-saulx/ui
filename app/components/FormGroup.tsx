@@ -5,13 +5,10 @@ import { ComponentDef } from '../types'
 
 const fieldProps = {
   id: 1337,
+  values: { array: [['12'], ['123']] },
   config: {
     array: {
       type: 'array',
-      value: [
-        ['1', '2'],
-        ['3', '4'],
-      ],
       values: {
         type: 'array',
         values: {
@@ -19,9 +16,38 @@ const fieldProps = {
         },
       },
     },
-    obj: {
+    Object: {
       type: 'object',
-      label: 'asdasd',
+      description: 'wowoweewow',
+      // value: { flap: true },
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+        flop: {
+          type: 'object',
+          properties: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    //arrays need values with type add a default
+    //field not being passed properly?
+    ObjWithArrays: {
+      type: 'object',
+      description: 'wowoweewow',
+      properties: {
+        flap: {
+          type: 'array',
+          values: {
+            type: 'string',
+          },
+        },
+      },
     },
     // arrarray: {
     //   type: 'array',

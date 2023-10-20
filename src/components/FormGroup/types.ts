@@ -40,6 +40,8 @@ export type FormItemProps<T = any> = {
   multiple?: boolean
   addMultipleLabel?: string
   values?: { type: FormItemProps['type']; values: FormItemProps['values'] }
+  // properties?: { type: FormItemProps['type']; values: FormItemProps['values'] }
+  properties?: any
   // values?: { type: FormItemProps['type']; values: any }
 }
 
