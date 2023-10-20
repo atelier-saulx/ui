@@ -5,6 +5,7 @@ import { color } from '../../varsUtilities'
 import { Header } from './Header'
 import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
+import { BlockTool } from './BlockTool'
 
 export type RichTextEditorProps = {
   time?: number
@@ -20,6 +21,7 @@ export type RichTextEditorProps = {
 //  - add blocks
 //  - add media
 //  - preview html code
+// ony selections that fall within the editor
 
 // move blocks up and or down
 // convert block to other block.
@@ -41,7 +43,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   const editorWrapRef = useRef<HTMLElement>()
 
   const [blocks, setBlocks] = useState(data.blocks)
+  const [focusedIndex, setFocusedIndex] = useState()
+
   console.log(blocks)
+  let snork = editorWrapRef?.current?.childNodes
 
   const makeNewBlock = (type) => {
     console.log(type)
@@ -58,11 +63,15 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     ])
   }
 
+  const deleteBlock = (idx) => {
+    console.log('delete this block ->', idx)
+  }
+
   return (
     <styled.div>
       <Header makeNewBlock={makeNewBlock} />
       <styled.div
-        id="flap"
+        id="editor"
         ref={editorWrapRef}
         style={{
           backgroundColor: color('background', 'default'),
@@ -87,34 +96,53 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         {blocks.map((item, idx) => {
           if (item.type === 'paragraph') {
             return (
-              <ParagraphBlock
-                key={idx}
-                innerHTML={item.data.innerHTML}
-                innerText={item.data.innerText}
-                alignment={item.data.alignment}
-                style={item.data.style}
-                id={item.id}
-              />
+              <React.Fragment key={idx}>
+                {focusedIndex === idx && (
+                  <BlockTool
+                    idx={idx}
+                    setBlocks={setBlocks}
+                    blocks={blocks}
+                    snork={snork}
+                  />
+                )}
+                <ParagraphBlock
+                  key={idx}
+                  innerHTML={item.data.innerHTML}
+                  innerText={item.data.innerText}
+                  alignment={item.data.alignment}
+                  style={item.data.style}
+                  id={item.id}
+                  onMouseOver={() => setFocusedIndex(idx)}
+                  onChange={(v) => console.log(v)}
+                />
+              </React.Fragment>
             )
           } else if (item.type === 'heading') {
             return (
-              <HeadingBlock
-                key={idx}
-                level={item.data.level}
-                innerHTML={item.data.innerHTML}
-                innerText={item.data.innerText}
-                alignment={item.data.alignment}
-                style={item.data.style}
-                id={item.id}
-              />
+              <React.Fragment key={idx}>
+                {focusedIndex === idx && (
+                  <BlockTool
+                    idx={idx}
+                    setBlocks={setBlocks}
+                    blocks={blocks}
+                    snork={snork}
+                  />
+                )}
+                <HeadingBlock
+                  key={idx}
+                  level={item.data.level}
+                  innerHTML={item.data.innerHTML}
+                  innerText={item.data.innerText}
+                  alignment={item.data.alignment}
+                  style={item.data.style}
+                  id={item.id}
+                  onMouseOver={() => setFocusedIndex(idx)}
+                />
+              </React.Fragment>
             )
           }
         })}
-        {/* // pass ref to appendChild ?? */}
-
-        {/* <ParagraphBlock parent={flappie} /> */}
       </styled.div>
-
       <Button
         onClick={() => {
           // get all html nodes inside the ref

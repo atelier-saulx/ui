@@ -8,6 +8,7 @@ type HeadingBlockProps = {
   alignment?: 'left' | 'right' | 'center' | 'justify' | 'inherit'
   style?: string
   id?: string
+  onMouseOver?: () => void
 }
 
 export const HeadingBlock: FC<HeadingBlockProps> = ({
@@ -17,6 +18,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
   alignment = 'inherit',
   style,
   id,
+  onMouseOver,
 }) => {
   return level === 'h1' ? (
     <h1
@@ -26,6 +28,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(innerHTML) || DOMPurify.sanitize(innerText),
       }}
+      onMouseOver={onMouseOver}
     />
   ) : level === 'h2' ? (
     <h2
@@ -35,6 +38,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(innerHTML) || DOMPurify.sanitize(innerText),
       }}
+      onMouseOver={onMouseOver}
     />
   ) : level === 'h3' ? (
     <h3
@@ -44,6 +48,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(innerHTML) || DOMPurify.sanitize(innerText),
       }}
+      onMouseOver={onMouseOver}
     />
   ) : level === 'h4' ? (
     <h4
@@ -53,6 +58,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(innerHTML) || DOMPurify.sanitize(innerText),
       }}
+      onMouseOver={onMouseOver}
     />
   ) : level === 'h5' ? (
     <h5
@@ -71,6 +77,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(innerHTML) || DOMPurify.sanitize(innerText),
       }}
+      onMouseOver={onMouseOver}
     />
   ) : (
     <h1
@@ -80,6 +87,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(innerHTML) || DOMPurify.sanitize(innerText),
       }}
+      onMouseOver={onMouseOver}
     />
   )
 }
