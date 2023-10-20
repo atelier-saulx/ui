@@ -5,10 +5,17 @@ import { ComponentDef } from '../types'
 
 const fieldProps = {
   id: 1337,
-  values: { array: [['12'], ['123']] },
+  values: {
+    array: [['12'], ['123']],
+    object: { flap: true, flirp: true },
+  },
   config: {
     array: {
       type: 'array',
+      value: [
+        ['1', '2'],
+        ['3', '4'],
+      ],
       values: {
         type: 'array',
         values: {
@@ -16,7 +23,7 @@ const fieldProps = {
         },
       },
     },
-    Object: {
+    object: {
       type: 'object',
       description: 'wowoweewow',
       // value: { flap: true },
@@ -27,12 +34,18 @@ const fieldProps = {
         flirp: {
           type: 'boolean',
         },
-        flop: {
-          type: 'object',
-          properties: {
-            type: 'string',
-          },
+        snap: {
+          type: 'text',
         },
+        snop: {
+          type: 'file',
+        },
+        // flop: {
+        //   type: 'object',
+        //   properties: {
+        //     type: 'string',
+        //   },
+        // },
       },
     },
     //arrays need values with type add a default
