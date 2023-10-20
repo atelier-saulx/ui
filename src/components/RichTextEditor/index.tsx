@@ -26,6 +26,13 @@ export type RichTextEditorProps = {
 // option to add css style to element
 // option to add class to element
 
+// gen id
+const generateString = (length) =>
+  Array(length)
+    .fill('')
+    .map((v) => Math.random().toString(36).charAt(2))
+    .join('')
+
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   time,
   data,
@@ -34,19 +41,18 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   const editorWrapRef = useRef<HTMLElement>()
 
   const [blocks, setBlocks] = useState(data.blocks)
-
   console.log(blocks)
+
   const makeNewBlock = (type) => {
     console.log(type)
-    // gen id
 
     setBlocks((oldblocks) => [
       ...oldblocks,
       {
-        id: `${type.substring(0, 3)}-xx`,
+        id: `${type.substring(0, 3)}-${generateString(5)}`,
         type: type,
         data: {
-          innerHTML: 'fff',
+          innerHTML: '',
         },
       },
     ])
@@ -87,6 +93,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 innerText={item.data.innerText}
                 alignment={item.data.alignment}
                 style={item.data.style}
+                id={item.id}
               />
             )
           } else if (item.type === 'heading') {
@@ -98,6 +105,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 innerText={item.data.innerText}
                 alignment={item.data.alignment}
                 style={item.data.style}
+                id={item.id}
               />
             )
           }
