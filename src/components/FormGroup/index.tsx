@@ -54,6 +54,8 @@ export const FormGroup: FC<FormGroupProps> = ({
         continue
       }
       if (typeof item === 'object' && !React.isValidElement(item)) {
+        const path = field.split('.')
+        // console.log(item.properties)
         /* @ts-ignore FIX THIS TYPE */
         parsedData.push({ ...item, field })
       } else {

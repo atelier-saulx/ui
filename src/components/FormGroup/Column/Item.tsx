@@ -70,9 +70,9 @@ export const FormItem: FC<{
   if (multiple && !value && !defaultValue) {
     value = ['']
   }
-  if (type === 'object' || (type === 'record' && !value && !defaultValue)) {
-    value = {}
-  }
+  // if (type === 'object' || (type === 'record' && !value && !defaultValue)) {
+  //   value = {}
+  // }
 
   if (typeof type === 'function') {
     return (
@@ -95,6 +95,40 @@ export const FormItem: FC<{
       </Label>
     )
   }
+
+  // const fields = []
+  // if (label === 'Object') {
+  //   // if (type === 'object') {
+  //   // console.log('--------->', value)
+  //   if (properties) {
+  //     for (const d of Object.entries(properties)) {
+  //       console.log('field', field + '.' + d[0])
+  //       console.log('label', field + ': ' + d[0])
+  //       console.log('type', d[1].type)
+  //       console.log('d', d)
+
+  //       // console.log
+  //       // fields.push(
+  //       //   <FormItem
+  //       //   // autoFocus={!hasAutoFocus && autoFocus}
+  //       //   fieldWidth={fieldWidth}
+  //       //   // width={labelWidth}
+  //       //   key={field.d}
+  //       //   item={d}
+  //       //   onChange={onChange}
+  //       //   value={
+  //       //     value
+  //       //     // hasChanges
+  //       //     //   ? getValue(d.field, valuesChanged.current) ??
+  //       //     //     d.value ??
+  //       //     //     getValue(d.field, values)
+  //       //     //   : d.value ?? getValue(d.field, values)
+  //       //   }
+  //       //   />
+  //       //   )
+  //     }
+  //   }
+  // }
 
   if (type === 'object') {
     return (
@@ -132,7 +166,6 @@ export const FormItem: FC<{
                   </styled.div>
                 </Modal.Title>
                 <Modal.Description>{description}</Modal.Description>
-                {/* {console.log(item)} */}
                 <Modal.Body>
                   <FormGroup
                     confirmationVariant="buttons"
