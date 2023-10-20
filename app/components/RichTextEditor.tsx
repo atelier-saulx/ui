@@ -25,8 +25,8 @@ const example: ComponentDef = {
               data: {
                 innerText: 'You want your tree to have some character.',
                 // innerHTML: '<b>you want it</b>',
-                level: 'h2',
-                alignment: 'center',
+                level: 'h3',
+                alignment: 'left',
               },
             },
             {

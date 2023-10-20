@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  CSSProperties,
-  createElement,
-  useRef,
-  useEffect,
-} from 'react'
-import { Style } from 'inlines'
+import React, { FC, useRef, useEffect } from 'react'
 import DOMPurify = require('dompurify')
 
 type ParagaphBlockProps = {
@@ -24,11 +17,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   // TODO: sanitze?
   // TODO: fix style -> maybe set style throug js to this p tag.
 
-  console.log('style --> ', style)
-
   const pRef = useRef<HTMLParagraphElement>()
-
-  console.log(pRef)
 
   useEffect(() => {
     if (pRef.current && style) {
