@@ -28,13 +28,7 @@ export const List: FC<{
 }) => {
   const [open, setOpen] = useState(false)
   const addType = type === 'array' ? [] : ''
-  useEffect(() => {
-    // console.log('-----------------------------------------  1', value)
-    // onChange(field, value)
-    // console.log('-----------------------------------------  2', value)
-    // onChange(field, value)
-    // console.log(field, value)
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <Label>

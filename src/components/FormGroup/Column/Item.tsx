@@ -14,7 +14,7 @@ import {
   Modal,
   FormGroup,
 } from '../..'
-import { IconPlus, IconArrowheadRight } from '../../../icons'
+import { IconPlus, IconArrowheadRight, IconClose } from '../../../icons'
 import { color } from '../../../varsUtilities'
 
 // | 'timestamp'
@@ -100,22 +100,49 @@ export const FormItem: FC<{
     return (
       <Modal.Root>
         <Modal.Trigger>
-          <Button onClick={() => console.log(value)}>
-            Open Overlay: {label}
-          </Button>
+          <Button>Open Overlay: {label}</Button>
         </Modal.Trigger>
         <Modal.Content>
           {({ close }) => {
             return (
               <>
-                <Modal.Title>{label}</Modal.Title>
-                {console.log(item)}
-                <FormGroup
-                  variant="grid"
-                  config={properties}
-                  values={value}
-                  onChange={onChange}
-                />
+                <Modal.Title>
+                  <styled.div
+                    style={{
+                      display: 'flex',
+                      width: '100%',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {label}
+                    <Button
+                      hideFocusState
+                      size="medium"
+                      light
+                      color="system"
+                      onClick={() => close()}
+                      style={{
+                        borderRadius: '50%',
+                        border: '1px solid transparent',
+                        marginLeft: 'auto',
+                      }}
+                      icon={<IconClose color="default" />}
+                    />
+                  </styled.div>
+                </Modal.Title>
+                <Modal.Description>{description}</Modal.Description>
+                {/* {console.log(item)} */}
+                <Modal.Body>
+                  <FormGroup
+                    confirmationVariant="buttons"
+                    variant="column"
+                    config={properties}
+                    values={value}
+                    //@ts-ignore
+                    onChange={onChange}
+                  />
+                </Modal.Body>
               </>
             )
           }}
