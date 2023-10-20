@@ -7,6 +7,7 @@ type HeadingBlockProps = {
   level?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   alignment?: 'left' | 'right' | 'center' | 'justify' | 'inherit'
   style?: string
+  id?: string
 }
 
 export const HeadingBlock: FC<HeadingBlockProps> = ({
@@ -15,6 +16,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
   level,
   alignment = 'inherit',
   style,
+  id,
 }) => {
   return level === 'h1' ? (
     <h1

@@ -41,6 +41,7 @@ const textAlign = (alignment: string) => {
 }
 
 const makeLink = (link) => {
+  // TODO async wait for input
   let selection = window.getSelection().getRangeAt(0)
   let selectedText = selection.extractContents()
   let a = document.createElement('a')
