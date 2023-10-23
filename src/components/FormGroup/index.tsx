@@ -54,7 +54,6 @@ export const FormGroup: FC<FormGroupProps> = ({
         continue
       }
       if (typeof item === 'object' && !React.isValidElement(item)) {
-        // console.log('---------_>', item)
         const obj = item as { properties: { key: string } }
         if (obj?.properties) {
           for (const i in obj?.properties) {

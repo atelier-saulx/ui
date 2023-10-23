@@ -1,12 +1,20 @@
 import React, { FC, ReactNode } from 'react'
 import { border } from '../../../varsUtilities'
-import { Text, Confirmation, RowEnd, Row, Column, Button, Modal } from '../..'
+import {
+  Text,
+  Confirmation,
+  RowEnd,
+  Row,
+  Column,
+  Button,
+  Modal,
+  FormGroup,
+} from '../../../components'
 import { FormItem } from './Item'
 import { getValue } from '../utils'
 import { FormGroupVariantProps } from '../types'
-import { FormGroup } from '../..'
 import { styled } from 'inlines'
-import { IconClose } from 'src/icons'
+import { IconClose } from '../../../icons'
 
 export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   onChange,
@@ -38,7 +46,6 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   const filteredArray = parsedData.filter(
     (item) => !objectArray.includes(item.field.split('.')[0])
   )
-
   for (const d of objectArray) {
     const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)
     const obj = parsedObjArray.reduce(
