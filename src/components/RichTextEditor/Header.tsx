@@ -21,6 +21,27 @@ import { Dropdown } from '..'
 import { Tooltip } from '..'
 import { Input } from '..'
 
+const checkForParent = (selection, alignment) => {
+  // some recursion so i can text align the blocks, even from node within node etc
+  if (
+    selection.localName === 'p' ||
+    selection.localName === 'h1' ||
+    selection.localName === 'h2' ||
+    selection.localName === 'h3' ||
+    selection.localName === 'h4' ||
+    selection.localName === 'h5' ||
+    selection.localName === 'h6' ||
+    selection.localName === 'div'
+  ) {
+    console.log('YES', selection)
+    selection.style.textAlign = alignment
+    return selection
+  } else {
+    console.log('🙁')
+    checkForParent(selection.parentElement, alignment)
+  }
+}
+
 const makeTextBold = () => {
   let selection = window.getSelection().getRangeAt(0)
   let selectedText = selection.extractContents()
@@ -37,11 +58,9 @@ const makeTextItalic = () => {
   selection.insertNode(i)
 }
 
-const textAlign = (alignment: string) => {
-  // TODO make sure parentnode is not a b or i
-  console.log(window.getSelection())
-  let parentEl = window.getSelection().focusNode.parentElement
-  parentEl.style.textAlign = alignment
+const textAlign = (alignment: string, blocks: any, focus: number) => {
+  checkForParent(window.getSelection().anchorNode.parentElement, alignment)
+  blocks[focus].alignment = alignment
 }
 
 const makeLink = (link) => {
@@ -171,7 +190,7 @@ export const Header = ({
         />
         <Button
           onClick={() => {
-            textAlign('left')
+            textAlign('left', blocks, focus)
             updateBlock(focus)
           }}
           size="small"
@@ -181,7 +200,7 @@ export const Header = ({
         />
         <Button
           onClick={() => {
-            textAlign('center')
+            textAlign('center', blocks, focus)
             updateBlock(focus)
           }}
           size="small"
@@ -191,7 +210,7 @@ export const Header = ({
         />
         <Button
           onClick={() => {
-            textAlign('right')
+            textAlign('right', blocks, focus)
             updateBlock(focus)
           }}
           size="small"
@@ -201,7 +220,7 @@ export const Header = ({
         />
         <Button
           onClick={() => {
-            textAlign('justify')
+            textAlign('justify', blocks, focus)
             updateBlock(focus)
           }}
           size="small"

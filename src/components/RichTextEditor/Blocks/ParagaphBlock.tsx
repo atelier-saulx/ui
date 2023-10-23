@@ -35,9 +35,16 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
     }
   }, [pRef.current])
 
+  useEffect(() => {
+    console.log(blockData, 'alignment chagneds')
+  }, [data])
+
   return (
     <p
-      style={{ textAlign: blockData.alignment, ...style }}
+      style={{
+        textAlign: blockData.alignment,
+        ...style,
+      }}
       ref={pRef}
       contentEditable
       suppressContentEditableWarning

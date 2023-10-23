@@ -85,10 +85,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     if (!ref) {
       newRef = editorWrapRef.current.childNodes[idx]
     }
-    console.log('update this 🤖')
+    // console.log('update this 🤖', newRef)
     blocks[idx].data.innerHTML = newRef.innerHTML
     blocks[idx].data.innerText = newRef.innerHTML
-    blocks[idx].data.alignment = newRef.style.textAlign
+    blocks[idx].data.alignment = blocks[idx].data.alignment
     blocks[idx].data.style = newRef.cssText
   }
 
@@ -162,6 +162,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 keyDownHandler={keyDownHandler}
                 blocksLength={blocks.length}
                 style={{
+                  textAlign: item.data.alignment,
                   borderLeft:
                     focus === idx
                       ? `3px solid ${color('action', 'primary', 'normal')}`

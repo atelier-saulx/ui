@@ -42,6 +42,7 @@ export const keyDownHandler = (
   if (e.key === 'ArrowDown') {
     console.log(selection)
     console.log(blocksLength)
+    // @ts-ignore
     let anchorNodeLength = selection.anchorNode.length
     let focusOffset = selection.anchorOffset
 
