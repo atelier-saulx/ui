@@ -3,51 +3,55 @@ import DOMPurify = require('dompurify')
 import { Text } from '../../Text'
 
 type ParagaphBlockProps = {
-  innerText?: string
-  innerHTML?: string
-  alignment?: 'left' | 'right' | 'center' | 'justify' | 'inherit'
-  style?: string
-  id?: string
+  makeNewBlock?: (v) => void
+  data: any
+  idx?: number
+  setFocus?: (v) => void
 }
 
 export const ParagraphBlock: FC<ParagaphBlockProps> = ({
-  innerText,
-  innerHTML,
-  alignment = 'inherit',
-  style,
-  id,
+  data,
+  makeNewBlock,
+  idx,
+  setFocus,
 }) => {
-  // TODO: sanitze?
-  // TODO: fix style -> maybe set style throug js to this p tag.
+  const blockData = data.data
 
   const pRef = useRef<HTMLParagraphElement>()
 
   useEffect(() => {
-    if (pRef.current && style) {
-      pRef.current.style.cssText = style
+    if (pRef.current && blockData.style) {
+      pRef.current.style.cssText = blockData.style
     }
   }, [pRef.current])
 
   return (
-    <>
-      <p
-        style={{ textAlign: alignment }}
-        ref={pRef}
-        contentEditable
-        suppressContentEditableWarning
-        onFocus={() => console.log('yo focussed on block id -> ', id)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            //   const p = createElement('ParagraphBlock', { parent: parent })
-            //   console.log(parent)
-            console.log('MAKE NEW BLOCK')
+    <p
+      style={{ textAlign: blockData.alignment }}
+      ref={pRef}
+      contentEditable
+      suppressContentEditableWarning
+      onFocus={() => setFocus(idx)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          let selection = window.getSelection()
+          let anchorNodeLength = selection.anchorNode.length
+          let focusOffset = selection.anchorOffset
+          if (anchorNodeLength === focusOffset) {
+            makeNewBlock('paragraph')
+            pRef.current.blur()
+            setFocus(idx + 1)
           }
-        }}
-        dangerouslySetInnerHTML={{
-          __html:
-            DOMPurify.sanitize(innerHTML) || DOMPurify.sanitize(innerText),
-        }}
-      />
-    </>
+        }
+        if (e.key === 'Backspace') {
+          console.log('backup in this mf')
+        }
+      }}
+      dangerouslySetInnerHTML={{
+        __html:
+          DOMPurify.sanitize(blockData.innerHTML) ||
+          DOMPurify.sanitize(blockData.innerText),
+      }}
+    />
   )
 }

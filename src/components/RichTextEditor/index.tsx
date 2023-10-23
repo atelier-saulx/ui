@@ -1,10 +1,11 @@
-import React, { FC, useRef, useState } from 'react'
+import React, { FC, useRef, useState, useEffect } from 'react'
 import { styled, Style } from 'inlines'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
 import { Header } from './Header'
 import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
+import { BlockTool } from './BlockTool'
 
 export type RichTextEditorProps = {
   time?: number
@@ -20,6 +21,7 @@ export type RichTextEditorProps = {
 //  - add blocks
 //  - add media
 //  - preview html code
+// ony selections that fall within the editor
 
 // move blocks up and or down
 // convert block to other block.
@@ -41,11 +43,11 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   const editorWrapRef = useRef<HTMLElement>()
 
   const [blocks, setBlocks] = useState(data.blocks)
-  console.log(blocks)
+  const [focus, setFocus] = useState(0)
+
+  let childnodes = editorWrapRef?.current?.childNodes
 
   const makeNewBlock = (type) => {
-    console.log(type)
-
     setBlocks((oldblocks) => [
       ...oldblocks,
       {
@@ -58,11 +60,25 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     ])
   }
 
+  const deleteBlock = (idx) => {
+    console.log('delete this block ->', idx)
+  }
+
+  useEffect(() => {
+    // console.log((editorWrapRef.current.children[1] as HTMLElement).focus())
+    console.log(editorWrapRef.current)
+    console.log(editorWrapRef.current.children[focus])
+    // use childNodes not children you know because of logic 🤨
+    let child = editorWrapRef.current.childNodes[focus] as HTMLElement
+    child.focus()
+  }, [focus])
+
   return (
     <styled.div>
+      <Button onClick={() => setFocus(1)}>focus</Button>
       <Header makeNewBlock={makeNewBlock} />
       <styled.div
-        id="flap"
+        id="editor"
         ref={editorWrapRef}
         style={{
           backgroundColor: color('background', 'default'),
@@ -89,32 +105,17 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             return (
               <ParagraphBlock
                 key={idx}
-                innerHTML={item.data.innerHTML}
-                innerText={item.data.innerText}
-                alignment={item.data.alignment}
-                style={item.data.style}
-                id={item.id}
+                idx={idx}
+                data={item}
+                setFocus={setFocus}
+                makeNewBlock={makeNewBlock}
               />
             )
           } else if (item.type === 'heading') {
-            return (
-              <HeadingBlock
-                key={idx}
-                level={item.data.level}
-                innerHTML={item.data.innerHTML}
-                innerText={item.data.innerText}
-                alignment={item.data.alignment}
-                style={item.data.style}
-                id={item.id}
-              />
-            )
+            return <HeadingBlock key={idx} data={item} />
           }
         })}
-        {/* // pass ref to appendChild ?? */}
-
-        {/* <ParagraphBlock parent={flappie} /> */}
       </styled.div>
-
       <Button
         onClick={() => {
           // get all html nodes inside the ref
@@ -129,7 +130,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           //     data: {
           //       innerHTML: '',
           //       innerText: '',
-          //       style: 'css'
+          //       style: 'css',
+          //       alignment: 'left',
           //     }
           //   }
           // ]

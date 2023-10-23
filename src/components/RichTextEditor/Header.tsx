@@ -13,9 +13,11 @@ import {
   IconFormatAlignJustify,
   IconLink,
   IconPlus,
+  IconDelete,
 } from '../../icons'
 import { Dropdown } from '..'
 import { Tooltip } from '..'
+import { Input } from '..'
 
 const makeTextBold = () => {
   let selection = window.getSelection().getRangeAt(0)
@@ -63,8 +65,9 @@ export const Header = ({ makeNewBlock }) => {
           borderRadius: '2px !important',
         },
         '& svg': {
-          width: '12px',
-          height: '12px',
+          marginTop: '-2px',
+          width: '14px',
+          height: '14px',
         },
       }}
     >
