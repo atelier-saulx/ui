@@ -52,7 +52,7 @@ const makeLink = (link) => {
   selection.insertNode(a)
 }
 
-export const Header = ({ makeNewBlock }) => {
+export const Header = ({ makeNewBlock, deleteBlock, focus }) => {
   const [linkValue, setLinkValue] = useState('')
 
   return (
@@ -129,13 +129,21 @@ export const Header = ({ makeNewBlock }) => {
         color="neutral"
         icon={<IconFormatAlignJustify />}
       />
-
       <Button
         onClick={() => makeLink(linkValue)}
         size="small"
         light
         color="neutral"
         icon={<IconLink />}
+      />
+      {/* right side */}
+      <Button
+        onClick={() => deleteBlock(focus)}
+        size="small"
+        light
+        color="alert"
+        style={{ marginLeft: 'auto' }}
+        icon={<IconDelete />}
       />
     </Row>
   )

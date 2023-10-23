@@ -6,6 +6,7 @@ import { Header } from './Header'
 import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
 import { BlockTool } from './BlockTool'
+import { Row } from '../Styled'
 
 export type RichTextEditorProps = {
   time?: number
@@ -61,22 +62,37 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   }
 
   const deleteBlock = (idx) => {
-    console.log('delete this block ->', idx)
+    const filteredBlocks = blocks.filter((item, id) => id !== idx)
+    setBlocks([...filteredBlocks])
+  }
+
+  const updateBlock = (idx) => {
+    // TODO update the data from this block
   }
 
   useEffect(() => {
-    // console.log((editorWrapRef.current.children[1] as HTMLElement).focus())
-    console.log(editorWrapRef.current)
-    console.log(editorWrapRef.current.children[focus])
     // use childNodes not children you know because of logic 🤨
     let child = editorWrapRef.current.childNodes[focus] as HTMLElement
     child.focus()
   }, [focus])
 
+  useEffect(() => {
+    console.log('what are the blocks now --> ', blocks)
+  }, [blocks])
+
   return (
     <styled.div>
-      <Button onClick={() => setFocus(1)}>focus</Button>
-      <Header makeNewBlock={makeNewBlock} />
+      <Row style={{ border: '1px solid green', padding: 8, marginBottom: 12 }}>
+        <Button onClick={() => setFocus(1)} size="small">
+          focus
+        </Button>{' '}
+        focused: {focus}
+      </Row>
+      <Header
+        makeNewBlock={makeNewBlock}
+        deleteBlock={deleteBlock}
+        focus={focus}
+      />
       <styled.div
         id="editor"
         ref={editorWrapRef}
@@ -84,6 +100,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           backgroundColor: color('background', 'default'),
           padding: '6px 20px',
           paddingBottom: '24px',
+          paddingLeft: 0,
           border: `1px solid ${color(
             'inputBorder',
             'neutralNormal',
@@ -94,9 +111,19 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           '& p': {
             lineHeight: '1.36',
             fontSize: '15px',
+            paddingLeft: '16px',
+            '&:focus-visible': {
+              outline: '1px dashed #bfbfbf',
+            },
           },
           '& a': {
             color: '#0a57d0',
+          },
+          '& h1, h2, h3, h4, h5, h6': {
+            paddingLeft: '16px',
+            '&:focus-visible': {
+              outline: '1px dashed #bfbfbf',
+            },
           },
         }}
       >
@@ -109,10 +136,30 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 data={item}
                 setFocus={setFocus}
                 makeNewBlock={makeNewBlock}
+                deleteBlock={deleteBlock}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '0px',
+                }}
               />
             )
           } else if (item.type === 'heading') {
-            return <HeadingBlock key={idx} data={item} />
+            return (
+              <HeadingBlock
+                key={idx}
+                data={item}
+                idx={idx}
+                setFocus={setFocus}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '0px',
+                }}
+              />
+            )
           }
         })}
       </styled.div>
