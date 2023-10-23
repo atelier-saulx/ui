@@ -10,22 +10,22 @@ const fieldProps = {
       ['12', '123'],
       ['123', '123'],
     ],
-    object: { flap: true, flirp: true, snap: '' },
+    object: { flap: false, flirp: true, snap: 'asdasd' },
   },
   config: {
-    array: {
-      type: 'array',
-      // value: [
-      //   ['1', '2'],
-      //   ['3', '4'],
-      // ],
-      values: {
-        type: 'array',
-        values: {
-          type: 'string',
-        },
-      },
-    },
+    //   array: {
+    //     type: 'array',
+    //     // value: [
+    //     //   ['1', '2'],
+    //     //   ['3', '4'],
+    //     // ],
+    //     values: {
+    //       type: 'set',
+    //       values: {
+    //         type: 'string',
+    //       },
+    //     },
+    //   },
     object: {
       type: 'object',
       description: 'wowoweewow',
@@ -43,39 +43,47 @@ const fieldProps = {
         snop: {
           type: 'file',
         },
-        flop: {
-          type: 'object',
-          properties: {
-            type: 'string',
-          },
-        },
+        // flop: {
+        //   type: 'object',
+        //   properties: {
+        //     type: 'string',
+        //   },
+        // },
       },
     },
-    object2: {
-      type: 'object',
-      description: 'wowoweewow',
-      // value: { flap: true },
-      properties: {
-        flap: {
-          type: 'boolean',
-        },
-        flirp: {
-          type: 'boolean',
-        },
-        snap: {
-          type: 'text',
-        },
-        snop: {
-          type: 'file',
-        },
-        flop: {
-          type: 'object',
-          properties: {
-            type: 'string',
-          },
-        },
-      },
-    },
+    // object2: {
+    //   type: 'object',
+    //   description: 'wowoweewow',
+    //   // value: { flap: true },
+    //   properties: {
+    //     flap: {
+    //       type: 'boolean',
+    //     },
+    //     flirp: {
+    //       type: 'boolean',
+    //     },
+    //     snap: {
+    //       type: 'text',
+    //     },
+    //     snop: {
+    //       type: 'file',
+    //     },
+    //     flop: {
+    //       type: 'object',
+    //       properties: {
+    //         flap: {
+    //           type: 'boolean',
+    //         },
+    //         snurp: {
+    //           type: 'boolean',
+    //         },
+    //         cod: {
+    //           type: 'boolean',
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     //arrays need values with type add a default
     //field not being passed properly?
     // ObjWithArrays: {
@@ -141,7 +149,6 @@ const fieldProps = {
     //     label: 'Boolean',
     //     description: 'Network port',
     //   },
-
     //   'args.name': {
     //     label: 'Name',
     //     type: 'text',

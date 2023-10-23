@@ -29,10 +29,9 @@ const NewInput = ({ index, setOpen, v, type, value, field, onChange }) => {
           return
         }
         const newFieldValue = [...value]
-        console.log(newFieldValue)
+
         newFieldValue[index] = newValue
-        console.log(newFieldValue[index])
-        console.log(field)
+
         onChange(field, newFieldValue)
       }}
     />
@@ -59,13 +58,13 @@ export const List: FC<{
   deleteFunc,
 }) => {
   const [open, setOpen] = useState(false)
-  const addType = type === 'array' ? [] : ''
+  const addType = type === 'array' || type === 'set' ? [] : ''
   useEffect(() => {}, [])
 
   return (
     <Label>
       <Text
-        onClick={() => console.log(value)}
+        onClick={() => console.log}
         weight="strong"
         style={{
           display: 'flex',
@@ -107,7 +106,8 @@ export const List: FC<{
           />
         )}
       </Text>
-      {values.type === 'array' && Array.isArray(value) ? (
+      {values.type === 'array' ||
+      (values.type === 'set' && Array.isArray(value)) ? (
         value.map((item, index) => (
           // <span onClick={isChild ? undefined : () => onChange(field, value)}>
           <List
