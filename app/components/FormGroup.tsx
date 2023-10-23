@@ -6,16 +6,19 @@ import { ComponentDef } from '../types'
 const fieldProps = {
   id: 1337,
   values: {
-    array: [['12'], ['123']],
+    array: [
+      ['12', '123'],
+      ['123', '123'],
+    ],
     object: { flap: true, flirp: true },
   },
   config: {
     array: {
       type: 'array',
-      value: [
-        ['1', '2'],
-        ['3', '4'],
-      ],
+      // value: [
+      //   ['1', '2'],
+      //   ['3', '4'],
+      // ],
       values: {
         type: 'array',
         values: {
@@ -23,45 +26,45 @@ const fieldProps = {
         },
       },
     },
-    object: {
-      type: 'object',
-      description: 'wowoweewow',
-      // value: { flap: true },
-      properties: {
-        flap: {
-          type: 'boolean',
-        },
-        flirp: {
-          type: 'boolean',
-        },
-        snap: {
-          type: 'text',
-        },
-        snop: {
-          type: 'file',
-        },
-        // flop: {
-        //   type: 'object',
-        //   properties: {
-        //     type: 'string',
-        //   },
-        // },
-      },
-    },
+    // object: {
+    //   type: 'object',
+    //   description: 'wowoweewow',
+    //   // value: { flap: true },
+    //   properties: {
+    //     flap: {
+    //       type: 'boolean',
+    //     },
+    //     flirp: {
+    //       type: 'boolean',
+    //     },
+    //     snap: {
+    //       type: 'text',
+    //     },
+    //     snop: {
+    //       type: 'file',
+    //     },
+    //     // flop: {
+    //     //   type: 'object',
+    //     //   properties: {
+    //     //     type: 'string',
+    //     //   },
+    //     // },
+    //   },
+    // },
     //arrays need values with type add a default
     //field not being passed properly?
-    ObjWithArrays: {
-      type: 'object',
-      description: 'wowoweewow',
-      properties: {
-        flap: {
-          type: 'array',
-          values: {
-            type: 'string',
-          },
-        },
-      },
-    },
+    // ObjWithArrays: {
+    //   type: 'object',
+    //   description: 'wowoweewow',
+    //   properties: {
+    //     flap: {
+    //       type: 'array',
+    //       values: {
+    //         type: 'string',
+    //       },
+    //     },
+    //   },
+    // },
     // arrarray: {
     //   type: 'array',
     //   // value: [
@@ -78,10 +81,10 @@ const fieldProps = {
     //     },
     //   },
     // },
-    port: {
-      type: 'number',
-      description: 'Network port',
-    },
+    // port: {
+    //   type: 'number',
+    //   description: 'Network port',
+    // },
     //   json: {
     //     type: 'json',
     //     label: 'json',

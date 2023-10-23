@@ -7,6 +7,38 @@ import { FormItemProps } from '../FormGroup/types'
 import { FormItem } from '../FormGroup/Column/Item'
 import { setValue } from '../FormGroup/utils'
 
+const NewInput = ({ index, setOpen, v, type, value, field, onChange }) => {
+  return (
+    <Input
+      // style={{ position: 'absolute' }}
+      onFocus={() => setOpen(true)}
+      key={index}
+      //@ts-ignore
+      type={'text'}
+      clearButton
+      value={v}
+      onChange={(newStringValue) => {
+        const newValue =
+          type === 'number' ? parseInt(newStringValue) : newStringValue
+
+        if (!newStringValue && value.length > 1) {
+          onChange(
+            field,
+            value.filter((_, i) => i !== index)
+          )
+          return
+        }
+        const newFieldValue = [...value]
+        console.log(newFieldValue)
+        newFieldValue[index] = newValue
+        console.log(newFieldValue[index])
+        console.log(field)
+        onChange(field, newFieldValue)
+      }}
+    />
+  )
+}
+
 export const List: FC<{
   type?: FormItemProps['type']
   field: string
@@ -33,6 +65,7 @@ export const List: FC<{
   return (
     <Label>
       <Text
+        onClick={() => console.log(value)}
         weight="strong"
         style={{
           display: 'flex',
@@ -125,40 +158,14 @@ export const List: FC<{
                       </Badge>
                     </styled.div>
                   )}
-                  <Input
-                    // style={{ position: 'absolute' }}
-                    onFocus={() => setOpen(true)}
-                    key={index}
-                    //@ts-ignore
-                    type={
-                      // values?.type
-                      //   ? values?.type
-                      //   : type === 'number'
-                      //   ? 'number'
-                      //   : 'text'
-                      'text'
-                    }
-                    clearButton
-                    value={v}
-                    // value={open ? v : value.length > 1 ? v + ',' : v}
-                    onChange={(newStringValue) => {
-                      const newValue =
-                        type === 'number'
-                          ? parseInt(newStringValue)
-                          : newStringValue
-
-                      if (!newStringValue && value.length > 1) {
-                        onChange(
-                          field,
-                          value.filter((_, i) => i !== index)
-                        )
-                        return
-                      }
-
-                      const newFieldValue = [...value]
-                      newFieldValue[index] = newValue
-                      onChange(field, newFieldValue)
-                    }}
+                  <NewInput
+                    field={field}
+                    index={index}
+                    onChange={onChange}
+                    setOpen={setOpen}
+                    type={type}
+                    v={v}
+                    value={value}
                   />
                 </styled.div>
               ))}
@@ -170,14 +177,7 @@ export const List: FC<{
                 <Input
                   key={index + 1}
                   //@ts-ignore
-                  type={
-                    'text'
-                    // values?.type
-                    //   ? values?.type
-                    //   : type === 'number'
-                    //   ? 'number'
-                    //   : 'text'
-                  }
+                  type={'text'}
                   clearButton
                   value={v}
                   onChange={(newStringValue) => {
@@ -191,7 +191,6 @@ export const List: FC<{
                         field,
                         value.filter((_, i) => i !== index + 1)
                       )
-
                       return
                     }
 
