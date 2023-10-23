@@ -101,9 +101,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   return (
     <styled.div>
       <Row style={{ border: '1px solid green', padding: 8, marginBottom: 12 }}>
-        <Button onClick={() => setFocus(1)} size="small">
-          focus
-        </Button>{' '}
         focused: {focus}
       </Row>
       <Header

@@ -74,6 +74,23 @@ const moveBlockDown = (focus, blocks, setBlocks, setFocus) => {
   }
 }
 
+const convertBlock = (
+  type: string,
+  idx: number,
+  blocks,
+  setBlocks,
+  level?: string
+) => {
+  blocks[idx].type = type
+
+  if (type === 'heading') {
+    blocks[idx].data.level = level
+  }
+
+  console.log('🤑', type, idx, blocks)
+  setBlocks((blocks) => [...blocks])
+}
+
 export const Header = ({
   makeNewBlock,
   deleteBlock,
@@ -186,6 +203,29 @@ export const Header = ({
           },
         }}
       >
+        <Input
+          type="select"
+          style={{
+            height: '26px',
+            borderRadius: '4px',
+            fontSize: '13px',
+            padding: '0px 42px 6px 10px',
+          }}
+          placeholder={
+            blocks[focus].type === 'paragraph'
+              ? blocks[focus].type
+              : blocks[focus].data.level
+          }
+          options={[
+            { value: 'paragraph', label: 'Paragraph' },
+            { value: 'h1', label: 'Heading: H1' },
+            { value: 'h2', label: 'Heading: H2' },
+            { value: 'h3', label: 'Heading: H3' },
+          ]}
+          onChange={(v) =>
+            convertBlock(blocks[focus].type, focus, blocks, setBlocks, v)
+          }
+        />
         <Button
           onClick={() => moveBlockUp(focus, blocks, setBlocks, setFocus)}
           size="small"
