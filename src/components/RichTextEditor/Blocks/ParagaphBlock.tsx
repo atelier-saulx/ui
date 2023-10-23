@@ -6,7 +6,7 @@ type ParagaphBlockProps = {
   data: any
   deleteBlock?: (v) => void
   idx?: number
-  makeNewBlock?: (v) => void
+  makeNewBlock?: (v, idx) => void
   setFocus?: (v) => void
   style?: Style
 }
@@ -45,7 +45,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
           let focusOffset = selection.anchorOffset
 
           if (anchorNodeLength === focusOffset) {
-            makeNewBlock('paragraph')
+            makeNewBlock('paragraph', idx)
             pRef.current.blur()
             setFocus(idx + 1)
           }

@@ -52,7 +52,7 @@ const makeLink = (link) => {
   selection.insertNode(a)
 }
 
-export const Header = ({ makeNewBlock, deleteBlock, focus }) => {
+export const Header = ({ makeNewBlock, deleteBlock, focus, setFocus }) => {
   const [linkValue, setLinkValue] = useState('')
 
   return (
@@ -78,10 +78,10 @@ export const Header = ({ makeNewBlock, deleteBlock, focus }) => {
           </Dropdown.Trigger>
         </Tooltip>
         <Dropdown.Items>
-          <Dropdown.Item onClick={() => makeNewBlock('heading')}>
+          <Dropdown.Item onClick={() => makeNewBlock('heading', focus)}>
             Heading
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => makeNewBlock('paragraph')}>
+          <Dropdown.Item onClick={() => makeNewBlock('paragraph', focus)}>
             Paragraph
           </Dropdown.Item>
         </Dropdown.Items>

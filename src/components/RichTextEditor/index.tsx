@@ -48,17 +48,35 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   let childnodes = editorWrapRef?.current?.childNodes
 
-  const makeNewBlock = (type) => {
-    setBlocks((oldblocks) => [
-      ...oldblocks,
-      {
-        id: `${type.substring(0, 3)}-${generateString(5)}`,
-        type: type,
-        data: {
-          innerHTML: '',
+  const makeNewBlock = (type, focus) => {
+    if (focus || focus === 0) {
+      // insert after focus index
+      const duplicateArr = [
+        ...blocks.slice(0, focus === 0 ? 1 : focus + 1),
+        {
+          id: `${type.substring(0, 3)}-${generateString(5)}`,
+          type: type,
+          data: {
+            innerHTML: '',
+          },
         },
-      },
-    ])
+        ...blocks.slice(focus === 0 ? 1 : focus + 1),
+      ]
+
+      setBlocks([...duplicateArr])
+    } else {
+      // add to end
+      setBlocks((oldblocks) => [
+        ...oldblocks,
+        {
+          id: `${type.substring(0, 3)}-${generateString(5)}`,
+          type: type,
+          data: {
+            innerHTML: '',
+          },
+        },
+      ])
+    }
   }
 
   const deleteBlock = (idx) => {
@@ -92,6 +110,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         makeNewBlock={makeNewBlock}
         deleteBlock={deleteBlock}
         focus={focus}
+        setFocus={setFocus}
       />
       <styled.div
         id="editor"
