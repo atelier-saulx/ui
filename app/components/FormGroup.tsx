@@ -114,10 +114,10 @@ const fieldProps = {
     //     },
     //   },
     // },
-    // port: {
-    //   type: 'number',
-    //   description: 'Network port',
-    // },
+    port: {
+      type: 'number',
+      description: 'Network port',
+    },
     //   json: {
     //     type: 'json',
     //     label: 'json',

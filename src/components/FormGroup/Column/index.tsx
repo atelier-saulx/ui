@@ -46,12 +46,15 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   const filteredArray = parsedData.filter(
     (item) => !objectArray.includes(item.field.split('.')[0])
   )
+
   for (const d of objectArray) {
     const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)
+
     const obj = parsedObjArray.reduce(
       (a, v) => ({ ...a, [v.field.split('.')[1]]: v }),
       {}
     )
+    // console.log(obj)
 
     fields.push(
       <Modal.Root key={d}>

@@ -97,6 +97,8 @@ export const FormItem: FC<{
   }
 
   if (type === 'object') {
+    // console.log(Object.keys(properties))
+    // console.log(properties)
     return (
       <Modal.Root>
         <Modal.Trigger>
@@ -190,6 +192,7 @@ export const FormItem: FC<{
     return (
       <Label description={description} label={label}>
         <Toggle
+          defaultValue
           label={label}
           value={value}
           onChange={(v) => onChange(field, v)}

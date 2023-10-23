@@ -2,14 +2,12 @@ import React, { ReactNode } from 'react'
 
 export const getValue = (field, values?: { [field: string]: any }): any => {
   const path = field.split('.')
-  // console.log(path)
   let v = values
-  // console.log('path', path)
   for (const f of path) {
     if (v === undefined || v === null) {
       return undefined // or emptty string...
     }
-    v = v[f] ?? (v[f] = {})
+    v = v[f]
   }
   return v
 }
@@ -20,35 +18,14 @@ export const setValue = (
   value: any
 ) => {
   const path = field.split('.')
-
   let v = values
   for (let i = 0; i < path.length - 1; i++) {
     const f = path[i]
     v = v[f] ?? (v[f] = {})
   }
 
-  // if (v[path[path.length - 1]] === undefined) {
-  //   return
-  // }
   v[path[path.length - 1]] = value
 }
-// export const setValue = (
-//   field,
-//   values: { [field: string]: any },
-//   value: any
-//   // depth
-// ) => {
-//   console.log('field', field)
-//   const path = field.split('.')
-//   console.log('path', path)
-//   let v = values
-//   console.log(v)
-//   for (let i = 0; i < path.length - 1; i++) {
-//     const f = path[i]
-//     v = v[f] ?? (v[f] = {})
-//   }
-//   v[path[path.length - 1]] = value
-// }
 
 export const equalChanges = (
   changes: { [key: string]: any },
