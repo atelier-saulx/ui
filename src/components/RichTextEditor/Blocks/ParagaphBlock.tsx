@@ -1,50 +1,76 @@
 import React, { FC, useRef, useEffect } from 'react'
 import DOMPurify = require('dompurify')
-import { Text } from '../../Text'
+import { Style } from 'inlines'
 
 type ParagaphBlockProps = {
-  makeNewBlock?: (v) => void
   data: any
+  deleteBlock?: (v) => void
   idx?: number
+  makeNewBlock?: (v, idx) => void
   setFocus?: (v) => void
+  style?: Style
+  updateBlock?: (v, r) => void
 }
 
 export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   data,
-  makeNewBlock,
+  deleteBlock,
   idx,
+  makeNewBlock,
   setFocus,
+  style,
+  updateBlock,
 }) => {
   const blockData = data.data
 
   const pRef = useRef<HTMLParagraphElement>()
 
   useEffect(() => {
+    console.log(pRef)
+
     if (pRef.current && blockData.style) {
       pRef.current.style.cssText = blockData.style
     }
   }, [pRef.current])
 
+  // so update blocks if -> changes :
+  // innerHTML
+  // innerText
+  // alignment
+  // style
+  // className
+
   return (
     <p
-      style={{ textAlign: blockData.alignment }}
+      style={{ textAlign: blockData.alignment, ...style }}
       ref={pRef}
       contentEditable
       suppressContentEditableWarning
       onFocus={() => setFocus(idx)}
+      onInput={() => updateBlock(idx, pRef.current)}
       onKeyDown={(e) => {
+        // TODO -> Shift + Enter
         if (e.key === 'Enter') {
+          e.preventDefault()
           let selection = window.getSelection()
           let anchorNodeLength = selection.anchorNode.length
           let focusOffset = selection.anchorOffset
+
           if (anchorNodeLength === focusOffset) {
-            makeNewBlock('paragraph')
-            pRef.current.blur()
+            makeNewBlock('paragraph', idx)
             setFocus(idx + 1)
           }
         }
         if (e.key === 'Backspace') {
-          console.log('backup in this mf')
+          let selection = window.getSelection()
+          let anchorNodeLength = selection.anchorNode.length
+          let focusOffset = selection.anchorOffset
+
+          if (!anchorNodeLength && focusOffset === 0) {
+            deleteBlock(idx)
+            setFocus(idx - 1)
+            // todo caret at end
+          }
         }
       }}
       dangerouslySetInnerHTML={{

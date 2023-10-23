@@ -6,6 +6,7 @@ import { Header } from './Header'
 import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
 import { BlockTool } from './BlockTool'
+import { Row } from '../Styled'
 
 export type RichTextEditorProps = {
   time?: number
@@ -13,20 +14,21 @@ export type RichTextEditorProps = {
   style?: Style
 }
 
-// classic wp editor ->
-
+// TODO :
+//  - update block data on content editable
+//  - HTML preview -> editable -> outerHTML prop on nodes
 //  - unordered list
 //  - ordererd list
 //  - link
 //  - add blocks
 //  - add media
 //  - preview html code
-// ony selections that fall within the editor
-
-// move blocks up and or down
-// convert block to other block.
-// option to add css style to element
-// option to add class to element
+//  - ony selections that fall within the editor
+//  - convert block to other block.
+//  - option to add css style to element
+//  - option to add class to element
+//  - arrow keys up and down to select blocks
+//  shift + enter in blocks
 
 // gen id
 const generateString = (length) =>
@@ -47,43 +49,94 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   let childnodes = editorWrapRef?.current?.childNodes
 
-  const makeNewBlock = (type) => {
-    setBlocks((oldblocks) => [
-      ...oldblocks,
-      {
-        id: `${type.substring(0, 3)}-${generateString(5)}`,
-        type: type,
-        data: {
-          innerHTML: '',
+  const makeNewBlock = (type, focus) => {
+    if (focus || focus === 0) {
+      // insert after focus index
+      const duplicateArr = [
+        ...blocks.slice(0, focus === 0 ? 1 : focus + 1),
+        {
+          id: `${type.substring(0, 3)}-${generateString(5)}`,
+          type: type,
+          data: {
+            innerHTML: '',
+          },
         },
-      },
-    ])
+        ...blocks.slice(focus === 0 ? 1 : focus + 1),
+      ]
+
+      setBlocks([...duplicateArr])
+    } else {
+      // add to end
+      setBlocks((oldblocks) => [
+        ...oldblocks,
+        {
+          id: `${type.substring(0, 3)}-${generateString(5)}`,
+          type: type,
+          data: {
+            innerHTML: '',
+          },
+        },
+      ])
+    }
   }
 
   const deleteBlock = (idx) => {
-    console.log('delete this block ->', idx)
+    const filteredBlocks = blocks.filter((item, id) => id !== idx)
+    setBlocks([...filteredBlocks])
+  }
+
+  const updateBlock = (idx: number, ref?: any) => {
+    // TODO update the data from this block
+    // console.log(idx, ref, '👷🏻‍♂️')
+    // console.log(ref.innerHTML)
+    // console.log('innerText ')
+
+    let newRef = ref
+
+    if (!ref) {
+      newRef = editorWrapRef.current.childNodes[idx]
+    }
+
+    console.log('update this 🤖')
+    blocks[idx].data.innerHTML = newRef.innerHTML
+    blocks[idx].data.innerText = newRef.innerHTML
+    blocks[idx].data.alignment = newRef.style.textAlign
+    blocks[idx].data.style = newRef.cssText
   }
 
   useEffect(() => {
-    // console.log((editorWrapRef.current.children[1] as HTMLElement).focus())
-    console.log(editorWrapRef.current)
-    console.log(editorWrapRef.current.children[focus])
     // use childNodes not children you know because of logic 🤨
     let child = editorWrapRef.current.childNodes[focus] as HTMLElement
     child.focus()
   }, [focus])
 
+  useEffect(() => {
+    console.log(' 🙄what are the blocks now --> ', blocks)
+  }, [blocks])
+
   return (
     <styled.div>
-      <Button onClick={() => setFocus(1)}>focus</Button>
-      <Header makeNewBlock={makeNewBlock} />
+      <Row style={{ border: '1px solid green', padding: 8, marginBottom: 12 }}>
+        focused: {focus}
+      </Row>
+      <Header
+        blocks={blocks}
+        deleteBlock={deleteBlock}
+        focus={focus}
+        makeNewBlock={makeNewBlock}
+        setBlocks={setBlocks}
+        setFocus={setFocus}
+        updateBlock={updateBlock}
+      />
       <styled.div
         id="editor"
         ref={editorWrapRef}
         style={{
           backgroundColor: color('background', 'default'),
+          borderRadius: 8,
           padding: '6px 20px',
           paddingBottom: '24px',
+          paddingLeft: 0,
           border: `1px solid ${color(
             'inputBorder',
             'neutralNormal',
@@ -94,9 +147,19 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           '& p': {
             lineHeight: '1.36',
             fontSize: '15px',
+            paddingLeft: '16px',
+            '&:focus-visible': {
+              outline: '1px dashed #bfbfbf',
+            },
           },
           '& a': {
             color: '#0a57d0',
+          },
+          '& h1, h2, h3, h4, h5, h6': {
+            paddingLeft: '16px',
+            '&:focus-visible': {
+              outline: '1px dashed #bfbfbf',
+            },
           },
         }}
       >
@@ -109,10 +172,31 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 data={item}
                 setFocus={setFocus}
                 makeNewBlock={makeNewBlock}
+                deleteBlock={deleteBlock}
+                updateBlock={updateBlock}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '0px',
+                }}
               />
             )
           } else if (item.type === 'heading') {
-            return <HeadingBlock key={idx} data={item} />
+            return (
+              <HeadingBlock
+                key={idx}
+                data={item}
+                idx={idx}
+                setFocus={setFocus}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '0px',
+                }}
+              />
+            )
           }
         })}
       </styled.div>
