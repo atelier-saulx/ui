@@ -74,20 +74,22 @@ const moveBlockDown = (focus, blocks, setBlocks, setFocus) => {
   }
 }
 
-const convertBlock = (
-  type: string,
-  idx: number,
-  blocks,
-  setBlocks,
-  level?: string
-) => {
-  blocks[idx].type = type
+const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
+  blocks[idx].type = value
 
-  if (type === 'heading') {
-    blocks[idx].data.level = level
+  if (
+    value === 'h1' ||
+    value === 'h2' ||
+    value === 'h3' ||
+    value === 'h4' ||
+    value === 'h5' ||
+    value === 'h6'
+  ) {
+    blocks[idx].type = 'heading'
+    blocks[idx].data.level = value
   }
 
-  console.log('🤑', type, idx, blocks)
+  console.log('🤑', value, idx, blocks)
   setBlocks((blocks) => [...blocks])
 }
 
@@ -113,7 +115,7 @@ export const Header = ({
           '& button': {
             width: '24px !important',
             height: '24px',
-            borderRadius: '2px !important',
+            borderRadius: '4px !important',
           },
           '& svg': {
             marginTop: '-2px',
@@ -194,7 +196,7 @@ export const Header = ({
           '& button': {
             width: '24px !important',
             height: '24px',
-            borderRadius: '2px !important',
+            borderRadius: '4px !important',
           },
           '& svg': {
             marginTop: '-2px',
@@ -211,6 +213,7 @@ export const Header = ({
             fontSize: '13px',
             padding: '0px 42px 6px 10px',
           }}
+          // TODO: change on focus the value or placeholder
           placeholder={
             blocks[focus].type === 'paragraph'
               ? blocks[focus].type
@@ -221,10 +224,11 @@ export const Header = ({
             { value: 'h1', label: 'Heading: H1' },
             { value: 'h2', label: 'Heading: H2' },
             { value: 'h3', label: 'Heading: H3' },
+            { value: 'h4', label: 'Heading: H4' },
+            { value: 'h5', label: 'Heading: H5' },
+            { value: 'h6', label: 'Heading: H6' },
           ]}
-          onChange={(v) =>
-            convertBlock(blocks[focus].type, focus, blocks, setBlocks, v)
-          }
+          onChange={(v) => convertBlock(focus, blocks, setBlocks, v)}
         />
         <Button
           onClick={() => moveBlockUp(focus, blocks, setBlocks, setFocus)}
@@ -248,7 +252,7 @@ export const Header = ({
           '& button': {
             width: '24px !important',
             height: '24px',
-            borderRadius: '2px !important',
+            borderRadius: '4px !important',
           },
           '& svg': {
             marginTop: '-2px',

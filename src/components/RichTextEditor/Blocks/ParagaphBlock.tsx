@@ -46,7 +46,6 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
 
           if (anchorNodeLength === focusOffset) {
             makeNewBlock('paragraph', idx)
-            pRef.current.blur()
             setFocus(idx + 1)
           }
         }

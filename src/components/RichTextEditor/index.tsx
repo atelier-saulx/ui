@@ -14,20 +14,19 @@ export type RichTextEditorProps = {
   style?: Style
 }
 
-// classic wp editor ->
-
+// TODO :
+//  - update block data on content editable
+//  - HTML preview -> editable
 //  - unordered list
 //  - ordererd list
 //  - link
 //  - add blocks
 //  - add media
 //  - preview html code
-// ony selections that fall within the editor
-
-// move blocks up and or down
-// convert block to other block.
-// option to add css style to element
-// option to add class to element
+//  - ony selections that fall within the editor
+//  - convert block to other block.
+//  - option to add css style to element
+//  - option to add class to element
 
 // gen id
 const generateString = (length) =>
@@ -116,6 +115,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         ref={editorWrapRef}
         style={{
           backgroundColor: color('background', 'default'),
+          borderRadius: 8,
           padding: '6px 20px',
           paddingBottom: '24px',
           paddingLeft: 0,
