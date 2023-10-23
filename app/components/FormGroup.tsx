@@ -10,7 +10,7 @@ const fieldProps = {
       ['12', '123'],
       ['123', '123'],
     ],
-    object: { flap: true, flirp: true },
+    object: { flap: true, flirp: true, snap: '' },
   },
   config: {
     array: {
@@ -26,31 +26,56 @@ const fieldProps = {
         },
       },
     },
-    // object: {
-    //   type: 'object',
-    //   description: 'wowoweewow',
-    //   // value: { flap: true },
-    //   properties: {
-    //     flap: {
-    //       type: 'boolean',
-    //     },
-    //     flirp: {
-    //       type: 'boolean',
-    //     },
-    //     snap: {
-    //       type: 'text',
-    //     },
-    //     snop: {
-    //       type: 'file',
-    //     },
-    //     // flop: {
-    //     //   type: 'object',
-    //     //   properties: {
-    //     //     type: 'string',
-    //     //   },
-    //     // },
-    //   },
-    // },
+    object: {
+      type: 'object',
+      description: 'wowoweewow',
+      // value: { flap: true },
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+        snap: {
+          type: 'text',
+        },
+        snop: {
+          type: 'file',
+        },
+        flop: {
+          type: 'object',
+          properties: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    object2: {
+      type: 'object',
+      description: 'wowoweewow',
+      // value: { flap: true },
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+        snap: {
+          type: 'text',
+        },
+        snop: {
+          type: 'file',
+        },
+        flop: {
+          type: 'object',
+          properties: {
+            type: 'string',
+          },
+        },
+      },
+    },
     //arrays need values with type add a default
     //field not being passed properly?
     // ObjWithArrays: {
