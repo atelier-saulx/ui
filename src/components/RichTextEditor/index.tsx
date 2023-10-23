@@ -5,8 +5,9 @@ import { color } from '../../varsUtilities'
 import { Header } from './Header'
 import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
-import { BlockTool } from './BlockTool'
 import { Row } from '../Styled'
+import { generateString } from './utils/generateString'
+import { keyDownHandler } from './utils/keyDownHandler'
 
 export type RichTextEditorProps = {
   time?: number
@@ -29,13 +30,6 @@ export type RichTextEditorProps = {
 //  - option to add class to element
 //  - arrow keys up and down to select blocks
 //  shift + enter in blocks
-
-// gen id
-const generateString = (length) =>
-  Array(length)
-    .fill('')
-    .map((v) => Math.random().toString(36).charAt(2))
-    .join('')
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   time,
@@ -102,6 +96,9 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     blocks[idx].data.innerText = newRef.innerHTML
     blocks[idx].data.alignment = newRef.style.textAlign
     blocks[idx].data.style = newRef.cssText
+    if (blocks[idx].type === 'heading') {
+      blocks[idx].data.level = newRef.tagName
+    }
   }
 
   useEffect(() => {
@@ -174,6 +171,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 makeNewBlock={makeNewBlock}
                 deleteBlock={deleteBlock}
                 updateBlock={updateBlock}
+                keyDownHandler={keyDownHandler}
                 style={{
                   borderLeft:
                     focus === idx
@@ -189,6 +187,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 data={item}
                 idx={idx}
                 setFocus={setFocus}
+                makeNewBlock={makeNewBlock}
+                deleteBlock={deleteBlock}
+                updateBlock={updateBlock}
+                keyDownHandler={keyDownHandler}
                 style={{
                   borderLeft:
                     focus === idx

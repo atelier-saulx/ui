@@ -10,6 +10,7 @@ type ParagaphBlockProps = {
   setFocus?: (v) => void
   style?: Style
   updateBlock?: (v, r) => void
+  keyDownHandler?: any
 }
 
 export const ParagraphBlock: FC<ParagaphBlockProps> = ({
@@ -20,25 +21,17 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   setFocus,
   style,
   updateBlock,
+  keyDownHandler,
 }) => {
   const blockData = data.data
 
   const pRef = useRef<HTMLParagraphElement>()
 
   useEffect(() => {
-    console.log(pRef)
-
     if (pRef.current && blockData.style) {
       pRef.current.style.cssText = blockData.style
     }
   }, [pRef.current])
-
-  // so update blocks if -> changes :
-  // innerHTML
-  // innerText
-  // alignment
-  // style
-  // className
 
   return (
     <p
@@ -49,29 +42,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx, pRef.current)}
       onKeyDown={(e) => {
-        // TODO -> Shift + Enter
-        if (e.key === 'Enter') {
-          e.preventDefault()
-          let selection = window.getSelection()
-          let anchorNodeLength = selection.anchorNode.length
-          let focusOffset = selection.anchorOffset
-
-          if (anchorNodeLength === focusOffset) {
-            makeNewBlock('paragraph', idx)
-            setFocus(idx + 1)
-          }
-        }
-        if (e.key === 'Backspace') {
-          let selection = window.getSelection()
-          let anchorNodeLength = selection.anchorNode.length
-          let focusOffset = selection.anchorOffset
-
-          if (!anchorNodeLength && focusOffset === 0) {
-            deleteBlock(idx)
-            setFocus(idx - 1)
-            // todo caret at end
-          }
-        }
+        keyDownHandler(e, idx, setFocus, makeNewBlock, deleteBlock, 'paragraph')
       }}
       dangerouslySetInnerHTML={{
         __html:
