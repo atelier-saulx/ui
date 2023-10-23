@@ -107,9 +107,11 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         focused: {focus}
       </Row>
       <Header
-        makeNewBlock={makeNewBlock}
+        blocks={blocks}
         deleteBlock={deleteBlock}
         focus={focus}
+        makeNewBlock={makeNewBlock}
+        setBlocks={setBlocks}
         setFocus={setFocus}
       />
       <styled.div
