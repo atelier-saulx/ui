@@ -76,7 +76,6 @@ const moveBlockDown = (focus, blocks, setBlocks, setFocus) => {
 
 const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
   blocks[idx].type = value
-
   if (
     value === 'h1' ||
     value === 'h2' ||
@@ -88,8 +87,6 @@ const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
     blocks[idx].type = 'heading'
     blocks[idx].data.level = value
   }
-
-  console.log('🤑', value, idx, blocks)
   setBlocks((blocks) => [...blocks])
 }
 
@@ -100,6 +97,7 @@ export const Header = ({
   setFocus,
   blocks,
   setBlocks,
+  updateBlock,
 }) => {
   const [linkValue, setLinkValue] = useState('')
 
@@ -140,49 +138,70 @@ export const Header = ({
           </Dropdown.Items>
         </Dropdown.Root>
         <Button
-          onClick={makeTextBold}
+          onClick={() => {
+            makeTextBold()
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"
           icon={<IconFormatBold />}
         />
         <Button
-          onClick={makeTextItalic}
+          onClick={() => {
+            makeTextItalic()
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"
           icon={<IconFormatItalic />}
         />
         <Button
-          onClick={() => textAlign('left')}
+          onClick={() => {
+            textAlign('left')
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"
           icon={<IconFormatAlignLeft />}
         />
         <Button
-          onClick={() => textAlign('center')}
+          onClick={() => {
+            textAlign('center')
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"
           icon={<IconFormatAlignCenter />}
         />
         <Button
-          onClick={() => textAlign('right')}
+          onClick={() => {
+            textAlign('right')
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"
           icon={<IconFormatAlignRight />}
         />
         <Button
-          onClick={() => textAlign('justify')}
+          onClick={() => {
+            textAlign('justify')
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"
           icon={<IconFormatAlignJustify />}
         />
         <Button
-          onClick={() => makeLink(linkValue)}
+          onClick={() => {
+            makeLink(linkValue)
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"

@@ -9,6 +9,7 @@ type ParagaphBlockProps = {
   makeNewBlock?: (v, idx) => void
   setFocus?: (v) => void
   style?: Style
+  updateBlock?: (v, r) => void
 }
 
 export const ParagraphBlock: FC<ParagaphBlockProps> = ({
@@ -18,16 +19,26 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   makeNewBlock,
   setFocus,
   style,
+  updateBlock,
 }) => {
   const blockData = data.data
 
   const pRef = useRef<HTMLParagraphElement>()
 
   useEffect(() => {
+    console.log(pRef)
+
     if (pRef.current && blockData.style) {
       pRef.current.style.cssText = blockData.style
     }
   }, [pRef.current])
+
+  // so update blocks if -> changes :
+  // innerHTML
+  // innerText
+  // alignment
+  // style
+  // className
 
   return (
     <p
@@ -36,6 +47,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
       contentEditable
       suppressContentEditableWarning
       onFocus={() => setFocus(idx)}
+      onInput={() => updateBlock(idx, pRef.current)}
       onKeyDown={(e) => {
         // TODO -> Shift + Enter
         if (e.key === 'Enter') {

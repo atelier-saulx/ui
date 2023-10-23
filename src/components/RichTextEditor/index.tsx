@@ -16,7 +16,7 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  - update block data on content editable
-//  - HTML preview -> editable
+//  - HTML preview -> editable -> outerHTML prop on nodes
 //  - unordered list
 //  - ordererd list
 //  - link
@@ -27,6 +27,8 @@ export type RichTextEditorProps = {
 //  - convert block to other block.
 //  - option to add css style to element
 //  - option to add class to element
+//  - arrow keys up and down to select blocks
+//  shift + enter in blocks
 
 // gen id
 const generateString = (length) =>
@@ -83,8 +85,23 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     setBlocks([...filteredBlocks])
   }
 
-  const updateBlock = (idx) => {
+  const updateBlock = (idx: number, ref?: any) => {
     // TODO update the data from this block
+    // console.log(idx, ref, '👷🏻‍♂️')
+    // console.log(ref.innerHTML)
+    // console.log('innerText ')
+
+    let newRef = ref
+
+    if (!ref) {
+      newRef = editorWrapRef.current.childNodes[idx]
+    }
+
+    console.log('update this 🤖')
+    blocks[idx].data.innerHTML = newRef.innerHTML
+    blocks[idx].data.innerText = newRef.innerHTML
+    blocks[idx].data.alignment = newRef.style.textAlign
+    blocks[idx].data.style = newRef.cssText
   }
 
   useEffect(() => {
@@ -94,7 +111,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   }, [focus])
 
   useEffect(() => {
-    console.log('what are the blocks now --> ', blocks)
+    console.log(' 🙄what are the blocks now --> ', blocks)
   }, [blocks])
 
   return (
@@ -109,6 +126,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         makeNewBlock={makeNewBlock}
         setBlocks={setBlocks}
         setFocus={setFocus}
+        updateBlock={updateBlock}
       />
       <styled.div
         id="editor"
@@ -155,6 +173,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 setFocus={setFocus}
                 makeNewBlock={makeNewBlock}
                 deleteBlock={deleteBlock}
+                updateBlock={updateBlock}
                 style={{
                   borderLeft:
                     focus === idx
