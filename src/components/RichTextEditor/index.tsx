@@ -18,7 +18,6 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
-//  - placeholder on new empty block
 //  - unordered list
 //  - ordererd list
 //  - link
@@ -85,7 +84,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     if (!ref) {
       newRef = editorWrapRef.current.childNodes[idx]
     }
-    // console.log('update this 🤖', newRef)
+    console.log('update this 🤖', newRef)
     blocks[idx].data.innerHTML = newRef.innerHTML
     blocks[idx].data.innerText = newRef.innerHTML
     blocks[idx].data.alignment = blocks[idx].data.alignment
@@ -118,6 +117,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         ref={editorWrapRef}
         style={{
           backgroundColor: color('background', 'default'),
+          position: 'relative',
           borderRadius: 8,
           padding: '6px 20px',
           paddingBottom: '24px',
@@ -167,10 +167,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                     focus === idx
                       ? `3px solid ${color('action', 'primary', 'normal')}`
                       : '0px',
-                  '&::before': {
-                    content: 'yo',
-                    display: 'block',
-                  },
                 }}
               />
             )

@@ -1,6 +1,8 @@
-import React, { FC, useRef, useEffect } from 'react'
+import React, { FC, useRef, useEffect, useState } from 'react'
 import DOMPurify = require('dompurify')
-import { Style } from 'inlines'
+import { Style, styled } from 'inlines'
+import { color } from '../../../varsUtilities'
+import { Text } from '../../Text'
 
 type ParagaphBlockProps = {
   data: any
@@ -30,19 +32,22 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   const pRef = useRef<HTMLParagraphElement>()
 
   useEffect(() => {
+    console.log(pRef)
     if (pRef.current && blockData.style) {
       pRef.current.style.cssText = blockData.style
     }
   }, [pRef.current])
 
-  useEffect(() => {
-    console.log(blockData, 'alignment chagneds')
-  }, [data])
-
   return (
-    <p
+    <styled.p
       style={{
         textAlign: blockData.alignment,
+        '&[contenteditable=true]:empty:before': {
+          content: '"Type here..."',
+          color: color('content', 'default', 'secondary'),
+          pointerEvents: 'none',
+          display: ' absolute',
+        },
         ...style,
       }}
       ref={pRef}
