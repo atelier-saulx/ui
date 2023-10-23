@@ -21,6 +21,27 @@ import { Dropdown } from '..'
 import { Tooltip } from '..'
 import { Input } from '..'
 
+const checkForParent = (selection, alignment) => {
+  // some recursion so i can text align the blocks, even from node within node etc
+  if (
+    selection.localName === 'p' ||
+    selection.localName === 'h1' ||
+    selection.localName === 'h2' ||
+    selection.localName === 'h3' ||
+    selection.localName === 'h4' ||
+    selection.localName === 'h5' ||
+    selection.localName === 'h6' ||
+    selection.localName === 'div'
+  ) {
+    console.log('YES', selection)
+    selection.style.textAlign = alignment
+    return selection
+  } else {
+    console.log('🙁')
+    checkForParent(selection.parentElement, alignment)
+  }
+}
+
 const makeTextBold = () => {
   let selection = window.getSelection().getRangeAt(0)
   let selectedText = selection.extractContents()
@@ -37,11 +58,9 @@ const makeTextItalic = () => {
   selection.insertNode(i)
 }
 
-const textAlign = (alignment: string) => {
-  // TODO make sure parentnode is not a b or i
-  console.log(window.getSelection())
-  let parentEl = window.getSelection().focusNode.parentElement
-  parentEl.style.textAlign = alignment
+const textAlign = (alignment: string, blocks: any, focus: number) => {
+  checkForParent(window.getSelection().anchorNode.parentElement, alignment)
+  blocks[focus].alignment = alignment
 }
 
 const makeLink = (link) => {
@@ -75,7 +94,6 @@ const moveBlockDown = (focus, blocks, setBlocks, setFocus) => {
 }
 
 const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
-  blocks[idx].type = value
   if (
     value === 'h1' ||
     value === 'h2' ||
@@ -84,8 +102,11 @@ const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
     value === 'h5' ||
     value === 'h6'
   ) {
+    console.log('convert this')
     blocks[idx].type = 'heading'
     blocks[idx].data.level = value
+  } else {
+    blocks[idx].type = value
   }
   setBlocks((blocks) => [...blocks])
 }
@@ -129,10 +150,20 @@ export const Header = ({
             </Dropdown.Trigger>
           </Tooltip>
           <Dropdown.Items>
-            <Dropdown.Item onClick={() => makeNewBlock('heading', focus)}>
+            <Dropdown.Item
+              onClick={() => {
+                makeNewBlock('heading', focus)
+                setFocus(focus + 1)
+              }}
+            >
               Heading
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => makeNewBlock('paragraph', focus)}>
+            <Dropdown.Item
+              onClick={() => {
+                makeNewBlock('paragraph', focus)
+                setFocus(focus + 1)
+              }}
+            >
               Paragraph
             </Dropdown.Item>
           </Dropdown.Items>
@@ -159,7 +190,7 @@ export const Header = ({
         />
         <Button
           onClick={() => {
-            textAlign('left')
+            textAlign('left', blocks, focus)
             updateBlock(focus)
           }}
           size="small"
@@ -169,7 +200,7 @@ export const Header = ({
         />
         <Button
           onClick={() => {
-            textAlign('center')
+            textAlign('center', blocks, focus)
             updateBlock(focus)
           }}
           size="small"
@@ -179,7 +210,7 @@ export const Header = ({
         />
         <Button
           onClick={() => {
-            textAlign('right')
+            textAlign('right', blocks, focus)
             updateBlock(focus)
           }}
           size="small"
@@ -189,7 +220,7 @@ export const Header = ({
         />
         <Button
           onClick={() => {
-            textAlign('justify')
+            textAlign('justify', blocks, focus)
             updateBlock(focus)
           }}
           size="small"
@@ -247,17 +278,26 @@ export const Header = ({
             { value: 'h5', label: 'Heading: H5' },
             { value: 'h6', label: 'Heading: H6' },
           ]}
-          onChange={(v) => convertBlock(focus, blocks, setBlocks, v)}
+          onChange={(v) => {
+            convertBlock(focus, blocks, setBlocks, v)
+            updateBlock(focus)
+          }}
         />
         <Button
-          onClick={() => moveBlockUp(focus, blocks, setBlocks, setFocus)}
+          onClick={() => {
+            moveBlockUp(focus, blocks, setBlocks, setFocus)
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"
           icon={<IconChevronTop />}
         />
         <Button
-          onClick={() => moveBlockDown(focus, blocks, setBlocks, setFocus)}
+          onClick={() => {
+            moveBlockDown(focus, blocks, setBlocks, setFocus)
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"

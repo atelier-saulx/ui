@@ -4,16 +4,26 @@ import { Style } from 'inlines'
 
 type HeadingBlockProps = {
   data?: any
+  deleteBlock?: (v) => void
   idx?: number
+  keyDownHandler?: any
+  makeNewBlock?: (v, idx) => void
   setFocus?: (v) => void
   style?: Style
+  updateBlock?: (v) => void
+  blocksLength?: number
 }
 
 export const HeadingBlock: FC<HeadingBlockProps> = ({
-  setFocus,
-  idx,
   data,
+  deleteBlock,
+  idx,
+  keyDownHandler,
+  makeNewBlock,
+  setFocus,
   style,
+  updateBlock,
+  blocksLength,
 }) => {
   const blockData = data.data
 
@@ -28,6 +38,18 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
           DOMPurify.sanitize(blockData.innerText),
       }}
       onFocus={() => setFocus(idx)}
+      onInput={() => updateBlock(idx)}
+      onKeyDown={(e) => {
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
+      }}
     />
   ) : blockData.level === 'h2' ? (
     <h2
@@ -40,6 +62,18 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
           DOMPurify.sanitize(blockData.innerText),
       }}
       onFocus={() => setFocus(idx)}
+      onInput={() => updateBlock(idx)}
+      onKeyDown={(e) => {
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
+      }}
     />
   ) : blockData.level === 'h3' ? (
     <h3
@@ -52,6 +86,18 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
           DOMPurify.sanitize(blockData.innerText),
       }}
       onFocus={() => setFocus(idx)}
+      onInput={() => updateBlock(idx)}
+      onKeyDown={(e) => {
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
+      }}
     />
   ) : blockData.level === 'h4' ? (
     <h4
@@ -64,6 +110,18 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
           DOMPurify.sanitize(blockData.innerText),
       }}
       onFocus={() => setFocus(idx)}
+      onInput={() => updateBlock(idx)}
+      onKeyDown={(e) => {
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
+      }}
     />
   ) : blockData.level === 'h5' ? (
     <h5
@@ -76,6 +134,18 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
           DOMPurify.sanitize(blockData.innerText),
       }}
       onFocus={() => setFocus(idx)}
+      onInput={() => updateBlock(idx)}
+      onKeyDown={(e) => {
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
+      }}
     />
   ) : blockData.level === 'h6' ? (
     <h6
@@ -88,6 +158,18 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
           DOMPurify.sanitize(blockData.innerText),
       }}
       onFocus={() => setFocus(idx)}
+      onInput={() => updateBlock(idx)}
+      onKeyDown={(e) => {
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
+      }}
     />
   ) : (
     <h1
@@ -100,6 +182,18 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
           DOMPurify.sanitize(blockData.innerText),
       }}
       onFocus={() => setFocus(idx)}
+      onInput={() => updateBlock(idx)}
+      onKeyDown={(e) => {
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
+      }}
     />
   )
 }

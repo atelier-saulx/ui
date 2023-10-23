@@ -1,6 +1,8 @@
-import React, { FC, useRef, useEffect } from 'react'
+import React, { FC, useRef, useEffect, useState } from 'react'
 import DOMPurify = require('dompurify')
-import { Style } from 'inlines'
+import { Style, styled } from 'inlines'
+import { color } from '../../../varsUtilities'
+import { Text } from '../../Text'
 
 type ParagaphBlockProps = {
   data: any
@@ -10,6 +12,8 @@ type ParagaphBlockProps = {
   setFocus?: (v) => void
   style?: Style
   updateBlock?: (v, r) => void
+  keyDownHandler?: any
+  blocksLength?: number
 }
 
 export const ParagraphBlock: FC<ParagaphBlockProps> = ({
@@ -20,6 +24,8 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   setFocus,
   style,
   updateBlock,
+  keyDownHandler,
+  blocksLength,
 }) => {
   const blockData = data.data
 
@@ -27,51 +33,38 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
 
   useEffect(() => {
     console.log(pRef)
-
     if (pRef.current && blockData.style) {
       pRef.current.style.cssText = blockData.style
     }
   }, [pRef.current])
 
-  // so update blocks if -> changes :
-  // innerHTML
-  // innerText
-  // alignment
-  // style
-  // className
-
   return (
-    <p
-      style={{ textAlign: blockData.alignment, ...style }}
+    <styled.p
+      style={{
+        textAlign: blockData.alignment,
+        '&[contenteditable=true]:empty:before': {
+          content: '"Type here..."',
+          color: color('content', 'default', 'secondary'),
+          pointerEvents: 'none',
+          display: ' absolute',
+        },
+        ...style,
+      }}
       ref={pRef}
       contentEditable
       suppressContentEditableWarning
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx, pRef.current)}
       onKeyDown={(e) => {
-        // TODO -> Shift + Enter
-        if (e.key === 'Enter') {
-          e.preventDefault()
-          let selection = window.getSelection()
-          let anchorNodeLength = selection.anchorNode.length
-          let focusOffset = selection.anchorOffset
-
-          if (anchorNodeLength === focusOffset) {
-            makeNewBlock('paragraph', idx)
-            setFocus(idx + 1)
-          }
-        }
-        if (e.key === 'Backspace') {
-          let selection = window.getSelection()
-          let anchorNodeLength = selection.anchorNode.length
-          let focusOffset = selection.anchorOffset
-
-          if (!anchorNodeLength && focusOffset === 0) {
-            deleteBlock(idx)
-            setFocus(idx - 1)
-            // todo caret at end
-          }
-        }
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
       }}
       dangerouslySetInnerHTML={{
         __html:
