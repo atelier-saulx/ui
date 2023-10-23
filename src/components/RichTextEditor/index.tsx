@@ -8,6 +8,7 @@ import { HeadingBlock } from './Blocks/HeadingBlock'
 import { Row } from '../Styled'
 import { generateString } from './utils/generateString'
 import { keyDownHandler } from './utils/keyDownHandler'
+import { Code } from '../Code'
 
 export type RichTextEditorProps = {
   time?: number
@@ -16,19 +17,18 @@ export type RichTextEditorProps = {
 }
 
 // TODO :
-//  - update block data on content editable
 //  - HTML preview -> editable -> outerHTML prop on nodes
+//  - placeholder on new empty block
 //  - unordered list
 //  - ordererd list
 //  - link
 //  - add blocks
 //  - add media
 //  - preview html code
-//  - ony selections that fall within the editor
-//  - convert block to other block.
+//  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
-//  - arrow keys up and down to select blocks
+//  - on focus put the cursor either on end or beginning depending on action
 //  shift + enter in blocks
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
@@ -40,6 +40,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
+  const [html, setHtml] = useState<string>('')
 
   let childnodes = editorWrapRef?.current?.childNodes
 
@@ -80,25 +81,15 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   }
 
   const updateBlock = (idx: number, ref?: any) => {
-    // TODO update the data from this block
-    // console.log(idx, ref, '👷🏻‍♂️')
-    // console.log(ref.innerHTML)
-    // console.log('innerText ')
-
     let newRef = ref
-
     if (!ref) {
       newRef = editorWrapRef.current.childNodes[idx]
     }
-
     console.log('update this 🤖')
     blocks[idx].data.innerHTML = newRef.innerHTML
     blocks[idx].data.innerText = newRef.innerHTML
     blocks[idx].data.alignment = newRef.style.textAlign
     blocks[idx].data.style = newRef.cssText
-    if (blocks[idx].type === 'heading') {
-      blocks[idx].data.level = newRef.tagName
-    }
   }
 
   useEffect(() => {
@@ -113,9 +104,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   return (
     <styled.div>
-      <Row style={{ border: '1px solid green', padding: 8, marginBottom: 12 }}>
-        focused: {focus}
-      </Row>
       <Header
         blocks={blocks}
         deleteBlock={deleteBlock}
@@ -172,11 +160,16 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 deleteBlock={deleteBlock}
                 updateBlock={updateBlock}
                 keyDownHandler={keyDownHandler}
+                blocksLength={blocks.length}
                 style={{
                   borderLeft:
                     focus === idx
                       ? `3px solid ${color('action', 'primary', 'normal')}`
                       : '0px',
+                  '&::before': {
+                    content: 'yo',
+                    display: 'block',
+                  },
                 }}
               />
             )
@@ -191,6 +184,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 deleteBlock={deleteBlock}
                 updateBlock={updateBlock}
                 keyDownHandler={keyDownHandler}
+                blocksLength={blocks.length}
                 style={{
                   borderLeft:
                     focus === idx
@@ -205,8 +199,19 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       <Button
         onClick={() => {
           // get all html nodes inside the ref
-          let snork = editorWrapRef.current.childNodes
+          let snork = editorWrapRef.current.children
           console.log(snork, '📌 -> now here you save the blocks')
+
+          let htmlString = Array.prototype.reduce.call(
+            childnodes,
+            function (html, node) {
+              return html + (node.outerHTML || node.nodeValue)
+            },
+            ''
+          )
+
+          setHtml(htmlString)
+          console.log('as html -->', htmlString)
 
           // TODO: for each childnode make an object
           // [
@@ -225,6 +230,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       >
         log output
       </Button>
+
+      <Code language="html" value={html} />
     </styled.div>
   )
 }

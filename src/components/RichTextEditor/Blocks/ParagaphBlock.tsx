@@ -11,6 +11,7 @@ type ParagaphBlockProps = {
   style?: Style
   updateBlock?: (v, r) => void
   keyDownHandler?: any
+  blocksLength?: number
 }
 
 export const ParagraphBlock: FC<ParagaphBlockProps> = ({
@@ -22,6 +23,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   style,
   updateBlock,
   keyDownHandler,
+  blocksLength,
 }) => {
   const blockData = data.data
 
@@ -42,7 +44,15 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx, pRef.current)}
       onKeyDown={(e) => {
-        keyDownHandler(e, idx, setFocus, makeNewBlock, deleteBlock, 'paragraph')
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
       }}
       dangerouslySetInnerHTML={{
         __html:

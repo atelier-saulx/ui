@@ -11,6 +11,7 @@ type HeadingBlockProps = {
   setFocus?: (v) => void
   style?: Style
   updateBlock?: (v) => void
+  blocksLength?: number
 }
 
 export const HeadingBlock: FC<HeadingBlockProps> = ({
@@ -22,6 +23,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
   setFocus,
   style,
   updateBlock,
+  blocksLength,
 }) => {
   const blockData = data.data
 
@@ -38,7 +40,15 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx)}
       onKeyDown={(e) => {
-        keyDownHandler(e, idx, setFocus, makeNewBlock, deleteBlock, 'paragraph')
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
       }}
     />
   ) : blockData.level === 'h2' ? (
@@ -54,7 +64,15 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx)}
       onKeyDown={(e) => {
-        keyDownHandler(e, idx, setFocus, makeNewBlock, deleteBlock, 'paragraph')
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
       }}
     />
   ) : blockData.level === 'h3' ? (
@@ -70,7 +88,15 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx)}
       onKeyDown={(e) => {
-        keyDownHandler(e, idx, setFocus, makeNewBlock, deleteBlock, 'paragraph')
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
       }}
     />
   ) : blockData.level === 'h4' ? (
@@ -86,7 +112,15 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx)}
       onKeyDown={(e) => {
-        keyDownHandler(e, idx, setFocus, makeNewBlock, deleteBlock, 'paragraph')
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
       }}
     />
   ) : blockData.level === 'h5' ? (
@@ -102,7 +136,15 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx)}
       onKeyDown={(e) => {
-        keyDownHandler(e, idx, setFocus, makeNewBlock, deleteBlock, 'paragraph')
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
       }}
     />
   ) : blockData.level === 'h6' ? (
@@ -118,7 +160,15 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx)}
       onKeyDown={(e) => {
-        keyDownHandler(e, idx, setFocus, makeNewBlock, deleteBlock, 'paragraph')
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
       }}
     />
   ) : (
@@ -134,7 +184,15 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       onFocus={() => setFocus(idx)}
       onInput={() => updateBlock(idx)}
       onKeyDown={(e) => {
-        keyDownHandler(e, idx, setFocus, makeNewBlock, deleteBlock, 'paragraph')
+        keyDownHandler(
+          e,
+          idx,
+          setFocus,
+          makeNewBlock,
+          deleteBlock,
+          'paragraph',
+          blocksLength
+        )
       }}
     />
   )

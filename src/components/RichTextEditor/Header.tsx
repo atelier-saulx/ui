@@ -75,7 +75,6 @@ const moveBlockDown = (focus, blocks, setBlocks, setFocus) => {
 }
 
 const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
-  blocks[idx].type = value
   if (
     value === 'h1' ||
     value === 'h2' ||
@@ -84,8 +83,11 @@ const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
     value === 'h5' ||
     value === 'h6'
   ) {
+    console.log('convert this')
     blocks[idx].type = 'heading'
     blocks[idx].data.level = value
+  } else {
+    blocks[idx].type = value
   }
   setBlocks((blocks) => [...blocks])
 }
@@ -129,10 +131,20 @@ export const Header = ({
             </Dropdown.Trigger>
           </Tooltip>
           <Dropdown.Items>
-            <Dropdown.Item onClick={() => makeNewBlock('heading', focus)}>
+            <Dropdown.Item
+              onClick={() => {
+                makeNewBlock('heading', focus)
+                setFocus(focus + 1)
+              }}
+            >
               Heading
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => makeNewBlock('paragraph', focus)}>
+            <Dropdown.Item
+              onClick={() => {
+                makeNewBlock('paragraph', focus)
+                setFocus(focus + 1)
+              }}
+            >
               Paragraph
             </Dropdown.Item>
           </Dropdown.Items>
@@ -247,17 +259,26 @@ export const Header = ({
             { value: 'h5', label: 'Heading: H5' },
             { value: 'h6', label: 'Heading: H6' },
           ]}
-          onChange={(v) => convertBlock(focus, blocks, setBlocks, v)}
+          onChange={(v) => {
+            convertBlock(focus, blocks, setBlocks, v)
+            updateBlock(focus)
+          }}
         />
         <Button
-          onClick={() => moveBlockUp(focus, blocks, setBlocks, setFocus)}
+          onClick={() => {
+            moveBlockUp(focus, blocks, setBlocks, setFocus)
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"
           icon={<IconChevronTop />}
         />
         <Button
-          onClick={() => moveBlockDown(focus, blocks, setBlocks, setFocus)}
+          onClick={() => {
+            moveBlockDown(focus, blocks, setBlocks, setFocus)
+            updateBlock(focus)
+          }}
           size="small"
           light
           color="neutral"
