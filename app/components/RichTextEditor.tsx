@@ -51,18 +51,25 @@ const example: ComponentDef = {
                 //    style: 'background:yellow;color:red;border:1px solid blue;',
               },
             },
-            // {
-            //   id: 'zbGZFPM-aa',
-            //   type: 'list',
-            //   data: {
-            //     type: 'unordered',
-            //     items: [
-            //       'It is a block-style editor',
-            //       'It returns clean data output in JSON',
-            //       'Designed to be extendable and pluggable with a',
-            //     ],
-            //   },
-            // },
+            {
+              id: 'zbGZFPM-aa',
+              type: 'list',
+              data: {
+                type: 'unordered',
+                alignment: 'left',
+                items: [
+                  {
+                    innerText: 'It is a block-style editor',
+                    innerHTML: '<b>It is a </b> block-style editor',
+                  },
+                  { innerText: 'snurpie' },
+                  {
+                    innerText: 'It returns clean data output in JSON',
+                    innerHTML: 'It <i>returns</i> clean data output in JSON',
+                  },
+                ],
+              },
+            },
             // {
             //   id: '8hp7msbRKc',
             //   type: 'html',

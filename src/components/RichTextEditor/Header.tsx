@@ -16,6 +16,7 @@ import {
   IconDelete,
   IconChevronTop,
   IconChevronDown,
+  IconListBullet,
 } from '../../icons'
 import { Dropdown } from '..'
 import { Tooltip } from '..'
@@ -42,6 +43,21 @@ const checkForParent = (selection, alignment) => {
   }
 }
 
+const makeTextDefault = () => {
+  let selection = window.getSelection().getRangeAt(0)
+  console.log(selection)
+
+  if (
+    //TODO or color, span color
+    selection.commonAncestorContainer.parentElement.localName === 'b' ||
+    selection.commonAncestorContainer.parentElement.localName === 'i' ||
+    selection.commonAncestorContainer.parentElement.localName === 'a'
+  ) {
+    let justText = selection.commonAncestorContainer.parentElement.outerText
+    selection.commonAncestorContainer.parentElement.outerHTML = justText
+  }
+}
+
 const makeTextBold = () => {
   let selection = window.getSelection().getRangeAt(0)
   let selectedText = selection.extractContents()
@@ -60,7 +76,7 @@ const makeTextItalic = () => {
 
 const textAlign = (alignment: string, blocks: any, focus: number) => {
   checkForParent(window.getSelection().anchorNode.parentElement, alignment)
-  blocks[focus].alignment = alignment
+  blocks[focus].data.alignment = alignment
 }
 
 const makeLink = (link) => {
@@ -170,6 +186,16 @@ export const Header = ({
         </Dropdown.Root>
         <Button
           onClick={() => {
+            makeTextDefault()
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconText />}
+        />
+        <Button
+          onClick={() => {
             makeTextBold()
             updateBlock(focus)
           }}
@@ -238,6 +264,16 @@ export const Header = ({
           color="neutral"
           icon={<IconLink />}
         />
+        <Button
+          onClick={() => {
+            // makeLink(linkValue)
+            // updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconListBullet />}
+        />
       </Row>
       {/* center buttons */}
       <Row
@@ -264,11 +300,13 @@ export const Header = ({
             padding: '0px 42px 6px 10px',
           }}
           // TODO: change on focus the value or placeholder
-          placeholder={
-            blocks[focus].type === 'paragraph'
-              ? blocks[focus].type
-              : blocks[focus].data.level
-          }
+          // placeholder={
+          //   blocks[focus]?.type === 'paragraph'
+          //     ? blocks[focus]?.type
+          //     : blocks[focus].data.level
+          //     ? blocks[focus].data.level
+          //     : ''
+          // }
           options={[
             { value: 'paragraph', label: 'Paragraph' },
             { value: 'h1', label: 'Heading: H1' },
