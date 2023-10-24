@@ -50,7 +50,7 @@ const example: ComponentDef = {
                       <Button onClick={close} color="system">
                         Cancel
                       </Button>
-                      <Button onClick={close} color="primary">
+                      <Button onClick={() => close} color="primary">
                         Save
                       </Button>
                     </Modal.Actions>

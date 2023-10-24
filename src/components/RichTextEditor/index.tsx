@@ -2,7 +2,7 @@ import React, { FC, useRef, useState, useEffect } from 'react'
 import { styled, Style } from 'inlines'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
-import { Header } from './Header'
+import { Header } from './Header/Header'
 import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
 import { Row } from '../Styled'
@@ -24,10 +24,8 @@ export type RichTextEditorProps = {
 //  - HTML preview -> editable -> outerHTML prop on nodes
 
 //  - ordererd list
-//  - raw html block
 //  - link --> options
 //  - add blocks
-//  - spacing block
 //  - add media
 //  - preview html code
 //  - only selections that fall within the editor
