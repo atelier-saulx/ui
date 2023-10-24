@@ -1,6 +1,6 @@
 import React, { FC, useRef, useState } from 'react'
 import { useUpdate, useWindowResize } from '../../hooks'
-import { setValue, equalChanges } from './utils'
+import { setValue, equalChanges, parseData } from './utils'
 import {
   FormGroupProps,
   OnChangeField,
@@ -44,42 +44,12 @@ export const FormGroup: FC<FormGroupProps> = ({
     }
   }
 
-  let parsedData: FormItemProps[]
-
-  if (!Array.isArray(config)) {
-    parsedData = []
-    for (const field in config) {
-      const item = config[field]
-      if (item === null) {
-        continue
-      }
-      if (typeof item === 'object' && !React.isValidElement(item)) {
-        const obj = item as { properties: { key: string } }
-        if (obj?.properties) {
-          for (const i in obj?.properties) {
-            parsedData.push({ ...obj.properties[i], field: field + '.' + i })
-          }
-        } else {
-          /* @ts-ignore FIX THIS TYPE */
-          parsedData.push({ ...item, field })
-        }
-      } else {
-        parsedData.push({
-          field,
-          label: item,
-        })
-      }
-    }
-  } else {
-    parsedData = config
-  }
-
   if (variant === 'grid' && width >= 480) {
     return (
       <FormGroupGrid
         autoFocus={autoFocus}
         onChange={onChange}
-        parsedData={parsedData}
+        parsedData={parseData(config)}
         labelWidth={labelWidth}
         fieldWidth={fieldWidth}
         onChangeField={onChangeField}
@@ -99,7 +69,7 @@ export const FormGroup: FC<FormGroupProps> = ({
       confirmationVariant={confirmationVariant}
       autoFocus={autoFocus}
       onChange={onChange}
-      parsedData={parsedData}
+      parsedData={parseData(config)}
       labelWidth={labelWidth}
       fieldWidth={fieldWidth}
       onChangeField={onChangeField}
