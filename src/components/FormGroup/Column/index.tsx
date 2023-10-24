@@ -74,7 +74,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
                       alignItems: 'center',
                     }}
                   >
-                    {'label'}
+                    {d}
                     <Button
                       hideFocusState
                       size="medium"
@@ -90,25 +90,28 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
                     />
                   </styled.div>
                 </Modal.Title>
-                <Modal.Description>{'description'}</Modal.Description>
+                {/* <Modal.Description>{'description'}</Modal.Description> */}
                 <Modal.Body>
-                  {parsedObjArray.map((item) => (
-                    <FormItem
-                      autoFocus={!hasAutoFocus && autoFocus}
-                      fieldWidth={fieldWidth}
-                      width={labelWidth}
-                      key={item.field}
-                      item={item}
-                      onChange={onChangeField}
-                      value={
-                        hasChanges
-                          ? getValue(item.field, valuesChanged.current) ??
-                            item.value ??
-                            getValue(item.field, values)
-                          : item.value ?? getValue(item.field, values)
-                      }
-                    />
-                  ))}
+                  {parsedObjArray.map((item) => {
+                    // if (item.type === 'object')
+                    return (
+                      <FormItem
+                        autoFocus={!hasAutoFocus && autoFocus}
+                        fieldWidth={fieldWidth}
+                        width={labelWidth}
+                        key={item.field}
+                        item={item}
+                        onChange={onChangeField}
+                        value={
+                          hasChanges
+                            ? getValue(item.field, valuesChanged.current) ??
+                              item.value ??
+                              getValue(item.field, values)
+                            : item.value ?? getValue(item.field, values)
+                        }
+                      />
+                    )
+                  })}
                 </Modal.Body>
                 <Modal.Actions>
                   <Button onClick={close}>Close</Button>

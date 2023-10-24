@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import { FormItemProps } from './types'
 
 export const getValue = (field, values?: { [field: string]: any }): any => {
   const path = field.split('.')
@@ -51,4 +52,41 @@ export const equalChanges = (
     }
   }
   return true
+}
+
+export const parseData = (properties) => {
+  let parsedData: FormItemProps[]
+
+  if (!Array.isArray(properties)) {
+    parsedData = []
+    for (const field in properties) {
+      const item = properties[field]
+      if (item === null) {
+        continue
+      }
+      if (typeof item === 'object' && !React.isValidElement(item)) {
+        const obj = item as { properties: { key: string } }
+        if (obj?.properties) {
+          for (const i in obj?.properties) {
+            if (obj.properties[i].properties) {
+              parseData(obj.properties[i].properties)
+            } else {
+              parsedData.push({ ...obj.properties[i], field: field + '.' + i })
+            }
+          }
+        } else {
+          /* @ts-ignore FIX THIS TYPE */
+          parsedData.push({ ...item, field })
+        }
+      } else {
+        parsedData.push({
+          field,
+          label: item,
+        })
+      }
+    }
+  } else {
+    parsedData = properties
+  }
+  return parsedData
 }

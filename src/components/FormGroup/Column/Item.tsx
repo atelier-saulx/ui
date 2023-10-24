@@ -16,6 +16,7 @@ import {
 } from '../..'
 import { IconPlus, IconArrowheadRight, IconClose } from '../../../icons'
 import { color } from '../../../varsUtilities'
+import { parseData } from '../utils'
 
 // | 'timestamp'
 // | 'string'
@@ -55,6 +56,7 @@ export const FormItem: FC<{
   value,
   onChange,
   item,
+  width,
 }) => {
   if (!label) {
     label = useMemo(
@@ -97,8 +99,6 @@ export const FormItem: FC<{
   }
 
   if (type === 'object') {
-    // console.log(Object.keys(properties))
-    // console.log(properties)
     return (
       <Modal.Root>
         <Modal.Trigger>
@@ -135,15 +135,25 @@ export const FormItem: FC<{
                 </Modal.Title>
                 <Modal.Description>{description}</Modal.Description>
                 <Modal.Body>
-                  <FormGroup
-                    confirmationVariant="buttons"
-                    variant="column"
-                    config={properties}
-                    values={value}
-                    //@ts-ignore
-                    onChange={onChange}
-                  />
+                  {parseData(properties).map((item) => {
+                    // if (item.type === 'object')
+                    return (
+                      <FormItem
+                        autoFocus={autoFocus}
+                        fieldWidth={fieldWidth}
+                        width={width}
+                        key={item.field}
+                        item={item}
+                        onChange={onChange}
+                        value={value}
+                      />
+                    )
+                  })}
                 </Modal.Body>
+                <Modal.Actions>
+                  <Button onClick={close}>Close</Button>
+                  <Button onClick={close}>Confirm</Button>
+                </Modal.Actions>
               </>
             )
           }}

@@ -11,6 +11,7 @@ const fieldProps = {
       ['123', '123'],
     ],
     object: { flap: false, flirp: true, snap: 'asdasd' },
+    // args: { name: 'asdasd' },
   },
   config: {
     //   array: {
@@ -79,6 +80,20 @@ const fieldProps = {
             },
             cod: {
               type: 'boolean',
+            },
+            bla: {
+              type: 'object',
+              properties: {
+                flap: {
+                  type: 'boolean',
+                },
+                snurp: {
+                  type: 'boolean',
+                },
+                cod: {
+                  type: 'boolean',
+                },
+              },
             },
           },
         },
