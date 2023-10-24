@@ -184,6 +184,15 @@ export const Header = ({
             >
               Paragraph
             </Dropdown.Item>
+            <Dropdown.Item
+              icon={<IconListBullet />}
+              onClick={() => {
+                makeNewBlock('list', focus)
+                setFocus(focus + 1)
+              }}
+            >
+              List
+            </Dropdown.Item>
           </Dropdown.Items>
         </Dropdown.Root>
         <Button

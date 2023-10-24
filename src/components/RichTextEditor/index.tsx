@@ -58,6 +58,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           type: type,
           data: {
             innerHTML: '',
+            items:
+              type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
           },
         },
         ...blocks.slice(focus === 0 ? 1 : focus + 1),
@@ -73,6 +75,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           type: type,
           data: {
             innerHTML: '',
+            items:
+              type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
           },
         },
       ])
@@ -110,30 +114,13 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     if (newRef.nodeName === 'UL' || newRef.nodeName === 'OL') {
       blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
       blocks[idx].data.alignment = blocks[idx].data.alignment
-
-      // let arr = Array.from(newRef.children).map((item) => item.innerText)
-
-      // console.log(arr)
-
-      // // make from newRef listitems an array
-      // console.log(newRef.childNodes)
       let listItemsArray = Array.from(newRef.childNodes).map((item, idx) => ({
         // @ts-ignore
         innerHTML: item.innerHTML,
         // @ts-ignore
         innerText: item.innerText,
       }))
-
       blocks[idx].data.items = listItemsArray
-
-      // blocks[idx].data.items = Array.from(newRef.childNodes).map(
-      //   (item, idx) => ({
-      //     // @ts-ignore
-      //     innerHTML: item.innerHTML,
-      //     // @ts-ignore
-      //     innerText: item.innerText,
-      //   })
-      // )
     }
   }
 
