@@ -51,39 +51,39 @@ const fieldProps = {
         // },
       },
     },
-    // object2: {
-    //   type: 'object',
-    //   description: 'wowoweewow',
-    //   // value: { flap: true },
-    //   properties: {
-    //     flap: {
-    //       type: 'boolean',
-    //     },
-    //     flirp: {
-    //       type: 'boolean',
-    //     },
-    //     snap: {
-    //       type: 'text',
-    //     },
-    //     snop: {
-    //       type: 'file',
-    //     },
-    //     flop: {
-    //       type: 'object',
-    //       properties: {
-    //         flap: {
-    //           type: 'boolean',
-    //         },
-    //         snurp: {
-    //           type: 'boolean',
-    //         },
-    //         cod: {
-    //           type: 'boolean',
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
+    object2: {
+      type: 'object',
+      description: 'wowoweewow',
+      // value: { flap: true },
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+        snap: {
+          type: 'text',
+        },
+        snop: {
+          type: 'file',
+        },
+        flop: {
+          type: 'object',
+          properties: {
+            flap: {
+              type: 'boolean',
+            },
+            snurp: {
+              type: 'boolean',
+            },
+            cod: {
+              type: 'boolean',
+            },
+          },
+        },
+      },
+    },
     //arrays need values with type add a default
     //field not being passed properly?
     // ObjWithArrays: {
@@ -114,10 +114,10 @@ const fieldProps = {
     //     },
     //   },
     // },
-    port: {
-      type: 'number',
-      description: 'Network port',
-    },
+    // port: {
+    //   type: 'number',
+    //   description: 'Network port',
+    // },
     //   json: {
     //     type: 'json',
     //     label: 'json',
@@ -149,22 +149,22 @@ const fieldProps = {
     //     label: 'Boolean',
     //     description: 'Network port',
     //   },
-    //   'args.name': {
-    //     label: 'Name',
-    //     type: 'text',
-    //     description: 'Instance name',
-    //     validation: () => (val) => {
-    //       return val && val.length > 4
-    //     },
-    //   },
-    //   'args.x.y': {
-    //     label: 'Status',
-    //     description: 'status time',
-    //     options: ['good', 'bad', 'medium'],
-    //     props: {
-    //       placeholder: 'FLAP',
-    //     },
-    //   },
+    'args.name': {
+      label: 'Name',
+      type: 'text',
+      description: 'Instance name',
+      validation: () => (val) => {
+        return val && val.length > 4
+      },
+    },
+    'args.x.y': {
+      label: 'Status',
+      description: 'status time',
+      options: ['good', 'bad', 'medium'],
+      props: {
+        placeholder: 'FLAP',
+      },
+    },
     //   range: {
     //     label: 'Bla',
     //     description: 'hello',
