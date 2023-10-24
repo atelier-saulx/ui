@@ -50,16 +50,16 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   for (const d of objectArray) {
     const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)
 
-    const obj = parsedObjArray.reduce(
-      (a, v) => ({ ...a, [v.field.split('.')[1]]: v }),
-      {}
-    )
-    // console.log(obj)
+    // const obj = parsedObjArray.reduce(
+    //   (a, v) => ({ ...a, [v.field.split('.')[1]]: v }),
+    //   {}
+    // )
+    // // console.log(obj)
 
     fields.push(
       <Modal.Root key={d}>
         <Modal.Trigger>
-          <Button>Open Overlay: {'label'}</Button>
+          <Button>Open Overlay: {d}</Button>
         </Modal.Trigger>
         <Modal.Content>
           {({ close }) => {
@@ -92,15 +92,28 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
                 </Modal.Title>
                 <Modal.Description>{'description'}</Modal.Description>
                 <Modal.Body>
-                  <FormGroup
-                    confirmationVariant="buttons"
-                    variant="column"
-                    config={obj}
-                    values={values}
-                    //@ts-ignore
-                    onChange={onChange}
-                  />
+                  {parsedObjArray.map((item) => (
+                    <FormItem
+                      autoFocus={!hasAutoFocus && autoFocus}
+                      fieldWidth={fieldWidth}
+                      width={labelWidth}
+                      key={item.field}
+                      item={item}
+                      onChange={onChangeField}
+                      value={
+                        hasChanges
+                          ? getValue(item.field, valuesChanged.current) ??
+                            item.value ??
+                            getValue(item.field, values)
+                          : item.value ?? getValue(item.field, values)
+                      }
+                    />
+                  ))}
                 </Modal.Body>
+                <Modal.Actions>
+                  <Button onClick={close}>Close</Button>
+                  <Button onClick={close}>Confirm</Button>
+                </Modal.Actions>
               </>
             )
           }}
