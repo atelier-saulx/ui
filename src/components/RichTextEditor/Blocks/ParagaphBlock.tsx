@@ -42,12 +42,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
     <styled.p
       style={{
         textAlign: blockData.alignment,
-        '&[contenteditable=true]:empty:before': {
-          content: '"Type here..."',
-          color: color('content', 'default', 'secondary'),
-          pointerEvents: 'none',
-          display: ' absolute',
-        },
+
         ...style,
       }}
       ref={pRef}

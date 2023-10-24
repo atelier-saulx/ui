@@ -32,16 +32,26 @@ export const keyDownHandler = (
       deleteBlock(idx)
       setFocus(idx - 1)
       // todo caret at end
+      setTimeout(() => {
+        // put carret at end of new block
+        document.execCommand('selectAll', false, null)
+        document.getSelection().collapseToEnd()
+      }, 10)
     }
   }
   if (e.key === 'ArrowUp') {
+    console.log('newAFEAF selection??', selection)
     if (selection.anchorOffset === 0) {
       setFocus(idx > 0 ? idx - 1 : 0)
+
+      setTimeout(() => {
+        // put carret at end of new block
+        document.execCommand('selectAll', false, null)
+        document.getSelection().collapseToEnd()
+      }, 10)
     }
   }
   if (e.key === 'ArrowDown') {
-    console.log(selection)
-    console.log(blocksLength)
     // @ts-ignore
     let anchorNodeLength = selection.anchorNode.length
     let focusOffset = selection.anchorOffset

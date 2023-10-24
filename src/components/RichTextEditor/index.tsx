@@ -18,9 +18,10 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
+//  - normal text button
 //  - unordered list
 //  - ordererd list
-//  - link
+//  - link --> options
 //  - add blocks
 //  - add media
 //  - preview html code
@@ -28,6 +29,7 @@ export type RichTextEditorProps = {
 //  - option to add css style to element
 //  - option to add class to element
 //  - on focus put the cursor either on end or beginning depending on action
+//  - color picker
 //  shift + enter in blocks
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
@@ -136,6 +138,12 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf',
             },
+            '&[contenteditable=true]:empty:before': {
+              content: '"Type here..."',
+              color: color('content', 'default', 'secondary'),
+              pointerEvents: 'none',
+              display: 'absolute',
+            },
           },
           '& a': {
             color: '#0a57d0',
@@ -144,6 +152,13 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             paddingLeft: '16px',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf',
+            },
+            '&[contenteditable=true]:empty:before': {
+              content: '"Title here..."',
+              color: color('content', 'default', 'secondary'),
+              pointerEvents: 'none',
+              display: 'absolute',
+              fontWeight: 400,
             },
           },
         }}
