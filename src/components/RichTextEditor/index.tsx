@@ -9,6 +9,8 @@ import { Row } from '../Styled'
 import { generateString } from './utils/generateString'
 import { keyDownHandler } from './utils/keyDownHandler'
 import { Code } from '../Code'
+import { ListBlock } from './Blocks/ListBlock'
+import { Text } from '../Text'
 
 export type RichTextEditorProps = {
   time?: number
@@ -18,9 +20,9 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
-//  - normal text button
 //  - unordered list
 //  - ordererd list
+//  - raw html block
 //  - link --> options
 //  - add blocks
 //  - add media
@@ -28,9 +30,9 @@ export type RichTextEditorProps = {
 //  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
-//  - on focus put the cursor either on end or beginning depending on action
+//  - tooltips on text
 //  - color picker
-//  shift + enter in blocks
+//  shift + enter in blocks -> should add <br> tag
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   time,
@@ -86,17 +88,36 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     if (!ref) {
       newRef = editorWrapRef.current.childNodes[idx]
     }
-    console.log('update this 🤖', newRef)
-    blocks[idx].data.innerHTML = newRef.innerHTML
-    blocks[idx].data.innerText = newRef.innerHTML
-    blocks[idx].data.alignment = blocks[idx].data.alignment
-    blocks[idx].data.style = newRef.cssText
+
+    console.log('updated 🤖', newRef.nodeName)
+
+    if (
+      newRef.nodeName === 'P' ||
+      newRef.nodeName === 'H1' ||
+      newRef.nodeName === 'H2' ||
+      newRef.nodeName === 'H3' ||
+      newRef.nodeName === 'H4' ||
+      newRef.nodeName === 'H5' ||
+      newRef.nodeName === 'H6'
+    ) {
+      blocks[idx].data.innerHTML = newRef.innerHTML
+      blocks[idx].data.innerText = newRef.innerHTML
+      blocks[idx].data.alignment = blocks[idx].data.alignment
+      blocks[idx].data.style = newRef.cssText
+    }
+
+    if (newRef.nodeName === 'UL' || newRef.nodeName === 'OL') {
+      blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
+      blocks[idx].data.alignment = blocks[idx].data.alignment
+      console.log('this then -> ', blocks[idx].data)
+      console.log(newRef)
+    }
   }
 
   useEffect(() => {
     // use childNodes not children you know because of logic 🤨
     let child = editorWrapRef.current.childNodes[focus] as HTMLElement
-    child.focus()
+    child?.focus()
   }, [focus])
 
   useEffect(() => {
@@ -105,6 +126,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   return (
     <styled.div>
+      <Text style={{ border: '1px solid red' }}>Focus: {focus}</Text>
       <Header
         blocks={blocks}
         deleteBlock={deleteBlock}
@@ -161,6 +183,13 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
               fontWeight: 400,
             },
           },
+          '& ul, ol': {
+            lineHeight: '1.36',
+            fontSize: '15px',
+            '&:focus-visible': {
+              outline: '1px dashed #bfbfbf !important',
+            },
+          },
         }}
       >
         {blocks.map((item, idx) => {
@@ -197,6 +226,24 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 updateBlock={updateBlock}
                 keyDownHandler={keyDownHandler}
                 blocksLength={blocks.length}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '0px',
+                }}
+              />
+            )
+          } else if (item.type === 'list') {
+            return (
+              <ListBlock
+                key={idx}
+                idx={idx}
+                data={item}
+                setFocus={setFocus}
+                makeNewBlock={makeNewBlock}
+                deleteBlock={deleteBlock}
+                updateBlock={updateBlock}
                 style={{
                   borderLeft:
                     focus === idx

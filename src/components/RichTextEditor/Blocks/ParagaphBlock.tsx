@@ -42,7 +42,6 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
     <styled.p
       style={{
         textAlign: blockData.alignment,
-
         ...style,
       }}
       ref={pRef}
