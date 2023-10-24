@@ -32,7 +32,9 @@ const checkForParent = (selection, alignment) => {
     selection.localName === 'h4' ||
     selection.localName === 'h5' ||
     selection.localName === 'h6' ||
-    selection.localName === 'div'
+    selection.localName === 'div' ||
+    selection.localName === 'ul' ||
+    selection.localName === 'ol'
   ) {
     console.log('YES', selection)
     selection.style.textAlign = alignment

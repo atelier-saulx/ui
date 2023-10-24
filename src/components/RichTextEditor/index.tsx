@@ -32,6 +32,7 @@ export type RichTextEditorProps = {
 //  - option to add class to element
 //  - tooltips on text
 //  - color picker
+//  - make new block autofocus on the new block
 //  shift + enter in blocks -> should add <br> tag
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
@@ -89,8 +90,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       newRef = editorWrapRef.current.childNodes[idx]
     }
 
-    console.log('updated 🤖', newRef.nodeName)
-
+    console.log('updated 🤖', newRef)
+    // update paragraph and headings
     if (
       newRef.nodeName === 'P' ||
       newRef.nodeName === 'H1' ||
@@ -105,12 +106,34 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       blocks[idx].data.alignment = blocks[idx].data.alignment
       blocks[idx].data.style = newRef.cssText
     }
-
+    // update lists
     if (newRef.nodeName === 'UL' || newRef.nodeName === 'OL') {
       blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
       blocks[idx].data.alignment = blocks[idx].data.alignment
-      console.log('this then -> ', blocks[idx].data)
-      console.log(newRef)
+
+      // let arr = Array.from(newRef.children).map((item) => item.innerText)
+
+      // console.log(arr)
+
+      // // make from newRef listitems an array
+      // console.log(newRef.childNodes)
+      let listItemsArray = Array.from(newRef.childNodes).map((item, idx) => ({
+        // @ts-ignore
+        innerHTML: item.innerHTML,
+        // @ts-ignore
+        innerText: item.innerText,
+      }))
+
+      blocks[idx].data.items = listItemsArray
+
+      // blocks[idx].data.items = Array.from(newRef.childNodes).map(
+      //   (item, idx) => ({
+      //     // @ts-ignore
+      //     innerHTML: item.innerHTML,
+      //     // @ts-ignore
+      //     innerText: item.innerText,
+      //   })
+      // )
     }
   }
 
@@ -156,7 +179,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           '& p': {
             lineHeight: '1.36',
             fontSize: '15px',
-            paddingLeft: '16px',
+            paddingLeft: '13px',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf',
             },
@@ -171,7 +194,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             color: '#0a57d0',
           },
           '& h1, h2, h3, h4, h5, h6': {
-            paddingLeft: '16px',
+            paddingLeft: '13px',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf',
             },
@@ -210,7 +233,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                   borderLeft:
                     focus === idx
                       ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '0px',
+                      : '3px solid transparent',
                 }}
               />
             )
@@ -230,7 +253,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                   borderLeft:
                     focus === idx
                       ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '0px',
+                      : '3px solid transparent',
                 }}
               />
             )
@@ -248,7 +271,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                   borderLeft:
                     focus === idx
                       ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '0px',
+                      : '3px solid transparent',
                 }}
               />
             )

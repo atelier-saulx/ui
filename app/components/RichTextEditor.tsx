@@ -56,18 +56,19 @@ const example: ComponentDef = {
               type: 'list',
               data: {
                 type: 'unordered',
-                alignment: 'left',
+                alignment: 'center',
                 items: [
                   {
                     innerText: 'It is a block-style editor',
                     innerHTML: '<b>It is a </b> block-style editor',
                   },
-                  { innerText: 'snurpie' },
+                  { innerText: 'snurpie', innerHTML: 'snurpie' },
                   {
                     innerText: 'It returns clean data output in JSON',
                     innerHTML: 'It <i>returns</i> clean data output in JSON',
                   },
                 ],
+                // items: ['silly', 'flippling', 'arary'],
               },
             },
             // {

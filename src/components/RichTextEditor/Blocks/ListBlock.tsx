@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import DOMPurify = require('dompurify')
 import { Style, styled } from 'inlines'
 
@@ -9,28 +9,27 @@ type ListBlockProps = {
   makeNewBlock?: (v, idx) => void
   setFocus?: (v) => void
   style?: Style
-  updateBlock?: (v, r) => void
+  updateBlock?: (v) => void
   blocksLength?: number
 }
 
 const listKeyHandler = (e, setFocus, idx, deleteBlock, blocksLength) => {
-  console.log(e.key)
+  // console.log(e.key)
   if (e.key === 'Backspace') {
-    let selection = window.getSelection()
-    // @ts-ignore
-    let anchorNodeLength = selection.anchorNode.length
-    let focusOffset = selection.anchorOffset
-
-    if (!anchorNodeLength && focusOffset === 0) {
-      deleteBlock(idx)
-      setFocus(idx - 1)
-      // todo caret at end
-      setTimeout(() => {
-        // put carret at end of new block
-        document.execCommand('selectAll', false, null)
-        document.getSelection().collapseToEnd()
-      }, 10)
-    }
+    // let selection = window.getSelection()
+    // // @ts-ignore
+    // let anchorNodeLength = selection.anchorNode.length
+    // let focusOffset = selection.anchorOffset
+    // if (!anchorNodeLength && focusOffset === 0) {
+    //   deleteBlock(idx)
+    //   setFocus(idx - 1)
+    //   // todo caret at end
+    //   setTimeout(() => {
+    //     // put carret at end of new block
+    //     document.execCommand('selectAll', false, null)
+    //     document.getSelection().collapseToEnd()
+    //   }, 10)
+    // }
   }
   if (e.key === 'ArrowUp') {
     let selection = window.getSelection()
@@ -70,17 +69,15 @@ export const ListBlock: FC<ListBlockProps> = ({
   blocksLength,
 }) => {
   const blockData = data.data
-  console.log(data)
 
-  const listRef = useRef<HTMLParagraphElement>()
+  console.log('FIre 🔥', blockData)
 
   return (
     <styled.ul
       contentEditable
-      ref={listRef}
       suppressContentEditableWarning
       onFocus={() => setFocus(idx)}
-      onInput={() => updateBlock(idx, listRef.current)}
+      onBlur={(e) => e.preventDefault()}
       style={{
         textAlign: blockData.alignment,
         ...style,
@@ -92,10 +89,12 @@ export const ListBlock: FC<ListBlockProps> = ({
       {blockData.items.map((item, id) => (
         <li
           key={id}
+          onInput={() => updateBlock(idx)}
           dangerouslySetInnerHTML={{
             __html:
               DOMPurify.sanitize(item.innerHTML) ||
               DOMPurify.sanitize(item.innerText),
+            // DOMPurify.sanitize(item),
           }}
         />
       ))}
