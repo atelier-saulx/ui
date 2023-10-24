@@ -56,7 +56,7 @@ const example: ComponentDef = {
               type: 'list',
               data: {
                 type: 'unordered',
-                alignment: 'center',
+                //  alignment: 'center',
                 items: [
                   {
                     innerText: 'It is a block-style editor',
@@ -71,13 +71,13 @@ const example: ComponentDef = {
                 // items: ['silly', 'flippling', 'arary'],
               },
             },
-            // {
-            //   id: '8hp7msbRKc',
-            //   type: 'html',
-            //   data: {
-            //     html: '<div>raw html</div>',
-            //   },
-            // },
+            {
+              id: '8hp7msbRKc',
+              type: 'html',
+              data: {
+                innerHTML: '<div>raw html</div>',
+              },
+            },
             // {
             //   id: '8hp7msbRKc',
             //   type: 'image',

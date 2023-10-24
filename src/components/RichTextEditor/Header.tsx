@@ -17,6 +17,7 @@ import {
   IconChevronTop,
   IconChevronDown,
   IconListBullet,
+  IconHeading,
 } from '../../icons'
 import { Dropdown } from '..'
 import { Tooltip } from '..'
@@ -169,6 +170,7 @@ export const Header = ({
           </Tooltip>
           <Dropdown.Items>
             <Dropdown.Item
+              icon={<IconHeading />}
               onClick={() => {
                 makeNewBlock('heading', focus)
                 setFocus(focus + 1)
@@ -177,6 +179,7 @@ export const Header = ({
               Heading
             </Dropdown.Item>
             <Dropdown.Item
+              icon={<IconText />}
               onClick={() => {
                 makeNewBlock('paragraph', focus)
                 setFocus(focus + 1)
@@ -192,6 +195,14 @@ export const Header = ({
               }}
             >
               List
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
+                makeNewBlock('html', focus)
+                setFocus(focus + 1)
+              }}
+            >
+              Custom HTML
             </Dropdown.Item>
           </Dropdown.Items>
         </Dropdown.Root>

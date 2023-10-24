@@ -59,7 +59,7 @@ export const Code: FC<CodeProps> = ({
 
   return (
     <styled.div
-      onFocus={() => console.log('WOOHOO')}
+      //  onFocus={() => console.log('WOOHOO')}
       style={{
         width: '100%',
         position: 'relative',
