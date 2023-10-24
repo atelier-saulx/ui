@@ -23,26 +23,24 @@ export const HtmlBlock: FC<HtmlBlockProps> = ({
 
   const [html, setHtml] = useState(DOMPurify.sanitize(blockData.innerHTML))
 
-  const codeRef = useRef()
-
   return (
     <styled.div
       style={{
         paddingLeft: 13,
+        marginBottom: 12,
         ...style,
       }}
       onFocus={() => setFocus(idx)}
-      onBlur={() => {
-        console.log('🌍')
-        blocks[idx].data.innerHTML = html
-      }}
-      ref={codeRef}
+      //   onBlur={() => {
+      //     console.log('🌍')
+      //   }}
     >
       <Code
         style={{ backgroundColor: color('background', 'neutral', 'surface') }}
-        value={html}
+        value={blockData.innerHTML}
         onChange={(v) => {
           setHtml(v)
+          blocks[idx].data.innerHTML = v
         }}
         language="html"
       />

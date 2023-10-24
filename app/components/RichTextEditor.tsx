@@ -30,7 +30,7 @@ const example: ComponentDef = {
               },
             },
             {
-              id: 'zbGZFPM-iI',
+              id: 'xxx',
               type: 'paragraph',
               data: {
                 innerText:
@@ -85,14 +85,14 @@ const example: ComponentDef = {
             //     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlPMlAI4LpTJQHrfUHdxtNSzs7p7kjOG8gejP_dPabUB1fJ-YU_0gjTbXioHSedzb-NGc&usqp=CAU',
             //   },
             // },
-            // {
-            //   id: '8hp7ms433bc',
-            //   type: 'space',
-            //   data: {
-            //     space: 46,
-            //     spaceFormat: 'px',
-            //   },
-            // },
+            {
+              id: '8hp7ms433bc',
+              type: 'space',
+              data: {
+                space: 46,
+                spaceFormat: 'px',
+              },
+            },
           ],
           // version: '2.8.1',
         }

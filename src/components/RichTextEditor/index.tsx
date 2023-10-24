@@ -12,6 +12,7 @@ import { Code } from '../Code'
 import { ListBlock } from './Blocks/ListBlock'
 import { Text } from '../Text'
 import { HtmlBlock } from './Blocks/HtmlBlock'
+import { SpaceBlock } from './Blocks/SpaceBlock'
 
 export type RichTextEditorProps = {
   time?: number
@@ -272,6 +273,23 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 idx={idx}
                 data={item}
                 setFocus={setFocus}
+                blocks={blocks}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '3px solid transparent',
+                }}
+              />
+            )
+          } else if (item.type === 'space') {
+            return (
+              <SpaceBlock
+                data={item}
+                key={idx}
+                idx={idx}
+                setFocus={setFocus}
+                focus={focus}
                 blocks={blocks}
                 style={{
                   borderLeft:
