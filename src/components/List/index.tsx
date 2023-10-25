@@ -58,13 +58,20 @@ export const List: FC<{
   deleteFunc,
 }) => {
   const [open, setOpen] = useState(false)
-  const addType = type === 'array' || type === 'set' ? [] : ''
-  useEffect(() => {}, [])
+  const [prevValue, setValue] = useState(value)
+  // useEffect(() => {}, [value])
+  if (Object.keys(value).length > 0 && !Array.isArray(value)) {
+    value = [...prevValue, value[0]]
+    value.pop()
+    onChange(field, value)
+  }
 
+  const thingy = () => {}
+
+  const addType = type === 'array' || type === 'set' ? [] : ''
   return (
     <Label>
       <Text
-        onClick={() => console.log}
         weight="strong"
         style={{
           display: 'flex',
@@ -108,34 +115,76 @@ export const List: FC<{
       </Text>
       {values.type === 'array' ||
       (values.type === 'set' && Array.isArray(value)) ? (
-        value.map((item, index) => (
-          // <span onClick={isChild ? undefined : () => onChange(field, value)}>
-          <List
-            deleteFunc={() =>
-              onChange(
-                field,
-                value.filter((_, i) => i !== index)
-              )
-            }
-            values={values.values}
-            onChange={onChange}
-            field={field + '.' + index}
-            label={label}
-            type={values.values.type}
-            value={value[index]}
-            isChild
-          />
-          // </span>
-        ))
+        <styled.div onClick={thingy}>
+          {!open &&
+            value
+              .filter((v, i) => i === 0)
+              .map((v, index) => (
+                <styled.div style={{ position: 'relative' }} key={index}>
+                  {!open && value.length > 1 && (
+                    <styled.div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '0 12px',
+                        gap: 4,
+                      }}
+                    >
+                      <Text selectable="none" style={{ opacity: 0 }}>
+                        [{v}]
+                      </Text>
+                      <Badge light color="neutral">
+                        {value.length}
+                      </Badge>
+                    </styled.div>
+                  )}
+                  <NewInput
+                    field={field}
+                    index={index}
+                    onChange={onChange}
+                    setOpen={setOpen}
+                    type={type}
+                    v={[v]}
+                    value={value}
+                  />
+                </styled.div>
+              ))}
+          {Array.isArray(value) &&
+            open &&
+            value.map((item, index) => (
+              <List
+                key={index}
+                deleteFunc={() =>
+                  onChange(
+                    field,
+                    value.filter((_, i) => i !== index)
+                  )
+                }
+                values={values.values}
+                onChange={onChange}
+                field={field + '.' + index}
+                label={label}
+                type={values.values.type}
+                value={value[index]}
+                isChild
+              />
+              // </span>
+            ))}
+        </styled.div>
       ) : (
         <styled.div
           style={{ margin: '8px 0', '& > * + *': { marginTop: '8px' } }}
         >
           {Array.isArray(value) &&
             value
-              .filter((d, index) => index === 0)
+              .filter((v, i) => i === 0)
               .map((v, index) => (
-                <styled.div style={{ position: 'relative' }}>
+                <styled.div style={{ position: 'relative' }} key={index}>
                   {!open && value.length > 1 && (
                     <styled.div
                       style={{
