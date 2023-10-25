@@ -5,7 +5,6 @@ import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { Button } from '../Button'
 import { IconAlertFill } from '../../icons'
-import { scrollAreaStyle } from '../ScrollArea'
 import { useControllableState } from '../../hooks/useControllableState'
 
 type UseModalProps = {
@@ -76,25 +75,16 @@ export function Content({ children, width = 552, style }: ModalContentProps) {
           inset: 0,
           position: 'fixed',
           background: color('standalone', 'dimmer', 'default'),
+          display: 'grid',
+          placeItems: 'center',
         }}
-      />
-      <DialogBase.Content
-        onOpenAutoFocus={(e) => {
-          e.preventDefault()
-        }}
-        onCloseAutoFocus={(e) => {
-          e.preventDefault()
-        }}
-        style={{ left: 16, right: 16 }}
       >
-        <styled.div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 16,
+        <DialogBase.Content
+          onOpenAutoFocus={(e) => {
+            e.preventDefault()
+          }}
+          onCloseAutoFocus={(e) => {
+            e.preventDefault()
           }}
         >
           <styled.div
@@ -110,7 +100,6 @@ export function Content({ children, width = 552, style }: ModalContentProps) {
               padding: '24px 32px 0',
               overflowY: 'auto',
               overflowX: 'hidden',
-              ...scrollAreaStyle,
               ...style,
             }}
           >
@@ -123,8 +112,8 @@ export function Content({ children, width = 552, style }: ModalContentProps) {
                 })
               : children}
           </styled.div>
-        </styled.div>
-      </DialogBase.Content>
+        </DialogBase.Content>
+      </DialogBase.Overlay>
     </DialogBase.Portal>
   )
 }
