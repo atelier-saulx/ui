@@ -23,14 +23,13 @@ export type RichTextEditorProps = {
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
 //  - add media
-//  - preview html code
 //  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
 //  - clear text and styles and tags --> also if you select more strip inside tags
-//  - make new block autofocus on the new block --> list // also if completely empty?
 //  shift + enter at end of block
 //  - styling
+//  - backgroundcolor save to blocks -> if you change focus it removes now
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   time,
@@ -58,6 +57,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             level: type === 'heading' ? 'h1' : undefined,
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
+            type: type === 'list' ? 'unordered' : undefined,
           },
         },
         ...blocks.slice(focus === 0 ? 1 : focus + 1),
@@ -256,6 +256,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 setFocus={setFocus}
                 deleteBlock={deleteBlock}
                 blocksLength={blocks.length}
+                focus={focus}
                 style={{
                   borderLeft:
                     focus === idx
@@ -272,6 +273,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 data={item}
                 setFocus={setFocus}
                 blocks={blocks}
+                focus={focus}
                 style={{
                   borderLeft:
                     focus === idx

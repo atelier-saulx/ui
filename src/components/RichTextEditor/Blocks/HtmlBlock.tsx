@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import DOMPurify = require('dompurify')
 import { Style, styled } from 'inlines'
 import { Code } from '../../Code'
@@ -10,6 +10,7 @@ type HtmlBlockProps = {
   setFocus?: (v) => void
   blocks?: any
   style?: Style
+  focus?: number
 }
 
 export const HtmlBlock: FC<HtmlBlockProps> = ({
@@ -17,11 +18,23 @@ export const HtmlBlock: FC<HtmlBlockProps> = ({
   idx,
   setFocus,
   blocks,
+  focus,
   style,
 }) => {
   const blockData = data.data
 
   const [html, setHtml] = useState(DOMPurify.sanitize(blockData.innerHTML))
+
+  let htmlRef = useRef<HTMLElement>()
+
+  // on new block puts focus in first caret place
+  if (!blockData.innerHTML && focus === idx) {
+    setTimeout(() => {
+      let x = htmlRef.current.childNodes[0].childNodes[0]
+        .childNodes[0] as HTMLTextAreaElement
+      x.focus()
+    }, 50)
+  }
 
   return (
     <styled.div
@@ -34,6 +47,7 @@ export const HtmlBlock: FC<HtmlBlockProps> = ({
       //   onBlur={() => {
       //     console.log('🌍')
       //   }}
+      ref={htmlRef}
     >
       <Code
         style={{ backgroundColor: color('background', 'neutral', 'surface') }}

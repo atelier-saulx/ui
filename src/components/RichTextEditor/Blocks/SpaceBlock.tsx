@@ -32,6 +32,15 @@ export const SpaceBlock: FC<SpaceBlockProps> = ({
   const [spaceNumber, setSpaceNumber] = useState(blockData.space || 32)
   const [spaceFormat, setSpaceFormat] = useState(blockData.spaceFormat || 'px')
 
+  const numberRef = useRef<HTMLInputElement>()
+
+  if (focus === idx) {
+    setTimeout(() => {
+      let x = numberRef.current.firstChild.firstChild.firstChild as HTMLElement
+      x.focus()
+    }, 50)
+  }
+
   return (
     <Row
       style={{ paddingLeft: 13, marginBottom: 12, ...style }}
@@ -53,7 +62,7 @@ export const SpaceBlock: FC<SpaceBlockProps> = ({
         }}
       />
 
-      <Row style={{ maxWidth: 172, gap: 8, marginLeft: 8 }}>
+      <Row style={{ maxWidth: 172, gap: 8, marginLeft: 8 }} ref={numberRef}>
         <Input
           style={{ maxWidth: 112 }}
           type="number"
