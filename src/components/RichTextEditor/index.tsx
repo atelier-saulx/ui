@@ -130,7 +130,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   useEffect(() => {
     // use childNodes not children you know because of logic 🤨
     let child = editorWrapRef.current.childNodes[focus] as HTMLElement
-    console.log('child', child, 'focus changed')
     child?.focus()
   }, [focus])
 
@@ -171,7 +170,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             fontSize: '15px',
             paddingLeft: '13px',
             '&:focus-visible': {
-              outline: '0px dashed #bfbfbf',
+              outline: '1px dashed #bfbfbf52',
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Type here..."',
@@ -186,7 +185,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           '& h1, h2, h3, h4, h5, h6': {
             paddingLeft: '13px',
             '&:focus-visible': {
-              outline: '0px dashed #bfbfbf',
+              outline: '1px dashed #bfbfbf52',
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Title here..."',
@@ -200,7 +199,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             lineHeight: '1.36',
             fontSize: '15px',
             '&:focus-visible': {
-              outline: '0px dashed #bfbfbf !important',
+              outline: '1px dashed #bfbfbf52 !important',
             },
           },
         }}

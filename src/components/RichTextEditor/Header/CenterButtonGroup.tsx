@@ -62,8 +62,6 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
   setBlocks,
   updateBlock,
 }) => {
-  console.log('🍄 --> ', blocks[focus])
-
   const paragraphHeadingOptions = [
     { value: 'paragraph', label: 'Paragraph' },
     { value: 'h1', label: 'Heading: H1' },

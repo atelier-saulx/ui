@@ -57,6 +57,14 @@ const makeTextDefault = () => {
   ) {
     let justText = selection.commonAncestorContainer.parentElement.outerText
     selection.commonAncestorContainer.parentElement.outerHTML = justText
+  } else {
+    // get selection
+    let selectedTexttoString = selection.toString()
+    let extractText = selection.extractContents()
+    let stringNode = document
+      .createRange()
+      .createContextualFragment(selectedTexttoString)
+    selection.insertNode(stringNode)
   }
 }
 
