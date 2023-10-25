@@ -4,6 +4,7 @@ import { Button } from '../../Button'
 import { Row } from '../../Styled'
 import { IconChevronTop, IconChevronDown } from '../../../icons'
 import { Input } from '../..'
+import { Tooltip } from '../..'
 
 const moveBlockUp = (focus, blocks, setBlocks, setFocus) => {
   if (focus !== 0) {
@@ -130,26 +131,30 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
           updateBlock(focus)
         }}
       />
-      <Button
-        onClick={() => {
-          moveBlockUp(focus, blocks, setBlocks, setFocus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconChevronTop />}
-      />
-      <Button
-        onClick={() => {
-          moveBlockDown(focus, blocks, setBlocks, setFocus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconChevronDown />}
-      />
+      <Tooltip text="Move Block Up">
+        <Button
+          onClick={() => {
+            moveBlockUp(focus, blocks, setBlocks, setFocus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconChevronTop />}
+        />
+      </Tooltip>
+      <Tooltip text="Move Block Down">
+        <Button
+          onClick={() => {
+            moveBlockDown(focus, blocks, setBlocks, setFocus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconChevronDown />}
+        />
+      </Tooltip>
     </Row>
   )
 }

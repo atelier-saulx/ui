@@ -22,14 +22,11 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
-
 //  - add media
 //  - preview html code
 //  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
-//  - tooltips on buttons
-//  - color picker
 //  - clear text and styles and tags --> also if you select more strip inside tags
 //  - make new block autofocus on the new block --> list // also if completely empty?
 //  shift + enter at end of block

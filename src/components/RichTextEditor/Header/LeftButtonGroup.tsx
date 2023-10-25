@@ -191,93 +191,109 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           </Dropdown.Item>
         </Dropdown.Items>
       </Dropdown.Root>
-      <Button
-        onClick={() => {
-          makeTextDefault()
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconEmojiSmile />}
-      />
-      <Button
-        onClick={() => {
-          makeTextBold()
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatBold />}
-      />
-      <Button
-        onClick={() => {
-          makeTextItalic()
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatItalic />}
-      />
-      <Button
-        onClick={() => {
-          textAlign('left', blocks, focus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatAlignLeft />}
-      />
-      <Button
-        onClick={() => {
-          textAlign('center', blocks, focus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatAlignCenter />}
-      />
-      <Button
-        onClick={() => {
-          textAlign('right', blocks, focus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatAlignRight />}
-      />
-      <Button
-        onClick={() => {
-          textAlign('justify', blocks, focus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatAlignJustify />}
-      />
+      <Tooltip text="Clear style">
+        <Button
+          onClick={() => {
+            makeTextDefault()
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconEmojiSmile />}
+        />
+      </Tooltip>
+      <Tooltip text="Bold text">
+        <Button
+          onClick={() => {
+            makeTextBold()
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatBold />}
+        />
+      </Tooltip>
+      <Tooltip text="Italic text">
+        <Button
+          onClick={() => {
+            makeTextItalic()
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatItalic />}
+        />
+      </Tooltip>
+      <Tooltip text="Align left">
+        <Button
+          onClick={() => {
+            textAlign('left', blocks, focus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatAlignLeft />}
+        />
+      </Tooltip>
+      <Tooltip text="Align center">
+        <Button
+          onClick={() => {
+            textAlign('center', blocks, focus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatAlignCenter />}
+        />
+      </Tooltip>
+      <Tooltip text="Align right">
+        <Button
+          onClick={() => {
+            textAlign('right', blocks, focus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatAlignRight />}
+        />
+      </Tooltip>
+      <Tooltip text="Justify text">
+        <Button
+          onClick={() => {
+            textAlign('justify', blocks, focus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatAlignJustify />}
+        />
+      </Tooltip>
 
       {/* make link */}
       <Modal.Root>
-        <Modal.Trigger>
-          <Button
-            onClick={() => {
-              let selection = window.getSelection().getRangeAt(0)
-              setLinkSelection(selection)
-              // makeLink('snurp')
-              // updateBlock(focus)
-            }}
-            size="small"
-            light
-            color="neutral"
-            icon={<IconLink />}
-          />
-        </Modal.Trigger>
+        <Tooltip text="Create link">
+          <Modal.Trigger>
+            <Button
+              onClick={() => {
+                let selection = window.getSelection().getRangeAt(0)
+                setLinkSelection(selection)
+                // makeLink('snurp')
+                // updateBlock(focus)
+              }}
+              size="small"
+              light
+              color="neutral"
+              icon={<IconLink />}
+            />
+          </Modal.Trigger>
+        </Tooltip>
         <Modal.Content>
           {({ close }) => (
             <>
@@ -321,22 +337,24 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
       </Modal.Root>
       {/* make color */}
       <Modal.Root>
-        <Modal.Trigger>
-          <Button
-            onClick={() => {
-              let selection = window.getSelection().getRangeAt(0)
-              let selectedText = selection.extractContents()
-              let span = document.createElement('span')
-              span.appendChild(selectedText)
-              span.classList.add('snurpColor')
-              selection.insertNode(span)
-            }}
-            size="small"
-            light
-            color="neutral"
-            icon={<IconText style={{ color: textColor }} />}
-          />
-        </Modal.Trigger>
+        <Tooltip text="Color text">
+          <Modal.Trigger>
+            <Button
+              onClick={() => {
+                let selection = window.getSelection().getRangeAt(0)
+                let selectedText = selection.extractContents()
+                let span = document.createElement('span')
+                span.appendChild(selectedText)
+                span.classList.add('snurpColor')
+                selection.insertNode(span)
+              }}
+              size="small"
+              light
+              color="neutral"
+              icon={<IconText style={{ color: textColor }} />}
+            />
+          </Modal.Trigger>
+        </Tooltip>
         <Modal.Content
           onEscapeKeyDown={() => {
             let snurp: HTMLElement = document.querySelector('.snurpColor')
