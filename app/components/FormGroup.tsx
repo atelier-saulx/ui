@@ -14,44 +14,44 @@ const fieldProps = {
     // args: { name: 'asdasd' },
   },
   config: {
-    // array: {
-    //   type: 'array',
-    //   // value: [
-    //   //   ['1', '2'],
-    //   //   ['3', '4'],
-    //   // ],
-    //   values: {
-    //     type: 'set',
-    //     values: {
-    //       type: 'string',
-    //     },
-    //   },
-    // },
-    // object: {
-    //   type: 'object',
-    //   description: 'wowoweewow',
-    //   // value: { flap: true },
-    //   properties: {
-    //     flap: {
-    //       type: 'boolean',
-    //     },
-    //     flirp: {
-    //       type: 'boolean',
-    //     },
-    //     snap: {
-    //       type: 'text',
-    //     },
-    //     snop: {
-    //       type: 'file',
-    //     },
-    //     // flop: {
-    //     //   type: 'object',
-    //     //   properties: {
-    //     //     type: 'string',
-    //     //   },
-    //     // },
-    //   },
-    // },
+    array: {
+      type: 'array',
+      // value: [
+      //   ['1', '2'],
+      //   ['3', '4'],
+      // ],
+      values: {
+        type: 'set',
+        values: {
+          type: 'string',
+        },
+      },
+    },
+    object: {
+      type: 'object',
+      description: 'wowoweewow',
+      // value: { flap: true },
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+        snap: {
+          type: 'text',
+        },
+        snop: {
+          type: 'file',
+        },
+        // flop: {
+        //   type: 'object',
+        //   properties: {
+        //     type: 'string',
+        //   },
+        // },
+      },
+    },
     object2: {
       type: 'object',
       description: 'wowoweewow',
