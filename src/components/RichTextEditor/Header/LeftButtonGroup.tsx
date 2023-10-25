@@ -16,6 +16,7 @@ import {
   IconListBullet,
   IconHeading,
   IconUnfoldMore,
+  IconEmojiSmile,
 } from '../../../icons'
 import { Dropdown } from '../..'
 import { Tooltip } from '../..'
@@ -47,8 +48,6 @@ const checkForParent = (selection, alignment) => {
 
 const makeTextDefault = () => {
   let selection = window.getSelection().getRangeAt(0)
-  console.log(selection)
-
   if (
     //TODO or color, span color
     selection.commonAncestorContainer.parentElement.localName === 'b' ||
@@ -57,6 +56,14 @@ const makeTextDefault = () => {
   ) {
     let justText = selection.commonAncestorContainer.parentElement.outerText
     selection.commonAncestorContainer.parentElement.outerHTML = justText
+  } else {
+    // get selection
+    let selectedTexttoString = selection.toString()
+    let extractText = selection.extractContents()
+    let stringNode = document
+      .createRange()
+      .createContextualFragment(selectedTexttoString)
+    selection.insertNode(stringNode)
   }
 }
 
@@ -82,8 +89,6 @@ const textAlign = (alignment: string, blocks: any, focus: number) => {
 }
 
 const makeLink = (selection, link, openInNewTab) => {
-  // TODO async wait for input
-
   let selectedText = selection.extractContents()
   let a = document.createElement('a')
   a.appendChild(selectedText)
@@ -113,6 +118,9 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
   const [linkValue, setLinkValue] = useState('')
   const [openInNewTab, setOpenInNewTab] = useState(false)
   const [linkSelection, setLinkSelection] = useState<Range>()
+
+  const [textColor, setTextColor] = useState('rgba(0,0,0,1)')
+  const [textBgColor, setTextBgColor] = useState('rgba(255,255,255,1)')
 
   return (
     <Row
@@ -183,92 +191,109 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           </Dropdown.Item>
         </Dropdown.Items>
       </Dropdown.Root>
-      <Button
-        onClick={() => {
-          makeTextDefault()
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconText />}
-      />
-      <Button
-        onClick={() => {
-          makeTextBold()
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatBold />}
-      />
-      <Button
-        onClick={() => {
-          makeTextItalic()
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatItalic />}
-      />
-      <Button
-        onClick={() => {
-          textAlign('left', blocks, focus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatAlignLeft />}
-      />
-      <Button
-        onClick={() => {
-          textAlign('center', blocks, focus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatAlignCenter />}
-      />
-      <Button
-        onClick={() => {
-          textAlign('right', blocks, focus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatAlignRight />}
-      />
-      <Button
-        onClick={() => {
-          textAlign('justify', blocks, focus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconFormatAlignJustify />}
-      />
+      <Tooltip text="Clear style">
+        <Button
+          onClick={() => {
+            makeTextDefault()
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconEmojiSmile />}
+        />
+      </Tooltip>
+      <Tooltip text="Bold text">
+        <Button
+          onClick={() => {
+            makeTextBold()
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatBold />}
+        />
+      </Tooltip>
+      <Tooltip text="Italic text">
+        <Button
+          onClick={() => {
+            makeTextItalic()
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatItalic />}
+        />
+      </Tooltip>
+      <Tooltip text="Align left">
+        <Button
+          onClick={() => {
+            textAlign('left', blocks, focus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatAlignLeft />}
+        />
+      </Tooltip>
+      <Tooltip text="Align center">
+        <Button
+          onClick={() => {
+            textAlign('center', blocks, focus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatAlignCenter />}
+        />
+      </Tooltip>
+      <Tooltip text="Align right">
+        <Button
+          onClick={() => {
+            textAlign('right', blocks, focus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatAlignRight />}
+        />
+      </Tooltip>
+      <Tooltip text="Justify text">
+        <Button
+          onClick={() => {
+            textAlign('justify', blocks, focus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconFormatAlignJustify />}
+        />
+      </Tooltip>
 
+      {/* make link */}
       <Modal.Root>
-        <Modal.Trigger>
-          <Button
-            onClick={() => {
-              let selection = window.getSelection().getRangeAt(0)
-              setLinkSelection(selection)
-              // makeLink('snurp')
-              // updateBlock(focus)
-            }}
-            size="small"
-            light
-            color="neutral"
-            icon={<IconLink />}
-          />
-        </Modal.Trigger>
+        <Tooltip text="Create link">
+          <Modal.Trigger>
+            <Button
+              onClick={() => {
+                let selection = window.getSelection().getRangeAt(0)
+                setLinkSelection(selection)
+                // makeLink('snurp')
+                // updateBlock(focus)
+              }}
+              size="small"
+              light
+              color="neutral"
+              icon={<IconLink />}
+            />
+          </Modal.Trigger>
+        </Tooltip>
         <Modal.Content>
           {({ close }) => (
             <>
@@ -300,6 +325,99 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
                     setLinkSelection(null)
                     setLinkValue('')
                     setOpenInNewTab(false)
+                  }}
+                  color="primary"
+                >
+                  Save
+                </Button>
+              </Modal.Actions>
+            </>
+          )}
+        </Modal.Content>
+      </Modal.Root>
+      {/* make color */}
+      <Modal.Root>
+        <Tooltip text="Color text">
+          <Modal.Trigger>
+            <Button
+              onClick={() => {
+                let selection = window.getSelection().getRangeAt(0)
+                let selectedText = selection.extractContents()
+                let span = document.createElement('span')
+                span.appendChild(selectedText)
+                span.classList.add('snurpColor')
+                selection.insertNode(span)
+              }}
+              size="small"
+              light
+              color="neutral"
+              icon={<IconText style={{ color: textColor }} />}
+            />
+          </Modal.Trigger>
+        </Tooltip>
+        <Modal.Content
+          onEscapeKeyDown={() => {
+            let snurp: HTMLElement = document.querySelector('.snurpColor')
+            snurp.style.color = null
+            snurp.style.backgroundColor = null
+            snurp.classList.remove('snurpColor')
+          }}
+          onPointerDownOutside={() => {
+            let snurp: HTMLElement = document.querySelector('.snurpColor')
+            snurp.style.color = null
+            snurp.style.backgroundColor = null
+            snurp.classList.remove('snurpColor')
+          }}
+        >
+          {({ close }) => (
+            <>
+              <Modal.Title>Set some colors</Modal.Title>
+              <Modal.Body>
+                <Input
+                  label="Text Color"
+                  type="color"
+                  onChange={(v) => {
+                    let snurp: HTMLElement =
+                      document.querySelector('.snurpColor')
+                    snurp.style.color = v
+                    setTextColor(v)
+                  }}
+                  value={textColor}
+                />
+                <Input
+                  label="BackgroundColor"
+                  type="color"
+                  onChange={(v) => {
+                    let snurp: HTMLElement =
+                      document.querySelector('.snurpColor')
+                    snurp.style.backgroundColor = v
+                    setTextBgColor(v)
+                  }}
+                  value={textBgColor}
+                />
+              </Modal.Body>
+
+              <Modal.Actions>
+                <Button
+                  onClick={() => {
+                    let snurp: HTMLElement =
+                      document.querySelector('.snurpColor')
+                    snurp.style.color = null
+                    snurp.style.backgroundColor = null
+                    snurp.classList.remove('snurpColor')
+                    close()
+                  }}
+                  color="system"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    close()
+                    // reset these  states
+                    let snurp: HTMLElement =
+                      document.querySelector('.snurpColor')
+                    snurp.classList.remove('snurpColor')
                   }}
                   color="primary"
                 >

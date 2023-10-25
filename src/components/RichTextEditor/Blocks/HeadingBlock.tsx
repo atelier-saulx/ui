@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
+import React, { FC, useRef } from 'react'
 import DOMPurify = require('dompurify')
 import { Style } from 'inlines'
+import { useKeyboardShortcut } from '../../../hooks'
 
 type HeadingBlockProps = {
   data?: any
@@ -12,6 +13,7 @@ type HeadingBlockProps = {
   style?: Style
   updateBlock?: (v) => void
   blocksLength?: number
+  focus?: number
 }
 
 export const HeadingBlock: FC<HeadingBlockProps> = ({
@@ -24,11 +26,31 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
   style,
   updateBlock,
   blocksLength,
+  focus,
 }) => {
   const blockData = data.data
+  const headRef = useRef<HTMLParagraphElement>()
+
+  const enterLineBreak = () => {
+    // fucks sake this works bit weird but ok
+    let selection = window.getSelection().getRangeAt(0)
+    let selectedText = selection.extractContents()
+    let br = document.createElement('br')
+    br.appendChild(selectedText)
+    selection.insertNode(br)
+  }
+
+  useKeyboardShortcut('Shift+Enter', enterLineBreak, headRef)
+
+  if (!blockData.innerHTML && !blockData.innerText && focus === idx) {
+    setTimeout(() => {
+      headRef.current.focus()
+    }, 50)
+  }
 
   return blockData.level === 'h1' ? (
     <h1
+      ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
       suppressContentEditableWarning
@@ -53,6 +75,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h2' ? (
     <h2
+      ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
       suppressContentEditableWarning
@@ -77,6 +100,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h3' ? (
     <h3
+      ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
       suppressContentEditableWarning
@@ -101,6 +125,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h4' ? (
     <h4
+      ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
       suppressContentEditableWarning
@@ -125,6 +150,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h5' ? (
     <h5
+      ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
       suppressContentEditableWarning
@@ -149,6 +175,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h6' ? (
     <h6
+      ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
       suppressContentEditableWarning
@@ -173,6 +200,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : (
     <h1
+      ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
       suppressContentEditableWarning

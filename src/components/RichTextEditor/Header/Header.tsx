@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
-import { styled, Style } from 'inlines'
+import React from 'react'
 import { Button } from '../../Button'
 import { Row } from '../../Styled'
-import { IconDelete, IconChevronTop, IconChevronDown } from '../../../icons'
-import { Dropdown } from '../..'
+import { IconDelete } from '../../../icons'
 import { Tooltip } from '../..'
-import { Input } from '../..'
 import { LeftButtonGroup } from './LeftButtonGroup'
 import { CenterButtonGroup } from './CenterButtonGroup'
 
@@ -56,14 +53,16 @@ export const Header = ({
           },
         }}
       >
-        <Button
-          onClick={() => deleteBlock(focus)}
-          size="small"
-          light
-          color="alert"
-          style={{ marginLeft: 'auto' }}
-          icon={<IconDelete />}
-        />
+        <Tooltip text="Delete Block">
+          <Button
+            onClick={() => deleteBlock(focus)}
+            size="small"
+            light
+            color="alert"
+            style={{ marginLeft: 'auto' }}
+            icon={<IconDelete />}
+          />
+        </Tooltip>
       </Row>
     </Row>
   )

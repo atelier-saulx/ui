@@ -61,13 +61,22 @@ export type ModalContentProps = {
     | ReactNode
   width?: string | number
   style?: Style
+  onEscapeKeyDown?: () => void
+  onPointerDownOutside?: () => void
 }
 
-export function Content({ children, width = 552, style }: ModalContentProps) {
+export function Content({
+  children,
+  width = 552,
+  style,
+  onEscapeKeyDown,
+  onPointerDownOutside,
+}: ModalContentProps) {
   const { open, setOpen } = useContext(ModalContext)
 
-  if (!open) return null
-
+  if (!open) {
+    return null
+  }
   return (
     <DialogBase.Portal>
       <DialogBase.Overlay
@@ -80,6 +89,8 @@ export function Content({ children, width = 552, style }: ModalContentProps) {
         }}
       >
         <DialogBase.Content
+          onPointerDownOutside={onPointerDownOutside}
+          onEscapeKeyDown={onEscapeKeyDown}
           onOpenAutoFocus={(e) => {
             e.preventDefault()
           }}

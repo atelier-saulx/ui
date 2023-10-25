@@ -87,8 +87,6 @@ export const ListBlock: FC<ListBlockProps> = ({
 
   // dont call updateBlocks from inside this component !
 
-  console.log(data, 'from list??')
-
   return blockData.type === 'unordered' ? (
     <styled.ul
       ref={listRef}
