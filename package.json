@@ -9,6 +9,7 @@
     "assets"
   ],
   "scripts": {
+    "watch": "npx tsc -w",
     "dev": "npx @based/cli dev",
     "deploy": "npx @based/cli deploy",
     "genPropsTypes": "node ./scripts/generateComponentProps.js",

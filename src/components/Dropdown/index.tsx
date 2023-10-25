@@ -3,7 +3,6 @@ import * as DropdownBase from '@radix-ui/react-dropdown-menu'
 import { color } from '../../varsUtilities'
 import { styled } from 'inlines'
 import { IconCheckLarge, IconChevronRight } from '../../icons'
-import { ScrollArea } from '../ScrollArea'
 import { BpTablet } from '../../utils'
 import { useWindowResize } from '../../hooks'
 
@@ -31,14 +30,12 @@ export function Items({ children }: DropdownItemsProps) {
   return (
     <DropdownBase.Portal>
       <DropdownBase.Content
-        // side="top"
-        // sideOffset={-40}
         asChild
         onCloseAutoFocus={(e) => {
           e.preventDefault()
         }}
       >
-        <ScrollArea
+        <styled.div
           style={{
             width: 267,
             padding: 8,
@@ -58,7 +55,7 @@ export function Items({ children }: DropdownItemsProps) {
           }}
         >
           {children}
-        </ScrollArea>
+        </styled.div>
       </DropdownBase.Content>
     </DropdownBase.Portal>
   )
