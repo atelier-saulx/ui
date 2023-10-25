@@ -104,10 +104,10 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
         value={
           blocks[focus]?.type === 'paragraph'
             ? blocks[focus]?.type
-            : blocks[focus].data.level
-            ? blocks[focus].data.level
+            : blocks[focus]?.data.level
+            ? blocks[focus]?.data.level
             : blocks[focus]?.type === 'list'
-            ? blocks[focus].data.type
+            ? blocks[focus]?.data.type
             : ''
         }
         // TODO: change on focus the value or placeholder
@@ -119,9 +119,9 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
         //   : ''
         // }
         options={
-          blocks[focus]?.type === 'paragraph' || blocks[focus].data.level
+          blocks[focus]?.type === 'paragraph' || blocks[focus]?.data?.level
             ? paragraphHeadingOptions
-            : blocks[focus].type === 'list'
+            : blocks[focus]?.type === 'list'
             ? listOptions
             : []
         }

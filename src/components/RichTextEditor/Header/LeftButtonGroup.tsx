@@ -16,6 +16,7 @@ import {
   IconListBullet,
   IconHeading,
   IconUnfoldMore,
+  IconEmojiSmile,
 } from '../../../icons'
 import { Dropdown } from '../..'
 import { Tooltip } from '../..'
@@ -88,8 +89,6 @@ const textAlign = (alignment: string, blocks: any, focus: number) => {
 }
 
 const makeLink = (selection, link, openInNewTab) => {
-  // TODO async wait for input
-
   let selectedText = selection.extractContents()
   let a = document.createElement('a')
   a.appendChild(selectedText)
@@ -119,6 +118,9 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
   const [linkValue, setLinkValue] = useState('')
   const [openInNewTab, setOpenInNewTab] = useState(false)
   const [linkSelection, setLinkSelection] = useState<Range>()
+
+  const [textColor, setTextColor] = useState('rgba(0,0,0,1)')
+  const [textBgColor, setTextBgColor] = useState('rgba(255,255,255,1)')
 
   return (
     <Row
@@ -197,7 +199,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
         size="small"
         light
         color="neutral"
-        icon={<IconText />}
+        icon={<IconEmojiSmile />}
       />
       <Button
         onClick={() => {
@@ -260,6 +262,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
         icon={<IconFormatAlignJustify />}
       />
 
+      {/* make link */}
       <Modal.Root>
         <Modal.Trigger>
           <Button
@@ -306,6 +309,97 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
                     setLinkSelection(null)
                     setLinkValue('')
                     setOpenInNewTab(false)
+                  }}
+                  color="primary"
+                >
+                  Save
+                </Button>
+              </Modal.Actions>
+            </>
+          )}
+        </Modal.Content>
+      </Modal.Root>
+      {/* make color */}
+      <Modal.Root>
+        <Modal.Trigger>
+          <Button
+            onClick={() => {
+              let selection = window.getSelection().getRangeAt(0)
+              let selectedText = selection.extractContents()
+              let span = document.createElement('span')
+              span.appendChild(selectedText)
+              span.classList.add('snurpColor')
+              selection.insertNode(span)
+            }}
+            size="small"
+            light
+            color="neutral"
+            icon={<IconText style={{ color: textColor }} />}
+          />
+        </Modal.Trigger>
+        <Modal.Content
+          onEscapeKeyDown={() => {
+            let snurp: HTMLElement = document.querySelector('.snurpColor')
+            snurp.style.color = null
+            snurp.style.backgroundColor = null
+            snurp.classList.remove('snurpColor')
+          }}
+          onPointerDownOutside={() => {
+            let snurp: HTMLElement = document.querySelector('.snurpColor')
+            snurp.style.color = null
+            snurp.style.backgroundColor = null
+            snurp.classList.remove('snurpColor')
+          }}
+        >
+          {({ close }) => (
+            <>
+              <Modal.Title>Set some colors</Modal.Title>
+              <Modal.Body>
+                <Input
+                  label="Text Color"
+                  type="color"
+                  onChange={(v) => {
+                    let snurp: HTMLElement =
+                      document.querySelector('.snurpColor')
+                    snurp.style.color = v
+                    setTextColor(v)
+                  }}
+                  value={textColor}
+                />
+                <Input
+                  label="BackgroundColor"
+                  type="color"
+                  onChange={(v) => {
+                    let snurp: HTMLElement =
+                      document.querySelector('.snurpColor')
+                    snurp.style.backgroundColor = v
+                    setTextBgColor(v)
+                  }}
+                  value={textBgColor}
+                />
+              </Modal.Body>
+
+              <Modal.Actions>
+                <Button
+                  onClick={() => {
+                    let snurp: HTMLElement =
+                      document.querySelector('.snurpColor')
+                    snurp.style.color = null
+                    snurp.style.backgroundColor = null
+                    snurp.classList.remove('snurpColor')
+                    close()
+                  }}
+                  color="system"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    close()
+                    // reset these  states
+                    let snurp: HTMLElement =
+                      document.querySelector('.snurpColor')
+                    snurp.classList.remove('snurpColor')
                   }}
                   color="primary"
                 >

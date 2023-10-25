@@ -31,8 +31,7 @@ export type RichTextEditorProps = {
 //  - tooltips on buttons
 //  - color picker
 //  - clear text and styles and tags --> also if you select more strip inside tags
-//  - select convert blocks -> based on focused block
-//  - make new block autofocus on the new block
+//  - make new block autofocus on the new block --> list // also if completely empty?
 //  shift + enter at end of block
 //  - styling
 
@@ -87,6 +86,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   }
 
   const deleteBlock = (idx) => {
+    setFocus(focus > 0 ? focus - 1 : 0)
     const filteredBlocks = blocks.filter((item, id) => id !== idx)
     setBlocks([...filteredBlocks])
   }
