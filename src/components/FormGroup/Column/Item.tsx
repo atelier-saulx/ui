@@ -2,21 +2,7 @@ import React, { FC, useMemo, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Label } from './Label'
 import { FormItemProps } from '../types'
-import {
-  Input,
-  Row,
-  Text,
-  Button,
-  Badge,
-  List,
-  Toggle,
-  Code,
-  Modal,
-  FormGroup,
-} from '../..'
-import { IconPlus, IconArrowheadRight, IconClose } from '../../../icons'
-import { color } from '../../../varsUtilities'
-import { parseData } from '../utils'
+import { Input, Row, List, Toggle, Code } from '../..'
 
 // | 'timestamp'
 // | 'string'
@@ -58,9 +44,18 @@ export const FormItem: FC<{
   item,
   width,
 }) => {
+  // if (!label) {
+  //   label = useMemo(
+  //     () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+  //     [field]
+  //   )
+  // }
   if (!label) {
     label = useMemo(
-      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+      () => [
+        field.split('.').slice(-1)[0][0].toUpperCase(),
+        field.split('.').slice(-1)[0].substring(1),
+      ],
       [field]
     )
   }
