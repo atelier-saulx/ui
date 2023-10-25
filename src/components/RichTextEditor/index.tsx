@@ -23,9 +23,6 @@ export type RichTextEditorProps = {
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
 
-//  - ordererd list
-//  - link --> options
-//  - add blocks
 //  - add media
 //  - preview html code
 //  - only selections that fall within the editor
@@ -33,8 +30,10 @@ export type RichTextEditorProps = {
 //  - option to add class to element
 //  - tooltips on buttons
 //  - color picker
+//  - clear text and styles and tags --> also if you select more strip inside tags
+//  - select convert blocks -> based on focused block
 //  - make new block autofocus on the new block
-//  shift + enter in blocks -> should add <br> tag
+//  shift + enter at end of block
 //  - styling
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
@@ -90,6 +89,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     setBlocks([...filteredBlocks])
   }
 
+  // TODO -> Check the setBlocks state
   const updateBlock = (idx: number, ref?: any) => {
     let newRef = ref
     if (!ref) {
@@ -114,7 +114,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     }
     // update lists
     if (newRef.nodeName === 'UL' || newRef.nodeName === 'OL') {
-      blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
       blocks[idx].data.alignment = blocks[idx].data.alignment
       let listItemsArray = Array.from(newRef.childNodes).map((item, idx) => ({
         // @ts-ignore
@@ -124,6 +123,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       }))
       blocks[idx].data.items = listItemsArray
     }
+
     /// setBlocks(blocks)
   }
 
@@ -171,7 +171,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             fontSize: '15px',
             paddingLeft: '13px',
             '&:focus-visible': {
-              outline: '1px dashed #bfbfbf',
+              outline: '0px dashed #bfbfbf',
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Type here..."',
@@ -186,7 +186,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           '& h1, h2, h3, h4, h5, h6': {
             paddingLeft: '13px',
             '&:focus-visible': {
-              outline: '1px dashed #bfbfbf',
+              outline: '0px dashed #bfbfbf',
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Title here..."',
@@ -200,7 +200,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             lineHeight: '1.36',
             fontSize: '15px',
             '&:focus-visible': {
-              outline: '1px dashed #bfbfbf !important',
+              outline: '0px dashed #bfbfbf !important',
             },
           },
         }}

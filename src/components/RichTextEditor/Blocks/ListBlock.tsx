@@ -87,7 +87,9 @@ export const ListBlock: FC<ListBlockProps> = ({
 
   // dont call updateBlocks from inside this component !
 
-  return (
+  console.log(data, 'from list??')
+
+  return blockData.type === 'unordered' ? (
     <styled.ul
       ref={listRef}
       contentEditable
@@ -122,5 +124,40 @@ export const ListBlock: FC<ListBlockProps> = ({
         />
       ))}
     </styled.ul>
+  ) : (
+    <styled.ol
+      ref={listRef}
+      contentEditable
+      suppressContentEditableWarning
+      onInput={() => {}}
+      onBlur={(e) => e.preventDefault()}
+      onFocus={() => setFocus(idx)}
+      style={{
+        textAlign: blockData.alignment,
+        ...style,
+      }}
+      onKeyDown={(e) => {
+        listKeyHandler(
+          e,
+          setFocus,
+          idx,
+          deleteBlock,
+          blocksLength,
+          listRef,
+          blockData
+        )
+      }}
+    >
+      {blockData?.items?.map((item, id) => (
+        <li
+          key={id}
+          dangerouslySetInnerHTML={{
+            __html:
+              DOMPurify.sanitize(item.innerHTML) ||
+              DOMPurify.sanitize(item.innerText),
+          }}
+        />
+      ))}
+    </styled.ol>
   )
 }

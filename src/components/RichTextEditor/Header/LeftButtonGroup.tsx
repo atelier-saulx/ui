@@ -13,9 +13,6 @@ import {
   IconFormatAlignJustify,
   IconLink,
   IconPlus,
-  IconDelete,
-  IconChevronTop,
-  IconChevronDown,
   IconListBullet,
   IconHeading,
   IconUnfoldMore,
@@ -84,12 +81,15 @@ const textAlign = (alignment: string, blocks: any, focus: number) => {
   blocks[focus].data.alignment = alignment
 }
 
-const makeLink = (link) => {
+const makeLink = (selection, link, openInNewTab) => {
   // TODO async wait for input
-  let selection = window.getSelection().getRangeAt(0)
+
   let selectedText = selection.extractContents()
   let a = document.createElement('a')
   a.appendChild(selectedText)
+  if (openInNewTab) {
+    a.setAttribute('target', '_blank')
+  }
   a.href = link
   selection.insertNode(a)
 }
@@ -109,6 +109,11 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
   updateBlock,
   blocks,
 }) => {
+  // states for creating links
+  const [linkValue, setLinkValue] = useState('')
+  const [openInNewTab, setOpenInNewTab] = useState(false)
+  const [linkSelection, setLinkSelection] = useState<Range>()
+
   return (
     <Row
       style={{
@@ -253,8 +258,10 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
         <Modal.Trigger>
           <Button
             onClick={() => {
-              makeLink('snurp')
-              updateBlock(focus)
+              let selection = window.getSelection().getRangeAt(0)
+              setLinkSelection(selection)
+              // makeLink('snurp')
+              // updateBlock(focus)
             }}
             size="small"
             light
@@ -266,16 +273,19 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           {({ close }) => (
             <>
               <Modal.Title>Set a link</Modal.Title>
-              <Modal.Description>xx</Modal.Description>
-
               <Modal.Body>
                 <Input
                   type="text"
                   placeholder="https://..."
-                  // value="Apex"
-                  onChange={() => {}}
+                  value={linkValue}
+                  onChange={(v) => setLinkValue(v)}
                 />
-                <Input type="checkbox" title="Open in new window" />
+                <Input
+                  type="checkbox"
+                  title="Open in new window"
+                  value={openInNewTab}
+                  onChange={(v) => setOpenInNewTab(v)}
+                />
               </Modal.Body>
 
               <Modal.Actions>
@@ -284,8 +294,12 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
                 </Button>
                 <Button
                   onClick={() => {
-                    console.log('save the link')
+                    makeLink(linkSelection, linkValue, openInNewTab)
                     close()
+                    // reset these link states
+                    setLinkSelection(null)
+                    setLinkValue('')
+                    setOpenInNewTab(false)
                   }}
                   color="primary"
                 >

@@ -3,6 +3,7 @@ import DOMPurify = require('dompurify')
 import { Style, styled } from 'inlines'
 import { color } from '../../../varsUtilities'
 import { Text } from '../../Text'
+import { useKeyboardShortcut } from '../../../hooks'
 
 type ParagaphBlockProps = {
   data: any
@@ -37,6 +38,17 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
       pRef.current.style.cssText = blockData.style
     }
   }, [pRef.current])
+
+  const enterLineBreak = () => {
+    // fucks sake this works bit weird but ok
+    let selection = window.getSelection().getRangeAt(0)
+    let selectedText = selection.extractContents()
+    let br = document.createElement('br')
+    br.appendChild(selectedText)
+    selection.insertNode(br)
+  }
+
+  useKeyboardShortcut('Shift+Enter', enterLineBreak, pRef)
 
   return (
     <styled.p

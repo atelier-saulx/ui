@@ -37,6 +37,10 @@ const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
     console.log('convert this')
     blocks[idx].type = 'heading'
     blocks[idx].data.level = value
+  } else if (value === 'ordered' || value === 'unordered') {
+    console.log('🦢', value, blocks[idx].data.type)
+
+    blocks[idx].data.type = value
   } else {
     blocks[idx].type = value
   }
@@ -58,6 +62,23 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
   setBlocks,
   updateBlock,
 }) => {
+  console.log('🍄 --> ', blocks[focus])
+
+  const paragraphHeadingOptions = [
+    { value: 'paragraph', label: 'Paragraph' },
+    { value: 'h1', label: 'Heading: H1' },
+    { value: 'h2', label: 'Heading: H2' },
+    { value: 'h3', label: 'Heading: H3' },
+    { value: 'h4', label: 'Heading: H4' },
+    { value: 'h5', label: 'Heading: H5' },
+    { value: 'h6', label: 'Heading: H6' },
+  ]
+
+  const listOptions = [
+    { value: 'unordered', label: 'Unordered List' },
+    { value: 'ordered', label: 'Ordered List' },
+  ]
+
   return (
     <Row
       style={{
@@ -82,23 +103,30 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
           fontSize: '13px',
           padding: '0px 42px 6px 10px',
         }}
+        value={
+          blocks[focus]?.type === 'paragraph'
+            ? blocks[focus]?.type
+            : blocks[focus].data.level
+            ? blocks[focus].data.level
+            : blocks[focus]?.type === 'list'
+            ? blocks[focus].data.type
+            : ''
+        }
         // TODO: change on focus the value or placeholder
         // placeholder={
-        //   blocks[focus]?.type === 'paragraph'
-        //     ? blocks[focus]?.type
-        //     : blocks[focus].data.level
-        //     ? blocks[focus].data.level
-        //     : ''
+        // blocks[focus]?.type === 'paragraph'
+        //   ? blocks[focus]?.type
+        //   : blocks[focus].data.level
+        //   ? blocks[focus].data.level
+        //   : ''
         // }
-        options={[
-          { value: 'paragraph', label: 'Paragraph' },
-          { value: 'h1', label: 'Heading: H1' },
-          { value: 'h2', label: 'Heading: H2' },
-          { value: 'h3', label: 'Heading: H3' },
-          { value: 'h4', label: 'Heading: H4' },
-          { value: 'h5', label: 'Heading: H5' },
-          { value: 'h6', label: 'Heading: H6' },
-        ]}
+        options={
+          blocks[focus]?.type === 'paragraph' || blocks[focus].data.level
+            ? paragraphHeadingOptions
+            : blocks[focus].type === 'list'
+            ? listOptions
+            : []
+        }
         onChange={(v) => {
           convertBlock(focus, blocks, setBlocks, v)
           updateBlock(focus)
