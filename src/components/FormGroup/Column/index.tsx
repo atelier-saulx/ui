@@ -5,6 +5,7 @@ import { getValue, parseData } from '../utils'
 import { FormGroupVariantProps } from '../types'
 import { styled } from 'inlines'
 import { IconClose } from '../../../icons'
+import { Label } from './Label'
 
 export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   onChange,
@@ -42,9 +43,11 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
 
     fields.push(
       <Modal.Root key={d}>
-        <Modal.Trigger>
-          <Button>Open Overlay: {d}</Button>
-        </Modal.Trigger>
+        <Label>
+          <Modal.Trigger>
+            <Button>Open Overlay: {d}</Button>
+          </Modal.Trigger>
+        </Label>
         <Modal.Content>
           {({ close }) => {
             return (
