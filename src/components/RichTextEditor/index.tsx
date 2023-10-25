@@ -59,6 +59,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           type: type,
           data: {
             innerHTML: '',
+            level: type === 'heading' ? 'h1' : undefined,
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
           },
@@ -76,6 +77,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           type: type,
           data: {
             innerHTML: '',
+            level: type === 'heading' ? 'h1' : undefined,
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
           },
@@ -217,6 +219,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 updateBlock={updateBlock}
                 keyDownHandler={keyDownHandler}
                 blocksLength={blocks.length}
+                focus={focus}
                 style={{
                   textAlign: item.data.alignment,
                   borderLeft:
@@ -238,6 +241,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 updateBlock={updateBlock}
                 keyDownHandler={keyDownHandler}
                 blocksLength={blocks.length}
+                focus={focus}
                 style={{
                   borderLeft:
                     focus === idx

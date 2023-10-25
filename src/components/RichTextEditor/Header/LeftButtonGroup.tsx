@@ -47,8 +47,6 @@ const checkForParent = (selection, alignment) => {
 
 const makeTextDefault = () => {
   let selection = window.getSelection().getRangeAt(0)
-  console.log(selection)
-
   if (
     //TODO or color, span color
     selection.commonAncestorContainer.parentElement.localName === 'b' ||
