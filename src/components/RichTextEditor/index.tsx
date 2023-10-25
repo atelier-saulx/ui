@@ -2,7 +2,7 @@ import React, { FC, useRef, useState, useEffect } from 'react'
 import { styled, Style } from 'inlines'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
-import { Header } from './Header'
+import { Header } from './Header/Header'
 import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
 import { Row } from '../Styled'
@@ -11,6 +11,8 @@ import { keyDownHandler } from './utils/keyDownHandler'
 import { Code } from '../Code'
 import { ListBlock } from './Blocks/ListBlock'
 import { Text } from '../Text'
+import { HtmlBlock } from './Blocks/HtmlBlock'
+import { SpaceBlock } from './Blocks/SpaceBlock'
 
 export type RichTextEditorProps = {
   time?: number
@@ -20,9 +22,8 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
-//  - unordered list
+
 //  - ordererd list
-//  - raw html block
 //  - link --> options
 //  - add blocks
 //  - add media
@@ -30,9 +31,11 @@ export type RichTextEditorProps = {
 //  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
-//  - tooltips on text
+//  - tooltips on buttons
 //  - color picker
+//  - make new block autofocus on the new block
 //  shift + enter in blocks -> should add <br> tag
+//  - styling
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   time,
@@ -57,6 +60,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           type: type,
           data: {
             innerHTML: '',
+            items:
+              type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
           },
         },
         ...blocks.slice(focus === 0 ? 1 : focus + 1),
@@ -72,6 +77,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           type: type,
           data: {
             innerHTML: '',
+            items:
+              type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
           },
         },
       ])
@@ -89,8 +96,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       newRef = editorWrapRef.current.childNodes[idx]
     }
 
-    console.log('updated 🤖', newRef.nodeName)
-
+    console.log('updated 🤖 beep boop...', newRef)
+    // update paragraph and headings
     if (
       newRef.nodeName === 'P' ||
       newRef.nodeName === 'H1' ||
@@ -105,18 +112,25 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       blocks[idx].data.alignment = blocks[idx].data.alignment
       blocks[idx].data.style = newRef.cssText
     }
-
+    // update lists
     if (newRef.nodeName === 'UL' || newRef.nodeName === 'OL') {
       blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
       blocks[idx].data.alignment = blocks[idx].data.alignment
-      console.log('this then -> ', blocks[idx].data)
-      console.log(newRef)
+      let listItemsArray = Array.from(newRef.childNodes).map((item, idx) => ({
+        // @ts-ignore
+        innerHTML: item.innerHTML,
+        // @ts-ignore
+        innerText: item.innerText,
+      }))
+      blocks[idx].data.items = listItemsArray
     }
+    /// setBlocks(blocks)
   }
 
   useEffect(() => {
     // use childNodes not children you know because of logic 🤨
     let child = editorWrapRef.current.childNodes[focus] as HTMLElement
+    console.log('child', child, 'focus changed')
     child?.focus()
   }, [focus])
 
@@ -126,7 +140,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   return (
     <styled.div>
-      <Text style={{ border: '1px solid red' }}>Focus: {focus}</Text>
       <Header
         blocks={blocks}
         deleteBlock={deleteBlock}
@@ -156,7 +169,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           '& p': {
             lineHeight: '1.36',
             fontSize: '15px',
-            paddingLeft: '16px',
+            paddingLeft: '13px',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf',
             },
@@ -171,7 +184,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             color: '#0a57d0',
           },
           '& h1, h2, h3, h4, h5, h6': {
-            paddingLeft: '16px',
+            paddingLeft: '13px',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf',
             },
@@ -210,7 +223,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                   borderLeft:
                     focus === idx
                       ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '0px',
+                      : '3px solid transparent',
                 }}
               />
             )
@@ -230,7 +243,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                   borderLeft:
                     focus === idx
                       ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '0px',
+                      : '3px solid transparent',
                 }}
               />
             )
@@ -241,14 +254,46 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 idx={idx}
                 data={item}
                 setFocus={setFocus}
-                makeNewBlock={makeNewBlock}
                 deleteBlock={deleteBlock}
-                updateBlock={updateBlock}
+                blocksLength={blocks.length}
                 style={{
                   borderLeft:
                     focus === idx
                       ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '0px',
+                      : '3px solid transparent',
+                }}
+              />
+            )
+          } else if (item.type === 'html') {
+            return (
+              <HtmlBlock
+                key={idx}
+                idx={idx}
+                data={item}
+                setFocus={setFocus}
+                blocks={blocks}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '3px solid transparent',
+                }}
+              />
+            )
+          } else if (item.type === 'space') {
+            return (
+              <SpaceBlock
+                data={item}
+                key={idx}
+                idx={idx}
+                setFocus={setFocus}
+                focus={focus}
+                blocks={blocks}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '3px solid transparent',
                 }}
               />
             )

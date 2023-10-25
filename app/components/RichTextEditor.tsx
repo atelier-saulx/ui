@@ -30,7 +30,7 @@ const example: ComponentDef = {
               },
             },
             {
-              id: 'zbGZFPM-iI',
+              id: 'xxx',
               type: 'paragraph',
               data: {
                 innerText:
@@ -56,27 +56,28 @@ const example: ComponentDef = {
               type: 'list',
               data: {
                 type: 'unordered',
-                alignment: 'left',
+                //  alignment: 'center',
                 items: [
                   {
                     innerText: 'It is a block-style editor',
                     innerHTML: '<b>It is a </b> block-style editor',
                   },
-                  { innerText: 'snurpie' },
+                  { innerText: 'snurpie', innerHTML: 'snurpie' },
                   {
                     innerText: 'It returns clean data output in JSON',
                     innerHTML: 'It <i>returns</i> clean data output in JSON',
                   },
                 ],
+                // items: ['silly', 'flippling', 'arary'],
               },
             },
-            // {
-            //   id: '8hp7msbRKc',
-            //   type: 'html',
-            //   data: {
-            //     html: '<div>raw html</div>',
-            //   },
-            // },
+            {
+              id: '8hp7msbRKc',
+              type: 'html',
+              data: {
+                innerHTML: '<div>raw html</div>',
+              },
+            },
             // {
             //   id: '8hp7msbRKc',
             //   type: 'image',
@@ -84,14 +85,14 @@ const example: ComponentDef = {
             //     url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlPMlAI4LpTJQHrfUHdxtNSzs7p7kjOG8gejP_dPabUB1fJ-YU_0gjTbXioHSedzb-NGc&usqp=CAU',
             //   },
             // },
-            // {
-            //   id: '8hp7ms433bc',
-            //   type: 'space',
-            //   data: {
-            //     space: 46,
-            //     spaceFormat: 'px',
-            //   },
-            // },
+            {
+              id: '8hp7ms433bc',
+              type: 'space',
+              data: {
+                space: 46,
+                spaceFormat: 'px',
+              },
+            },
           ],
           // version: '2.8.1',
         }

@@ -7,7 +7,7 @@ export const keyDownHandler = (
   type: string,
   blocksLength: number
 ) => {
-  console.log(e.key)
+  // console.log(e.key)
   let selection = window.getSelection()
   if (e.key === 'Enter' && e.key === 'Shift') {
     console.log('shift Enter was pressed')
