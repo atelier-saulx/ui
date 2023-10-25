@@ -14,44 +14,44 @@ const fieldProps = {
     // args: { name: 'asdasd' },
   },
   config: {
-    //   array: {
-    //     type: 'array',
-    //     // value: [
-    //     //   ['1', '2'],
-    //     //   ['3', '4'],
-    //     // ],
+    // array: {
+    //   type: 'array',
+    //   // value: [
+    //   //   ['1', '2'],
+    //   //   ['3', '4'],
+    //   // ],
+    //   values: {
+    //     type: 'set',
     //     values: {
-    //       type: 'set',
-    //       values: {
-    //         type: 'string',
-    //       },
+    //       type: 'string',
     //     },
     //   },
-    object: {
-      type: 'object',
-      description: 'wowoweewow',
-      // value: { flap: true },
-      properties: {
-        flap: {
-          type: 'boolean',
-        },
-        flirp: {
-          type: 'boolean',
-        },
-        snap: {
-          type: 'text',
-        },
-        snop: {
-          type: 'file',
-        },
-        // flop: {
-        //   type: 'object',
-        //   properties: {
-        //     type: 'string',
-        //   },
-        // },
-      },
-    },
+    // },
+    // object: {
+    //   type: 'object',
+    //   description: 'wowoweewow',
+    //   // value: { flap: true },
+    //   properties: {
+    //     flap: {
+    //       type: 'boolean',
+    //     },
+    //     flirp: {
+    //       type: 'boolean',
+    //     },
+    //     snap: {
+    //       type: 'text',
+    //     },
+    //     snop: {
+    //       type: 'file',
+    //     },
+    //     // flop: {
+    //     //   type: 'object',
+    //     //   properties: {
+    //     //     type: 'string',
+    //     //   },
+    //     // },
+    //   },
+    // },
     object2: {
       type: 'object',
       description: 'wowoweewow',
@@ -72,25 +72,25 @@ const fieldProps = {
         flop: {
           type: 'object',
           properties: {
-            flap: {
+            nested1flap: {
               type: 'boolean',
             },
-            snurp: {
+            nested1snurp: {
               type: 'boolean',
             },
-            cod: {
+            nested1cod: {
               type: 'boolean',
             },
-            bla: {
+            nested1bla: {
               type: 'object',
               properties: {
-                flap: {
+                nested2flap: {
                   type: 'boolean',
                 },
-                snurp: {
+                nested2snurp: {
                   type: 'boolean',
                 },
-                cod: {
+                nested2cod: {
                   type: 'boolean',
                 },
               },
@@ -164,22 +164,22 @@ const fieldProps = {
     //     label: 'Boolean',
     //     description: 'Network port',
     //   },
-    'args.name': {
-      label: 'Name',
-      type: 'text',
-      description: 'Instance name',
-      validation: () => (val) => {
-        return val && val.length > 4
-      },
-    },
-    'args.x.y': {
-      label: 'Status',
-      description: 'status time',
-      options: ['good', 'bad', 'medium'],
-      props: {
-        placeholder: 'FLAP',
-      },
-    },
+    // 'args.name': {
+    //   label: 'Name',
+    //   type: 'text',
+    //   description: 'Instance name',
+    //   validation: () => (val) => {
+    //     return val && val.length > 4
+    //   },
+    // },
+    // 'args.x.y': {
+    //   label: 'Status',
+    //   description: 'status time',
+    //   options: ['good', 'bad', 'medium'],
+    //   props: {
+    //     placeholder: 'FLAP',
+    //   },
+    // },
     //   range: {
     //     label: 'Bla',
     //     description: 'hello',
