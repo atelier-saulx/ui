@@ -22,17 +22,13 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
-
 //  - add media
 //  - preview html code
 //  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
-//  - tooltips on buttons
-//  - color picker
 //  - clear text and styles and tags --> also if you select more strip inside tags
-//  - select convert blocks -> based on focused block
-//  - make new block autofocus on the new block
+//  - make new block autofocus on the new block --> list // also if completely empty?
 //  shift + enter at end of block
 //  - styling
 
@@ -59,6 +55,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           type: type,
           data: {
             innerHTML: '',
+            level: type === 'heading' ? 'h1' : undefined,
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
           },
@@ -76,6 +73,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           type: type,
           data: {
             innerHTML: '',
+            level: type === 'heading' ? 'h1' : undefined,
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
           },
@@ -85,6 +83,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   }
 
   const deleteBlock = (idx) => {
+    setFocus(focus > 0 ? focus - 1 : 0)
     const filteredBlocks = blocks.filter((item, id) => id !== idx)
     setBlocks([...filteredBlocks])
   }
@@ -130,7 +129,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   useEffect(() => {
     // use childNodes not children you know because of logic 🤨
     let child = editorWrapRef.current.childNodes[focus] as HTMLElement
-    console.log('child', child, 'focus changed')
     child?.focus()
   }, [focus])
 
@@ -171,7 +169,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             fontSize: '15px',
             paddingLeft: '13px',
             '&:focus-visible': {
-              outline: '0px dashed #bfbfbf',
+              outline: '1px dashed #bfbfbf52',
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Type here..."',
@@ -186,7 +184,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           '& h1, h2, h3, h4, h5, h6': {
             paddingLeft: '13px',
             '&:focus-visible': {
-              outline: '0px dashed #bfbfbf',
+              outline: '1px dashed #bfbfbf52',
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Title here..."',
@@ -200,7 +198,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             lineHeight: '1.36',
             fontSize: '15px',
             '&:focus-visible': {
-              outline: '0px dashed #bfbfbf !important',
+              outline: '1px dashed #bfbfbf52 !important',
             },
           },
         }}
@@ -218,6 +216,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 updateBlock={updateBlock}
                 keyDownHandler={keyDownHandler}
                 blocksLength={blocks.length}
+                focus={focus}
                 style={{
                   textAlign: item.data.alignment,
                   borderLeft:
@@ -239,6 +238,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                 updateBlock={updateBlock}
                 keyDownHandler={keyDownHandler}
                 blocksLength={blocks.length}
+                focus={focus}
                 style={{
                   borderLeft:
                     focus === idx

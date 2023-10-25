@@ -4,6 +4,7 @@ import { Button } from '../../Button'
 import { Row } from '../../Styled'
 import { IconChevronTop, IconChevronDown } from '../../../icons'
 import { Input } from '../..'
+import { Tooltip } from '../..'
 
 const moveBlockUp = (focus, blocks, setBlocks, setFocus) => {
   if (focus !== 0) {
@@ -62,8 +63,6 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
   setBlocks,
   updateBlock,
 }) => {
-  console.log('🍄 --> ', blocks[focus])
-
   const paragraphHeadingOptions = [
     { value: 'paragraph', label: 'Paragraph' },
     { value: 'h1', label: 'Heading: H1' },
@@ -106,10 +105,10 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
         value={
           blocks[focus]?.type === 'paragraph'
             ? blocks[focus]?.type
-            : blocks[focus].data.level
-            ? blocks[focus].data.level
+            : blocks[focus]?.data.level
+            ? blocks[focus]?.data.level
             : blocks[focus]?.type === 'list'
-            ? blocks[focus].data.type
+            ? blocks[focus]?.data.type
             : ''
         }
         // TODO: change on focus the value or placeholder
@@ -121,9 +120,9 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
         //   : ''
         // }
         options={
-          blocks[focus]?.type === 'paragraph' || blocks[focus].data.level
+          blocks[focus]?.type === 'paragraph' || blocks[focus]?.data?.level
             ? paragraphHeadingOptions
-            : blocks[focus].type === 'list'
+            : blocks[focus]?.type === 'list'
             ? listOptions
             : []
         }
@@ -132,26 +131,30 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
           updateBlock(focus)
         }}
       />
-      <Button
-        onClick={() => {
-          moveBlockUp(focus, blocks, setBlocks, setFocus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconChevronTop />}
-      />
-      <Button
-        onClick={() => {
-          moveBlockDown(focus, blocks, setBlocks, setFocus)
-          updateBlock(focus)
-        }}
-        size="small"
-        light
-        color="neutral"
-        icon={<IconChevronDown />}
-      />
+      <Tooltip text="Move Block Up">
+        <Button
+          onClick={() => {
+            moveBlockUp(focus, blocks, setBlocks, setFocus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconChevronTop />}
+        />
+      </Tooltip>
+      <Tooltip text="Move Block Down">
+        <Button
+          onClick={() => {
+            moveBlockDown(focus, blocks, setBlocks, setFocus)
+            updateBlock(focus)
+          }}
+          size="small"
+          light
+          color="neutral"
+          icon={<IconChevronDown />}
+        />
+      </Tooltip>
     </Row>
   )
 }

@@ -15,6 +15,7 @@ type ParagaphBlockProps = {
   updateBlock?: (v, r) => void
   keyDownHandler?: any
   blocksLength?: number
+  focus?: number
 }
 
 export const ParagraphBlock: FC<ParagaphBlockProps> = ({
@@ -27,6 +28,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   updateBlock,
   keyDownHandler,
   blocksLength,
+  focus,
 }) => {
   const blockData = data.data
 
@@ -50,6 +52,12 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
 
   useKeyboardShortcut('Shift+Enter', enterLineBreak, pRef)
 
+  if (!blockData.innerHTML && !blockData.innerText && focus === idx) {
+    setTimeout(() => {
+      pRef.current.focus()
+    }, 50)
+  }
+
   return (
     <styled.p
       style={{
@@ -59,7 +67,9 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
       ref={pRef}
       contentEditable
       suppressContentEditableWarning
-      onFocus={() => setFocus(idx)}
+      onFocus={() => {
+        setFocus(idx)
+      }}
       onInput={() => updateBlock(idx, pRef.current)}
       onKeyDown={(e) => {
         keyDownHandler(

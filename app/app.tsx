@@ -33,6 +33,8 @@ import { BasedLogo } from '../src/icons/BasedLogo'
 
 export const client = based(basedConfig)
 
+// client.call('')
+
 const App = () => {
   const route = useRoute('[component]')
   const component = route.query.component
