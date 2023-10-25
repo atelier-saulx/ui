@@ -196,24 +196,24 @@ const fieldProps = {
       description: 'Write smth',
       type: 'text',
     },
-    //   custom: {
-    //     label: 'Status',
-    //     description: 'status time',
-    //     type:
-    //       () =>
-    //       ({ onChange, value }) => {
-    //         return (
-    //           <Button
-    //             color="system"
-    //             onClick={() => {
-    //               onChange('custom', { x: value.x + 1 })
-    //             }}
-    //           >
-    //             bla {value.x}
-    //           </Button>
-    //         )
-    //       },
-    //   },
+    custom: {
+      label: 'Status',
+      description: 'status time',
+      type:
+        () =>
+        ({ onChange, value }) => {
+          return (
+            <Button
+              color="system"
+              onClick={() => {
+                onChange('custom', { x: value.x + 1 })
+              }}
+            >
+              bla {value.x}
+            </Button>
+          )
+        },
+    },
     isThisNce: {
       label: 'Nice',
       description: 'is it nice?',

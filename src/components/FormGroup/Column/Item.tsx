@@ -72,9 +72,6 @@ export const FormItem: FC<{
   if (multiple && !value && !defaultValue) {
     value = ['']
   }
-  // if (type === 'object' || (type === 'record' && !value && !defaultValue)) {
-  //   value = {}
-  // }
 
   if (typeof type === 'function') {
     return (
@@ -97,19 +94,6 @@ export const FormItem: FC<{
       </Label>
     )
   }
-
-  // const objectArray = [
-  //   ...new Set(
-  //     parsedData
-  //     .map((item) => item.field.split('.')[0])
-  //     .filter((e, i, a) => a.indexOf(e) !== i)
-  //     ),
-  //   ]
-
-  //   for (const d in objectArray) {
-  //     const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)
-  //     console.log(parsedObjArray)
-  //   }
 
   if (options) {
     return (
