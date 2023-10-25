@@ -87,6 +87,7 @@ export type FormGroupVariantProps = {
   alwaysAccept: boolean
   setChanges: (val: boolean) => any
   autoFocus: boolean
+  field?: string
 }
 
 export type LabelProps = {

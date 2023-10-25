@@ -2,21 +2,7 @@ import React, { FC, useMemo, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Label } from './Label'
 import { FormItemProps } from '../types'
-import {
-  Input,
-  Row,
-  Text,
-  Button,
-  Badge,
-  List,
-  Toggle,
-  Code,
-  Modal,
-  FormGroup,
-} from '../..'
-import { IconPlus, IconArrowheadRight, IconClose } from '../../../icons'
-import { color } from '../../../varsUtilities'
-import { parseData } from '../utils'
+import { Input, Row, List, Toggle, Code } from '../..'
 
 // | 'timestamp'
 // | 'string'
@@ -58,9 +44,18 @@ export const FormItem: FC<{
   item,
   width,
 }) => {
+  // if (!label) {
+  //   label = useMemo(
+  //     () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+  //     [field]
+  //   )
+  // }
   if (!label) {
     label = useMemo(
-      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+      () => [
+        field.split('.').slice(-1)[0][0].toUpperCase(),
+        field.split('.').slice(-1)[0].substring(1),
+      ],
       [field]
     )
   }
@@ -72,9 +67,6 @@ export const FormItem: FC<{
   if (multiple && !value && !defaultValue) {
     value = ['']
   }
-  // if (type === 'object' || (type === 'record' && !value && !defaultValue)) {
-  //   value = {}
-  // }
 
   if (typeof type === 'function') {
     return (
@@ -97,19 +89,6 @@ export const FormItem: FC<{
       </Label>
     )
   }
-
-  // const objectArray = [
-  //   ...new Set(
-  //     parsedData
-  //     .map((item) => item.field.split('.')[0])
-  //     .filter((e, i, a) => a.indexOf(e) !== i)
-  //     ),
-  //   ]
-
-  //   for (const d in objectArray) {
-  //     const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)
-  //     console.log(parsedObjArray)
-  //   }
 
   if (options) {
     return (

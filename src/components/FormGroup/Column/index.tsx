@@ -1,5 +1,11 @@
 import React, { FC, ReactNode } from 'react'
-import { Confirmation, Column, Button, Modal } from '../../../components'
+import {
+  Confirmation,
+  Column,
+  Button,
+  Modal,
+  Breadcrumbs,
+} from '../../../components'
 import { FormItem } from './Item'
 import { getValue, parseData } from '../utils'
 import { FormGroupVariantProps } from '../types'
@@ -22,6 +28,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   style,
   confirmationLabel,
   confirmationVariant,
+  field,
 }) => {
   const fields: ReactNode[] = []
   let hasAutoFocus = false
@@ -40,7 +47,6 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
 
   for (const d of objectArray) {
     const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)
-
     fields.push(
       <Modal.Root key={d}>
         <Label>
@@ -62,6 +68,15 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
                     }}
                   >
                     {d}
+
+                    <Breadcrumbs
+                      data={field
+                        ?.split('.')
+                        .reduce(
+                          (acc, curr, i) => ((acc[curr[i]] = curr), acc),
+                          {}
+                        )}
+                    />
                     <Button
                       hideFocusState
                       size="medium"
@@ -80,9 +95,11 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
                 <Modal.Body>
                   {parsedObjArray.map((item) => {
                     if (item.type === 'object') {
+                      console.log(item.field)
                       return (
                         <FormGroupColumn
                           key={item.field}
+                          field={item.field}
                           confirmationVariant="none"
                           autoFocus={autoFocus}
                           onChange={onChange}
