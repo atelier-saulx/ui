@@ -90,46 +90,47 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
                 </Modal.Title>
                 {/* <Modal.Description>{'description'}</Modal.Description> */}
                 <Modal.Body>
-                  {parsedObjArray.map((item) => {
-                    if (item.type === 'object') {
-                      // console.log(item.field)
+                  <styled.div style={{ overflowX: 'hidden' }}>
+                    {parsedObjArray.map((item) => {
+                      if (item.type === 'object') {
+                        // console.log(item.field)
+                        return (
+                          <FormGroupColumn
+                            confirmationVariant="none"
+                            autoFocus={autoFocus}
+                            onChange={onChange}
+                            parsedData={parseData({ [item.field]: item })}
+                            labelWidth={labelWidth}
+                            fieldWidth={fieldWidth}
+                            onChangeField={onChangeField}
+                            style={style}
+                            hasChanges={hasChanges}
+                            valuesChanged={valuesChanged}
+                            values={values}
+                            setChanges={setChanges}
+                            alwaysAccept={alwaysAccept}
+                          />
+                        )
+                      }
                       return (
-                        <FormGroupColumn
-                          confirmationLabel={confirmationLabel}
-                          confirmationVariant={confirmationVariant}
-                          autoFocus={autoFocus}
-                          onChange={onChange}
-                          parsedData={parseData({ [item.field]: item })}
-                          labelWidth={labelWidth}
+                        <FormItem
+                          autoFocus={!hasAutoFocus && autoFocus}
                           fieldWidth={fieldWidth}
-                          onChangeField={onChangeField}
-                          style={style}
-                          hasChanges={hasChanges}
-                          valuesChanged={valuesChanged}
-                          values={values}
-                          setChanges={setChanges}
-                          alwaysAccept={alwaysAccept}
+                          width={labelWidth}
+                          key={item.field}
+                          item={item}
+                          onChange={onChangeField}
+                          value={
+                            hasChanges
+                              ? getValue(item.field, valuesChanged.current) ??
+                                item.value ??
+                                getValue(item.field, values)
+                              : item.value ?? getValue(item.field, values)
+                          }
                         />
                       )
-                    }
-                    return (
-                      <FormItem
-                        autoFocus={!hasAutoFocus && autoFocus}
-                        fieldWidth={fieldWidth}
-                        width={labelWidth}
-                        key={item.field}
-                        item={item}
-                        onChange={onChangeField}
-                        value={
-                          hasChanges
-                            ? getValue(item.field, valuesChanged.current) ??
-                              item.value ??
-                              getValue(item.field, values)
-                            : item.value ?? getValue(item.field, values)
-                        }
-                      />
-                    )
-                  })}
+                    })}
+                  </styled.div>
                 </Modal.Body>
                 <Modal.Actions>
                   <Button onClick={close}>Close</Button>
@@ -173,21 +174,23 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
       }}
     >
       {fields}
-      {alwaysAccept || !hasChanges ? null : (
-        <Confirmation
-          label={confirmationLabel}
-          variant={confirmationVariant}
-          onCancel={() => {
-            valuesChanged.current = {}
-            setChanges(false)
-          }}
-          onConfirm={async () => {
-            await onChange(valuesChanged.current)
-            valuesChanged.current = {}
-            setChanges(false)
-          }}
-        />
-      )}
+      {alwaysAccept || !hasChanges
+        ? null
+        : confirmationVariant !== 'none' && (
+            <Confirmation
+              label={confirmationLabel}
+              variant={confirmationVariant}
+              onCancel={() => {
+                valuesChanged.current = {}
+                setChanges(false)
+              }}
+              onConfirm={async () => {
+                await onChange(valuesChanged.current)
+                valuesChanged.current = {}
+                setChanges(false)
+              }}
+            />
+          )}
     </Column>
   )
 }
