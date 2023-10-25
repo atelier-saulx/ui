@@ -22,7 +22,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@based/client": "^4.7.6",
+    "@based/client": "^4.8.8",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.1.2",
     "@based/react": "^4.4.0",
