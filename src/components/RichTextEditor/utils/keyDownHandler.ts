@@ -9,9 +9,7 @@ export const keyDownHandler = (
 ) => {
   // console.log(e.key)
   let selection = window.getSelection()
-  if (e.key === 'Enter' && e.key === 'Shift') {
-    console.log('shift Enter was pressed')
-  }
+
   if (e.key === 'Enter') {
     e.preventDefault()
     // @ts-ignore
@@ -40,7 +38,6 @@ export const keyDownHandler = (
     }
   }
   if (e.key === 'ArrowUp') {
-    console.log('newAFEAF selection??', selection)
     if (selection.anchorOffset === 0) {
       setFocus(idx > 0 ? idx - 1 : 0)
 
