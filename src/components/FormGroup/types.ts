@@ -74,7 +74,7 @@ export type OnChangeField = (field: string, value: any) => void
 
 export type FormGroupVariantProps = {
   confirmationLabel?: ReactNode
-  confirmationVariant?: 'buttons' | 'icons'
+  confirmationVariant?: 'buttons' | 'icons' | 'none'
   onChange: onChange
   parsedData: FormItemProps[]
   fieldWidth: number

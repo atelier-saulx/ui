@@ -56,10 +56,10 @@ export const equalChanges = (
 
 export const parseData = (properties) => {
   let parsedData: FormItemProps[]
-
   if (!Array.isArray(properties)) {
     parsedData = []
     for (const field in properties) {
+      console.log(field)
       const item = properties[field]
       if (item === null) {
         continue
@@ -68,11 +68,18 @@ export const parseData = (properties) => {
         const obj = item as { properties: { key: string } }
         if (obj?.properties) {
           for (const i in obj?.properties) {
-            if (obj.properties[i].properties) {
-              parseData(obj.properties[i].properties)
-            } else {
-              parsedData.push({ ...obj.properties[i], field: field + '.' + i })
-            }
+            const nested = obj?.properties[i].properties
+            // if (nested) {
+            //   for (const j in nested) {
+            //     console.log(field, i, j, nested[j])
+            //     parsedData.push({
+            //       ...obj.properties[i],
+            //       field: field + '.' + i + ',' + j,
+            //     })
+            //   }
+            // }
+            // console.log({ ...obj.properties[i], field: field + '.' + i })
+            parsedData.push({ ...obj.properties[i], field: field + '.' + i })
           }
         } else {
           /* @ts-ignore FIX THIS TYPE */

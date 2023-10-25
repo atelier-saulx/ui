@@ -98,7 +98,30 @@ export const FormItem: FC<{
     )
   }
 
+  // const objectArray = [
+  //   ...new Set(
+  //     parsedData
+  //     .map((item) => item.field.split('.')[0])
+  //     .filter((e, i, a) => a.indexOf(e) !== i)
+  //     ),
+  //   ]
+
+  //   for (const d in objectArray) {
+  //     const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)
+  //     console.log(parsedObjArray)
+  //   }
+
   if (type === 'object') {
+    const parsedData = parseData(item)
+    const objectArray = [
+      ...new Set(
+        parsedData
+          .map((item) => item.field.split('.')[0])
+          .filter((e, i, a) => a.indexOf(e) !== i)
+      ),
+    ]
+    // console.log(objectArray)
+
     return (
       <Modal.Root>
         <Modal.Trigger>
@@ -135,7 +158,7 @@ export const FormItem: FC<{
                 </Modal.Title>
                 <Modal.Description>{description}</Modal.Description>
                 <Modal.Body>
-                  {parseData(properties).map((item) => {
+                  {/* {parseData(properties).map((item) => {
                     // if (item.type === 'object')
                     return (
                       <FormItem
@@ -148,7 +171,7 @@ export const FormItem: FC<{
                         value={value}
                       />
                     )
-                  })}
+                  })} */}
                 </Modal.Body>
                 <Modal.Actions>
                   <Button onClick={close}>Close</Button>

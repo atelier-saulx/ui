@@ -11,7 +11,7 @@ import {
   FormGroup,
 } from '../../../components'
 import { FormItem } from './Item'
-import { getValue } from '../utils'
+import { getValue, parseData } from '../utils'
 import { FormGroupVariantProps } from '../types'
 import { styled } from 'inlines'
 import { IconClose } from '../../../icons'
@@ -35,6 +35,8 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   const fields: ReactNode[] = []
   let hasAutoFocus = false
 
+  // console.log(parsedData)
+
   const objectArray = [
     ...new Set(
       parsedData
@@ -42,6 +44,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
         .filter((e, i, a) => a.indexOf(e) !== i)
     ),
   ]
+  // console.log(objectArray)
 
   const filteredArray = parsedData.filter(
     (item) => !objectArray.includes(item.field.split('.')[0])
@@ -49,12 +52,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
 
   for (const d of objectArray) {
     const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)
-
-    // const obj = parsedObjArray.reduce(
-    //   (a, v) => ({ ...a, [v.field.split('.')[1]]: v }),
-    //   {}
-    // )
-    // // console.log(obj)
+    // console.log(parsedObjArray)
 
     fields.push(
       <Modal.Root key={d}>
@@ -92,26 +90,47 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
                 </Modal.Title>
                 {/* <Modal.Description>{'description'}</Modal.Description> */}
                 <Modal.Body>
-                  {parsedObjArray.map((item) => {
-                    // if (item.type === 'object')
-                    return (
-                      <FormItem
-                        autoFocus={!hasAutoFocus && autoFocus}
-                        fieldWidth={fieldWidth}
-                        width={labelWidth}
-                        key={item.field}
-                        item={item}
-                        onChange={onChangeField}
-                        value={
-                          hasChanges
-                            ? getValue(item.field, valuesChanged.current) ??
-                              item.value ??
-                              getValue(item.field, values)
-                            : item.value ?? getValue(item.field, values)
-                        }
-                      />
-                    )
-                  })}
+                  <styled.div style={{ overflowX: 'hidden' }}>
+                    {parsedObjArray.map((item) => {
+                      if (item.type === 'object') {
+                        // console.log(item.field)
+                        return (
+                          <FormGroupColumn
+                            confirmationVariant="none"
+                            autoFocus={autoFocus}
+                            onChange={onChange}
+                            parsedData={parseData({ [item.field]: item })}
+                            labelWidth={labelWidth}
+                            fieldWidth={fieldWidth}
+                            onChangeField={onChangeField}
+                            style={style}
+                            hasChanges={hasChanges}
+                            valuesChanged={valuesChanged}
+                            values={values}
+                            setChanges={setChanges}
+                            alwaysAccept={alwaysAccept}
+                          />
+                        )
+                      }
+                      return (
+                        <FormItem
+                          autoFocus={!hasAutoFocus && autoFocus}
+                          fieldWidth={fieldWidth}
+                          width={labelWidth}
+                          key={item.field}
+                          item={item}
+                          onChange={onChangeField}
+                          value={
+                            hasChanges
+                              ? getValue(item.field, valuesChanged.current) ??
+                                item.value ??
+                                getValue(item.field, values)
+                              : item.value ?? getValue(item.field, values)
+                          }
+                        />
+                      )
+                    })}
+                  </styled.div>
                 </Modal.Body>
                 <Modal.Actions>
                   <Button onClick={close}>Close</Button>
@@ -155,21 +174,23 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
       }}
     >
       {fields}
-      {alwaysAccept || !hasChanges ? null : (
-        <Confirmation
-          label={confirmationLabel}
-          variant={confirmationVariant}
-          onCancel={() => {
-            valuesChanged.current = {}
-            setChanges(false)
-          }}
-          onConfirm={async () => {
-            await onChange(valuesChanged.current)
-            valuesChanged.current = {}
-            setChanges(false)
-          }}
-        />
-      )}
+      {alwaysAccept || !hasChanges
+        ? null
+        : confirmationVariant !== 'none' && (
+            <Confirmation
+              label={confirmationLabel}
+              variant={confirmationVariant}
+              onCancel={() => {
+                valuesChanged.current = {}
+                setChanges(false)
+              }}
+              onConfirm={async () => {
+                await onChange(valuesChanged.current)
+                valuesChanged.current = {}
+                setChanges(false)
+              }}
+            />
+          )}
     </Column>
   )
 }
