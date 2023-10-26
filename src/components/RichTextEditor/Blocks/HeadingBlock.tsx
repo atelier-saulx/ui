@@ -50,6 +50,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
 
   return blockData.level === 'h1' ? (
     <h1
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -75,6 +76,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h2' ? (
     <h2
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -100,6 +102,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h3' ? (
     <h3
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -125,6 +128,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h4' ? (
     <h4
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -150,6 +154,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h5' ? (
     <h5
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -175,6 +180,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h6' ? (
     <h6
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -200,6 +206,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : (
     <h1
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable

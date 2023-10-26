@@ -9,6 +9,7 @@ type ListBlockProps = {
   setFocus?: (v) => void
   style?: Style
   blocksLength?: number
+  focus?: number
 }
 
 const listKeyHandler = (
@@ -80,15 +81,24 @@ export const ListBlock: FC<ListBlockProps> = ({
   setFocus,
   style,
   blocksLength,
+  focus,
 }) => {
   const blockData = data.data
 
-  const listRef = useRef()
+  const listRef = useRef<HTMLParagraphElement>()
+
+  // on new block puts focus in first caret place
+  if (!blockData.innerHTML && !blockData.innerText && focus === idx) {
+    setTimeout(() => {
+      listRef.current.focus()
+    }, 50)
+  }
 
   // dont call updateBlocks from inside this component !
 
   return blockData.type === 'unordered' ? (
     <styled.ul
+      id={data.id}
       ref={listRef}
       contentEditable
       suppressContentEditableWarning
@@ -124,6 +134,7 @@ export const ListBlock: FC<ListBlockProps> = ({
     </styled.ul>
   ) : (
     <styled.ol
+      id={data.id}
       ref={listRef}
       contentEditable
       suppressContentEditableWarning

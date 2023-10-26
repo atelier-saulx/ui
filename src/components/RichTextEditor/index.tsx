@@ -13,6 +13,8 @@ import { ListBlock } from './Blocks/ListBlock'
 import { Text } from '../Text'
 import { HtmlBlock } from './Blocks/HtmlBlock'
 import { SpaceBlock } from './Blocks/SpaceBlock'
+import { nodeToJson } from './utils/nodesToJson'
+import { RawHtmlBlock } from './Blocks/RawHtmlBlock'
 
 export type RichTextEditorProps = {
   time?: number
@@ -23,14 +25,14 @@ export type RichTextEditorProps = {
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
 //  - add media
-//  - preview html code
 //  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
 //  - clear text and styles and tags --> also if you select more strip inside tags
-//  - make new block autofocus on the new block --> list // also if completely empty?
-//  shift + enter at end of block
+// -  shift + enter at end of block
 //  - styling
+//  - backgroundcolor save to blocks -> if you change focus it removes now
+// - dont apply bold, color , italic if selection is empty
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   time,
@@ -41,7 +43,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
-  const [html, setHtml] = useState<string>('')
+  const [htmlView, setHtmlView] = useState<boolean>(false)
 
   let childnodes = editorWrapRef?.current?.childNodes
 
@@ -58,6 +60,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             level: type === 'heading' ? 'h1' : undefined,
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
+            type: type === 'list' ? 'unordered' : undefined,
           },
         },
         ...blocks.slice(focus === 0 ? 1 : focus + 1),
@@ -146,6 +149,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         setBlocks={setBlocks}
         setFocus={setFocus}
         updateBlock={updateBlock}
+        setHtmlView={setHtmlView}
       />
       <styled.div
         id="editor"
@@ -162,6 +166,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             'neutralNormal',
             'default'
           )}`,
+          minWidth: 680,
           marginTop: 8,
           marginBottom: 16,
           '& p': {
@@ -203,139 +208,127 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           },
         }}
       >
-        {blocks.map((item, idx) => {
-          if (item.type === 'paragraph') {
-            return (
-              <ParagraphBlock
-                key={idx}
-                idx={idx}
-                data={item}
-                setFocus={setFocus}
-                makeNewBlock={makeNewBlock}
-                deleteBlock={deleteBlock}
-                updateBlock={updateBlock}
-                keyDownHandler={keyDownHandler}
-                blocksLength={blocks.length}
-                focus={focus}
-                style={{
-                  textAlign: item.data.alignment,
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            )
-          } else if (item.type === 'heading') {
-            return (
-              <HeadingBlock
-                key={idx}
-                data={item}
-                idx={idx}
-                setFocus={setFocus}
-                makeNewBlock={makeNewBlock}
-                deleteBlock={deleteBlock}
-                updateBlock={updateBlock}
-                keyDownHandler={keyDownHandler}
-                blocksLength={blocks.length}
-                focus={focus}
-                style={{
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            )
-          } else if (item.type === 'list') {
-            return (
-              <ListBlock
-                key={idx}
-                idx={idx}
-                data={item}
-                setFocus={setFocus}
-                deleteBlock={deleteBlock}
-                blocksLength={blocks.length}
-                style={{
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            )
-          } else if (item.type === 'html') {
-            return (
-              <HtmlBlock
-                key={idx}
-                idx={idx}
-                data={item}
-                setFocus={setFocus}
-                blocks={blocks}
-                style={{
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            )
-          } else if (item.type === 'space') {
-            return (
-              <SpaceBlock
-                data={item}
-                key={idx}
-                idx={idx}
-                setFocus={setFocus}
-                focus={focus}
-                blocks={blocks}
-                style={{
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            )
-          }
-        })}
+        {!htmlView ? (
+          blocks.map((item, idx) => {
+            if (item.type === 'paragraph') {
+              return (
+                <ParagraphBlock
+                  key={idx}
+                  idx={idx}
+                  data={item}
+                  setFocus={setFocus}
+                  makeNewBlock={makeNewBlock}
+                  deleteBlock={deleteBlock}
+                  updateBlock={updateBlock}
+                  keyDownHandler={keyDownHandler}
+                  blocksLength={blocks.length}
+                  focus={focus}
+                  style={{
+                    textAlign: item.data.alignment,
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            } else if (item.type === 'heading') {
+              return (
+                <HeadingBlock
+                  key={idx}
+                  data={item}
+                  idx={idx}
+                  setFocus={setFocus}
+                  makeNewBlock={makeNewBlock}
+                  deleteBlock={deleteBlock}
+                  updateBlock={updateBlock}
+                  keyDownHandler={keyDownHandler}
+                  blocksLength={blocks.length}
+                  focus={focus}
+                  style={{
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            } else if (item.type === 'list') {
+              return (
+                <ListBlock
+                  key={idx}
+                  idx={idx}
+                  data={item}
+                  setFocus={setFocus}
+                  deleteBlock={deleteBlock}
+                  blocksLength={blocks.length}
+                  focus={focus}
+                  style={{
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            } else if (item.type === 'html') {
+              return (
+                <HtmlBlock
+                  key={idx}
+                  idx={idx}
+                  data={item}
+                  setFocus={setFocus}
+                  blocks={blocks}
+                  focus={focus}
+                  style={{
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            } else if (item.type === 'space') {
+              return (
+                <SpaceBlock
+                  data={item}
+                  key={idx}
+                  idx={idx}
+                  setFocus={setFocus}
+                  focus={focus}
+                  blocks={blocks}
+                  style={{
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            }
+          })
+        ) : (
+          // html view
+          <styled.div>
+            {blocks.map((item, idx) => (
+              <RawHtmlBlock data={item} key={idx} />
+            ))}
+          </styled.div>
+        )}
       </styled.div>
       <Button
         onClick={() => {
           // get all html nodes inside the ref
-          let snork = editorWrapRef.current.children
-          console.log(snork, '📌 -> now here you save the blocks')
-
-          let htmlString = Array.prototype.reduce.call(
-            childnodes,
-            function (html, node) {
-              return html + (node.outerHTML || node.nodeValue)
-            },
-            ''
-          )
-
-          setHtml(htmlString)
-          console.log('as html -->', htmlString)
+          let nodes = editorWrapRef.current.children
 
           // TODO: for each childnode make an object
-          // [
-          //   {
-          //     id: 'par-blha',
-          //     type:'paragraph'
-          //     data: {
-          //       innerHTML: '',
-          //       innerText: '',
-          //       style: 'css',
-          //       alignment: 'left',
-          //     }
-          //   }
-          // ]
+          //  nodeToJson(nodes)
+
+          setBlocks(nodeToJson(nodes))
         }}
       >
         log output
       </Button>
-
-      <Code language="html" value={html} />
     </styled.div>
   )
 }

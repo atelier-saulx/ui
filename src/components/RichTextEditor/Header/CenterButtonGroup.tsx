@@ -39,8 +39,6 @@ const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
     blocks[idx].type = 'heading'
     blocks[idx].data.level = value
   } else if (value === 'ordered' || value === 'unordered') {
-    console.log('🦢', value, blocks[idx].data.type)
-
     blocks[idx].data.type = value
   } else {
     blocks[idx].type = value
