@@ -15,6 +15,7 @@ import { HtmlBlock } from './Blocks/HtmlBlock'
 import { SpaceBlock } from './Blocks/SpaceBlock'
 import { nodeToJson } from './utils/nodesToJson'
 import { RawHtmlBlock } from './Blocks/RawHtmlBlock'
+import { htmlNodesToJson } from './utils/htmlNodesToJson'
 
 export type RichTextEditorProps = {
   time?: number
@@ -28,11 +29,11 @@ export type RichTextEditorProps = {
 //  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
-//  - clear text and styles and tags --> also if you select more strip inside tags
 // -  shift + enter at end of block
 //  - styling
 //  - backgroundcolor save to blocks -> if you change focus it removes now
 // - dont apply bold, color , italic if selection is empty
+// - duplicate a block
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   time,
@@ -44,8 +45,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
   const [htmlView, setHtmlView] = useState<boolean>(false)
-
-  let childnodes = editorWrapRef?.current?.childNodes
 
   const makeNewBlock = (type, focus) => {
     if (focus || focus === 0) {
@@ -311,24 +310,45 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           // html view
           <styled.div>
             {blocks.map((item, idx) => (
-              <RawHtmlBlock data={item} key={idx} />
+              <RawHtmlBlock
+                idx={idx}
+                data={item}
+                blocks={blocks}
+                setFocus={setFocus}
+                focus={focus}
+                key={idx}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '3px solid transparent',
+                }}
+              />
             ))}
           </styled.div>
         )}
       </styled.div>
-      <Button
-        onClick={() => {
-          // get all html nodes inside the ref
-          let nodes = editorWrapRef.current.children
-
-          // TODO: for each childnode make an object
-          //  nodeToJson(nodes)
-
-          setBlocks(nodeToJson(nodes))
-        }}
-      >
-        log output
-      </Button>
+      {!htmlView ? (
+        <Button
+          onClick={() => {
+            let nodes = editorWrapRef.current.children
+            setBlocks(nodeToJson(nodes))
+          }}
+        >
+          log output
+        </Button>
+      ) : (
+        <Button
+          color="system"
+          onClick={() => {
+            let childrenNodes = editorWrapRef.current.children[0].children
+            setBlocks(htmlNodesToJson(childrenNodes))
+            // todo set to blocks
+          }}
+        >
+          HTML TO BLOCKS
+        </Button>
+      )}
     </styled.div>
   )
 }

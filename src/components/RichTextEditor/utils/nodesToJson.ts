@@ -8,7 +8,7 @@ export const nodeToJson = (nodes) => {
   console.log(nodes)
 
   for (let item of nodes) {
-    let type, data, innerHTML, innerText, alignment, level, obj
+    let type, obj
 
     // 1. first determine type and let's make objects based of that
     if (
