@@ -65,11 +65,13 @@ export const List: FC<{
   const [prevValue, setValue] = useState(value)
 
   if (Object.keys(value).length > 0 && !Array.isArray(value)) {
+    console.log(true)
     const newVal = Object.values(value)
     const key = parseInt(Object.keys(value)[0])
     const newValue = [...prevValue]
     newValue[key] = newVal[0]
-    value = newValue
+    value = Object.values(newValue)
+    onChange(field, value)
   }
 
   const thingy = () => {}
