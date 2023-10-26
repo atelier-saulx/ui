@@ -1,6 +1,7 @@
 // input html nodes
 
-// TODO: gen Id -> or pass Ids
+// TODO: gen Id -> or pass Ids --> pass ids to keep them the same
+// TODO: styling and or classes , think about it.
 
 export const nodeToJson = (nodes) => {
   let arrOfobjects = []
@@ -21,6 +22,10 @@ export const nodeToJson = (nodes) => {
       type = 'heading'
     } else if (item.localName === 'p') {
       type = 'paragraph'
+    } else if (item.localName === 'ol' || item.localName === 'ul') {
+      type = 'list'
+    } else if (item.className === 'spacing') {
+      type = 'space'
     }
 
     // 2. objects based on type
@@ -36,7 +41,7 @@ export const nodeToJson = (nodes) => {
         },
       }
 
-      console.log('to be pushed HEAD->', obj)
+      arrOfobjects.push(obj)
     } else if (type === 'paragraph') {
       obj = {
         id: 'slork',
@@ -48,7 +53,42 @@ export const nodeToJson = (nodes) => {
         },
       }
 
-      console.log('to be pushed PAragraph->', obj)
+      arrOfobjects.push(obj)
+    } else if (type === 'list') {
+      let itemsArr = []
+      Array.from(item.children).map((listitem: HTMLLIElement) => {
+        itemsArr.push({
+          innerHTML: listitem.innerHTML,
+          innerText: listitem.innerText,
+        })
+      })
+
+      obj = {
+        id: 'slist',
+        type: type,
+        data: {
+          type: item.localName === 'ul' ? 'unordered' : 'ordered',
+          alignment: item.style.textAlign,
+          items: itemsArr,
+        },
+      }
+      arrOfobjects.push(obj)
+    } else if (type === 'space') {
+      console.log('space -->: ', item.firstChild)
+
+      let str = item.firstChild.style.height
+      str = str.substring(str.length - 2, str.length)
+
+      obj = {
+        id: 'spiaafe',
+        type: type,
+        data: {
+          space: item.firstChild.style.height.slice(0, -2),
+          spaceFormat: str,
+        },
+      }
+
+      arrOfobjects.push(obj)
     }
 
     // create objects based on localName
@@ -56,5 +96,6 @@ export const nodeToJson = (nodes) => {
     // push to arr
   }
 
+  console.log('OUTPUT --> ', arrOfobjects)
   return null
 }

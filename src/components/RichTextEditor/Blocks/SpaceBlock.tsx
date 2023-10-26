@@ -45,6 +45,7 @@ export const SpaceBlock: FC<SpaceBlockProps> = ({
     <Row
       style={{ paddingLeft: 13, marginBottom: 12, ...style }}
       onClick={() => setFocus(idx)}
+      className="spacing"
     >
       <styled.div
         style={{
@@ -75,13 +76,17 @@ export const SpaceBlock: FC<SpaceBlockProps> = ({
         />
         <Input
           style={{ maxWidth: 46 }}
-          type="text"
+          type="select"
           value={spaceFormat}
           onChange={(v) => {
             setSpaceFormat(v)
             blocks[idx].data.spaceFormat = v
           }}
-          onFocus={() => setFocus(idx)}
+          options={[
+            { value: 'px', label: 'px' },
+            { value: 'vh', label: 'vh' },
+            { value: 'em', label: 'em' },
+          ]}
         />
       </Row>
     </Row>
