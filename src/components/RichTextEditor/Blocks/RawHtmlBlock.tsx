@@ -5,12 +5,13 @@ import { Code } from '../../Code'
 export const RawHtmlBlock = (data) => {
   console.log('Raw Science bithc', data)
 
-  let str, style
+  let str
+  let style = ''
 
   let level = data.data.data.level
-  let innerHTHML = data.data.data.innerHTML
+  let innerHTHML = data.data.data.innerHTML || data.data.data.innerText
   let alignment = data.data.data.alignment
-
+  let listType = data.data.data.type
   let space = data.data.data.space
   let spaceFormat = data.data.data.spaceFormat
 
@@ -31,15 +32,30 @@ export const RawHtmlBlock = (data) => {
   }
 
   if (data.data.type === 'list') {
+    let listItems = data.data.data.items
+      .map((item) => `\t<li>${item.innerHTML || item.innerText}</li>\n`)
+      .join(' ')
+
+    if (alignment) {
+      style = ` style="text-align:${alignment}"`
+    }
+
+    str = `<${listType === 'unordered' ? 'ul' : 'ol'}${style}>\n${listItems}</${
+      listType === 'unordered' ? 'ul' : 'ol'
+    }>`
   }
 
   if (data.data.type === 'space') {
     str = `<div class="spacing" style="height:${space}${spaceFormat}" />`
   }
 
+  if (data.data.type === 'html') {
+    str = innerHTHML
+  }
+
   return (
     <Code
-      style={{ border: '1px solid #f6f6f6', padding: '0px 6px' }}
+      style={{ borderBottom: '1px dashed #bfbfbf52', padding: '0px 6px' }}
       value={str}
       language="html"
     />
