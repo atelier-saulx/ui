@@ -1,63 +1,82 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Code } from '../../Code'
+import { color } from '../../../varsUtilities'
 
 // html block for htlm view !
-export const RawHtmlBlock = (data) => {
-  console.log('Raw Science bithc', data)
+export const RawHtmlBlock = ({ data, blocks, setFocus, focus, idx, style }) => {
+  //   console.log('Raw Science bithc', data)
+
+  const [htmlString, setHtmlString] = useState('')
 
   let str
-  let style = ''
+  let blockStyle = ''
 
-  let level = data.data.data.level
-  let innerHTHML = data.data.data.innerHTML || data.data.data.innerText
-  let alignment = data.data.data.alignment
-  let listType = data.data.data.type
-  let space = data.data.data.space
-  let spaceFormat = data.data.data.spaceFormat
+  let level = data.data.level
+  let innerHTML = data.data.innerHTML || data.data.innerText
+  let alignment = data.data.alignment
+  let listType = data.data.type
+  let space = data.data.space
+  let spaceFormat = data.data.spaceFormat
 
-  if (data.data.type === 'heading') {
+  if (data.type === 'heading') {
     if (alignment) {
-      style = ` style="text-align:${alignment}"`
+      blockStyle = ` style="text-align:${alignment}"`
     }
 
-    str = `<${level}${style}>${innerHTHML}</${level}>`
+    str = `<${level}${blockStyle}>${innerHTML}</${level}>`
   }
 
-  if (data.data.type === 'paragraph') {
+  if (data.type === 'paragraph') {
     if (alignment) {
-      style = ` style="text-align:${alignment}"`
+      blockStyle = ` style="text-align:${alignment}"`
     }
 
-    str = `<p${style}>${innerHTHML}</p>`
+    str = `<p${blockStyle}>${innerHTML}</p>`
   }
 
-  if (data.data.type === 'list') {
-    let listItems = data.data.data.items
+  if (data.type === 'list') {
+    let listItems = data.data.items
       .map((item) => `\t<li>${item.innerHTML || item.innerText}</li>\n`)
       .join(' ')
 
     if (alignment) {
-      style = ` style="text-align:${alignment}"`
+      blockStyle = ` style="text-align:${alignment}"`
     }
 
-    str = `<${listType === 'unordered' ? 'ul' : 'ol'}${style}>\n${listItems}</${
+    str = `<${
       listType === 'unordered' ? 'ul' : 'ol'
-    }>`
+    }${blockStyle}>\n${listItems}</${listType === 'unordered' ? 'ul' : 'ol'}>`
   }
 
-  if (data.data.type === 'space') {
+  if (data.type === 'space') {
     str = `<div class="spacing" style="height:${space}${spaceFormat}" />`
   }
 
-  if (data.data.type === 'html') {
-    str = innerHTHML
+  if (data.type === 'html') {
+    str = innerHTML
   }
 
+  useEffect(() => {
+    setHtmlString(str)
+  }, [])
+
   return (
-    <Code
-      style={{ borderBottom: '1px dashed #bfbfbf52', padding: '0px 6px' }}
-      value={str}
-      language="html"
-    />
+    <div onFocus={() => setFocus(idx)} id={data.id}>
+      <Code
+        style={{
+          borderBottom: '1px dashed #bfbfbf52',
+          padding: '0px 6px',
+          ...style,
+        }}
+        value={htmlString}
+        onChange={(v) => {
+          setHtmlString(v)
+
+          //   blocks[idx].innerHTML = v
+          //   console.log('blocks??', blocks)
+        }}
+        language="html"
+      />
+    </div>
   )
 }
