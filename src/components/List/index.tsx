@@ -7,6 +7,10 @@ import { FormItemProps } from '../FormGroup/types'
 import { FormItem } from '../FormGroup/Column/Item'
 import { setValue } from '../FormGroup/utils'
 
+function getKeyByValue(object, value) {
+  return Object.keys(object).find((key) => object[key] === value)
+}
+
 const NewInput = ({ index, setOpen, v, type, value, field, onChange }) => {
   return (
     <Input
@@ -59,11 +63,13 @@ export const List: FC<{
 }) => {
   const [open, setOpen] = useState(false)
   const [prevValue, setValue] = useState(value)
-  // useEffect(() => {}, [value])
+
   if (Object.keys(value).length > 0 && !Array.isArray(value)) {
-    value = [...prevValue, value[0]]
-    value.pop()
-    onChange(field, value)
+    const newVal = Object.values(value)
+    const key = parseInt(Object.keys(value)[0])
+    const newValue = [...prevValue]
+    newValue[key] = newVal[0]
+    value = newValue
   }
 
   const thingy = () => {}

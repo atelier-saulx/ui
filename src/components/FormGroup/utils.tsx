@@ -28,7 +28,6 @@ export const setValue = (
 
   v[path[path.length - 1]] = value
   if (Object.keys(values).length > 0 && !Array.isArray(values)) {
-    console.log('trueeeeeee')
     //lets do smth here if
   }
 }
