@@ -2,7 +2,6 @@
 // output should be [{ jsons objects }]
 
 export const htmlNodesToJson = (childNodes) => {
-  // console.log('🌴', childNodes)
   let arrOfobjects = []
 
   for (let item of childNodes) {
@@ -10,17 +9,11 @@ export const htmlNodesToJson = (childNodes) => {
 
     // 1. determine type first
     str = item.innerText
-    // console.log('str', str)
 
     let testDiv: HTMLElement = document.createElement('div')
-
     testDiv.innerHTML = str
 
-    // let parsedString = new DOMParser().parseFromString(str, 'text/html')
-
     let htmlNodeDiv = testDiv.firstChild as HTMLDivElement
-
-    console.log(htmlNodeDiv, '💧')
 
     if (
       htmlNodeDiv.localName === 'h1' ||
@@ -72,6 +65,29 @@ export const htmlNodesToJson = (childNodes) => {
 
       arrOfobjects.push(obj)
     } else if (type === 'list') {
+      let listItems = []
+
+      console.log(htmlNodeDiv.childNodes)
+
+      Array.from(htmlNodeDiv.childNodes)
+        .filter((item: HTMLLIElement) => item.innerHTML)
+        .map((item: HTMLLIElement) => {
+          listItems.push({
+            innerHTML: item.innerHTML,
+            innerText: item.innerText,
+          })
+        })
+
+      obj = {
+        id: item.id,
+        type: type,
+        data: {
+          type: htmlNodeDiv.localName === 'ul' ? 'unordered' : 'ordered',
+          alignment: htmlNodeDiv.style.textAlign,
+          items: listItems,
+        },
+      }
+      arrOfobjects.push(obj)
     } else if (type === 'space') {
       let x = htmlNodeDiv.style.height
       x = x.substring(x.length - 2, x.length)

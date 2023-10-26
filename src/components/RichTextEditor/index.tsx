@@ -328,25 +328,27 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           </styled.div>
         )}
       </styled.div>
-      <Button
-        onClick={() => {
-          let nodes = editorWrapRef.current.children
-          setBlocks(nodeToJson(nodes))
-        }}
-      >
-        log output
-      </Button>
-
-      <Button
-        color="system"
-        onClick={() => {
-          let childrenNodes = editorWrapRef.current.children[0].children
-          htmlNodesToJson(childrenNodes)
-          // todo set to blocks
-        }}
-      >
-        HTML TO BLOCKS
-      </Button>
+      {!htmlView ? (
+        <Button
+          onClick={() => {
+            let nodes = editorWrapRef.current.children
+            setBlocks(nodeToJson(nodes))
+          }}
+        >
+          log output
+        </Button>
+      ) : (
+        <Button
+          color="system"
+          onClick={() => {
+            let childrenNodes = editorWrapRef.current.children[0].children
+            setBlocks(htmlNodesToJson(childrenNodes))
+            // todo set to blocks
+          }}
+        >
+          HTML TO BLOCKS
+        </Button>
+      )}
     </styled.div>
   )
 }
