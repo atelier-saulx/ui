@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from '../../Button'
 import { Row } from '../../Styled'
-import { IconDelete } from '../../../icons'
+import { IconDelete, IconEye } from '../../../icons'
 import { Tooltip } from '../..'
 import { LeftButtonGroup } from './LeftButtonGroup'
 import { CenterButtonGroup } from './CenterButtonGroup'
@@ -14,6 +14,7 @@ export const Header = ({
   blocks,
   setBlocks,
   updateBlock,
+  setHtmlView,
 }) => {
   return (
     <Row
@@ -36,7 +37,6 @@ export const Header = ({
         setFocus={setFocus}
       />
       {/* center buttons */}
-
       {/* right side */}
       <Row
         style={{
@@ -53,6 +53,16 @@ export const Header = ({
           },
         }}
       >
+        <Tooltip text="Switch view">
+          <Button
+            onClick={() => setHtmlView((view) => !view)}
+            size="small"
+            light
+            color="neutral"
+            style={{ marginLeft: '20px', marginRight: '20px' }}
+            icon={<IconEye />}
+          />
+        </Tooltip>
         <Tooltip text="Delete Block">
           <Button
             onClick={() => deleteBlock(focus)}
