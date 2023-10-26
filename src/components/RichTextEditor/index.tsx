@@ -14,6 +14,7 @@ import { Text } from '../Text'
 import { HtmlBlock } from './Blocks/HtmlBlock'
 import { SpaceBlock } from './Blocks/SpaceBlock'
 import { nodeToJson } from './utils/nodesToJson'
+import { RawHtmlBlock } from './Blocks/RawHtmlBlock'
 
 export type RichTextEditorProps = {
   time?: number
@@ -307,7 +308,12 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             }
           })
         ) : (
-          <div>html view from json blocks</div>
+          // html view
+          <styled.div>
+            {blocks.map((item, idx) => (
+              <RawHtmlBlock data={item} key={idx} />
+            ))}
+          </styled.div>
         )}
       </styled.div>
       <Button
@@ -316,7 +322,9 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           let nodes = editorWrapRef.current.children
 
           // TODO: for each childnode make an object
-          nodeToJson(nodes)
+          //  nodeToJson(nodes)
+
+          setBlocks(nodeToJson(nodes))
         }}
       >
         log output

@@ -5,6 +5,7 @@ import { IconDelete, IconEye } from '../../../icons'
 import { Tooltip } from '../..'
 import { LeftButtonGroup } from './LeftButtonGroup'
 import { CenterButtonGroup } from './CenterButtonGroup'
+import { nodeToJson } from '../utils/nodesToJson'
 
 export const Header = ({
   makeNewBlock,
@@ -55,7 +56,9 @@ export const Header = ({
       >
         <Tooltip text="Switch view">
           <Button
-            onClick={() => setHtmlView((view) => !view)}
+            onClick={() => {
+              setHtmlView((view) => !view)
+            }}
             size="small"
             light
             color="neutral"

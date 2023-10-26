@@ -31,8 +31,6 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
   const blockData = data.data
   const headRef = useRef<HTMLParagraphElement>()
 
-  console.log(blockData, 'blockdata?')
-
   const enterLineBreak = () => {
     // fucks sake this works bit weird but ok
     let selection = window.getSelection().getRangeAt(0)

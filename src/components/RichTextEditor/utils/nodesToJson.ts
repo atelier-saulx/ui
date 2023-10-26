@@ -94,7 +94,7 @@ export const nodeToJson = (nodes) => {
         id: item.id,
         type: type,
         data: {
-          innerHTML: item.innerText,
+          innerHTML: item.innerText.trim(),
         },
       }
 
@@ -107,5 +107,5 @@ export const nodeToJson = (nodes) => {
   }
 
   console.log('OUTPUT --> ', arrOfobjects)
-  return null
+  return arrOfobjects
 }
