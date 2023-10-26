@@ -307,7 +307,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             }
           })
         ) : (
-          <div>html view</div>
+          <div>html view from json blocks</div>
         )}
       </styled.div>
       <Button

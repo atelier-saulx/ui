@@ -19,6 +19,8 @@ export const nodeToJson = (nodes) => {
       item.localName === 'h6'
     ) {
       type = 'heading'
+    } else if (item.localName === 'p') {
+      type = 'paragraph'
     }
 
     // 2. objects based on type
@@ -35,6 +37,18 @@ export const nodeToJson = (nodes) => {
       }
 
       console.log('to be pushed HEAD->', obj)
+    } else if (type === 'paragraph') {
+      obj = {
+        id: 'slork',
+        type: type,
+        data: {
+          innerHTML: item.innerHTML,
+          innerText: item.innerText,
+          alignment: item.style.textAlign,
+        },
+      }
+
+      console.log('to be pushed PAragraph->', obj)
     }
 
     // create objects based on localName
