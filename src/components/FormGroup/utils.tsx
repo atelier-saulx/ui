@@ -20,12 +20,17 @@ export const setValue = (
 ) => {
   const path = field.split('.')
   let v = values
+
   for (let i = 0; i < path.length - 1; i++) {
     const f = path[i]
     v = v[f] ?? (v[f] = {})
   }
 
   v[path[path.length - 1]] = value
+  if (Object.keys(values).length > 0 && !Array.isArray(values)) {
+    console.log('trueeeeeee')
+    //lets do smth here if
+  }
 }
 
 export const equalChanges = (

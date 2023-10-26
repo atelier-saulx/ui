@@ -44,6 +44,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   const filteredArray = parsedData.filter(
     (item) => !objectArray.includes(item.field.split('.')[0])
   )
+  // console.log(valuesChanged)
 
   for (const d of objectArray) {
     const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)

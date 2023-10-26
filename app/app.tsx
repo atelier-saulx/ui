@@ -30,10 +30,11 @@ import {
 } from './examples'
 import { ThemeSwitch } from './ThemeSwitch'
 import { BasedLogo } from '../src/icons/BasedLogo'
+import { useQuery } from '@based/react'
 
 export const client = based(basedConfig)
 
-// client.call('')
+// client.call('import-figma', )
 
 const App = () => {
   const route = useRoute('[component]')

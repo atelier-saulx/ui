@@ -44,12 +44,14 @@ export const FormGroup: FC<FormGroupProps> = ({
     }
   }
 
+  const parsedData = parseData(config)
+
   if (variant === 'grid' && width >= 480) {
     return (
       <FormGroupGrid
         autoFocus={autoFocus}
         onChange={onChange}
-        parsedData={parseData(config)}
+        parsedData={parsedData}
         labelWidth={labelWidth}
         fieldWidth={fieldWidth}
         onChangeField={onChangeField}
@@ -69,7 +71,7 @@ export const FormGroup: FC<FormGroupProps> = ({
       confirmationVariant={confirmationVariant}
       autoFocus={autoFocus}
       onChange={onChange}
-      parsedData={parseData(config)}
+      parsedData={parsedData}
       labelWidth={labelWidth}
       fieldWidth={fieldWidth}
       onChangeField={onChangeField}
