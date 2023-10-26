@@ -7,9 +7,9 @@ const fieldProps = {
   id: 1337,
   values: {
     array: [
-      ['12', '123'],
-      ['566', '90'],
-      ['asd', 'asdasd0'],
+      // ['12', '123'],
+      // ['566', '90'],
+      // ['asd', 'asdasd0'],
     ],
     object: { flap: false, flirp: true, snap: 'asdasd' },
     // args: { name: 'asdasd' },
@@ -33,7 +33,7 @@ const fieldProps = {
       values: {
         type: 'set',
         values: {
-          type: 'string',
+          type: 'password',
         },
       },
     },

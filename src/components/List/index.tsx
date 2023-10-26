@@ -18,7 +18,9 @@ const NewInput = ({ index, setOpen, v, type, value, field, onChange }) => {
       onFocus={() => setOpen(true)}
       key={index}
       //@ts-ignore
-      type={'text'}
+      password={type === 'password'}
+      integer={type === 'integer'}
+      type={type}
       clearButton
       value={v}
       onChange={(newStringValue) => {
@@ -74,9 +76,15 @@ export const List: FC<{
     onChange(field, value)
   }
 
-  const thingy = () => {}
-
   const addType = type === 'array' || type === 'set' ? [] : ''
+
+  const inputType =
+    type === 'text' || type === 'string' || type === 'password'
+      ? 'text'
+      : type === 'number' || type === 'integer' || type === 'timestamp'
+      ? 'number'
+      : 'text'
+
   return (
     <Label>
       <Text
@@ -123,7 +131,7 @@ export const List: FC<{
       </Text>
       {values.type === 'array' ||
       (values.type === 'set' && Array.isArray(value)) ? (
-        <styled.div onClick={thingy}>
+        <styled.div>
           {!open &&
             value
               .filter((v, i) => i === 0)
@@ -156,7 +164,7 @@ export const List: FC<{
                     index={index}
                     onChange={onChange}
                     setOpen={setOpen}
-                    type={type}
+                    type={inputType}
                     v={[v]}
                     value={value}
                   />
@@ -220,7 +228,7 @@ export const List: FC<{
                     index={index}
                     onChange={onChange}
                     setOpen={setOpen}
-                    type={type}
+                    type={inputType}
                     v={v}
                     value={value}
                   />
@@ -234,9 +242,11 @@ export const List: FC<{
                 <Input
                   key={index + 1}
                   //@ts-ignore
-                  type={'text'}
+                  type={inputType}
                   clearButton
                   value={v}
+                  password={type === 'password'}
+                  integer={type === 'integer'}
                   onChange={(newStringValue) => {
                     const newValue =
                       type === 'number'
