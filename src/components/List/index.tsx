@@ -4,14 +4,18 @@ import { IconArrowheadRight, IconClose, IconPlus } from '../../icons'
 import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
-import { FormItem } from '../FormGroup/Column/Item'
-import { setValue } from '../FormGroup/utils'
 
-function getKeyByValue(object, value) {
-  return Object.keys(object).find((key) => object[key] === value)
+const genType = (type) => {
+  return type === 'text' || type === 'string' || type === 'password'
+    ? 'text'
+    : type === 'number' || type === 'integer' || type === 'timestamp'
+    ? 'number'
+    : 'text'
 }
 
 const NewInput = ({ index, setOpen, v, type, value, field, onChange }) => {
+  const inputType = genType(type)
+
   return (
     <Input
       // style={{ position: 'absolute' }}
@@ -20,7 +24,7 @@ const NewInput = ({ index, setOpen, v, type, value, field, onChange }) => {
       //@ts-ignore
       password={type === 'password'}
       integer={type === 'integer'}
-      type={type}
+      type={inputType}
       clearButton
       value={v}
       onChange={(newStringValue) => {
@@ -77,13 +81,7 @@ export const List: FC<{
   }
 
   const addType = type === 'array' || type === 'set' ? [] : ''
-
-  const inputType =
-    type === 'text' || type === 'string' || type === 'password'
-      ? 'text'
-      : type === 'number' || type === 'integer' || type === 'timestamp'
-      ? 'number'
-      : 'text'
+  const inputType = genType(type)
 
   return (
     <Label>
@@ -164,7 +162,7 @@ export const List: FC<{
                     index={index}
                     onChange={onChange}
                     setOpen={setOpen}
-                    type={inputType}
+                    type={type}
                     v={[v]}
                     value={value}
                   />
@@ -228,7 +226,7 @@ export const List: FC<{
                     index={index}
                     onChange={onChange}
                     setOpen={setOpen}
-                    type={inputType}
+                    type={type}
                     v={v}
                     value={value}
                   />
@@ -241,7 +239,6 @@ export const List: FC<{
               .map((v, index) => (
                 <Input
                   key={index + 1}
-                  //@ts-ignore
                   type={inputType}
                   clearButton
                   value={v}
