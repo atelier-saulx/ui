@@ -26,6 +26,8 @@ export const nodeToJson = (nodes) => {
       type = 'list'
     } else if (item.className === 'spacing') {
       type = 'space'
+    } else if (item.localName === 'div') {
+      type = 'html'
     }
 
     // 2. objects based on type
@@ -74,8 +76,6 @@ export const nodeToJson = (nodes) => {
       }
       arrOfobjects.push(obj)
     } else if (type === 'space') {
-      console.log('space -->: ', item.firstChild)
-
       let str = item.firstChild.style.height
       str = str.substring(str.length - 2, str.length)
 
@@ -85,6 +85,16 @@ export const nodeToJson = (nodes) => {
         data: {
           space: item.firstChild.style.height.slice(0, -2),
           spaceFormat: str,
+        },
+      }
+
+      arrOfobjects.push(obj)
+    } else if (type === 'html') {
+      obj = {
+        id: 'hmlxx',
+        type: type,
+        data: {
+          innerHTML: item.innerText,
         },
       }
 
