@@ -31,6 +31,8 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
   const blockData = data.data
   const headRef = useRef<HTMLParagraphElement>()
 
+  console.log(blockData, 'blockdata?')
+
   const enterLineBreak = () => {
     // fucks sake this works bit weird but ok
     let selection = window.getSelection().getRangeAt(0)
@@ -50,6 +52,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
 
   return blockData.level === 'h1' ? (
     <h1
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -75,6 +78,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h2' ? (
     <h2
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -100,6 +104,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h3' ? (
     <h3
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -125,6 +130,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h4' ? (
     <h4
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -150,6 +156,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h5' ? (
     <h5
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -175,6 +182,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : blockData.level === 'h6' ? (
     <h6
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable
@@ -200,6 +208,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     />
   ) : (
     <h1
+      id={data.id}
       ref={headRef}
       style={{ textAlign: blockData.alignment, ...style }}
       contentEditable

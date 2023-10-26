@@ -7,6 +7,7 @@ import { Row } from '../../Styled'
 
 type SpaceBlockProps = {
   data: {
+    id?: string
     data?: {
       space?: number
       spaceFormat?: string
@@ -45,6 +46,7 @@ export const SpaceBlock: FC<SpaceBlockProps> = ({
     <Row
       style={{ paddingLeft: 13, marginBottom: 12, ...style }}
       onClick={() => setFocus(idx)}
+      id={data.id}
       className="spacing"
     >
       <styled.div

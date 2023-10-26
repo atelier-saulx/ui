@@ -33,7 +33,7 @@ export const nodeToJson = (nodes) => {
     // 2. objects based on type
     if (type === 'heading') {
       obj = {
-        id: 'snurp',
+        id: item.id,
         type: type,
         data: {
           innerHTML: item.innerHTML,
@@ -46,7 +46,7 @@ export const nodeToJson = (nodes) => {
       arrOfobjects.push(obj)
     } else if (type === 'paragraph') {
       obj = {
-        id: 'slork',
+        id: item.id,
         type: type,
         data: {
           innerHTML: item.innerHTML,
@@ -66,7 +66,7 @@ export const nodeToJson = (nodes) => {
       })
 
       obj = {
-        id: 'slist',
+        id: item.id,
         type: type,
         data: {
           type: item.localName === 'ul' ? 'unordered' : 'ordered',
@@ -80,7 +80,7 @@ export const nodeToJson = (nodes) => {
       str = str.substring(str.length - 2, str.length)
 
       obj = {
-        id: 'spiaafe',
+        id: item.id,
         type: type,
         data: {
           space: item.firstChild.style.height.slice(0, -2),
@@ -91,7 +91,7 @@ export const nodeToJson = (nodes) => {
       arrOfobjects.push(obj)
     } else if (type === 'html') {
       obj = {
-        id: 'hmlxx',
+        id: item.id,
         type: type,
         data: {
           innerHTML: item.innerText,

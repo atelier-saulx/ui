@@ -38,6 +38,7 @@ export const HtmlBlock: FC<HtmlBlockProps> = ({
 
   return (
     <styled.div
+      id={data.id}
       style={{
         paddingLeft: 13,
         marginBottom: 12,

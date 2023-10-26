@@ -28,7 +28,7 @@ export type RichTextEditorProps = {
 //  - option to add css style to element
 //  - option to add class to element
 //  - clear text and styles and tags --> also if you select more strip inside tags
-//  shift + enter at end of block
+// -  shift + enter at end of block
 //  - styling
 //  - backgroundcolor save to blocks -> if you change focus it removes now
 // - dont apply bold, color , italic if selection is empty

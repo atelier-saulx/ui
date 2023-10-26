@@ -60,6 +60,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
 
   return (
     <styled.p
+      id={data.id}
       style={{
         textAlign: blockData.alignment,
         ...style,

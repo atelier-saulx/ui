@@ -98,6 +98,7 @@ export const ListBlock: FC<ListBlockProps> = ({
 
   return blockData.type === 'unordered' ? (
     <styled.ul
+      id={data.id}
       ref={listRef}
       contentEditable
       suppressContentEditableWarning
@@ -133,6 +134,7 @@ export const ListBlock: FC<ListBlockProps> = ({
     </styled.ul>
   ) : (
     <styled.ol
+      id={data.id}
       ref={listRef}
       contentEditable
       suppressContentEditableWarning
