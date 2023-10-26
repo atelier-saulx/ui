@@ -2142,9 +2142,21 @@
         },
         "style": {
           "type": "Style"
+        },
+        "error": {
+          "optional": true,
+          "type": "function"
+        },
+        "pattern": {
+          "optional": true,
+          "type": "string"
+        },
+        "setErrorMessage": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n  large?: boolean\n  style: Style\n}",
+      "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n  large?: boolean\n  style: Style\n  error?: (str: string, patternMatches?: boolean) => string // show error\n  pattern?: string\n  setErrorMessage?: (e) => void\n}",
       "file": "/components/Input/PasswordInput.tsx"
     },
     "SingleProps": {

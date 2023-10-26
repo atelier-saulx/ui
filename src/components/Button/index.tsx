@@ -50,9 +50,9 @@ export type ButtonProps = {
   outline?: boolean
   style?: Style
   textAlign?: 'center' | 'right' | 'left'
-  /** 
+  /**
    Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.
-  
+
    Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`
    Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`
   */
@@ -185,14 +185,10 @@ export const Button: FC<ButtonProps> = (props) => {
     loading = true
   }
 
-  if (loading) {
-    props.disabled = true
-  }
-
   return (
     <styled.button
       ref={buttonElem}
-      disabled={props.disabled}
+      disabled={loading ? true : props.disabled}
       onClick={onClick && extendedOnClick}
       onPointerDown={onPointerDown || stopPropagation}
       style={{

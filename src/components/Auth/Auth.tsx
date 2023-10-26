@@ -116,7 +116,7 @@ export const Authorize: FC<AuthProps> = ({
     </Container>
   )
 
-  if (user) {
+  if (user && user.userId) {
     if (app) {
       return React.createElement(app, { user })
     } else {

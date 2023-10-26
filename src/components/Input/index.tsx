@@ -251,7 +251,7 @@ export const Input = <T extends InputType>({
       ) : type === 'digest' ? (
         <DigestInput {...props} disabled={!!valueProp} />
       ) : type === 'password' ? (
-        <PasswordInput {...props} large={large} disabled={!!valueProp} />
+        <PasswordInput {...props} large={large} disabled={!!valueProp} setErrorMessage={setErrorMessage}/>
       ) : type === 'date' ? (
         <DateWidget onChange={() => onChange} value={value} time={time} />
       ) : type === 'url' ? (

@@ -8,15 +8,19 @@ type PasswordInputProps = {
   disabled?: boolean
   large?: boolean
   style: Style
+  error?: (str: string, patternMatches?: boolean) => string // show error
+  pattern?: string
+  setErrorMessage?: (e) => void
 }
 
 export const PasswordInput = ({
   value,
+  setErrorMessage,
   onChange,
   disabled,
   large,
   ...props
-}: PasswordInputProps) => {
+}: PasswordInputProps) => { 
   const [passwordInputType, setPasswordInputType] = useState<
     'text' | 'password'
   >('password')
@@ -34,15 +38,18 @@ export const PasswordInput = ({
     >
       <Single
         type={passwordInputType}
-        // value={value}
+        value={value}
         // @ts-ignore
+        setErrorMessage={setErrorMessage}
+        pattern={props.pattern}
+        error={props.error}
         style={{
           paddingLeft: 42,
           minHeight: large ? 48 : 36,
           ...style,
         }}
         onChange={(e) => {
-          onChange({ target: { value: e } })
+          onChange({ target: { value: e.target.value } })
         }}
       />
 
