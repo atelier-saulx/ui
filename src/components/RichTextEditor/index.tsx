@@ -21,32 +21,27 @@ import { Tooltip } from '../..'
 export type RichTextEditorProps = {
   time?: number
   data?: any
-  style?: Style
 }
 
 // TODO :
-//  - HTML preview -> editable -> outerHTML prop on nodes
 //  header buttons in html editor??
 //  - add media
 //  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
 // -  shift + enter at end of block
-//  - styling
-//  - backgroundcolor save to blocks -> if you change focus it removes now
 // - duplicate a block
+// - navigation in html editor --> adding and removing blocks
 // spit out to database / onchange
+//  add timestamp to publish output
 
-export const RichTextEditor: FC<RichTextEditorProps> = ({
-  time,
-  data,
-  style,
-}) => {
+export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const editorWrapRef = useRef<HTMLElement>()
 
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
   const [htmlView, setHtmlView] = useState<boolean>(false)
+  const [renderCounter, setRenderCounter] = useState(1)
 
   const makeNewBlock = (type, focus) => {
     if (focus || focus === 0) {
@@ -69,7 +64,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
       setBlocks([...duplicateArr])
     } else {
-      // add to end
+      // add new block to the end
       setBlocks((oldblocks) => [
         ...oldblocks,
         {
@@ -126,19 +121,16 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       }))
       blocks[idx].data.items = listItemsArray
     }
-
-    /// setBlocks(blocks)
   }
 
   useEffect(() => {
     // use childNodes not children you know because of logic 🤨
-    let child = editorWrapRef.current.childNodes[focus] as HTMLElement
-    child?.focus()
-  }, [focus])
+    // let child = editorWrapRef.current.childNodes[focus] as HTMLElement
+    // child?.focus()
 
-  useEffect(() => {
-    console.log(' 🙄what are the blocks now --> ', blocks)
-  }, [blocks])
+    let nodes = editorWrapRef.current.children
+    setBlocks(nodeToJson(nodes))
+  }, [focus])
 
   return (
     <styled.div>

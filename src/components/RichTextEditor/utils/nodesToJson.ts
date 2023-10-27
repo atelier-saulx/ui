@@ -5,7 +5,7 @@
 
 export const nodeToJson = (nodes) => {
   let arrOfobjects = []
-  console.log(nodes)
+  // console.log(nodes)
 
   for (let item of nodes) {
     let type, obj
@@ -106,6 +106,6 @@ export const nodeToJson = (nodes) => {
     // push to arr
   }
 
-  console.log('OUTPUT --> ', arrOfobjects)
+  // console.log('OUTPUT --> ', arrOfobjects)
   return arrOfobjects
 }
