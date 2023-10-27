@@ -10,36 +10,33 @@ import { generateString } from './utils/generateString'
 import { keyDownHandler } from './utils/keyDownHandler'
 import { Code } from '../Code'
 import { ListBlock } from './Blocks/ListBlock'
-import { Text } from '../Text'
 import { HtmlBlock } from './Blocks/HtmlBlock'
 import { SpaceBlock } from './Blocks/SpaceBlock'
 import { nodeToJson } from './utils/nodesToJson'
 import { RawHtmlBlock } from './Blocks/RawHtmlBlock'
 import { htmlNodesToJson } from './utils/htmlNodesToJson'
+import { IconEye, IconEyeOff } from '../../icons'
+import { Tooltip } from '../..'
 
 export type RichTextEditorProps = {
   time?: number
   data?: any
-  style?: Style
 }
 
 // TODO :
-//  - HTML preview -> editable -> outerHTML prop on nodes
+// moving lists up and down bug
+//  header buttons in html editor??
 //  - add media
 //  - only selections that fall within the editor
 //  - option to add css style to element
 //  - option to add class to element
 // -  shift + enter at end of block
-//  - styling
-//  - backgroundcolor save to blocks -> if you change focus it removes now
-// - dont apply bold, color , italic if selection is empty
 // - duplicate a block
+// - navigation in html editor --> adding and removing blocks
+// spit out to database / onchange
+//  add timestamp to publish output
 
-export const RichTextEditor: FC<RichTextEditorProps> = ({
-  time,
-  data,
-  style,
-}) => {
+export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const editorWrapRef = useRef<HTMLElement>()
 
   const [blocks, setBlocks] = useState(data.blocks)
@@ -67,7 +64,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
       setBlocks([...duplicateArr])
     } else {
-      // add to end
+      // add new block to the end
       setBlocks((oldblocks) => [
         ...oldblocks,
         {
@@ -122,34 +119,74 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         // @ts-ignore
         innerText: item.innerText,
       }))
-      blocks[idx].data.items = listItemsArray
-    }
 
-    /// setBlocks(blocks)
+      blocks[idx].data.items = listItemsArray
+      // blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
+    }
   }
 
   useEffect(() => {
     // use childNodes not children you know because of logic 🤨
-    let child = editorWrapRef.current.childNodes[focus] as HTMLElement
-    child?.focus()
-  }, [focus])
+    // let child = editorWrapRef.current.childNodes[focus] as HTMLElement
+    // child?.focus()
 
-  useEffect(() => {
-    console.log(' 🙄what are the blocks now --> ', blocks)
-  }, [blocks])
+    let nodes = editorWrapRef.current.children
+    setBlocks(nodeToJson(nodes))
+  }, [focus])
 
   return (
     <styled.div>
-      <Header
-        blocks={blocks}
-        deleteBlock={deleteBlock}
-        focus={focus}
-        makeNewBlock={makeNewBlock}
-        setBlocks={setBlocks}
-        setFocus={setFocus}
-        updateBlock={updateBlock}
-        setHtmlView={setHtmlView}
-      />
+      <styled.div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Header
+          blocks={blocks}
+          deleteBlock={deleteBlock}
+          focus={focus}
+          makeNewBlock={makeNewBlock}
+          setBlocks={setBlocks}
+          setFocus={setFocus}
+          updateBlock={updateBlock}
+        />
+        <styled.div
+          style={{
+            '& button': {
+              height: '24px',
+              borderRadius: '4px !important',
+              '& div': {
+                fontSize: '13px !important',
+                lineHeight: '13px !important',
+                fontWeight: '400 !important',
+              },
+              '& svg': {
+                marginTop: '-2px',
+                width: '14px',
+                height: '14px',
+              },
+            },
+          }}
+        >
+          <Tooltip text="Switch view">
+            <Button
+              onClick={() => {
+                if (!htmlView) {
+                  let nodes = editorWrapRef.current.children
+                  setBlocks(nodeToJson(nodes))
+                  setHtmlView(true)
+                } else {
+                  let childrenNodes = editorWrapRef.current.children[0].children
+                  setBlocks(htmlNodesToJson(childrenNodes))
+                  setHtmlView(false)
+                }
+              }}
+              size="small"
+              light
+              color="neutral"
+              icon={!htmlView ? <IconEyeOff /> : <IconEye />}
+            >
+              {!htmlView ? 'Html' : 'Visual'}
+            </Button>
+          </Tooltip>
+        </styled.div>
+      </styled.div>
       <styled.div
         id="editor"
         ref={editorWrapRef}
@@ -259,6 +296,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                   idx={idx}
                   data={item}
                   setFocus={setFocus}
+                  updateBlock={updateBlock}
                   deleteBlock={deleteBlock}
                   blocksLength={blocks.length}
                   focus={focus}
@@ -328,27 +366,25 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           </styled.div>
         )}
       </styled.div>
-      {!htmlView ? (
-        <Button
-          onClick={() => {
+
+      <Button
+        size="small"
+        onClick={() => {
+          if (!htmlView) {
             let nodes = editorWrapRef.current.children
             setBlocks(nodeToJson(nodes))
-          }}
-        >
-          log output
-        </Button>
-      ) : (
-        <Button
-          color="system"
-          onClick={() => {
+            // TODO
+            console.log('Spit out these blocks', blocks)
+          } else {
             let childrenNodes = editorWrapRef.current.children[0].children
             setBlocks(htmlNodesToJson(childrenNodes))
-            // todo set to blocks
-          }}
-        >
-          HTML TO BLOCKS
-        </Button>
-      )}
+            // TODO
+            console.log('spit these blocks to DB', blocks)
+          }
+        }}
+      >
+        Publish
+      </Button>
     </styled.div>
   )
 }
