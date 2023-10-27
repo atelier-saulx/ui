@@ -39,7 +39,6 @@ const MenuItemsHeader: FC<MenuItemsHeaderProps> = ({
       style={{
         marginTop: '24px',
         marginBottom: '12px',
-        border: '1px solid red',
         '&.closed': {
           marginBottom: '-12px',
         },
