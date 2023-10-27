@@ -98,16 +98,14 @@ export function Content(
             //   'calc(var(--radix-dropdown-menu-content-available-height) - 16px)',
           }}
         >
-          <ScrollArea style={{ padding: '24px 16px 24px 24px', ...style }}>
-            {typeof children === 'function'
-              ? children({
-                  open,
-                  close: () => {
-                    setOpen(false)
-                  },
-                })
-              : children}
-          </ScrollArea>
+          {typeof children === 'function'
+            ? children({
+                open,
+                close: () => {
+                  setOpen(false)
+                },
+              })
+            : children}
         </styled.div>
       </PopoverBase.Content>
     </PopoverBase.Portal>
