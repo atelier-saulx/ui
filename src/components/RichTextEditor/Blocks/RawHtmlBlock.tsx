@@ -61,7 +61,7 @@ export const RawHtmlBlock = ({ data, blocks, setFocus, focus, idx, style }) => {
   }, [])
 
   return (
-    <div onFocus={() => setFocus(idx)} id={data.id}>
+    <div onFocus={() => setFocus(idx)} id={data.id} className="raw">
       <Code
         style={{
           borderBottom: '1px dashed #bfbfbf52',

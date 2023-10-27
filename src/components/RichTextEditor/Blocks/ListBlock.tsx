@@ -124,10 +124,6 @@ export const ListBlock: FC<ListBlockProps> = ({
       contentEditable
       suppressContentEditableWarning
       onInput={() => updateBlock(idx, listRef.current)}
-      // onInput={() => {}}
-      // onBlur={(e) => {
-      //   // e.preventDefault()
-      // }}
       onFocus={() => setFocus(idx)}
       style={{
         textAlign: blockData?.alignment,
@@ -154,7 +150,6 @@ export const ListBlock: FC<ListBlockProps> = ({
       contentEditable
       suppressContentEditableWarning
       onInput={() => updateBlock(idx, listRef.current)}
-      // onBlur={(e) => e.preventDefault()}
       onFocus={() => setFocus(idx)}
       style={{
         textAlign: blockData?.alignment,

@@ -93,6 +93,11 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     if (!ref) {
       newRef = editorWrapRef.current.childNodes[idx]
     }
+    // if (htmlView) {
+    //   newRef = editorWrapRef.current.children[0].children[idx]
+    //   console.log(newRef.className)
+    //   console.log(newRef)
+    // }
 
     console.log('updated 🤖 beep boop...', newRef)
     // update paragraph and headings
@@ -129,9 +134,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     // use childNodes not children you know because of logic 🤨
     // let child = editorWrapRef.current.childNodes[focus] as HTMLElement
     // child?.focus()
-
-    let nodes = editorWrapRef.current.children
-    setBlocks(nodeToJson(nodes))
+    if (!htmlView) {
+      let nodes = editorWrapRef.current.children
+      setBlocks(nodeToJson(nodes))
+    }
   }, [focus])
 
   return (
@@ -342,6 +348,21 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                   }}
                 />
               )
+            } else if (htmlView) {
+              ;<RawHtmlBlock
+                idx={idx}
+                data={item}
+                blocks={blocks}
+                setFocus={setFocus}
+                focus={focus}
+                key={idx}
+                style={{
+                  borderLeft:
+                    focus === idx
+                      ? `3px solid ${color('action', 'primary', 'normal')}`
+                      : '3px solid transparent',
+                }}
+              />
             }
           })
         ) : (
