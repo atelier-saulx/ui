@@ -74,7 +74,13 @@ export const RawHtmlBlock = ({
   }, [blocks])
 
   return (
-    <div onFocus={() => setFocus(idx)} id={data.id} className="raw">
+    <div
+      onFocus={() => {
+        setFocus(idx)
+      }}
+      id={data.id}
+      className="raw"
+    >
       <Code
         style={{
           borderBottom: '1px dashed #bfbfbf52',
@@ -86,11 +92,34 @@ export const RawHtmlBlock = ({
         value={htmlString}
         onChange={(v) => {
           setHtmlString(v)
-
-          //   blocks[idx].innerHTML = v
-          //   console.log('blocks??', blocks)
         }}
         language="html"
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown') {
+            if (e.target.selectionStart === e.target.value.length) {
+              console.log('chopper down')
+              setFocus(idx < blocks.length - 1 ? idx + 1 : blocks.length - 1)
+
+              setTimeout(() => {
+                // put carret at end of new block
+                document.execCommand('selectAll', false, null)
+                document.getSelection().collapseToStart()
+              }, 10)
+            }
+          }
+          if (e.key === 'ArrowUp') {
+            if (e.target.selectionStart === 0) {
+              console.log('chopper up')
+              setFocus(idx > 0 ? idx - 1 : 0)
+
+              setTimeout(() => {
+                // put carret at end of new block
+                document.execCommand('selectAll', false, null)
+                document.getSelection().collapseToEnd()
+              }, 10)
+            }
+          }
+        }}
       />
     </div>
   )

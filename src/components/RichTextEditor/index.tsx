@@ -1,14 +1,12 @@
 import React, { FC, useRef, useState, useEffect } from 'react'
-import { styled, Style } from 'inlines'
+import { styled } from 'inlines'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
 import { Header } from './Header/Header'
 import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
-import { Row } from '../Styled'
 import { generateString } from './utils/generateString'
 import { keyDownHandler } from './utils/keyDownHandler'
-import { Code } from '../Code'
 import { ListBlock } from './Blocks/ListBlock'
 import { HtmlBlock } from './Blocks/HtmlBlock'
 import { SpaceBlock } from './Blocks/SpaceBlock'
@@ -25,14 +23,11 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  header buttons in html editor??
-// add block in html?
 //  - add media
 //  - only selections that fall within the editor
 //  - option to add css style to element
-//  - option to add class to element
 // -  shift + enter at end of block
 // - duplicate a block
-// - navigation in html editor --> adding and removing blocks
 // spit out to database / onchange
 //  add timestamp to publish output
 
@@ -94,11 +89,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     if (!ref) {
       newRef = editorWrapRef.current.childNodes[idx]
     }
-    // if (htmlView) {
-    //   newRef = editorWrapRef.current.children[0].children[idx]
-    //   console.log(newRef.className)
-    //   console.log(newRef.firstChild.firstChild.firstChild.value)
-    // }
 
     console.log('updated 🤖 beep boop...', newRef)
     // update paragraph and headings
@@ -137,13 +127,17 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   }
 
   useEffect(() => {
-    // use childNodes not children you know because of logic 🤨
-    // let child = editorWrapRef.current.childNodes[focus] as HTMLElement
-    // child?.focus()
     if (!htmlView) {
       let nodes = editorWrapRef.current.children
       setBlocks(nodeToJson(nodes))
     }
+    // use childNodes not children you know because of logic 🤨
+    let child = editorWrapRef.current.childNodes[focus] as HTMLElement
+    if (htmlView) {
+      child = editorWrapRef.current.children[0].children[focus].firstChild
+        .firstChild.firstChild as HTMLTextAreaElement
+    }
+    child?.focus()
   }, [focus])
 
   return (
