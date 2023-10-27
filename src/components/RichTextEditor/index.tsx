@@ -24,6 +24,7 @@ export type RichTextEditorProps = {
 }
 
 // TODO :
+// moving lists up and down bug
 //  header buttons in html editor??
 //  - add media
 //  - only selections that fall within the editor
@@ -120,6 +121,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
         innerText: item.innerText,
       }))
       blocks[idx].data.items = listItemsArray
+      // blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
     }
   }
 
