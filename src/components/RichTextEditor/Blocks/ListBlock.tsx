@@ -104,6 +104,19 @@ export const ListBlock: FC<ListBlockProps> = ({
 
   // dont call updateBlocks from inside this component !
 
+  let listItems = blockData?.items?.map((item, id) => {
+    let innerListHTML =
+      DOMPurify.sanitize(item.innerHTML) || DOMPurify.sanitize(item.innerText)
+    return (
+      <li
+        key={id}
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(innerListHTML),
+        }}
+      />
+    )
+  })
+
   return data.data.type === 'unordered' ? (
     <styled.ul
       id={data.id}
@@ -132,19 +145,7 @@ export const ListBlock: FC<ListBlockProps> = ({
         )
       }}
     >
-      {blockData?.items?.map((item, id) => {
-        let innerListHTML =
-          DOMPurify.sanitize(item.innerHTML) ||
-          DOMPurify.sanitize(item.innerText)
-        return (
-          <li
-            key={id}
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(innerListHTML),
-            }}
-          />
-        )
-      })}
+      {listItems}
     </styled.ul>
   ) : (
     <styled.ol
@@ -171,19 +172,7 @@ export const ListBlock: FC<ListBlockProps> = ({
         )
       }}
     >
-      {blockData?.items?.map((item, id) => {
-        let innerListHTML =
-          DOMPurify.sanitize(item.innerHTML) ||
-          DOMPurify.sanitize(item.innerText)
-        return (
-          <li
-            key={id}
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(innerListHTML),
-            }}
-          />
-        )
-      })}
+      {listItems}
     </styled.ol>
   )
 }

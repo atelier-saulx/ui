@@ -42,7 +42,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
   const [htmlView, setHtmlView] = useState<boolean>(false)
-  const [renderCounter, setRenderCounter] = useState(1)
 
   const makeNewBlock = (type, focus) => {
     if (focus || focus === 0) {
@@ -120,6 +119,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
         // @ts-ignore
         innerText: item.innerText,
       }))
+
       blocks[idx].data.items = listItemsArray
       // blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
     }
@@ -131,7 +131,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     // child?.focus()
 
     let nodes = editorWrapRef.current.children
-    setRenderCounter(renderCounter + 1)
     setBlocks(nodeToJson(nodes))
   }, [focus])
 
@@ -292,24 +291,22 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
               )
             } else if (item.type === 'list') {
               return (
-                renderCounter && (
-                  <ListBlock
-                    key={idx}
-                    idx={idx}
-                    data={item}
-                    setFocus={setFocus}
-                    updateBlock={updateBlock}
-                    deleteBlock={deleteBlock}
-                    blocksLength={blocks.length}
-                    focus={focus}
-                    style={{
-                      borderLeft:
-                        focus === idx
-                          ? `3px solid ${color('action', 'primary', 'normal')}`
-                          : '3px solid transparent',
-                    }}
-                  />
-                )
+                <ListBlock
+                  key={idx}
+                  idx={idx}
+                  data={item}
+                  setFocus={setFocus}
+                  updateBlock={updateBlock}
+                  deleteBlock={deleteBlock}
+                  blocksLength={blocks.length}
+                  focus={focus}
+                  style={{
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
               )
             } else if (item.type === 'html') {
               return (
