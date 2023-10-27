@@ -42,6 +42,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
   const [htmlView, setHtmlView] = useState<boolean>(false)
+  const [renderCounter, setRenderCounter] = useState(1)
 
   const makeNewBlock = (type, focus) => {
     if (focus || focus === 0) {
@@ -93,6 +94,11 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     if (!ref) {
       newRef = editorWrapRef.current.childNodes[idx]
     }
+    // if (htmlView) {
+    //   newRef = editorWrapRef.current.children[0].children[idx]
+    //   console.log(newRef.className)
+    //   console.log(newRef)
+    // }
 
     console.log('updated 🤖 beep boop...', newRef)
     // update paragraph and headings
@@ -129,9 +135,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     // use childNodes not children you know because of logic 🤨
     // let child = editorWrapRef.current.childNodes[focus] as HTMLElement
     // child?.focus()
-
-    let nodes = editorWrapRef.current.children
-    setBlocks(nodeToJson(nodes))
+    if (!htmlView) {
+      let nodes = editorWrapRef.current.children
+      setBlocks(nodeToJson(nodes))
+    }
   }, [focus])
 
   return (
@@ -244,7 +251,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
           },
         }}
       >
-        {!htmlView ? (
+        {!htmlView &&
+          renderCounter &&
           blocks.map((item, idx) => {
             if (item.type === 'paragraph') {
               return (
@@ -343,9 +351,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                 />
               )
             }
-          })
-        ) : (
-          // html view
+          })}
+        {htmlView && (
           <styled.div>
             {blocks.map((item, idx) => (
               <RawHtmlBlock

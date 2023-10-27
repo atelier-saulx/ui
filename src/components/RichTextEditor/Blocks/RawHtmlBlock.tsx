@@ -60,8 +60,13 @@ export const RawHtmlBlock = ({ data, blocks, setFocus, focus, idx, style }) => {
     setHtmlString(str)
   }, [])
 
+  // now the view updates on moving blocks around
+  useEffect(() => {
+    setHtmlString(str)
+  }, [blocks])
+
   return (
-    <div onFocus={() => setFocus(idx)} id={data.id}>
+    <div onFocus={() => setFocus(idx)} id={data.id} className="raw">
       <Code
         style={{
           borderBottom: '1px dashed #bfbfbf52',
