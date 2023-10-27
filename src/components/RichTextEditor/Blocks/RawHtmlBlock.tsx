@@ -13,8 +13,6 @@ export const RawHtmlBlock = ({
   deleteBlock,
   style,
 }) => {
-  //   console.log('Raw Science bithc', data)
-
   const [htmlString, setHtmlString] = useState('')
 
   let str
@@ -98,7 +96,6 @@ export const RawHtmlBlock = ({
         onKeyDown={(e) => {
           if (e.key === 'ArrowDown') {
             if (e.target.selectionStart === e.target.value.length) {
-              console.log('chopper down')
               setFocus(idx < blocks.length - 1 ? idx + 1 : blocks.length - 1)
 
               setTimeout(() => {
@@ -110,7 +107,6 @@ export const RawHtmlBlock = ({
           }
           if (e.key === 'ArrowUp') {
             if (e.target.selectionStart === 0) {
-              console.log('chopper up')
               setFocus(idx > 0 ? idx - 1 : 0)
 
               setTimeout(() => {
