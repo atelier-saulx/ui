@@ -42,6 +42,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
   const [htmlView, setHtmlView] = useState<boolean>(false)
+  const [renderCounter, setRenderCounter] = useState(1)
 
   const makeNewBlock = (type, focus) => {
     if (focus || focus === 0) {
@@ -250,7 +251,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
           },
         }}
       >
-        {!htmlView ? (
+        {!htmlView &&
+          renderCounter &&
           blocks.map((item, idx) => {
             if (item.type === 'paragraph') {
               return (
@@ -348,25 +350,9 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                   }}
                 />
               )
-            } else if (htmlView) {
-              ;<RawHtmlBlock
-                idx={idx}
-                data={item}
-                blocks={blocks}
-                setFocus={setFocus}
-                focus={focus}
-                key={idx}
-                style={{
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
             }
-          })
-        ) : (
-          // html view
+          })}
+        {htmlView && (
           <styled.div>
             {blocks.map((item, idx) => (
               <RawHtmlBlock
