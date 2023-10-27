@@ -136,8 +136,7 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
             updateBlock(focus)
           }}
           size="small"
-          light
-          color="neutral"
+          color="system"
           icon={<IconChevronTop />}
         />
       </Tooltip>
@@ -148,8 +147,7 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
             updateBlock(focus)
           }}
           size="small"
-          light
-          color="neutral"
+          color="system"
           icon={<IconChevronDown />}
         />
       </Tooltip>
