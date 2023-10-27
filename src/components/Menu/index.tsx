@@ -39,6 +39,7 @@ const MenuItemsHeader: FC<MenuItemsHeaderProps> = ({
       style={{
         marginTop: '24px',
         marginBottom: '12px',
+        border: '1px solid red',
         '&.closed': {
           marginBottom: '-12px',
         },
@@ -216,7 +217,8 @@ export const Menu: FC<MenuProps> = ({
       return (
         <div
           style={{
-            width: `calc(100% - ${depth * 20}px)`,
+            // width: `calc(100% - ${depth * 20}px)`,
+            width: '100%',
             paddingLeft: depth * 20,
           }}
           // key={i + label + depth}

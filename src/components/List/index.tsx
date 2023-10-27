@@ -18,10 +18,8 @@ const NewInput = ({ index, setOpen, v, type, value, field, onChange }) => {
 
   return (
     <Input
-      // style={{ position: 'absolute' }}
       onFocus={() => setOpen(true)}
       key={index}
-      //@ts-ignore
       password={type === 'password'}
       integer={type === 'integer'}
       type={inputType}
@@ -127,7 +125,7 @@ export const List: FC<{
           />
         )}
       </Text>
-      {values.type === 'array' ||
+      {(values.type === 'array' && Array.isArray(value)) ||
       (values.type === 'set' && Array.isArray(value)) ? (
         <styled.div>
           {!open &&
