@@ -24,8 +24,8 @@ export type RichTextEditorProps = {
 }
 
 // TODO :
-// moving lists up and down bug
 //  header buttons in html editor??
+// add block in html?
 //  - add media
 //  - only selections that fall within the editor
 //  - option to add css style to element
@@ -97,7 +97,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     // if (htmlView) {
     //   newRef = editorWrapRef.current.children[0].children[idx]
     //   console.log(newRef.className)
-    //   console.log(newRef)
+    //   console.log(newRef.firstChild.firstChild.firstChild.value)
     // }
 
     console.log('updated 🤖 beep boop...', newRef)
@@ -129,6 +129,11 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
       blocks[idx].data.items = listItemsArray
       // blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
     }
+  }
+
+  const updateHtmlBlock = () => {
+    let childrenNodes = editorWrapRef.current.children[0].children
+    setBlocks(htmlNodesToJson(childrenNodes))
   }
 
   useEffect(() => {
@@ -360,6 +365,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                 data={item}
                 blocks={blocks}
                 setFocus={setFocus}
+                updateHtmlBlock={updateHtmlBlock}
                 focus={focus}
                 key={idx}
                 style={{

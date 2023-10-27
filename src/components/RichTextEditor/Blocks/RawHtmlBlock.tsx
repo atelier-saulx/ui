@@ -3,7 +3,15 @@ import { Code } from '../../Code'
 import { color } from '../../../varsUtilities'
 
 // html block for htlm view !
-export const RawHtmlBlock = ({ data, blocks, setFocus, focus, idx, style }) => {
+export const RawHtmlBlock = ({
+  data,
+  blocks,
+  updateHtmlBlock,
+  setFocus,
+  focus,
+  idx,
+  style,
+}) => {
   //   console.log('Raw Science bithc', data)
 
   const [htmlString, setHtmlString] = useState('')
@@ -73,6 +81,8 @@ export const RawHtmlBlock = ({ data, blocks, setFocus, focus, idx, style }) => {
           padding: '0px 6px',
           ...style,
         }}
+        // @ts-ignore
+        onBlur={() => updateHtmlBlock()}
         value={htmlString}
         onChange={(v) => {
           setHtmlString(v)
