@@ -129,6 +129,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     // child?.focus()
 
     let nodes = editorWrapRef.current.children
+    setRenderCounter(renderCounter + 1)
     setBlocks(nodeToJson(nodes))
   }, [focus])
 
@@ -289,21 +290,24 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
               )
             } else if (item.type === 'list') {
               return (
-                <ListBlock
-                  key={idx}
-                  idx={idx}
-                  data={item}
-                  setFocus={setFocus}
-                  deleteBlock={deleteBlock}
-                  blocksLength={blocks.length}
-                  focus={focus}
-                  style={{
-                    borderLeft:
-                      focus === idx
-                        ? `3px solid ${color('action', 'primary', 'normal')}`
-                        : '3px solid transparent',
-                  }}
-                />
+                renderCounter && (
+                  <ListBlock
+                    key={idx}
+                    idx={idx}
+                    data={item}
+                    setFocus={setFocus}
+                    updateBlock={updateBlock}
+                    deleteBlock={deleteBlock}
+                    blocksLength={blocks.length}
+                    focus={focus}
+                    style={{
+                      borderLeft:
+                        focus === idx
+                          ? `3px solid ${color('action', 'primary', 'normal')}`
+                          : '3px solid transparent',
+                    }}
+                  />
+                )
               )
             } else if (item.type === 'html') {
               return (

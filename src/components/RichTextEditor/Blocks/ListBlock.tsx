@@ -10,6 +10,7 @@ type ListBlockProps = {
   style?: Style
   blocksLength?: number
   focus?: number
+  updateBlock?: (v, r) => void
 }
 
 const listKeyHandler = (
@@ -82,6 +83,7 @@ export const ListBlock: FC<ListBlockProps> = ({
   style,
   blocksLength,
   focus,
+  updateBlock,
 }) => {
   // const blockData = data.data
 
@@ -108,6 +110,7 @@ export const ListBlock: FC<ListBlockProps> = ({
       ref={listRef}
       contentEditable
       suppressContentEditableWarning
+      onInput={() => updateBlock(idx, listRef.current)}
       // onInput={() => {}}
       // onBlur={(e) => {
       //   // e.preventDefault()
@@ -146,7 +149,7 @@ export const ListBlock: FC<ListBlockProps> = ({
       ref={listRef}
       contentEditable
       suppressContentEditableWarning
-      // onInput={() => {}}
+      onInput={() => updateBlock(idx, listRef.current)}
       // onBlur={(e) => e.preventDefault()}
       onFocus={() => setFocus(idx)}
       style={{
