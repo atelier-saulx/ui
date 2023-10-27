@@ -70,17 +70,25 @@ const makeTextDefault = () => {
 const makeTextBold = () => {
   let selection = window.getSelection().getRangeAt(0)
   let selectedText = selection.extractContents()
-  let b = document.createElement('b')
-  b.appendChild(selectedText)
-  selection.insertNode(b)
+  if (selectedText.firstChild.textContent.trim() !== '') {
+    let b = document.createElement('b')
+    b.appendChild(selectedText)
+    selection.insertNode(b)
+  } else {
+    selection.insertNode(selectedText)
+  }
 }
 
 const makeTextItalic = () => {
   let selection = window.getSelection().getRangeAt(0)
   let selectedText = selection.extractContents()
-  let i = document.createElement('i')
-  i.appendChild(selectedText)
-  selection.insertNode(i)
+  if (selectedText.firstChild.textContent.trim() !== '') {
+    let i = document.createElement('i')
+    i.appendChild(selectedText)
+    selection.insertNode(i)
+  } else {
+    selection.insertNode(selectedText)
+  }
 }
 
 const textAlign = (alignment: string, blocks: any, focus: number) => {
@@ -90,13 +98,17 @@ const textAlign = (alignment: string, blocks: any, focus: number) => {
 
 const makeLink = (selection, link, openInNewTab) => {
   let selectedText = selection.extractContents()
-  let a = document.createElement('a')
-  a.appendChild(selectedText)
-  if (openInNewTab) {
-    a.setAttribute('target', '_blank')
+  if (selectedText.firstChild.textContent.trim() !== '') {
+    let a = document.createElement('a')
+    a.appendChild(selectedText)
+    if (openInNewTab) {
+      a.setAttribute('target', '_blank')
+    }
+    a.href = link
+    selection.insertNode(a)
+  } else {
+    selection.insertNode(selectedText)
   }
-  a.href = link
-  selection.insertNode(a)
 }
 
 type LeftButtonGroupProps = {

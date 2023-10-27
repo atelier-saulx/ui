@@ -25,6 +25,7 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  - HTML preview -> editable -> outerHTML prop on nodes
+//  header buttons in html editor??
 //  - add media
 //  - only selections that fall within the editor
 //  - option to add css style to element
@@ -32,7 +33,6 @@ export type RichTextEditorProps = {
 // -  shift + enter at end of block
 //  - styling
 //  - backgroundcolor save to blocks -> if you change focus it removes now
-// - dont apply bold, color , italic if selection is empty
 // - duplicate a block
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
