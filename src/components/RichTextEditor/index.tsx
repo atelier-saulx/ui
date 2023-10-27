@@ -134,8 +134,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     // use childNodes not children you know because of logic 🤨
     let child = editorWrapRef.current.childNodes[focus] as HTMLElement
     if (htmlView) {
-      child = editorWrapRef.current.children[0].children[focus].firstChild
-        .firstChild.firstChild as HTMLTextAreaElement
+      child = editorWrapRef.current?.children[0]?.children[focus]?.firstChild
+        ?.firstChild?.firstChild as HTMLTextAreaElement
     }
     child?.focus()
   }, [focus])
@@ -361,6 +361,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                 setFocus={setFocus}
                 updateHtmlBlock={updateHtmlBlock}
                 focus={focus}
+                deleteBlock={deleteBlock}
                 key={idx}
                 style={{
                   borderLeft:

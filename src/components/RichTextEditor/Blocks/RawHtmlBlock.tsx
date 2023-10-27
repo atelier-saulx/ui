@@ -10,6 +10,7 @@ export const RawHtmlBlock = ({
   setFocus,
   focus,
   idx,
+  deleteBlock,
   style,
 }) => {
   //   console.log('Raw Science bithc', data)
@@ -112,6 +113,20 @@ export const RawHtmlBlock = ({
               console.log('chopper up')
               setFocus(idx > 0 ? idx - 1 : 0)
 
+              setTimeout(() => {
+                // put carret at end of new block
+                document.execCommand('selectAll', false, null)
+                document.getSelection().collapseToEnd()
+              }, 10)
+            }
+          }
+          if (e.key === 'Backspace') {
+            // @ts-ignore
+
+            if (e.target.selectionStart === 0 && e.target.value.length === 0) {
+              deleteBlock(idx)
+              setFocus(idx === 0 ? 0 : idx - 1)
+              // todo caret at end
               setTimeout(() => {
                 // put carret at end of new block
                 document.execCommand('selectAll', false, null)
