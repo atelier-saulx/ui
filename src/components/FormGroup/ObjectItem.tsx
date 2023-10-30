@@ -25,8 +25,6 @@ export const ObjectItem: FC<ObjectItemProps> = ({
   style,
   parsedObjArray,
 }) => {
-  console.log('parsedObjArray:', parsedObjArray)
-
   return (
     <Modal.Root>
       <Label>
