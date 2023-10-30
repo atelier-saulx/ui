@@ -36,7 +36,12 @@ import { createMapTestData } from './components/Map'
 
 export const client = based(basedConfig)
 
-// client.call('import-figma', )
+client
+  .query('based:connections')
+  .get()
+  .then((v) => {
+    console.log(v)
+  })
 
 const App = () => {
   const route = useRoute('[component]')
@@ -56,8 +61,9 @@ const App = () => {
     return c.name === component
   })
 
+  useQuery('d')
+
   const [filter, setFilter] = useState('')
-  const [value, setValue] = useState([])
 
   const filterThis = (comp) => {
     let a = comp

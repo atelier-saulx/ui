@@ -47,7 +47,6 @@ export const FormItem: FC<{
   //     [field]
   //   )
   // }
-  console.log(item)
   if (!label) {
     label = useMemo(
       () => [

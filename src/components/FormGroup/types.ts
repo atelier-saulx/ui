@@ -97,3 +97,25 @@ export type LabelProps = {
   labelWidth?: number
   style?: Style
 }
+type parsedObjItem = {
+  type: string
+  field: string
+  properties?: { parsedObjItem }
+}
+
+export type ObjectItemProps = {
+  d: string
+  field: string
+  autoFocus?: boolean
+  onChange: onChange
+  labelWidth: number
+  fieldWidth: number
+  onChangeField: OnChangeField
+  hasChanges: boolean
+  valuesChanged: ValuesChanged
+  values: FormGroupValues
+  setChanges: (val: boolean) => any
+  alwaysAccept?: boolean
+  style: Style
+  parsedObjArray: FormItemProps[]
+}

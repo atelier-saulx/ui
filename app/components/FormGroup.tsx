@@ -31,31 +31,35 @@ const fieldProps = {
       //   ['3', '4'],
       // ],
       values: {
-        type: 'set',
-        values: {
-          type: 'password',
-        },
+        type: 'password',
       },
     },
-    object: {
-      type: 'object',
-      description: 'wowoweewow',
-      properties: {
-        flap: {
-          type: 'boolean',
-        },
-        flirp: {
-          type: 'boolean',
-        },
-        snap: {
-          type: 'text',
-        },
-        snop: {
-          type: 'file',
-        },
-      },
-    },
-    // object2: {
+    // arrayofobj: {
+    //   type: 'array',
+    //   // value: [
+    //   //   ['1', '2'],
+    //   //   ['3', '4'],
+    //   // ],
+    //   values: {
+    //     type: 'object',
+    //     description: 'wowoweewow',
+    //     properties: {
+    //       flap: {
+    //         type: 'boolean',
+    //       },
+    //       flirp: {
+    //         type: 'boolean',
+    //       },
+    //       snap: {
+    //         type: 'text',
+    //       },
+    //       snop: {
+    //         type: 'file',
+    //       },
+    //     },
+    //   },
+    // },
+    // object: {
     //   type: 'object',
     //   description: 'wowoweewow',
     //   properties: {
@@ -71,36 +75,54 @@ const fieldProps = {
     //     snop: {
     //       type: 'file',
     //     },
-    //     flop: {
-    //       type: 'object',
-    //       properties: {
-    //         nested1flap: {
-    //           type: 'boolean',
-    //         },
-    //         nested1snurp: {
-    //           type: 'boolean',
-    //         },
-    //         nested1cod: {
-    //           type: 'boolean',
-    //         },
-    //         nested1bla: {
-    //           type: 'object',
-    //           properties: {
-    //             nested2flap: {
-    //               type: 'boolean',
-    //             },
-    //             nested2snurp: {
-    //               type: 'boolean',
-    //             },
-    //             nested2cod: {
-    //               type: 'boolean',
-    //             },
-    //           },
-    //         },
-    //       },
-    //     },
     //   },
     // },
+    object2: {
+      type: 'object',
+      description: 'wowoweewow',
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+        snap: {
+          type: 'text',
+        },
+        snop: {
+          type: 'file',
+        },
+        flop: {
+          type: 'object',
+          properties: {
+            nested1flap: {
+              type: 'boolean',
+            },
+            nested1snurp: {
+              type: 'boolean',
+            },
+            nested1cod: {
+              type: 'boolean',
+            },
+            nested1bla: {
+              type: 'object',
+              properties: {
+                nested2flap: {
+                  type: 'boolean',
+                },
+                nested2snurp: {
+                  type: 'boolean',
+                },
+                nested2cod: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     // ObjWithArrays: {
     //   type: 'object',
     //   description: 'wowoweewow',
