@@ -33,7 +33,16 @@ const fieldProps = {
       values: {
         type: 'set',
         values: {
-          type: 'password',
+          type: 'set',
+          values: {
+            type: 'set',
+            values: {
+              type: 'set',
+              values: {
+                type: 'password',
+              },
+            },
+          },
         },
       },
     },
@@ -55,52 +64,52 @@ const fieldProps = {
         },
       },
     },
-    // object2: {
-    //   type: 'object',
-    //   description: 'wowoweewow',
-    //   properties: {
-    //     flap: {
-    //       type: 'boolean',
-    //     },
-    //     flirp: {
-    //       type: 'boolean',
-    //     },
-    //     snap: {
-    //       type: 'text',
-    //     },
-    //     snop: {
-    //       type: 'file',
-    //     },
-    //     flop: {
-    //       type: 'object',
-    //       properties: {
-    //         nested1flap: {
-    //           type: 'boolean',
-    //         },
-    //         nested1snurp: {
-    //           type: 'boolean',
-    //         },
-    //         nested1cod: {
-    //           type: 'boolean',
-    //         },
-    //         nested1bla: {
-    //           type: 'object',
-    //           properties: {
-    //             nested2flap: {
-    //               type: 'boolean',
-    //             },
-    //             nested2snurp: {
-    //               type: 'boolean',
-    //             },
-    //             nested2cod: {
-    //               type: 'boolean',
-    //             },
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
+    object2: {
+      type: 'object',
+      description: 'wowoweewow',
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+        snap: {
+          type: 'text',
+        },
+        snop: {
+          type: 'file',
+        },
+        flop: {
+          type: 'object',
+          properties: {
+            nested1flap: {
+              type: 'boolean',
+            },
+            nested1snurp: {
+              type: 'boolean',
+            },
+            nested1cod: {
+              type: 'boolean',
+            },
+            nested1bla: {
+              type: 'object',
+              properties: {
+                nested2flap: {
+                  type: 'boolean',
+                },
+                nested2snurp: {
+                  type: 'boolean',
+                },
+                nested2cod: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     // ObjWithArrays: {
     //   type: 'object',
     //   description: 'wowoweewow',
