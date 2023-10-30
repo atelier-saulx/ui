@@ -53,7 +53,6 @@ const App = () => {
   })
 
   const [filter, setFilter] = useState('')
-  const [value, setValue] = useState([])
 
   const filterThis = (comp) => {
     let a = comp
