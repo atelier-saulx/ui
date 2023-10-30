@@ -86,6 +86,7 @@ export const htmlNodesToJson = (childNodes) => {
           type: htmlNodeDiv.localName === 'ul' ? 'unordered' : 'ordered',
           alignment: htmlNodeDiv.style.textAlign,
           items: listItems,
+          style: htmlNodeDiv.style.cssText,
         },
       }
       arrOfobjects.push(obj)

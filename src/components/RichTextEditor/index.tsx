@@ -119,6 +119,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
       }))
 
       blocks[idx].data.items = listItemsArray
+      blocks[idx].data.style = newRef.cssText
       // blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
     }
   }

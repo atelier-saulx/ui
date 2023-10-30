@@ -102,6 +102,13 @@ export const ListBlock: FC<ListBlockProps> = ({
     }, 50)
   }
 
+  useEffect(() => {
+    if (blockData && listRef.current && blockData.style) {
+      console.log('🐸, b', blockData)
+      listRef.current.style.cssText = blockData?.style
+    }
+  }, [listRef.current])
+
   // dont call updateBlocks from inside this component !
 
   let listItems = blockData?.items?.map((item, id) => {

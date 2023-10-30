@@ -74,6 +74,7 @@ export const nodeToJson = (nodes) => {
           type: item.localName === 'ul' ? 'unordered' : 'ordered',
           alignment: item.style.textAlign,
           items: itemsArr,
+          style: item.style.cssText,
         },
       }
       arrOfobjects.push(obj)
