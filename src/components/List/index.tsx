@@ -4,17 +4,27 @@ import { IconArrowheadRight, IconClose, IconPlus } from '../../icons'
 import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
-import { FormItem } from '../FormGroup/Column/Item'
-import { setValue } from '../FormGroup/utils'
+
+const genType = (type) => {
+  return type === 'text' || type === 'string' || type === 'password'
+    ? 'text'
+    : type === 'number' || type === 'integer' || type === 'timestamp'
+    ? 'number'
+    : 'text'
+}
 
 const NewInput = ({ index, setOpen, v, type, value, field, onChange }) => {
+  const inputType = genType(type)
+
   return (
     <Input
       // style={{ position: 'absolute' }}
       onFocus={() => setOpen(true)}
       key={index}
       //@ts-ignore
-      type={'text'}
+      password={type === 'password'}
+      integer={type === 'integer'}
+      type={inputType}
       clearButton
       value={v}
       onChange={(newStringValue) => {
@@ -59,16 +69,20 @@ export const List: FC<{
 }) => {
   const [open, setOpen] = useState(false)
   const [prevValue, setValue] = useState(value)
-  // useEffect(() => {}, [value])
+
   if (Object.keys(value).length > 0 && !Array.isArray(value)) {
-    value = [...prevValue, value[0]]
-    value.pop()
+    console.log(true)
+    const newVal = Object.values(value)
+    const key = parseInt(Object.keys(value)[0])
+    const newValue = [...prevValue]
+    newValue[key] = newVal[0]
+    value = Object.values(newValue)
     onChange(field, value)
   }
 
-  const thingy = () => {}
-
   const addType = type === 'array' || type === 'set' ? [] : ''
+  const inputType = genType(type)
+
   return (
     <Label>
       <Text
@@ -115,7 +129,7 @@ export const List: FC<{
       </Text>
       {values.type === 'array' ||
       (values.type === 'set' && Array.isArray(value)) ? (
-        <styled.div onClick={thingy}>
+        <styled.div>
           {!open &&
             value
               .filter((v, i) => i === 0)
@@ -225,10 +239,11 @@ export const List: FC<{
               .map((v, index) => (
                 <Input
                   key={index + 1}
-                  //@ts-ignore
-                  type={'text'}
+                  type={inputType}
                   clearButton
                   value={v}
+                  password={type === 'password'}
+                  integer={type === 'integer'}
                   onChange={(newStringValue) => {
                     const newValue =
                       type === 'number'

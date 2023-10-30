@@ -39,8 +39,6 @@ const convertBlock = (idx: number, blocks, setBlocks, value?: string) => {
     blocks[idx].type = 'heading'
     blocks[idx].data.level = value
   } else if (value === 'ordered' || value === 'unordered') {
-    console.log('🦢', value, blocks[idx].data.type)
-
     blocks[idx].data.type = value
   } else {
     blocks[idx].type = value
@@ -111,14 +109,6 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
             ? blocks[focus]?.data.type
             : ''
         }
-        // TODO: change on focus the value or placeholder
-        // placeholder={
-        // blocks[focus]?.type === 'paragraph'
-        //   ? blocks[focus]?.type
-        //   : blocks[focus].data.level
-        //   ? blocks[focus].data.level
-        //   : ''
-        // }
         options={
           blocks[focus]?.type === 'paragraph' || blocks[focus]?.data?.level
             ? paragraphHeadingOptions
@@ -138,8 +128,7 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
             updateBlock(focus)
           }}
           size="small"
-          light
-          color="neutral"
+          color="system"
           icon={<IconChevronTop />}
         />
       </Tooltip>
@@ -150,8 +139,7 @@ export const CenterButtonGroup: FC<CenterButtonGroupProps> = ({
             updateBlock(focus)
           }}
           size="small"
-          light
-          color="neutral"
+          color="system"
           icon={<IconChevronDown />}
         />
       </Tooltip>

@@ -5,9 +5,6 @@ import { FormItemProps } from '../types'
 import { Input, Row, List, Toggle, Code } from '../..'
 
 // | 'timestamp'
-// | 'string'
-// | 'object'
-// | 'array'
 // | 'record'
 // | 'set'
 // | 'reference'
@@ -50,6 +47,7 @@ export const FormItem: FC<{
   //     [field]
   //   )
   // }
+  console.log(item)
   if (!label) {
     label = useMemo(
       () => [

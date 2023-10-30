@@ -1,49 +1,43 @@
 import React, { FC, useRef, useState, useEffect } from 'react'
-import { styled, Style } from 'inlines'
+import { styled } from 'inlines'
 import { Button } from '../Button'
 import { color } from '../../varsUtilities'
 import { Header } from './Header/Header'
 import { ParagraphBlock } from './Blocks/ParagaphBlock'
 import { HeadingBlock } from './Blocks/HeadingBlock'
-import { Row } from '../Styled'
 import { generateString } from './utils/generateString'
 import { keyDownHandler } from './utils/keyDownHandler'
-import { Code } from '../Code'
 import { ListBlock } from './Blocks/ListBlock'
-import { Text } from '../Text'
 import { HtmlBlock } from './Blocks/HtmlBlock'
 import { SpaceBlock } from './Blocks/SpaceBlock'
+import { nodeToJson } from './utils/nodesToJson'
+import { RawHtmlBlock } from './Blocks/RawHtmlBlock'
+import { htmlNodesToJson } from './utils/htmlNodesToJson'
+import { IconEye, IconEyeOff } from '../../icons'
+import { Tooltip } from '../..'
 
 export type RichTextEditorProps = {
   time?: number
   data?: any
-  style?: Style
 }
 
 // TODO :
-//  - HTML preview -> editable -> outerHTML prop on nodes
+//  header buttons in html editor??
 //  - add media
-//  - preview html code
 //  - only selections that fall within the editor
-//  - option to add css style to element
-//  - option to add class to element
-//  - clear text and styles and tags --> also if you select more strip inside tags
-//  - make new block autofocus on the new block --> list // also if completely empty?
-//  shift + enter at end of block
-//  - styling
+//  - option to add css style to main html element
+//  -  shift + enter at end of block
+//  - duplicate a block
+// spit out to database / onchange
+//  add timestamp to publish output
 
-export const RichTextEditor: FC<RichTextEditorProps> = ({
-  time,
-  data,
-  style,
-}) => {
+export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const editorWrapRef = useRef<HTMLElement>()
 
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
-  const [html, setHtml] = useState<string>('')
-
-  let childnodes = editorWrapRef?.current?.childNodes
+  const [htmlView, setHtmlView] = useState<boolean>(false)
+  const [renderCounter, setRenderCounter] = useState(1)
 
   const makeNewBlock = (type, focus) => {
     if (focus || focus === 0) {
@@ -58,6 +52,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             level: type === 'heading' ? 'h1' : undefined,
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
+            type: type === 'list' ? 'unordered' : undefined,
           },
         },
         ...blocks.slice(focus === 0 ? 1 : focus + 1),
@@ -65,7 +60,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
       setBlocks([...duplicateArr])
     } else {
-      // add to end
+      // add new block to the end
       setBlocks((oldblocks) => [
         ...oldblocks,
         {
@@ -120,33 +115,84 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         // @ts-ignore
         innerText: item.innerText,
       }))
-      blocks[idx].data.items = listItemsArray
-    }
 
-    /// setBlocks(blocks)
+      blocks[idx].data.items = listItemsArray
+      // blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
+    }
+  }
+
+  const updateHtmlBlock = () => {
+    let childrenNodes = editorWrapRef.current.children[0].children
+    setBlocks(htmlNodesToJson(childrenNodes))
   }
 
   useEffect(() => {
+    if (!htmlView) {
+      let nodes = editorWrapRef.current.children
+      setBlocks(nodeToJson(nodes))
+    }
     // use childNodes not children you know because of logic 🤨
     let child = editorWrapRef.current.childNodes[focus] as HTMLElement
+    if (htmlView) {
+      child = editorWrapRef.current?.children[0]?.children[focus]?.firstChild
+        ?.firstChild?.firstChild as HTMLTextAreaElement
+    }
     child?.focus()
   }, [focus])
 
-  useEffect(() => {
-    console.log(' 🙄what are the blocks now --> ', blocks)
-  }, [blocks])
-
   return (
     <styled.div>
-      <Header
-        blocks={blocks}
-        deleteBlock={deleteBlock}
-        focus={focus}
-        makeNewBlock={makeNewBlock}
-        setBlocks={setBlocks}
-        setFocus={setFocus}
-        updateBlock={updateBlock}
-      />
+      <styled.div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Header
+          blocks={blocks}
+          deleteBlock={deleteBlock}
+          focus={focus}
+          makeNewBlock={makeNewBlock}
+          setBlocks={setBlocks}
+          setFocus={setFocus}
+          updateBlock={updateBlock}
+        />
+        <styled.div
+          style={{
+            '& button': {
+              height: '24px',
+              borderRadius: '4px !important',
+              '& div': {
+                fontSize: '13px !important',
+                lineHeight: '13px !important',
+                fontWeight: '400 !important',
+              },
+              '& svg': {
+                marginTop: '-2px',
+                width: '14px',
+                height: '14px',
+              },
+            },
+          }}
+        >
+          <Tooltip text="Switch view">
+            <Button
+              onClick={() => {
+                if (!htmlView) {
+                  let nodes = editorWrapRef.current.children
+                  setBlocks(nodeToJson(nodes))
+                  setHtmlView(true)
+                } else {
+                  let childrenNodes = editorWrapRef.current.children[0].children
+                  setBlocks(htmlNodesToJson(childrenNodes))
+                  setHtmlView(false)
+                }
+              }}
+              size="small"
+              light
+              color="neutral"
+              icon={!htmlView ? <IconEyeOff /> : <IconEye />}
+            >
+              {!htmlView ? 'Html' : 'Visual'}
+            </Button>
+          </Tooltip>
+        </styled.div>
+      </styled.div>
       <styled.div
         id="editor"
         ref={editorWrapRef}
@@ -162,6 +208,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             'neutralNormal',
             'default'
           )}`,
+          minWidth: 680,
           marginTop: 8,
           marginBottom: 16,
           '& p': {
@@ -203,92 +250,119 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
           },
         }}
       >
-        {blocks.map((item, idx) => {
-          if (item.type === 'paragraph') {
-            return (
-              <ParagraphBlock
-                key={idx}
+        {!htmlView &&
+          renderCounter &&
+          blocks.map((item, idx) => {
+            if (item.type === 'paragraph') {
+              return (
+                <ParagraphBlock
+                  key={idx}
+                  idx={idx}
+                  data={item}
+                  setFocus={setFocus}
+                  makeNewBlock={makeNewBlock}
+                  deleteBlock={deleteBlock}
+                  updateBlock={updateBlock}
+                  keyDownHandler={keyDownHandler}
+                  blocksLength={blocks.length}
+                  focus={focus}
+                  style={{
+                    textAlign: item.data.alignment,
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            } else if (item.type === 'heading') {
+              return (
+                <HeadingBlock
+                  key={idx}
+                  data={item}
+                  idx={idx}
+                  setFocus={setFocus}
+                  makeNewBlock={makeNewBlock}
+                  deleteBlock={deleteBlock}
+                  updateBlock={updateBlock}
+                  keyDownHandler={keyDownHandler}
+                  blocksLength={blocks.length}
+                  focus={focus}
+                  style={{
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            } else if (item.type === 'list') {
+              return (
+                <ListBlock
+                  key={idx}
+                  idx={idx}
+                  data={item}
+                  setFocus={setFocus}
+                  updateBlock={updateBlock}
+                  deleteBlock={deleteBlock}
+                  blocksLength={blocks.length}
+                  focus={focus}
+                  style={{
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            } else if (item.type === 'html') {
+              return (
+                <HtmlBlock
+                  key={idx}
+                  idx={idx}
+                  data={item}
+                  setFocus={setFocus}
+                  blocks={blocks}
+                  focus={focus}
+                  style={{
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            } else if (item.type === 'space') {
+              return (
+                <SpaceBlock
+                  data={item}
+                  key={idx}
+                  idx={idx}
+                  setFocus={setFocus}
+                  focus={focus}
+                  blocks={blocks}
+                  style={{
+                    borderLeft:
+                      focus === idx
+                        ? `3px solid ${color('action', 'primary', 'normal')}`
+                        : '3px solid transparent',
+                  }}
+                />
+              )
+            }
+          })}
+        {htmlView && (
+          <styled.div>
+            {blocks.map((item, idx) => (
+              <RawHtmlBlock
                 idx={idx}
                 data={item}
-                setFocus={setFocus}
-                makeNewBlock={makeNewBlock}
-                deleteBlock={deleteBlock}
-                updateBlock={updateBlock}
-                keyDownHandler={keyDownHandler}
-                blocksLength={blocks.length}
-                focus={focus}
-                style={{
-                  textAlign: item.data.alignment,
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            )
-          } else if (item.type === 'heading') {
-            return (
-              <HeadingBlock
-                key={idx}
-                data={item}
-                idx={idx}
-                setFocus={setFocus}
-                makeNewBlock={makeNewBlock}
-                deleteBlock={deleteBlock}
-                updateBlock={updateBlock}
-                keyDownHandler={keyDownHandler}
-                blocksLength={blocks.length}
-                focus={focus}
-                style={{
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            )
-          } else if (item.type === 'list') {
-            return (
-              <ListBlock
-                key={idx}
-                idx={idx}
-                data={item}
-                setFocus={setFocus}
-                deleteBlock={deleteBlock}
-                blocksLength={blocks.length}
-                style={{
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            )
-          } else if (item.type === 'html') {
-            return (
-              <HtmlBlock
-                key={idx}
-                idx={idx}
-                data={item}
-                setFocus={setFocus}
                 blocks={blocks}
-                style={{
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            )
-          } else if (item.type === 'space') {
-            return (
-              <SpaceBlock
-                data={item}
-                key={idx}
-                idx={idx}
                 setFocus={setFocus}
+                updateHtmlBlock={updateHtmlBlock}
                 focus={focus}
-                blocks={blocks}
+                deleteBlock={deleteBlock}
+                key={idx}
                 style={{
                   borderLeft:
                     focus === idx
@@ -296,46 +370,29 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                       : '3px solid transparent',
                 }}
               />
-            )
-          }
-        })}
+            ))}
+          </styled.div>
+        )}
       </styled.div>
+
       <Button
+        size="small"
         onClick={() => {
-          // get all html nodes inside the ref
-          let snork = editorWrapRef.current.children
-          console.log(snork, '📌 -> now here you save the blocks')
-
-          let htmlString = Array.prototype.reduce.call(
-            childnodes,
-            function (html, node) {
-              return html + (node.outerHTML || node.nodeValue)
-            },
-            ''
-          )
-
-          setHtml(htmlString)
-          console.log('as html -->', htmlString)
-
-          // TODO: for each childnode make an object
-          // [
-          //   {
-          //     id: 'par-blha',
-          //     type:'paragraph'
-          //     data: {
-          //       innerHTML: '',
-          //       innerText: '',
-          //       style: 'css',
-          //       alignment: 'left',
-          //     }
-          //   }
-          // ]
+          if (!htmlView) {
+            let nodes = editorWrapRef.current.children
+            setBlocks(nodeToJson(nodes))
+            // TODO
+            console.log('Spit out these blocks', blocks)
+          } else {
+            let childrenNodes = editorWrapRef.current.children[0].children
+            setBlocks(htmlNodesToJson(childrenNodes))
+            // TODO
+            console.log('spit these blocks to DB', blocks)
+          }
         }}
       >
-        log output
+        Publish
       </Button>
-
-      <Code language="html" value={html} />
     </styled.div>
   )
 }

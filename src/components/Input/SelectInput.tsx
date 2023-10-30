@@ -10,7 +10,6 @@ import {
 } from '../../icons'
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
-import { scrollAreaStyle } from '../ScrollArea'
 import { useControllableState } from '../../hooks/useControllableState'
 import { BpTablet } from '../../utils'
 
@@ -307,7 +306,6 @@ export function SelectInput({
                 background: color('standalone', 'modal', 'default'),
                 boxShadow:
                   '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
-                ...scrollAreaStyle,
               }}
             >
               {filteredOptions.length ? (

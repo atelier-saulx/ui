@@ -216,7 +216,8 @@ export const Menu: FC<MenuProps> = ({
       return (
         <div
           style={{
-            width: `calc(100% - ${depth * 20}px)`,
+            // width: `calc(100% - ${depth * 20}px)`,
+            width: '100%',
             paddingLeft: depth * 20,
           }}
           // key={i + label + depth}

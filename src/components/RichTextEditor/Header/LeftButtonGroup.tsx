@@ -1,7 +1,5 @@
 import React, { useState, FC } from 'react'
-import { styled, Style } from 'inlines'
 import { Button } from '../../Button'
-import { color } from '../../../varsUtilities'
 import { Row } from '../../Styled'
 import {
   IconFormatItalic,
@@ -70,17 +68,25 @@ const makeTextDefault = () => {
 const makeTextBold = () => {
   let selection = window.getSelection().getRangeAt(0)
   let selectedText = selection.extractContents()
-  let b = document.createElement('b')
-  b.appendChild(selectedText)
-  selection.insertNode(b)
+  if (selectedText.firstChild.textContent.trim() !== '') {
+    let b = document.createElement('b')
+    b.appendChild(selectedText)
+    selection.insertNode(b)
+  } else {
+    selection.insertNode(selectedText)
+  }
 }
 
 const makeTextItalic = () => {
   let selection = window.getSelection().getRangeAt(0)
   let selectedText = selection.extractContents()
-  let i = document.createElement('i')
-  i.appendChild(selectedText)
-  selection.insertNode(i)
+  if (selectedText.firstChild.textContent.trim() !== '') {
+    let i = document.createElement('i')
+    i.appendChild(selectedText)
+    selection.insertNode(i)
+  } else {
+    selection.insertNode(selectedText)
+  }
 }
 
 const textAlign = (alignment: string, blocks: any, focus: number) => {
@@ -90,13 +96,17 @@ const textAlign = (alignment: string, blocks: any, focus: number) => {
 
 const makeLink = (selection, link, openInNewTab) => {
   let selectedText = selection.extractContents()
-  let a = document.createElement('a')
-  a.appendChild(selectedText)
-  if (openInNewTab) {
-    a.setAttribute('target', '_blank')
+  if (selectedText.firstChild.textContent.trim() !== '') {
+    let a = document.createElement('a')
+    a.appendChild(selectedText)
+    if (openInNewTab) {
+      a.setAttribute('target', '_blank')
+    }
+    a.href = link
+    selection.insertNode(a)
+  } else {
+    selection.insertNode(selectedText)
   }
-  a.href = link
-  selection.insertNode(a)
 }
 
 type LeftButtonGroupProps = {
@@ -141,7 +151,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
       <Dropdown.Root>
         <Tooltip text="Add block">
           <Dropdown.Trigger>
-            <Button size="small" icon={<IconPlus />} />
+            <Button size="small" icon={<IconPlus />} light />
           </Dropdown.Trigger>
         </Tooltip>
         <Dropdown.Items>
@@ -199,7 +209,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           }}
           size="small"
           light
-          color="neutral"
+          color="system"
           icon={<IconEmojiSmile />}
         />
       </Tooltip>
@@ -211,7 +221,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           }}
           size="small"
           light
-          color="neutral"
+          color="system"
           icon={<IconFormatBold />}
         />
       </Tooltip>
@@ -223,7 +233,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           }}
           size="small"
           light
-          color="neutral"
+          color="system"
           icon={<IconFormatItalic />}
         />
       </Tooltip>
@@ -235,7 +245,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           }}
           size="small"
           light
-          color="neutral"
+          color="system"
           icon={<IconFormatAlignLeft />}
         />
       </Tooltip>
@@ -247,7 +257,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           }}
           size="small"
           light
-          color="neutral"
+          color="system"
           icon={<IconFormatAlignCenter />}
         />
       </Tooltip>
@@ -259,7 +269,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           }}
           size="small"
           light
-          color="neutral"
+          color="system"
           icon={<IconFormatAlignRight />}
         />
       </Tooltip>
@@ -271,7 +281,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
           }}
           size="small"
           light
-          color="neutral"
+          color="system"
           icon={<IconFormatAlignJustify />}
         />
       </Tooltip>
@@ -289,7 +299,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
               }}
               size="small"
               light
-              color="neutral"
+              color="system"
               icon={<IconLink />}
             />
           </Modal.Trigger>
@@ -325,6 +335,8 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
                     setLinkSelection(null)
                     setLinkValue('')
                     setOpenInNewTab(false)
+
+                    updateBlock(focus)
                   }}
                   color="primary"
                 >
@@ -350,7 +362,7 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
               }}
               size="small"
               light
-              color="neutral"
+              color="system"
               icon={<IconText style={{ color: textColor }} />}
             />
           </Modal.Trigger>
@@ -418,6 +430,8 @@ export const LeftButtonGroup: FC<LeftButtonGroupProps> = ({
                     let snurp: HTMLElement =
                       document.querySelector('.snurpColor')
                     snurp.classList.remove('snurpColor')
+
+                    updateBlock(focus)
                   }}
                   color="primary"
                 >

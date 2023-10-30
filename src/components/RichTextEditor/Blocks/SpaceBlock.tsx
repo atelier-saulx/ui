@@ -7,6 +7,7 @@ import { Row } from '../../Styled'
 
 type SpaceBlockProps = {
   data: {
+    id?: string
     data?: {
       space?: number
       spaceFormat?: string
@@ -32,10 +33,21 @@ export const SpaceBlock: FC<SpaceBlockProps> = ({
   const [spaceNumber, setSpaceNumber] = useState(blockData.space || 32)
   const [spaceFormat, setSpaceFormat] = useState(blockData.spaceFormat || 'px')
 
+  const numberRef = useRef<HTMLInputElement>()
+
+  if (focus === idx) {
+    setTimeout(() => {
+      let x = numberRef.current.firstChild.firstChild.firstChild as HTMLElement
+      x.focus()
+    }, 50)
+  }
+
   return (
     <Row
       style={{ paddingLeft: 13, marginBottom: 12, ...style }}
       onClick={() => setFocus(idx)}
+      id={data.id}
+      className="spacing"
     >
       <styled.div
         style={{
@@ -53,7 +65,7 @@ export const SpaceBlock: FC<SpaceBlockProps> = ({
         }}
       />
 
-      <Row style={{ maxWidth: 172, gap: 8, marginLeft: 8 }}>
+      <Row style={{ maxWidth: 172, gap: 8, marginLeft: 8 }} ref={numberRef}>
         <Input
           style={{ maxWidth: 112 }}
           type="number"
@@ -66,13 +78,17 @@ export const SpaceBlock: FC<SpaceBlockProps> = ({
         />
         <Input
           style={{ maxWidth: 46 }}
-          type="text"
+          type="select"
           value={spaceFormat}
           onChange={(v) => {
             setSpaceFormat(v)
             blocks[idx].data.spaceFormat = v
           }}
-          onFocus={() => setFocus(idx)}
+          options={[
+            { value: 'px', label: 'px' },
+            { value: 'vh', label: 'vh' },
+            { value: 'em', label: 'em' },
+          ]}
         />
       </Row>
     </Row>

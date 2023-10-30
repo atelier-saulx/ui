@@ -16,11 +16,7 @@ export const Header = ({
   updateBlock,
 }) => {
   return (
-    <Row
-      style={{
-        justifyContent: 'space-between',
-      }}
-    >
+    <>
       <LeftButtonGroup
         makeNewBlock={makeNewBlock}
         blocks={blocks}
@@ -35,9 +31,6 @@ export const Header = ({
         updateBlock={updateBlock}
         setFocus={setFocus}
       />
-      {/* center buttons */}
-
-      {/* right side */}
       <Row
         style={{
           gap: 4,
@@ -64,6 +57,6 @@ export const Header = ({
           />
         </Tooltip>
       </Row>
-    </Row>
+    </>
   )
 }

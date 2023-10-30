@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import DOMPurify = require('dompurify')
 import { Style, styled } from 'inlines'
 
@@ -9,6 +9,8 @@ type ListBlockProps = {
   setFocus?: (v) => void
   style?: Style
   blocksLength?: number
+  focus?: number
+  updateBlock?: (v, r) => void
 }
 
 const listKeyHandler = (
@@ -80,23 +82,51 @@ export const ListBlock: FC<ListBlockProps> = ({
   setFocus,
   style,
   blocksLength,
+  focus,
+  updateBlock,
 }) => {
-  const blockData = data.data
+  // const blockData = data.data
 
-  const listRef = useRef()
+  const listRef = useRef<HTMLParagraphElement>()
+
+  const [blockData, setBlockData] = useState(undefined)
+
+  useEffect(() => {
+    setBlockData(data.data)
+  }, [])
+
+  // on new block puts focus in first caret place
+  if (!blockData?.innerHTML && !blockData?.innerText && focus === idx) {
+    setTimeout(() => {
+      listRef.current.focus()
+    }, 50)
+  }
 
   // dont call updateBlocks from inside this component !
 
-  return blockData.type === 'unordered' ? (
+  let listItems = blockData?.items?.map((item, id) => {
+    let innerListHTML =
+      DOMPurify.sanitize(item.innerHTML) || DOMPurify.sanitize(item.innerText)
+    return (
+      <li
+        key={id}
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(innerListHTML),
+        }}
+      />
+    )
+  })
+
+  return data.data.type === 'unordered' ? (
     <styled.ul
+      id={data.id}
       ref={listRef}
       contentEditable
       suppressContentEditableWarning
-      onInput={() => {}}
-      onBlur={(e) => e.preventDefault()}
+      onInput={() => updateBlock(idx, listRef.current)}
       onFocus={() => setFocus(idx)}
       style={{
-        textAlign: blockData.alignment,
+        textAlign: blockData?.alignment,
         ...style,
       }}
       onKeyDown={(e) => {
@@ -111,27 +141,18 @@ export const ListBlock: FC<ListBlockProps> = ({
         )
       }}
     >
-      {blockData?.items?.map((item, id) => (
-        <li
-          key={id}
-          dangerouslySetInnerHTML={{
-            __html:
-              DOMPurify.sanitize(item.innerHTML) ||
-              DOMPurify.sanitize(item.innerText),
-          }}
-        />
-      ))}
+      {listItems}
     </styled.ul>
   ) : (
     <styled.ol
+      id={data.id}
       ref={listRef}
       contentEditable
       suppressContentEditableWarning
-      onInput={() => {}}
-      onBlur={(e) => e.preventDefault()}
+      onInput={() => updateBlock(idx, listRef.current)}
       onFocus={() => setFocus(idx)}
       style={{
-        textAlign: blockData.alignment,
+        textAlign: blockData?.alignment,
         ...style,
       }}
       onKeyDown={(e) => {
@@ -146,16 +167,7 @@ export const ListBlock: FC<ListBlockProps> = ({
         )
       }}
     >
-      {blockData?.items?.map((item, id) => (
-        <li
-          key={id}
-          dangerouslySetInnerHTML={{
-            __html:
-              DOMPurify.sanitize(item.innerHTML) ||
-              DOMPurify.sanitize(item.innerText),
-          }}
-        />
-      ))}
+      {listItems}
     </styled.ol>
   )
 }
