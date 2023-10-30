@@ -30,6 +30,9 @@ export const RawHtmlBlock = ({
     if (alignment) {
       blockStyle = ` style="text-align:${alignment}"`
     }
+    if (cssStyle) {
+      blockStyle = ` style="${cssStyle}"`
+    }
 
     str = `<${level}${blockStyle}>${innerHTML}</${level}>`
   }
@@ -52,6 +55,9 @@ export const RawHtmlBlock = ({
 
     if (alignment) {
       blockStyle = ` style="text-align:${alignment}"`
+    }
+    if (cssStyle) {
+      blockStyle = ` style="${cssStyle}"`
     }
 
     str = `<${

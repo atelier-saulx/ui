@@ -48,7 +48,8 @@ const example: ComponentDef = {
                   "A thin paint will stick to a thick paint. Don't forget to tell these special people in your life just how special they are to you. Life is too short to be alone, too precious. Share it with a friend. You create the dream - then you bring it into your world. It's a super day, so why not make a beautiful sky?",
                 //       innerHTML: `lorem <b onmouseover="alert('mouseover');">ipsum sanitized this </b>`,
                 alignment: 'left',
-                style: 'background:yellow;color:red;border:1px solid blue;',
+                style: 'color:purple',
+                //   'background:lightblue;color:purple;border:1px solid blue;',
               },
             },
             {

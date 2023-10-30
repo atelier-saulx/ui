@@ -66,32 +66,45 @@ const makeTextDefault = () => {
 }
 
 const makeTextBold = () => {
-  let selection = window.getSelection().getRangeAt(0)
-  let selectedText = selection.extractContents()
-  if (selectedText.firstChild.textContent.trim() !== '') {
-    let b = document.createElement('b')
-    b.appendChild(selectedText)
-    selection.insertNode(b)
-  } else {
-    selection.insertNode(selectedText)
+  let windowSelect = window.getSelection()
+  let editorId = document.getElementById('editor')
+  if (windowSelect.containsNode(editorId, true)) {
+    let selection = window.getSelection().getRangeAt(0)
+
+    let selectedText = selection.extractContents()
+    if (selectedText.firstChild.textContent.trim() !== '') {
+      let b = document.createElement('b')
+      b.appendChild(selectedText)
+      selection.insertNode(b)
+    } else {
+      selection.insertNode(selectedText)
+    }
   }
 }
 
 const makeTextItalic = () => {
-  let selection = window.getSelection().getRangeAt(0)
-  let selectedText = selection.extractContents()
-  if (selectedText.firstChild.textContent.trim() !== '') {
-    let i = document.createElement('i')
-    i.appendChild(selectedText)
-    selection.insertNode(i)
-  } else {
-    selection.insertNode(selectedText)
+  let windowSelect = window.getSelection()
+  let editorId = document.getElementById('editor')
+  if (windowSelect.containsNode(editorId, true)) {
+    let selection = window.getSelection().getRangeAt(0)
+    let selectedText = selection.extractContents()
+    if (selectedText.firstChild.textContent.trim() !== '') {
+      let i = document.createElement('i')
+      i.appendChild(selectedText)
+      selection.insertNode(i)
+    } else {
+      selection.insertNode(selectedText)
+    }
   }
 }
 
 const textAlign = (alignment: string, blocks: any, focus: number) => {
-  checkForParent(window.getSelection().anchorNode.parentElement, alignment)
-  blocks[focus].data.alignment = alignment
+  let windowSelect = window.getSelection()
+  let editorId = document.getElementById('editor')
+  if (windowSelect.containsNode(editorId, true)) {
+    checkForParent(window.getSelection().anchorNode.parentElement, alignment)
+    blocks[focus].data.alignment = alignment
+  }
 }
 
 const makeLink = (selection, link, openInNewTab) => {

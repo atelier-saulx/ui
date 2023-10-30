@@ -40,6 +40,7 @@ export const nodeToJson = (nodes) => {
           innerText: item.innerText,
           level: item.localName,
           alignment: item.style.textAlign,
+          style: item.style.cssText,
         },
       }
 
@@ -55,7 +56,6 @@ export const nodeToJson = (nodes) => {
           style: item.style.cssText,
         },
       }
-      console.log('this obj  🐱-->', obj)
       arrOfobjects.push(obj)
     } else if (type === 'list') {
       let itemsArr = []
@@ -73,6 +73,7 @@ export const nodeToJson = (nodes) => {
           type: item.localName === 'ul' ? 'unordered' : 'ordered',
           alignment: item.style.textAlign,
           items: itemsArr,
+          style: item.style.cssText,
         },
       }
       arrOfobjects.push(obj)
