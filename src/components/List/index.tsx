@@ -127,8 +127,11 @@ export const List: FC<{
           />
         )}
       </Text>
-      {values.type === 'array' ||
-      (values.type === 'set' && Array.isArray(value)) ? (
+
+      {values.type === 'object' ? (
+        <></>
+      ) : values.type === 'array' ||
+        (values.type === 'set' && Array.isArray(value)) ? (
         <styled.div>
           {!open &&
             value
