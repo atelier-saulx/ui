@@ -33,7 +33,7 @@ const fieldProps = {
       values: {
         type: 'set',
         values: {
-          type: 'number',
+          type: 'password',
         },
       },
     },
