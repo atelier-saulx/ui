@@ -25,9 +25,9 @@ export type RichTextEditorProps = {
 //  header buttons in html editor??
 //  - add media
 //  - only selections that fall within the editor
-//  - option to add css style to element
-// -  shift + enter at end of block
-// - duplicate a block
+//  - option to add css style to main html element
+//  -  shift + enter at end of block
+//  - duplicate a block
 // spit out to database / onchange
 //  add timestamp to publish output
 

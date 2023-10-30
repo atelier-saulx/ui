@@ -38,7 +38,6 @@ export const htmlNodesToJson = (childNodes) => {
     }
 
     // 2. make blocks based on type
-
     if (type === 'heading') {
       obj = {
         id: item.id,
@@ -60,6 +59,7 @@ export const htmlNodesToJson = (childNodes) => {
           innerText: htmlNodeDiv.innerText,
           innerHTML: htmlNodeDiv.innerHTML,
           alignment: htmlNodeDiv.style.textAlign,
+          style: htmlNodeDiv.style.cssText,
         },
       }
 

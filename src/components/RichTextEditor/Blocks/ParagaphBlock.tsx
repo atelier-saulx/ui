@@ -35,7 +35,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   const pRef = useRef<HTMLParagraphElement>()
 
   useEffect(() => {
-    //  console.log(pRef)
+    console.log('css Text --> ', pRef.current.style.cssText)
     if (pRef.current && blockData.style) {
       pRef.current.style.cssText = blockData.style
     }
