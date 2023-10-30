@@ -40,6 +40,7 @@ export const nodeToJson = (nodes) => {
           innerText: item.innerText,
           level: item.localName,
           alignment: item.style.textAlign,
+          style: item.style.cssText,
         },
       }
 

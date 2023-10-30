@@ -53,6 +53,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
             type: type === 'list' ? 'unordered' : undefined,
+            style: undefined,
           },
         },
         ...blocks.slice(focus === 0 ? 1 : focus + 1),
@@ -71,6 +72,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
             level: type === 'heading' ? 'h1' : undefined,
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
+            style: undefined,
           },
         },
       ])

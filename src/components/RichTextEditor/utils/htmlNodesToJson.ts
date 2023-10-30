@@ -47,6 +47,7 @@ export const htmlNodesToJson = (childNodes) => {
           innerHTML: htmlNodeDiv.innerHTML,
           alignment: htmlNodeDiv.style.textAlign,
           level: htmlNodeDiv.localName,
+          style: htmlNodeDiv.style.cssText,
         },
       }
 
