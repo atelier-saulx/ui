@@ -23,12 +23,10 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  header buttons in html editor??
-//  - add media
-//  - only selections that fall within the editor
+//  - add media // button // layout after refactoring this
 //  -  shift + enter at end of block
 //  - duplicate a block
-// spit out to database / onchange
-//  add timestamp to publish output
+// spit out to database / onchange + timestamp
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const editorWrapRef = useRef<HTMLElement>()
@@ -106,7 +104,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
       blocks[idx].data.alignment = newRef.style.textAlign
       blocks[idx].data.style = newRef.style.cssText
 
-      console.log('new Ref --> ', newRef.style)
+      // console.log('new Ref --> ', newRef.style)
     }
     // update lists
     if (newRef.nodeName === 'UL' || newRef.nodeName === 'OL') {
@@ -371,7 +369,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
             let nodes = editorWrapRef.current.children
             setBlocks(nodeToJson(nodes))
             // TODO
-            console.log('Spit out these blocks', blocks)
+            let timestamp = Date.now()
+            console.log('Spit out these blocks', blocks, timestamp)
           } else {
             let childrenNodes = editorWrapRef.current.children[0].children
             setBlocks(htmlNodesToJson(childrenNodes))

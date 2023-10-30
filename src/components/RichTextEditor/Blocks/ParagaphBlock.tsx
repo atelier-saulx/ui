@@ -41,6 +41,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
   }, [pRef.current, focus])
 
   const enterLineBreak = () => {
+    console.log('shift + enter was pressed yo')
     // fucks sake this works bit weird but ok
     let selection = window.getSelection().getRangeAt(0)
     let selectedText = selection.extractContents()
@@ -72,6 +73,8 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
       }}
       onInput={() => updateBlock(idx, pRef.current)}
       onKeyDown={(e) => {
+        console.log(e.key)
+
         keyDownHandler(
           e,
           idx,
