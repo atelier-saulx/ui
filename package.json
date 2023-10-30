@@ -22,10 +22,10 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@based/client": "^4.8.9",
+    "@based/client": "^4.8.10",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.1.2",
-    "@based/react": "^4.5.1",
+    "@based/react": "^4.5.2",
     "@based/schema": "^1.1.2",
     "@based/use-local-storage": "0.4.2",
     "@editorjs/editorjs": "^2.28.1",
