@@ -3,9 +3,16 @@ import { Code } from '../../Code'
 import { color } from '../../../varsUtilities'
 
 // html block for htlm view !
-export const RawHtmlBlock = ({ data, blocks, setFocus, focus, idx, style }) => {
-  //   console.log('Raw Science bithc', data)
-
+export const RawHtmlBlock = ({
+  data,
+  blocks,
+  updateHtmlBlock,
+  setFocus,
+  focus,
+  idx,
+  deleteBlock,
+  style,
+}) => {
   const [htmlString, setHtmlString] = useState('')
 
   let str
@@ -66,21 +73,64 @@ export const RawHtmlBlock = ({ data, blocks, setFocus, focus, idx, style }) => {
   }, [blocks])
 
   return (
-    <div onFocus={() => setFocus(idx)} id={data.id} className="raw">
+    <div
+      onFocus={() => {
+        setFocus(idx)
+      }}
+      id={data.id}
+      className="raw"
+    >
       <Code
         style={{
           borderBottom: '1px dashed #bfbfbf52',
           padding: '0px 6px',
           ...style,
         }}
+        // @ts-ignore
+        onBlur={() => updateHtmlBlock()}
         value={htmlString}
         onChange={(v) => {
           setHtmlString(v)
-
-          //   blocks[idx].innerHTML = v
-          //   console.log('blocks??', blocks)
         }}
         language="html"
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown') {
+            if (e.target.selectionStart === e.target.value.length) {
+              setFocus(idx < blocks.length - 1 ? idx + 1 : blocks.length - 1)
+
+              setTimeout(() => {
+                // put carret at end of new block
+                document.execCommand('selectAll', false, null)
+                document.getSelection().collapseToStart()
+              }, 10)
+            }
+          }
+          if (e.key === 'ArrowUp') {
+            if (e.target.selectionStart === 0) {
+              setFocus(idx > 0 ? idx - 1 : 0)
+
+              setTimeout(() => {
+                // put carret at end of new block
+                document.execCommand('selectAll', false, null)
+                document.getSelection().collapseToEnd()
+              }, 10)
+            }
+          }
+          if (e.key === 'Backspace') {
+            // @ts-ignore
+
+            if (e.target.selectionStart === 0 && e.target.value.length === 0) {
+              deleteBlock(idx)
+              setFocus(idx === 0 ? 0 : idx - 1)
+              // todo caret at end
+              setTimeout(() => {
+                // put carret at end of new block
+                document.execCommand('selectAll', false, null)
+                document.getSelection().collapseToEnd()
+              }, 10)
+            }
+          }
+        }}
       />
     </div>
   )

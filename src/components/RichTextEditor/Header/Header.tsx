@@ -31,9 +31,6 @@ export const Header = ({
         updateBlock={updateBlock}
         setFocus={setFocus}
       />
-      {/* center buttons */}
-
-      {/* right side */}
       <Row
         style={{
           gap: 4,
