@@ -40,6 +40,7 @@ export const nodeToJson = (nodes) => {
           innerText: item.innerText,
           level: item.localName,
           alignment: item.style.textAlign,
+          style: item.style.cssText,
         },
       }
 
@@ -52,9 +53,9 @@ export const nodeToJson = (nodes) => {
           innerHTML: item.innerHTML,
           innerText: item.innerText,
           alignment: item.style.textAlign,
+          style: item.style.cssText,
         },
       }
-
       arrOfobjects.push(obj)
     } else if (type === 'list') {
       let itemsArr = []
@@ -72,6 +73,7 @@ export const nodeToJson = (nodes) => {
           type: item.localName === 'ul' ? 'unordered' : 'ordered',
           alignment: item.style.textAlign,
           items: itemsArr,
+          style: item.style.cssText,
         },
       }
       arrOfobjects.push(obj)

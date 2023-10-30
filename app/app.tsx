@@ -34,8 +34,6 @@ import { useQuery } from '@based/react'
 
 export const client = based(basedConfig)
 
-// client.call('import-figma', )
-
 const App = () => {
   const route = useRoute('[component]')
   const component = route.query.component
@@ -55,7 +53,6 @@ const App = () => {
   })
 
   const [filter, setFilter] = useState('')
-  const [value, setValue] = useState([])
 
   const filterThis = (comp) => {
     let a = comp

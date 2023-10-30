@@ -24,10 +24,14 @@ export const RawHtmlBlock = ({
   let listType = data.data.type
   let space = data.data.space
   let spaceFormat = data.data.spaceFormat
+  let cssStyle = data.data.style
 
   if (data.type === 'heading') {
     if (alignment) {
       blockStyle = ` style="text-align:${alignment}"`
+    }
+    if (cssStyle) {
+      blockStyle = ` style="${cssStyle}"`
     }
 
     str = `<${level}${blockStyle}>${innerHTML}</${level}>`
@@ -36,6 +40,9 @@ export const RawHtmlBlock = ({
   if (data.type === 'paragraph') {
     if (alignment) {
       blockStyle = ` style="text-align:${alignment}"`
+    }
+    if (cssStyle) {
+      blockStyle = ` style="${cssStyle}"`
     }
 
     str = `<p${blockStyle}>${innerHTML}</p>`
@@ -48,6 +55,9 @@ export const RawHtmlBlock = ({
 
     if (alignment) {
       blockStyle = ` style="text-align:${alignment}"`
+    }
+    if (cssStyle) {
+      blockStyle = ` style="${cssStyle}"`
     }
 
     str = `<${

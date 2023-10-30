@@ -9,8 +9,11 @@ import { Tooltip } from '../..'
 const moveBlockUp = (focus, blocks, setBlocks, setFocus) => {
   if (focus !== 0) {
     let tempBlocks = [...blocks]
+    console.log(' 1 ', tempBlocks)
     let snurp = tempBlocks.splice(focus, 1)[0]
+    console.log(' 2 ', snurp)
     tempBlocks.splice(focus - 1, 0, snurp)
+    console.log(' 3 ', tempBlocks)
     setBlocks([...tempBlocks])
     setFocus(focus - 1)
   }

@@ -23,13 +23,10 @@ export type RichTextEditorProps = {
 
 // TODO :
 //  header buttons in html editor??
-//  - add media
-//  - only selections that fall within the editor
-//  - option to add css style to element
-// -  shift + enter at end of block
-// - duplicate a block
-// spit out to database / onchange
-//  add timestamp to publish output
+//  - add media // button // layout after refactoring this
+//  -  shift + enter at end of block
+//  - duplicate a block
+// spit out to database / onchange + timestamp
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const editorWrapRef = useRef<HTMLElement>()
@@ -37,7 +34,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
   const [htmlView, setHtmlView] = useState<boolean>(false)
-  const [renderCounter, setRenderCounter] = useState(1)
 
   const makeNewBlock = (type, focus) => {
     if (focus || focus === 0) {
@@ -53,6 +49,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
             type: type === 'list' ? 'unordered' : undefined,
+            style: undefined,
           },
         },
         ...blocks.slice(focus === 0 ? 1 : focus + 1),
@@ -71,6 +68,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
             level: type === 'heading' ? 'h1' : undefined,
             items:
               type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
+            style: undefined,
           },
         },
       ])
@@ -103,12 +101,14 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     ) {
       blocks[idx].data.innerHTML = newRef.innerHTML
       blocks[idx].data.innerText = newRef.innerHTML
-      blocks[idx].data.alignment = blocks[idx].data.alignment
-      blocks[idx].data.style = newRef.cssText
+      blocks[idx].data.alignment = newRef.style.textAlign
+      blocks[idx].data.style = newRef.style.cssText
+
+      // console.log('new Ref --> ', newRef.style)
     }
     // update lists
     if (newRef.nodeName === 'UL' || newRef.nodeName === 'OL') {
-      blocks[idx].data.alignment = blocks[idx].data.alignment
+      blocks[idx].data.alignment = newRef.style.textAlign
       let listItemsArray = Array.from(newRef.childNodes).map((item, idx) => ({
         // @ts-ignore
         innerHTML: item.innerHTML,
@@ -117,6 +117,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
       }))
 
       blocks[idx].data.items = listItemsArray
+      blocks[idx].data.style = newRef.style.cssText
       // blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
     }
   }
@@ -215,8 +216,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
             lineHeight: '1.36',
             fontSize: '15px',
             paddingLeft: '13px',
+            borderLeft: '3px solid transparent',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf52',
+              borderLeft: `3px solid ${color('action', 'primary', 'normal')}`,
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Type here..."',
@@ -230,8 +233,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
           },
           '& h1, h2, h3, h4, h5, h6': {
             paddingLeft: '13px',
+            borderLeft: '3px solid transparent',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf52',
+              borderLeft: `3px solid ${color('action', 'primary', 'normal')}`,
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Title here..."',
@@ -243,15 +248,16 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
           },
           '& ul, ol': {
             lineHeight: '1.36',
+            borderLeft: '3px solid transparent',
             fontSize: '15px',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf52 !important',
+              borderLeft: `3px solid ${color('action', 'primary', 'normal')}`,
             },
           },
         }}
       >
         {!htmlView &&
-          renderCounter &&
           blocks.map((item, idx) => {
             if (item.type === 'paragraph') {
               return (
@@ -266,13 +272,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                   keyDownHandler={keyDownHandler}
                   blocksLength={blocks.length}
                   focus={focus}
-                  style={{
-                    textAlign: item.data.alignment,
-                    borderLeft:
-                      focus === idx
-                        ? `3px solid ${color('action', 'primary', 'normal')}`
-                        : '3px solid transparent',
-                  }}
                 />
               )
             } else if (item.type === 'heading') {
@@ -288,12 +287,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                   keyDownHandler={keyDownHandler}
                   blocksLength={blocks.length}
                   focus={focus}
-                  style={{
-                    borderLeft:
-                      focus === idx
-                        ? `3px solid ${color('action', 'primary', 'normal')}`
-                        : '3px solid transparent',
-                  }}
                 />
               )
             } else if (item.type === 'list') {
@@ -307,12 +300,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                   deleteBlock={deleteBlock}
                   blocksLength={blocks.length}
                   focus={focus}
-                  style={{
-                    borderLeft:
-                      focus === idx
-                        ? `3px solid ${color('action', 'primary', 'normal')}`
-                        : '3px solid transparent',
-                  }}
                 />
               )
             } else if (item.type === 'html') {
@@ -382,7 +369,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
             let nodes = editorWrapRef.current.children
             setBlocks(nodeToJson(nodes))
             // TODO
-            console.log('Spit out these blocks', blocks)
+            let timestamp = Date.now()
+            console.log('Spit out these blocks', blocks, timestamp)
           } else {
             let childrenNodes = editorWrapRef.current.children[0].children
             setBlocks(htmlNodesToJson(childrenNodes))

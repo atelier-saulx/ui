@@ -38,7 +38,6 @@ export const htmlNodesToJson = (childNodes) => {
     }
 
     // 2. make blocks based on type
-
     if (type === 'heading') {
       obj = {
         id: item.id,
@@ -48,6 +47,7 @@ export const htmlNodesToJson = (childNodes) => {
           innerHTML: htmlNodeDiv.innerHTML,
           alignment: htmlNodeDiv.style.textAlign,
           level: htmlNodeDiv.localName,
+          style: htmlNodeDiv.style.cssText,
         },
       }
 
@@ -60,6 +60,7 @@ export const htmlNodesToJson = (childNodes) => {
           innerText: htmlNodeDiv.innerText,
           innerHTML: htmlNodeDiv.innerHTML,
           alignment: htmlNodeDiv.style.textAlign,
+          style: htmlNodeDiv.style.cssText,
         },
       }
 
@@ -85,6 +86,7 @@ export const htmlNodesToJson = (childNodes) => {
           type: htmlNodeDiv.localName === 'ul' ? 'unordered' : 'ordered',
           alignment: htmlNodeDiv.style.textAlign,
           items: listItems,
+          style: htmlNodeDiv.style.cssText,
         },
       }
       arrOfobjects.push(obj)

@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useRef, useEffect } from 'react'
 import DOMPurify = require('dompurify')
 import { Style } from 'inlines'
 import { useKeyboardShortcut } from '../../../hooks'
@@ -47,6 +47,12 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
       headRef.current.focus()
     }, 50)
   }
+
+  useEffect(() => {
+    if (headRef.current && blockData.style) {
+      headRef.current.style.cssText = blockData.style
+    }
+  }, [headRef.current, focus])
 
   return blockData.level === 'h1' ? (
     <h1
