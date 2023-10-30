@@ -217,8 +217,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
             lineHeight: '1.36',
             fontSize: '15px',
             paddingLeft: '13px',
+            borderLeft: '3px solid transparent',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf52',
+              borderLeft: `3px solid ${color('action', 'primary', 'normal')}`,
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Type here..."',
@@ -232,8 +234,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
           },
           '& h1, h2, h3, h4, h5, h6': {
             paddingLeft: '13px',
+            borderLeft: '3px solid transparent',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf52',
+              borderLeft: `3px solid ${color('action', 'primary', 'normal')}`,
             },
             '&[contenteditable=true]:empty:before': {
               content: '"Title here..."',
@@ -245,9 +249,11 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
           },
           '& ul, ol': {
             lineHeight: '1.36',
+            borderLeft: '3px solid transparent',
             fontSize: '15px',
             '&:focus-visible': {
               outline: '1px dashed #bfbfbf52 !important',
+              borderLeft: `3px solid ${color('action', 'primary', 'normal')}`,
             },
           },
         }}
@@ -268,13 +274,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                   keyDownHandler={keyDownHandler}
                   blocksLength={blocks.length}
                   focus={focus}
-                  style={{
-                    textAlign: item.data.alignment,
-                    borderLeft:
-                      focus === idx
-                        ? `3px solid ${color('action', 'primary', 'normal')}`
-                        : '3px solid transparent',
-                  }}
                 />
               )
             } else if (item.type === 'heading') {
@@ -290,12 +289,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                   keyDownHandler={keyDownHandler}
                   blocksLength={blocks.length}
                   focus={focus}
-                  style={{
-                    borderLeft:
-                      focus === idx
-                        ? `3px solid ${color('action', 'primary', 'normal')}`
-                        : '3px solid transparent',
-                  }}
                 />
               )
             } else if (item.type === 'list') {
@@ -309,12 +302,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
                   deleteBlock={deleteBlock}
                   blocksLength={blocks.length}
                   focus={focus}
-                  style={{
-                    borderLeft:
-                      focus === idx
-                        ? `3px solid ${color('action', 'primary', 'normal')}`
-                        : '3px solid transparent',
-                  }}
                 />
               )
             } else if (item.type === 'html') {
