@@ -69,15 +69,21 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
                     }}
                   >
                     {d}
-
-                    <Breadcrumbs
-                      data={field
-                        ?.split('.')
-                        .reduce(
-                          (acc, curr, i) => ((acc[curr[i]] = curr), acc),
-                          {}
-                        )}
-                    />
+                    <span
+                      onClick={() => {
+                        close()
+                        close()
+                      }}
+                    >
+                      <Breadcrumbs
+                        data={field
+                          ?.split('.')
+                          .reduce(
+                            (acc, curr, i) => ((acc[curr[i]] = curr), acc),
+                            {}
+                          )}
+                      />
+                    </span>
                     <Button
                       hideFocusState
                       size="medium"
