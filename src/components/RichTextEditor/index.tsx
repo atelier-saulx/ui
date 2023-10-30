@@ -25,7 +25,6 @@ export type RichTextEditorProps = {
 //  header buttons in html editor??
 //  - add media
 //  - only selections that fall within the editor
-//  - option to add css style to main html element
 //  -  shift + enter at end of block
 //  - duplicate a block
 // spit out to database / onchange
@@ -37,7 +36,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
   const [blocks, setBlocks] = useState(data.blocks)
   const [focus, setFocus] = useState(0)
   const [htmlView, setHtmlView] = useState<boolean>(false)
-  const [renderCounter, setRenderCounter] = useState(1)
 
   const makeNewBlock = (type, focus) => {
     if (focus || focus === 0) {
@@ -105,12 +103,14 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
     ) {
       blocks[idx].data.innerHTML = newRef.innerHTML
       blocks[idx].data.innerText = newRef.innerHTML
-      blocks[idx].data.alignment = blocks[idx].data.alignment
-      blocks[idx].data.style = newRef.cssText
+      blocks[idx].data.alignment = newRef.style.textAlign
+      blocks[idx].data.style = newRef.style.cssText
+
+      console.log('new Ref --> ', newRef.style)
     }
     // update lists
     if (newRef.nodeName === 'UL' || newRef.nodeName === 'OL') {
-      blocks[idx].data.alignment = blocks[idx].data.alignment
+      blocks[idx].data.alignment = newRef.style.textAlign
       let listItemsArray = Array.from(newRef.childNodes).map((item, idx) => ({
         // @ts-ignore
         innerHTML: item.innerHTML,
@@ -119,7 +119,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
       }))
 
       blocks[idx].data.items = listItemsArray
-      blocks[idx].data.style = newRef.cssText
+      blocks[idx].data.style = newRef.style.cssText
       // blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
     }
   }
@@ -260,7 +260,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
         }}
       >
         {!htmlView &&
-          renderCounter &&
           blocks.map((item, idx) => {
             if (item.type === 'paragraph') {
               return (

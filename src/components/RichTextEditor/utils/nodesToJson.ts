@@ -56,7 +56,6 @@ export const nodeToJson = (nodes) => {
           style: item.style.cssText,
         },
       }
-      console.log('this obj  🐱-->', obj)
       arrOfobjects.push(obj)
     } else if (type === 'list') {
       let itemsArr = []

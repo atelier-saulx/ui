@@ -52,7 +52,7 @@ export const HeadingBlock: FC<HeadingBlockProps> = ({
     if (headRef.current && blockData.style) {
       headRef.current.style.cssText = blockData.style
     }
-  }, [headRef.current])
+  }, [headRef.current, focus])
 
   return blockData.level === 'h1' ? (
     <h1

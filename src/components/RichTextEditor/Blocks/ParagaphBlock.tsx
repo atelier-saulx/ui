@@ -38,7 +38,7 @@ export const ParagraphBlock: FC<ParagaphBlockProps> = ({
     if (pRef.current && blockData.style) {
       pRef.current.style.cssText = blockData.style
     }
-  }, [pRef.current])
+  }, [pRef.current, focus])
 
   const enterLineBreak = () => {
     // fucks sake this works bit weird but ok

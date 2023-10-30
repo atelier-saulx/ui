@@ -104,10 +104,9 @@ export const ListBlock: FC<ListBlockProps> = ({
 
   useEffect(() => {
     if (blockData && listRef.current && blockData.style) {
-      console.log('🐸, b', blockData)
       listRef.current.style.cssText = blockData?.style
     }
-  }, [listRef.current])
+  }, [listRef.current, focus])
 
   // dont call updateBlocks from inside this component !
 
