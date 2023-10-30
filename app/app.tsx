@@ -34,6 +34,13 @@ import { useQuery } from '@based/react'
 
 export const client = based(basedConfig)
 
+client
+  .query('based:connections')
+  .get()
+  .then((v) => {
+    console.log(v)
+  })
+
 const App = () => {
   const route = useRoute('[component]')
   const component = route.query.component
@@ -51,6 +58,8 @@ const App = () => {
   ].filter((c) => {
     return c.name === component
   })
+
+  useQuery('d')
 
   const [filter, setFilter] = useState('')
 

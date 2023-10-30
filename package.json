@@ -25,7 +25,7 @@
     "@based/client": "^4.8.10",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.1.2",
-    "@based/react": "^4.5.3",
+    "@based/react": "^4.5.4",
     "@based/schema": "^1.1.2",
     "@based/use-local-storage": "0.4.2",
     "@editorjs/editorjs": "^2.28.1",
