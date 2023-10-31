@@ -1,7 +1,10 @@
 import React, { useState, useRef } from 'react'
 import useThrottledCallback from '../../hooks/useThrottledCallback'
 import useGraphHover from '../../hooks/useGraphHover'
-import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
+import {
+  ColorActionColors,
+  ColorNonSemanticBackgroundColors,
+} from '../../varsTypes'
 import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
@@ -29,8 +32,6 @@ const Legend = ({
   xFormat: LineXGraphFormat
 }) => {
   if (!values[0]?.svgX) return null
-
-  console.log('this here then -->', values[0].color)
 
   return (
     <div
@@ -219,7 +220,7 @@ const getY = ({
           .x,
         y: data[key].data[Math.floor((point.x / width) * data[key].data.length)]
           .y,
-        color: data[key].color,
+        color: data[key].color as ColorNonSemanticBackgroundColors,
         svgX: point.x,
         svgY: point.y,
         valueFormat: data[key].valueFormat,
