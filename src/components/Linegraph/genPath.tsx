@@ -45,6 +45,7 @@ const makeLine = ({
   stepSize: number
   baseColor: ColorActionColors
 }) => {
+  console.log('baseColor --> ', baseColor)
   // const points: [x: number, y: number][] = []
   // for (let i = 0; i < data.length; i++) {
   //   points.push([stepSize * i, (ySpread - (data[i].y - minY)) / pxValue])
@@ -179,7 +180,7 @@ export const genPaths = ({
       width,
       height,
       stepSize: data[key].stepSize,
-      baseColor: data[key].color || 'accent',
+      baseColor: data[key].color || 'brand',
     })
     paths = paths.concat(result.path)
     lineRefs = {
