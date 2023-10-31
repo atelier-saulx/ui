@@ -89,7 +89,7 @@ export const input = [
   toggle,
 ]
 
-export const misc = [code, colorPicker, logsText, styledDivs, tag]
+export const misc = [code, colorPicker, logsText, tag]
 
 export const overlay = [
   alert,
@@ -106,7 +106,14 @@ export const feedback = [alertBanner, badge, toast, tooltipTest]
 
 export const icons = [icon]
 
-export const layout = [accordion, container, divider, scrollArea, tabs]
+export const layout = [
+  accordion,
+  container,
+  divider,
+  scrollArea,
+  styledDivs,
+  tabs,
+]
 
 export const navigation = [breadCrumbs, Menu, topNavigation]
 
