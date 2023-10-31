@@ -125,7 +125,9 @@ export function RichTextEditor({
             '& .rte-strikethrough': {
               textDecoration: 'line-through',
             },
-            '& .rte-link': {},
+            '& .rte-link': {
+              color: color('content', 'brand', 'primary'),
+            },
             '& .rte-ul': {
               margin: '0',
             },
