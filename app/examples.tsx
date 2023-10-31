@@ -61,6 +61,7 @@ import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
 import Map from './components/Map'
+import singleMetric from './components/SingleMetric'
 
 export const hooks: ComponentDef[] = [useContextState]
 
@@ -109,7 +110,14 @@ export const layout = [accordion, container, divider, scrollArea, tabs]
 
 export const navigation = [breadCrumbs, Menu, topNavigation]
 
-export const graphs = [barGraph, linegraph, Map, metricsWidget, pieGraph]
+export const graphs = [
+  barGraph,
+  linegraph,
+  Map,
+  metricsWidget,
+  pieGraph,
+  singleMetric,
+]
 
 export const display = [
   avatar,

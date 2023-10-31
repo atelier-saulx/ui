@@ -241,9 +241,13 @@
         "color": {
           "optional": true,
           "type": "ColorNonSemanticBackgroundColors"
+        },
+        "barWidth": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  direction?: 'horizontal' | 'vertical'\n  valueFormat?: 'percentages' | NumberFormat\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n}",
+      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  direction?: 'horizontal' | 'vertical'\n  valueFormat?: 'percentages' | NumberFormat\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n  barWidth?: number\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -1667,14 +1671,7 @@
     "MapProps": {
       "name": "MapProps",
       "props": {
-        "data": {
-          "type": [
-            null,
-            {
-              "array": "TSTypeLiteral"
-            }
-          ]
-        },
+        "data": {},
         "height": {
           "optional": true,
           "type": "number"
@@ -1684,7 +1681,7 @@
           "type": "Style"
         }
       },
-      "code": "type MapProps = {\n  data: GeoJSON.FeatureCollection<GeoJSON.Geometry> | {}[]\n  height?: number\n  style?: Style\n}",
+      "code": "type MapProps = {\n  data: GeoJSON.FeatureCollection<GeoJSON.Geometry>\n  height?: number\n  style?: Style\n}",
       "file": "/components/Map/index.tsx"
     },
     "MenuItemProps": {
@@ -2981,6 +2978,36 @@
       },
       "code": "type SidePanelActionsProps = {\n  children: ReactNode\n}",
       "file": "/components/SidePanel/index.tsx"
+    },
+    "SingleMetricProps": {
+      "name": "SingleMetricProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "valueFormat": {
+          "optional": true,
+          "type": "NumberFormat"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "data": {
+          "type": "LineGraphDataInput"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorNonSemanticBackgroundColors"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type SingleMetricProps = {\n  label?: string\n  valueFormat?: NumberFormat\n  style?: Style\n  data: LineGraphDataInput\n  color?: ColorNonSemanticBackgroundColors\n  value?: number\n}",
+      "file": "/components/SingleMetric/index.tsx"
     },
     "SliderProps": {
       "name": "SliderProps",
