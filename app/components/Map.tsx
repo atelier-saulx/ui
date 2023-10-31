@@ -263,7 +263,7 @@ let mapData = createMapTestData()
 
 const example: ComponentDef = {
   name: 'Map',
-  properties: props.props.DividerProps.props,
+  properties: {},
   description: 'Map ',
   component: CompMap,
   examples: [
@@ -273,7 +273,7 @@ const example: ComponentDef = {
         data: mapData,
       },
       customRenderer: (props) => {
-        const [mapData, setMapData] = useState(createMapTestData())
+        console.log(props.data)
 
         return (
           <styled.div

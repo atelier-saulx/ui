@@ -22,7 +22,7 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg'
 
 type MapProps = {
-  data: GeoJSON.FeatureCollection<GeoJSON.Geometry> | {}[]
+  data: GeoJSON.FeatureCollection<GeoJSON.Geometry>
   height?: number
   style?: Style
 }
