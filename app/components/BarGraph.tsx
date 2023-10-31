@@ -11,6 +11,50 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
+        style: { width: 540, [BpTablet]: { width: 'unset' } },
+        direction: 'vertical',
+        barWidth: 6,
+        color: 'violet',
+        data: [
+          {
+            label: 'Moose 🦆',
+            value: 160000,
+            color: 'green',
+          },
+          {
+            label: 'Caribou 🦌',
+            value: 576000,
+          },
+          {
+            label: 'Bears 🐻',
+            value: 43000,
+          },
+          {
+            label: 'Wolves 🐺',
+            value: 62000,
+          },
+          {
+            label: 'Owls 🦉',
+            value: 962000,
+            color: 'blue',
+          },
+          {
+            label: 'Gorillas 🦍',
+            value: 57839,
+          },
+          {
+            label: 'Chipmunks 🐿',
+            value: 255000,
+          },
+          {
+            label: 'Cows 🐄',
+            value: 90000,
+          },
+        ],
+      },
+    },
+    {
+      props: {
         color: 'green',
         style: { width: 540, [BpTablet]: { width: 'unset' } },
         valueFormat: 'number-euro',
@@ -58,6 +102,29 @@ const example: ComponentDef = {
           {
             label: 'Wolves 🐺',
             value: 62000,
+          },
+        ],
+      },
+    },
+    {
+      props: {
+        style: { width: 540, [BpTablet]: { width: 'unset' } },
+        barWidth: 100,
+        data: [
+          {
+            label: 'Moose 🦆',
+            value: 160000,
+            color: 'blue',
+          },
+          {
+            label: 'Caribou 🦌',
+            value: 576000,
+            color: 'orange',
+          },
+          {
+            label: 'Bears 🐻',
+            value: 43000,
+            color: 'red',
           },
         ],
       },

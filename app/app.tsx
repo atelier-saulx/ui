@@ -12,6 +12,7 @@ import {
   ScrollArea,
   BpMobile,
   RowSpaced,
+  Map,
 } from '../src'
 import { useRoute } from 'kabouter'
 import basedConfig from '../based.json'
@@ -31,6 +32,7 @@ import {
 import { ThemeSwitch } from './ThemeSwitch'
 import { BasedLogo } from '../src/icons/BasedLogo'
 import { useQuery } from '@based/react'
+import { createMapTestData } from './components/Map'
 
 export const client = based(basedConfig)
 
