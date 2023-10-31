@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import useThrottledCallback from '../../hooks/useThrottledCallback'
 import useGraphHover from '../../hooks/useGraphHover'
-import { ColorActionColors } from '../../varsTypes'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
@@ -12,7 +12,7 @@ type LegendValues = {
   key: string
   x: number
   y: number
-  color?: ColorActionColors
+  color?: ColorNonSemanticBackgroundColors
   svgX: number
   svgY: number
   valueFormat?: NumberFormat
@@ -29,6 +29,8 @@ const Legend = ({
   xFormat: LineXGraphFormat
 }) => {
   if (!values[0]?.svgX) return null
+
+  console.log('this here then -->', values[0].color)
 
   return (
     <div
@@ -55,7 +57,11 @@ const Legend = ({
             borderRadius: '50%',
             width: 15,
             border: `2px solid ${color('border', 'default', 'strong')} `,
-            backgroundColor: color('content', 'brand', 'primary'),
+            backgroundColor: color(
+              'nonSemanticBackground',
+              values[0].color ? values[0].color : 'violet',
+              'strong'
+            ),
             //   backgroundColor: color(values[0].color || 'content','brand','default'),
             height: 15,
           }}
@@ -71,8 +77,12 @@ const Legend = ({
               borderRadius: '50%',
               width: 15,
               border: `2px solid ${color('content', 'default', 'primary')} `,
-              backgroundColor: color('action', 'primary', 'normal'),
-              //   backgroundColor: color(value.color || 'accent'),
+              // backgroundColor: color('action', 'primary', 'normal'),
+              backgroundColor: color(
+                'nonSemanticBackground',
+                value.color || 'violet',
+                'strong'
+              ),
               height: 15,
             }}
           />
@@ -102,7 +112,15 @@ const Legend = ({
             }}
           >
             <Text weight="strong">
-              <span style={{ color: color('action', 'primary', 'normal') }}>
+              <span
+                style={{
+                  color: color(
+                    'nonSemanticBackground',
+                    values[0].color ? values[0].color : 'violet',
+                    'strong'
+                  ),
+                }}
+              >
                 &#x2022;{' '}
               </span>
               {prettyNumber(
@@ -112,7 +130,15 @@ const Legend = ({
             </Text>
             {values.slice(1).map((value, i) => (
               <Text key={i} weight="strong">
-                <span style={{ color: color('action', 'primary', 'normal') }}>
+                <span
+                  style={{
+                    color: color(
+                      'nonSemanticBackground',
+                      value.color ? value.color : 'violet',
+                      'strong'
+                    ),
+                  }}
+                >
                   &#x2022;{' '}
                 </span>
                 {prettyNumber(value.y, value.valueFormat || 'number-short')}
