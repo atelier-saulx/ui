@@ -2993,9 +2993,20 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "data": {
+          "type": "LineGraphDataInput"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorNonSemanticBackgroundColors"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type SingleMetricProps = {\n  label?: string\n  valueFormat?: NumberFormat\n  style?: Style\n}",
+      "code": "type SingleMetricProps = {\n  label?: string\n  valueFormat?: NumberFormat\n  style?: Style\n  data: LineGraphDataInput\n  color?: ColorNonSemanticBackgroundColors\n  value?: number\n}",
       "file": "/components/SingleMetric/index.tsx"
     },
     "SliderProps": {

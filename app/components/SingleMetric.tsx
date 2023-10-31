@@ -1,5 +1,5 @@
-import React from 'react'
-import { SingleMetric } from '../../src'
+import React, { useState } from 'react'
+import { Row, SingleMetric } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
@@ -30,10 +30,51 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
-        // color: 'informative',
         valueFormat: 'number-euro',
-        label: 'Total Sessions',
+        label: 'Current Moneys',
         data: data,
+      },
+    },
+    {
+      props: {},
+      customRenderer: (props) => {
+        return (
+          <Row style={{ gap: 16 }}>
+            <SingleMetric
+              valueFormat="number-bytes"
+              color="magenta"
+              data={genRandomPoints(
+                (i) => ({ x: i, y: ~~(Math.random() * 1000) + i * 100 }),
+                0,
+                50
+              )}
+              label={'Lots of bytes'}
+            />
+            <SingleMetric
+              valueFormat="number-dollar"
+              color="green"
+              data={genRandomPoints(
+                (i) => ({
+                  x: i,
+                  y: ~~(Math.random() * 100000) + i * 100,
+                }),
+                0,
+                30
+              )}
+              label={'Some dollars'}
+            />
+            <SingleMetric
+              valueFormat="number-short"
+              color="yellow"
+              data={genRandomPoints(
+                (i) => ({ x: i, y: ~~(Math.random() * 100000) + i * 100 }),
+                0,
+                150
+              )}
+              label={'More numbers for you mind '}
+            />
+          </Row>
+        )
       },
     },
   ],
