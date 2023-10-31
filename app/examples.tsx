@@ -60,7 +60,7 @@ import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
-import Map from './components/Map'
+import map from './components/Map'
 import singleMetric from './components/SingleMetric'
 
 export const hooks: ComponentDef[] = [useContextState]
@@ -113,7 +113,7 @@ export const navigation = [breadCrumbs, Menu, topNavigation]
 export const graphs = [
   barGraph,
   linegraph,
-  Map,
+  map,
   metricsWidget,
   pieGraph,
   singleMetric,
