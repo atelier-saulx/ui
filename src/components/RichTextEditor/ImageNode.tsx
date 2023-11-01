@@ -1,11 +1,88 @@
+import { ElementFormatType, LexicalNode, NodeKey, Spread } from 'lexical'
 import {
-  DecoratorNode,
-  LexicalNode,
-  NodeKey,
-  SerializedLexicalNode,
-  Spread,
+  DecoratorBlockNode,
+  SerializedDecoratorBlockNode,
+} from '@lexical/react/LexicalDecoratorBlockNode'
+import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { mergeRegister } from '@lexical/utils'
+import {
+  $getNodeByKey,
+  $getSelection,
+  $isDecoratorNode,
+  $isNodeSelection,
+  CLICK_COMMAND,
+  COMMAND_PRIORITY_LOW,
+  KEY_BACKSPACE_COMMAND,
+  KEY_DELETE_COMMAND,
 } from 'lexical'
-import React, { ReactNode } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
+import { styled } from 'inlines'
+import { color } from '../../varsUtilities'
+
+function ImageComponent({ src, nodeKey }: { src: string; nodeKey: string }) {
+  const [editor] = useLexicalComposerContext()
+  const [isSelected, setSelected, clearSelection] =
+    useLexicalNodeSelection(nodeKey)
+  const ref = useRef<HTMLImageElement | null>(null)
+
+  const onDelete = useCallback(
+    (event: KeyboardEvent) => {
+      if (isSelected && $isNodeSelection($getSelection())) {
+        event.preventDefault()
+        const node = $getNodeByKey(nodeKey)
+        if ($isDecoratorNode(node)) {
+          node.remove()
+        }
+      }
+
+      return false
+    },
+    [isSelected, nodeKey]
+  )
+
+  useEffect(() => {
+    return mergeRegister(
+      editor.registerCommand<MouseEvent>(
+        CLICK_COMMAND,
+        (event) => {
+          if (event.target === ref.current) {
+            event.preventDefault()
+
+            setSelected(!isSelected)
+            return true
+          }
+
+          return false
+        },
+        COMMAND_PRIORITY_LOW
+      ),
+      editor.registerCommand(
+        KEY_DELETE_COMMAND,
+        onDelete,
+        COMMAND_PRIORITY_LOW
+      ),
+      editor.registerCommand(
+        KEY_BACKSPACE_COMMAND,
+        onDelete,
+        COMMAND_PRIORITY_LOW
+      )
+    )
+  }, [clearSelection, editor, isSelected, nodeKey, onDelete, setSelected])
+
+  return (
+    <styled.img
+      style={{
+        border: `2px solid ${
+          isSelected ? color('content', 'brand', 'primary') : 'transparent'
+        }`,
+      }}
+      src={src}
+      alt=""
+      ref={ref}
+    />
+  )
+}
 
 export type ImageNodePayload = {
   src: string
@@ -16,10 +93,10 @@ type SerializedImageNode = Spread<
     type: 'image'
     version: 1
   } & ImageNodePayload,
-  SerializedLexicalNode
+  SerializedDecoratorBlockNode
 >
 
-export class ImageNode extends DecoratorNode<ReactNode> {
+export class ImageNode extends DecoratorBlockNode {
   __src: string
 
   static getType(): string {
@@ -27,25 +104,24 @@ export class ImageNode extends DecoratorNode<ReactNode> {
   }
 
   static clone(node: ImageNode): ImageNode {
-    return new ImageNode(node.__src, node.__key)
+    return new ImageNode(node.__src, node.__format, node.__key)
   }
 
-  constructor(src: string, key?: NodeKey) {
-    super(key)
+  constructor(src: string, format?: ElementFormatType, key?: NodeKey) {
+    super(format, key)
     this.__src = src
   }
 
   createDOM(): HTMLElement {
-    return document.createElement('span')
+    return document.createElement('div')
   }
 
   updateDOM(): false {
     return false
   }
 
-  decorate(): ReactNode {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={this.__src} alt="" />
+  decorate(): JSX.Element {
+    return <ImageComponent src={this.__src} nodeKey={this.__key} />
   }
 
   static importJSON(serializedNode: SerializedImageNode): ImageNode {
@@ -54,6 +130,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
 
   exportJSON(): SerializedImageNode {
     return {
+      ...super.exportJSON(),
       type: 'image',
       version: 1,
       src: this.__src,
