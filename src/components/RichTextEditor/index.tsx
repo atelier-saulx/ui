@@ -7,6 +7,7 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
+import './nodeStyles.css'
 
 import { HeadingNode } from '@lexical/rich-text'
 import { LinkNode } from '@lexical/link'
@@ -18,6 +19,9 @@ import { Text } from '../Text'
 import { ImagePlugin } from './ImagePlugin'
 import { ImageNode } from './ImageNode'
 import { Placeholder } from './Placeholder'
+
+// TODO add image caption
+// TODO add embed node
 
 export type RichTextEditorProps = {
   label?: string
@@ -51,6 +55,8 @@ export function RichTextEditor({
           style={{
             position: 'relative',
             '& .rte': {
+              display: 'flex',
+              flexDirection: 'column',
               color: color('content', 'default', 'primary'),
               border: `1px solid ${color(
                 'inputBorder',
@@ -116,6 +122,11 @@ const CONFIG = {
     list: {
       ul: 'rte-ul',
     },
+    embedBlock: {
+      base: 'rte-embedbase',
+      focus: 'rte-embedfocus',
+    },
+    blockCursor: 'rte-blockcursor',
   },
   nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode],
   onError: (error) => {
@@ -154,5 +165,13 @@ const NODE_STYLES = {
   },
   '& .rte-ul': {
     margin: '0',
+  },
+  '& .rte-blockcursor': {
+    display: 'block',
+    pointerEvents: 'none',
+    height: '18.4px',
+    width: '1px',
+    background: 'currentColor',
+    animation: 'CursorBlink 1.1s steps(2, start) infinite',
   },
 }

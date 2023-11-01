@@ -1,15 +1,8 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import { $wrapNodeInElement } from '@lexical/utils'
-import {
-  $createParagraphNode,
-  $insertNodes,
-  $isRootOrShadowRoot,
-  COMMAND_PRIORITY_EDITOR,
-  createCommand,
-  LexicalCommand,
-} from 'lexical'
+import { COMMAND_PRIORITY_EDITOR, createCommand, LexicalCommand } from 'lexical'
 import { ReactNode, useEffect } from 'react'
 import { $createImageNode, ImageNode, ImageNodePayload } from './ImageNode'
+import { $insertNodeToNearestRoot } from '@lexical/utils'
 
 export const INSERT_IMAGE_COMMAND: LexicalCommand<ImageNodePayload> =
   createCommand('INSERT_IMAGE_COMMAND')
@@ -26,10 +19,7 @@ export function ImagePlugin(): ReactNode | null {
       INSERT_IMAGE_COMMAND,
       (payload) => {
         const imageNode = $createImageNode(payload)
-        $insertNodes([imageNode])
-        if ($isRootOrShadowRoot(imageNode.getParentOrThrow())) {
-          $wrapNodeInElement(imageNode, $createParagraphNode).selectEnd()
-        }
+        $insertNodeToNearestRoot(imageNode)
 
         return true
       },
