@@ -16,24 +16,17 @@ const example: ComponentDef = {
         return (
           <div style={{ width: 800 }}>
             <RichTextEditor
+              placeholder="Enter some rich text..."
               defaultValue={localStorage.getItem('rte-test') ?? undefined}
               onChange={(value) => {
                 localStorage.setItem('rte-test', value)
               }}
             />
-          </div>
-        )
-      },
-    },
-    {
-      props: {},
-      customRenderer: () => {
-        return (
-          <div style={{ width: 800 }}>
-            <RichTextEditor
-              label="Label"
-              placeholder="Enter some rich text..."
-            />
+            {/* <iframe
+              style={{ width: '100%', aspectRatio: '1.2 / 1' }}
+              allow="fullscreen"
+              src="https://flo.uri.sh/visualisation/14938358/embed?auto=1"
+            ></iframe> */}
           </div>
         )
       },
