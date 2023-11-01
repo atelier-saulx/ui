@@ -16,6 +16,7 @@ import {
   KEY_ARROW_LEFT_COMMAND,
   KEY_ARROW_RIGHT_COMMAND,
   KEY_ARROW_UP_COMMAND,
+  KEY_ENTER_COMMAND,
 } from 'lexical'
 import { mergeRegister } from '@lexical/utils'
 
@@ -46,11 +47,6 @@ export function BehaviourPlugin() {
       editor.registerCommand(
         KEY_ARROW_LEFT_COMMAND,
         (event) => {
-          // avoid processing card behaviours when an inner element has focus
-          if (document.activeElement !== editor.getRootElement()) {
-            return true
-          }
-
           const selection = $getSelection()
 
           if (!$isNodeSelection(selection)) {
@@ -70,6 +66,15 @@ export function BehaviourPlugin() {
             return true
           }
 
+          if (!previousSibling) {
+            event.preventDefault()
+            const paragraphNode = $createParagraphNode()
+            topLevelElement.insertBefore(paragraphNode)
+            paragraphNode.select()
+
+            return true
+          }
+
           return false
         },
         COMMAND_PRIORITY_LOW
@@ -77,11 +82,6 @@ export function BehaviourPlugin() {
       editor.registerCommand(
         KEY_ARROW_RIGHT_COMMAND,
         (event) => {
-          // avoid processing card behaviours when an inner element has focus
-          if (document.activeElement !== editor.getRootElement()) {
-            return true
-          }
-
           const selection = $getSelection()
 
           if (!$isNodeSelection(selection)) {
@@ -101,6 +101,15 @@ export function BehaviourPlugin() {
             return true
           }
 
+          if (!nextSibling) {
+            event.preventDefault()
+            const paragraphNode = $createParagraphNode()
+            topLevelElement.insertAfter(paragraphNode)
+            paragraphNode.select()
+
+            return true
+          }
+
           return false
         },
         COMMAND_PRIORITY_LOW
@@ -108,11 +117,6 @@ export function BehaviourPlugin() {
       editor.registerCommand(
         KEY_ARROW_UP_COMMAND,
         (event) => {
-          // avoid processing card behaviours when an inner element has focus
-          if (document.activeElement !== editor.getRootElement()) {
-            return true
-          }
-
           const selection = $getSelection()
 
           if ($isRangeSelection(selection)) {
@@ -144,6 +148,15 @@ export function BehaviourPlugin() {
               $setSelection(nodeSelection)
               return true
             }
+
+            if (!previousSibling) {
+              event.preventDefault()
+              const paragraphNode = $createParagraphNode()
+              topLevelElement.insertBefore(paragraphNode)
+              paragraphNode.select()
+
+              return true
+            }
           }
 
           return false
@@ -153,11 +166,6 @@ export function BehaviourPlugin() {
       editor.registerCommand(
         KEY_ARROW_DOWN_COMMAND,
         (event) => {
-          // avoid processing card behaviours when an inner element has focus
-          if (document.activeElement !== editor.getRootElement()) {
-            return true
-          }
-
           const selection = $getSelection()
 
           if ($isRangeSelection(selection)) {
@@ -190,6 +198,36 @@ export function BehaviourPlugin() {
               $setSelection(nodeSelection)
               return true
             }
+
+            if (!nextSibling) {
+              event.preventDefault()
+              const paragraphNode = $createParagraphNode()
+              topLevelElement.insertAfter(paragraphNode)
+              paragraphNode.select()
+
+              return true
+            }
+          }
+
+          return false
+        },
+        COMMAND_PRIORITY_LOW
+      ),
+      editor.registerCommand(
+        KEY_ENTER_COMMAND,
+        (event) => {
+          const selection = $getSelection()
+
+          if ($isNodeSelection(selection)) {
+            event.preventDefault()
+            const selectedNodes = selection.getNodes()
+            const lastNode = selectedNodes[selectedNodes.length - 1]
+            const topLevelElement = lastNode.getTopLevelElement()
+            const paragraphNode = $createParagraphNode()
+            topLevelElement.insertAfter(paragraphNode)
+            paragraphNode.select()
+
+            return true
           }
 
           return false
