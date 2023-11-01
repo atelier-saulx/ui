@@ -59,7 +59,7 @@ const App = () => {
     return c.name === component
   })
 
-  useQuery('d')
+  // useQuery('based:connections')
 
   const [filter, setFilter] = useState('')
 
