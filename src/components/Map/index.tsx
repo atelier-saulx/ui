@@ -7,6 +7,7 @@ import React, {
   useRef,
 } from 'react'
 import './popup.css'
+// has to be loaded with a script
 import mapboxgl from 'mapbox-gl'
 import {
   initMap,
@@ -15,12 +16,9 @@ import {
   addCountries,
   fitToData,
 } from './mapActions'
-import { color } from '../../varsUtilities'
 import { styled, Style } from 'inlines'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import { useTheme } from '../../hooks'
-import { mapBoxColorTheme } from './mapBoxColorTheme'
-import { mapBoxColorThemeDark } from './mapBoxColorThemeDark'
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg'
@@ -49,6 +47,7 @@ export const Map: FC<MapProps> = forwardRef(({ data, height, style }, ref) => {
     const m = initMap({
       mapContainer,
       onLoad: () => {
+        console.info('LOAD GAIN')
         addValues({ data, map: m, hoverVoteId })
         addCountries({ map: m })
         updateCircleRadius({ data, map: m })
@@ -63,7 +62,7 @@ export const Map: FC<MapProps> = forwardRef(({ data, height, style }, ref) => {
         map.current.remove()
       }
     }
-  }, [])
+  }, [theme])
 
   useEffect(() => {
     if (map.current) {

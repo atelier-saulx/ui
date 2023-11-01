@@ -25,6 +25,7 @@ type BarGraphProps = {
   color?: ColorNonSemanticBackgroundColors
   barWidth?: number
   stacked?: boolean
+  spacing?: number
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
@@ -35,6 +36,7 @@ export const BarGraph: FC<BarGraphProps> = ({
   color,
   barWidth,
   stacked,
+  spacing,
 }) => {
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
   // percentages
@@ -66,18 +68,26 @@ export const BarGraph: FC<BarGraphProps> = ({
           style={{
             width: '100%',
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: direction === 'vertical' ? 'row' : 'column',
             ...style,
           }}
         >
           {data.map((item, idx) => (
-            <StackedBars
-              value={item.value}
-              key={idx}
-              label={item.label}
-              largestValue={Math.max(...totalValuesArr)}
-              color={item.color || color}
-            />
+            <div key={idx}>
+              <StackedBars
+                value={item.value}
+                key={idx}
+                label={item.label}
+                largestValue={Math.max(...totalValuesArr)}
+                color={item.color || color}
+                valueFormat={valueFormat}
+                spacing={spacing}
+                direction={direction}
+              />
+              <Text style={{ textAlign: 'center', marginRight: spacing }}>
+                {item.label}
+              </Text>
+            </div>
           ))}
         </styled.div>
       ) : !barWidth && direction === 'vertical' ? (

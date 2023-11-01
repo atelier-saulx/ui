@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl'
 import { countryBounds } from './countryBounds'
-import { mapBoxColorTheme } from './mapBoxColorTheme'
+import { makeTheme } from './mapBoxColorTheme'
 
 const MIN_CIRCLE_SIZE = 10
 const MAX_CIRCLE_SIZE = 200
@@ -39,9 +39,11 @@ export const updateCircleRadius = ({ data, map }) => {
 }
 
 export const initMap = ({ mapContainer, onLoad, onZoom }) => {
+  // MAKE IT HERE
+
   const m = new mapboxgl.Map({
     container: mapContainer.current,
-    style: mapBoxColorTheme,
+    style: makeTheme(),
     center: [2.213749, 46.227638],
     zoom: 3,
   })
