@@ -269,9 +269,7 @@ export function ToolbarPlugin() {
         icon={<IconImage />}
         onClick={() => {
           editor.update(() => {
-            editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-              src: 'https://images.pexels.com/photos/5656637/pexels-photo-5656637.jpeg?auto=compress&cs=tinysrgb&w=200',
-            })
+            editor.dispatchCommand(INSERT_IMAGE_COMMAND, {})
           })
         }}
       />

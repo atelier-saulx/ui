@@ -11,8 +11,8 @@ export function Placeholder({ children }: PlaceholderProps) {
     <styled.div
       style={{
         position: 'absolute',
-        top: 55,
-        left: 17,
+        top: 54,
+        left: 16,
         pointerEvents: 'none',
       }}
     >

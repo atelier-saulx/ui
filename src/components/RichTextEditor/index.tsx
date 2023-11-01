@@ -19,9 +19,11 @@ import { Text } from '../Text'
 import { ImagePlugin } from './ImagePlugin'
 import { ImageNode } from './ImageNode'
 import { Placeholder } from './Placeholder'
+import { BehaviourPlugin } from './BehaviourPlugin'
 
-// TODO add image caption
+// TODO finish image caption
 // TODO add embed node
+// TODO add export to HTML
 
 export type RichTextEditorProps = {
   label?: string
@@ -79,7 +81,7 @@ export function RichTextEditor({
                 boxShadow: `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
               },
               borderRadius: '8px',
-              padding: '54px 16px 12px',
+              padding: '54px 16px',
               minHeight: '300px',
               outline: 'none',
             },
@@ -96,6 +98,7 @@ export function RichTextEditor({
           <ListPlugin />
           <LinkPlugin />
           <HistoryPlugin />
+          <BehaviourPlugin />
           <ValuePlugin defaultValue={defaultValue} onChange={onChange} />
         </styled.div>
       </styled.div>
@@ -126,7 +129,6 @@ const CONFIG = {
       base: 'rte-embedbase',
       focus: 'rte-embedfocus',
     },
-    blockCursor: 'rte-blockcursor',
   },
   nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode],
   onError: (error) => {
@@ -165,13 +167,5 @@ const NODE_STYLES = {
   },
   '& .rte-ul': {
     margin: '0',
-  },
-  '& .rte-blockcursor': {
-    display: 'block',
-    pointerEvents: 'none',
-    height: '18.4px',
-    width: '1px',
-    background: 'currentColor',
-    animation: 'CursorBlink 1.1s steps(2, start) infinite',
   },
 }
