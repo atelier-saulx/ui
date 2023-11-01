@@ -38,8 +38,6 @@ export const updateCircleRadius = ({ data, map }) => {
   }
 }
 
-// get style based on theme
-
 export const initMap = ({ mapContainer, onLoad, onZoom }) => {
   const m = new mapboxgl.Map({
     container: mapContainer.current,
@@ -76,12 +74,12 @@ export const addValues = ({ data, map, hoverVoteId }) => {
         'case',
         ['boolean', ['feature-state', 'hover'], false],
         'rgb(99, 78, 202)',
-        '#8F8E9B',
+        'rgba(99, 78, 202, 0.3)',
       ],
       'circle-stroke-color': '#FFFFFF',
-      'circle-stroke-width': 3,
+      'circle-stroke-width': 2,
       // 'circle-radius' defined in updateCircleRadius
-      'circle-opacity': 0.4,
+      'circle-opacity': 0.66,
     },
   })
 
@@ -97,12 +95,12 @@ export const addValues = ({ data, map, hoverVoteId }) => {
         'case',
         ['boolean', ['feature-state', 'hover'], false],
         'rgb(99, 78, 202)',
-        '#8F8E9B',
+        'rgba(99, 78, 202, 0.3)',
       ],
       'circle-stroke-color': '#FFFFFF',
-      'circle-stroke-width': 3,
+      'circle-stroke-width': 2,
       // 'circle-radius' defined in updateCircleRadius
-      'circle-opacity': 0.4,
+      'circle-opacity': 0.66,
     },
   })
 

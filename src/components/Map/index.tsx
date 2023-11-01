@@ -1,6 +1,7 @@
 import React, {
   FC,
   forwardRef,
+  useState,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -17,6 +18,9 @@ import {
 import { color } from '../../varsUtilities'
 import { styled, Style } from 'inlines'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import { useTheme } from '../../hooks'
+import { mapBoxColorTheme } from './mapBoxColorTheme'
+import { mapBoxColorThemeDark } from './mapBoxColorThemeDark'
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg'
@@ -31,6 +35,8 @@ export const Map: FC<MapProps> = forwardRef(({ data, height, style }, ref) => {
   const mapContainer = useRef(null)
   const map = useRef<mapboxgl.Map>(null)
   const hoverVoteId = useRef(null)
+
+  const { theme } = useTheme()
 
   useImperativeHandle(ref, () => ({
     fitToData: () => {
@@ -65,6 +71,15 @@ export const Map: FC<MapProps> = forwardRef(({ data, height, style }, ref) => {
       ;(map.current.getSource('values') as mapboxgl.GeoJSONSource).setData(data)
     }
   }, [map, data])
+
+  useEffect(() => {
+    console.log(map.current)
+    // if (map.current && theme === 'dark') {
+    //   map.current.setStyle(mapBoxColorThemeDark)
+    // } else if (map.current) {
+    //   map.current.setStyle(mapBoxColorTheme)
+    // }
+  }, [theme])
 
   return (
     <styled.div

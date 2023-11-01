@@ -11,15 +11,13 @@ const convertToRGB = (varstring) => {
 }
 
 let landColor = convertToRGB(color('action', 'system', 'hover'))
-let landColorTwo = convertToRGB(color('background', 'inverted', 'muted'))
+let landColorTwo = convertToRGB(color('background', 'inverted'))
 let waterColor = convertToRGB(color('background', 'default', 'strong'))
 let borderColor = convertToRGB(color('action', 'primary', 'subtleSelected'))
 let textColor = convertToRGB(color('content', 'default', 'primary'))
 let textBorder = convertToRGB(color('content', 'inverted'))
 
-console.log('-->', color('action', 'system', 'hover'))
-
-export const mapBoxColorTheme = {
+export const mapBoxColorThemeDark = {
   version: 8,
   name: 'based_2',
   metadata: {
