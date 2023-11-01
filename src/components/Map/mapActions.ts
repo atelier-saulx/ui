@@ -1,5 +1,6 @@
 import mapboxgl from 'mapbox-gl'
 import { countryBounds } from './countryBounds'
+import { mapBoxColorTheme } from './mapBoxColorTheme'
 
 const MIN_CIRCLE_SIZE = 10
 const MAX_CIRCLE_SIZE = 200
@@ -37,10 +38,12 @@ export const updateCircleRadius = ({ data, map }) => {
   }
 }
 
+// get style based on theme
+
 export const initMap = ({ mapContainer, onLoad, onZoom }) => {
   const m = new mapboxgl.Map({
     container: mapContainer.current,
-    style: 'mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge',
+    style: mapBoxColorTheme,
     center: [2.213749, 46.227638],
     zoom: 3,
   })
@@ -72,7 +75,7 @@ export const addValues = ({ data, map, hoverVoteId }) => {
       'circle-color': [
         'case',
         ['boolean', ['feature-state', 'hover'], false],
-        'rgb(44, 60, 234)',
+        'rgb(99, 78, 202)',
         '#8F8E9B',
       ],
       'circle-stroke-color': '#FFFFFF',
@@ -93,7 +96,7 @@ export const addValues = ({ data, map, hoverVoteId }) => {
       'circle-color': [
         'case',
         ['boolean', ['feature-state', 'hover'], false],
-        'rgb(44, 60, 234)',
+        'rgb(99, 78, 202)',
         '#8F8E9B',
       ],
       'circle-stroke-color': '#FFFFFF',

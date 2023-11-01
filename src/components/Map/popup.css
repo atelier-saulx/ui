@@ -5,6 +5,11 @@
   border-radius: 8px;
 }
 
+html[data-theme='dark'] .mapboxgl-popup {
+  background: rgba(27, 36, 44, 1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 .mapboxgl-canvas {
   border-radius: 8px;
   border: 1px solid rgba(4, 41, 68, 0.13);
@@ -21,6 +26,14 @@
   line-height: 16px;
   margin-top: 8px;
   margin-bottom: 12px;
+}
+
+html[data-theme='dark'] .mapboxgl-popup-content h3 {
+  color: #fff;
+}
+
+html[data-theme='dark'] .mapboxgl-popup-content h4 {
+  color: #917ef1;
 }
 
 .mapboxgl-popup-content h4 {
