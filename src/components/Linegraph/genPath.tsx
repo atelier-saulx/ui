@@ -1,7 +1,10 @@
 // @ts-nocheck
 import React, { useRef } from 'react'
-import { ColorActionColors } from '../../varsTypes'
-import { color } from '../../varsUtilities'
+import {
+  ColorActionColors,
+  ColorNonSemanticBackgroundColors,
+} from '../../varsTypes'
+import { color as genColor } from '../../varsUtilities'
 import { LineGraphData, Point } from './types'
 import {
   averageData,
@@ -36,14 +39,14 @@ const makeLine = ({
   width,
   height,
   stepSize,
-  baseColor,
+  baseColor = 'violet',
 }: {
   points: Point[]
   fill: boolean
   width: number
   height: number
   stepSize: number
-  baseColor: ColorActionColors
+  baseColor: ColorNonSemanticBackgroundColors
 }) => {
   // const points: [x: number, y: number][] = []
   // for (let i = 0; i < data.length; i++) {
@@ -57,7 +60,7 @@ const makeLine = ({
         <path
           key={p}
           d={p + `L${width},${height},L0,${height}`}
-          fill={color('action', 'primary', 'normal')}
+          fill={genColor('nonSemanticBackground', baseColor, 'strong')}
           fillOpacity={0.08}
         />
       ) : null,
@@ -66,7 +69,7 @@ const makeLine = ({
         ref={lineRef}
         d={p}
         fill="none"
-        stroke={color('action', 'primary', 'normal')}
+        stroke={genColor('nonSemanticBackground', baseColor, 'strong')}
         // TODO: Is this needed?
         data-custom="line"
         strokeWidth={2}
@@ -179,7 +182,7 @@ export const genPaths = ({
       width,
       height,
       stepSize: data[key].stepSize,
-      baseColor: data[key].color || 'accent',
+      baseColor: data[key].color || 'violet',
     })
     paths = paths.concat(result.path)
     lineRefs = {

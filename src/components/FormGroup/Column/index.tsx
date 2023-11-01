@@ -66,6 +66,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   }
 
   for (const d of filteredArray) {
+    console.log(d)
     fields.push(
       <FormItem
         autoFocus={!hasAutoFocus && autoFocus}

@@ -60,6 +60,8 @@ import toggle from './components/Toggle'
 import tooltipTest from './components/Tooltip'
 import topNavigation from './components/TopNavigation'
 import useContextState from './hooks/useContextState'
+import map from './components/Map'
+import singleMetric from './components/SingleMetric'
 
 export const hooks: ComponentDef[] = [useContextState]
 
@@ -87,7 +89,7 @@ export const input = [
   toggle,
 ]
 
-export const misc = [code, colorPicker, logsText, styledDivs, tag]
+export const misc = [code, colorPicker, logsText, tag]
 
 export const overlay = [
   alert,
@@ -104,11 +106,25 @@ export const feedback = [alertBanner, badge, toast, tooltipTest]
 
 export const icons = [icon]
 
-export const layout = [accordion, container, divider, scrollArea, tabs]
+export const layout = [
+  accordion,
+  container,
+  divider,
+  scrollArea,
+  styledDivs,
+  tabs,
+]
 
 export const navigation = [breadCrumbs, Menu, topNavigation]
 
-export const graphs = [barGraph, linegraph, metricsWidget, pieGraph]
+export const graphs = [
+  barGraph,
+  linegraph,
+  map,
+  metricsWidget,
+  pieGraph,
+  singleMetric,
+]
 
 export const display = [
   avatar,

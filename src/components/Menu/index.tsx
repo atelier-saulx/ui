@@ -417,7 +417,7 @@ export const Menu: FC<MenuProps> = ({
           paddingRight: '8px',
           height: 'auto',
           minHeight: '100%',
-          width: !shrink ? 224 : 42,
+          width: !shrink ? 224 : 58,
           transition: '0.3s all',
           // overflowX: 'clip',
           borderRight: `1px solid ${color(

@@ -1,386 +1,158 @@
-import React, { FC, useRef, useState, useEffect } from 'react'
+import React from 'react'
 import { styled } from 'inlines'
-import { Button } from '../Button'
+import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { ListPlugin } from '@lexical/react/LexicalListPlugin'
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin'
+import { ContentEditable } from '@lexical/react/LexicalContentEditable'
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
+
+import { HeadingNode } from '@lexical/rich-text'
+import { LinkNode } from '@lexical/link'
+import { ListNode, ListItemNode } from '@lexical/list'
+import { ValuePlugin, ValuePluginProps } from './ValuePlugin'
+import { ToolbarPlugin } from './ToolbarPlugin'
 import { color } from '../../varsUtilities'
-import { Header } from './Header/Header'
-import { ParagraphBlock } from './Blocks/ParagaphBlock'
-import { HeadingBlock } from './Blocks/HeadingBlock'
-import { generateString } from './utils/generateString'
-import { keyDownHandler } from './utils/keyDownHandler'
-import { ListBlock } from './Blocks/ListBlock'
-import { HtmlBlock } from './Blocks/HtmlBlock'
-import { SpaceBlock } from './Blocks/SpaceBlock'
-import { nodeToJson } from './utils/nodesToJson'
-import { RawHtmlBlock } from './Blocks/RawHtmlBlock'
-import { htmlNodesToJson } from './utils/htmlNodesToJson'
-import { IconEye, IconEyeOff } from '../../icons'
-import { Tooltip } from '../..'
+import { Text } from '../Text'
+import { ImagePlugin } from './ImagePlugin'
+import { ImageNode } from './ImageNode'
+import { Placeholder } from './Placeholder'
 
 export type RichTextEditorProps = {
-  time?: number
-  data?: any
-}
+  label?: string
+  placeholder?: string
+} & ValuePluginProps
 
-// TODO :
-//  header buttons in html editor??
-//  - add media // button // layout after refactoring this
-//  -  shift + enter at end of block
-//  - duplicate a block
-// spit out to database / onchange + timestamp
-
-export const RichTextEditor: FC<RichTextEditorProps> = ({ time, data }) => {
-  const editorWrapRef = useRef<HTMLElement>()
-
-  const [blocks, setBlocks] = useState(data.blocks)
-  const [focus, setFocus] = useState(0)
-  const [htmlView, setHtmlView] = useState<boolean>(false)
-
-  const makeNewBlock = (type, focus) => {
-    if (focus || focus === 0) {
-      // insert after focus index
-      const duplicateArr = [
-        ...blocks.slice(0, focus === 0 ? 1 : focus + 1),
-        {
-          id: `${type.substring(0, 3)}-${generateString(5)}`,
-          type: type,
-          data: {
-            innerHTML: '',
-            level: type === 'heading' ? 'h1' : undefined,
-            items:
-              type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
-            type: type === 'list' ? 'unordered' : undefined,
-            style: undefined,
-          },
-        },
-        ...blocks.slice(focus === 0 ? 1 : focus + 1),
-      ]
-
-      setBlocks([...duplicateArr])
-    } else {
-      // add new block to the end
-      setBlocks((oldblocks) => [
-        ...oldblocks,
-        {
-          id: `${type.substring(0, 3)}-${generateString(5)}`,
-          type: type,
-          data: {
-            innerHTML: '',
-            level: type === 'heading' ? 'h1' : undefined,
-            items:
-              type === 'list' ? [{ innerText: '', innerHTML: '' }] : undefined,
-            style: undefined,
-          },
-        },
-      ])
-    }
-  }
-
-  const deleteBlock = (idx) => {
-    setFocus(focus > 0 ? focus - 1 : 0)
-    const filteredBlocks = blocks.filter((item, id) => id !== idx)
-    setBlocks([...filteredBlocks])
-  }
-
-  // TODO -> Check the setBlocks state
-  const updateBlock = (idx: number, ref?: any) => {
-    let newRef = ref
-    if (!ref) {
-      newRef = editorWrapRef.current.childNodes[idx]
-    }
-
-    console.log('updated 🤖 beep boop...', newRef)
-    // update paragraph and headings
-    if (
-      newRef.nodeName === 'P' ||
-      newRef.nodeName === 'H1' ||
-      newRef.nodeName === 'H2' ||
-      newRef.nodeName === 'H3' ||
-      newRef.nodeName === 'H4' ||
-      newRef.nodeName === 'H5' ||
-      newRef.nodeName === 'H6'
-    ) {
-      blocks[idx].data.innerHTML = newRef.innerHTML
-      blocks[idx].data.innerText = newRef.innerHTML
-      blocks[idx].data.alignment = newRef.style.textAlign
-      blocks[idx].data.style = newRef.style.cssText
-
-      // console.log('new Ref --> ', newRef.style)
-    }
-    // update lists
-    if (newRef.nodeName === 'UL' || newRef.nodeName === 'OL') {
-      blocks[idx].data.alignment = newRef.style.textAlign
-      let listItemsArray = Array.from(newRef.childNodes).map((item, idx) => ({
-        // @ts-ignore
-        innerHTML: item.innerHTML,
-        // @ts-ignore
-        innerText: item.innerText,
-      }))
-
-      blocks[idx].data.items = listItemsArray
-      blocks[idx].data.style = newRef.style.cssText
-      // blocks[idx].data.type = newRef.nodeName === 'UL' ? 'unordered' : 'ordered'
-    }
-  }
-
-  const updateHtmlBlock = () => {
-    let childrenNodes = editorWrapRef.current.children[0].children
-    setBlocks(htmlNodesToJson(childrenNodes))
-  }
-
-  useEffect(() => {
-    if (!htmlView) {
-      let nodes = editorWrapRef.current.children
-      setBlocks(nodeToJson(nodes))
-    }
-    // use childNodes not children you know because of logic 🤨
-    let child = editorWrapRef.current.childNodes[focus] as HTMLElement
-    if (htmlView) {
-      child = editorWrapRef.current?.children[0]?.children[focus]?.firstChild
-        ?.firstChild?.firstChild as HTMLTextAreaElement
-    }
-    child?.focus()
-  }, [focus])
-
+export function RichTextEditor({
+  label,
+  placeholder,
+  defaultValue,
+  onChange,
+}: RichTextEditorProps) {
   return (
-    <styled.div>
-      <styled.div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Header
-          blocks={blocks}
-          deleteBlock={deleteBlock}
-          focus={focus}
-          makeNewBlock={makeNewBlock}
-          setBlocks={setBlocks}
-          setFocus={setFocus}
-          updateBlock={updateBlock}
-        />
-        <styled.div
-          style={{
-            '& button': {
-              height: '24px',
-              borderRadius: '4px !important',
-              '& div': {
-                fontSize: '13px !important',
-                lineHeight: '13px !important',
-                fontWeight: '400 !important',
-              },
-              '& svg': {
-                marginTop: '-2px',
-                width: '14px',
-                height: '14px',
-              },
-            },
-          }}
-        >
-          <Tooltip text="Switch view">
-            <Button
-              onClick={() => {
-                if (!htmlView) {
-                  let nodes = editorWrapRef.current.children
-                  setBlocks(nodeToJson(nodes))
-                  setHtmlView(true)
-                } else {
-                  let childrenNodes = editorWrapRef.current.children[0].children
-                  setBlocks(htmlNodesToJson(childrenNodes))
-                  setHtmlView(false)
-                }
-              }}
-              size="small"
-              light
-              color="neutral"
-              icon={!htmlView ? <IconEyeOff /> : <IconEye />}
-            >
-              {!htmlView ? 'Html' : 'Visual'}
-            </Button>
-          </Tooltip>
-        </styled.div>
-      </styled.div>
+    <LexicalComposer initialConfig={CONFIG}>
       <styled.div
-        id="editor"
-        ref={editorWrapRef}
-        style={{
-          backgroundColor: color('background', 'default'),
-          position: 'relative',
-          borderRadius: 8,
-          padding: '6px 20px',
-          paddingBottom: '24px',
-          paddingLeft: 0,
-          border: `1px solid ${color(
-            'inputBorder',
-            'neutralNormal',
-            'default'
-          )}`,
-          minWidth: 680,
-          marginTop: 8,
-          marginBottom: 16,
-          '& p': {
-            lineHeight: '1.36',
-            fontSize: '15px',
-            paddingLeft: '13px',
-            borderLeft: '3px solid transparent',
-            '&:focus-visible': {
-              outline: '1px dashed #bfbfbf52',
-              borderLeft: `3px solid ${color('action', 'primary', 'normal')}`,
-            },
-            '&[contenteditable=true]:empty:before': {
-              content: '"Type here..."',
-              color: color('content', 'default', 'secondary'),
-              pointerEvents: 'none',
-              display: 'absolute',
-            },
-          },
-          '& a': {
-            color: '#0a57d0',
-          },
-          '& h1, h2, h3, h4, h5, h6': {
-            paddingLeft: '13px',
-            borderLeft: '3px solid transparent',
-            '&:focus-visible': {
-              outline: '1px dashed #bfbfbf52',
-              borderLeft: `3px solid ${color('action', 'primary', 'normal')}`,
-            },
-            '&[contenteditable=true]:empty:before': {
-              content: '"Title here..."',
-              color: color('content', 'default', 'secondary'),
-              pointerEvents: 'none',
-              display: 'absolute',
-              fontWeight: 400,
-            },
-          },
-          '& ul, ol': {
-            lineHeight: '1.36',
-            borderLeft: '3px solid transparent',
-            fontSize: '15px',
-            '&:focus-visible': {
-              outline: '1px dashed #bfbfbf52 !important',
-              borderLeft: `3px solid ${color('action', 'primary', 'normal')}`,
-            },
-          },
-        }}
+        style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
       >
-        {!htmlView &&
-          blocks.map((item, idx) => {
-            if (item.type === 'paragraph') {
-              return (
-                <ParagraphBlock
-                  key={idx}
-                  idx={idx}
-                  data={item}
-                  setFocus={setFocus}
-                  makeNewBlock={makeNewBlock}
-                  deleteBlock={deleteBlock}
-                  updateBlock={updateBlock}
-                  keyDownHandler={keyDownHandler}
-                  blocksLength={blocks.length}
-                  focus={focus}
-                />
-              )
-            } else if (item.type === 'heading') {
-              return (
-                <HeadingBlock
-                  key={idx}
-                  data={item}
-                  idx={idx}
-                  setFocus={setFocus}
-                  makeNewBlock={makeNewBlock}
-                  deleteBlock={deleteBlock}
-                  updateBlock={updateBlock}
-                  keyDownHandler={keyDownHandler}
-                  blocksLength={blocks.length}
-                  focus={focus}
-                />
-              )
-            } else if (item.type === 'list') {
-              return (
-                <ListBlock
-                  key={idx}
-                  idx={idx}
-                  data={item}
-                  setFocus={setFocus}
-                  updateBlock={updateBlock}
-                  deleteBlock={deleteBlock}
-                  blocksLength={blocks.length}
-                  focus={focus}
-                />
-              )
-            } else if (item.type === 'html') {
-              return (
-                <HtmlBlock
-                  key={idx}
-                  idx={idx}
-                  data={item}
-                  setFocus={setFocus}
-                  blocks={blocks}
-                  focus={focus}
-                  style={{
-                    borderLeft:
-                      focus === idx
-                        ? `3px solid ${color('action', 'primary', 'normal')}`
-                        : '3px solid transparent',
-                  }}
-                />
-              )
-            } else if (item.type === 'space') {
-              return (
-                <SpaceBlock
-                  data={item}
-                  key={idx}
-                  idx={idx}
-                  setFocus={setFocus}
-                  focus={focus}
-                  blocks={blocks}
-                  style={{
-                    borderLeft:
-                      focus === idx
-                        ? `3px solid ${color('action', 'primary', 'normal')}`
-                        : '3px solid transparent',
-                  }}
-                />
-              )
-            }
-          })}
-        {htmlView && (
+        {label && (
           <styled.div>
-            {blocks.map((item, idx) => (
-              <RawHtmlBlock
-                idx={idx}
-                data={item}
-                blocks={blocks}
-                setFocus={setFocus}
-                updateHtmlBlock={updateHtmlBlock}
-                focus={focus}
-                deleteBlock={deleteBlock}
-                key={idx}
-                style={{
-                  borderLeft:
-                    focus === idx
-                      ? `3px solid ${color('action', 'primary', 'normal')}`
-                      : '3px solid transparent',
-                }}
-              />
-            ))}
+            <Text
+              weight="medium"
+              style={{
+                marginBottom: 8,
+              }}
+            >
+              {label}
+            </Text>
           </styled.div>
         )}
+        <styled.div
+          style={{
+            position: 'relative',
+            '& .rte': {
+              color: color('content', 'default', 'primary'),
+              border: `1px solid ${color(
+                'inputBorder',
+                'neutralNormal',
+                'default'
+              )}`,
+              '&:hover': {
+                border: `1px solid ${color(
+                  'inputBorder',
+                  'neutralHover',
+                  'default'
+                )}`,
+              },
+              '&:focus': {
+                border: `1px solid ${color(
+                  'inputBorder',
+                  'active',
+                  'default'
+                )}`,
+                boxShadow: `0 0 0 2px ${color('border', 'brand', 'subtle')}`,
+              },
+              borderRadius: '8px',
+              padding: '54px 16px 12px',
+              minHeight: '300px',
+              outline: 'none',
+            },
+            ...NODE_STYLES,
+          }}
+        >
+          <ToolbarPlugin />
+          <RichTextPlugin
+            contentEditable={<ContentEditable className="rte" />}
+            placeholder={<Placeholder>{placeholder}</Placeholder>}
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+          <ImagePlugin />
+          <ListPlugin />
+          <LinkPlugin />
+          <HistoryPlugin />
+          <ValuePlugin defaultValue={defaultValue} onChange={onChange} />
+        </styled.div>
       </styled.div>
-
-      <Button
-        size="small"
-        onClick={() => {
-          if (!htmlView) {
-            let nodes = editorWrapRef.current.children
-            setBlocks(nodeToJson(nodes))
-            // TODO
-            let timestamp = Date.now()
-            console.log('Spit out these blocks', blocks, timestamp)
-          } else {
-            let childrenNodes = editorWrapRef.current.children[0].children
-            setBlocks(htmlNodesToJson(childrenNodes))
-            // TODO
-            console.log('spit these blocks to DB', blocks)
-          }
-        }}
-      >
-        Publish
-      </Button>
-    </styled.div>
+    </LexicalComposer>
   )
+}
+
+const CONFIG = {
+  editable: true,
+  namespace: 'RichTextEditor',
+  theme: {
+    heading: {
+      h1: 'rte-h1',
+      h2: 'rte-h2',
+      h3: 'rte-h3',
+    },
+    paragraph: 'rte-p',
+    text: {
+      bold: 'rte-bold',
+      italic: 'rte-italic',
+      strikethrough: 'rte-strikethrough',
+    },
+    link: 'rte-link',
+    list: {
+      ul: 'rte-ul',
+    },
+  },
+  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode],
+  onError: (error) => {
+    console.error(error)
+  },
+}
+
+const NODE_STYLES = {
+  '& .rte-h1': {
+    margin: '0',
+    color: color('content', 'default', 'primary'),
+  },
+  '& .rte-h2': {
+    margin: '0',
+    color: color('content', 'default', 'primary'),
+  },
+  '& .rte-h3': {
+    margin: '0',
+    color: color('content', 'default', 'primary'),
+  },
+  '& .rte-p': {
+    margin: '0',
+    color: color('content', 'default', 'primary'),
+  },
+  '& .rte-bold': {
+    fontWeight: 'bold',
+  },
+  '& .rte-italic': {
+    fontStyle: 'italic',
+  },
+  '& .rte-strikethrough': {
+    textDecoration: 'line-through',
+  },
+  '& .rte-link': {
+    color: color('content', 'brand', 'primary'),
+  },
+  '& .rte-ul': {
+    margin: '0',
+  },
 }

@@ -241,9 +241,13 @@
         "color": {
           "optional": true,
           "type": "ColorNonSemanticBackgroundColors"
+        },
+        "barWidth": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  direction?: 'horizontal' | 'vertical'\n  valueFormat?: 'percentages' | NumberFormat\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n}",
+      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  direction?: 'horizontal' | 'vertical'\n  valueFormat?: 'percentages' | NumberFormat\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n  barWidth?: number\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -376,11 +380,11 @@
     "CodeProps": {
       "name": "CodeProps",
       "props": {
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
         "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "defaultValue": {
           "optional": true,
           "type": "string"
         },
@@ -390,6 +394,10 @@
             "TSParenthesizedType",
             "Dispatch"
           ]
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         },
         "header": {
           "optional": true,
@@ -432,7 +440,7 @@
           "type": "TSAnyKeyword"
         }
       },
-      "code": "type CodeProps = {\n  style?: Style\n  value?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  header?: ReactNode\n  color?: ColorBackgroundColors\n  copy?: boolean\n  language?: 'js' | 'html' | 'css' | 'json' | 'markup' | 'clike' | string\n  props?: any\n}",
+      "code": "type CodeProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  style?: Style\n  header?: ReactNode\n  color?: ColorBackgroundColors\n  copy?: boolean\n  language?: 'js' | 'html' | 'css' | 'json' | 'markup' | 'clike' | string\n  props?: any\n}",
       "file": "/components/Code/index.tsx"
     },
     "ColorPickerProps": {
@@ -1167,7 +1175,16 @@
       "name": "NumberInputOwnProps",
       "props": {
         "value": {
+          "optional": true,
           "type": "number"
+        },
+        "defaultValue": {
+          "optional": true,
+          "type": "number"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
         },
         "clearButton": {
           "optional": true,
@@ -1192,9 +1209,6 @@
         "style": {
           "optional": true,
           "type": "Style"
-        },
-        "onChange": {
-          "type": "function"
         },
         "onFocus": {
           "optional": true,
@@ -1231,9 +1245,13 @@
         "step": {
           "optional": true,
           "type": "number"
+        },
+        "integer": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type NumberInputOwnProps = {\n  value: number\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  style?: Style\n  onChange: (value: number) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  min?: number\n  max?: number\n  step?: number\n}",
+      "code": "type NumberInputOwnProps = {\n  value?: number\n  defaultValue?: number\n  onChange?: (value: number) => void\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  style?: Style\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  min?: number\n  max?: number\n  step?: number\n  integer?: boolean\n}",
       "file": "/components/Input/NumberInput.tsx"
     },
     "SelectInputProps": {
@@ -1650,6 +1668,22 @@
       "code": "type LogsProps = {\n  data: Exclude<LogProps, 'data' | 'index'>[]\n  style?: Style\n}",
       "file": "/components/LogsComponent/index.tsx"
     },
+    "MapProps": {
+      "name": "MapProps",
+      "props": {
+        "data": {},
+        "height": {
+          "optional": true,
+          "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type MapProps = {\n  data: GeoJSON.FeatureCollection<GeoJSON.Geometry>\n  height?: number\n  style?: Style\n}",
+      "file": "/components/Map/index.tsx"
+    },
     "MenuItemProps": {
       "name": "MenuItemProps",
       "props": {
@@ -1891,9 +1925,17 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "onEscapeKeyDown": {
+          "optional": true,
+          "type": "function"
+        },
+        "onPointerDownOutside": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type ModalContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n  width?: string | number\n  style?: Style\n}",
+      "code": "type ModalContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n  width?: string | number\n  style?: Style\n  onEscapeKeyDown?: () => void\n  onPointerDownOutside?: () => void\n}",
       "file": "/components/Modal/index.tsx"
     },
     "ModalWarningProps": {
@@ -2503,19 +2545,265 @@
       "code": "type RadioButtonsProps = {\n  color?: ColorActionColors\n  data?: Array<{\n    label?: ReactNode\n    value: string | boolean | number\n    description?: string\n  }>\n  direction?: 'horizontal' | 'vertical'\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  value?: string | boolean | number\n}",
       "file": "/components/RadioButtons/index.tsx"
     },
-    "RichTextEditorProps": {
-      "name": "RichTextEditorProps",
+    "HeadingBlockProps": {
+      "name": "HeadingBlockProps",
       "props": {
         "data": {
           "optional": true,
-          "type": "DataObj"
+          "type": "TSAnyKeyword"
+        },
+        "deleteBlock": {
+          "optional": true,
+          "type": "function"
+        },
+        "idx": {
+          "optional": true,
+          "type": "number"
+        },
+        "keyDownHandler": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "makeNewBlock": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFocus": {
+          "optional": true,
+          "type": "function"
         },
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "updateBlock": {
+          "optional": true,
+          "type": "function"
+        },
+        "blocksLength": {
+          "optional": true,
+          "type": "number"
+        },
+        "focus": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type RichTextEditorProps = {\n  data?: DataObj\n  style?: Style\n}",
+      "code": "type HeadingBlockProps = {\n  data?: any\n  deleteBlock?: (v) => void\n  idx?: number\n  keyDownHandler?: any\n  makeNewBlock?: (v, idx) => void\n  setFocus?: (v) => void\n  style?: Style\n  updateBlock?: (v) => void\n  blocksLength?: number\n  focus?: number\n}",
+      "file": "/components/RichTextEditor/Blocks/HeadingBlock.tsx"
+    },
+    "HtmlBlockProps": {
+      "name": "HtmlBlockProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "idx": {
+          "optional": true,
+          "type": "number"
+        },
+        "setFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "blocks": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "focus": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type HtmlBlockProps = {\n  data?: any\n  idx?: number\n  setFocus?: (v) => void\n  blocks?: any\n  style?: Style\n  focus?: number\n}",
+      "file": "/components/RichTextEditor/Blocks/HtmlBlock.tsx"
+    },
+    "ListBlockProps": {
+      "name": "ListBlockProps",
+      "props": {
+        "data": {
+          "type": "TSAnyKeyword"
+        },
+        "deleteBlock": {
+          "optional": true,
+          "type": "function"
+        },
+        "idx": {
+          "optional": true,
+          "type": "number"
+        },
+        "setFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "blocksLength": {
+          "optional": true,
+          "type": "number"
+        },
+        "focus": {
+          "optional": true,
+          "type": "number"
+        },
+        "updateBlock": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type ListBlockProps = {\n  data: any\n  deleteBlock?: (v) => void\n  idx?: number\n  setFocus?: (v) => void\n  style?: Style\n  blocksLength?: number\n  focus?: number\n  updateBlock?: (v, r) => void\n}",
+      "file": "/components/RichTextEditor/Blocks/ListBlock.tsx"
+    },
+    "ParagaphBlockProps": {
+      "name": "ParagaphBlockProps",
+      "props": {
+        "data": {
+          "type": "TSAnyKeyword"
+        },
+        "deleteBlock": {
+          "optional": true,
+          "type": "function"
+        },
+        "idx": {
+          "optional": true,
+          "type": "number"
+        },
+        "makeNewBlock": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "updateBlock": {
+          "optional": true,
+          "type": "function"
+        },
+        "keyDownHandler": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "blocksLength": {
+          "optional": true,
+          "type": "number"
+        },
+        "focus": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type ParagaphBlockProps = {\n  data: any\n  deleteBlock?: (v) => void\n  idx?: number\n  makeNewBlock?: (v, idx) => void\n  setFocus?: (v) => void\n  style?: Style\n  updateBlock?: (v, r) => void\n  keyDownHandler?: any\n  blocksLength?: number\n  focus?: number\n}",
+      "file": "/components/RichTextEditor/Blocks/ParagaphBlock.tsx"
+    },
+    "SpaceBlockProps": {
+      "name": "SpaceBlockProps",
+      "props": {
+        "data": {
+          "type": "TSTypeLiteral"
+        },
+        "setFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "blocks": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "idx": {
+          "optional": true,
+          "type": "number"
+        },
+        "focus": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type SpaceBlockProps = {\n  data: {\n    id?: string\n    data?: {\n      space?: number\n      spaceFormat?: string\n    }\n  }\n  setFocus?: (v) => void\n  blocks?: any\n  style?: Style\n  idx?: number\n  focus?: number\n}",
+      "file": "/components/RichTextEditor/Blocks/SpaceBlock.tsx"
+    },
+    "CenterButtonGroupProps": {
+      "name": "CenterButtonGroupProps",
+      "props": {
+        "focus": {
+          "optional": true,
+          "type": "number"
+        },
+        "setFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "blocks": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "setBlocks": {
+          "optional": true,
+          "type": "function"
+        },
+        "updateBlock": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type CenterButtonGroupProps = {\n  focus?: number\n  setFocus?: (v) => void\n  blocks?: any\n  setBlocks?: () => void\n  updateBlock?: (n) => void\n}",
+      "file": "/components/RichTextEditor/Header/CenterButtonGroup.tsx"
+    },
+    "LeftButtonGroupProps": {
+      "name": "LeftButtonGroupProps",
+      "props": {
+        "makeNewBlock": {
+          "optional": true,
+          "type": "function"
+        },
+        "focus": {
+          "optional": true,
+          "type": "number"
+        },
+        "setFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "updateBlock": {
+          "optional": true,
+          "type": "function"
+        },
+        "blocks": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type LeftButtonGroupProps = {\n  makeNewBlock?: (str, num) => void\n  focus?: number\n  setFocus?: (n) => void\n  updateBlock?: (x) => void\n  blocks?: any\n}",
+      "file": "/components/RichTextEditor/Header/LeftButtonGroup.tsx"
+    },
+    "RichTextEditorProps": {
+      "name": "RichTextEditorProps",
+      "props": {
+        "time": {
+          "optional": true,
+          "type": "number"
+        },
+        "data": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type RichTextEditorProps = {\n  time?: number\n  data?: any\n}",
       "file": "/components/RichTextEditor/index.tsx"
     },
     "ScrollAreaProps": {
@@ -2690,6 +2978,36 @@
       },
       "code": "type SidePanelActionsProps = {\n  children: ReactNode\n}",
       "file": "/components/SidePanel/index.tsx"
+    },
+    "SingleMetricProps": {
+      "name": "SingleMetricProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "valueFormat": {
+          "optional": true,
+          "type": "NumberFormat"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "data": {
+          "type": "LineGraphDataInput"
+        },
+        "color": {
+          "optional": true,
+          "type": "ColorNonSemanticBackgroundColors"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type SingleMetricProps = {\n  label?: string\n  valueFormat?: NumberFormat\n  style?: Style\n  data: LineGraphDataInput\n  color?: ColorNonSemanticBackgroundColors\n  value?: number\n}",
+      "file": "/components/SingleMetric/index.tsx"
     },
     "SliderProps": {
       "name": "SliderProps",

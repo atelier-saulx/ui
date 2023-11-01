@@ -30,7 +30,6 @@ export const AllIcons: FC<{ onSelect: any }> = (props) => {
               cursor: props.onSelect ? 'pointer' : 'auto',
               alignItems: 'center',
               '&:hover': { background: color('action', 'system', 'hover') },
-
               '&:not([data-disabled]):hover': {
                 background: color('action', 'system', 'hover'),
               },

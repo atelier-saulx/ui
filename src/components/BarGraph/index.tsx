@@ -4,6 +4,7 @@ import { Text } from '../Text'
 import { color as genColor } from '../../varsUtilities'
 import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
+import { transparent } from '../ColorPicker/bg'
 
 export type BarGraphSingleItem = {
   label: string
@@ -18,6 +19,7 @@ type BarGraphProps = {
   valueFormat?: 'percentages' | NumberFormat
   style?: Style
   color?: ColorNonSemanticBackgroundColors
+  barWidth?: number
 }
 
 const HorizontalBar = ({ valueFormat, label, value, percentage, color }) => {
@@ -116,12 +118,47 @@ const VerticalBar = ({ valueFormat, label, value, percentage, color }) => {
   )
 }
 
+const CustomWidthBars = ({ percentage, color, noOfItems, index, barWidth }) => {
+  let transparentHeight = 100 / noOfItems
+
+  return (
+    <styled.div
+      style={{
+        height: barWidth < 24 ? `${transparentHeight}%` : `${barWidth}px`,
+        top:
+          barWidth < 24
+            ? `${transparentHeight * index}%`
+            : `${barWidth * index}px`,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <styled.div
+        style={{
+          marginLeft: 12,
+          height: barWidth,
+          width: `${percentage.toFixed()}%`,
+          backgroundColor: genColor(
+            'nonSemanticBackground',
+            color || 'magenta',
+            'muted'
+          ),
+        }}
+      />
+    </styled.div>
+  )
+}
+
 export const BarGraph: FC<BarGraphProps> = ({
   data,
   direction,
   style,
   valueFormat = 'percentages',
   color,
+  barWidth,
 }) => {
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
   // percentages
@@ -130,17 +167,20 @@ export const BarGraph: FC<BarGraphProps> = ({
     percentage: (item.value / totalValue) * 100,
   }))
 
+  console.log(data.length, 'length ??🐨')
+
   return (
-    <styled.div
-      style={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: direction === 'vertical' ? 'row' : 'column',
-        ...style,
-      }}
-    >
-      {direction === 'vertical'
-        ? data.map((item, idx) => (
+    <>
+      {!barWidth && direction === 'vertical' ? (
+        <styled.div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            ...style,
+          }}
+        >
+          {data.map((item, idx) => (
             <VerticalBar
               key={idx}
               valueFormat={valueFormat}
@@ -149,8 +189,18 @@ export const BarGraph: FC<BarGraphProps> = ({
               percentage={item.percentage}
               color={item.color ? item.color : color}
             />
-          ))
-        : data.map((item, idx) => (
+          ))}
+        </styled.div>
+      ) : !barWidth && (!direction || direction === 'horizontal') ? (
+        <styled.div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            ...style,
+          }}
+        >
+          {data.map((item, idx) => (
             <HorizontalBar
               key={idx}
               valueFormat={valueFormat}
@@ -160,6 +210,65 @@ export const BarGraph: FC<BarGraphProps> = ({
               color={item.color ? item.color : color}
             />
           ))}
-    </styled.div>
+        </styled.div>
+      ) : (
+        <styled.div
+          style={{
+            display: 'table',
+            transform:
+              direction === 'vertical' ? 'rotate(-90deg)' : 'rotate(0deg)',
+            ...style,
+          }}
+        >
+          {/* Text labels */}
+          <styled.div
+            style={{
+              display: 'table-cell',
+              flexDirection: 'column',
+            }}
+          >
+            {data.map((item, idx) => (
+              <Text
+                selectable="none"
+                weight="medium"
+                key={idx}
+                style={{
+                  justifyContent: 'flex-end',
+                  height: barWidth > 24 ? `${barWidth}px` : 'inherit',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {item.label}{' '}
+                {valueFormat !== 'percentages'
+                  ? prettyNumber(item.value, valueFormat)
+                  : item.percentage.toFixed(1) + '%'}
+              </Text>
+            ))}
+          </styled.div>
+          {/* bars */}
+          <styled.div
+            style={{
+              display: 'table-cell',
+              flexDirection: 'column',
+              minWidth: 400,
+              height: '100%',
+              position: 'relative',
+            }}
+          >
+            {data.map((item, idx) => (
+              <CustomWidthBars
+                key={idx}
+                percentage={item.percentage}
+                color={item.color ? item.color : color}
+                noOfItems={data.length}
+                index={idx}
+                barWidth={barWidth}
+              />
+            ))}
+          </styled.div>
+        </styled.div>
+      )}
+    </>
   )
 }

@@ -39,6 +39,7 @@ const AccordionItem: FC<AccordionItemProps> = ({
       style={{
         height: 'auto',
         maxHeight: active ? '1000px' : '40px',
+        minHeight: 40,
         transition: active ? '0.16s' : '0.16s',
         overflow: 'hidden',
         borderBottom: `1px solid ${genColor('border', 'default', 'subtle')}`,
@@ -58,24 +59,29 @@ const AccordionItem: FC<AccordionItemProps> = ({
       <styled.div
         onClick={active ? onClose : onClick}
         style={{
-          height: '20px',
+          height: '40px',
           width: '100%',
           padding: '10px 8px',
           display: 'flex',
           alignItems: 'center',
           // userSelect: 'none',
           // WebkitUserSelect: 'none',
+          backgroundColor: active
+            ? genColor('action', 'neutral', 'subtleHover')
+            : 'inherit',
           gap: 8,
           cursor: 'pointer',
           '&:hover': {
-            backgroundColor: genColor('action', 'neutral', 'subtleHover'),
+            backgroundColor: active
+              ? genColor('action', 'neutral', 'subtleActive')
+              : genColor('action', 'neutral', 'subtleHover'),
           },
           [BpTablet]: {
             '&:hover': null,
           },
-          '&:active': {
-            backgroundColor: genColor('action', 'neutral', 'subtleActive'),
-          },
+          // '&:active': {
+          //   backgroundColor: genColor('action', 'neutral', 'subtleHover'),
+          // },
         }}
       >
         <IconChevronDown
@@ -119,9 +125,7 @@ export const Accordion: FC<AccordionProps> = ({
   const multi = active instanceof Array
 
   return (
-    <styled.div
-      style={{ display: 'flex', flexDirection: 'column', gap: 10, ...style }}
-    >
+    <styled.div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {data?.map((v, i) => {
         return (
           <AccordionItem
