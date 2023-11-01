@@ -26,11 +26,13 @@ import {
   IconFormatBold,
   IconFormatItalic,
   IconFormatStrikethrough,
+  IconImage,
   IconLink,
   IconListBullet,
   IconText,
 } from 'src/icons'
 import { $setBlocksType } from '@lexical/selection'
+import { INSERT_IMAGE_COMMAND } from './ImagePlugin'
 
 export function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -258,6 +260,18 @@ export function ToolbarPlugin() {
                 : INSERT_UNORDERED_LIST_COMMAND,
               undefined
             )
+          })
+        }}
+      />
+      <Button
+        size="small"
+        color="system"
+        icon={<IconImage />}
+        onClick={() => {
+          editor.update(() => {
+            editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+              src: 'https://images.pexels.com/photos/5656637/pexels-photo-5656637.jpeg?auto=compress&cs=tinysrgb&w=200',
+            })
           })
         }}
       />
