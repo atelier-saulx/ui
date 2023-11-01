@@ -49,6 +49,7 @@ export const BarGraph: FC<BarGraphProps> = ({
 
   // TODO: hide labels on custom bars
   // TODO: show x axis with values
+  // TODO: give different colors per key, so it stays consistent
 
   let totalValuesArr = []
   if (stacked) {

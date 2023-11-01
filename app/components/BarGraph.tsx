@@ -14,7 +14,7 @@ const example: ComponentDef = {
         color: 'green',
         style: { width: 400, [BpTablet]: { width: 'unset' } },
         valueFormat: 'number-euro',
-        // direction: 'vertical',
+        direction: 'vertical',
         stacked: true,
         spacing: 24,
         data: [
