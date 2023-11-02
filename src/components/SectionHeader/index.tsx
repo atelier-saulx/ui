@@ -1,22 +1,28 @@
-import React, { FC } from 'react'
-import { styled, Style } from 'inlines'
-import { color } from '../../varsUtilities'
+import React, { FC, ReactNode } from 'react'
+import { Style } from 'inlines'
+import { RowSpaced } from '../Styled'
+import { Text } from '../Text'
+import { ColorContentColors } from '../../varsTypes'
 
-export type DividerProps = {
+export type SectionHeaderProps = {
   style?: Style
+  children?: ReactNode
+  action?: ReactNode
+  color?: ColorContentColors | 'inherit'
 }
 
-export const Divider: FC<{
-  style?: Style
-}> = ({ style }) => {
+export const SectionHeader: FC<SectionHeaderProps> = ({
+  style,
+  children,
+  action,
+  color,
+}) => {
   return (
-    <styled.div
-      style={{
-        backgroundColor: color('border', 'default', 'strong'),
-        height: '1px',
-        width: '100%',
-        ...style,
-      }}
-    />
+    <RowSpaced style={{ marginBottom: 32, ...style }}>
+      <Text color={color} size={24} weight="strong">
+        {children}
+      </Text>
+      {action}
+    </RowSpaced>
   )
 }
