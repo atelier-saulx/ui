@@ -62,6 +62,7 @@ export function TextAreaInput({
         }}
         placeholder={placeholder}
         maxLength={maxLength}
+        rows={3}
         style={{
           outline: 'none',
           boxSizing: 'border-box',

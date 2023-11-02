@@ -72,7 +72,7 @@ export const SingleMetric: FC<SingleMetricProps> = ({
           height: 56,
           '& svg': {
             '& path': {
-              stroke: ` ${genColor(
+              stroke: `${genColor(
                 'nonSemanticBackground',
                 color,
                 'strong'

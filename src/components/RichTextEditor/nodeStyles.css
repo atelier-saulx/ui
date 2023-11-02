@@ -1,0 +1,5 @@
+@keyframes CursorBlink {
+  to {
+    visibility: hidden;
+  }
+}

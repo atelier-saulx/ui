@@ -11,6 +11,28 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
+        color: 'green',
+        style: { width: 400, [BpTablet]: { width: 'unset' } },
+        valueFormat: 'number-euro',
+        direction: 'vertical',
+        stacked: true,
+        spacing: 24,
+        data: [
+          {
+            label: 'Show 1',
+            value: { en: 2342, nl: 444, de: 5464, ch: 9434, be: 666 },
+            color: 'violet',
+          },
+          {
+            label: 'Show 2',
+            value: { en: 1342, nl: 688, de: 4888 },
+            color: 'magenta',
+          },
+        ],
+      },
+    },
+    {
+      props: {
         style: { width: 540, [BpTablet]: { width: 'unset' } },
         direction: 'vertical',
         barWidth: 6,

@@ -39,7 +39,7 @@ const StyledThumb = styled('div', {
   cursor: 'pointer',
   position: 'absolute',
   right: '-4px',
-  bottom: '-6px',
+  bottom: '-2px',
 })
 
 const StyledLabel = styled('div', {

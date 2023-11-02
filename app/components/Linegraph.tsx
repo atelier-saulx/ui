@@ -99,7 +99,7 @@ const example: ComponentDef = {
                     30
                   ),
                   fill: true,
-                  color: 'teal',
+                  color: 'magenta',
                 },
                 line2: {
                   data: genRandomPoints(
@@ -137,7 +137,7 @@ const example: ComponentDef = {
                     0,
                     50
                   ),
-                  color: 'teal',
+                  color: 'red',
                 },
                 nl: {
                   data: genRandomPoints(
