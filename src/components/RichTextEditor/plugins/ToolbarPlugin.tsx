@@ -20,13 +20,15 @@ import {
   REMOVE_LIST_COMMAND,
 } from '@lexical/list'
 import { $createHeadingNode, $isHeadingNode } from '@lexical/rich-text'
-import { Button, Dropdown } from '../..'
+import { Button, Dropdown, Tooltip } from '../..'
 import {
   IconCheckLarge,
   IconFormatBold,
   IconFormatItalic,
   IconFormatStrikethrough,
+  IconFunction,
   IconImage,
+  IconLayerThree,
   IconLink,
   IconListBullet,
   IconText,
@@ -34,6 +36,8 @@ import {
 import { $setBlocksType } from '@lexical/selection'
 import { INSERT_IMAGE_COMMAND } from './ImagePlugin'
 import { ImageUploadModal } from '../components/ImageUploadModal'
+import { AddEmbedModal } from '../components/AddEmbedModal'
+import { INSERT_EMBED_COMMAND } from './EmbedPlugin'
 
 export function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -264,7 +268,6 @@ export function ToolbarPlugin() {
           })
         }}
       />
-
       <ImageUploadModal
         onSave={({ file, caption }) => {
           editor.update(() => {
@@ -277,6 +280,17 @@ export function ToolbarPlugin() {
       >
         <Button size="small" color="system" icon={<IconImage />} />
       </ImageUploadModal>
+      <AddEmbedModal
+        onSave={({ html }) => {
+          editor.update(() => {
+            editor.dispatchCommand(INSERT_EMBED_COMMAND, {
+              html,
+            })
+          })
+        }}
+      >
+        <Button size="small" color="system" icon={<IconLayerThree />} />
+      </AddEmbedModal>
     </styled.div>
   )
 }

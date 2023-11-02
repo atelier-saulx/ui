@@ -23,11 +23,6 @@ const example: ComponentDef = {
                 localStorage.setItem('rte-test', value)
               }}
             />
-            {/* <iframe
-              style={{ width: '100%', aspectRatio: '1.2 / 1' }}
-              allow="fullscreen"
-              src="https://flo.uri.sh/visualisation/14938358/embed?auto=1"
-            ></iframe> */}
           </div>
         )
       },
