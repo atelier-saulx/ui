@@ -26,47 +26,7 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
   const fields: ReactNode[] = []
   let hasAutoFocus = false
 
-  const objectArray = [
-    ...new Set(
-      parsedData
-        .map((item) => item.field.split('.')[0])
-        .filter((e, i, a) => a.indexOf(e) !== i)
-    ),
-  ]
-
-  const filteredArray = parsedData.filter(
-    (item) => !objectArray.includes(item.field.split('.')[0])
-  )
-  // console.log(valuesChanged)
-
-  for (const d of objectArray) {
-    const parsedObjArray = parsedData.filter((i) => i.field.split('.')[0] === d)
-    fields.push(
-      <ObjectItem
-        key={d}
-        d={d}
-        autoFocus={!hasAutoFocus && autoFocus}
-        onChange={onChange}
-        labelWidth={labelWidth}
-        fieldWidth={fieldWidth}
-        onChangeField={onChangeField}
-        style={{
-          ...style,
-          width: '100%',
-        }}
-        hasChanges={hasChanges}
-        valuesChanged={valuesChanged}
-        values={values}
-        setChanges={setChanges}
-        alwaysAccept={alwaysAccept}
-        parsedObjArray={parsedObjArray}
-        field={field}
-      />
-    )
-  }
-
-  for (const d of filteredArray) {
-    console.log(d)
+  for (const d of parsedData) {
     fields.push(
       <FormItem
         autoFocus={!hasAutoFocus && autoFocus}
@@ -82,6 +42,12 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
               getValue(d.field, values)
             : d.value ?? getValue(d.field, values)
         }
+        onChangeObj={onChange}
+        objValues={values}
+        hasChanges={hasChanges}
+        valuesChanged={valuesChanged}
+        setChanges={setChanges}
+        alwaysAccept={alwaysAccept}
       />
     )
 

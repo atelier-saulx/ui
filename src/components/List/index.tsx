@@ -4,6 +4,7 @@ import { IconArrowheadRight, IconClose, IconPlus } from '../../icons'
 import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
+import { ObjectItem } from '../FormGroup/ObjectItem'
 
 const genType = (type) => {
   return type === 'text' || type === 'string' || type === 'password'

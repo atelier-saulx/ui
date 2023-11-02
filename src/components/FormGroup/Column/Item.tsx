@@ -1,8 +1,9 @@
 import React, { FC, useMemo, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { Label } from './Label'
-import { FormItemProps } from '../types'
+import { FormItemProps, ValuesChanged } from '../types'
 import { Input, Row, List, Toggle, Code } from '../..'
+import { ObjectItem } from '../ObjectItem'
 
 // | 'timestamp'
 // | 'record'
@@ -19,6 +20,12 @@ export const FormItem: FC<{
   width?: number
   fieldWidth?: number
   onChange: (field: string, value: any) => void
+  onChangeObj: any
+  objValues
+  hasChanges: boolean
+  valuesChanged: ValuesChanged
+  setChanges: (val: boolean) => any
+  alwaysAccept: boolean
 }> = ({
   item: {
     props,
@@ -39,7 +46,13 @@ export const FormItem: FC<{
   value,
   onChange,
   item,
+  onChangeObj,
   width,
+  objValues,
+  hasChanges,
+  valuesChanged,
+  setChanges,
+  alwaysAccept,
 }) => {
   // if (!label) {
   //   label = useMemo(
@@ -47,6 +60,45 @@ export const FormItem: FC<{
   //     [field]
   //   )
   // }
+  if (item.type === 'object') {
+    const parsedObjArray = []
+    const obj = item as { properties: { key: string } }
+    if (obj?.properties) {
+      for (const i in obj?.properties) {
+        parsedObjArray.push({ ...obj.properties[i], field: field + '.' + i })
+      }
+    }
+    const objectArray = [
+      ...new Set(
+        parsedObjArray
+          .map((item) => item.field.split('.')[0])
+          .filter((e, i, a) => a.indexOf(e) !== i)
+      ),
+    ]
+
+    return (
+      <ObjectItem
+        key={objectArray[0]}
+        d={objectArray[0]}
+        autoFocus={autoFocus}
+        onChange={onChangeObj}
+        labelWidth={width}
+        fieldWidth={fieldWidth}
+        onChangeField={onChange}
+        style={{
+          width: '100%',
+        }}
+        values={objValues}
+        hasChanges={hasChanges}
+        valuesChanged={valuesChanged}
+        setChanges={setChanges}
+        alwaysAccept={alwaysAccept}
+        parsedObjArray={parsedObjArray}
+        field={field}
+      />
+    )
+  }
+
   if (!label) {
     label = useMemo(
       () => [
