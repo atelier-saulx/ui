@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 import { styled } from 'inlines'
-import { color as genColor } from '../../varsUtilities'
+import { color as genColor, colorHash } from '../../varsUtilities'
 import { ColorNonSemanticBackgroundColors } from 'src/varsTypes'
 import { OverlayLabels } from './OverlayLabels'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
@@ -86,8 +86,8 @@ export const StackedBars: FC<StackedBarsProps> = ({
                   : barWidth,
               backgroundColor: genColor(
                 'nonSemanticBackground',
-                color || 'magenta',
-                'muted'
+                colorHash('nonSemanticBackground', key),
+                'strong'
               ),
               width:
                 direction === 'vertical'
@@ -96,8 +96,8 @@ export const StackedBars: FC<StackedBarsProps> = ({
               '&:hover': {
                 backgroundColor: genColor(
                   'nonSemanticBackground',
-                  color || 'magenta',
-                  'strong'
+                  colorHash('nonSemanticBackground', key),
+                  'soft'
                 ),
               },
             }}
@@ -108,14 +108,6 @@ export const StackedBars: FC<StackedBarsProps> = ({
             }}
             onMouseLeave={() => setShowLabel(false)}
             onMouseMove={(e) => {
-              console.log('x:', e.clientX, 'y:', e.clientY)
-              // if (labelRef.current) {
-              //   labelRef.current.style.left = e.clientX
-              //   labelRef.current.style.top = e.clientY
-              // }
-              // setLabelXY({ x: e.clientX, y: e.clientY })
-
-              //     setYPos(e.clientY + 20)
               setYPos(e.clientY + 12)
               setXPos(e.clientX + 12)
             }}

@@ -9,6 +9,7 @@ import { HorizontalBar } from './HorizontalBar'
 import { VerticalBar } from './VerticalBar'
 import { CustomWidthBar } from './CustomWidthBar'
 import { StackedBars } from './StackedBars'
+import { NestedBars } from './NestedBars'
 
 export type BarGraphSingleItem = {
   label: string
@@ -25,6 +26,7 @@ type BarGraphProps = {
   color?: ColorNonSemanticBackgroundColors
   barWidth?: number
   stacked?: boolean
+  nested?: boolean
   spacing?: number
 }
 
@@ -36,6 +38,7 @@ export const BarGraph: FC<BarGraphProps> = ({
   color,
   barWidth,
   stacked,
+  nested,
   spacing,
 }) => {
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
@@ -45,14 +48,15 @@ export const BarGraph: FC<BarGraphProps> = ({
     percentage: (item.value / totalValue) * 100,
   }))
 
-  console.log(data, '🐨')
+  //  console.log(data, '🐨')
 
   // TODO: hide labels on custom bars
   // TODO: show x axis with values
+  // TODO: order by largeness
   // TODO: give different colors per key, so it stays consistent
 
   let totalValuesArr = []
-  if (stacked) {
+  if (stacked || nested) {
     for (let i = 0; i < data.length; i++) {
       totalValuesArr.push(
         Object.values(data[i].value)
@@ -64,7 +68,29 @@ export const BarGraph: FC<BarGraphProps> = ({
 
   return (
     <>
-      {stacked ? (
+      {nested ? (
+        <styled.div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: direction === 'vertical' ? 'row' : 'column',
+            ...style,
+          }}
+        >
+          {data.map((item, idx) => (
+            <NestedBars
+              value={item.value}
+              key={idx}
+              label={item.label}
+              largestValue={Math.max(...totalValuesArr)}
+              barWidth={barWidth}
+              spacing={spacing}
+              valueFormat={valueFormat}
+              direction={direction}
+            />
+          ))}
+        </styled.div>
+      ) : stacked ? (
         <styled.div
           style={{
             width: '100%',

@@ -14,7 +14,28 @@ const example: ComponentDef = {
         color: 'green',
         style: { width: 400, [BpTablet]: { width: 'unset' } },
         valueFormat: 'number-euro',
-        direction: 'vertical',
+        // direction: 'vertical',
+        nested: true,
+        // barWidth: 34,
+        spacing: 8,
+        data: [
+          {
+            label: 'Show 1',
+            value: { en: 2342, nl: 444, de: 5464, ch: 9434, be: 666 },
+          },
+          {
+            label: 'Show 2',
+            value: { nl: 1342, de: 688, be: 4888 },
+          },
+        ],
+      },
+    },
+    {
+      props: {
+        color: 'green',
+        style: { width: 400, [BpTablet]: { width: 'unset' } },
+        valueFormat: 'number-euro',
+        // direction: 'vertical',
         stacked: true,
         spacing: 24,
         data: [
