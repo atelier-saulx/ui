@@ -7,38 +7,15 @@ const example: ComponentDef = {
   name: 'FileInput',
   component: Input,
   description: 'Single file input',
-  properties: {
-    ...props.props.FileInputProps.props,
-    label: { type: 'string' },
-    description: { type: 'string' },
-    error: { type: 'boolean' },
-  },
+  properties: {},
   examples: [
     {
       props: {
         type: 'file',
-        // indent: true,
-        accept: ['image/png'],
-        error: true,
-        message: 'flap',
-      },
-    },
-    {
-      props: {
-        type: 'file',
-        multiple: true,
-        label: 'Add multiple files',
-        error: 'This is an error',
-        description: 'This is a description',
-        accept: ['image/jpeg'],
-      },
-    },
-    {
-      props: {
-        type: 'file',
-        indent: true,
-        label: 'Indented File upload',
-        description: 'Indentation is nice',
+        label: 'Avatar',
+        onChange: (value) => {
+          console.log(value)
+        },
       },
     },
   ],

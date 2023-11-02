@@ -12,12 +12,12 @@ const example: ComponentDef = {
     {
       props: {
         style: { width: 500, [BpTablet]: { width: 'unset' } },
-        valueFormat: 'number-euro',
-        // direction: 'vertical',
+        valueFormat: 'number-dollar',
+        direction: 'vertical',
         nested: true,
-        // barWidth: 34,
+        barWidth: 24,
         showAxis: true,
-        spacing: 2,
+        spacing: 8,
         data: [
           {
             label: 'Show 1',
@@ -41,7 +41,7 @@ const example: ComponentDef = {
         direction: 'vertical',
         showAxis: true,
         stacked: true,
-        //  spacing: 24,
+        spacing: 24,
         data: [
           {
             label: 'Show 1',
@@ -60,7 +60,7 @@ const example: ComponentDef = {
       props: {
         style: { width: 540, [BpTablet]: { width: 'unset' } },
         direction: 'vertical',
-        barWidth: 6,
+        barWidth: 42,
         color: 'violet',
         data: [
           {
@@ -79,11 +79,13 @@ const example: ComponentDef = {
           {
             label: 'Wolves 🐺',
             value: 62000,
+            barWidth: 20,
           },
           {
             label: 'Owls 🦉',
             value: 962000,
             color: 'blue',
+            barWidth: 188,
           },
           {
             label: 'Gorillas 🦍',
@@ -105,6 +107,7 @@ const example: ComponentDef = {
         color: 'green',
         style: { width: 540, [BpTablet]: { width: 'unset' } },
         valueFormat: 'number-euro',
+        // showAxis: true,
         data: [
           {
             label: 'Moose 🦆',
@@ -132,6 +135,8 @@ const example: ComponentDef = {
       props: {
         style: { width: 540, [BpTablet]: { width: 'unset' } },
         direction: 'vertical',
+        showAxis: true,
+        spacing: 32,
         data: [
           {
             label: 'Moose 🦆',
@@ -156,12 +161,14 @@ const example: ComponentDef = {
     {
       props: {
         style: { width: 540, [BpTablet]: { width: 'unset' } },
+        showAxis: true,
         barWidth: 100,
         data: [
           {
             label: 'Moose 🦆',
             value: 160000,
             color: 'blue',
+            barWidth: 24,
           },
           {
             label: 'Caribou 🦌',

@@ -10,10 +10,12 @@ export const HorizontalBar = ({
   value,
   percentage,
   color,
+  barWidth,
+  spacing = 4,
 }) => {
   return (
     <styled.div
-      style={{ display: 'flex', marginBottom: 4, alignItems: 'center' }}
+      style={{ display: 'flex', marginBottom: spacing, alignItems: 'center' }}
     >
       <styled.div style={{ width: '100%' }}>
         <styled.div
@@ -26,7 +28,10 @@ export const HorizontalBar = ({
             ),
             padding: '4px 8px',
             whiteSpace: 'nowrap',
+            display: 'flex',
+            alignItems: 'center',
             width: `${percentage.toFixed()}%`,
+            height: barWidth ? barWidth : 'auto',
           }}
         >
           <Text selectable="none" weight="medium">

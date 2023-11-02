@@ -7,21 +7,22 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
-import './nodeStyles.css'
+import './utils/nodeStyles.css'
 
 import { HeadingNode } from '@lexical/rich-text'
 import { LinkNode } from '@lexical/link'
 import { ListNode, ListItemNode } from '@lexical/list'
-import { ValuePlugin, ValuePluginProps } from './ValuePlugin'
-import { ToolbarPlugin } from './ToolbarPlugin'
+import { ValuePlugin, ValuePluginProps } from './plugins/ValuePlugin'
+import { ToolbarPlugin } from './plugins/ToolbarPlugin'
 import { color } from '../../varsUtilities'
 import { Text } from '../Text'
-import { ImagePlugin } from './ImagePlugin'
-import { ImageNode } from './ImageNode'
-import { Placeholder } from './Placeholder'
-import { BehaviourPlugin } from './BehaviourPlugin'
+import { ImagePlugin } from './plugins/ImagePlugin'
+import { ImageNode } from './nodes/ImageNode'
+import { Placeholder } from './components/Placeholder'
+import { BehaviourPlugin } from './plugins/BehaviourPlugin'
+import { EmbedPlugin } from './plugins/EmbedPlugin'
+import { EmbedNode } from './nodes/EmbedNode'
 
-// TODO finish image caption
 // TODO add embed node
 // TODO add export to HTML
 
@@ -99,6 +100,7 @@ export function RichTextEditor({
           <LinkPlugin />
           <HistoryPlugin />
           <BehaviourPlugin />
+          <EmbedPlugin />
           <ValuePlugin defaultValue={defaultValue} onChange={onChange} />
         </styled.div>
       </styled.div>
@@ -130,7 +132,7 @@ const CONFIG = {
       focus: 'rte-embedfocus',
     },
   },
-  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode],
+  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode, EmbedNode],
   onError: (error) => {
     console.error(error)
   },

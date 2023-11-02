@@ -4,24 +4,11 @@ import { color as genColor, colorHash } from '../../varsUtilities'
 import { ColorNonSemanticBackgroundColors } from 'src/varsTypes'
 import { OverlayLabels } from './OverlayLabels'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
-import { Text } from '../Text'
-import { addValues } from '../Map/mapActions'
-//
-// {
-//     label: 'Countrie votes',
-//     value: {
-//         en: 546,
-//         de: 433,
-//         nl: 903
-//     },
-//     color: 'blue'
-// }
 
 type StackedBarsProps = {
   label?: string
   value?: {}
-  color?: ColorNonSemanticBackgroundColors
-  largestValue?: number
+  totalValue?: number
   barWidth?: number
   valueFormat?: 'percentages' | NumberFormat
   spacing?: number
@@ -32,14 +19,11 @@ export const StackedBars: FC<StackedBarsProps> = ({
   label,
   barWidth = 12,
   value,
-  color,
-  largestValue,
+  totalValue,
   valueFormat,
   spacing = 6,
   direction,
 }) => {
-  console.log('Incoming --> ', color, direction)
-
   const [showLabel, setShowLabel] = useState(false)
   const [xPos, setXPos] = useState(0)
   const [yPos, setYPos] = useState(0)
@@ -75,6 +59,7 @@ export const StackedBars: FC<StackedBarsProps> = ({
           objValue={objValue}
           valueFormat={valueFormat}
           direction={direction}
+          label={label}
         />
       )}
       {sortable?.map((item, idx) => {
@@ -82,15 +67,12 @@ export const StackedBars: FC<StackedBarsProps> = ({
           <styled.div
             key={idx}
             style={{
-              borderTopRightRadius: 4,
-              borderTopLeftRadius: direction === 'vertical' ? 4 : 0,
-              borderBottomRightRadius: direction === 'vertical' ? 0 : 4,
-              borderBottomLeftRadius: 0,
+              borderRadius: 4,
               marginBottom: direction !== 'vertical' && 1,
               marginRight: direction === 'vertical' && 1,
               height:
                 direction === 'vertical'
-                  ? `${(value[item[0]] / largestValue) * 100}%`
+                  ? `${(value[item[0]] / totalValue) * 100}%`
                   : barWidth,
               backgroundColor: genColor(
                 'nonSemanticBackground',
@@ -100,7 +82,7 @@ export const StackedBars: FC<StackedBarsProps> = ({
               width:
                 direction === 'vertical'
                   ? barWidth
-                  : `${(value[item[0]] / largestValue) * 100}%`,
+                  : `${(value[item[0]] / totalValue) * 100}%`,
               '&:hover': {
                 backgroundColor: genColor(
                   'nonSemanticBackground',

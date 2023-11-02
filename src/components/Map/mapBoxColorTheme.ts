@@ -7,7 +7,6 @@ export const makeTheme = () => {
     let rgba = getComputedStyle(document.documentElement).getPropertyValue(
       substring
     )
-
     return rgba
   }
 
@@ -81,7 +80,7 @@ export const makeTheme = () => {
         maxzoom: 7,
         layout: {},
         paint: {
-          'fill-color': landColorTwo,
+          'fill-color': landColor,
           'fill-opacity': [
             'interpolate',
             ['exponential', 1.5],
