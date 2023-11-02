@@ -8,7 +8,6 @@ import { IconClose } from 'src/icons'
 import { parseData, getValue } from './utils'
 import { ObjectItemProps } from './types'
 
-// export const FormGroupColumn: FC<FormGroupVariantProps> = ({
 export const ObjectItem: FC<ObjectItemProps> = ({
   d,
   field,
@@ -104,12 +103,18 @@ export const ObjectItem: FC<ObjectItemProps> = ({
                   }
                   return (
                     <FormItem
+                      objValues={item.values}
                       key={item.field}
                       autoFocus={autoFocus}
+                      onChangeObj={onChange}
                       fieldWidth={fieldWidth}
                       width={labelWidth}
                       item={item}
                       onChange={onChangeField}
+                      hasChanges={hasChanges}
+                      valuesChanged={valuesChanged}
+                      setChanges={setChanges}
+                      alwaysAccept={alwaysAccept}
                       value={
                         hasChanges
                           ? getValue(item.field, valuesChanged.current) ??

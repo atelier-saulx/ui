@@ -68,15 +68,7 @@ export const parseData = (properties) => {
         continue
       }
       if (typeof item === 'object' && !React.isValidElement(item)) {
-        const obj = item as { properties: { key: string } }
-        if (obj?.properties) {
-          for (const i in obj?.properties) {
-            parsedData.push({ ...obj.properties[i], field: field + '.' + i })
-          }
-        } else {
-          /* @ts-ignore FIX THIS TYPE */
-          parsedData.push({ ...item, field })
-        }
+        parsedData.push({ ...item, field })
       } else {
         parsedData.push({
           field,
