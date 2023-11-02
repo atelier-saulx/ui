@@ -75,12 +75,12 @@ export const addValues = ({ data, map, hoverVoteId }) => {
         'case',
         ['boolean', ['feature-state', 'hover'], false],
         'rgb(99, 78, 202)',
-        'rgba(99, 78, 202, 0.3)',
+        'rgba(99, 78, 202, 0.7)',
       ],
       'circle-stroke-color': '#FFFFFF',
       'circle-stroke-width': 2,
       // 'circle-radius' defined in updateCircleRadius
-      'circle-opacity': 0.8,
+      'circle-opacity': 0.7,
     },
   })
 
@@ -96,12 +96,12 @@ export const addValues = ({ data, map, hoverVoteId }) => {
         'case',
         ['boolean', ['feature-state', 'hover'], false],
         'rgb(99, 78, 202)',
-        'rgba(99, 78, 202, 0.3)',
+        'rgba(99, 78, 202, 0.7)',
       ],
       'circle-stroke-color': '#FFFFFF',
       'circle-stroke-width': 2,
       // 'circle-radius' defined in updateCircleRadius
-      'circle-opacity': 0.8,
+      'circle-opacity': 0.7,
     },
   })
 

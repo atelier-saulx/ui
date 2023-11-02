@@ -13,7 +13,7 @@ export const makeTheme = () => {
   let landColor = convertToRGB(color('action', 'system', 'hover'))
   let landColorTwo = convertToRGB(color('background', 'inverted', 'muted'))
   let waterColor = convertToRGB(color('background', 'default', 'strong'))
-  let borderColor = convertToRGB(color('action', 'primary', 'subtleSelected'))
+  let borderColor = convertToRGB(color('content', 'default', 'secondary'))
   let textColor = convertToRGB(color('content', 'default', 'primary'))
   let textBorder = convertToRGB(color('content', 'inverted'))
 
