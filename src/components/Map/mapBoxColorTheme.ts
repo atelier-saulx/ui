@@ -7,7 +7,6 @@ export const makeTheme = () => {
     let rgba = getComputedStyle(document.documentElement).getPropertyValue(
       substring
     )
-
     return rgba
   }
 
@@ -17,6 +16,8 @@ export const makeTheme = () => {
   let borderColor = convertToRGB(color('action', 'primary', 'subtleSelected'))
   let textColor = convertToRGB(color('content', 'default', 'primary'))
   let textBorder = convertToRGB(color('content', 'inverted'))
+
+  console.log(landColor, 'LandColor')
 
   const mapBoxColorTheme = {
     version: 8,
@@ -81,7 +82,7 @@ export const makeTheme = () => {
         maxzoom: 7,
         layout: {},
         paint: {
-          'fill-color': landColorTwo,
+          'fill-color': landColor,
           'fill-opacity': [
             'interpolate',
             ['exponential', 1.5],
