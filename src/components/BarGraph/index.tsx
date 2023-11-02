@@ -9,6 +9,9 @@ import { HorizontalBar } from './HorizontalBar'
 import { VerticalBar } from './VerticalBar'
 import { CustomWidthBar } from './CustomWidthBar'
 import { StackedBars } from './StackedBars'
+import { NestedBars } from './NestedBars'
+import { Xaxis } from './Xaxis'
+import { Yaxis } from './Yaxis'
 
 export type BarGraphSingleItem = {
   label: string
@@ -20,23 +23,27 @@ export type BarGraphSingleItem = {
 type BarGraphProps = {
   data: BarGraphSingleItem[]
   direction?: 'horizontal' | 'vertical'
-  valueFormat?: 'percentages' | NumberFormat
+  valueFormat?: NumberFormat
   style?: Style
   color?: ColorNonSemanticBackgroundColors
   barWidth?: number
   stacked?: boolean
+  nested?: boolean
   spacing?: number
+  showAxis?: boolean
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
   data,
   direction,
   style,
-  valueFormat = 'percentages',
+  valueFormat,
   color,
   barWidth,
   stacked,
+  nested,
   spacing,
+  showAxis,
 }) => {
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
   // percentages
@@ -45,14 +52,13 @@ export const BarGraph: FC<BarGraphProps> = ({
     percentage: (item.value / totalValue) * 100,
   }))
 
-  console.log(data, '🐨')
+  //  console.log(data, '🐨')
 
   // TODO: hide labels on custom bars
-  // TODO: show x axis with values
-  // TODO: give different colors per key, so it stays consistent
+  // TODO: show x, y axis with values
 
   let totalValuesArr = []
-  if (stacked) {
+  if (stacked || nested) {
     for (let i = 0; i < data.length; i++) {
       totalValuesArr.push(
         Object.values(data[i].value)
@@ -62,9 +68,23 @@ export const BarGraph: FC<BarGraphProps> = ({
     }
   }
 
+  let axisValues = []
+  if (showAxis) {
+    let divideByNo = 4
+    let largest = stacked || nested ? Math.max(...totalValuesArr) : totalValue
+
+    let step = largest / divideByNo
+
+    for (let i = 0; i < divideByNo + 1; i++) {
+      axisValues.push(i * step)
+    }
+
+    console.log(axisValues, 'arr')
+  }
+
   return (
     <>
-      {stacked ? (
+      {nested ? (
         <styled.div
           style={{
             width: '100%',
@@ -73,6 +93,42 @@ export const BarGraph: FC<BarGraphProps> = ({
             ...style,
           }}
         >
+          {data.map((item, idx) => (
+            <NestedBars
+              value={item.value}
+              key={idx}
+              label={item.label}
+              largestValue={Math.max(...totalValuesArr)}
+              barWidth={barWidth}
+              spacing={spacing}
+              valueFormat={valueFormat}
+              direction={direction}
+            />
+          ))}
+          {showAxis && direction !== 'vertical' && (
+            <Xaxis
+              axisValues={axisValues}
+              spacing={spacing}
+              valueFormat={valueFormat}
+            />
+          )}
+        </styled.div>
+      ) : stacked ? (
+        <styled.div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: direction === 'vertical' ? 'row' : 'column',
+            ...style,
+          }}
+        >
+          {showAxis && direction === 'vertical' && (
+            <Yaxis
+              axisValues={axisValues}
+              spacing={spacing}
+              valueFormat={valueFormat}
+            />
+          )}
           {data.map((item, idx) => (
             <div key={idx}>
               <StackedBars
@@ -85,9 +141,18 @@ export const BarGraph: FC<BarGraphProps> = ({
                 spacing={spacing}
                 direction={direction}
               />
-              <Text style={{ textAlign: 'center', marginRight: spacing }}>
-                {item.label}
-              </Text>
+              {direction === 'vertical' && (
+                <Text style={{ textAlign: 'center', marginRight: spacing }}>
+                  {item.label}
+                </Text>
+              )}
+              {showAxis && direction !== 'vertical' && (
+                <Xaxis
+                  axisValues={axisValues}
+                  spacing={spacing}
+                  valueFormat={valueFormat}
+                />
+              )}
             </div>
           ))}
         </styled.div>
@@ -161,7 +226,7 @@ export const BarGraph: FC<BarGraphProps> = ({
                 }}
               >
                 {item.label}{' '}
-                {valueFormat !== 'percentages'
+                {valueFormat
                   ? prettyNumber(item.value, valueFormat)
                   : item.percentage.toFixed(1) + '%'}
               </Text>
