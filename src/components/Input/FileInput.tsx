@@ -1,453 +1,266 @@
-import React, { useEffect, useRef, useState, ReactNode } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   IconAttachment,
   IconDelete,
   IconDownload,
   IconMoreHorizontal,
   IconOpenInNew,
-  IconRefresh,
-  IconAlertFill,
-  IconFullscreen,
   IconUpload,
 } from '../../icons'
 import { color } from '../../varsUtilities'
 import { styled } from 'inlines'
+import { useClient } from '@based/react'
 import { Text } from '../Text'
-import { Button } from '..'
-import { Modal } from '..'
+import { Dropdown } from '..'
 
 export type FileInputProps = {
-  disabled?: boolean
-  multiple?: boolean
-  indent?: boolean
-  accept?: string[]
+  onChange?: (file?: { id: string; src: string }) => void
 }
 
-type FileListItemProps = {
-  file: File
-  onDelete: () => void
-  onFullscreen: () => void
-  onOpenNewTab: () => void
-  onDownload: () => void
-  onReplace: () => void
-}
-
-function FileListItem({
-  file,
-  onDelete,
-  onFullscreen,
-  onOpenNewTab,
-  onDownload,
-  onReplace,
-}: // onRename,
-FileListItemProps) {
-  const [showMore, setShowMore] = useState(false)
-  const [imagePreviewURL, setImagePreviewURL] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!file.type.startsWith('image/')) return
-
-    const url = URL.createObjectURL(file)
-    setImagePreviewURL(url)
-
-    return () => {
-      URL.revokeObjectURL(url)
-    }
-  }, [file])
-
-  const optionsArr = [
-    {
-      label: 'Full Screen',
-      Icon: IconFullscreen,
-      callback: onFullscreen,
-    },
-    {
-      label: 'Open in new tab',
-      Icon: IconOpenInNew,
-      callback: onOpenNewTab,
-    },
-    {
-      label: 'Replace',
-      Icon: IconRefresh,
-      callback: onReplace,
-    },
-    {
-      label: 'Download',
-      Icon: IconDownload,
-      callback: onDownload,
-    },
-    {
-      label: 'Delete',
-      Icon: IconDelete,
-      callback: onDelete,
-    },
-  ]
+export function FileInput({ onChange }: FileInputProps) {
+  const client = useClient()
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const [file, setFile] = useState<File | null>(null)
+  const [filePreview, setFilePreview] = useState<string | null>(null)
+  const [uploadProgress, setUploadProgress] = useState(0)
+  const [status, setStatus] = useState<
+    'initial' | 'uploading' | 'success' | 'error'
+  >('initial')
 
   return (
-    <styled.div
+    <styled.label
       style={{
-        height: imagePreviewURL ? 64 : 40,
-        boxSizing: 'border-box',
-        borderRadius: 8,
-        padding: '8px 12px',
+        position: 'relative',
         display: 'flex',
-        justifyContent: 'start',
-        alignItems: 'center',
-        border: `1px solid ${color(
-          'inputBorder',
-          file ? 'active' : 'neutralNormal',
-          'default'
-        )}`,
-        backgroundColor: 'transparent',
-        '& > * + *': {
-          paddingLeft: imagePreviewURL ? '12px' : '8px',
-        },
+        flexDirection: 'column',
+        color: color('content', 'default', 'primary'),
       }}
     >
-      <>
-        {imagePreviewURL ? (
-          <img
-            src={imagePreviewURL}
-            style={{
-              height: 48,
-              width: 48,
-              borderRadius: 8,
-              display: 'block',
-              objectFit: 'cover',
-            }}
-          />
-        ) : (
-          <IconAttachment />
-        )}
-        <Text selectable="none" weight="medium" truncate>
-          {/* TODO how long can name be? */}
-          {/* {file.name.length > 12 ? file.name.slice(0, 24) + '...' : file.name} */}
-          {file.name}
-        </Text>
-        <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginLeft: 'auto',
-          }}
-        >
-          <styled.button
-            onClick={(e) => {
-              e.stopPropagation()
-              setShowMore(true)
-            }}
-            style={{
-              height: 24,
-              width: 24,
-              padding: 2,
-              borderRadius: 4,
-              border: 'none',
-              background: color('action', 'system', 'normal'),
-              '&:hover': {
-                background: color('action', 'system', 'hover'),
-              },
-            }}
-          >
-            <IconMoreHorizontal />
-          </styled.button>
-
-          {showMore && (
-            <>
-              <div
-                style={{
-                  position: 'fixed',
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setShowMore(false)
-                }}
-              />
-              <styled.div
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  top: 28,
-                  minWidth: 200,
-                  background: color('background', 'default', 'surface'),
-                  border: `1px solid ${color(
-                    'inputBorder',
-                    'neutralNormal',
-                    'default'
-                  )}`,
-                  borderRadius: 8,
-                  padding: 8,
-                  '& > * + *': {
-                    marginTop: '2px',
-                  },
-                  zIndex: 50,
-                }}
-              >
-                {optionsArr.map((action) => (
-                  <styled.div
-                    key={action.label}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setShowMore(false)
-                      action.callback()
-                    }}
-                    style={{
-                      position: 'relative',
-                      userSelect: 'none',
-                      cursor: 'pointer',
-                      height: 32,
-                      background: color('background', 'default', 'surface'),
-                      display: 'flex',
-                      justifyContent: 'start',
-                      alignItems: 'center',
-                      padding: '0 12px 0 42px',
-                      borderRadius: 8,
-                      '&:hover': {
-                        background: color('action', 'system', 'hover'),
-                      },
-                      '&:active': {
-                        background: color('action', 'system', 'active'),
-                      },
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 12,
-                        bottom: 0,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <action.Icon />
-                    </div>
-                    <Text>{action.label}</Text>
-                  </styled.div>
-                ))}
-              </styled.div>
-            </>
-          )}
-        </div>
-      </>
-    </styled.div>
-  )
-}
-
-export function FileInput({ disabled, multiple, accept }: FileInputProps) {
-  const inputRef = useRef<HTMLInputElement | null>(null)
-  const [files, setFiles] = useState<File[]>([])
-  const [dragState, setDragState] = useState(false)
-  const [nonAcceptedFiles, setNonAcceptedFiles] = useState([])
-
-  const handleDrag = function (e) {
-    e.preventDefault()
-    e.stopPropagation()
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragState(true)
-    } else if (e.type === 'dragleave') {
-      setDragState(false)
-    }
-  }
-
-  const triggerModalRef = useRef<HTMLButtonElement>()
-  const [fullScreenIdx, setFullScreenIdx] = useState(0)
-
-  return (
-    <>
-      <styled.div style={{ '& > * + *': { marginTop: '8px' } }}>
-        <Modal.Root>
-          <Modal.Trigger>
-            <Button style={{ display: 'none' }} ref={triggerModalRef} />
-          </Modal.Trigger>
-          <Modal.Content
-            style={{
-              maxWidth: '95vw',
-              maxHeight: '95vh',
-              padding: '24px 32px 16px',
-            }}
-          >
-            <img
-              style={{ width: '100%' }}
-              src={
-                files &&
-                files[fullScreenIdx]?.type.includes('image') &&
-                files.length > 0 &&
-                URL?.createObjectURL(files[fullScreenIdx])
-              }
-            />
-          </Modal.Content>
-        </Modal.Root>
-        {files.map((file, index) => (
-          <React.Fragment key={index}>
-            <FileListItem
-              key={file.name}
-              file={file}
-              onDelete={() => {
-                setFiles((p) => p.filter((_, i) => i !== index))
-                if (inputRef.current) {
-                  inputRef.current.value = ''
-                }
-              }}
-              onFullscreen={() => {
-                console.log(file)
-                console.log('opne modal')
-                setFullScreenIdx(index)
-                triggerModalRef.current.click()
-              }}
-              onOpenNewTab={() => {
-                const url = URL.createObjectURL(file)
-                window.open(url, '_blank', 'noopener,noreferrer')
-              }}
-              onDownload={() => {
-                const url = URL.createObjectURL(file)
-                const link = document.createElement('a')
-                link.download = file.name
-                link.href = url
-                link.click()
-              }}
-              onReplace={() => {
-                setFiles((p) => p.filter((_, i) => i !== index))
-                inputRef.current.click()
-              }}
-            />
-          </React.Fragment>
-        ))}
-
-        {(multiple || (!multiple && !files.length)) && (
+      <styled.div
+        style={{
+          padding: '8px 12px',
+          borderRadius: 8,
+          ...(status === 'initial' && {
+            cursor: 'pointer',
+            border: `1px dashed ${color(
+              'inputBorder',
+              'neutralNormal',
+              'default'
+            )}`,
+            '&:hover': {
+              border: `1px dashed ${color(
+                'inputBorder',
+                'neutralHover',
+                'default'
+              )}`,
+            },
+          }),
+          ...(status === 'uploading' && {
+            border: `1px solid ${color(
+              'inputBorder',
+              'neutralNormal',
+              'default'
+            )}`,
+          }),
+          ...(status === 'success' && {
+            border: `1px solid ${color(
+              'inputBorder',
+              'neutralNormal',
+              'default'
+            )}`,
+          }),
+        }}
+      >
+        {status === 'initial' && (
           <styled.div
-            onClick={() => {
-              if (!inputRef.current) return
-
-              inputRef.current.click()
-            }}
-            onDrop={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-
-              let files = e.dataTransfer.files
-
-              let arrOfFiles = []
-              let arrOfNonAcceptedTypes = []
-
-              if (accept) {
-                for (let i = 0; i < files.length; i++) {
-                  if (accept.includes(files[i].type)) {
-                    arrOfFiles.push(files[i])
-                  } else {
-                    arrOfNonAcceptedTypes.push(files[i].type)
-                  }
-                }
-                setNonAcceptedFiles([...arrOfNonAcceptedTypes])
-              }
-
-              if (!files?.length) return
-
-              if (accept) {
-                arrOfFiles.length > 0 &&
-                  setFiles((p) => [
-                    ...p,
-                    ...(multiple ? arrOfFiles : [arrOfFiles[0]]),
-                  ])
-              } else {
-                setFiles((p) => [...p, ...(multiple ? files : [files[0]])])
-              }
-            }}
-            onDragOver={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              handleDrag(e)
-            }}
-            onDragLeave={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              handleDrag(e)
-            }}
-            onDragEnter={(e) => {}}
             style={{
-              height: 40,
-              whiteSpace: 'nowrap',
-              boxSizing: 'border-box',
-              borderRadius: 8,
-              padding: '8px 12px',
               display: 'flex',
-              justifyContent: 'start',
               alignItems: 'center',
-              '& > * + *': {
-                marginLeft: '8px',
-              },
-              cursor: 'pointer',
-              border: dragState
-                ? `1px dashed ${color('inputBorder', 'active', 'default')}`
-                : `1px dashed ${color(
-                    'inputBorder',
-                    'neutralNormal',
-                    'default'
-                  )}`,
-              // '&:hover': {
-              //   border: `1px dashed ${color(
-              //     'inputBorder',
-              //     'neutralHover',
-              //     'default'
-              //   )}`,
-              // },
-              // '&:active': {
-              // border: `1px dashed ${color(
-              //   'inputBorder',
-              //   'active',
-              //   'default'
-              // )}`,
-              //   backgroundColor: color('background', 'brand', 'surface'),
-              // },
-              ...(disabled
-                ? {
-                    opacity: '50%',
-                  }
-                : {}),
+              '& > * + *': { marginLeft: '8px' },
             }}
           >
             <IconUpload />
-            <Text selectable="none" weight="medium">
-              Upload new file
-            </Text>
+            <Text>Upload new file</Text>
           </styled.div>
         )}
-
-        {accept && nonAcceptedFiles.length > 0 && (
-          <div
+        {status === 'uploading' && (
+          <styled.div
             style={{
-              marginTop: 8,
               display: 'flex',
               alignItems: 'center',
-              color: color('content', 'negative'),
+              '& > * + *': { marginLeft: '8px' },
             }}
           >
-            <IconAlertFill color="inherit" />
-            <Text style={{ marginLeft: 5 }}>
-              {nonAcceptedFiles.map((item) => item + ', ')} are not allowed.
-            </Text>
-          </div>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              style={{ transform: 'rotate(270deg)' }}
+            >
+              <circle
+                cx="10"
+                cy="10"
+                r="7"
+                stroke={color('action', 'neutral', 'subtleNormal')}
+                strokeWidth="2"
+              />
+              <circle
+                cx="10"
+                cy="10"
+                r="7"
+                stroke={color('action', 'primary', 'normal')}
+                strokeWidth="2"
+                strokeLinecap="round"
+                pathLength="100"
+                strokeDasharray="100"
+                strokeDashoffset={100 - (5 + uploadProgress * 0.95)}
+              />
+            </svg>
+            <Text>Uploading...</Text>
+          </styled.div>
+        )}
+        {status === 'success' && (
+          <styled.div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              '& > * + *': { marginLeft: '8px' },
+            }}
+          >
+            {filePreview ? (
+              <styled.img
+                src={filePreview}
+                style={{
+                  height: 48,
+                  width: 48,
+                  borderRadius: 4,
+                  objectFit: 'cover',
+                }}
+              />
+            ) : (
+              <IconAttachment />
+            )}
+            <Text>{file?.name}</Text>
+            <Dropdown.Root>
+              <Dropdown.Trigger>
+                <styled.div
+                  type="button"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    border: 'none',
+                    outline: 'none',
+                    background: 'transparent',
+                    padding: '2px',
+                    borderRadius: 4,
+                    marginLeft: 'auto',
+                    cursor: 'pointer',
+                    color: color('content', 'default', 'primary'),
+                    '&:hover': {
+                      background: color('action', 'system', 'hover'),
+                    },
+                  }}
+                >
+                  <IconMoreHorizontal />
+                </styled.div>
+              </Dropdown.Trigger>
+              <Dropdown.Items>
+                <Dropdown.Item
+                  icon={<IconOpenInNew />}
+                  onClick={() => {
+                    const url = URL.createObjectURL(file)
+                    window.open(url, '_blank', 'noopener,noreferrer')
+                  }}
+                >
+                  Open in new tab
+                </Dropdown.Item>
+                <Dropdown.Item
+                  icon={<IconDownload />}
+                  onClick={() => {
+                    const url = URL.createObjectURL(file)
+                    const link = document.createElement('a')
+                    link.download = file.name
+                    link.href = url
+                    link.click()
+                  }}
+                >
+                  Download
+                </Dropdown.Item>
+                <Dropdown.Separator />
+                <Dropdown.Item
+                  icon={<IconDelete />}
+                  onClick={() => {
+                    setStatus('initial')
+                    setFile(null)
+                    setFilePreview(null)
+                    setUploadProgress(0)
+                    onChange?.()
+                    if (inputRef.current) {
+                      inputRef.current.value = ''
+                    }
+                  }}
+                >
+                  Delete
+                </Dropdown.Item>
+              </Dropdown.Items>
+            </Dropdown.Root>
+          </styled.div>
         )}
       </styled.div>
-      <input
-        style={{ display: 'none' }}
+      <styled.input
         type="file"
         ref={inputRef}
-        multiple={multiple}
-        accept={accept ? accept.join(',') : '/*'}
-        onChange={(e) => {
-          const files = e.target.files
-          if (!files?.length) return
+        onChange={async (e) => {
+          const file = e.target.files?.[0]
+          if (!file) return
 
-          setFiles((p) => [...p, ...files])
+          setFile(file)
+
+          try {
+            setStatus('uploading')
+
+            const { id, src } = await client.stream(
+              'db:file-upload',
+              {
+                contents: file,
+              },
+              (value) => {
+                setUploadProgress(value * 100)
+              }
+            )
+
+            setStatus('success')
+            onChange?.({ id, src })
+
+            if (file.type.includes('image/')) {
+              const objectURL = URL.createObjectURL(file)
+              setFilePreview(objectURL)
+            }
+          } catch {
+            setStatus('error')
+            setFile(null)
+            setFilePreview(null)
+            setUploadProgress(0)
+            if (inputRef.current) {
+              inputRef.current.value = ''
+            }
+          }
+        }}
+        style={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          padding: '0',
+          margin: '-1px',
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          borderWidth: '0',
         }}
       />
-    </>
+    </styled.label>
   )
 }

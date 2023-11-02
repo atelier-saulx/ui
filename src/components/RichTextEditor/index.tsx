@@ -21,7 +21,6 @@ import { ImageNode } from './ImageNode'
 import { Placeholder } from './Placeholder'
 import { BehaviourPlugin } from './BehaviourPlugin'
 
-// TODO finish image caption
 // TODO add embed node
 // TODO add export to HTML
 

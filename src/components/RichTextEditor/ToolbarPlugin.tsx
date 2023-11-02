@@ -33,6 +33,7 @@ import {
 } from 'src/icons'
 import { $setBlocksType } from '@lexical/selection'
 import { INSERT_IMAGE_COMMAND } from './ImagePlugin'
+import { ImageUploadModal } from './ImageUploadModal'
 
 export function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -263,16 +264,19 @@ export function ToolbarPlugin() {
           })
         }}
       />
-      <Button
-        size="small"
-        color="system"
-        icon={<IconImage />}
-        onClick={() => {
+
+      <ImageUploadModal
+        onSave={({ file, caption }) => {
           editor.update(() => {
-            editor.dispatchCommand(INSERT_IMAGE_COMMAND, {})
+            editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+              src: file.src,
+              caption,
+            })
           })
         }}
-      />
+      >
+        <Button size="small" color="system" icon={<IconImage />} />
+      </ImageUploadModal>
     </styled.div>
   )
 }
