@@ -146,21 +146,20 @@ export const BarGraph: FC<BarGraphProps> = ({
                 key={idx}
                 label={item.label}
                 totalValue={theLargestValue}
-                color={item.color || color}
                 valueFormat={valueFormat}
                 spacing={spacing}
                 direction={direction}
+                barWidth={barWidth}
               />
-
-              {showAxis && direction !== 'vertical' && (
-                <Xaxis
-                  axisValues={axisValues}
-                  spacing={spacing}
-                  valueFormat={valueFormat}
-                />
-              )}
             </div>
           ))}
+          {showAxis && direction !== 'vertical' && (
+            <Xaxis
+              axisValues={axisValues}
+              spacing={spacing}
+              valueFormat={valueFormat}
+            />
+          )}
         </styled.div>
       ) : direction === 'vertical' ? (
         <styled.div

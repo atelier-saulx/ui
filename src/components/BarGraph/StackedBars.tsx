@@ -8,7 +8,6 @@ import { NumberFormat, prettyNumber } from '@based/pretty-number'
 type StackedBarsProps = {
   label?: string
   value?: {}
-  color?: ColorNonSemanticBackgroundColors
   totalValue?: number
   barWidth?: number
   valueFormat?: 'percentages' | NumberFormat
@@ -20,7 +19,6 @@ export const StackedBars: FC<StackedBarsProps> = ({
   label,
   barWidth = 12,
   value,
-  color,
   totalValue,
   valueFormat,
   spacing = 6,
