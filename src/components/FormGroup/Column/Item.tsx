@@ -60,6 +60,18 @@ export const FormItem: FC<{
   //     [field]
   //   )
   // }
+
+  // if (item.type === 'array' || item.type === 'set') {
+  //   const parsedArr = []
+  //   console.log(item)
+  //   if (item?.values) {
+  //     for (const i in item?.values) {
+  //       parsedArr.push({ ...item.values[i], field: field + '.' + i })
+  //     }
+  //   }
+  //   console.log(parsedArr)
+  // }
+
   if (item.type === 'object') {
     const parsedObjArray = []
     const obj = item as { properties: { key: string } }
@@ -252,7 +264,6 @@ export const FormItem: FC<{
     return (
       <List
         values={values}
-        // onChange={(v) => onChange(field, v)}
         onChange={onChange}
         field={field}
         label={label}

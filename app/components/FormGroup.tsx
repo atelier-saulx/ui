@@ -31,7 +31,10 @@ const fieldProps = {
       //   ['3', '4'],
       // ],
       values: {
-        type: 'boolean',
+        type: 'array',
+        values: {
+          type: 'string',
+        },
       },
     },
     // arrayofobj: {
