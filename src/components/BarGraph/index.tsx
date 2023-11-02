@@ -41,6 +41,15 @@ export const BarGraph: FC<BarGraphProps> = ({
   spacing,
   showAxis,
 }) => {
+  // if an object in data has more then 1 value it is nested or stacked
+  for (let i = 0; i < data.length; i++) {
+    if (typeof data[i].value !== 'number') {
+      if (!nested && !stacked) {
+        nested = true
+      }
+    }
+  }
+
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
   // percentages
   data = data.map((item) => ({
