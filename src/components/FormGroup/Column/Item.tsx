@@ -54,13 +54,6 @@ const FormItemInner: FC<{
   setChanges,
   alwaysAccept,
 }) => {
-  // if (!label) {
-  //   label = useMemo(
-  //     () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
-  //     [field]
-  //   )
-  // }
-
   if (!label) {
     label = useMemo(
       () => [
@@ -100,10 +93,10 @@ const FormItemInner: FC<{
 
   if (item.type === 'object') {
     const parsedObjArray = []
-    const obj = item as { properties: { key: string } }
-    if (obj?.properties) {
-      for (const i in obj?.properties) {
-        parsedObjArray.push({ ...obj.properties[i], field: field + '.' + i })
+    // const obj = item as { properties: { key: string } }
+    if (properties) {
+      for (const i in properties) {
+        parsedObjArray.push({ ...properties[i], field: field + '.' + i })
       }
     }
     const objectArray = [

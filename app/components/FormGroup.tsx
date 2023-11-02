@@ -40,31 +40,31 @@ const fieldProps = {
       //   type: 'string',
       // },
     },
-    // arrayofobj: {
-    //   type: 'array',
-    //   // value: [
-    //   //   ['1', '2'],
-    //   //   ['3', '4'],
-    //   // ],
-    //   values: {
-    //     type: 'object',
-    //     description: 'wowoweewow',
-    //     properties: {
-    //       flap: {
-    //         type: 'boolean',
-    //       },
-    //       flirp: {
-    //         type: 'boolean',
-    //       },
-    //       snap: {
-    //         type: 'text',
-    //       },
-    //       snop: {
-    //         type: 'file',
-    //       },
-    //     },
-    //   },
-    // },
+    arrayofobj: {
+      type: 'array',
+      // value: [
+      //   ['1', '2'],
+      //   ['3', '4'],
+      // ],
+      values: {
+        type: 'object',
+        description: 'wowoweewow',
+        properties: {
+          flap: {
+            type: 'boolean',
+          },
+          flirp: {
+            type: 'boolean',
+          },
+          snap: {
+            type: 'text',
+          },
+          snop: {
+            type: 'file',
+          },
+        },
+      },
+    },
     // object: {
     //   type: 'object',
     //   description: 'wowoweewow',
