@@ -44,7 +44,10 @@ export const NestedBars: FC<NestedBarsProps> = ({
     <styled.div
       style={{
         display: 'flex',
-        marginBottom: spacing,
+        flexDirection: direction === 'vertical' ? 'column-reverse' : 'row',
+        marginBottom: direction !== 'vertical' && spacing,
+        marginRight: direction === 'vertical' && spacing,
+        minHeight: direction === 'vertical' ? 400 : 'auto',
       }}
     >
       {showLabel && (
@@ -63,15 +66,29 @@ export const NestedBars: FC<NestedBarsProps> = ({
         <styled.div
           key={idx}
           style={{
-            height: barWidth,
+            height:
+              direction === 'vertical'
+                ? `${(value[item[0]] / largestValue) * 100}%`
+                : barWidth,
             backgroundColor: color(
               'nonSemanticBackground',
               colorHash('nonSemanticBackground', item[0]),
               'strong'
             ),
-            borderTopRightRadius: idx === valKeys.length - 1 ? 4 : 0,
-            borderBottomRightRadius: idx === valKeys.length - 1 ? 4 : 0,
-            width: `${(value[item[0]] / largestValue) * 100}%`,
+            // borderTopRightRadius: idx === valKeys.length - 1 ? 4 : 0,
+            // borderBottomRightRadius: idx === valKeys.length - 1 ? 4 : 0,
+
+            borderTopRightRadius: idx === valKeys.length - 1 && 4,
+            borderTopLeftRadius:
+              direction === 'vertical' && idx === valKeys.length - 1 ? 4 : 0,
+            borderBottomRightRadius:
+              direction === 'vertical' ? 0 : idx === valKeys.length - 1 ? 4 : 0,
+            borderBottomLeftRadius: 0,
+
+            width:
+              direction === 'vertical'
+                ? barWidth
+                : `${(value[item[0]] / largestValue) * 100}%`,
             '&:hover': {
               backgroundColor: color(
                 'nonSemanticBackground',
