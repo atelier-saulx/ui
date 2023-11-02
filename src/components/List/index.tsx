@@ -5,6 +5,8 @@ import { Label } from '../FormGroup/Column/Label'
 import { Badge, Button, Text, Input } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
 import { ObjectItem } from '../FormGroup/ObjectItem'
+import { getValue } from '../FormGroup/utils'
+import { FormItem } from '../FormGroup/Column/Item'
 
 const genType = (type) => {
   return type === 'text' || type === 'string' || type === 'password'
@@ -12,41 +14,6 @@ const genType = (type) => {
     : type === 'number' || type === 'integer' || type === 'timestamp'
     ? 'number'
     : 'text'
-}
-
-const NewInput = ({ index, setOpen, v, type, value, field, onChange }) => {
-  const inputType = genType(type)
-
-  return (
-    <Input
-      // style={{ position: 'absolute' }}
-      onFocus={() => setOpen(true)}
-      key={index}
-      //@ts-ignore
-      password={type === 'password'}
-      integer={type === 'integer'}
-      type={inputType}
-      clearButton
-      value={v}
-      onChange={(newStringValue) => {
-        const newValue =
-          type === 'number' ? parseInt(newStringValue) : newStringValue
-
-        if (!newStringValue && value.length > 1) {
-          onChange(
-            field,
-            value.filter((_, i) => i !== index)
-          )
-          return
-        }
-        const newFieldValue = [...value]
-
-        newFieldValue[index] = newValue
-
-        onChange(field, newFieldValue)
-      }}
-    />
-  )
 }
 
 export const List: FC<{
@@ -58,6 +25,14 @@ export const List: FC<{
   onChange: (field: string, value: any) => void
   isChild?: boolean
   deleteFunc?: () => void
+
+  onChangeObj
+  hasChanges
+  valuesChanged
+  setChanges
+  alwaysAccept
+
+  item
 }> = ({
   type = 'string',
   field,
@@ -67,6 +42,14 @@ export const List: FC<{
   values,
   isChild = false,
   deleteFunc,
+
+  onChangeObj,
+  hasChanges,
+  valuesChanged,
+  setChanges,
+  alwaysAccept,
+
+  item,
 }) => {
   const [open, setOpen] = useState(false)
   const [prevValue, setValue] = useState(value)
@@ -81,8 +64,7 @@ export const List: FC<{
     onChange(field, value)
   }
 
-  const addType = type === 'array' || type === 'set' ? [] : ''
-  const inputType = genType(type)
+  const addType = type === 'array' || type === 'set' ? [''] : ''
 
   return (
     <Label>
@@ -128,149 +110,44 @@ export const List: FC<{
           />
         )}
       </Text>
+      <styled.div
+        style={{
+          margin: '8px 0',
+          '& > * + *': { marginTop: '8px' },
+          gap: 4,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {value
+          .filter((_, i) => (open ? true : i === 0))
+          .map((thing, index) => {
+            const newField = field + '.' + index
 
-      {values.type === 'object' ? (
-        <></>
-      ) : values.type === 'array' ||
-        (values.type === 'set' && Array.isArray(value)) ? (
-        <styled.div>
-          {!open &&
-            value
-              .filter((v, i) => i === 0)
-              .map((v, index) => (
-                <styled.div style={{ position: 'relative' }} key={index}>
-                  {!open && value.length > 1 && (
-                    <styled.div
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '0 12px',
-                        gap: 4,
-                      }}
-                    >
-                      <Text selectable="none" style={{ opacity: 0 }}>
-                        [{v}]
-                      </Text>
-                      <Badge light color="neutral">
-                        {value.length}
-                      </Badge>
-                    </styled.div>
-                  )}
-                  <NewInput
-                    field={field}
-                    index={index}
-                    onChange={onChange}
-                    setOpen={setOpen}
-                    type={type}
-                    v={[v]}
-                    value={value}
-                  />
-                </styled.div>
-              ))}
-          {Array.isArray(value) &&
-            open &&
-            value.map((item, index) => (
-              <List
-                key={index}
-                deleteFunc={() =>
-                  onChange(
-                    field,
-                    value.filter((_, i) => i !== index)
-                  )
-                }
-                values={values.values}
-                onChange={onChange}
-                field={field + '.' + index}
-                label={label}
-                type={values.values.type}
-                value={value[index]}
-                isChild
-              />
-              // </span>
-            ))}
-        </styled.div>
-      ) : (
-        <styled.div
-          style={{ margin: '8px 0', '& > * + *': { marginTop: '8px' } }}
-        >
-          {Array.isArray(value) &&
-            value
-              .filter((v, i) => i === 0)
-              .map((v, index) => (
-                <styled.div style={{ position: 'relative' }} key={index}>
-                  {!open && value.length > 1 && (
-                    <styled.div
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '0 12px',
-                        gap: 4,
-                      }}
-                    >
-                      <Text selectable="none" style={{ opacity: 0 }}>
-                        {v}
-                      </Text>
-                      <Badge light color="neutral">
-                        {value.length}
-                      </Badge>
-                    </styled.div>
-                  )}
-                  <NewInput
-                    field={field}
-                    index={index}
-                    onChange={onChange}
-                    setOpen={setOpen}
-                    type={type}
-                    v={v}
-                    value={value}
-                  />
-                </styled.div>
-              ))}
-          {Array.isArray(value) &&
-            open &&
-            value
-              .filter((d, index) => index !== 0)
-              .map((v, index) => (
-                <Input
-                  key={index + 1}
-                  type={inputType}
-                  clearButton
-                  value={v}
-                  password={type === 'password'}
-                  integer={type === 'integer'}
-                  onChange={(newStringValue) => {
-                    const newValue =
-                      type === 'number'
-                        ? parseInt(newStringValue)
-                        : newStringValue
-
-                    if (!newStringValue && value.length > 1) {
-                      onChange(
-                        field,
-                        value.filter((_, i) => i !== index + 1)
-                      )
-                      return
-                    }
-
-                    const newFieldValue = [...value]
-                    newFieldValue[index + 1] = newValue
-                    onChange(field, newFieldValue)
+            return (
+              <span key={newField} onFocus={() => setOpen(true)}>
+                <FormItem
+                  noLabel
+                  objValues={values}
+                  item={{
+                    ...thing,
+                    properties: item.values.properties,
+                    type: item.values.type,
+                    values: item.values.values ?? {},
+                    field: newField,
                   }}
+                  onChange={onChange}
+                  hasChanges={hasChanges}
+                  valuesChanged={valuesChanged}
+                  setChanges={setChanges}
+                  alwaysAccept={alwaysAccept}
+                  onChangeObj={onChangeObj}
+                  value={value[index]}
                 />
-              ))}
-        </styled.div>
-      )}
-
+              </span>
+            )
+          })}
+      </styled.div>
       <styled.div style={{ display: 'flex' }}>
         <Button
           color="system"
@@ -280,7 +157,6 @@ export const List: FC<{
           style={{ border: '1px solid transparent' }}
           onClick={() => {
             setOpen(true)
-
             onChange(field, [...value, addType])
           }}
         >
