@@ -84,7 +84,13 @@ export const ObjectItem: FC<ObjectItemProps> = ({
                       onChangeObj={onChange}
                       fieldWidth={fieldWidth}
                       width={labelWidth}
-                      item={item}
+                      item={{
+                        ...item,
+                        label:
+                          item.field.split('.')[
+                            item.field.split('.').length - 1
+                          ],
+                      }}
                       onChange={onChangeField}
                       hasChanges={hasChanges}
                       valuesChanged={valuesChanged}

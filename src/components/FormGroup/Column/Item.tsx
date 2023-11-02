@@ -93,7 +93,6 @@ const FormItemInner: FC<{
 
   if (item.type === 'object') {
     const parsedObjArray = []
-    // const obj = item as { properties: { key: string } }
     if (properties) {
       for (const i in properties) {
         parsedObjArray.push({ ...properties[i], field: field + '.' + i })
@@ -288,7 +287,11 @@ export const FormItem: FC<{
   alwaysAccept: boolean
   noLabel?: boolean
 }> = (props) => {
-  if (props.noLabel || props.item.type === 'array')
+  if (
+    props.noLabel ||
+    props.item.type === 'array' ||
+    props.item.type === 'object'
+  )
     return <FormItemInner {...props} />
 
   return (
