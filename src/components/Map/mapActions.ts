@@ -1,5 +1,6 @@
 import mapboxgl from 'mapbox-gl'
 import { countryBounds } from './countryBounds'
+import { makeTheme } from './mapBoxColorTheme'
 
 const MIN_CIRCLE_SIZE = 10
 const MAX_CIRCLE_SIZE = 200
@@ -38,9 +39,11 @@ export const updateCircleRadius = ({ data, map }) => {
 }
 
 export const initMap = ({ mapContainer, onLoad, onZoom }) => {
+  // MAKE IT HERE
+
   const m = new mapboxgl.Map({
     container: mapContainer.current,
-    style: 'mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge',
+    style: makeTheme(),
     center: [2.213749, 46.227638],
     zoom: 3,
   })
@@ -72,13 +75,13 @@ export const addValues = ({ data, map, hoverVoteId }) => {
       'circle-color': [
         'case',
         ['boolean', ['feature-state', 'hover'], false],
-        'rgb(44, 60, 234)',
-        '#8F8E9B',
+        'rgb(99, 78, 202)',
+        'rgba(99, 78, 202, 0.3)',
       ],
       'circle-stroke-color': '#FFFFFF',
-      'circle-stroke-width': 3,
+      'circle-stroke-width': 2,
       // 'circle-radius' defined in updateCircleRadius
-      'circle-opacity': 0.4,
+      'circle-opacity': 0.66,
     },
   })
 
@@ -93,13 +96,13 @@ export const addValues = ({ data, map, hoverVoteId }) => {
       'circle-color': [
         'case',
         ['boolean', ['feature-state', 'hover'], false],
-        'rgb(44, 60, 234)',
-        '#8F8E9B',
+        'rgb(99, 78, 202)',
+        'rgba(99, 78, 202, 0.3)',
       ],
       'circle-stroke-color': '#FFFFFF',
-      'circle-stroke-width': 3,
+      'circle-stroke-width': 2,
       // 'circle-radius' defined in updateCircleRadius
-      'circle-opacity': 0.4,
+      'circle-opacity': 0.66,
     },
   })
 

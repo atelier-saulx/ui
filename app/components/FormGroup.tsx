@@ -31,7 +31,10 @@ const fieldProps = {
       //   ['3', '4'],
       // ],
       values: {
-        type: 'password',
+        type: 'array',
+        values: {
+          type: 'string',
+        },
       },
     },
     // arrayofobj: {

@@ -1,10 +1,17 @@
 import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
 import { Text } from '../Text'
+import { Row } from '../Styled'
 import { color as genColor } from '../../varsUtilities'
 import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
-import { transparent } from '../ColorPicker/bg'
+import { HorizontalBar } from './HorizontalBar'
+import { VerticalBar } from './VerticalBar'
+import { CustomWidthBar } from './CustomWidthBar'
+import { StackedBars } from './StackedBars'
+import { NestedBars } from './NestedBars'
+import { Xaxis } from './Xaxis'
+import { Yaxis } from './Yaxis'
 
 export type BarGraphSingleItem = {
   label: string
@@ -16,149 +23,27 @@ export type BarGraphSingleItem = {
 type BarGraphProps = {
   data: BarGraphSingleItem[]
   direction?: 'horizontal' | 'vertical'
-  valueFormat?: 'percentages' | NumberFormat
+  valueFormat?: NumberFormat
   style?: Style
   color?: ColorNonSemanticBackgroundColors
   barWidth?: number
-}
-
-const HorizontalBar = ({ valueFormat, label, value, percentage, color }) => {
-  return (
-    <styled.div
-      style={{ display: 'flex', marginBottom: 4, alignItems: 'center' }}
-    >
-      <styled.div style={{ width: '100%' }}>
-        <styled.div
-          style={{
-            borderRadius: 3,
-            backgroundColor: genColor(
-              'nonSemanticBackground',
-              color || 'magenta',
-              'muted'
-            ),
-            padding: '4px 8px',
-            whiteSpace: 'nowrap',
-            width: `${percentage.toFixed()}%`,
-          }}
-        >
-          <Text selectable="none" weight="medium">
-            {label}
-          </Text>
-        </styled.div>
-      </styled.div>
-      <styled.div
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          marginLeft: 26,
-          whiteSpace: 'nowrap',
-          width: 28,
-        }}
-      >
-        <Text selectable="none" weight="medium">
-          {valueFormat !== 'percentages'
-            ? prettyNumber(value, valueFormat)
-            : percentage.toFixed(1) + '%'}
-        </Text>
-      </styled.div>
-    </styled.div>
-  )
-}
-
-const VerticalBar = ({ valueFormat, label, value, percentage, color }) => {
-  return (
-    <styled.div style={{ marginRight: 4, textAlign: 'center' }}>
-      <styled.div
-        style={{
-          height: '100%',
-          minHeight: 278,
-          display: 'flex',
-          flexFlow: 'wrap-reverse',
-          marginBottom: 8,
-        }}
-      >
-        <styled.div
-          style={{
-            backgroundColor: genColor(
-              'nonSemanticBackground',
-              color || 'magenta',
-              'muted'
-            ),
-            borderRadius: 3,
-            height: `${percentage.toFixed()}%`,
-            padding: '4px 8px',
-            position: 'relative',
-            whiteSpace: 'nowrap',
-            width: 32,
-          }}
-        >
-          <Text
-            selectable="none"
-            weight="medium"
-            style={{
-              bottom: 26,
-              display: 'block',
-              left: 0,
-              right: 0,
-              position: 'absolute',
-              transform: 'rotate(-90deg)',
-            }}
-          >
-            {label}
-          </Text>
-        </styled.div>
-      </styled.div>
-
-      <Text selectable="none" weight="medium">
-        {valueFormat !== 'percentages'
-          ? prettyNumber(value, valueFormat)
-          : percentage.toFixed(1) + '%'}
-      </Text>
-    </styled.div>
-  )
-}
-
-const CustomWidthBars = ({ percentage, color, noOfItems, index, barWidth }) => {
-  let transparentHeight = 100 / noOfItems
-
-  return (
-    <styled.div
-      style={{
-        height: barWidth < 24 ? `${transparentHeight}%` : `${barWidth}px`,
-        top:
-          barWidth < 24
-            ? `${transparentHeight * index}%`
-            : `${barWidth * index}px`,
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      <styled.div
-        style={{
-          marginLeft: 12,
-          height: barWidth,
-          width: `${percentage.toFixed()}%`,
-          backgroundColor: genColor(
-            'nonSemanticBackground',
-            color || 'magenta',
-            'muted'
-          ),
-        }}
-      />
-    </styled.div>
-  )
+  stacked?: boolean
+  nested?: boolean
+  spacing?: number
+  showAxis?: boolean
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
   data,
   direction,
   style,
-  valueFormat = 'percentages',
+  valueFormat,
   color,
   barWidth,
+  stacked,
+  nested,
+  spacing,
+  showAxis,
 }) => {
   const totalValue = data.map((item) => item.value).reduce((a, b) => a + b, 0)
   // percentages
@@ -167,11 +52,111 @@ export const BarGraph: FC<BarGraphProps> = ({
     percentage: (item.value / totalValue) * 100,
   }))
 
-  console.log(data.length, 'length ??🐨')
+  //  console.log(data, '🐨')
+
+  // TODO: hide labels on custom bars
+  // TODO: show x, y axis with values
+
+  let totalValuesArr = []
+  if (stacked || nested) {
+    for (let i = 0; i < data.length; i++) {
+      totalValuesArr.push(
+        Object.values(data[i].value)
+          .map((item) => item)
+          .reduce((a, b) => a + b, 0)
+      )
+    }
+  }
+
+  let axisValues = []
+  if (showAxis) {
+    let divideByNo = 4
+    let largest = stacked || nested ? Math.max(...totalValuesArr) : totalValue
+
+    let step = largest / divideByNo
+
+    for (let i = 0; i < divideByNo + 1; i++) {
+      axisValues.push(i * step)
+    }
+
+    console.log(axisValues, 'arr')
+  }
 
   return (
     <>
-      {!barWidth && direction === 'vertical' ? (
+      {nested ? (
+        <styled.div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: direction === 'vertical' ? 'row' : 'column',
+            ...style,
+          }}
+        >
+          {data.map((item, idx) => (
+            <NestedBars
+              value={item.value}
+              key={idx}
+              label={item.label}
+              largestValue={Math.max(...totalValuesArr)}
+              barWidth={barWidth}
+              spacing={spacing}
+              valueFormat={valueFormat}
+              direction={direction}
+            />
+          ))}
+          {showAxis && direction !== 'vertical' && (
+            <Xaxis
+              axisValues={axisValues}
+              spacing={spacing}
+              valueFormat={valueFormat}
+            />
+          )}
+        </styled.div>
+      ) : stacked ? (
+        <styled.div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: direction === 'vertical' ? 'row' : 'column',
+            ...style,
+          }}
+        >
+          {showAxis && direction === 'vertical' && (
+            <Yaxis
+              axisValues={axisValues}
+              spacing={spacing}
+              valueFormat={valueFormat}
+            />
+          )}
+          {data.map((item, idx) => (
+            <div key={idx}>
+              <StackedBars
+                value={item.value}
+                key={idx}
+                label={item.label}
+                largestValue={Math.max(...totalValuesArr)}
+                color={item.color || color}
+                valueFormat={valueFormat}
+                spacing={spacing}
+                direction={direction}
+              />
+              {direction === 'vertical' && (
+                <Text style={{ textAlign: 'center', marginRight: spacing }}>
+                  {item.label}
+                </Text>
+              )}
+              {showAxis && direction !== 'vertical' && (
+                <Xaxis
+                  axisValues={axisValues}
+                  spacing={spacing}
+                  valueFormat={valueFormat}
+                />
+              )}
+            </div>
+          ))}
+        </styled.div>
+      ) : !barWidth && direction === 'vertical' ? (
         <styled.div
           style={{
             width: '100%',
@@ -212,6 +197,7 @@ export const BarGraph: FC<BarGraphProps> = ({
           ))}
         </styled.div>
       ) : (
+        // custom width bar and labels
         <styled.div
           style={{
             display: 'table',
@@ -240,7 +226,7 @@ export const BarGraph: FC<BarGraphProps> = ({
                 }}
               >
                 {item.label}{' '}
-                {valueFormat !== 'percentages'
+                {valueFormat
                   ? prettyNumber(item.value, valueFormat)
                   : item.percentage.toFixed(1) + '%'}
               </Text>
@@ -257,7 +243,7 @@ export const BarGraph: FC<BarGraphProps> = ({
             }}
           >
             {data.map((item, idx) => (
-              <CustomWidthBars
+              <CustomWidthBar
                 key={idx}
                 percentage={item.percentage}
                 color={item.color ? item.color : color}

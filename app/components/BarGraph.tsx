@@ -11,6 +11,53 @@ const example: ComponentDef = {
   examples: [
     {
       props: {
+        style: { width: 500, [BpTablet]: { width: 'unset' } },
+        valueFormat: 'number-euro',
+        // direction: 'vertical',
+        nested: true,
+        // barWidth: 34,
+        showAxis: true,
+        spacing: 2,
+        data: [
+          {
+            label: 'Show 1',
+            value: { en: 2342, nl: 444, de: 5464, ch: 9434, be: 666 },
+          },
+          {
+            label: 'Show 2',
+            value: { nl: 1342, de: 688, be: 4888 },
+          },
+          {
+            label: 'Show 3',
+            value: { netherlands: 1342, deutschland: 1688, belgium: 2838 },
+          },
+        ],
+      },
+    },
+    {
+      props: {
+        style: { width: 400, [BpTablet]: { width: 'unset' } },
+        valueFormat: 'number-euro',
+        direction: 'vertical',
+        showAxis: true,
+        stacked: true,
+        //  spacing: 24,
+        data: [
+          {
+            label: 'Show 1',
+            value: { en: 2342, nl: 444, de: 5464, ch: 19434, be: 666 },
+            color: 'violet',
+          },
+          {
+            label: 'Show 2',
+            value: { en: 1342, nl: 688, de: 4888 },
+            color: 'magenta',
+          },
+        ],
+      },
+    },
+    {
+      props: {
         style: { width: 540, [BpTablet]: { width: 'unset' } },
         direction: 'vertical',
         barWidth: 6,

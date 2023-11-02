@@ -8,7 +8,6 @@ import { IconClose } from 'src/icons'
 import { parseData, getValue } from './utils'
 import { ObjectItemProps } from './types'
 
-// export const FormGroupColumn: FC<FormGroupVariantProps> = ({
 export const ObjectItem: FC<ObjectItemProps> = ({
   d,
   field,
@@ -22,7 +21,6 @@ export const ObjectItem: FC<ObjectItemProps> = ({
   values,
   setChanges,
   alwaysAccept,
-  style,
   parsedObjArray,
 }) => {
   return (
@@ -78,38 +76,20 @@ export const ObjectItem: FC<ObjectItemProps> = ({
               </Modal.Title>
               <Modal.Body>
                 {parsedObjArray.map((item) => {
-                  if (item.type === 'object') {
-                    return (
-                      <FormGroupColumn
-                        key={item.field}
-                        field={item.field}
-                        confirmationVariant="none"
-                        autoFocus={autoFocus}
-                        onChange={onChange}
-                        parsedData={parseData({ [item.field]: item })}
-                        labelWidth={labelWidth}
-                        fieldWidth={fieldWidth}
-                        onChangeField={onChangeField}
-                        style={{
-                          ...style,
-                          width: '100%',
-                        }}
-                        hasChanges={hasChanges}
-                        valuesChanged={valuesChanged}
-                        values={values}
-                        setChanges={setChanges}
-                        alwaysAccept={alwaysAccept}
-                      />
-                    )
-                  }
                   return (
                     <FormItem
+                      objValues={item.values}
                       key={item.field}
                       autoFocus={autoFocus}
+                      onChangeObj={onChange}
                       fieldWidth={fieldWidth}
                       width={labelWidth}
                       item={item}
                       onChange={onChangeField}
+                      hasChanges={hasChanges}
+                      valuesChanged={valuesChanged}
+                      setChanges={setChanges}
+                      alwaysAccept={alwaysAccept}
                       value={
                         hasChanges
                           ? getValue(item.field, valuesChanged.current) ??
