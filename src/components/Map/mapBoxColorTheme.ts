@@ -17,8 +17,6 @@ export const makeTheme = () => {
   let textColor = convertToRGB(color('content', 'default', 'primary'))
   let textBorder = convertToRGB(color('content', 'inverted'))
 
-  console.log(landColor, 'LandColor')
-
   const mapBoxColorTheme = {
     version: 8,
     name: 'based_2',

@@ -49,14 +49,11 @@ export const Map: FC<MapProps> = forwardRef(({ data, height, style }, ref) => {
       map.current.remove()
     }
     setTimeout(() => {
-      console.log('fire 🔥')
-
       let snurpTheme = makeTheme()
 
       const m = initMap({
         mapContainer,
         onLoad: () => {
-          console.info('LOAD GAIN')
           addValues({ data, map: m, hoverVoteId })
           addCountries({ map: m })
           updateCircleRadius({ data, map: m })
@@ -81,15 +78,6 @@ export const Map: FC<MapProps> = forwardRef(({ data, height, style }, ref) => {
       ;(map.current.getSource('values') as mapboxgl.GeoJSONSource).setData(data)
     }
   }, [map, data])
-
-  useEffect(() => {
-    console.log(map.current)
-    // if (map.current && theme === 'dark') {
-    //   map.current.setStyle(mapBoxColorThemeDark)
-    // } else if (map.current) {
-    //   map.current.setStyle(mapBoxColorTheme)
-    // }
-  }, [theme])
 
   return (
     <styled.div
