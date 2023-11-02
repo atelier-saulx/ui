@@ -1209,51 +1209,12 @@
     "FileInputProps": {
       "name": "FileInputProps",
       "props": {
-        "disabled": {
+        "onChange": {
           "optional": true,
-          "type": "boolean"
-        },
-        "multiple": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "indent": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "accept": {
-          "optional": true,
-          "type": {
-            "array": "string"
-          }
-        }
-      },
-      "code": "type FileInputProps = {\n  disabled?: boolean\n  multiple?: boolean\n  indent?: boolean\n  accept?: string[]\n}",
-      "file": "/components/Input/FileInput.tsx"
-    },
-    "FileListItemProps": {
-      "name": "FileListItemProps",
-      "props": {
-        "file": {
-          "type": "File"
-        },
-        "onDelete": {
-          "type": "function"
-        },
-        "onFullscreen": {
-          "type": "function"
-        },
-        "onOpenNewTab": {
-          "type": "function"
-        },
-        "onDownload": {
-          "type": "function"
-        },
-        "onReplace": {
           "type": "function"
         }
       },
-      "code": "type FileListItemProps = {\n  file: File\n  onDelete: () => void\n  onFullscreen: () => void\n  onOpenNewTab: () => void\n  onDownload: () => void\n  onReplace: () => void\n}",
+      "code": "type FileInputProps = {\n  onChange?: (file?: { id: string; src: string }) => void\n}",
       "file": "/components/Input/FileInput.tsx"
     },
     "MarkdownInputProps": {
@@ -2702,7 +2663,7 @@
         }
       },
       "code": "type PlaceholderProps = {\n  children?: string\n}",
-      "file": "/components/RichTextEditor/Placeholder.tsx"
+      "file": "/components/RichTextEditor/components/Placeholder.tsx"
     },
     "ValuePluginProps": {
       "name": "ValuePluginProps",
@@ -2717,7 +2678,7 @@
         }
       },
       "code": "type ValuePluginProps = {\n  defaultValue?: string\n  onChange?: (value: string) => void\n}",
-      "file": "/components/RichTextEditor/ValuePlugin.tsx"
+      "file": "/components/RichTextEditor/plugins/ValuePlugin.tsx"
     },
     "ScrollAreaProps": {
       "name": "ScrollAreaProps",

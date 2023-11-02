@@ -1,13 +1,9 @@
 import React, { FC } from 'react'
 import { styled, Style } from 'inlines'
-import { Text } from '../Text'
-import { Row } from '../Styled'
-import { color as genColor } from '../../varsUtilities'
 import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { HorizontalBar } from './HorizontalBar'
 import { VerticalBar } from './VerticalBar'
-import { CustomWidthBar } from './CustomWidthBar'
 import { StackedBars } from './StackedBars'
 import { NestedBars } from './NestedBars'
 import { Xaxis } from './Xaxis'
@@ -52,11 +48,6 @@ export const BarGraph: FC<BarGraphProps> = ({
     percentage: (item.value / totalValue) * 100,
   }))
 
-  //  console.log(data, '🐨')
-
-  // TODO: hide labels on custom bars
-  // TODO: show x, y axis with values
-
   let totalValuesArr = []
   if (stacked || nested) {
     for (let i = 0; i < data.length; i++) {
@@ -72,14 +63,11 @@ export const BarGraph: FC<BarGraphProps> = ({
   if (nested || stacked) {
     for (let i = 0; i < data.length; i++) {
       let arr = Object.values(data[i].value)
-      // console.log(data[i].value, '🍓')
-      // console.log(Object.values(data[i].value), '🥥')
       allValuesArr.push(arr)
     }
   }
 
   let theLargestValue = Math.max(...allValuesArr.flat())
-  console.log('🥒', allValuesArr.flat())
 
   let axisValues = []
   if (showAxis) {
@@ -95,8 +83,6 @@ export const BarGraph: FC<BarGraphProps> = ({
     for (let i = 0; i < divideByNo + 1; i++) {
       axisValues.push(i * step)
     }
-
-    console.log(axisValues, 'arr')
   }
 
   return (
@@ -236,63 +222,6 @@ export const BarGraph: FC<BarGraphProps> = ({
         </styled.div>
       ) : (
         <></>
-        // custom width bar and labels
-        // <styled.div
-        //   style={{
-        //     display: 'table',
-        //     transform:
-        //       direction === 'vertical' ? 'rotate(-90deg)' : 'rotate(0deg)',
-        //     ...style,
-        //   }}
-        // >
-        //   {/* Text labels */}
-        //   <styled.div
-        //     style={{
-        //       display: 'table-cell',
-        //       flexDirection: 'column',
-        //     }}
-        //   >
-        //     {data.map((item, idx) => (
-        //       <Text
-        //         selectable="none"
-        //         weight="medium"
-        //         key={idx}
-        //         style={{
-        //           justifyContent: 'flex-end',
-        //           height: barWidth > 24 ? `${barWidth}px` : 'inherit',
-        //           display: 'flex',
-        //           alignItems: 'center',
-        //         }}
-        //       >
-        //         {item.label}{' '}
-        //         {valueFormat
-        //           ? prettyNumber(item.value, valueFormat)
-        //           : item.percentage.toFixed(1) + '%'}
-        //       </Text>
-        //     ))}
-        //   </styled.div>
-        //   {/* bars */}
-        //   <styled.div
-        //     style={{
-        //       display: 'table-cell',
-        //       flexDirection: 'column',
-        //       minWidth: 400,
-        //       height: '100%',
-        //       position: 'relative',
-        //     }}
-        //   >
-        //     {data.map((item, idx) => (
-        //       <CustomWidthBar
-        //         key={idx}
-        //         percentage={item.percentage}
-        //         color={item.color ? item.color : color}
-        //         noOfItems={data.length}
-        //         index={idx}
-        //         barWidth={barWidth}
-        //       />
-        //     ))}
-        //   </styled.div>
-        // </styled.div>
       )}
     </>
   )

@@ -26,8 +26,6 @@ export const StackedBars: FC<StackedBarsProps> = ({
   spacing = 6,
   direction,
 }) => {
-  console.log('Incoming --> ', color, direction)
-
   const [showLabel, setShowLabel] = useState(false)
   const [xPos, setXPos] = useState(0)
   const [yPos, setYPos] = useState(0)
