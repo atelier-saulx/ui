@@ -14,7 +14,6 @@ const example: ComponentDef = {
         style: { width: 500, [BpTablet]: { width: 'unset' } },
         valueFormat: 'number-dollar',
         direction: 'vertical',
-        nested: true,
         barWidth: 24,
         showAxis: true,
         spacing: 8,
