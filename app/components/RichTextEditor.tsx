@@ -5,7 +5,8 @@ import { ComponentDef } from '../types'
 
 const example: ComponentDef = {
   name: 'RichTextEditor',
-  properties: props.props.RichTextEditorProps.props,
+  properties: {},
+  // properties: props.props.RichTextEditorProps.props,
   description:
     'An input that lets users enter large amounts of complex rich text for things like blog posts, news articles etc.',
   component: RichTextEditor,

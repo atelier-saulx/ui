@@ -11,12 +11,13 @@ export const OverlayLabels = ({
   objValue,
   valueFormat,
   direction,
+  label,
 }) => {
   return (
     <styled.div
       style={{
         backgroundColor: color('background', 'default', 'muted'),
-        padding: '4px 12px',
+
         borderRadius: 4,
         position: 'absolute',
         zIndex: 1,
@@ -25,7 +26,20 @@ export const OverlayLabels = ({
         border: `1px solid ${color('inputBorder', 'neutralNormal')}`,
       }}
     >
-      <Text>
+      {label && (
+        <Text
+          weight="medium"
+          size={14}
+          style={{
+            padding: '4px 12px',
+            width: '100%',
+            borderBottom: `1px solid ${color('inputBorder', 'neutralNormal')}`,
+          }}
+        >
+          {label}
+        </Text>
+      )}
+      <Text style={{ padding: '4px 12px' }}>
         <styled.div
           style={{
             width: 7,

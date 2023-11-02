@@ -10,9 +10,11 @@ export const VerticalBar = ({
   value,
   percentage,
   color,
+  barWidth = 32,
+  spacing = 4,
 }) => {
   return (
-    <styled.div style={{ marginRight: 4, textAlign: 'center' }}>
+    <styled.div style={{ marginRight: spacing, textAlign: 'center' }}>
       <styled.div
         style={{
           height: '100%',
@@ -34,7 +36,10 @@ export const VerticalBar = ({
             padding: '4px 8px',
             position: 'relative',
             whiteSpace: 'nowrap',
-            width: 32,
+            width: barWidth,
+            // display: 'flex',
+            // alignItems: 'end',
+            // justifyContent: 'center',
           }}
         >
           <Text
@@ -42,11 +47,10 @@ export const VerticalBar = ({
             weight="medium"
             style={{
               bottom: 26,
-              display: 'block',
               left: 0,
               right: 0,
               position: 'absolute',
-              transform: 'rotate(-90deg)',
+              transform: 'rotate(-90deg) ',
             }}
           >
             {label}

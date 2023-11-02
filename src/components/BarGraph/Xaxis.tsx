@@ -10,7 +10,11 @@ type XaxisProps = {
   valueFormat?: NumberFormat
 }
 
-export const Xaxis = ({ axisValues, spacing, valueFormat }: XaxisProps) => {
+export const Xaxis = ({
+  axisValues,
+  spacing,
+  valueFormat = 'number-short',
+}: XaxisProps) => {
   return (
     <styled.div
       style={{
@@ -25,6 +29,7 @@ export const Xaxis = ({ axisValues, spacing, valueFormat }: XaxisProps) => {
     >
       {axisValues.map((item, idx) => (
         <Text
+          key={idx}
           size={12}
           light
           style={{
