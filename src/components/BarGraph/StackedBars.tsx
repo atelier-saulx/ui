@@ -5,6 +5,7 @@ import { ColorNonSemanticBackgroundColors } from 'src/varsTypes'
 import { OverlayLabels } from './OverlayLabels'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { Text } from '../Text'
+import { addValues } from '../Map/mapActions'
 //
 // {
 //     label: 'Countrie votes',
@@ -45,7 +46,14 @@ export const StackedBars: FC<StackedBarsProps> = ({
   const [objKey, setObjKey] = useState('')
   const [objValue, setObjValue] = useState('')
 
-  let valKeys = Object.keys(value)
+  let sortable = []
+  for (const x in value) {
+    sortable.push([x, value[x]])
+  }
+
+  sortable.sort(function (a, b) {
+    return b[1] - a[1]
+  })
 
   return (
     <styled.div
@@ -69,7 +77,7 @@ export const StackedBars: FC<StackedBarsProps> = ({
           direction={direction}
         />
       )}
-      {valKeys?.map((key, idx) => {
+      {sortable?.map((item, idx) => {
         return (
           <styled.div
             key={idx}
@@ -82,29 +90,29 @@ export const StackedBars: FC<StackedBarsProps> = ({
               marginRight: direction === 'vertical' && 1,
               height:
                 direction === 'vertical'
-                  ? `${(value[key] / largestValue) * 100}%`
+                  ? `${(value[item[0]] / largestValue) * 100}%`
                   : barWidth,
               backgroundColor: genColor(
                 'nonSemanticBackground',
-                colorHash('nonSemanticBackground', key),
+                colorHash('nonSemanticBackground', item[0]),
                 'strong'
               ),
               width:
                 direction === 'vertical'
                   ? barWidth
-                  : `${(value[key] / largestValue) * 100}%`,
+                  : `${(value[item[0]] / largestValue) * 100}%`,
               '&:hover': {
                 backgroundColor: genColor(
                   'nonSemanticBackground',
-                  colorHash('nonSemanticBackground', key),
+                  colorHash('nonSemanticBackground', item[0]),
                   'soft'
                 ),
               },
             }}
             onMouseEnter={() => {
               setShowLabel(true)
-              setObjKey(key)
-              setObjValue(value[key])
+              setObjKey(item[0])
+              setObjValue(value[item[0]])
             }}
             onMouseLeave={() => setShowLabel(false)}
             onMouseMove={(e) => {

@@ -12,6 +12,7 @@ export const NestedOverlayLabels = ({
   valueFormat,
   direction,
   value,
+  label,
 }) => {
   return (
     <styled.div
@@ -24,6 +25,19 @@ export const NestedOverlayLabels = ({
         border: `1px solid ${color('inputBorder', 'neutralNormal')}`,
       }}
     >
+      {label && (
+        <Text
+          weight="medium"
+          size={16}
+          style={{
+            padding: '4px 12px',
+            width: '100%',
+            borderBottom: `1px solid ${color('inputBorder', 'neutralNormal')}`,
+          }}
+        >
+          {label}
+        </Text>
+      )}
       <Text
         size={16}
         style={{
@@ -49,25 +63,27 @@ export const NestedOverlayLabels = ({
         {objKey}: <b>{prettyNumber(objValue, valueFormat)}</b>
       </Text>
       <styled.div style={{ padding: '4px 12px' }}>
-        {Object.entries(value).map((item, idx) => (
-          <Text key={idx}>
-            <styled.div
-              style={{
-                width: 5,
-                height: 5,
-                borderRadius: '50%',
-                display: 'inline-block',
-                marginRight: 6,
-                backgroundColor: color(
-                  'nonSemanticBackground',
-                  colorHash('nonSemanticBackground', item[0]),
-                  'strong'
-                ),
-              }}
-            />{' '}
-            {item[0]}: {prettyNumber(item[1] as number, valueFormat)}
-          </Text>
-        ))}
+        {Object.entries(value)
+          .filter((item) => item[0] !== objKey)
+          .map((item, idx) => (
+            <Text key={idx}>
+              <styled.div
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: '50%',
+                  display: 'inline-block',
+                  marginRight: 6,
+                  backgroundColor: color(
+                    'nonSemanticBackground',
+                    colorHash('nonSemanticBackground', item[0]),
+                    'strong'
+                  ),
+                }}
+              />{' '}
+              {item[0]}: {prettyNumber(item[1] as number, valueFormat)}
+            </Text>
+          ))}
       </styled.div>
     </styled.div>
   )

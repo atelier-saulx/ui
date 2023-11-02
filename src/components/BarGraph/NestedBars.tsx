@@ -31,6 +31,17 @@ export const NestedBars: FC<NestedBarsProps> = ({
 
   let valKeys = Object.keys(value)
 
+  let sortable = []
+  for (const x in value) {
+    sortable.push([x, value[x]])
+  }
+
+  sortable.sort(function (a, b) {
+    return b[1] - a[1]
+  })
+
+  console.log('sorted object>???', sortable)
+
   return (
     <styled.div
       style={{
@@ -47,33 +58,34 @@ export const NestedBars: FC<NestedBarsProps> = ({
           valueFormat={valueFormat}
           direction={direction}
           value={value}
+          label={label}
         />
       )}
-      {valKeys.map((itemKey, idx) => (
+      {sortable.map((item, idx) => (
         <styled.div
           key={idx}
           style={{
             height: barWidth,
             backgroundColor: color(
               'nonSemanticBackground',
-              colorHash('nonSemanticBackground', itemKey),
+              colorHash('nonSemanticBackground', item[0]),
               'strong'
             ),
             borderTopRightRadius: idx === valKeys.length - 1 ? 4 : 0,
             borderBottomRightRadius: idx === valKeys.length - 1 ? 4 : 0,
-            width: `${(value[itemKey] / largestValue) * 100}%`,
+            width: `${(value[item[0]] / largestValue) * 100}%`,
             '&:hover': {
               backgroundColor: color(
                 'nonSemanticBackground',
-                colorHash('nonSemanticBackground', itemKey),
+                colorHash('nonSemanticBackground', item[0]),
                 'soft'
               ),
             },
           }}
           onMouseEnter={() => {
             setShowLabel(true)
-            setObjKey(itemKey)
-            setObjValue(value[itemKey])
+            setObjKey(item[0])
+            setObjValue(value[item[0]])
           }}
           onMouseLeave={() => setShowLabel(false)}
           onMouseMove={(e) => {
