@@ -12,9 +12,7 @@ export function Tooltip({ children, text, position }: TooltipProps) {
   return (
     <TooltipBase.Provider delayDuration={0}>
       <TooltipBase.Root>
-        <TooltipBase.Trigger asChild>
-          <div style={{ display: 'inline-block' }}>{children}</div>
-        </TooltipBase.Trigger>
+        <TooltipBase.Trigger asChild>{children}</TooltipBase.Trigger>
         <TooltipBase.Portal>
           <TooltipBase.Content
             side={position}

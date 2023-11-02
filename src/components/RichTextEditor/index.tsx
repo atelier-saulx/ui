@@ -20,6 +20,8 @@ import { ImagePlugin } from './plugins/ImagePlugin'
 import { ImageNode } from './nodes/ImageNode'
 import { Placeholder } from './components/Placeholder'
 import { BehaviourPlugin } from './plugins/BehaviourPlugin'
+import { EmbedPlugin } from './plugins/EmbedPlugin'
+import { EmbedNode } from './nodes/EmbedNode'
 
 // TODO add embed node
 // TODO add export to HTML
@@ -98,6 +100,7 @@ export function RichTextEditor({
           <LinkPlugin />
           <HistoryPlugin />
           <BehaviourPlugin />
+          <EmbedPlugin />
           <ValuePlugin defaultValue={defaultValue} onChange={onChange} />
         </styled.div>
       </styled.div>
@@ -129,7 +132,7 @@ const CONFIG = {
       focus: 'rte-embedfocus',
     },
   },
-  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode],
+  nodes: [HeadingNode, LinkNode, ListNode, ListItemNode, ImageNode, EmbedNode],
   onError: (error) => {
     console.error(error)
   },

@@ -155,6 +155,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'medium',
       style,
       underline,
+      ...rest
     } = props
 
     const isLight = props.light
@@ -290,6 +291,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
+        {...rest}
       >
         <div
           style={{
