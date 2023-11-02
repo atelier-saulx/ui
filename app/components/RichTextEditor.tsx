@@ -15,7 +15,7 @@ const example: ComponentDef = {
       props: {},
       customRenderer: () => {
         return (
-          <div style={{ width: 800 }}>
+          <div style={{ width: 900 }}>
             <RichTextEditor
               placeholder="Enter some rich text..."
               defaultValue={localStorage.getItem('rte-test') ?? undefined}

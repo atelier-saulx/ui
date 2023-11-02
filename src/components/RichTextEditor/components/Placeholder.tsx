@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from 'inlines'
-import { color } from '../../varsUtilities'
+import { color } from '../../../varsUtilities'
 
 type PlaceholderProps = {
   children?: string
