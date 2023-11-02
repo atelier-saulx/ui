@@ -19,6 +19,7 @@ export const OverlayLabels = ({
         padding: '4px 12px',
         borderRadius: 4,
         position: 'absolute',
+        zIndex: 1,
         left: xPos,
         top: yPos,
         border: `1px solid ${color('inputBorder', 'neutralNormal')}`,

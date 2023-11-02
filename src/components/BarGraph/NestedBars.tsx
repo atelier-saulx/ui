@@ -40,8 +40,6 @@ export const NestedBars: FC<NestedBarsProps> = ({
     return b[1] - a[1]
   })
 
-  console.log('sorted object>???', sortable)
-
   return (
     <styled.div
       style={{

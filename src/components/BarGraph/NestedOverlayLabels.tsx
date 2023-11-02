@@ -18,6 +18,7 @@ export const NestedOverlayLabels = ({
     <styled.div
       style={{
         backgroundColor: color('background', 'default', 'muted'),
+        zIndex: 1,
         borderRadius: 4,
         position: 'absolute',
         left: xPos,

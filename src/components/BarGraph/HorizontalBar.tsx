@@ -44,7 +44,7 @@ export const HorizontalBar = ({
         }}
       >
         <Text selectable="none" weight="medium">
-          {valueFormat !== 'percentages'
+          {valueFormat
             ? prettyNumber(value, valueFormat)
             : percentage.toFixed(1) + '%'}
         </Text>
