@@ -11,7 +11,7 @@ import {
   $isTextNode,
 } from 'lexical'
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
-import { getSelectedNode } from './utils'
+import { getSelectedNode } from '../utils'
 import { $findMatchingParent, $getNearestNodeOfType } from '@lexical/utils'
 import {
   $isListNode,
@@ -20,7 +20,7 @@ import {
   REMOVE_LIST_COMMAND,
 } from '@lexical/list'
 import { $createHeadingNode, $isHeadingNode } from '@lexical/rich-text'
-import { Button, Dropdown } from '..'
+import { Button, Dropdown } from '../..'
 import {
   IconCheckLarge,
   IconFormatBold,
@@ -33,7 +33,7 @@ import {
 } from 'src/icons'
 import { $setBlocksType } from '@lexical/selection'
 import { INSERT_IMAGE_COMMAND } from './ImagePlugin'
-import { ImageUploadModal } from './ImageUploadModal'
+import { ImageUploadModal } from '../components/ImageUploadModal'
 
 export function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()

@@ -13,12 +13,12 @@ import {
 } from 'lexical'
 import React, { useCallback, useEffect, useRef } from 'react'
 import { styled } from 'inlines'
-import { color } from '../../varsUtilities'
-import { IconDelete, IconEdit } from '../../icons'
-import { Button } from '..'
+import { color } from '../../../varsUtilities'
+import { IconDelete, IconEdit } from '../../../icons'
+import { Button } from '../..'
 import { ImageUploadModal } from './ImageUploadModal'
 import { BLUR_COMMAND, COMMAND_PRIORITY_EDITOR } from 'lexical'
-import { $isImageNode } from './ImageNode'
+import { $isImageNode } from '../nodes/ImageNode'
 
 export function ImageComponent({
   src,

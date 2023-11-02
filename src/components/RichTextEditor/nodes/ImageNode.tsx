@@ -4,7 +4,7 @@ import {
   SerializedDecoratorBlockNode,
 } from '@lexical/react/LexicalDecoratorBlockNode'
 import React from 'react'
-import { ImageComponent } from './ImageComponent'
+import { ImageComponent } from '../components/ImageComponent'
 
 export type ImageNodePayload = {
   src: string

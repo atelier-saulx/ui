@@ -1,7 +1,7 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { COMMAND_PRIORITY_EDITOR, createCommand, LexicalCommand } from 'lexical'
 import { ReactNode, useEffect } from 'react'
-import { $createImageNode, ImageNode, ImageNodePayload } from './ImageNode'
+import { $createImageNode, ImageNode, ImageNodePayload } from '../nodes/ImageNode'
 import { $insertNodeToNearestRoot } from '@lexical/utils'
 
 export const INSERT_IMAGE_COMMAND: LexicalCommand<ImageNodePayload> =

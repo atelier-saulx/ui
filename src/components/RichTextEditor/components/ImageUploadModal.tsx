@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react'
-import { Button, Input, Modal } from '..'
+import { Button, Input, Modal } from '../..'
 
 export function ImageUploadModal({
   children,
