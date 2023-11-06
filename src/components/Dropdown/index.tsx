@@ -37,7 +37,9 @@ export function Items({ children }: DropdownItemsProps) {
       >
         <styled.div
           style={{
-            width: 267,
+            minWidth: 174,
+            width: 'fit-content',
+            maxWidth: 267,
             padding: 8,
             borderRadius: 8,
             border: `1px solid ${color('border', 'default', 'strong')}`,
@@ -111,7 +113,7 @@ export function Item({ icon, children, onClick, disabled }: DropdownItemProps) {
             {icon}
           </div>
         )}
-        <div style={{ paddingLeft: 30 }}>{children}</div>
+        <div style={{ paddingLeft: icon ? 30 : 0 }}>{children}</div>
       </styled.div>
     </DropdownBase.Item>
   )
