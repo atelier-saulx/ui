@@ -40,7 +40,7 @@ client
   .query('based:connections')
   .get()
   .then((v) => {
-    console.log(v)
+    console.log('based connections:', v)
   })
 
 const App = () => {
