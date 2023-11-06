@@ -40,50 +40,32 @@ const fieldProps = {
     //   //   type: 'string',
     //   // },
     // },
-    arrayofobj: {
-      type: 'array',
-      // value: [
-      //   ['1', '2'],
-      //   ['3', '4'],
-      // ],
-      values: {
-        type: 'object',
-        description: 'wowoweewow',
-        properties: {
-          flap: {
-            type: 'boolean',
-          },
-          flirp: {
-            type: 'boolean',
-          },
-          snap: {
-            type: 'text',
-          },
-          snop: {
-            type: 'file',
-          },
-        },
-      },
-    },
-    // object: {
-    //   type: 'object',
-    //   description: 'wowoweewow',
-    //   properties: {
-    //     flap: {
-    //       type: 'boolean',
-    //     },
-    //     flirp: {
-    //       type: 'boolean',
-    //     },
-    //     snap: {
-    //       type: 'text',
-    //     },
-    //     snop: {
-    //       type: 'file',
+    // arrayofobj: {
+    //   type: 'array',
+    //   // value: [
+    //   //   ['1', '2'],
+    //   //   ['3', '4'],
+    //   // ],
+    //   values: {
+    //     type: 'object',
+    //     description: 'wowoweewow',
+    //     properties: {
+    //       flap: {
+    //         type: 'boolean',
+    //       },
+    //       flirp: {
+    //         type: 'boolean',
+    //       },
+    //       snap: {
+    //         type: 'text',
+    //       },
+    //       snop: {
+    //         type: 'file',
+    //       },
     //     },
     //   },
     // },
-    object2: {
+    object: {
       type: 'object',
       description: 'wowoweewow',
       properties: {
@@ -99,36 +81,54 @@ const fieldProps = {
         snop: {
           type: 'file',
         },
-        flop: {
-          type: 'object',
-          properties: {
-            nested1flap: {
-              type: 'boolean',
-            },
-            nested1snurp: {
-              type: 'boolean',
-            },
-            nested1cod: {
-              type: 'boolean',
-            },
-            nested1bla: {
-              type: 'object',
-              properties: {
-                nested2flap: {
-                  type: 'boolean',
-                },
-                nested2snurp: {
-                  type: 'boolean',
-                },
-                nested2cod: {
-                  type: 'boolean',
-                },
-              },
-            },
-          },
-        },
       },
     },
+    // object2: {
+    //   type: 'object',
+    //   description: 'wowoweewow',
+    //   properties: {
+    //     flap: {
+    //       type: 'boolean',
+    //     },
+    //     flirp: {
+    //       type: 'boolean',
+    //     },
+    //     snap: {
+    //       type: 'text',
+    //     },
+    //     snop: {
+    //       type: 'file',
+    //     },
+    //     flop: {
+    //       type: 'object',
+    //       properties: {
+    //         nested1flap: {
+    //           type: 'boolean',
+    //         },
+    //         nested1snurp: {
+    //           type: 'boolean',
+    //         },
+    //         nested1cod: {
+    //           type: 'boolean',
+    //         },
+    //         nested1bla: {
+    //           type: 'object',
+    //           properties: {
+    //             nested2flap: {
+    //               type: 'boolean',
+    //             },
+    //             nested2snurp: {
+    //               type: 'boolean',
+    //             },
+    //             nested2cod: {
+    //               type: 'boolean',
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     // ObjWithArrays: {
     //   type: 'object',
     //   description: 'wowoweewow',
@@ -221,33 +221,33 @@ const fieldProps = {
     //   description: 'hello',
     //   type: 'file',
     // },
-    // text: {
-    //   description: 'Write smth',
-    //   type: 'text',
-    // },
-    // custom: {
-    //   label: 'Status',
-    //   description: 'status time',
-    //   type:
-    //     () =>
-    //     ({ onChange, value }) => {
-    //       return (
-    //         <Button
-    //           color="system"
-    //           onClick={() => {
-    //             onChange('custom', { x: value.x + 1 })
-    //           }}
-    //         >
-    //           bla {value.x}
-    //         </Button>
-    //       )
-    //     },
-    // },
-    // isThisNce: {
-    //   label: 'Nice',
-    //   description: 'is it nice?',
-    //   type: 'checkbox',
-    // },
+    text: {
+      description: 'Write smth',
+      type: 'text',
+    },
+    custom: {
+      label: 'Status',
+      description: 'status time',
+      type:
+        () =>
+        ({ onChange, value }) => {
+          return (
+            <Button
+              color="system"
+              onClick={() => {
+                onChange('custom', { x: value.x + 1 })
+              }}
+            >
+              bla {value.x}
+            </Button>
+          )
+        },
+    },
+    isThisNce: {
+      label: 'Nice',
+      description: 'is it nice?',
+      type: 'checkbox',
+    },
   },
   onChange: (values) => console.info(values),
 }
@@ -258,13 +258,13 @@ const example: ComponentDef = {
   description: 'FormGroup Component, can be grid or column',
   properties: {}, //props.props.FormGroupProps.props,
   examples: [
-    // {
-    //   props: {
-    //     ...fieldProps,
-    //     variant: 'grid',
-    //     autoFocus: true,
-    //   },
-    // },
+    {
+      props: {
+        ...fieldProps,
+        variant: 'grid',
+        autoFocus: true,
+      },
+    },
     {
       name: 'Column',
       description: 'Same form displayed as a colum',

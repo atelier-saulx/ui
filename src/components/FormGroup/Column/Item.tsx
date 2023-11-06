@@ -54,16 +54,6 @@ const FormItemInner: FC<{
   setChanges,
   alwaysAccept,
 }) => {
-  if (!label) {
-    label = useMemo(
-      () => [
-        field.split('.').slice(-1)[0][0].toUpperCase(),
-        field.split('.').slice(-1)[0].substring(1),
-      ],
-      [field]
-    )
-  }
-
   if ((defaultValue && value === undefined) || value === '') {
     value = defaultValue
   }
@@ -294,8 +284,17 @@ export const FormItem: FC<{
   )
     return <FormItemInner {...props} />
 
+  let { label, field } = props.item
+
+  if (!label) {
+    label = useMemo(
+      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+      [field]
+    )
+  }
+
   return (
-    <Label description={props.item.description} label={props.item.label}>
+    <Label description={props.item.description} label={label}>
       <FormItemInner {...props} />
     </Label>
   )
