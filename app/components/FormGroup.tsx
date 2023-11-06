@@ -26,10 +26,10 @@ const fieldProps = {
   config: {
     array: {
       type: 'array',
-      // value: [
-      //   ['1', '2'],
-      //   ['3', '4'],
-      // ],
+      value: [
+        ['1', '2'],
+        ['3', '4'],
+      ],
       values: {
         type: 'array',
         values: {
@@ -145,98 +145,99 @@ const fieldProps = {
         },
       },
     },
-    // ObjWithArrays: {
-    //   type: 'object',
-    //   description: 'wowoweewow',
-    //   properties: {
-    //     floop: {
-    //       type: 'boolean',
-    //     },
-    //     flap: {
-    //       type: 'array',
-    //       values: {
-    //         type: 'string',
-    //       },
-    //     },
-    //   },
-    // },
-    // arrarray: {
-    //   type: 'array',
-    //   // value: [
-    //   //   ['1', '2'],
-    //   //   ['3', '4'],
-    //   // ],
-    //   values: {
-    //     type: 'array',
-    //     values: {
-    //       type: 'array',
-    //       values: {
-    //         type: 'string',
-    //       },
-    //     },
-    //   },
-    // },
-    // port: {
-    //   type: 'number',
-    //   description: 'Network port',
-    // },
-    // json: {
-    //   type: 'json',
-    //   label: 'json',
-    //   value: `{
-    //           "glossary": {
-    //               "title": "example glossary",
-    //           "GlossDiv": {
-    //                   "title": "S",
-    //             "GlossList": {
-    //                       "GlossEntry": {
-    //                           "ID": "SGML",
-    //                 "SortAs": "SGML",
-    //                 "GlossTerm": "Standard Generalized Markup Language",
-    //                 "Acronym": "SGML",
-    //                 "Abbrev": "ISO 8879:1986",
-    //                 "GlossDef": {
-    //                               "para": "A meta-markup language, used to create markup languages such as DocBook.",
-    //                   "GlossSeeAlso": ["GML", "XML"]
-    //                           },
-    //                 "GlossSee": "markup"
-    //                       }
-    //                   }
-    //               }
-    //           }
-    //       }`,
-    // },
-    // toggle: {
-    //   type: 'checkbox',
-    //   label: 'Boolean',
-    //   description: 'Network port',
-    // },
-    // 'args.name': {
-    //   label: 'Name',
-    //   type: 'text',
-    //   description: 'Instance name',
-    //   validation: () => (val) => {
-    //     return val && val.length > 4
-    //   },
-    // },
-    // 'args.x.y': {
-    //   label: 'Status',
-    //   description: 'status time',
-    //   options: ['good', 'bad', 'medium'],
-    //   props: {
-    //     placeholder: 'FLAP',
-    //   },
-    // },
-    // range: {
-    //   label: 'Bla',
-    //   description: 'hello',
-    //   type: 'range',
-    // },
-    // file: {
-    //   label: 'File',
-    //   description: 'hello',
-    //   type: 'file',
-    // },
+    ObjWithArrays: {
+      type: 'object',
+      description: 'wowoweewow',
+      properties: {
+        floop: {
+          type: 'boolean',
+        },
+        flap: {
+          type: 'array',
+          values: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    arrarray: {
+      type: 'array',
+      // value: [
+      //   ['1', '2'],
+      //   ['3', '4'],
+      // ],
+      values: {
+        type: 'array',
+        values: {
+          type: 'array',
+          values: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    port: {
+      type: 'number',
+      description: 'Network port',
+    },
+    json: {
+      type: 'json',
+      label: 'json',
+      description: 'this is a json',
+      value: `{
+              "glossary": {
+                  "title": "example glossary",
+              "GlossDiv": {
+                      "title": "S",
+                "GlossList": {
+                          "GlossEntry": {
+                              "ID": "SGML",
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986",
+                    "GlossDef": {
+                                  "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                      "GlossSeeAlso": ["GML", "XML"]
+                              },
+                    "GlossSee": "markup"
+                          }
+                      }
+                  }
+              }
+          }`,
+    },
+    toggle: {
+      label: 'boolean',
+      type: 'boolean',
+      description: 'Network port',
+    },
+    'args.name': {
+      label: 'Name',
+      type: 'text',
+      description: 'Instance name',
+      validation: () => (val) => {
+        return val && val.length > 4
+      },
+    },
+    'args.x.y': {
+      label: 'Status',
+      description: 'status time',
+      options: ['good', 'bad', 'medium'],
+      props: {
+        placeholder: 'FLAP',
+      },
+    },
+    range: {
+      label: 'Bla',
+      description: 'hello',
+      type: 'range',
+    },
+    file: {
+      label: 'File',
+      description: 'hello',
+      type: 'file',
+    },
     text: {
       description: 'Write smth',
       type: 'text',

@@ -125,6 +125,14 @@ const FormItemInner: FC<{
   if (typeof type === 'function') {
     return (
       <>
+        {/* <Label
+          style={{
+            marginBottom: 16,
+          }}
+          labelWidth={width}
+          label={label}
+          description={description}
+        > */}
         {React.createElement(type, {
           // @ts-ignore
           value,
@@ -140,6 +148,7 @@ const FormItemInner: FC<{
           multiple,
           ...props,
         })}
+        {/* </Label> */}
       </>
     )
   }
@@ -283,12 +292,7 @@ export const FormItem: FC<{
 }> = (props) => {
   let { label, field, type } = props.item
 
-  if (
-    typeof type === 'function' ||
-    props.noLabel ||
-    type === 'array' ||
-    type === 'range'
-  )
+  if (props.noLabel || type === 'array')
     return (
       <span style={{ position: 'relative' }}>
         <FormItemInner {...props} />

@@ -191,11 +191,15 @@ export const FormItemInner: FC<{
   }
   if (type === 'json') {
     return (
-      <Code
-        onChange={(v) => onChange(field, v)}
-        value={value}
-        language="json"
-      />
+      <styled.div style={{ width: '100%', marginBottom: 16 }}>
+        <Label labelWidth={width} label={label} description={description} />
+        <Code
+          onChange={(v) => onChange(field, v)}
+          value={value}
+          language="json"
+        />
+      </styled.div>
+      // </Label>
     )
   }
 
@@ -283,6 +287,42 @@ export const FormItemInner: FC<{
   const isString = typeof validateResult === 'string'
   const isError = isString ? true : !validateResult
 
+  if (type === 'file') {
+    return (
+      <styled.div
+        style={{
+          marginBottom: 16,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          maxWidth: fieldWidth * 2,
+        }}
+      >
+        <Label
+          labelWidth={width - 10}
+          label={label}
+          description={description}
+        />
+        <Input
+          error={isError}
+          message={isError && isString ? validateResult : undefined}
+          autoFocus={autoFocus}
+          // value={value ?? ''}
+          // @ts-ignore
+          type={type}
+          onChange={(v) => onChange(field, v)}
+          {...props}
+          // @ts-ignore
+          style={Object.assign(
+            { minWidth: fieldWidth, width: '100%' },
+            props?.style
+          )}
+        />
+      </styled.div>
+    )
+  }
+
   return (
     <Input
       error={isError}
@@ -325,7 +365,9 @@ export const FormItem: FC<{
     typeof type === 'function' ||
     props.noLabel ||
     type === 'array' ||
-    type === 'range'
+    type === 'json' ||
+    type === 'range' ||
+    type === 'file'
   )
     return <FormItemInner {...props} />
 
