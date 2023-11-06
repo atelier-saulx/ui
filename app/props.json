@@ -206,6 +206,35 @@
       "code": "type BadgeProps = {\n  afterIcon?: ReactNode\n  color?: ColorBackgroundColors | ColorNonSemanticBackgroundColors\n  icon?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  style?: Style\n  light?: boolean\n  copyValue?: string | number\n  copy?: boolean\n  autoColor?: boolean\n}",
       "file": "/components/Badge/index.tsx"
     },
+    "BarLegendProps": {
+      "name": "BarLegendProps",
+      "props": {
+        "data": {
+          "type": "TSAnyKeyword"
+        },
+        "direction": {
+          "type": [
+            {
+              "value": "vertical"
+            },
+            {
+              "value": "horizontal"
+            }
+          ]
+        },
+        "valueFormat": {
+          "type": "NumberFormat"
+        },
+        "nested": {
+          "type": "boolean"
+        },
+        "stacked": {
+          "type": "boolean"
+        }
+      },
+      "code": "type BarLegendProps = {\n  data: any\n  direction: 'vertical' | 'horizontal'\n  valueFormat: NumberFormat\n  nested: boolean\n  stacked: boolean\n}",
+      "file": "/components/BarGraph/BarLegend.tsx"
+    },
     "NestedBarsProps": {
       "name": "NestedBarsProps",
       "props": {

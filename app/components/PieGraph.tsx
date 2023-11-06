@@ -37,19 +37,26 @@ const example: ComponentDef = {
             color: 'blue',
           },
         ]
-
-        const dataX = [
+        return <PieGraph data={data} {...props} />
+      },
+    },
+    {
+      props: {
+        valueFormat: 'number-euro',
+      },
+      customRenderer: (props) => {
+        const data = [
           {
             value: 3,
-            label: 'groep1',
+            label: 'groep 1',
           },
           {
             value: 4,
-            label: 'groep2',
+            label: 'groep 2',
           },
         ]
 
-        return <PieGraph data={dataX} {...props} />
+        return <PieGraph data={data} {...props} />
       },
     },
   ],

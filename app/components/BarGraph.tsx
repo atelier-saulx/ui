@@ -17,7 +17,6 @@ const example: ComponentDef = {
         barWidth: 24,
         showAxis: true,
         spacing: 8,
-        legend: true,
         data: [
           {
             label: 'Show 1',
@@ -42,6 +41,7 @@ const example: ComponentDef = {
         showAxis: true,
         stacked: true,
         spacing: 24,
+        legend: true,
         data: [
           {
             label: 'Show 1',
