@@ -263,10 +263,6 @@
           "optional": true,
           "type": "TSTypeLiteral"
         },
-        "color": {
-          "optional": true,
-          "type": "ColorNonSemanticBackgroundColors"
-        },
         "totalValue": {
           "optional": true,
           "type": "number"
@@ -300,7 +296,7 @@
           ]
         }
       },
-      "code": "type StackedBarsProps = {\n  label?: string\n  value?: {}\n  color?: ColorNonSemanticBackgroundColors\n  totalValue?: number\n  barWidth?: number\n  valueFormat?: 'percentages' | NumberFormat\n  spacing?: number\n  direction?: 'vertical' | 'horizontal'\n}",
+      "code": "type StackedBarsProps = {\n  label?: string\n  value?: {}\n  totalValue?: number\n  barWidth?: number\n  valueFormat?: 'percentages' | NumberFormat\n  spacing?: number\n  direction?: 'vertical' | 'horizontal'\n}",
       "file": "/components/BarGraph/StackedBars.tsx"
     },
     "XaxisProps": {
@@ -393,9 +389,13 @@
         "showAxis": {
           "optional": true,
           "type": "boolean"
+        },
+        "legend": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  direction?: 'horizontal' | 'vertical'\n  valueFormat?: NumberFormat\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n  barWidth?: number\n  stacked?: boolean\n  nested?: boolean\n  spacing?: number\n  showAxis?: boolean\n}",
+      "code": "type BarGraphProps = {\n  data: BarGraphSingleItem[]\n  direction?: 'horizontal' | 'vertical'\n  valueFormat?: NumberFormat\n  style?: Style\n  color?: ColorNonSemanticBackgroundColors\n  barWidth?: number\n  stacked?: boolean\n  nested?: boolean\n  spacing?: number\n  showAxis?: boolean\n  legend?: boolean\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -989,32 +989,15 @@
       "code": "type DateRangeProps = {\n  value?: number[]\n  onChange?: (v) => void\n  numbered?: boolean\n}",
       "file": "/components/DateRange/index.tsx"
     },
-    "SectionHeaderProps": {
-      "name": "SectionHeaderProps",
+    "DividerProps": {
+      "name": "DividerProps",
       "props": {
         "style": {
           "optional": true,
           "type": "Style"
-        },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "action": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "color": {
-          "optional": true,
-          "type": [
-            "ColorContentColors",
-            {
-              "value": "inherit"
-            }
-          ]
         }
       },
-      "code": "type SectionHeaderProps = {\n  style?: Style\n  children?: ReactNode\n  action?: ReactNode\n  color?: ColorContentColors | 'inherit'\n}",
+      "code": "type DividerProps = {\n  style?: Style\n}",
       "file": "/components/Divider/index.tsx"
     },
     "DropdownRootProps": {
@@ -2172,12 +2155,16 @@
             "NumberFormat"
           ]
         },
+        "legend": {
+          "optional": true,
+          "type": "boolean"
+        },
         "style": {
           "optional": true,
           "type": "Style"
         }
       },
-      "code": "type PieGraphProps = {\n  data: PieGraphSingleItem[]\n  valueFormat?: 'percentages' | NumberFormat\n  style?: Style\n}",
+      "code": "type PieGraphProps = {\n  data: PieGraphSingleItem[]\n  valueFormat?: 'percentages' | NumberFormat\n  legend?: boolean\n  style?: Style\n}",
       "file": "/components/PieGraph/index.tsx"
     },
     "BooleanPillProps": {
@@ -2691,15 +2678,32 @@
       "code": "type ScrollAreaProps = {\n  style?: Style\n}",
       "file": "/components/ScrollArea/index.tsx"
     },
-    "DividerProps": {
-      "name": "DividerProps",
+    "SectionHeaderProps": {
+      "name": "SectionHeaderProps",
       "props": {
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "action": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": [
+            "ColorContentColors",
+            {
+              "value": "inherit"
+            }
+          ]
         }
       },
-      "code": "type DividerProps = {\n  style?: Style\n}",
+      "code": "type SectionHeaderProps = {\n  style?: Style\n  children?: ReactNode\n  action?: ReactNode\n  color?: ColorContentColors | 'inherit'\n}",
       "file": "/components/SectionHeader/index.tsx"
     },
     "SegmentedControlProps": {

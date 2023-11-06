@@ -17,7 +17,7 @@ const example: ComponentDef = {
         barWidth: 24,
         showAxis: true,
         spacing: 8,
-        legend: true,
+        //     legend: true,
         data: [
           {
             label: 'Show 1',

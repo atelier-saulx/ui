@@ -24,7 +24,6 @@ export const Xaxis = ({
         width: '100%',
         borderTop: `1px solid ${genColor('inputBorder', 'neutralNormal')}`,
         marginTop: !spacing || spacing < 6 ? 12 : spacing,
-        marginBottom: 16,
       }}
     >
       {axisValues.map((item, idx) => (

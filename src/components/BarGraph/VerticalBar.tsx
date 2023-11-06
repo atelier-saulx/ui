@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from '../Text'
 import { styled } from 'inlines'
-import { color as genColor } from '../../varsUtilities'
+import { color as genColor, colorHash } from '../../varsUtilities'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
 export const VerticalBar = ({
@@ -10,8 +10,9 @@ export const VerticalBar = ({
   value,
   percentage,
   color,
-  barWidth = 32,
+  barWidth,
   spacing = 4,
+  legend,
 }) => {
   return (
     <styled.div style={{ marginRight: spacing, textAlign: 'center' }}>
@@ -26,17 +27,19 @@ export const VerticalBar = ({
       >
         <styled.div
           style={{
-            backgroundColor: genColor(
-              'nonSemanticBackground',
-              color || 'magenta',
-              'muted'
-            ),
+            backgroundColor: color
+              ? genColor('nonSemanticBackground', color || 'magenta', 'muted')
+              : genColor(
+                  'nonSemanticBackground',
+                  colorHash('nonSemanticBackground', label),
+                  legend ? 'strong' : 'muted'
+                ),
             borderRadius: 3,
             height: `${percentage.toFixed()}%`,
             padding: '4px 8px',
             position: 'relative',
             whiteSpace: 'nowrap',
-            width: barWidth,
+            width: legend ? barWidth : 32,
             // display: 'flex',
             // alignItems: 'end',
             // justifyContent: 'center',
@@ -53,16 +56,18 @@ export const VerticalBar = ({
               transform: 'rotate(-90deg) ',
             }}
           >
-            {label}
+            {!legend && label}
           </Text>
         </styled.div>
       </styled.div>
 
-      <Text selectable="none" weight="medium">
-        {valueFormat
-          ? prettyNumber(value, valueFormat)
-          : percentage.toFixed(1) + '%'}
-      </Text>
+      {!legend && (
+        <Text selectable="none" weight="medium">
+          {valueFormat
+            ? prettyNumber(value, valueFormat)
+            : percentage.toFixed(1) + '%'}
+        </Text>
+      )}
     </styled.div>
   )
 }
