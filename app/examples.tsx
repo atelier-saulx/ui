@@ -119,7 +119,7 @@ export const graphs = [
   barGraph,
   linegraph,
   map,
-  metricsWidget,
+  // metricsWidget,
   pieGraph,
   singleMetric,
 ]

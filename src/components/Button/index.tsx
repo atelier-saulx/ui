@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useRef,
   useImperativeHandle,
+  HTMLAttributes,
 } from 'react'
 
 import { color as genColor } from '../../varsUtilities'
@@ -291,7 +292,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        {...rest}
+        // {...rest}
       >
         <div
           style={{

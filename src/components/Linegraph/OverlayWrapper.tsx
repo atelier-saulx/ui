@@ -31,8 +31,6 @@ const Legend = ({
 }) => {
   if (!values[0]?.svgX) return null
 
-  console.log(values[0], 'whats this then?')
-
   let baseColor = values[0].color
     ? values[0].color
     : values[0].label
