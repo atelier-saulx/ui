@@ -15,6 +15,7 @@ export type PieGraphSingleItem = {
 type PieGraphProps = {
   data: PieGraphSingleItem[]
   valueFormat?: 'percentages' | NumberFormat
+  legend?: boolean
   style?: Style
 }
 
@@ -39,6 +40,7 @@ const colorArray: ColorNonSemanticBackgroundColors[] = [
 export const PieGraph: FC<PieGraphProps> = ({
   data,
   valueFormat = 'percentages',
+  legend,
   style,
 }) => {
   const [featured, setFeatured] = useState<{
@@ -173,32 +175,34 @@ export const PieGraph: FC<PieGraphProps> = ({
         </styled.div>
       </styled.div>
 
-      <styled.div
-        style={{ display: 'flex', gap: 20, justifyContent: 'center' }}
-      >
-        {data.map((item, idx) => (
-          <styled.div
-            style={{ display: 'flex', gap: 6, alignItems: 'center' }}
-            key={idx}
-          >
+      {legend && (
+        <styled.div
+          style={{ display: 'flex', gap: 20, justifyContent: 'center' }}
+        >
+          {data.map((item, idx) => (
             <styled.div
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 6,
-                backgroundColor: color(
-                  'nonSemanticBackground',
-                  item?.color || colorArray[idx] || 'violet',
-                  'strong'
-                ),
-              }}
-            />
-            <Text size={12} weight="medium" truncate>
-              {item.label}
-            </Text>
-          </styled.div>
-        ))}
-      </styled.div>
+              style={{ display: 'flex', gap: 6, alignItems: 'center' }}
+              key={idx}
+            >
+              <styled.div
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 6,
+                  backgroundColor: color(
+                    'nonSemanticBackground',
+                    item?.color || colorArray[idx] || 'violet',
+                    'strong'
+                  ),
+                }}
+              />
+              <Text size={12} weight="medium" truncate>
+                {item.label}
+              </Text>
+            </styled.div>
+          ))}
+        </styled.div>
+      )}
     </div>
   )
 }

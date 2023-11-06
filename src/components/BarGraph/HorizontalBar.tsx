@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from '../Text'
 import { styled } from 'inlines'
-import { color as genColor } from '../../varsUtilities'
+import { color as genColor, colorHash } from '../../varsUtilities'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
 export const HorizontalBar = ({
@@ -11,6 +11,7 @@ export const HorizontalBar = ({
   percentage,
   color,
   barWidth,
+  legend,
   spacing = 4,
 }) => {
   return (
@@ -21,11 +22,13 @@ export const HorizontalBar = ({
         <styled.div
           style={{
             borderRadius: 3,
-            backgroundColor: genColor(
-              'nonSemanticBackground',
-              color || 'magenta',
-              'muted'
-            ),
+            backgroundColor: color
+              ? genColor('nonSemanticBackground', color || 'magenta', 'muted')
+              : genColor(
+                  'nonSemanticBackground',
+                  colorHash('nonSemanticBackground', label),
+                  'strong'
+                ),
             padding: '4px 8px',
             whiteSpace: 'nowrap',
             display: 'flex',
@@ -35,7 +38,7 @@ export const HorizontalBar = ({
           }}
         >
           <Text selectable="none" weight="medium">
-            {label}
+            {!legend && label}
           </Text>
         </styled.div>
       </styled.div>
