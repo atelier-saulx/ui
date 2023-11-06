@@ -25,7 +25,6 @@ import fileInput from './components/FileInput'
 import formGroup from './components/FormGroup'
 import icon from './components/Icon'
 import linegraph from './components/Linegraph'
-import list from './components/List'
 import logsText from './components/LogsText'
 import Menu from './components/Menu'
 import metricsWidget from './components/MetricsWidget'
@@ -75,7 +74,6 @@ export const input = [
   dateRange,
   fileInput,
   formGroup,
-  list,
   multiSelect,
   multlineInput,
   numberInput,

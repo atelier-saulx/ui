@@ -27,7 +27,7 @@ const example: ComponentDef = {
             value: { nl: 1342, de: 688, be: 4888 },
           },
           {
-            label: 'Show 3',
+            label: 'Show 3 helaoeifmaeifaewfef',
             value: { netherlands: 1342, deutschland: 1688, belgium: 2838 },
           },
         ],

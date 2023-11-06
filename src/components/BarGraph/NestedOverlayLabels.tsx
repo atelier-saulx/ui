@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { colorHash, color } from '../../varsUtilities'
+import { useWindowResize } from '../../hooks'
 
 export const NestedOverlayLabels = ({
   xPos,
@@ -14,8 +15,14 @@ export const NestedOverlayLabels = ({
   value,
   label,
 }) => {
+  const { width, height } = useWindowResize()
+  const nestedLabelRef = useRef<HTMLDivElement>()
+  const labelWidth = nestedLabelRef?.current?.clientWidth
+  const labelHeight = nestedLabelRef?.current?.clientHeight
+
   return (
     <styled.div
+      ref={nestedLabelRef}
       style={{
         backgroundColor: color('background', 'default', 'muted'),
         zIndex: 1,
@@ -23,6 +30,14 @@ export const NestedOverlayLabels = ({
         position: 'absolute',
         left: xPos,
         top: yPos,
+        transform:
+          yPos + labelHeight > height - 20 && xPos + labelWidth > width - 20
+            ? 'translateY(-100%) translateX(-110%)'
+            : yPos + labelHeight > height - 20
+            ? 'translateY(-100%) translateX(0%)'
+            : xPos + labelWidth > width - 20
+            ? 'translateY(0%) translateX(-100%)'
+            : 'translateY(0%) translateX(0%)',
         border: `1px solid ${color('inputBorder', 'neutralNormal')}`,
       }}
     >
