@@ -12,6 +12,7 @@ const example: ComponentDef = {
     {
       props: {
         valueFormat: 'percentages',
+        legend: true,
       },
       customRenderer: (props) => {
         const data = [

@@ -8,6 +8,7 @@ import { StackedBars } from './StackedBars'
 import { NestedBars } from './NestedBars'
 import { Xaxis } from './Xaxis'
 import { Yaxis } from './Yaxis'
+import { BarLegend } from './BarLegend'
 
 export type BarGraphSingleItem = {
   label: string
@@ -27,6 +28,7 @@ type BarGraphProps = {
   nested?: boolean
   spacing?: number
   showAxis?: boolean
+  legend?: boolean
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
@@ -40,6 +42,7 @@ export const BarGraph: FC<BarGraphProps> = ({
   nested,
   spacing,
   showAxis,
+  legend,
 }) => {
   // if an object in data has more then 1 value it is nested or stacked
   for (let i = 0; i < data.length; i++) {
@@ -95,7 +98,7 @@ export const BarGraph: FC<BarGraphProps> = ({
   }
 
   return (
-    <>
+    <styled.div>
       {nested ? (
         <styled.div
           style={{
@@ -213,6 +216,7 @@ export const BarGraph: FC<BarGraphProps> = ({
               key={idx}
               valueFormat={valueFormat}
               label={item.label}
+              legend={legend}
               value={item.value}
               percentage={item.percentage}
               color={item.color ? item.color : color}
@@ -231,6 +235,7 @@ export const BarGraph: FC<BarGraphProps> = ({
       ) : (
         <></>
       )}
-    </>
+      {legend && <BarLegend data={data} />}
+    </styled.div>
   )
 }

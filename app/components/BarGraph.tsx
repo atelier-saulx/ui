@@ -17,6 +17,7 @@ const example: ComponentDef = {
         barWidth: 24,
         showAxis: true,
         spacing: 8,
+        legend: true,
         data: [
           {
             label: 'Show 1',
@@ -162,11 +163,12 @@ const example: ComponentDef = {
         style: { width: 540, [BpTablet]: { width: 'unset' } },
         showAxis: true,
         barWidth: 100,
+        legend: true,
         data: [
           {
             label: 'Moose 🦆',
             value: 160000,
-            color: 'blue',
+            //  color: 'blue',
             barWidth: 24,
           },
           {
@@ -177,7 +179,7 @@ const example: ComponentDef = {
           {
             label: 'Bears 🐻',
             value: 43000,
-            color: 'red',
+            // color: 'red',
           },
         ],
       },
