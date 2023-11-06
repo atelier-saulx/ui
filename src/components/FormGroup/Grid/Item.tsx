@@ -70,20 +70,22 @@ export const FormItemInner: FC<{
 
   if (multiple || type === 'array' || type === 'set') {
     return (
-      <List
-        item={item}
-        values={values}
-        onChangeObj={onChangeObj}
-        onChange={onChange}
-        field={field}
-        label={label}
-        type={type}
-        value={value}
-        hasChanges={hasChanges}
-        valuesChanged={valuesChanged}
-        setChanges={setChanges}
-        alwaysAccept={alwaysAccept}
-      />
+      <styled.div style={{ width: '50%', marginBottom: 16, paddingRight: 8 }}>
+        <List
+          item={item}
+          values={values}
+          onChangeObj={onChangeObj}
+          onChange={onChange}
+          field={field}
+          label={label}
+          type={type}
+          value={value}
+          hasChanges={hasChanges}
+          valuesChanged={valuesChanged}
+          setChanges={setChanges}
+          alwaysAccept={alwaysAccept}
+        />
+      </styled.div>
     )
   }
 
@@ -323,7 +325,6 @@ export const FormItem: FC<{
     typeof type === 'function' ||
     props.noLabel ||
     type === 'array' ||
-    type === 'object' ||
     type === 'range'
   )
     return <FormItemInner {...props} />

@@ -64,20 +64,22 @@ const FormItemInner: FC<{
 
   if (multiple || type === 'array' || type === 'set') {
     return (
-      <List
-        item={item}
-        values={values}
-        onChangeObj={onChangeObj}
-        onChange={onChange}
-        field={field}
-        label={label}
-        type={type}
-        value={value}
-        hasChanges={hasChanges}
-        valuesChanged={valuesChanged}
-        setChanges={setChanges}
-        alwaysAccept={alwaysAccept}
-      />
+      <Label>
+        <List
+          item={item}
+          values={values}
+          onChangeObj={onChangeObj}
+          onChange={onChange}
+          field={field}
+          label={label}
+          type={type}
+          value={value}
+          hasChanges={hasChanges}
+          valuesChanged={valuesChanged}
+          setChanges={setChanges}
+          alwaysAccept={alwaysAccept}
+        />
+      </Label>
     )
   }
 
@@ -277,11 +279,7 @@ export const FormItem: FC<{
   alwaysAccept: boolean
   noLabel?: boolean
 }> = (props) => {
-  if (
-    props.noLabel ||
-    props.item.type === 'array' ||
-    props.item.type === 'object'
-  )
+  if (props.noLabel || props.item.type === 'array')
     return <FormItemInner {...props} />
 
   let { label, field } = props.item

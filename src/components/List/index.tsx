@@ -54,14 +54,14 @@ export const List: FC<{
   const [open, setOpen] = useState(false)
   const [prevValue, setValue] = useState(value)
 
-  if (Object.keys(value).length > 0 && !Array.isArray(value)) {
-    const newVal = Object.values(value)
-    const key = parseInt(Object.keys(value)[0])
-    const newValue = [...prevValue]
-    newValue[key] = newVal[0]
-    value = Object.values(newValue)
-    onChange(field, value)
-  }
+  // if (Object.keys(value).length > 0 && !Array.isArray(value)) {
+  //   const newVal = Object.values(value)
+  //   const key = parseInt(Object.keys(value)[0])
+  //   const newValue = [...prevValue]
+  //   newValue[key] = newVal[0]
+  //   value = Object.values(newValue)
+  //   onChange(field, value)
+  // }
 
   const addType =
     values.type === 'object'
@@ -71,7 +71,7 @@ export const List: FC<{
       : ''
 
   return (
-    <Label>
+    <>
       <Text
         weight="strong"
         style={{
@@ -129,7 +129,11 @@ export const List: FC<{
             const newField = field + '.' + index
 
             return (
-              <span key={newField} onFocus={() => setOpen(true)}>
+              <span
+                key={newField}
+                onFocus={() => setOpen(true)}
+                style={{ position: 'relative' }}
+              >
                 <FormItem
                   noLabel
                   objValues={values}
@@ -148,6 +152,28 @@ export const List: FC<{
                   onChangeObj={onChangeObj}
                   value={value[index]}
                 />
+                {hasChanges && (
+                  <styled.div
+                    style={{
+                      position: 'absolute',
+                      top: '0',
+                      right: 8,
+                      height: '40px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <IconClose
+                      onClick={() => {
+                        onChange(
+                          field,
+                          value.filter((_, i) => i !== index)
+                        )
+                      }}
+                    />
+                  </styled.div>
+                )}
               </span>
             )
           })}
@@ -167,6 +193,6 @@ export const List: FC<{
           Add {values.type as string}
         </Button>
       </styled.div>
-    </Label>
+    </>
   )
 }
