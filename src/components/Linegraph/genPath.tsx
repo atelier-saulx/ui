@@ -1,10 +1,7 @@
 // @ts-nocheck
 import React, { useRef } from 'react'
-import {
-  ColorActionColors,
-  ColorNonSemanticBackgroundColors,
-} from '../../varsTypes'
-import { color as genColor } from '../../varsUtilities'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
+import { color as genColor, colorHash } from '../../varsUtilities'
 import { LineGraphData, Point } from './types'
 import {
   averageData,
@@ -182,7 +179,11 @@ export const genPaths = ({
       width,
       height,
       stepSize: data[key].stepSize,
-      baseColor: data[key].color || 'violet',
+      baseColor: data[key].color
+        ? data[key].color
+        : data[key].label
+        ? colorHash('nonSemanticBackground', data[key].label)
+        : 'violet',
     })
     paths = paths.concat(result.path)
     lineRefs = {

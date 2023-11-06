@@ -17,7 +17,6 @@ const example: ComponentDef = {
         barWidth: 24,
         showAxis: true,
         spacing: 8,
-        legend: true,
         data: [
           {
             label: 'Show 1',
@@ -29,7 +28,7 @@ const example: ComponentDef = {
           },
           {
             label: 'Show 3 helaoeifmaeifaewfef',
-            value: { netherlands: 1342, deutschland: 1688, belgium: 2838 },
+            value: { nl: 1342, de: 1688, be: 2838 },
           },
         ],
       },
@@ -42,6 +41,7 @@ const example: ComponentDef = {
         showAxis: true,
         stacked: true,
         spacing: 24,
+        legend: true,
         data: [
           {
             label: 'Show 1',

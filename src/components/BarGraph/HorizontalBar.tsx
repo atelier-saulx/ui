@@ -27,7 +27,7 @@ export const HorizontalBar = ({
               : genColor(
                   'nonSemanticBackground',
                   colorHash('nonSemanticBackground', label),
-                  'strong'
+                  legend ? 'strong' : 'muted'
                 ),
             padding: '4px 8px',
             whiteSpace: 'nowrap',
