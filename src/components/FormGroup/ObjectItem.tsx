@@ -23,13 +23,18 @@ export const ObjectItem: FC<ObjectItemProps> = ({
   alwaysAccept,
   parsedObjArray,
 }) => {
+  {
+    console.log(
+      field
+        ?.split('.')
+        .reduce((acc, curr, i) => ((acc[curr[i]] = curr), acc), {})
+    )
+  }
   return (
     <Modal.Root>
-      <Label>
-        <Modal.Trigger>
-          <Button>Open Overlay: {field}</Button>
-        </Modal.Trigger>
-      </Label>
+      <Modal.Trigger>
+        <Button size="small">Open Overlay: {field}</Button>
+      </Modal.Trigger>
       <Modal.Content>
         {({ close }) => {
           return (
@@ -46,11 +51,12 @@ export const ObjectItem: FC<ObjectItemProps> = ({
                   {d}
                   <span
                     onClick={() => {
-                      close()
-                      close()
+                      // close()
+                      // close()
                     }}
                   >
                     <Breadcrumbs
+                      onChange={(v) => console.log(field)}
                       data={field
                         ?.split('.')
                         .reduce(
