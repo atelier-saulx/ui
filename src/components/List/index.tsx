@@ -64,8 +64,14 @@ export const List: FC<{
     onChange(field, value)
   }
 
-  const addType = type === 'array' || type === 'set' ? [''] : ''
+  const addType =
+    values.type === 'object'
+      ? {}
+      : type === 'array' || type === 'set'
+      ? ['']
+      : ''
 
+  console.log(addType)
   return (
     <Label>
       <Text
@@ -79,9 +85,9 @@ export const List: FC<{
       >
         {field}
         <Button
-          hideFocusState
+          // hideFocusState
           size="small"
-          light
+          // light
           color="system"
           onClick={() => setOpen(!open)}
           style={{ border: '1px solid transparent' }}
@@ -97,9 +103,9 @@ export const List: FC<{
         />
         {isChild && (
           <Button
-            hideFocusState
+            // hideFocusState
             size="small"
-            light
+            // light
             color="system"
             onClick={deleteFunc}
             style={{
@@ -152,7 +158,7 @@ export const List: FC<{
         <Button
           color="system"
           size="small"
-          hideFocusState
+          // hideFocusState
           icon={<IconPlus />}
           style={{ border: '1px solid transparent' }}
           onClick={() => {
@@ -160,7 +166,7 @@ export const List: FC<{
             onChange(field, [...value, addType])
           }}
         >
-          Add {type as string}
+          Add {values.type as string}
         </Button>
       </styled.div>
     </Label>

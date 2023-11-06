@@ -27,7 +27,7 @@ export const ObjectItem: FC<ObjectItemProps> = ({
     <Modal.Root>
       <Label>
         <Modal.Trigger>
-          <Button>Open Overlay: {d}</Button>
+          <Button>Open Overlay: {field}</Button>
         </Modal.Trigger>
       </Label>
       <Modal.Content>
