@@ -22,6 +22,7 @@ export type LineData = LineDataInput & {
   maxPoints?: Point[]
   minData?: Point[]
   minPoints?: Point[]
+  label?: string
 }
 
 export type LineGraphData = {
