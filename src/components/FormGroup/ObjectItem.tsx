@@ -23,13 +23,13 @@ export const ObjectItem: FC<ObjectItemProps> = ({
   alwaysAccept,
   parsedObjArray,
 }) => {
-  {
-    console.log(
-      field
-        ?.split('.')
-        .reduce((acc, curr, i) => ((acc[curr[i]] = curr), acc), {})
-    )
-  }
+  // {
+  //   console.log(
+  //     field
+  //       ?.split('.')
+  //       .reduce((acc, curr, i) => ((acc[curr[i]] = curr), acc), {})
+  //   )
+  // }
   return (
     <Modal.Root>
       <Modal.Trigger>
