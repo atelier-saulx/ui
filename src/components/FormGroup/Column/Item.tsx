@@ -4,6 +4,7 @@ import { Label } from './Label'
 import { FormItemProps, ValuesChanged } from '../types'
 import { Input, Row, List, Toggle, Code, Button } from '../..'
 import { ObjectItem } from '../ObjectItem'
+import { IconClose } from 'src/icons'
 
 // | 'timestamp'
 // | 'record'
@@ -253,6 +254,7 @@ const FormItemInner: FC<{
       message={isError && isString ? validateResult : undefined}
       autoFocus={autoFocus}
       value={value ?? ''}
+      clearButton
       //  @ts-ignore
       // type={type === 'integer' ? 'number' : type || 'text'}
       type={type === 'integer' ? 'number' : type === 'string' ? 'text' : type}
@@ -278,11 +280,30 @@ export const FormItem: FC<{
   setChanges: (val: boolean) => any
   alwaysAccept: boolean
   noLabel?: boolean
+  deleteFunc?: () => void
 }> = (props) => {
-  if (props.noLabel || props.item.type === 'array')
-    return <FormItemInner {...props} />
+  let { label, field, type } = props.item
 
-  let { label, field } = props.item
+  if (props.noLabel || type === 'array')
+    return (
+      <span style={{ position: 'relative' }}>
+        <FormItemInner {...props} />
+        <styled.div
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            top: 0,
+            bottom: 0,
+            right: 13,
+          }}
+        >
+          {(props.value === '' || type === 'boolean') && (
+            <IconClose onClick={props.deleteFunc}>placeholder</IconClose>
+          )}
+        </styled.div>
+      </span>
+    )
 
   if (!label) {
     label = useMemo(

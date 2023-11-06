@@ -37,6 +37,7 @@ export const FormGroup: FC<FormGroupProps> = ({
       setChanges(true)
       setValue(field, valuesChanged.current, value)
       if (values && equalChanges(valuesChanged.current, values)) {
+        console.log('asdasdas')
         setChanges(false)
       } else {
         update()
