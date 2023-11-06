@@ -256,7 +256,6 @@ const FormItemInner: FC<{
       value={value ?? ''}
       clearButton
       //  @ts-ignore
-      // type={type === 'integer' ? 'number' : type || 'text'}
       type={type === 'integer' ? 'number' : type === 'string' ? 'text' : type}
       onChange={(v) => onChange(field, v)}
       {...props}
@@ -282,9 +281,15 @@ export const FormItem: FC<{
   noLabel?: boolean
   deleteFunc?: () => void
 }> = (props) => {
-  let { label, field, type } = props.item
+  let { label, field, type, options } = props.item
 
-  if (props.noLabel || type === 'array')
+  if (
+    options ||
+    typeof type === 'function' ||
+    props.noLabel ||
+    type === 'array' ||
+    type === 'range'
+  )
     return (
       <span style={{ position: 'relative' }}>
         <FormItemInner {...props} />
