@@ -1,10 +1,7 @@
 import React, { useState, useRef } from 'react'
 import useThrottledCallback from '../../hooks/useThrottledCallback'
 import useGraphHover from '../../hooks/useGraphHover'
-import {
-  ColorActionColors,
-  ColorNonSemanticBackgroundColors,
-} from '../../varsTypes'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
@@ -277,7 +274,8 @@ const Overlay = ({
         bottom: 0,
       }}
     >
-      {x
+      {/* // prevents crash */}
+      {x && x < width
         ? getY({
             x,
             width,
