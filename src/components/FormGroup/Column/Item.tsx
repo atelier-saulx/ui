@@ -281,10 +281,9 @@ export const FormItem: FC<{
   noLabel?: boolean
   deleteFunc?: () => void
 }> = (props) => {
-  let { label, field, type, options } = props.item
+  let { label, field, type } = props.item
 
   if (
-    options ||
     typeof type === 'function' ||
     props.noLabel ||
     type === 'array' ||
@@ -304,7 +303,7 @@ export const FormItem: FC<{
           }}
         >
           {(props.value === '' || type === 'boolean') && (
-            <IconClose onClick={props.deleteFunc}>placeholder</IconClose>
+            <IconClose onClick={props.deleteFunc} />
           )}
         </styled.div>
       </span>

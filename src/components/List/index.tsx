@@ -55,7 +55,7 @@ export const List: FC<{
   const addType =
     values.type === 'object'
       ? {}
-      : type === 'array' || type === 'set'
+      : values.type === 'array' || values.type === 'set'
       ? ['']
       : ''
 
@@ -133,11 +133,11 @@ export const List: FC<{
                   <styled.div
                     style={{
                       position: 'absolute',
-                      inset: 0,
                       display: 'flex',
+                      alignItems: 'center',
+                      inset: 0,
                       gap: 8,
                       color: 'transparent',
-                      alignItems: 'center',
                       padding: 12,
                       paddingLeft:
                         value[0] === true || value[0] === false ? 70 : 12,
