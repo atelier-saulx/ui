@@ -74,10 +74,31 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
                 getValue(d.field, values)
               : getValue(d.field, values))
           }
+          onChangeObj={onChange}
+          objValues={values}
+          hasChanges={hasChanges}
+          valuesChanged={valuesChanged}
+          setChanges={setChanges}
+          alwaysAccept={alwaysAccept}
         />
       )
     } else {
       rest.push(
+        // <FormItem
+        //   autoFocus={!hasAutoFocus && autoFocus}
+        //   fieldWidth={fieldWidth}
+        //   width={labelWidth}
+        //   key={d.field}
+        //   item={d}
+        //   onChange={onChangeField}
+        //   value={
+        //     hasChanges
+        //       ? getValue(d.field, valuesChanged.current) ??
+        //         d.value ??
+        //         getValue(d.field, values)
+        //       : d.value ?? getValue(d.field, values)
+        //   }
+        // />
         <FormItem
           autoFocus={!hasAutoFocus && autoFocus}
           fieldWidth={fieldWidth}
@@ -92,6 +113,12 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
                 getValue(d.field, values)
               : d.value ?? getValue(d.field, values)
           }
+          onChangeObj={onChange}
+          objValues={values}
+          hasChanges={hasChanges}
+          valuesChanged={valuesChanged}
+          setChanges={setChanges}
+          alwaysAccept={alwaysAccept}
         />
       )
       hasAutoFocus = true

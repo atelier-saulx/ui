@@ -1,10 +1,16 @@
 import React, { FC, useMemo } from 'react'
 import { styled, Style } from 'inlines'
 import { Label } from './Label'
-import { FormItemProps } from '../types'
+import { FormItemProps, ValuesChanged } from '../types'
 import { Code, Input, Row, Toggle } from '../..'
+import { List } from '../..'
+import { ObjectItem } from '../ObjectItem'
+// }> = ({
+// item: {
 
-export const FormItem: FC<{
+// },
+
+export const FormItemInner: FC<{
   item: FormItemProps
   autoFocus?: boolean
   value?: any
@@ -12,10 +18,16 @@ export const FormItem: FC<{
   width?: number
   fieldWidth?: number
   onChange: (field: string, value: any) => void
+  onChangeObj: any
+  objValues
+  hasChanges: boolean
+  valuesChanged: ValuesChanged
+  setChanges: (val: boolean) => any
+  alwaysAccept: boolean
 }> = ({
   fieldWidth = 185,
-  autoFocus,
   width = 160,
+  autoFocus,
   item: {
     validation,
     props,
@@ -25,10 +37,21 @@ export const FormItem: FC<{
     description,
     options,
     default: defaultValue,
+    multiple,
+    values,
+    addMultipleLabel = 'Add',
+    properties,
   },
   value,
-  style,
   onChange,
+  item,
+  onChangeObj,
+  objValues,
+  hasChanges,
+  valuesChanged,
+  setChanges,
+  alwaysAccept,
+  style,
 }) => {
   if (!label) {
     label = useMemo(
@@ -39,6 +62,67 @@ export const FormItem: FC<{
 
   if ((defaultValue && value === undefined) || value === '') {
     value = defaultValue
+  }
+
+  if (multiple && !value && !defaultValue) {
+    value = ['']
+  }
+
+  if (multiple || type === 'array' || type === 'set') {
+    return (
+      <List
+        item={item}
+        values={values}
+        onChangeObj={onChangeObj}
+        onChange={onChange}
+        field={field}
+        label={label}
+        type={type}
+        value={value}
+        hasChanges={hasChanges}
+        valuesChanged={valuesChanged}
+        setChanges={setChanges}
+        alwaysAccept={alwaysAccept}
+      />
+    )
+  }
+
+  if (item.type === 'object') {
+    const parsedObjArray = []
+    if (properties) {
+      for (const i in properties) {
+        parsedObjArray.push({ ...properties[i], field: field + '.' + i })
+      }
+    }
+    const objectArray = [
+      ...new Set(
+        parsedObjArray
+          .map((item) => item.field.split('.')[0])
+          .filter((e, i, a) => a.indexOf(e) !== i)
+      ),
+    ]
+
+    return (
+      <ObjectItem
+        key={objectArray[0]}
+        d={objectArray[0]}
+        autoFocus={autoFocus}
+        onChange={onChangeObj}
+        labelWidth={width}
+        fieldWidth={fieldWidth}
+        onChangeField={onChange}
+        style={{
+          width: '100%',
+        }}
+        values={objValues}
+        hasChanges={hasChanges}
+        valuesChanged={valuesChanged}
+        setChanges={setChanges}
+        alwaysAccept={alwaysAccept}
+        parsedObjArray={parsedObjArray}
+        field={field}
+      />
+    )
   }
 
   if (typeof type === 'function') {
@@ -105,28 +189,24 @@ export const FormItem: FC<{
   }
   if (type === 'json') {
     return (
-      <Label label={label} description={description}>
-        <Code
-          onChange={(v) => onChange(field, v)}
-          value={value}
-          language="json"
-        />
-      </Label>
+      <Code
+        onChange={(v) => onChange(field, v)}
+        value={value}
+        language="json"
+      />
     )
   }
 
   if (type === 'boolean') {
     return (
-      <Label description={description} label={label}>
-        <Toggle
-          label={label}
-          value={value}
-          onChange={(v) => onChange(field, v)}
-          // {...props}
-          // @ts-ignore
-          style={props?.style}
-        />
-      </Label>
+      <Toggle
+        label={label}
+        value={value}
+        onChange={(v) => onChange(field, v)}
+        // {...props}
+        // @ts-ignore
+        style={props?.style}
+      />
     )
   }
   if (type === 'range') {
@@ -202,28 +282,67 @@ export const FormItem: FC<{
   const isError = isString ? true : !validateResult
 
   return (
+    <Input
+      error={isError}
+      message={isError && isString ? validateResult : undefined}
+      autoFocus={autoFocus}
+      value={value ?? ''}
+      // @ts-ignore
+      type={type || 'text'}
+      onChange={(v) => onChange(field, v)}
+      {...props}
+      // @ts-ignore
+      style={Object.assign(
+        { minWidth: fieldWidth, width: '100%' },
+        props?.style
+      )}
+    />
+  )
+}
+
+export const FormItem: FC<{
+  item: FormItemProps
+  value?: any
+  autoFocus?: boolean
+  width?: number
+  fieldWidth?: number
+  onChange: (field: string, value: any) => void
+  onChangeObj: any
+  objValues
+  hasChanges: boolean
+  valuesChanged: ValuesChanged
+  setChanges: (val: boolean) => any
+  alwaysAccept: boolean
+  style?: Style
+  noLabel?: boolean
+}> = (props) => {
+  let { label, field, type, options } = props.item
+
+  if (
+    options ||
+    typeof type === 'function' ||
+    props.noLabel ||
+    type === 'array' ||
+    type === 'object' ||
+    type === 'range'
+  )
+    return <FormItemInner {...props} />
+
+  if (!label) {
+    label = useMemo(
+      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+      [field]
+    )
+  }
+
+  return (
     <Label
-      style={style}
-      labelWidth={width}
+      description={props.item.description}
       label={label}
-      description={description}
+      style={props.style}
+      labelWidth={props.width ?? 160}
     >
-      {/* @ts-ignore FIX THIS TYPE */}
-      <Input
-        error={isError}
-        message={isError && isString ? validateResult : undefined}
-        autoFocus={autoFocus}
-        value={value ?? ''}
-        // @ts-ignore
-        type={type || 'text'}
-        onChange={(v) => onChange(field, v)}
-        {...props}
-        // @ts-ignore
-        style={Object.assign(
-          { minWidth: fieldWidth, width: '100%' },
-          props?.style
-        )}
-      />
+      <FormItemInner {...props} />
     </Label>
   )
 }
