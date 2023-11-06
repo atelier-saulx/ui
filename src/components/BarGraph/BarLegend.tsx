@@ -19,19 +19,31 @@ export const BarLegend: FC<BarLegendProps> = ({
   nested,
   stacked,
 }) => {
-  console.log(data, 'BARS')
-  console.log(valueFormat, '????? format')
-
-  // if stacked or nested, make set from labels
-  //
+  if (nested || stacked) {
+    const nestedDataKeysArr = []
+    let flatArr
+    if (nested || stacked) {
+      for (let i = 0; i < data.length; i++) {
+        let arr = Object.keys(data[i].value)
+        nestedDataKeysArr.push(arr)
+      }
+    }
+    //flatten array
+    let tempData = []
+    flatArr = [...nestedDataKeysArr.flat()]
+    const dataSet = new Set(flatArr)
+    Array.from(dataSet).map((item) => tempData.push({ label: item }))
+    data = [...tempData]
+  }
 
   return (
     <styled.div
       style={{
         display: 'flex',
-        gap: direction === 'vertical' ? 4 : 20,
+        gap: direction === 'vertical' && !nested && !stacked ? 4 : 20,
         justifyContent: 'center',
-        flexDirection: direction === 'vertical' ? 'column' : 'row',
+        flexDirection:
+          direction === 'vertical' && !nested && !stacked ? 'column' : 'row',
         marginTop: 24,
       }}
     >
