@@ -281,6 +281,9 @@ const example: ComponentDef = {
         ...fieldProps,
         variant: 'grid',
         autoFocus: true,
+        style: {
+          // width: 750,
+        },
       },
     },
     {

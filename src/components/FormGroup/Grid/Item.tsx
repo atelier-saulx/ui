@@ -70,7 +70,7 @@ export const FormItemInner: FC<{
 
   if (multiple || type === 'array' || type === 'set') {
     return (
-      <styled.div style={{ width: '50%', marginBottom: 16, paddingRight: 8 }}>
+      <styled.div style={{ width: '100%', marginBottom: 16 }}>
         <List
           item={item}
           values={values}

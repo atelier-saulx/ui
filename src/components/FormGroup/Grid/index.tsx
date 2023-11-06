@@ -6,17 +6,6 @@ import { getValue } from '../utils'
 import { Style, styled } from 'inlines'
 import { FormGroupVariantProps } from '../types'
 
-export const Empty = styled('div', {
-  minWidth: 350,
-  width: 350,
-})
-
-export const emptyDivs = (arr: ReactNode[]) => {
-  for (let i = 0; i < 5; i++) {
-    arr.push(<Empty key={'e' + i} />)
-  }
-}
-
 const Group: FC<{ children: ReactNode; style?: Style }> = ({
   children,
   style,
@@ -84,21 +73,6 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
       )
     } else {
       rest.push(
-        // <FormItem
-        //   autoFocus={!hasAutoFocus && autoFocus}
-        //   fieldWidth={fieldWidth}
-        //   width={labelWidth}
-        //   key={d.field}
-        //   item={d}
-        //   onChange={onChangeField}
-        //   value={
-        //     hasChanges
-        //       ? getValue(d.field, valuesChanged.current) ??
-        //         d.value ??
-        //         getValue(d.field, values)
-        //       : d.value ?? getValue(d.field, values)
-        //   }
-        // />
         <FormItem
           autoFocus={!hasAutoFocus && autoFocus}
           fieldWidth={fieldWidth}
@@ -125,17 +99,20 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
     }
   }
 
-  if (rest.length) {
-    emptyDivs(rest)
-  }
-
-  if (checkBoxes.length) {
-    emptyDivs(checkBoxes)
-  }
-
   return (
     <Group style={style}>
-      {rest}
+      <styled.div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(auto-fill, minmax(${
+            fieldWidth * 2
+          }px, 2fr))`,
+          // gridGap: 12,
+          width: '100%',
+        }}
+      >
+        {rest}
+      </styled.div>
       {checkBoxes.length && rest.length ? (
         <Row
           style={{
@@ -152,6 +129,7 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
       ) : (
         checkBoxes
       )}
+      <styled.div style={{ width: fieldWidth * 2 + 'px' }} />
       {alwaysAccept || !hasChanges ? null : (
         <RowEnd
           style={{
