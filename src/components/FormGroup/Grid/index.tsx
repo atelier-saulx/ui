@@ -107,7 +107,7 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
           gridTemplateColumns: `repeat(auto-fill, minmax(${
             fieldWidth * 2
           }px, 2fr))`,
-          // gridGap: 12,
+          gridGap: 12,
           width: '100%',
         }}
       >

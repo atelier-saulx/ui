@@ -6,11 +6,11 @@ import { ComponentDef } from '../types'
 const fieldProps = {
   id: 1337,
   values: {
-    // array: [
-    //   ['12', '123'],
-    //   ['566', '90'],
-    //   ['asd', 'asdasd0'],
-    // ],
+    array: [
+      ['12', '123'],
+      ['566', '90'],
+      ['asd', 'asdasd0'],
+    ],
     object: { flap: false, flirp: true, snap: 'asdasd' },
     // args: { name: 'asdasd' },
     port: 443,
@@ -34,6 +34,22 @@ const fieldProps = {
         type: 'array',
         values: {
           type: 'string',
+        },
+      },
+      // values: {
+      //   type: 'string',
+      // },
+    },
+    arrayBool: {
+      type: 'array',
+      // value: [
+      //   ['1', '2'],
+      //   ['3', '4'],
+      // ],
+      values: {
+        type: 'array',
+        values: {
+          type: 'boolean',
         },
       },
       // values: {
