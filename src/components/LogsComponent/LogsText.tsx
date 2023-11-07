@@ -13,7 +13,13 @@ export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
   const parentRef = useRef(null)
   const size = data.length
 
+  console.log(data, 'dATA?')
+
   const rowVirtualizer = useVirtual({
+    // size: size
+    // getScrollElement: () => parentRef.current,
+    // estimateSize: () => 20
+
     parentRef: parentRef,
     size,
     estimateSize: useCallback(() => 15, []),
@@ -46,65 +52,61 @@ export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
   }, [data && data.length, parentRef.current, autoScroll])
 
   return (
-    <styled.div
+    <ScrollArea
+      onScroll={(e) => {
+        if (e.target.scrollTop > maxScroll) {
+          setMaxScroll(e.target.scrollTop)
+        }
+        if (e.target.scrollTop < scrollY) {
+          setAutoScroll(false)
+        }
+        if (e.target.scrollTop >= maxScroll) {
+          setAutoScroll(true)
+        }
+        setScrollY(e.target.scrollTop)
+      }}
+      ref={parentRef}
       style={{
-        display: 'flex',
-        flexDirection: 'column',
+        height: `400px`,
+        overflowY: 'auto',
+        overflowX: 'clip',
+        scrollBehavior: 'smooth',
+        width: '100%',
+        // ...style,
       }}
     >
-      <ScrollArea
-        onScroll={(e) => {
-          if (e.target.scrollTop > maxScroll) {
-            setMaxScroll(e.target.scrollTop)
-          }
-          if (e.target.scrollTop < scrollY) {
-            setAutoScroll(false)
-          }
-          if (e.target.scrollTop >= maxScroll) {
-            setAutoScroll(true)
-          }
-          setScrollY(e.target.scrollTop)
-        }}
-        ref={parentRef}
+      <styled.div
         style={{
-          height: `400px`,
-          overflowY: 'auto',
-          overflowX: 'clip',
-          scrollBehavior: 'smooth',
-          ...style,
+          height: `${rowVirtualizer.totalSize}px`,
+          width: '100%',
+          position: 'relative',
         }}
       >
-        <styled.div
-          style={{
-            height: `${rowVirtualizer.totalSize}px`,
-            width: '100%',
-            position: 'relative',
-          }}
-        >
-          {rowVirtualizer.virtualItems.map((virtualItem) => (
-            <styled.div
-              key={virtualItem.key}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: `${virtualItem.size}px`,
-                transform: `translateY(${virtualItem.start}px)`,
-              }}
-            >
-              <Log
-                data={data}
-                index={virtualItem.index}
-                label={data[virtualItem.index].label}
-                ts={data[virtualItem.index].ts}
-                log={data[virtualItem.index].log}
-                type={data[virtualItem.index].type}
-              />
-            </styled.div>
-          ))}
-        </styled.div>
-      </ScrollArea>
-    </styled.div>
+        {rowVirtualizer.virtualItems.map((virtualItem) => (
+          <styled.div
+            key={virtualItem.key}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: 'auto',
+              //     height: `${virtualItem.size}px`,
+              //  transform: `translateY(${virtualItem.start}px)`,
+            }}
+          >
+            {virtualItem.size}
+            <Log
+              data={data}
+              index={virtualItem.index}
+              label={data[virtualItem.index].label}
+              ts={data[virtualItem.index].ts}
+              log={data[virtualItem.index].log}
+              type={data[virtualItem.index].type}
+            />
+          </styled.div>
+        ))}
+      </styled.div>
+    </ScrollArea>
   )
 }
