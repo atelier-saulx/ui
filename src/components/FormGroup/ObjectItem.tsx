@@ -56,6 +56,9 @@ export const ObjectItem: FC<ObjectItemProps> = ({
       if (boolArr.includes(false) || boolArr.length < splitField.length - 1) {
         setOpen(false)
       }
+      if (objectStr === '') {
+        setOpen(false)
+      }
     }
   }, [object])
 
@@ -70,8 +73,7 @@ export const ObjectItem: FC<ObjectItemProps> = ({
   })
 
   const closeFunc = () => {
-    setOpen(false)
-    route.setQuery({ object: '' })
+    route.setQuery({ object: splitField.slice(0, -1).join('.') })
   }
 
   return (
