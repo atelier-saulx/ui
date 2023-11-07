@@ -181,6 +181,7 @@ export const MetricsWidget: FC<MetricsWidgetProps> = ({
         {chartOption === 'bar' && (
           <BarGraph
             data={data[selected]}
+            // @ts-ignore
             valueFormat={
               calculationOption === 'numbers' ? 'number-human' : 'percentages'
             }
