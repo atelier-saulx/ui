@@ -187,28 +187,29 @@ export const List: FC<{
                     )
                   }}
                 />
-                {values.type === 'array' && (
-                  <styled.div
-                    style={{
-                      position: 'absolute',
-                      top: '0',
-                      right: 8,
-                      height: '40px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <IconClose
-                      onClick={() => {
-                        onChange(
-                          field,
-                          value.filter((_, i) => i !== index)
-                        )
+                {values.type === 'array' ||
+                  (values.type === 'object' && (
+                    <styled.div
+                      style={{
+                        position: 'absolute',
+                        top: '0',
+                        right: 8,
+                        height: '40px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}
-                    />
-                  </styled.div>
-                )}
+                    >
+                      <IconClose
+                        onClick={() => {
+                          onChange(
+                            field,
+                            value.filter((_, i) => i !== index)
+                          )
+                        }}
+                      />
+                    </styled.div>
+                  ))}
               </span>
             )
           })}
