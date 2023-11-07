@@ -5,17 +5,16 @@ import { Style, styled } from 'inlines'
 import { Input } from '../Input'
 import { Pill } from '../Pill'
 import { Text } from '../Text'
+import { BpMobile } from 'src/utils'
 
 export type LogsProps = {
   data: Exclude<LogProps, 'data' | 'index'>[]
   style?: Style
-  autoScroll?: boolean
 }
 
-export const Logs = ({ data: dataProp, style, autoScroll }: LogsProps) => {
+export const Logs = ({ data: dataProp, style }: LogsProps) => {
   const [typeFilter, setTypeFilter] = useState<any>([])
   const [searchFilter, setSearchFilter] = useState('')
-  const [serviceFilter, setServiceFilter] = useState('')
 
   const data = dataProp
     .filter(
@@ -34,6 +33,7 @@ export const Logs = ({ data: dataProp, style, autoScroll }: LogsProps) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        minWidth: 324,
         ...style,
       }}
     >
@@ -41,8 +41,13 @@ export const Logs = ({ data: dataProp, style, autoScroll }: LogsProps) => {
         style={{
           display: 'flex',
           alignItems: 'center',
+          flexDirection: 'row',
           gap: 10,
           marginBottom: '16px',
+          [BpMobile]: {
+            flexDirection: 'column',
+            alignItems: 'normal',
+          },
         }}
       >
         {/* <Text size={24} weight="strong" style={{ marginRight: '24px' }}>
@@ -75,7 +80,7 @@ export const Logs = ({ data: dataProp, style, autoScroll }: LogsProps) => {
         />
       </styled.div>
 
-      <LogsText data={data} style={style} autoScroll={autoScroll} />
+      <LogsText data={data} style={style} />
     </styled.div>
   )
 }

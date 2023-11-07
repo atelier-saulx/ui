@@ -76,8 +76,10 @@ const example: ComponentDef = {
             </styled.div>
             <Divider style={{ marginBottom: 24 }} />
             <Logs
-              // autoScroll
-              style={{ width: 667, height: 500 }}
+              style={{
+                width: 667,
+                height: 500,
+              }}
               //@ts-ignore
               data={data}
             />

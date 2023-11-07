@@ -26,45 +26,42 @@ export const LogsText: FC<LogsTextProps> = ({
 
   const items = virtualizer.getVirtualItems()
 
-  const ignoreNext = useRef(false)
-  const [smoothScroll, setSmooth] = useState(false)
-  const [autoScroll, setAutoScroll] = useState(autoscrl)
-  const [scrollY, setScrollY] = useState(0)
-  const [maxScroll, setMaxScroll] = useState(0)
+  const [autoScroll, setAutoScroll] = useState(true)
+
+  const virtualTotalSize = virtualizer.getTotalSize()
 
   useEffect(() => {
-    let timer
     if (autoScroll) {
-      const element = parentRef.current
-      timer = setTimeout(() => {
-        ignoreNext.current = true
-        element.scrollTop = element.scrollHeight
-        timer = setTimeout(() => {
-          setSmooth(true)
-        }, 1000)
-      }, 100)
-      ignoreNext.current = true
-      element.scrollTop = element.scrollHeight
-      virtualizer.scrollToIndex(size - 1)
+      console.log('total size--> ', virtualTotalSize)
+
+      setTimeout(() => {
+        const element = parentRef.current
+        const elementScrollHeight = parentRef.current.scrollHeight
+        element.scrollTop = elementScrollHeight
+
+        console.log(parentRef)
+      }, 700)
     }
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [data && data.length, parentRef.current, autoScroll])
+  }, [virtualTotalSize, parentRef.current])
 
   return (
     <ScrollArea
-      onScroll={(e) => {
-        if (e.target.scrollTop > maxScroll) {
-          setMaxScroll(e.target.scrollTop)
-        }
-        if (e.target.scrollTop < scrollY) {
-          setAutoScroll(false)
-        }
-        if (e.target.scrollTop >= maxScroll) {
-          setAutoScroll(true)
-        }
-        setScrollY(e.target.scrollTop)
+      onScroll={() => {
+        // TODO : maybe on focus // on MOuse over
+        // TODO: onscroll fires also on use Effect, is there on user/mouse scroll something
+        // setTimeout(() => {
+        //   if (
+        //     e.target.scrollTop >=
+        //     parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
+        //   ) {
+        //     console.log('this is the end')
+        //     setAutoScroll(true)
+        //   } else if (
+        //     e.target.scrollTop <
+        //     parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
+        //   )
+        //     setAutoScroll(false)
+        // }, 1000)
       }}
       ref={parentRef}
       style={{
@@ -73,6 +70,7 @@ export const LogsText: FC<LogsTextProps> = ({
         overflowX: 'clip',
         scrollBehavior: 'smooth',
         width: '100%',
+
         // ...style,
       }}
     >
