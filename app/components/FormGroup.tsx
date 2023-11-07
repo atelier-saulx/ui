@@ -78,6 +78,23 @@ const fieldProps = {
           snop: {
             type: 'file',
           },
+          flop: {
+            type: 'object',
+            properties: {
+              flap: {
+                type: 'boolean',
+              },
+              flirp: {
+                type: 'boolean',
+              },
+              snap: {
+                type: 'text',
+              },
+              snop: {
+                type: 'file',
+              },
+            },
+          },
         },
       },
     },
