@@ -263,7 +263,17 @@ let mapData = createMapTestData()
 
 const example: ComponentDef = {
   name: 'Map',
-  properties: {},
+  properties: {
+    data: { type: ' GeoJSON.FeatureCollection<GeoJSON.Geometry>' },
+    height: {
+      optional: true,
+      type: 'number',
+    },
+    style: {
+      optional: true,
+      type: 'Style',
+    },
+  },
   description: 'Map ',
   component: CompMap,
   examples: [

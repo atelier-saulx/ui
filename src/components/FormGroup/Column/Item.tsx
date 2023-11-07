@@ -4,6 +4,7 @@ import { Label } from './Label'
 import { FormItemProps, ValuesChanged } from '../types'
 import { Input, Row, List, Toggle, Code, Button } from '../..'
 import { ObjectItem } from '../ObjectItem'
+import { IconClose } from 'src/icons'
 
 // | 'timestamp'
 // | 'record'
@@ -54,23 +55,6 @@ const FormItemInner: FC<{
   setChanges,
   alwaysAccept,
 }) => {
-  // if (!label) {
-  //   label = useMemo(
-  //     () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
-  //     [field]
-  //   )
-  // }
-
-  if (!label) {
-    label = useMemo(
-      () => [
-        field.split('.').slice(-1)[0][0].toUpperCase(),
-        field.split('.').slice(-1)[0].substring(1),
-      ],
-      [field]
-    )
-  }
-
   if ((defaultValue && value === undefined) || value === '') {
     value = defaultValue
   }
@@ -81,29 +65,30 @@ const FormItemInner: FC<{
 
   if (multiple || type === 'array' || type === 'set') {
     return (
-      <List
-        item={item}
-        values={values}
-        onChangeObj={onChangeObj}
-        onChange={onChange}
-        field={field}
-        label={label}
-        type={type}
-        value={value}
-        hasChanges={hasChanges}
-        valuesChanged={valuesChanged}
-        setChanges={setChanges}
-        alwaysAccept={alwaysAccept}
-      />
+      <Label>
+        <List
+          item={item}
+          values={values}
+          onChangeObj={onChangeObj}
+          onChange={onChange}
+          field={field}
+          label={label}
+          type={type}
+          value={value}
+          hasChanges={hasChanges}
+          valuesChanged={valuesChanged}
+          setChanges={setChanges}
+          alwaysAccept={alwaysAccept}
+        />
+      </Label>
     )
   }
 
   if (item.type === 'object') {
     const parsedObjArray = []
-    const obj = item as { properties: { key: string } }
-    if (obj?.properties) {
-      for (const i in obj?.properties) {
-        parsedObjArray.push({ ...obj.properties[i], field: field + '.' + i })
+    if (properties) {
+      for (const i in properties) {
+        parsedObjArray.push({ ...properties[i], field: field + '.' + i })
       }
     }
     const objectArray = [
@@ -140,6 +125,14 @@ const FormItemInner: FC<{
   if (typeof type === 'function') {
     return (
       <>
+        {/* <Label
+          style={{
+            marginBottom: 16,
+          }}
+          labelWidth={width}
+          label={label}
+          description={description}
+        > */}
         {React.createElement(type, {
           // @ts-ignore
           value,
@@ -155,6 +148,7 @@ const FormItemInner: FC<{
           multiple,
           ...props,
         })}
+        {/* </Label> */}
       </>
     )
   }
@@ -269,8 +263,8 @@ const FormItemInner: FC<{
       message={isError && isString ? validateResult : undefined}
       autoFocus={autoFocus}
       value={value ?? ''}
+      clearButton
       //  @ts-ignore
-      // type={type === 'integer' ? 'number' : type || 'text'}
       type={type === 'integer' ? 'number' : type === 'string' ? 'text' : type}
       onChange={(v) => onChange(field, v)}
       {...props}
@@ -294,12 +288,40 @@ export const FormItem: FC<{
   setChanges: (val: boolean) => any
   alwaysAccept: boolean
   noLabel?: boolean
+  deleteFunc?: () => void
 }> = (props) => {
-  if (props.noLabel || props.item.type === 'array')
-    return <FormItemInner {...props} />
+  let { label, field, type } = props.item
+
+  if (props.noLabel || type === 'array')
+    return (
+      <span style={{ position: 'relative' }}>
+        <FormItemInner {...props} />
+        <styled.div
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            top: 0,
+            bottom: 0,
+            right: 13,
+          }}
+        >
+          {(props.value === '' || type === 'boolean') && (
+            <IconClose onClick={props.deleteFunc} />
+          )}
+        </styled.div>
+      </span>
+    )
+
+  if (!label) {
+    label = useMemo(
+      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+      [field]
+    )
+  }
 
   return (
-    <Label description={props.item.description} label={props.item.label}>
+    <Label description={props.item.description} label={label}>
       <FormItemInner {...props} />
     </Label>
   )

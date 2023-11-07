@@ -38,7 +38,7 @@ const example: ComponentDef = {
         },
         children: 'Throw an error!',
         size: 'small',
-        light: false,
+        // light: false,
       },
     },
     {

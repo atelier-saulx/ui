@@ -1,11 +1,8 @@
 import React, { useState, useRef } from 'react'
 import useThrottledCallback from '../../hooks/useThrottledCallback'
 import useGraphHover from '../../hooks/useGraphHover'
-import {
-  ColorActionColors,
-  ColorNonSemanticBackgroundColors,
-} from '../../varsTypes'
-import { color } from '../../varsUtilities'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
+import { color, colorHash } from '../../varsUtilities'
 import { Text } from '../Text'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
@@ -19,6 +16,7 @@ type LegendValues = {
   svgX: number
   svgY: number
   valueFormat?: NumberFormat
+  label?: string
 }[]
 const Legend = ({
   isHover,
@@ -32,6 +30,12 @@ const Legend = ({
   xFormat: LineXGraphFormat
 }) => {
   if (!values[0]?.svgX) return null
+
+  let baseColor = values[0].color
+    ? values[0].color
+    : values[0].label
+    ? colorHash('nonSemanticBackground', values[0].label)
+    : 'violet'
 
   return (
     <div
@@ -60,9 +64,10 @@ const Legend = ({
             border: `2px solid ${color('border', 'default', 'strong')} `,
             backgroundColor: color(
               'nonSemanticBackground',
-              values[0].color ? values[0].color : 'violet',
+              baseColor,
               'strong'
             ),
+
             //   backgroundColor: color(values[0].color || 'content','brand','default'),
             height: 15,
           }}
@@ -81,7 +86,11 @@ const Legend = ({
               // backgroundColor: color('action', 'primary', 'normal'),
               backgroundColor: color(
                 'nonSemanticBackground',
-                value.color || 'violet',
+                value.color
+                  ? value.color
+                  : value.label
+                  ? colorHash('nonSemanticBackground', value.label)
+                  : 'violet',
                 'strong'
               ),
               height: 15,
@@ -117,7 +126,11 @@ const Legend = ({
                 style={{
                   color: color(
                     'nonSemanticBackground',
-                    values[0].color ? values[0].color : 'violet',
+                    values[0].color
+                      ? values[0].color
+                      : values[0].label
+                      ? colorHash('nonSemanticBackground', values[0].label)
+                      : 'violet',
                     'strong'
                   ),
                 }}
@@ -135,7 +148,11 @@ const Legend = ({
                   style={{
                     color: color(
                       'nonSemanticBackground',
-                      value.color ? value.color : 'violet',
+                      value.color
+                        ? value.color
+                        : value.label
+                        ? colorHash('nonSemanticBackground', value.label)
+                        : 'violet',
                       'strong'
                     ),
                   }}
@@ -224,6 +241,7 @@ const getY = ({
         svgX: point.x,
         svgY: point.y,
         valueFormat: data[key].valueFormat,
+        label: data[key].label,
       })
     }, [])
     .sort((a, b) => b.y - a.y)
@@ -277,7 +295,8 @@ const Overlay = ({
         bottom: 0,
       }}
     >
-      {x
+      {/* // prevents crash */}
+      {x && x < width
         ? getY({
             x,
             width,

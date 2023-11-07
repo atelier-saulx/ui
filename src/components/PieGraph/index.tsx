@@ -1,9 +1,10 @@
 import React, { FC, useState } from 'react'
-import { color } from '../../varsUtilities'
+import { color, colorHash } from '../../varsUtilities'
 import { Text } from '../Text'
 import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 import { styled, Style } from 'inlines'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
+import { PieLegend } from './PieLegend'
 
 export type PieGraphSingleItem = {
   label: string
@@ -15,30 +16,14 @@ export type PieGraphSingleItem = {
 type PieGraphProps = {
   data: PieGraphSingleItem[]
   valueFormat?: 'percentages' | NumberFormat
+  legend?: boolean
   style?: Style
 }
-
-const colorArray: ColorNonSemanticBackgroundColors[] = [
-  'grey',
-  'violet',
-  'red',
-  'raspberry',
-  'magenta',
-  'purple',
-  'grape',
-  'blue',
-  'cyan',
-  'teal',
-  'aquamarine',
-  'green',
-  'white',
-  'emerald',
-  'orange',
-]
 
 export const PieGraph: FC<PieGraphProps> = ({
   data,
   valueFormat = 'percentages',
+  legend,
   style,
 }) => {
   const [featured, setFeatured] = useState<{
@@ -123,7 +108,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                 fill="none"
                 stroke={color(
                   'nonSemanticBackground',
-                  item?.color || colorArray[idx] || 'violet',
+                  item?.color || colorHash('nonSemanticBackground', item.label),
                   'strong'
                 )}
                 strokeWidth={item.strokeWidth}
@@ -173,32 +158,7 @@ export const PieGraph: FC<PieGraphProps> = ({
         </styled.div>
       </styled.div>
 
-      <styled.div
-        style={{ display: 'flex', gap: 20, justifyContent: 'center' }}
-      >
-        {data.map((item, idx) => (
-          <styled.div
-            style={{ display: 'flex', gap: 6, alignItems: 'center' }}
-            key={idx}
-          >
-            <styled.div
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 6,
-                backgroundColor: color(
-                  'nonSemanticBackground',
-                  item?.color || colorArray[idx] || 'violet',
-                  'strong'
-                ),
-              }}
-            />
-            <Text size={12} weight="medium" truncate>
-              {item.label}
-            </Text>
-          </styled.div>
-        ))}
-      </styled.div>
+      {legend && <PieLegend data={data} />}
     </div>
   )
 }

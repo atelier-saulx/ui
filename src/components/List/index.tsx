@@ -1,20 +1,9 @@
-import React, { FC, useState, ReactNode, useEffect } from 'react'
+import React, { FC, useState, ReactNode } from 'react'
 import { styled } from 'inlines'
 import { IconArrowheadRight, IconClose, IconPlus } from '../../icons'
-import { Label } from '../FormGroup/Column/Label'
-import { Badge, Button, Text, Input } from '../../components'
+import { Badge, Button, Text } from '../../components'
 import { FormItemProps } from '../FormGroup/types'
-import { ObjectItem } from '../FormGroup/ObjectItem'
-import { getValue } from '../FormGroup/utils'
 import { FormItem } from '../FormGroup/Column/Item'
-
-const genType = (type) => {
-  return type === 'text' || type === 'string' || type === 'password'
-    ? 'text'
-    : type === 'number' || type === 'integer' || type === 'timestamp'
-    ? 'number'
-    : 'text'
-}
 
 export const List: FC<{
   type?: FormItemProps['type']
@@ -55,7 +44,6 @@ export const List: FC<{
   const [prevValue, setValue] = useState(value)
 
   if (Object.keys(value).length > 0 && !Array.isArray(value)) {
-    console.log(true)
     const newVal = Object.values(value)
     const key = parseInt(Object.keys(value)[0])
     const newValue = [...prevValue]
@@ -64,11 +52,17 @@ export const List: FC<{
     onChange(field, value)
   }
 
-  const addType = type === 'array' || type === 'set' ? [''] : ''
+  const addType =
+    values.type === 'object'
+      ? {}
+      : values.type === 'array' || values.type === 'set'
+      ? ['']
+      : ''
 
   return (
-    <Label>
+    <>
       <Text
+        onClick={() => console.log(value)}
         weight="strong"
         style={{
           display: 'flex',
@@ -95,11 +89,16 @@ export const List: FC<{
             />
           }
         />
+        {!open && values.type === 'array' && value.length > 1 && (
+          <Badge style={{ marginLeft: 4 }} color="neutral" light>
+            +{value.length}
+          </Badge>
+        )}
         {isChild && (
           <Button
-            hideFocusState
+            // hideFocusState
             size="small"
-            light
+            // light
             color="system"
             onClick={deleteFunc}
             style={{
@@ -125,7 +124,31 @@ export const List: FC<{
             const newField = field + '.' + index
 
             return (
-              <span key={newField} onFocus={() => setOpen(true)}>
+              <span
+                key={newField}
+                onFocus={() => setOpen(true)}
+                style={{ position: 'relative' }}
+              >
+                {!open && values.type !== 'array' && value.length > 1 && (
+                  <styled.div
+                    style={{
+                      position: 'absolute',
+                      display: 'flex',
+                      alignItems: 'center',
+                      inset: 0,
+                      gap: 8,
+                      color: 'transparent',
+                      padding: 12,
+                      paddingLeft:
+                        value[0] === true || value[0] === false ? 70 : 12,
+                    }}
+                  >
+                    {value[0]}
+                    <Badge color="neutral" light>
+                      +{value.length}
+                    </Badge>
+                  </styled.div>
+                )}
                 <FormItem
                   noLabel
                   objValues={values}
@@ -143,7 +166,35 @@ export const List: FC<{
                   alwaysAccept={alwaysAccept}
                   onChangeObj={onChangeObj}
                   value={value[index]}
+                  deleteFunc={() => {
+                    onChange(
+                      field,
+                      value.filter((_, i) => i !== index)
+                    )
+                  }}
                 />
+                {values.type === 'array' && (
+                  <styled.div
+                    style={{
+                      position: 'absolute',
+                      top: '0',
+                      right: 8,
+                      height: '40px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <IconClose
+                      onClick={() => {
+                        onChange(
+                          field,
+                          value.filter((_, i) => i !== index)
+                        )
+                      }}
+                    />
+                  </styled.div>
+                )}
               </span>
             )
           })}
@@ -160,9 +211,9 @@ export const List: FC<{
             onChange(field, [...value, addType])
           }}
         >
-          Add {type as string}
+          Add {values.type as string}
         </Button>
       </styled.div>
-    </Label>
+    </>
   )
 }

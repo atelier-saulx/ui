@@ -23,7 +23,7 @@ const example: ComponentDef = {
   description: '',
   examples: [
     {
-      props: { label: 'Single line', valueFormat: 'number-euro' },
+      props: { label: 'Single line', valueFormat: 'number-euro', legend: true },
       customRenderer: (props) => {
         return (
           <styled.div
@@ -77,7 +77,11 @@ const example: ComponentDef = {
       },
     },
     {
-      props: { label: 'Multi line 30', valueFormat: 'number-dollar' },
+      props: {
+        label: 'Multi line 30',
+        valueFormat: 'number-dollar',
+        legend: true,
+      },
       customRenderer: (props) => {
         return (
           <styled.div
@@ -100,8 +104,10 @@ const example: ComponentDef = {
                   ),
                   fill: true,
                   color: 'magenta',
+                  label: 'housing market 🏠',
                 },
                 line2: {
+                  label: 'bitcoin 💸',
                   data: genRandomPoints(
                     (i) => ({
                       x: i,
@@ -119,7 +125,11 @@ const example: ComponentDef = {
       },
     },
     {
-      props: { label: 'Multiline Scattered', valueFormat: 'number-short' },
+      props: {
+        label: 'Multiline Scattered',
+        valueFormat: 'number-short',
+        legend: true,
+      },
       customRenderer: (props) => {
         return (
           <styled.div
@@ -138,6 +148,7 @@ const example: ComponentDef = {
                     50
                   ),
                   color: 'red',
+                  label: 'bloodline',
                 },
                 nl: {
                   data: genRandomPoints(
@@ -146,6 +157,7 @@ const example: ComponentDef = {
                     40
                   ),
                   color: 'green',
+                  label: 'greenlands',
                 },
                 de: {
                   data: genRandomPoints(
@@ -153,6 +165,8 @@ const example: ComponentDef = {
                     10,
                     50
                   ),
+                  color: 'blue',
+                  label: 'deutschland',
                 },
               }}
               label="Multiline scattered"

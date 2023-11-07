@@ -26,10 +26,10 @@ const fieldProps = {
   config: {
     array: {
       type: 'array',
-      // value: [
-      //   ['1', '2'],
-      //   ['3', '4'],
-      // ],
+      value: [
+        ['1', '2'],
+        ['3', '4'],
+      ],
       values: {
         type: 'array',
         values: {
@@ -40,49 +40,65 @@ const fieldProps = {
       //   type: 'string',
       // },
     },
-    // arrayofobj: {
-    //   type: 'array',
-    //   // value: [
-    //   //   ['1', '2'],
-    //   //   ['3', '4'],
-    //   // ],
-    //   values: {
-    //     type: 'object',
-    //     description: 'wowoweewow',
-    //     properties: {
-    //       flap: {
-    //         type: 'boolean',
-    //       },
-    //       flirp: {
-    //         type: 'boolean',
-    //       },
-    //       snap: {
-    //         type: 'text',
-    //       },
-    //       snop: {
-    //         type: 'file',
-    //       },
-    //     },
-    //   },
-    // },
-    // object: {
-    //   type: 'object',
-    //   description: 'wowoweewow',
-    //   properties: {
-    //     flap: {
-    //       type: 'boolean',
-    //     },
-    //     flirp: {
-    //       type: 'boolean',
-    //     },
-    //     snap: {
-    //       type: 'text',
-    //     },
-    //     snop: {
-    //       type: 'file',
-    //     },
-    //   },
-    // },
+    arrayBool: {
+      type: 'array',
+      // value: [
+      //   ['1', '2'],
+      //   ['3', '4'],
+      // ],
+      values: {
+        type: 'array',
+        values: {
+          type: 'boolean',
+        },
+      },
+      // values: {
+      //   type: 'string',
+      // },
+    },
+    arrayofobj: {
+      type: 'array',
+      // value: [
+      //   ['1', '2'],
+      //   ['3', '4'],
+      // ],
+      values: {
+        type: 'object',
+        description: 'wowoweewow',
+        properties: {
+          flap: {
+            type: 'boolean',
+          },
+          flirp: {
+            type: 'boolean',
+          },
+          snap: {
+            type: 'text',
+          },
+          snop: {
+            type: 'file',
+          },
+        },
+      },
+    },
+    object: {
+      type: 'object',
+      description: 'wowoweewow',
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+        snap: {
+          type: 'text',
+        },
+        snop: {
+          type: 'file',
+        },
+      },
+    },
     object2: {
       type: 'object',
       description: 'wowoweewow',
@@ -129,125 +145,144 @@ const fieldProps = {
         },
       },
     },
-    // ObjWithArrays: {
-    //   type: 'object',
-    //   description: 'wowoweewow',
-    //   properties: {
-    //     floop: {
-    //       type: 'boolean',
-    //     },
-    //     flap: {
-    //       type: 'array',
-    //       values: {
-    //         type: 'string',
-    //       },
-    //     },
-    //   },
-    // },
-    // arrarray: {
-    //   type: 'array',
-    //   // value: [
-    //   //   ['1', '2'],
-    //   //   ['3', '4'],
-    //   // ],
-    //   values: {
-    //     type: 'array',
-    //     values: {
-    //       type: 'array',
-    //       values: {
-    //         type: 'string',
-    //       },
-    //     },
-    //   },
-    // },
-    // port: {
-    //   type: 'number',
-    //   description: 'Network port',
-    // },
-    // json: {
-    //   type: 'json',
-    //   label: 'json',
-    //   value: `{
-    //           "glossary": {
-    //               "title": "example glossary",
-    //           "GlossDiv": {
-    //                   "title": "S",
-    //             "GlossList": {
-    //                       "GlossEntry": {
-    //                           "ID": "SGML",
-    //                 "SortAs": "SGML",
-    //                 "GlossTerm": "Standard Generalized Markup Language",
-    //                 "Acronym": "SGML",
-    //                 "Abbrev": "ISO 8879:1986",
-    //                 "GlossDef": {
-    //                               "para": "A meta-markup language, used to create markup languages such as DocBook.",
-    //                   "GlossSeeAlso": ["GML", "XML"]
-    //                           },
-    //                 "GlossSee": "markup"
-    //                       }
-    //                   }
-    //               }
-    //           }
-    //       }`,
-    // },
-    // toggle: {
-    //   type: 'checkbox',
-    //   label: 'Boolean',
-    //   description: 'Network port',
-    // },
-    // 'args.name': {
-    //   label: 'Name',
-    //   type: 'text',
-    //   description: 'Instance name',
-    //   validation: () => (val) => {
-    //     return val && val.length > 4
-    //   },
-    // },
-    // 'args.x.y': {
-    //   label: 'Status',
-    //   description: 'status time',
-    //   options: ['good', 'bad', 'medium'],
-    //   props: {
-    //     placeholder: 'FLAP',
-    //   },
-    // },
-    // range: {
-    //   label: 'Bla',
-    //   description: 'hello',
-    //   type: 'range',
-    // },
-    // file: {
-    //   label: 'File',
-    //   description: 'hello',
-    //   type: 'file',
-    // },
-    // text: {
-    //   description: 'Write smth',
-    //   type: 'text',
-    // },
-    // custom: {
-    //   label: 'Status',
-    //   description: 'status time',
-    //   type:
-    //     () =>
-    //     ({ onChange, value }) => {
-    //       return (
-    //         <Button
-    //           color="system"
-    //           onClick={() => {
-    //             onChange('custom', { x: value.x + 1 })
-    //           }}
-    //         >
-    //           bla {value.x}
-    //         </Button>
-    //       )
-    //     },
-    // },
-    // isThisNce: {
-    //   label: 'Nice',
-    //   description: 'is it nice?',
-    //   type: 'checkbox',
-    // },
+    ObjWithArrays: {
+      type: 'object',
+      description: 'wowoweewow',
+      properties: {
+        floop: {
+          type: 'boolean',
+        },
+        flap: {
+          type: 'array',
+          values: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    arrarray: {
+      type: 'array',
+      // value: [
+      //   ['1', '2'],
+      //   ['3', '4'],
+      // ],
+      values: {
+        type: 'array',
+        values: {
+          type: 'array',
+          values: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    port: {
+      type: 'number',
+      description: 'Network port',
+    },
+    json: {
+      type: 'json',
+      label: 'json',
+      description: 'this is a json',
+      value: `{
+              "glossary": {
+                  "title": "example glossary",
+              "GlossDiv": {
+                      "title": "S",
+                "GlossList": {
+                          "GlossEntry": {
+                              "ID": "SGML",
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986",
+                    "GlossDef": {
+                                  "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                      "GlossSeeAlso": ["GML", "XML"]
+                              },
+                    "GlossSee": "markup"
+                          }
+                      }
+                  }
+              }
+          }`,
+    },
+    toggle: {
+      label: 'boolean',
+      type: 'boolean',
+      description: 'Network port',
+    },
+    'args.name': {
+      label: 'Name',
+      type: 'text',
+      description: 'Instance name',
+      validation: () => (val) => {
+        return val && val.length > 4
+      },
+    },
+    'args.x.y': {
+      label: 'Status',
+      description: 'status time',
+      options: ['good', 'bad', 'medium'],
+      props: {
+        placeholder: 'FLAP',
+      },
+    },
+    range: {
+      label: 'Bla',
+      description: 'hello',
+      type: 'range',
+    },
+    file: {
+      label: 'File',
+      description: 'hello',
+      type: 'file',
+    },
+    text: {
+      description: 'Write smth',
+      type: 'text',
+    },
+    custom: {
+      label: 'Status',
+      description: 'status time',
+      type:
+        () =>
+        ({ onChange, value }) => {
+          return (
+            <Button
+              color="system"
+              onClick={() => {
+                onChange('custom', { x: value.x + 1 })
+              }}
+            >
+              bla {value.x}
+            </Button>
+          )
+        },
+    },
+    isThisNce: {
+      label: 'Nice',
+      description: 'is it nice?',
+      type: 'checkbox',
+    },
+    object3: {
+      type: 'object',
+      description: 'wowoweewow',
+      properties: {
+        flap: {
+          type: 'boolean',
+        },
+        flirp: {
+          type: 'boolean',
+        },
+        snap: {
+          type: 'text',
+        },
+        snop: {
+          type: 'file',
+        },
+      },
+    },
   },
   onChange: (values) => console.info(values),
 }
@@ -258,13 +293,16 @@ const example: ComponentDef = {
   description: 'FormGroup Component, can be grid or column',
   properties: {}, //props.props.FormGroupProps.props,
   examples: [
-    // {
-    //   props: {
-    //     ...fieldProps,
-    //     variant: 'grid',
-    //     autoFocus: true,
-    //   },
-    // },
+    {
+      props: {
+        ...fieldProps,
+        variant: 'grid',
+        autoFocus: true,
+        style: {
+          // width: 750,
+        },
+      },
+    },
     {
       name: 'Column',
       description: 'Same form displayed as a colum',

@@ -14,7 +14,6 @@ const example: ComponentDef = {
         style: { width: 500, [BpTablet]: { width: 'unset' } },
         valueFormat: 'number-dollar',
         direction: 'vertical',
-        nested: true,
         barWidth: 24,
         showAxis: true,
         spacing: 8,
@@ -28,8 +27,8 @@ const example: ComponentDef = {
             value: { nl: 1342, de: 688, be: 4888 },
           },
           {
-            label: 'Show 3',
-            value: { netherlands: 1342, deutschland: 1688, belgium: 2838 },
+            label: 'Show 3 helaoeifmaeifaewfef',
+            value: { nl: 1342, de: 1688, be: 2838 },
           },
         ],
       },
@@ -42,6 +41,7 @@ const example: ComponentDef = {
         showAxis: true,
         stacked: true,
         spacing: 24,
+        legend: true,
         data: [
           {
             label: 'Show 1',
@@ -163,11 +163,12 @@ const example: ComponentDef = {
         style: { width: 540, [BpTablet]: { width: 'unset' } },
         showAxis: true,
         barWidth: 100,
+        legend: true,
         data: [
           {
             label: 'Moose 🦆',
             value: 160000,
-            color: 'blue',
+            //  color: 'blue',
             barWidth: 24,
           },
           {
@@ -178,7 +179,7 @@ const example: ComponentDef = {
           {
             label: 'Bears 🐻',
             value: 43000,
-            color: 'red',
+            // color: 'red',
           },
         ],
       },

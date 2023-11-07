@@ -16,6 +16,7 @@ import Labels from './Labels'
 import OverlayWrapper from './OverlayWrapper'
 import { Style, styled } from 'inlines'
 import { Text } from '../Text'
+import { LineLegend } from './LineLegend'
 
 const Graph = ({
   width,
@@ -24,6 +25,7 @@ const Graph = ({
   xFormat,
   label,
   valueFormat,
+  legend,
   style,
 }: {
   width: number
@@ -32,6 +34,7 @@ const Graph = ({
   xFormat?: LineXGraphFormat
   label?: ReactNode
   valueFormat?: NumberFormat | string
+  legend?: boolean
   style?: Style
 }) => {
   const labelRef = useRef<any>()
@@ -120,6 +123,7 @@ const Graph = ({
           />
         </div>
       ) : null}
+      {legend && <LineLegend data={data} />}
     </styled.div>
   )
 }
@@ -131,12 +135,14 @@ export type LineGraphProps = {
   label?: ReactNode
   width?: number
   height?: number
+  legend?: boolean
 }
 export const LineGraph: FunctionComponent<LineGraphProps> = ({
   data,
   label,
   xFormat = 'number',
   valueFormat = 'number-short',
+  legend,
 }) => {
   return (
     <AutoSizer>
@@ -149,6 +155,7 @@ export const LineGraph: FunctionComponent<LineGraphProps> = ({
             width={width}
             xFormat={xFormat}
             valueFormat={valueFormat}
+            legend={legend}
           />
         )
       }}

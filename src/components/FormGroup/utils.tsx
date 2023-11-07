@@ -41,6 +41,9 @@ export const equalChanges = (
     const v = values[key]
     const cType = typeof c
     const vType = typeof v
+    if (Array.isArray(c) && c.length === 0) {
+      return false
+    }
     if (cType !== vType) {
       return false
     }
