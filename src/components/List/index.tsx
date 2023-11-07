@@ -141,7 +141,9 @@ export const List: FC<{
                       padding: 12,
                       overflow: 'hidden',
                       paddingLeft:
-                        value[0] === true || value[0] === false ? 70 : 12,
+                        values.type === 'boolean' || values.type === 'checkbox'
+                          ? 70
+                          : 12,
                     }}
                   >
                     <Text
