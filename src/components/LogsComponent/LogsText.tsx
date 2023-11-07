@@ -7,30 +7,28 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 export type LogsTextProps = {
   data: Exclude<LogProps, 'data' | 'index'>[]
   style?: Style
+  autoScroll?: boolean
 }
 
-export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
+export const LogsText: FC<LogsTextProps> = ({
+  data,
+  style,
+  autoScroll: autoscrl,
+}) => {
   const parentRef = useRef(null)
   const size = data.length
-
-  console.log(data, 'dATA?')
 
   const virtualizer = useVirtualizer({
     count: size,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 20,
-
-    // parentRef: parentRef,
-    // size,
-    // estimateSize: useCallback(() => 15, []),
-    // overscan: 20,
   })
 
   const items = virtualizer.getVirtualItems()
 
   const ignoreNext = useRef(false)
   const [smoothScroll, setSmooth] = useState(false)
-  const [autoScroll, setAutoScroll] = useState(true)
+  const [autoScroll, setAutoScroll] = useState(autoscrl)
   const [scrollY, setScrollY] = useState(0)
   const [maxScroll, setMaxScroll] = useState(0)
 
@@ -47,6 +45,7 @@ export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
       }, 100)
       ignoreNext.current = true
       element.scrollTop = element.scrollHeight
+      virtualizer.scrollToIndex(size - 1)
     }
     return () => {
       clearTimeout(timer)

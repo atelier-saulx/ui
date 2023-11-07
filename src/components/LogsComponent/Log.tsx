@@ -1,13 +1,16 @@
 import React, { ReactNode, FC } from 'react'
 import { Text } from '../Text'
+import { Badge } from '../Badge'
+import { Status } from '../Status'
 import { styled } from 'inlines'
 import { color as useColor } from '../../varsUtilities'
 import { prettyDate } from '@based/pretty-date'
+import { BpMobile, BpSmall } from 'src/utils'
 
 export type LogProps = {
   label?: ReactNode
   log?: string
-  type?: 'error' | 'warning' | 'log' | 'info' | 'brand'
+  type?: 'error' | 'warning' | 'log' | 'info' | 'brand' | 'positive'
   ts?: number
   data?: any
   index?: number
@@ -34,54 +37,80 @@ export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
       ? 'warning'
       : type === 'info'
       ? 'brand'
+      : type === 'positive'
+      ? 'positive'
       : 'default'
   return (
-    <Text
+    <styled.div
       style={{
-        userSelect: 'text',
-        fontSize: 14,
-        color: useColor('content', color, 'primary'),
-        fontFamily: 'Fira Code',
         display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 2,
         '&:hover': {
           background: useColor('action', 'system', 'hover'),
         },
+        '& div': {
+          userSelect: 'text',
+          fontFamily: 'Fira Code !important',
+          lineHeight: '20px !important',
+        },
+        [BpMobile]: {
+          flexDirection: 'column',
+        },
       }}
     >
-      {d && (
-        <styled.div
+      <styled.div>
+        {d && (
+          <Text
+            light
+            style={{
+              minWidth: '142px',
+              marginRight: 16,
+              color: useColor(
+                'content',
+                type === 'warning'
+                  ? 'warning'
+                  : type === 'error'
+                  ? 'negative'
+                  : 'default',
+                'secondary'
+              ),
+            }}
+          >
+            {result[1] + ' ' + result[0]}
+          </Text>
+        )}
+        <Badge
           style={{
-            width: '145px',
-            userSelect: 'text',
-            color: useColor('content', 'default', 'secondary'),
+            textWrap: 'nowrap',
+            marginRight: 16,
+            marginTop: 3,
+            marginBottom: 6,
+            borderRadius: 4,
           }}
+          light
+          color={color}
         >
-          {result[1] + ' ' + result[0]}
-        </styled.div>
-      )}
-      <styled.div
+          {label}
+        </Badge>
+      </styled.div>
+      <Text
         style={{
-          display: 'flex',
-          paddingLeft: 10,
+          color: useColor(
+            'content',
+            type === 'warning'
+              ? 'warning'
+              : type === 'error'
+              ? 'negative'
+              : type === 'positive'
+              ? 'positive'
+              : 'default',
+            'primary'
+          ),
         }}
       >
-        <styled.span style={{ color: 'inherit' }}>{label}:</styled.span>
-        <styled.span
-          style={{
-            color: useColor(
-              'content',
-              type === 'warning'
-                ? 'warning'
-                : type === 'error'
-                ? 'negative'
-                : 'default',
-              'primary'
-            ),
-          }}
-        >
-          {log}
-        </styled.span>
-      </styled.div>
-    </Text>
+        {log}
+      </Text>
+    </styled.div>
   )
 }
