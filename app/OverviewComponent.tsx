@@ -11,6 +11,8 @@ import {
   IconChevronRightSmall,
   IconChevronDownSmall,
   Divider,
+  BpSmall,
+  BpMobile,
 } from '../src'
 import { parseProps } from './parseProps'
 import { deepCopy, deepMerge } from '@saulx/utils'
@@ -65,7 +67,16 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
           display: 'flex',
         }}
       >
-        <Text size={12} style={{ minWidth: 200 }} weight="strong">
+        <Text
+          size={12}
+          style={{
+            minWidth: 200,
+            [BpMobile]: {
+              minWidth: '100px',
+            },
+          }}
+          weight="strong"
+        >
           {key}
         </Text>
         <styled.div
@@ -118,7 +129,16 @@ export const Props: FC<{ component: ComponentDef }> = ({ component }) => {
           backgroundColor: color('background', 'neutral', 'surface'),
         }}
       >
-        <Text size={12} style={{ minWidth: 200 }} weight="strong">
+        <Text
+          size={12}
+          style={{
+            minWidth: 200,
+            [BpMobile]: {
+              minWidth: '100px',
+            },
+          }}
+          weight="strong"
+        >
           Name
         </Text>
         <Text size={12} style={{ flexGrow: 1 }}>
@@ -285,6 +305,9 @@ export const OverviewComponent: FC<{
         padding: 24,
         borderRadius: 4,
         maxWidth: 1000,
+        [BpSmall]: {
+          paddingRight: '16px !important',
+        },
       }}
     >
       <styled.div

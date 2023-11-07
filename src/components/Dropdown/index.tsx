@@ -48,7 +48,6 @@ export function Items({ children }: DropdownItemsProps) {
               '0px 2px 8px -1px rgba(27, 36, 44, 0.08), 0px 2px 2px -1px rgba(27, 36, 44, 0.04)',
             boxSizing: 'border-box',
             overflowY: 'auto',
-
             maxHeight:
               'calc(var(--radix-dropdown-menu-content-available-height) - 16px)',
             '& > * + *': {

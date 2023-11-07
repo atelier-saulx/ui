@@ -25,6 +25,7 @@ const example: ComponentDef = {
         })),
         // defaultValue: 'id2',
         placeholder: 'select one',
+        style: { minWidth: 256 },
       },
     },
     {

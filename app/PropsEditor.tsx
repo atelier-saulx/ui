@@ -1,7 +1,7 @@
 import React, { useState, FC, ReactNode } from 'react'
 import { ComponentDef, PropType } from './types'
 import { styled } from 'inlines'
-import { Input, Text, border, color, Dropdown } from '../src'
+import { Input, Text, border, color, Dropdown, BpMobile } from '../src'
 import * as DropdownBase from '@radix-ui/react-dropdown-menu'
 import * as colors from '../src/vars'
 import * as ui from '../src'
@@ -44,7 +44,9 @@ export const AllIcons: FC<{ onSelect: any }> = (props) => {
             <Text
               selectable={props.onSelect ? 'none' : 'all'}
               light
-              style={{ marginLeft: 20 }}
+              style={{
+                marginLeft: 20,
+              }}
             >
               {key}
             </Text>
@@ -106,6 +108,9 @@ const Icons: FC<{
           paddingTop: 8,
           paddingLeft: 16,
           borderBottom: border(1),
+          [BpMobile]: {
+            paddingLeft: '8px',
+          },
         }}
       >
         <Text style={{ width: 100 }} weight="strong">
@@ -221,6 +226,9 @@ const Prop: FC<{
           paddingTop: 8,
           paddingLeft: 16,
           borderBottom: border(1),
+          [BpMobile]: {
+            paddingLeft: '8px',
+          },
         }}
       >
         <Text style={{ width: 100 }} weight="strong">
@@ -229,7 +237,13 @@ const Prop: FC<{
         <Input
           placeholder={`Select ${name}`}
           value={parsedProps.color}
-          style={{ marginLeft: 16, maxWidth: 400 }}
+          style={{
+            maxWidth: 400,
+            marginLeft: 16,
+            [BpMobile]: {
+              marginLeft: '0px',
+            },
+          }}
           type="select"
           options={options}
           onChange={(v) => {
@@ -269,6 +283,9 @@ const Prop: FC<{
           paddingTop: 8,
           paddingLeft: 16,
           borderBottom: border(1),
+          [BpMobile]: {
+            paddingLeft: '8px',
+          },
         }}
       >
         <Text style={{ width: 100 }} weight="strong">
@@ -281,7 +298,13 @@ const Prop: FC<{
               ? typeof parsedProps[name]
               : parsedProps[name] ?? ''
           }
-          style={{ marginLeft: 16, maxWidth: 400 }}
+          style={{
+            marginLeft: 16,
+            maxWidth: 400,
+            [BpMobile]: {
+              marginLeft: '0px',
+            },
+          }}
           type="select"
           options={options}
           onChange={(v) => {
@@ -325,6 +348,9 @@ const Prop: FC<{
           marginBottom: 8,
           paddingLeft: 16,
           borderBottom: border(1),
+          [BpMobile]: {
+            paddingLeft: '8px',
+          },
         }}
       >
         <Text style={{ width: 100 }} weight="strong">
@@ -332,7 +358,13 @@ const Prop: FC<{
         </Text>
         <Input
           value={parsedProps[name]}
-          style={{ marginLeft: 16, maxWidth: 400 }}
+          style={{
+            marginLeft: 16,
+            maxWidth: 400,
+            [BpMobile]: {
+              marginLeft: '0px',
+            },
+          }}
           type={prop.type === 'number' ? 'number' : 'text'}
           onChange={(v) => {
             update(v)
@@ -350,6 +382,9 @@ const Prop: FC<{
           marginRight: 16,
           marginTop: 8,
           marginBottom: 8,
+          [BpMobile]: {
+            marginLeft: '8px',
+          },
         }}
         type="checkbox"
         title={name}
@@ -377,6 +412,9 @@ const Prop: FC<{
           marginRight: 16,
           marginTop: 8,
           marginBottom: 8,
+          [BpMobile]: {
+            marginLeft: '8px',
+          },
         }}
         title={name}
         value={!!parsedProps?.[name]}
