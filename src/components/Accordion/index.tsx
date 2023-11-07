@@ -50,6 +50,7 @@ const AccordionItem: FC<AccordionItemProps> = ({
             'default'
           )}`,
         },
+        marginBottom: 8,
         [BpTablet]: {
           '&:hover': null,
         },
@@ -61,7 +62,9 @@ const AccordionItem: FC<AccordionItemProps> = ({
         style={{
           height: '40px',
           width: '100%',
+          //   marginTop: '8px',
           padding: '10px 8px',
+          //  paddingBottom: '18px',
           display: 'flex',
           alignItems: 'center',
           // userSelect: 'none',
