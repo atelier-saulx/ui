@@ -150,7 +150,7 @@ export const Warning = ({
   return (
     <styled.div
       style={{
-        height: '24px',
+        // height: '24px',
         padding: '12px 16px',
         display: 'flex',
         alignItems: 'center',
