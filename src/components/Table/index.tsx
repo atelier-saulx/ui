@@ -4,7 +4,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useVirtual } from '@tanstack/react-virtual'
+import { useVirtualizer } from '@tanstack/react-virtual'
 import {
   Avatar,
   Badge,
@@ -219,13 +219,22 @@ export function Table({
   const { rows } = table.getRowModel()
 
   const tableContainerRef = React.useRef<HTMLDivElement>(null)
-  const rowVirtualizer = useVirtual({
-    parentRef: tableContainerRef,
-    size: rows.length,
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => tableContainerRef.current,
     estimateSize: useCallback(() => 61, []),
     overscan: 10,
+
+    // parentRef: tableContainerRef,
+    // size: rows.length,
+    // estimateSize: useCallback(() => 61, []),
+    // overscan: 10,
   })
-  const { virtualItems: virtualRows, totalSize } = rowVirtualizer
+
+  const totalSize = rowVirtualizer.getTotalSize()
+  const virtualRows = rowVirtualizer.getVirtualItems()
+
+  // const { virtualItems: virtualRows, totalSize } = rowVirtualizer
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0
   const paddingBottom =
     virtualRows.length > 0

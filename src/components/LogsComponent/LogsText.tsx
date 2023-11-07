@@ -2,7 +2,7 @@ import React, { FC, useRef, useEffect, useState, useCallback } from 'react'
 import { Text, ScrollArea } from '../../components'
 import { styled, Style } from 'inlines'
 import { Log, LogProps } from './Log'
-import { useVirtual } from '@tanstack/react-virtual'
+import { useVirtualizer } from '@tanstack/react-virtual'
 
 export type LogsTextProps = {
   data: Exclude<LogProps, 'data' | 'index'>[]
@@ -15,16 +15,18 @@ export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
 
   console.log(data, 'dATA?')
 
-  const rowVirtualizer = useVirtual({
-    // size: size
-    // getScrollElement: () => parentRef.current,
-    // estimateSize: () => 20
+  const virtualizer = useVirtualizer({
+    count: size,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 20,
 
-    parentRef: parentRef,
-    size,
-    estimateSize: useCallback(() => 15, []),
-    overscan: 20,
+    // parentRef: parentRef,
+    // size,
+    // estimateSize: useCallback(() => 15, []),
+    // overscan: 20,
   })
+
+  const items = virtualizer.getVirtualItems()
 
   const ignoreNext = useRef(false)
   const [smoothScroll, setSmooth] = useState(false)
@@ -77,35 +79,37 @@ export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
     >
       <styled.div
         style={{
-          height: `${rowVirtualizer.totalSize}px`,
+          height: virtualizer.getTotalSize(),
           width: '100%',
           position: 'relative',
         }}
       >
-        {rowVirtualizer.virtualItems.map((virtualItem) => (
-          <styled.div
-            key={virtualItem.key}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: 'auto',
-              //     height: `${virtualItem.size}px`,
-              //  transform: `translateY(${virtualItem.start}px)`,
-            }}
-          >
-            {virtualItem.size}
-            <Log
-              data={data}
-              index={virtualItem.index}
-              label={data[virtualItem.index].label}
-              ts={data[virtualItem.index].ts}
-              log={data[virtualItem.index].log}
-              type={data[virtualItem.index].type}
-            />
-          </styled.div>
-        ))}
+        <styled.div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            transform: `translateY(${items[0]?.start ?? 0}px)`,
+          }}
+        >
+          {items.map((virtualItem) => (
+            <styled.div
+              key={virtualItem.key}
+              data-index={virtualItem.index}
+              ref={virtualizer.measureElement}
+            >
+              <Log
+                data={data}
+                index={virtualItem.index}
+                label={data[virtualItem.index].label}
+                ts={data[virtualItem.index].ts}
+                log={data[virtualItem.index].log}
+                type={data[virtualItem.index].type}
+              />
+            </styled.div>
+          ))}
+        </styled.div>
       </styled.div>
     </ScrollArea>
   )
