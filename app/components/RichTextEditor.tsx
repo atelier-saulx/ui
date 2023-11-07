@@ -19,8 +19,9 @@ const example: ComponentDef = {
             <RichTextEditor
               placeholder="Enter some rich text..."
               defaultValue={localStorage.getItem('rte-test') ?? undefined}
-              onChange={(value) => {
-                localStorage.setItem('rte-test', value)
+              onChange={({ json, html }) => {
+                localStorage.setItem('rte-test', json)
+                console.log(html)
               }}
             />
           </div>

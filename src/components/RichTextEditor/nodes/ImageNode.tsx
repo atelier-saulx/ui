@@ -1,4 +1,10 @@
-import { ElementFormatType, LexicalNode, NodeKey, Spread } from 'lexical'
+import {
+  DOMExportOutput,
+  ElementFormatType,
+  LexicalNode,
+  NodeKey,
+  Spread,
+} from 'lexical'
 import {
   DecoratorBlockNode,
   SerializedDecoratorBlockNode,
@@ -72,6 +78,22 @@ export class ImageNode extends DecoratorBlockNode {
       src: this.__src,
       caption: this.__caption,
     }
+  }
+
+  exportDOM(): DOMExportOutput {
+    const figure = document.createElement('figure')
+    const img = document.createElement('img')
+    img.src = this.__src
+
+    figure.appendChild(img)
+
+    if (this.__caption) {
+      const caption = document.createElement('figcaption')
+      caption.innerText = this.__caption
+      figure.appendChild(caption)
+    }
+
+    return { element: figure }
   }
 }
 
