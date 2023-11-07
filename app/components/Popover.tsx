@@ -25,7 +25,7 @@ const example: ComponentDef = {
             </Popover.Trigger>
 
             <Popover.Content sideOffset={12}>
-              <div style={{ display: 'grid', gap: 24 }}>
+              <div style={{ display: 'grid', gap: 24, padding: '16px 24px' }}>
                 <Input type="text" label="Name of company" />
                 <Input
                   label="Type of company"

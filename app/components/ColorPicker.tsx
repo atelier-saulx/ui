@@ -7,7 +7,7 @@ const example: ComponentDef = {
   name: 'ColorPicker',
   component: ColorPicker,
   description: '',
-  properties: props.props.CodeProps.props,
+  properties: props.props.ColorPickerProps.props,
   examples: [
     {
       props: {
