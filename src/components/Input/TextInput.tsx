@@ -119,6 +119,7 @@ export function TextInput({
           fontSize: '14px',
           lineHeight: '24px',
           fontWeight: 400,
+          textOverflow: 'ellipsis',
           border: 'none',
           padding: 0,
           color: color('content', 'default', 'primary'),

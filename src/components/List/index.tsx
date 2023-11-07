@@ -139,11 +139,22 @@ export const List: FC<{
                       gap: 8,
                       color: 'transparent',
                       padding: 12,
+                      overflow: 'hidden',
                       paddingLeft:
                         value[0] === true || value[0] === false ? 70 : 12,
                     }}
                   >
-                    {value[0]}
+                    <Text
+                      style={{
+                        height: '100%',
+                        marginLeft: 0,
+                        overflow: 'hidden',
+                        maxWidth: 'calc(100% - 60px)',
+                      }}
+                      color="inherit"
+                    >
+                      {value[0]}
+                    </Text>
                     <Badge color="neutral" light>
                       +{value.length}
                     </Badge>
@@ -165,6 +176,7 @@ export const List: FC<{
                   setChanges={setChanges}
                   alwaysAccept={alwaysAccept}
                   onChangeObj={onChangeObj}
+                  style={{ backgroundColor: 'red' }}
                   value={value[index]}
                   deleteFunc={() => {
                     onChange(

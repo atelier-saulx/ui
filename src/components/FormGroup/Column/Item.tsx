@@ -27,6 +27,7 @@ const FormItemInner: FC<{
   valuesChanged: ValuesChanged
   setChanges: (val: boolean) => any
   alwaysAccept: boolean
+  noLabel?: boolean
 }> = ({
   item: {
     props,
@@ -54,6 +55,7 @@ const FormItemInner: FC<{
   valuesChanged,
   setChanges,
   alwaysAccept,
+  noLabel,
 }) => {
   if ((defaultValue && value === undefined) || value === '') {
     value = defaultValue
@@ -269,7 +271,10 @@ const FormItemInner: FC<{
       onChange={(v) => onChange(field, v)}
       {...props}
       // @ts-ignore
-      style={Object.assign({ width: '100%' }, props?.style)}
+      style={Object.assign(
+        { width: '100%', gap: noLabel ? 20 : 0 },
+        props?.style
+      )}
     />
   )
 }
@@ -289,6 +294,7 @@ export const FormItem: FC<{
   alwaysAccept: boolean
   noLabel?: boolean
   deleteFunc?: () => void
+  style?: Style
 }> = (props) => {
   let { label, field, type } = props.item
 
