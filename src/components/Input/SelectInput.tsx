@@ -135,10 +135,13 @@ export function SelectInput({
   return (
     <Popover.Root open={open}>
       <Popover.Anchor asChild>
-        <div
+        <styled.div
           style={{
             position: 'relative',
             width: hugContent ? hug : size === 'small' ? '60%' : '100%',
+            // width: 'fit-content',
+            display: 'block',
+            ...style,
           }}
         >
           <Component
@@ -197,6 +200,7 @@ export function SelectInput({
               boxSizing: 'border-box',
               outline: 'none',
               width: '100%',
+              position: 'relative',
               padding:
                 size === 'small' ? '6px 40px 6px 12px' : '8px 40px 8px 12px',
               fontSize: 14,
@@ -244,7 +248,6 @@ export function SelectInput({
               whiteSpace: hugContent ? 'nowrap' : 'initial',
               overflow: hugContent ? 'hidden' : 'initial',
               textOverflow: hugContent ? 'ellipsis' : 'initial',
-              ...style,
             }}
           />
 
@@ -272,7 +275,7 @@ export function SelectInput({
           >
             <IconChevronDown color="default" />
           </span>
-        </div>
+        </styled.div>
       </Popover.Anchor>
       <Popover.Portal>
         <RemoveScroll allowPinchZoom>

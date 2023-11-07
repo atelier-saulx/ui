@@ -223,7 +223,7 @@ export const TillRangePicker = ({
       {/* More Button options */}
       <styled.div
         style={{
-          padding: '8px 8px',
+          padding: '8px 16px',
           display: 'flex',
           flexDirection: 'column',
           gap: '2px',

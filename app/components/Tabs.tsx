@@ -6,7 +6,7 @@ import { ComponentDef } from '../types'
 const example: ComponentDef = {
   name: 'Tabs',
   component: Tabs,
-  description: 'Tabs',
+  description: '<Tabs> component with children <Tab /> components',
   properties: props.props.TabsProps.props,
   examples: [
     {

@@ -430,7 +430,7 @@ export const Menu: FC<MenuProps> = ({
             zIndex: 1,
             maxHeight: '100%',
             // position: 'absolute',
-            width: 'calc(100% - 16px)',
+            width: '100%',
             maxWidth: '100%',
             paddingRight: '4px !important',
             paddingLeft: '12px',

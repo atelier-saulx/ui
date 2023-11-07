@@ -97,6 +97,7 @@ const TabWrapper: FC<{
         </Text>
       ) : (
         <Text
+          truncate
           size={16}
           selectable="none"
           weight={index === activeTab ? 'strong' : 'medium'}

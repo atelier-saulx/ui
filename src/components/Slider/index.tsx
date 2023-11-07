@@ -11,6 +11,7 @@ import { color as genColor } from '../../varsUtilities'
 import { useWindowResize } from '../../hooks'
 import { ColorActionColors } from '../../varsTypes'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
+import { BpMobile } from 'src/utils'
 
 const StyledBgSlider = styled('div', {
   backgroundColor: genColor('action', 'neutral', 'subtleNormal'),
@@ -40,6 +41,12 @@ const StyledThumb = styled('div', {
   position: 'absolute',
   right: '-4px',
   bottom: '-2px',
+  [BpMobile]: {
+    width: '14px',
+    height: '14px',
+    right: '-2px',
+    bottom: '-4px',
+  },
 })
 
 const StyledLabel = styled('div', {

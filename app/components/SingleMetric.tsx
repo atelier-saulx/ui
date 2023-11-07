@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Row, SingleMetric } from '../../src'
+import { BpSmall, Row, SingleMetric } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import { styled } from 'inlines'
 
 const genRandomPoints = (
   formula: (i: number) => { x: number; y: number },
@@ -39,7 +40,16 @@ const example: ComponentDef = {
       props: {},
       customRenderer: (props) => {
         return (
-          <Row style={{ gap: 16 }}>
+          <styled.div
+            style={{
+              gap: 16,
+              display: 'flex',
+              flexDirection: 'row',
+              [BpSmall]: {
+                flexDirection: 'column',
+              },
+            }}
+          >
             <SingleMetric
               valueFormat="number-bytes"
               color="magenta"
@@ -73,7 +83,7 @@ const example: ComponentDef = {
               )}
               label={'More numbers for you mind '}
             />
-          </Row>
+          </styled.div>
         )
       },
     },
