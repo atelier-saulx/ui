@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
+import { $generateHtmlFromNodes } from '@lexical/html'
+import { $getRoot } from 'lexical'
 
 export type ValuePluginProps = {
   defaultValue?: string
-  onChange?: (value: string) => void
+  onChange?: ({ json, html }: { json: string; html: string }) => void
 }
 
 export function ValuePlugin({ defaultValue, onChange }: ValuePluginProps) {
@@ -23,7 +25,12 @@ export function ValuePlugin({ defaultValue, onChange }: ValuePluginProps) {
   return (
     <OnChangePlugin
       onChange={(editorState) => {
-        onChange?.(JSON.stringify(editorState.toJSON()))
+        editorState.read(() => {
+          onChange?.({
+            json: JSON.stringify(editorState.toJSON()),
+            html: $generateHtmlFromNodes(editor, null),
+          })
+        })
       }}
     />
   )
