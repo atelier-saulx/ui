@@ -33,7 +33,7 @@ export const ObjectItem: FC<ObjectItemProps> = ({
 
   const openFunc = () => {
     route.setQuery({
-      object: field.split('.').join('%'),
+      object: field.split('.').join('.'),
     })
     setOpen(true)
   }
@@ -41,7 +41,7 @@ export const ObjectItem: FC<ObjectItemProps> = ({
   useEffect(() => {
     const objectStr = object as string
     if (open) {
-      const thingy = objectStr.split('%')
+      const thingy = objectStr.split('.')
       thingy.pop()
       const boolArr = thingy
         .filter((_, i) => i < splitField.length)
@@ -60,13 +60,13 @@ export const ObjectItem: FC<ObjectItemProps> = ({
       field
         .split('.')
         .filter((_, index) => index <= i)
-        .join('%'),
+        .join('.'),
       item,
     ]
   })
 
   const closeFunc = () => {
-    route.setQuery({ object: splitField.slice(0, -1).join('%') })
+    route.setQuery({ object: splitField.slice(0, -1).join('.') })
   }
 
   return (
