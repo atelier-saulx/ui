@@ -85,7 +85,7 @@ const example: ComponentDef = {
   name: 'Icon',
   properties: props.props.IconProps.props,
   component: Icon,
-  description: 'Icons are generated from figma directly',
+  description: 'Stylable SVG icons that are generated from figma',
   examples: [
     {
       name: 'Large Icons',

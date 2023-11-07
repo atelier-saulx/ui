@@ -2,7 +2,7 @@ import React, { FC, useRef, useEffect, useState, useCallback } from 'react'
 import { Text, ScrollArea } from '../../components'
 import { styled, Style } from 'inlines'
 import { Log, LogProps } from './Log'
-import { useVirtual } from '@tanstack/react-virtual'
+import { useVirtualizer } from '@tanstack/react-virtual'
 
 export type LogsTextProps = {
   data: Exclude<LogProps, 'data' | 'index'>[]
@@ -13,12 +13,20 @@ export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
   const parentRef = useRef(null)
   const size = data.length
 
-  const rowVirtualizer = useVirtual({
-    parentRef: parentRef,
-    size,
-    estimateSize: useCallback(() => 15, []),
-    overscan: 20,
+  console.log(data, 'dATA?')
+
+  const virtualizer = useVirtualizer({
+    count: size,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 20,
+
+    // parentRef: parentRef,
+    // size,
+    // estimateSize: useCallback(() => 15, []),
+    // overscan: 20,
   })
+
+  const items = virtualizer.getVirtualItems()
 
   const ignoreNext = useRef(false)
   const [smoothScroll, setSmooth] = useState(false)
@@ -46,52 +54,50 @@ export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
   }, [data && data.length, parentRef.current, autoScroll])
 
   return (
-    <styled.div
+    <ScrollArea
+      onScroll={(e) => {
+        if (e.target.scrollTop > maxScroll) {
+          setMaxScroll(e.target.scrollTop)
+        }
+        if (e.target.scrollTop < scrollY) {
+          setAutoScroll(false)
+        }
+        if (e.target.scrollTop >= maxScroll) {
+          setAutoScroll(true)
+        }
+        setScrollY(e.target.scrollTop)
+      }}
+      ref={parentRef}
       style={{
-        display: 'flex',
-        flexDirection: 'column',
+        height: `400px`,
+        overflowY: 'auto',
+        overflowX: 'clip',
+        scrollBehavior: 'smooth',
+        width: '100%',
+        // ...style,
       }}
     >
-      <ScrollArea
-        onScroll={(e) => {
-          if (e.target.scrollTop > maxScroll) {
-            setMaxScroll(e.target.scrollTop)
-          }
-          if (e.target.scrollTop < scrollY) {
-            setAutoScroll(false)
-          }
-          if (e.target.scrollTop >= maxScroll) {
-            setAutoScroll(true)
-          }
-          setScrollY(e.target.scrollTop)
-        }}
-        ref={parentRef}
+      <styled.div
         style={{
-          height: `400px`,
-          overflowY: 'auto',
-          overflowX: 'clip',
-          scrollBehavior: 'smooth',
-          ...style,
+          height: virtualizer.getTotalSize(),
+          width: '100%',
+          position: 'relative',
         }}
       >
         <styled.div
           style={{
-            height: `${rowVirtualizer.totalSize}px`,
+            position: 'absolute',
+            top: 0,
+            left: 0,
             width: '100%',
-            position: 'relative',
+            transform: `translateY(${items[0]?.start ?? 0}px)`,
           }}
         >
-          {rowVirtualizer.virtualItems.map((virtualItem) => (
+          {items.map((virtualItem) => (
             <styled.div
               key={virtualItem.key}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: `${virtualItem.size}px`,
-                transform: `translateY(${virtualItem.start}px)`,
-              }}
+              data-index={virtualItem.index}
+              ref={virtualizer.measureElement}
             >
               <Log
                 data={data}
@@ -104,7 +110,7 @@ export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
             </styled.div>
           ))}
         </styled.div>
-      </ScrollArea>
-    </styled.div>
+      </styled.div>
+    </ScrollArea>
   )
 }

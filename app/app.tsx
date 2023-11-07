@@ -11,6 +11,7 @@ import {
   Provider,
   ScrollArea,
   BpMobile,
+  BpSmall,
   RowSpaced,
   Map,
 } from '../src'
@@ -133,9 +134,11 @@ const App = () => {
           backgroundColor: color('background', 'default', 'muted'),
           paddingLeft: '64px',
           paddingRight: '64px',
-          [BpMobile]: {
+          [BpSmall]: {
             paddingLeft: '0px',
             paddingRight: '0px',
+            paddingTop: '0px',
+            paddingBottom: '0px',
           },
           paddingTop: '24px',
           paddingBottom: '24px',

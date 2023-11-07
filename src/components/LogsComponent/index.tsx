@@ -29,11 +29,16 @@ export const Logs = ({ data: dataProp, style }: LogsProps) => {
     )
 
   return (
-    <styled.div style={{ display: 'flex', flexDirection: 'column' }}>
+    <styled.div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        ...style,
+      }}
+    >
       <styled.div
         style={{
           display: 'flex',
-          flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
           marginBottom: '24px',

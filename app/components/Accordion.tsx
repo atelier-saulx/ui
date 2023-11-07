@@ -7,7 +7,7 @@ const example: ComponentDef = {
   name: 'Accordion',
   properties: props.props.AccordionProps.props,
   component: Accordion,
-  description: 'Accordions to annoy ppl with on the street',
+  description: 'Collapsable content display.',
   examples: [
     {
       props: { active: 1 },

@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
-import { Button, Input, Logs } from '../../src'
+import { BpMobile, Button, Input, Logs } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import { styled } from 'inlines'
 
 const stateData = [
   {
-    log: 'thisisalog',
+    log: 'thisisalog bonjour now hallow this is errror logg',
     ts: 123123,
     type: 'info',
     label: 'service 1',
   },
   {
-    log: 'thisisalog',
+    log: 'thisisalog dfs d bonjour now hallow this is errror lo',
     ts: 123121233,
     type: 'info',
     label: 'service 1',
@@ -128,13 +129,16 @@ const example: ComponentDef = {
           setData([...data, ...tempArr])
         }
         return (
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div
+          <div>
+            <styled.div
               style={{
                 display: 'flex',
                 flexDirection: 'row',
                 gap: 10,
                 marginBottom: 20,
+                [BpMobile]: {
+                  flexDirection: 'column',
+                },
               }}
             >
               <Input
@@ -147,6 +151,7 @@ const example: ComponentDef = {
                   { label: 'Error', value: 'error' },
                   { label: 'Log', value: 'log' },
                 ]}
+                style={{ maxWidth: '224px' }}
               />
               <Input
                 step={3}
@@ -155,18 +160,19 @@ const example: ComponentDef = {
                 value={amount}
                 type="number"
                 onChange={(e) => setAmount(e)}
-                style={{}}
+                style={{ maxWidth: '224px' }}
               />
-            </div>
+            </styled.div>
             <Button
               onClick={() => genLog(amount, type)}
               style={{ marginBottom: '20px' }}
+              size="medium"
             >
               Gen {amount} Log
             </Button>
             <Logs
               // autoScroll
-              style={{ width: 374, height: 400 }}
+              style={{ width: 467, height: 400 }}
               //@ts-ignore
               data={data}
             />
