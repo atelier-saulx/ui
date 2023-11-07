@@ -9,9 +9,10 @@ import { Text } from '../Text'
 export type LogsProps = {
   data: Exclude<LogProps, 'data' | 'index'>[]
   style?: Style
+  autoScroll?: boolean
 }
 
-export const Logs = ({ data: dataProp, style }: LogsProps) => {
+export const Logs = ({ data: dataProp, style, autoScroll }: LogsProps) => {
   const [typeFilter, setTypeFilter] = useState<any>([])
   const [searchFilter, setSearchFilter] = useState('')
   const [serviceFilter, setServiceFilter] = useState('')
@@ -40,37 +41,41 @@ export const Logs = ({ data: dataProp, style }: LogsProps) => {
         style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '24px',
+          gap: 10,
+          marginBottom: '16px',
         }}
       >
-        <Text size={24} weight="strong" style={{ marginRight: '24px' }}>
+        {/* <Text size={24} weight="strong" style={{ marginRight: '24px' }}>
           Logs
-        </Text>
-        <Input
-          type="search"
-          placeholder="Search logs"
-          value={searchFilter}
-          onChange={(v) => setSearchFilter(v)}
+        </Text> */}
+        <div style={{ maxWidth: 320 }}>
+          <Input
+            type="search"
+            placeholder="Search logs"
+            value={searchFilter}
+            onChange={(v) => setSearchFilter(v)}
+          />
+        </div>
+
+        <Pill
+          style={{ maxWidth: '200px', padding: '8px 16px', borderRadius: 8 }}
+          value={typeFilter}
+          onChange={(v) => setTypeFilter(v)}
+          prefix="Logs Type"
+          placeholder="All"
+          type="multi"
+          options={[
+            { value: 'error', label: 'Error' },
+            { value: 'warning', label: 'Warning' },
+            { value: 'log', label: 'Log' },
+            { value: 'info', label: 'Info' },
+            { value: 'positive', label: 'Positive' },
+            // { value: 'brand', label: 'Brand' },
+          ]}
         />
       </styled.div>
-      {console.log(typeFilter)}
-      <Pill
-        style={{ maxWidth: '200px', marginBottom: '16px' }}
-        value={typeFilter}
-        onChange={(v) => setTypeFilter(v)}
-        prefix="Logs Type"
-        placeholder="All"
-        type="multi"
-        options={[
-          { value: 'error', label: 'Error' },
-          { value: 'warning', label: 'Warning' },
-          { value: 'log', label: 'Log' },
-          { value: 'info', label: 'Info' },
-          // { value: 'brand', label: 'Brand' },
-        ]}
-      />
-      <LogsText data={data} style={style} />
+
+      <LogsText data={data} style={style} autoScroll={autoScroll} />
     </styled.div>
   )
 }
