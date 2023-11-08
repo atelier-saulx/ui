@@ -15,6 +15,8 @@ export const LogsText: FC<LogsTextProps> = ({
   style,
   autoScroll: autoscrl,
 }) => {
+  const [isMouseOver, setIsMouseOver] = useState(false)
+
   const parentRef = useRef(null)
   const size = data.length
 
@@ -25,46 +27,35 @@ export const LogsText: FC<LogsTextProps> = ({
   })
 
   const items = virtualizer.getVirtualItems()
-
-  const ignoreNext = useRef(false)
-  const [smoothScroll, setSmooth] = useState(false)
-  const [autoScroll, setAutoScroll] = useState(autoscrl)
-  const [scrollY, setScrollY] = useState(0)
-  const [maxScroll, setMaxScroll] = useState(0)
+  const [autoScroll, setAutoScroll] = useState(true)
+  const virtualTotalSize = virtualizer.getTotalSize()
 
   useEffect(() => {
-    let timer
-    if (autoScroll) {
-      const element = parentRef.current
-      timer = setTimeout(() => {
-        ignoreNext.current = true
-        element.scrollTop = element.scrollHeight
-        timer = setTimeout(() => {
-          setSmooth(true)
-        }, 1000)
-      }, 100)
-      ignoreNext.current = true
-      element.scrollTop = element.scrollHeight
-      virtualizer.scrollToIndex(size - 1)
+    if (autoScroll && !isMouseOver) {
+      setTimeout(() => {
+        const element = parentRef.current
+        const elementScrollHeight = parentRef.current.scrollHeight
+        element.scrollTop = elementScrollHeight
+      }, 700)
     }
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [data && data.length, parentRef.current, autoScroll])
+  }, [virtualTotalSize, parentRef.current])
 
   return (
     <ScrollArea
       onScroll={(e) => {
-        if (e.target.scrollTop > maxScroll) {
-          setMaxScroll(e.target.scrollTop)
+        if (isMouseOver) {
+          if (
+            e.target.scrollTop >=
+            parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
+          ) {
+            setAutoScroll(false)
+          } else if (
+            e.target.scrollTop <
+            parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
+          ) {
+            setAutoScroll(true)
+          }
         }
-        if (e.target.scrollTop < scrollY) {
-          setAutoScroll(false)
-        }
-        if (e.target.scrollTop >= maxScroll) {
-          setAutoScroll(true)
-        }
-        setScrollY(e.target.scrollTop)
       }}
       ref={parentRef}
       style={{
@@ -75,6 +66,8 @@ export const LogsText: FC<LogsTextProps> = ({
         width: '100%',
         // ...style,
       }}
+      onMouseOver={() => setIsMouseOver(true)}
+      onMouseLeave={() => setIsMouseOver(false)}
     >
       <styled.div
         style={{

@@ -59,7 +59,17 @@ export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
         },
       }}
     >
-      <styled.div>
+      <styled.div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          [BpMobile]: {
+            flexDirection: 'row-reverse',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          },
+        }}
+      >
         {d && (
           <Text
             light
