@@ -6,11 +6,12 @@ import { ComponentDef } from '../types'
 const example: ComponentDef = {
   name: 'Tooltip',
   component: Tooltip,
-  description: 'Tooltip',
+  description:
+    'Wrap your element in tooltip: <Tooltip text="tooltip text" position="top" ><Element /></Tooltip>',
   properties: props.props.TooltipProps.props,
   examples: [
     {
-      props: { text: 'Tooltip content' },
+      props: { text: 'Tooltip content', position: 'top' },
       customRenderer: (props) => {
         return (
           <Tooltip {...props}>
