@@ -1634,9 +1634,13 @@
         "height": {
           "optional": true,
           "type": "number"
+        },
+        "legend": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: ReactNode\n  width?: number\n  height?: number\n}",
+      "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: ReactNode\n  width?: number\n  height?: number\n  legend?: boolean\n}",
       "file": "/components/Linegraph/index.tsx"
     },
     "LogProps": {
@@ -1666,7 +1670,7 @@
               "value": "info"
             },
             {
-              "value": "brand"
+              "value": "positive"
             }
           ]
         },
@@ -1683,7 +1687,7 @@
           "type": "number"
         }
       },
-      "code": "type LogProps = {\n  label?: ReactNode\n  log?: string\n  type?: 'error' | 'warning' | 'log' | 'info' | 'brand'\n  ts?: number\n  data?: any\n  index?: number\n}",
+      "code": "type LogProps = {\n  label?: ReactNode\n  log?: string\n  type?: 'error' | 'warning' | 'log' | 'info' | 'positive'\n  ts?: number\n  data?: any\n  index?: number\n}",
       "file": "/components/LogsComponent/Log.tsx"
     },
     "LogGroupsProps": {
@@ -1784,9 +1788,17 @@
         "style": {
           "optional": true,
           "type": "Style"
+        },
+        "onDelete": {
+          "optional": true,
+          "type": "function"
+        },
+        "showCounters": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type LogsProps = {\n  data: Exclude<LogProps, 'data' | 'index'>[]\n  style?: Style\n}",
+      "code": "type LogsProps = {\n  data: Exclude<LogProps, 'data' | 'index'>[]\n  style?: Style\n  onDelete?: () => void\n  showCounters?: boolean\n}",
       "file": "/components/LogsComponent/index.tsx"
     },
     "MapProps": {
@@ -2693,7 +2705,7 @@
           "type": "function"
         }
       },
-      "code": "type ValuePluginProps = {\n  defaultValue?: string\n  onChange?: (value: string) => void\n}",
+      "code": "type ValuePluginProps = {\n  defaultValue?: string\n  onChange?: ({ json, html }: { json: string; html: string }) => void\n}",
       "file": "/components/RichTextEditor/plugins/ValuePlugin.tsx"
     },
     "ScrollAreaProps": {
@@ -2860,10 +2872,19 @@
       "name": "SidePanelTitleProps",
       "props": {
         "children": {
-          "type": "string"
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "closeFunc": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type SidePanelTitleProps = {\n  children: string\n}",
+      "code": "type SidePanelTitleProps = {\n  children: ReactNode | ReactNode[]\n  closeFunc?: () => void\n}",
       "file": "/components/SidePanel/index.tsx"
     },
     "SidePanelBodyProps": {

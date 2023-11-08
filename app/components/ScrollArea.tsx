@@ -6,7 +6,8 @@ import { ComponentDef } from '../types'
 const example: ComponentDef = {
   name: 'ScrollArea',
   component: ScrollArea,
-  description: '',
+  description:
+    'For scrollable content, use this for the nice scrollbar styling and overflow',
   properties: props.props.ScrollAreaProps.props,
   examples: [
     {
