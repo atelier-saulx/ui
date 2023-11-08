@@ -230,7 +230,7 @@ export const TillRangePicker = ({
           '@media (hover: hover)': {
             '& div': {
               cursor: 'pointer',
-              height: '16px',
+              // height: '16px',
               padding: '8px 12px',
               alignItems: 'center',
               borderRadius: '8px',
