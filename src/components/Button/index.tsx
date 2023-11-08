@@ -154,6 +154,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onFocus,
       onBlur,
       size = 'medium',
+      light,
+      ghost,
       style,
       underline,
       ...rest

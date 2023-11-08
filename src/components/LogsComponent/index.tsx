@@ -71,9 +71,6 @@ export const Logs = ({
           },
         }}
       >
-        {/* <Text size={24} weight="strong" style={{ marginRight: '24px' }}>
-          Logs
-        </Text> */}
         <div style={{ maxWidth: 320 }}>
           <Input
             type="search"
