@@ -9,6 +9,7 @@ import { Button } from '../Button'
 import { BpMobile } from 'src/utils'
 import { Counter } from '../Counter'
 import { IconDelete } from 'src/icons'
+import { Tooltip } from '../Tooltip'
 
 export type LogsProps = {
   data: Exclude<LogProps, 'data' | 'index'>[]
@@ -38,6 +39,16 @@ export const Logs = ({
         : (item) => item
     )
 
+  const counterData = {
+    error: 0,
+    warning: 0,
+    log: 0,
+    info: 0,
+    positive: 0,
+  }
+
+  dataProp.map((item) => (counterData[item.type] += 1))
+
   return (
     <styled.div
       style={{
@@ -60,9 +71,6 @@ export const Logs = ({
           },
         }}
       >
-        {/* <Text size={24} weight="strong" style={{ marginRight: '24px' }}>
-          Logs
-        </Text> */}
         <div style={{ maxWidth: 320 }}>
           <Input
             type="search"
@@ -85,23 +93,58 @@ export const Logs = ({
             { value: 'log', label: 'Log' },
             { value: 'info', label: 'Info' },
             { value: 'positive', label: 'Positive' },
-            // { value: 'brand', label: 'Brand' },
           ]}
         />
-        <Button
-          icon={<IconDelete />}
-          size="medium"
-          color="alert"
-          light
-          style={{ marginLeft: 'auto' }}
-          onClick={onDelete}
-        />
+        <Tooltip text="Clear logs" position="top">
+          <Button
+            icon={<IconDelete />}
+            size="medium"
+            color="alert"
+            light
+            style={{
+              marginLeft: 'auto',
+              [BpMobile]: {
+                marginTop: '-52px',
+                marginRight: '4px',
+              },
+            }}
+            onClick={onDelete}
+          />
+        </Tooltip>
       </styled.div>
       {/* counter */}
       {showCounters && (
-        <styled.div style={{ display: 'flex', marginBottom: 16, gap: 6 }}>
-          <Counter color="informative">{15}</Counter>
-          <Counter color="warning">{11}</Counter>
+        <styled.div
+          style={{
+            display: 'flex',
+            marginBottom: 16,
+            gap: 6,
+            marginTop: '-4px',
+            [BpMobile]: {
+              justifyContent: 'center',
+            },
+          }}
+        >
+          {Object.entries(counterData)
+            .filter((item) => item[1] !== 0)
+            .map((item, idx) => (
+              <Counter
+                key={idx}
+                light
+                // @ts-ignore
+                color={
+                  item[0] === 'log'
+                    ? 'default'
+                    : item[0] === 'info'
+                    ? 'brand'
+                    : item[0] === 'error'
+                    ? 'red'
+                    : item[0]
+                }
+              >
+                {item[1]}
+              </Counter>
+            ))}
         </styled.div>
       )}
 

@@ -10,7 +10,7 @@ import { BpMobile, BpSmall } from 'src/utils'
 export type LogProps = {
   label?: ReactNode
   log?: string
-  type?: 'error' | 'warning' | 'log' | 'info' | 'brand' | 'positive'
+  type?: 'error' | 'warning' | 'log' | 'info' | 'positive'
   ts?: number
   data?: any
   index?: number
@@ -82,6 +82,10 @@ export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
                   ? 'warning'
                   : type === 'error'
                   ? 'negative'
+                  : type === 'info'
+                  ? 'brand'
+                  : type === 'positive'
+                  ? 'positive'
                   : 'default',
                 'secondary'
               ),
@@ -101,7 +105,8 @@ export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
           light
           color={color}
         >
-          {label}
+          {/* {label} */}
+          {type}
         </Badge>
       </styled.div>
       <Text
@@ -114,6 +119,8 @@ export const Log: FC<LogProps> = ({ ts, label, log, type, data, index }) => {
               ? 'negative'
               : type === 'positive'
               ? 'positive'
+              : type === 'info'
+              ? 'brand'
               : 'default',
             'primary'
           ),

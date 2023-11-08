@@ -18,7 +18,6 @@ const genLog = (amount) => {
       'log',
       'warning',
       'info',
-      'brand',
       'positive',
     ]),
   }))
@@ -32,7 +31,7 @@ const example: ComponentDef = {
   name: 'Logs',
   properties: props.props.LogsTextProps.props,
   component: Logs,
-  description: 'Accordions to annoy ppl with on the street',
+  description: 'Filterable logs with there own types, virtualized scrolling',
   examples: [
     {
       props: {},

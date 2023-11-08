@@ -154,6 +154,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onFocus,
       onBlur,
       size = 'medium',
+      light,
+      ghost,
       style,
       underline,
       ...rest
@@ -292,7 +294,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        // {...rest}
+        {...rest}
       >
         <div
           style={{

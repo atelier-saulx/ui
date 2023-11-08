@@ -7,14 +7,9 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 export type LogsTextProps = {
   data: Exclude<LogProps, 'data' | 'index'>[]
   style?: Style
-  autoScroll?: boolean
 }
 
-export const LogsText: FC<LogsTextProps> = ({
-  data,
-  style,
-  autoScroll: autoscrl,
-}) => {
+export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
   const [isMouseOver, setIsMouseOver] = useState(false)
 
   const parentRef = useRef(null)
@@ -48,12 +43,12 @@ export const LogsText: FC<LogsTextProps> = ({
             e.target.scrollTop >=
             parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
           ) {
-            setAutoScroll(false)
+            setAutoScroll(true)
           } else if (
             e.target.scrollTop <
             parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
           ) {
-            setAutoScroll(true)
+            setAutoScroll(false)
           }
         }
       }}
