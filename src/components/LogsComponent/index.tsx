@@ -5,14 +5,24 @@ import { Style, styled } from 'inlines'
 import { Input } from '../Input'
 import { Pill } from '../Pill'
 import { Text } from '../Text'
+import { Button } from '../Button'
 import { BpMobile } from 'src/utils'
+import { Counter } from '../Counter'
+import { IconDelete } from 'src/icons'
 
 export type LogsProps = {
   data: Exclude<LogProps, 'data' | 'index'>[]
   style?: Style
+  onDelete?: () => void
+  showCounters?: boolean
 }
 
-export const Logs = ({ data: dataProp, style }: LogsProps) => {
+export const Logs = ({
+  data: dataProp,
+  style,
+  onDelete,
+  showCounters,
+}: LogsProps) => {
   const [typeFilter, setTypeFilter] = useState<any>([])
   const [searchFilter, setSearchFilter] = useState('')
 
@@ -78,7 +88,22 @@ export const Logs = ({ data: dataProp, style }: LogsProps) => {
             // { value: 'brand', label: 'Brand' },
           ]}
         />
+        <Button
+          icon={<IconDelete />}
+          size="medium"
+          color="alert"
+          light
+          style={{ marginLeft: 'auto' }}
+          onClick={onDelete}
+        />
       </styled.div>
+      {/* counter */}
+      {showCounters && (
+        <styled.div style={{ display: 'flex', marginBottom: 16, gap: 6 }}>
+          <Counter color="informative">{15}</Counter>
+          <Counter color="warning">{11}</Counter>
+        </styled.div>
+      )}
 
       <LogsText data={data} style={style} />
     </styled.div>

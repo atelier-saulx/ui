@@ -15,6 +15,8 @@ export const LogsText: FC<LogsTextProps> = ({
   style,
   autoScroll: autoscrl,
 }) => {
+  const [isMouseOver, setIsMouseOver] = useState(false)
+
   const parentRef = useRef(null)
   const size = data.length
 
@@ -25,43 +27,35 @@ export const LogsText: FC<LogsTextProps> = ({
   })
 
   const items = virtualizer.getVirtualItems()
-
   const [autoScroll, setAutoScroll] = useState(true)
-
   const virtualTotalSize = virtualizer.getTotalSize()
 
   useEffect(() => {
-    if (autoScroll) {
-      console.log('total size--> ', virtualTotalSize)
-
+    if (autoScroll && !isMouseOver) {
       setTimeout(() => {
         const element = parentRef.current
         const elementScrollHeight = parentRef.current.scrollHeight
         element.scrollTop = elementScrollHeight
-
-        console.log(parentRef)
       }, 700)
     }
   }, [virtualTotalSize, parentRef.current])
 
   return (
     <ScrollArea
-      onScroll={() => {
-        // TODO : maybe on focus // on MOuse over
-        // TODO: onscroll fires also on use Effect, is there on user/mouse scroll something
-        // setTimeout(() => {
-        //   if (
-        //     e.target.scrollTop >=
-        //     parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
-        //   ) {
-        //     console.log('this is the end')
-        //     setAutoScroll(true)
-        //   } else if (
-        //     e.target.scrollTop <
-        //     parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
-        //   )
-        //     setAutoScroll(false)
-        // }, 1000)
+      onScroll={(e) => {
+        if (isMouseOver) {
+          if (
+            e.target.scrollTop >=
+            parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
+          ) {
+            setAutoScroll(false)
+          } else if (
+            e.target.scrollTop <
+            parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
+          ) {
+            setAutoScroll(true)
+          }
+        }
       }}
       ref={parentRef}
       style={{
@@ -70,9 +64,10 @@ export const LogsText: FC<LogsTextProps> = ({
         overflowX: 'clip',
         scrollBehavior: 'smooth',
         width: '100%',
-
         // ...style,
       }}
+      onMouseOver={() => setIsMouseOver(true)}
+      onMouseLeave={() => setIsMouseOver(false)}
     >
       <styled.div
         style={{

@@ -40,6 +40,10 @@ const example: ComponentDef = {
         const [amount, setAmount] = useState(1)
         const [data, setData] = useState<any[]>(stateData)
 
+        const clearData = () => {
+          setData([])
+        }
+
         return (
           <div>
             <styled.div
@@ -76,12 +80,13 @@ const example: ComponentDef = {
             </styled.div>
             <Divider style={{ marginBottom: 24 }} />
             <Logs
+              data={data}
+              onDelete={clearData}
               style={{
                 width: 667,
                 height: 500,
               }}
-              //@ts-ignore
-              data={data}
+              showCounters={true}
             />
           </div>
         )
