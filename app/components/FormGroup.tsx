@@ -203,7 +203,24 @@ const fieldProps = {
             properties: {
               floop: {
                 type: 'array',
-                values: { type: 'string' },
+                values: {
+                  type: 'object',
+                  properties: {
+                    flap: { type: 'string' },
+                    floop: {
+                      type: 'array',
+                      values: {
+                        type: 'object',
+                        properties: {
+                          flank: {
+                            type: 'array',
+                            values: { type: 'string' },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
               },
             },
           },

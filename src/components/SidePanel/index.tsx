@@ -77,6 +77,8 @@ export function Content({
           inset: 0,
           position: 'fixed',
           background: color('standalone', 'dimmer', 'default'),
+          opacity: open ? 1 : 0,
+          transition: '0.2s all',
         }}
       />
       <DialogBase.Content
@@ -162,10 +164,11 @@ export const Warning = ({
 }
 
 export type SidePanelTitleProps = {
-  children: string
+  children: ReactNode | ReactNode[]
+  closeFunc?: () => void
 }
 
-export function Title({ children }: SidePanelTitleProps) {
+export function Title({ children, closeFunc }: SidePanelTitleProps) {
   const theContext = useContext(SidePanelContext)
   return (
     <DialogBase.Title asChild style={{}}>
@@ -192,9 +195,11 @@ export function Title({ children }: SidePanelTitleProps) {
           icon={<IconClose />}
           style={{ borderRadius: '50%' }}
           light
+          keyboardShortcut="0"
           hideFocusState
           onClick={() => {
             theContext.setOpen(false)
+            closeFunc()
           }}
         />
       </styled.div>
@@ -210,7 +215,8 @@ export function Body({ children }: SidePanelBodyProps) {
   return (
     <styled.div
       style={{
-        padding: '24px 24px 40px',
+        height: '-webkit-fill-available',
+        padding: '24px 24px 24px',
         display: 'flex',
         flexDirection: 'column',
         gap: 24,
@@ -229,11 +235,24 @@ export function Actions({ children }: SidePanelActionsProps) {
   return (
     <styled.div
       style={{
+        // position: 'sticky',
+        // bottom: 0,
+        // left: 0,
+        // right: 0,
+        // padding: 24,
+        // background: color('standalone', 'modal', 'default'),
+        // display: 'flex',
+        // justifyContent: 'end',
+        // alignItems: 'center',
+        // '& > * + *': {
+        //   marginLeft: '24px',
+        // },
+        // // padding: '24px 32px 32px',
+        // // margin: '0 -32px',
+        // borderTop: `1px solid ${color('border', 'default', 'strong')}`,
         position: 'sticky',
         bottom: 0,
-        left: 0,
-        right: 0,
-        padding: 24,
+        overflow: 'hidden',
         background: color('standalone', 'modal', 'default'),
         display: 'flex',
         justifyContent: 'end',
@@ -241,7 +260,7 @@ export function Actions({ children }: SidePanelActionsProps) {
         '& > * + *': {
           marginLeft: '24px',
         },
-        // padding: '24px 32px 32px',
+        padding: '24px 32px 32px',
         // margin: '0 -32px',
         borderTop: `1px solid ${color('border', 'default', 'strong')}`,
       }}

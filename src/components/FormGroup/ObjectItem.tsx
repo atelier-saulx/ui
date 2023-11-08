@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Modal, Button, Breadcrumbs } from '../../components'
+import { SidePanel, Button, Breadcrumbs } from '../../components'
 import { Label } from './Column/Label'
 import { FormGroupColumn } from './Column'
 import { FormItem } from './Column/Item'
@@ -70,15 +70,15 @@ export const ObjectItem: FC<ObjectItemProps> = ({
   }
 
   return (
-    <Modal.Root open={open}>
-      <Modal.Trigger>
+    <SidePanel.Root open={open}>
+      <SidePanel.Trigger>
         <Button onClick={openFunc} size="small">
           Open Overlay: {field}
         </Button>
-      </Modal.Trigger>
-      <Modal.Content>
+      </SidePanel.Trigger>
+      <SidePanel.Content>
         <>
-          <Modal.Title>
+          <SidePanel.Title closeFunc={closeFunc}>
             <styled.div
               style={{
                 display: 'flex',
@@ -93,23 +93,9 @@ export const ObjectItem: FC<ObjectItemProps> = ({
                 onChange={(v) => route.setQuery({ object: v })}
                 data={Object.fromEntries(breadCrumbData)}
               />
-
-              <Button
-                hideFocusState
-                size="medium"
-                // light
-                color="system"
-                onClick={closeFunc}
-                style={{
-                  borderRadius: '50%',
-                  border: '1px solid transparent',
-                  marginLeft: 'auto',
-                }}
-                icon={<IconClose color="default" />}
-              />
             </styled.div>
-          </Modal.Title>
-          <Modal.Body>
+          </SidePanel.Title>
+          <SidePanel.Body>
             {parsedObjArray.map((item) => {
               return (
                 <FormItem
@@ -139,13 +125,15 @@ export const ObjectItem: FC<ObjectItemProps> = ({
                 />
               )
             })}
-          </Modal.Body>
-          <Modal.Actions>
-            <Button onClick={closeFunc}>Close</Button>
+          </SidePanel.Body>
+          <SidePanel.Actions>
+            <Button keyboardShortcut="Esc" onClick={closeFunc}>
+              Close
+            </Button>
             <Button onClick={closeFunc}>Confirm</Button>
-          </Modal.Actions>
+          </SidePanel.Actions>
         </>
-      </Modal.Content>
-    </Modal.Root>
+      </SidePanel.Content>
+    </SidePanel.Root>
   )
 }
