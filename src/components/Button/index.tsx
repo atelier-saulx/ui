@@ -292,7 +292,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        // {...rest}
+        {...rest}
       >
         <div
           style={{
