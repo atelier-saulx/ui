@@ -54,7 +54,7 @@ const example: ComponentDef = {
                 />
               ) : props.tabs ? (
                 <Tabs
-                  activeTab={1}
+                  active={1}
                   style={{ marginLeft: '24px', marginTop: '6px' }}
                 >
                   <Tab label="Apple" children="🍎" />

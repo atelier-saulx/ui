@@ -226,19 +226,17 @@ export const Picker = ({
           display: 'flex',
           flexDirection: 'column',
           gap: '2px',
-          '@media (hover: hover)': {
-            '& div': {
-              cursor: 'pointer',
-              // height: '16px',
-              padding: '8px 12px',
-              alignItems: 'center',
-              borderRadius: '8px',
-              '&:hover': {
-                backgroundColor: genColor('action', 'system', 'hover'),
-              },
-              '&:active': {
-                backgroundColor: genColor('action', 'system', 'active'),
-              },
+
+          '& div': {
+            cursor: 'pointer',
+            padding: '8px 12px',
+            alignItems: 'center',
+            borderRadius: '8px',
+            '&:hover': {
+              backgroundColor: genColor('action', 'system', 'hover'),
+            },
+            '&:active': {
+              backgroundColor: genColor('action', 'system', 'active'),
             },
           },
         }}

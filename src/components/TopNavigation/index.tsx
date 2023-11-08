@@ -4,7 +4,7 @@ import { styled, Style } from 'inlines'
 
 export type TopNavigationProps = {
   sticky?: boolean
-  children?: ReactNode | ReactNode[]
+  children?: ReactNode | ReactNode[] | Element | Element[]
   style?: Style
 }
 
@@ -16,7 +16,7 @@ export const TopNavigation: FC<TopNavigationProps> = ({
   return (
     <styled.div
       style={{
-        height: '40px',
+        // height: '40px',
         padding: '12px 24px',
         position: sticky ? 'fixed' : 'absolute',
         top: 0,

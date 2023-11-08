@@ -40,6 +40,8 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
   setChanges,
   autoFocus,
   style,
+  confirmationLabel,
+  confirmationVariant,
 }) => {
   const checkBoxes: ReactNode[] = []
   const rest: ReactNode[] = []
@@ -142,6 +144,10 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
         >
           <Text light>Apply changes</Text>
           <Confirmation
+            variant={
+              confirmationVariant === 'none' ? 'buttons' : confirmationVariant
+            }
+            label={confirmationLabel}
             onCancel={() => {
               valuesChanged.current = {}
               setChanges(false)

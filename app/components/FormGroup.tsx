@@ -364,6 +364,7 @@ const example: ComponentDef = {
       props: {
         ...fieldProps,
         variant: 'grid',
+        // confirmationVariant: 'icons',
         autoFocus: true,
         style: {
           // width: 750,

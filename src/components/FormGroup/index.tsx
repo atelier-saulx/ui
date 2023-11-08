@@ -52,6 +52,8 @@ export const FormGroup: FC<FormGroupProps> = ({
       <FormGroupGrid
         autoFocus={autoFocus}
         onChange={onChange}
+        confirmationVariant={confirmationVariant}
+        confirmationLabel={confirmationLabel}
         parsedData={parsedData}
         labelWidth={labelWidth}
         fieldWidth={fieldWidth}
