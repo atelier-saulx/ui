@@ -6,7 +6,7 @@ import { color as genColor } from '../../varsUtilities'
 import { LineGraphDataInput } from '../Linegraph/types'
 import { genPaths } from '../Linegraph/genPath'
 import { processData } from '../Linegraph/utils'
-import { ColorNonSemanticBackgroundColors } from 'src/varsTypes'
+import { ColorNonSemanticBackgroundColors } from '../../varsTypes'
 
 type SingleMetricProps = {
   label?: string

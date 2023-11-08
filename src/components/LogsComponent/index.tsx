@@ -6,9 +6,9 @@ import { Input } from '../Input'
 import { Pill } from '../Pill'
 import { Text } from '../Text'
 import { Button } from '../Button'
-import { BpMobile } from 'src/utils'
+import { BpMobile } from '../../utils'
 import { Counter } from '../Counter'
-import { IconDelete } from 'src/icons'
+import { IconDelete } from '../../icons'
 import { Tooltip } from '../Tooltip'
 
 export type LogsProps = {

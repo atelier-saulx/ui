@@ -11,7 +11,7 @@ import { color as genColor } from '../../varsUtilities'
 import { useWindowResize } from '../../hooks'
 import { ColorActionColors } from '../../varsTypes'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
-import { BpMobile } from 'src/utils'
+import { BpMobile } from '../../utils'
 
 const StyledBgSlider = styled('div', {
   backgroundColor: genColor('action', 'neutral', 'subtleNormal'),

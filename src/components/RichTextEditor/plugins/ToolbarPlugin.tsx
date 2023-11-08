@@ -32,7 +32,7 @@ import {
   IconLink,
   IconListBullet,
   IconText,
-} from 'src/icons'
+} from '../../../icons'
 import { $setBlocksType } from '@lexical/selection'
 import { INSERT_IMAGE_COMMAND } from './ImagePlugin'
 import { ImageUploadModal } from '../components/ImageUploadModal'

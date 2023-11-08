@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../../components/Text'
-import { color as genColor, colorHash } from 'src/varsUtilities'
+import { color as genColor, colorHash } from '../../varsUtilities'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
 type BarLegendProps = {

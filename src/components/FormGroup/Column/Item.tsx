@@ -4,7 +4,7 @@ import { Label } from './Label'
 import { FormItemProps, ValuesChanged } from '../types'
 import { Input, Row, List, Toggle, Code, Button } from '../..'
 import { ObjectItem } from '../ObjectItem'
-import { IconClose } from 'src/icons'
+import { IconClose } from '../../../icons'
 
 // | 'timestamp'
 // | 'record'

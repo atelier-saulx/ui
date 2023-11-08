@@ -1,11 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
 import { SidePanel, Button, Breadcrumbs } from '../../components'
-import { Label } from './Column/Label'
-import { FormGroupColumn } from './Column'
 import { FormItem } from './Column/Item'
 import { styled } from 'inlines'
-import { IconClose } from 'src/icons'
-import { parseData, getValue } from './utils'
+import { getValue } from './utils'
 import { ObjectItemProps } from './types'
 import { useRoute } from 'kabouter'
 

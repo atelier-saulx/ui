@@ -5,7 +5,7 @@ import { Status } from '../Status'
 import { styled } from 'inlines'
 import { color as useColor } from '../../varsUtilities'
 import { prettyDate } from '@based/pretty-date'
-import { BpMobile, BpSmall } from 'src/utils'
+import { BpMobile, BpSmall } from '../../utils'
 
 export type LogProps = {
   label?: ReactNode

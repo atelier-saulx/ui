@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react'
 import { styled } from 'inlines'
 import { color as genColor, colorHash } from '../../varsUtilities'
-import { ColorNonSemanticBackgroundColors } from 'src/varsTypes'
 import { OverlayLabels } from './OverlayLabels'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
