@@ -43,12 +43,12 @@ export const LogsText: FC<LogsTextProps> = ({ data, style }) => {
             e.target.scrollTop >=
             parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
           ) {
-            setAutoScroll(false)
+            setAutoScroll(true)
           } else if (
             e.target.scrollTop <
             parentRef.current.scrollHeight - parentRef.current.clientHeight - 10
           ) {
-            setAutoScroll(true)
+            setAutoScroll(false)
           }
         }
       }}
