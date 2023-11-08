@@ -155,7 +155,7 @@ export const List: FC<{
                       }}
                       color="inherit"
                     >
-                      {value[0]}
+                      {values.type !== 'object' ? value[0] : ''}
                     </Text>
                     <Badge color="neutral" light>
                       +{value.length}
@@ -163,6 +163,7 @@ export const List: FC<{
                   </styled.div>
                 )}
                 <FormItem
+                  key={newField}
                   noLabel
                   objValues={values}
                   item={{
