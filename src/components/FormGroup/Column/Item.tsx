@@ -64,17 +64,7 @@ const FormItemInner: FC<{
   if (multiple && !value && !defaultValue) {
     value = ['']
   }
-  if (
-    //@ts-ignore
-    type === 'id' ||
-    type === 'timestamp' ||
-    //@ts-ignore
-    type === 'int' ||
-    type === 'reference' ||
-    type === 'references'
-  ) {
-    return <></>
-  }
+
   if (multiple || type === 'array' || type === 'set') {
     return (
       <Label>
@@ -277,7 +267,13 @@ const FormItemInner: FC<{
       value={value ?? ''}
       clearButton
       //  @ts-ignore
-      type={type === 'integer' ? 'number' : type === 'string' ? 'text' : type}
+      type={
+        type === 'integer' || type === 'timestamp'
+          ? 'number'
+          : type === 'string' || type === 'id'
+          ? 'text'
+          : type
+      }
       onChange={(v) => onChange(field, v)}
       {...props}
       // @ts-ignore
@@ -307,6 +303,20 @@ export const FormItem: FC<{
   style?: Style
 }> = (props) => {
   let { label, field, type } = props.item
+
+  if (
+    //@ts-ignore
+    type === 'id' ||
+    //@ts-ignore
+    type === 'reference' ||
+    type === 'references'
+  ) {
+    return <></>
+  }
+  //@ts-expect-error
+  if (type === 'int') {
+    type = 'integer'
+  }
 
   if (props.noLabel || type === 'array')
     return (

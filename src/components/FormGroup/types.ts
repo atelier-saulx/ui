@@ -31,6 +31,7 @@ export type FormItemProps<T = any> = {
     | 'references'
     | 'text'
     | 'cardinality'
+    | 'id'
   description?: ReactNode
   field: string
   options?: any[]
