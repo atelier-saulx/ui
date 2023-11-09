@@ -9,7 +9,7 @@ export const List: FC<{
   type?: FormItemProps['type']
   field: string
   label?: ReactNode
-  values?: FormItemProps['values']
+  items?: FormItemProps['items']
   value?: any
   onChange: (field: string, value: any) => void
   isChild?: boolean
@@ -28,7 +28,7 @@ export const List: FC<{
   label,
   onChange,
   value = [],
-  values,
+  items,
   isChild = false,
   deleteFunc,
 
@@ -53,9 +53,9 @@ export const List: FC<{
   }
 
   const addType =
-    values.type === 'object'
+    items.type === 'object'
       ? {}
-      : values.type === 'array' || values.type === 'set'
+      : items.type === 'array' || items.type === 'set'
       ? ['']
       : ''
 
@@ -89,7 +89,7 @@ export const List: FC<{
             />
           }
         />
-        {!open && values.type === 'array' && value.length > 1 && (
+        {!open && items.type === 'array' && value.length > 1 && (
           <Badge style={{ marginLeft: 4 }} color="neutral" light>
             +{value.length}
           </Badge>
@@ -129,7 +129,7 @@ export const List: FC<{
                 onFocus={() => setOpen(true)}
                 style={{ position: 'relative' }}
               >
-                {!open && values.type !== 'array' && value.length > 1 && (
+                {!open && items.type !== 'array' && value.length > 1 && (
                   <styled.div
                     style={{
                       position: 'absolute',
@@ -141,7 +141,7 @@ export const List: FC<{
                       padding: 12,
                       overflow: 'hidden',
                       paddingLeft:
-                        values.type === 'boolean' || values.type === 'checkbox'
+                        items.type === 'boolean' || items.type === 'checkbox'
                           ? 70
                           : 12,
                     }}
@@ -155,7 +155,7 @@ export const List: FC<{
                       }}
                       color="inherit"
                     >
-                      {values.type !== 'object' ? value[0] : ''}
+                      {items.type !== 'object' ? value[0] : ''}
                     </Text>
                     <Badge color="neutral" light>
                       +{value.length}
@@ -165,12 +165,12 @@ export const List: FC<{
                 <FormItem
                   key={newField}
                   noLabel
-                  objValues={values}
+                  objValues={items}
                   item={{
                     ...thing,
-                    properties: item.values.properties,
-                    type: item.values.type,
-                    values: item.values.values ?? {},
+                    properties: item.items.properties,
+                    type: item.items.type,
+                    items: item.items.items ?? {},
                     field: newField,
                   }}
                   onChange={onChange}
@@ -188,8 +188,8 @@ export const List: FC<{
                     )
                   }}
                 />
-                {values.type === 'array' ||
-                  (values.type === 'object' && (
+                {items.type === 'array' ||
+                  (items.type === 'object' && (
                     <styled.div
                       style={{
                         position: 'absolute',
@@ -227,7 +227,7 @@ export const List: FC<{
             onChange(field, [...value, addType])
           }}
         >
-          Add {values.type as string}
+          Add {items.type as string}
         </Button>
       </styled.div>
     </>

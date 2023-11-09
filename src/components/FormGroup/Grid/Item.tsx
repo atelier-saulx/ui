@@ -38,9 +38,10 @@ export const FormItemInner: FC<{
     options,
     default: defaultValue,
     multiple,
-    values,
+    items,
     addMultipleLabel = 'Add',
     properties,
+    format,
   },
   value,
   onChange,
@@ -73,7 +74,7 @@ export const FormItemInner: FC<{
       <styled.div style={{ width: '100%', marginBottom: 16 }}>
         <List
           item={item}
-          values={values}
+          items={items}
           onChangeObj={onChangeObj}
           onChange={onChange}
           field={field}
@@ -193,11 +194,22 @@ export const FormItemInner: FC<{
     return (
       <styled.div style={{ width: '100%', marginBottom: 16 }}>
         <Label labelWidth={width} label={label} description={description} />
-        <Code
-          onChange={(v) => onChange(field, v)}
-          value={value}
-          language="json"
-        />
+        {format === 'rich-text' ? (
+          // @ts-ignore
+          <Input
+            autoFocus={autoFocus}
+            value={value ?? ''}
+            type={'rich-text'}
+            onChange={(v) => onChange(field, v)}
+            {...props}
+          />
+        ) : (
+          <Code
+            onChange={(v) => onChange(field, v)}
+            value={value}
+            language="json"
+          />
+        )}
       </styled.div>
       // </Label>
     )
@@ -330,7 +342,7 @@ export const FormItemInner: FC<{
       autoFocus={autoFocus}
       value={value ?? ''}
       // @ts-ignore
-      type={type || 'text'}
+      type={type === 'integer' ? 'number' : type === 'string' ? 'text' : type}
       onChange={(v) => onChange(field, v)}
       {...props}
       // @ts-ignore

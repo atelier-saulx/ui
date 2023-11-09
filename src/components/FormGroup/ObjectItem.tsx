@@ -96,7 +96,7 @@ export const ObjectItem: FC<ObjectItemProps> = ({
             {parsedObjArray.map((item) => {
               return (
                 <FormItem
-                  objValues={item.values}
+                  objValues={item.items}
                   key={item.field}
                   autoFocus={autoFocus}
                   onChangeObj={onChange}

@@ -39,7 +39,7 @@ const FormItemInner: FC<{
     options,
     default: defaultValue,
     multiple,
-    values,
+    items,
     addMultipleLabel = 'Add',
     properties,
   },
@@ -64,13 +64,23 @@ const FormItemInner: FC<{
   if (multiple && !value && !defaultValue) {
     value = ['']
   }
-
+  if (
+    //@ts-ignore
+    type === 'id' ||
+    type === 'timestamp' ||
+    //@ts-ignore
+    type === 'int' ||
+    type === 'reference' ||
+    type === 'references'
+  ) {
+    return <></>
+  }
   if (multiple || type === 'array' || type === 'set') {
     return (
       <Label>
         <List
           item={item}
-          values={values}
+          items={items}
           onChangeObj={onChangeObj}
           onChange={onChange}
           field={field}

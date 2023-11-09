@@ -24,19 +24,24 @@ const fieldProps = {
     },
   },
   config: {
+    flapppp: {
+      type: 'json',
+      format: 'rich-text',
+      label: 'asdasd',
+    },
     array: {
       type: 'array',
       value: [
         ['1', '2'],
         ['3', '4'],
       ],
-      values: {
+      items: {
         type: 'array',
-        values: {
+        items: {
           type: 'string',
         },
       },
-      // values: {
+      // items: {
       //   type: 'string',
       // },
     },
@@ -46,13 +51,13 @@ const fieldProps = {
       //   ['1', '2'],
       //   ['3', '4'],
       // ],
-      values: {
+      items: {
         type: 'array',
-        values: {
+        items: {
           type: 'boolean',
         },
       },
-      // values: {
+      // items: {
       //   type: 'string',
       // },
     },
@@ -62,7 +67,7 @@ const fieldProps = {
       //   ['1', '2'],
       //   ['3', '4'],
       // ],
-      values: {
+      items: {
         type: 'object',
         description: 'wowoweewow',
         properties: {
@@ -198,23 +203,23 @@ const fieldProps = {
         },
         flap: {
           type: 'array',
-          values: {
+          items: {
             type: 'object',
             properties: {
               floop: {
                 type: 'array',
-                values: {
+                items: {
                   type: 'object',
                   properties: {
                     flap: { type: 'string' },
                     floop: {
                       type: 'array',
-                      values: {
+                      items: {
                         type: 'object',
                         properties: {
                           flank: {
                             type: 'array',
-                            values: { type: 'string' },
+                            items: { type: 'string' },
                           },
                         },
                       },
@@ -233,11 +238,11 @@ const fieldProps = {
       //   ['1', '2'],
       //   ['3', '4'],
       // ],
-      values: {
+      items: {
         type: 'array',
-        values: {
+        items: {
           type: 'array',
-          values: {
+          items: {
             type: 'string',
           },
         },
