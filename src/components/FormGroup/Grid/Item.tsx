@@ -41,7 +41,7 @@ export const FormItemInner: FC<{
     items,
     addMultipleLabel = 'Add',
     properties,
-    format,
+    meta,
   },
   value,
   onChange,
@@ -194,13 +194,13 @@ export const FormItemInner: FC<{
     return (
       <styled.div style={{ width: '100%', marginBottom: 16 }}>
         <Label labelWidth={width} label={label} description={description} />
-        {format === 'rich-text' ? (
+        {meta?.format === 'rich-text' ? (
           // @ts-ignore
           <Input
             autoFocus={autoFocus}
-            value={value ?? ''}
+            value={JSON.parse(value) ?? ''}
             type={'rich-text'}
-            onChange={(v) => onChange(field, v)}
+            onChange={({ json }) => onChange(field, json)}
             {...props}
           />
         ) : (
@@ -353,8 +353,6 @@ export const FormItemInner: FC<{
             //@ts-ignore
             type === 'url'
           ? 'text'
-          : type === 'text'
-          ? 'rich-text'
           : type
       }
       onChange={(v) => onChange(field, v)}
@@ -372,6 +370,7 @@ export const FormItem: FC<{
   item: FormItemProps
   value?: any
   autoFocus?: boolean
+  meta?: any
   width?: number
   fieldWidth?: number
   onChange: (field: string, value: any) => void

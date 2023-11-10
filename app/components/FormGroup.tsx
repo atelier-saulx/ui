@@ -26,7 +26,7 @@ const fieldProps = {
   config: {
     flapppp: {
       type: 'json',
-      format: 'rich-text',
+      meta: { format: 'rich-text' },
       label: 'asdasd',
     },
     array: {

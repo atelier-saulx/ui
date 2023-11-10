@@ -39,6 +39,7 @@ const FormItemInner: FC<{
     options,
     default: defaultValue,
     multiple,
+    meta,
     items,
     addMultipleLabel = 'Add',
     properties,
@@ -178,12 +179,26 @@ const FormItemInner: FC<{
   }
 
   if (type === 'json') {
+    console.log('------_>",', JSON.parse(JSON.stringify(value)))
     return (
-      <Code
-        onChange={(v) => onChange(field, v)}
-        value={value}
-        language="json"
-      />
+      <styled.div style={{ width: '100%', marginBottom: 16 }}>
+        {meta?.format === 'rich-text' ? (
+          // @ts-ignore
+          <Input
+            defaultValue={JSON.parse(JSON.stringify(value)) ?? ''}
+            type={'rich-text'}
+            onChange={({ json }) => onChange(field, json)}
+            {...props}
+          />
+        ) : (
+          <Code
+            onChange={(v) => onChange(field, v)}
+            value={value}
+            language="json"
+          />
+        )}
+      </styled.div>
+      // </Label>
     )
   }
 
@@ -277,11 +292,13 @@ const FormItemInner: FC<{
             //@ts-ignore
             type === 'url'
           ? 'text'
-          : type === 'text'
-          ? 'rich-text'
           : type
       }
-      onChange={(v) => onChange(field, v)}
+      onChange={
+        type === 'text'
+          ? ({ html, json }) => onChange(field, json)
+          : (v) => onChange(field, v)
+      }
       {...props}
       // @ts-ignore
       style={Object.assign(
@@ -295,6 +312,7 @@ const FormItemInner: FC<{
 export const FormItem: FC<{
   item: FormItemProps
   value?: any
+  meta?: any
   autoFocus?: boolean
   width?: number
   fieldWidth?: number

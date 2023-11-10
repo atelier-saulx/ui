@@ -43,7 +43,7 @@ export type FormItemProps<T = any> = {
   items?: { type: FormItemProps['type']; values: FormItemProps['items'] }
   // properties?: { type: FormItemProps['type']; values: FormItemProps['values'] }
   properties?: any
-  format?: 'rich-text'
+  meta?: any
   // values?: { type: FormItemProps['type']; values: any }
 }
 
