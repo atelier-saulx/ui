@@ -271,7 +271,11 @@ const FormItemInner: FC<{
         //@ts-ignore
         type === 'integer' || type === 'timestamp' || type === 'int'
           ? 'number'
-          : type === 'string' || type === 'id' || type === 'reference'
+          : type === 'string' ||
+            type === 'id' ||
+            type === 'reference' ||
+            //@ts-ignore
+            type === 'url'
           ? 'text'
           : type === 'text'
           ? 'rich-text'
