@@ -268,10 +268,13 @@ const FormItemInner: FC<{
       clearButton
       //  @ts-ignore
       type={
-        type === 'integer' || type === 'timestamp'
+        //@ts-ignore
+        type === 'integer' || type === 'timestamp' || type === 'int'
           ? 'number'
-          : type === 'string' || type === 'id'
+          : type === 'string' || type === 'id' || type === 'reference'
           ? 'text'
+          : type === 'text'
+          ? 'rich-text'
           : type
       }
       onChange={(v) => onChange(field, v)}
@@ -304,18 +307,19 @@ export const FormItem: FC<{
 }> = (props) => {
   let { label, field, type } = props.item
 
+  //@ts-ignore
+  if (type === 'int') {
+    type = 'integer'
+  }
+
   if (
     //@ts-ignore
     type === 'id' ||
     //@ts-ignore
-    type === 'reference' ||
+    type === 'int' ||
     type === 'references'
   ) {
     return <></>
-  }
-  //@ts-expect-error
-  if (type === 'int') {
-    type = 'integer'
   }
 
   if (props.noLabel || type === 'array')

@@ -342,7 +342,21 @@ export const FormItemInner: FC<{
       autoFocus={autoFocus}
       value={value ?? ''}
       // @ts-ignore
-      type={type === 'integer' ? 'number' : type === 'string' ? 'text' : type}
+      type={
+        // @ts-ignore
+        type === 'integer' || type === 'timestamp' || type === 'int'
+          ? 'number'
+          : // @ts-ignore
+          type === 'string' ||
+            type === 'id' ||
+            type === 'reference' ||
+            //@ts-ignore
+            type === 'url'
+          ? 'text'
+          : type === 'text'
+          ? 'rich-text'
+          : type
+      }
       onChange={(v) => onChange(field, v)}
       {...props}
       // @ts-ignore
@@ -371,6 +385,21 @@ export const FormItem: FC<{
   noLabel?: boolean
 }> = (props) => {
   let { label, field, type, options } = props.item
+
+  //@ts-ignore
+  if (type === 'int') {
+    type = 'integer'
+  }
+
+  if (
+    //@ts-ignore
+    type === 'id' ||
+    //@ts-ignore
+    type === 'int' ||
+    type === 'references'
+  ) {
+    return <></>
+  }
 
   if (
     options ||
