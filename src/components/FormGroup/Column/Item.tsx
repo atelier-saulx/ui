@@ -179,13 +179,13 @@ const FormItemInner: FC<{
   }
 
   if (type === 'json') {
-    console.log('------_>",', JSON.parse(JSON.stringify(value)))
+    // console.log('------_>",', JSON.parse(value))
     return (
       <styled.div style={{ width: '100%', marginBottom: 16 }}>
         {meta?.format === 'rich-text' ? (
           // @ts-ignore
           <Input
-            defaultValue={JSON.parse(JSON.stringify(value)) ?? ''}
+            defaultValue={value ?? ''}
             type={'rich-text'}
             onChange={({ json }) => onChange(field, json)}
             {...props}
