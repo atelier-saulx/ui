@@ -33,10 +33,13 @@ const example: ComponentDef = {
           new Array(6).fill(null).map(() => ({
             id: faker.datatype.uuid().slice(0, 8),
             logo: faker.image.avatar(),
-            name: faker.person.fullName(),
+            firstname: faker.person.firstName(),
+            middlename: faker.person.middleName(),
+            lastname: faker.person.lastName(),
             status: faker.lorem.words(1),
             avatar: faker.internet.emoji(),
             createdAt: faker.date.anytime().getTime(),
+            updatedAt: faker.date.anytime().getTime(),
             price: Math.random() * 1e4,
           }))
         )

@@ -112,7 +112,7 @@ function generateColumDefinitionsFromData(element) {
       columnDefinition.renderAs = 'number-euro'
     }
 
-    if (key === 'bytes') {
+    if (key === 'bytes' || key === 'size') {
       columnDefinition.renderAs = 'number-bytes'
     }
 
