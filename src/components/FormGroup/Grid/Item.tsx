@@ -195,12 +195,15 @@ export const FormItemInner: FC<{
       <styled.div style={{ width: '100%', marginBottom: 16 }}>
         <Label labelWidth={width} label={label} description={description} />
         {meta?.format === 'rich-text' ? (
-          // @ts-ignore
           <Input
-            autoFocus={autoFocus}
-            value={JSON.parse(value) ?? ''}
+            defaultValue={value ?? ''}
             type={'rich-text'}
-            onChange={({ json }) => onChange(field, json)}
+            onChange={({ json, html }) => {
+              onChange(field, json)
+              // if (meta.linkedField) {
+              onChange(meta.linkedField, html)
+              // }
+            }}
             {...props}
           />
         ) : (
@@ -343,14 +346,11 @@ export const FormItemInner: FC<{
       value={value ?? ''}
       // @ts-ignore
       type={
-        // @ts-ignore
         type === 'integer' || type === 'timestamp' || type === 'int'
           ? 'number'
-          : // @ts-ignore
-          type === 'string' ||
+          : type === 'string' ||
             type === 'id' ||
             type === 'reference' ||
-            //@ts-ignore
             type === 'url'
           ? 'text'
           : type
@@ -383,20 +383,9 @@ export const FormItem: FC<{
   style?: Style
   noLabel?: boolean
 }> = (props) => {
-  let { label, field, type, options } = props.item
+  let { label, field, type, options, meta } = props.item
 
-  //@ts-ignore
-  if (type === 'int') {
-    type = 'integer'
-  }
-
-  if (
-    //@ts-ignore
-    type === 'id' ||
-    //@ts-ignore
-    type === 'int' ||
-    type === 'references'
-  ) {
+  if (type === 'references' || meta?.isLinkedField) {
     return <></>
   }
 

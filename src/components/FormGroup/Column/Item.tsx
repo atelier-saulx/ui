@@ -187,7 +187,12 @@ const FormItemInner: FC<{
           <Input
             defaultValue={value ?? ''}
             type={'rich-text'}
-            onChange={({ json }) => onChange(field, json)}
+            onChange={({ json, html }) => {
+              onChange(field, json)
+              if (meta.linkedField) {
+                onChange(meta.linkedField, html)
+              }
+            }}
             {...props}
           />
         ) : (
@@ -294,11 +299,7 @@ const FormItemInner: FC<{
           ? 'text'
           : type
       }
-      onChange={
-        type === 'text'
-          ? ({ html, json }) => onChange(field, json)
-          : (v) => onChange(field, v)
-      }
+      onChange={(v) => onChange(field, v)}
       {...props}
       // @ts-ignore
       style={Object.assign(
@@ -327,20 +328,9 @@ export const FormItem: FC<{
   deleteFunc?: () => void
   style?: Style
 }> = (props) => {
-  let { label, field, type } = props.item
+  let { label, field, type, meta } = props.item
 
-  //@ts-ignore
-  if (type === 'int') {
-    type = 'integer'
-  }
-
-  if (
-    //@ts-ignore
-    type === 'id' ||
-    //@ts-ignore
-    type === 'int' ||
-    type === 'references'
-  ) {
+  if (type === 'references' || meta?.isLinkedField) {
     return <></>
   }
 

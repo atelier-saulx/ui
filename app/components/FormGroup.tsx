@@ -26,8 +26,12 @@ const fieldProps = {
   config: {
     flapppp: {
       type: 'json',
-      meta: { format: 'rich-text' },
+      meta: { format: 'rich-text', linkedField: 'linkedHtml' },
       label: 'asdasd',
+    },
+    linkedHtml: {
+      type: 'string',
+      meta: { isLinkedField: true },
     },
     array: {
       type: 'array',
