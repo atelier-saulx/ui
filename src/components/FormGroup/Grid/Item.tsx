@@ -200,9 +200,9 @@ export const FormItemInner: FC<{
             type={'rich-text'}
             onChange={({ json, html }) => {
               onChange(field, json)
-              if (meta.linkedField) {
-                onChange(meta.linkedField, html)
-              }
+              // if (meta.linkedField) {
+              onChange(meta.linkedField, html)
+              // }
             }}
             {...props}
           />
@@ -383,9 +383,9 @@ export const FormItem: FC<{
   style?: Style
   noLabel?: boolean
 }> = (props) => {
-  let { label, field, type, options } = props.item
+  let { label, field, type, options, meta } = props.item
 
-  if (type === 'references') {
+  if (type === 'references' || meta?.isLinkedField) {
     return <></>
   }
 

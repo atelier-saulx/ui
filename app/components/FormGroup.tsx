@@ -31,6 +31,7 @@ const fieldProps = {
     },
     linkedHtml: {
       type: 'string',
+      meta: { isLinkedField: true },
     },
     array: {
       type: 'array',

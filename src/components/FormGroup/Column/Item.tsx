@@ -328,9 +328,9 @@ export const FormItem: FC<{
   deleteFunc?: () => void
   style?: Style
 }> = (props) => {
-  let { label, field, type } = props.item
+  let { label, field, type, meta } = props.item
 
-  if (type === 'references') {
+  if (type === 'references' || meta?.isLinkedField) {
     return <></>
   }
 
