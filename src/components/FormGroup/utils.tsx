@@ -63,6 +63,7 @@ export const equalChanges = (
 
 export const parseData = (properties) => {
   let parsedData: FormItemProps[]
+
   if (!Array.isArray(properties)) {
     parsedData = []
     for (const field in properties) {

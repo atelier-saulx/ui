@@ -200,7 +200,9 @@ export const FormItemInner: FC<{
             type={'rich-text'}
             onChange={({ json, html }) => {
               onChange(field, json)
-              onChange('html', html)
+              if (meta.linkedField) {
+                onChange(meta.linkedField, html)
+              }
             }}
             {...props}
           />
