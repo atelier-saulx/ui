@@ -55,10 +55,17 @@ export const FormItemInner: FC<{
   style,
 }) => {
   if (!label) {
-    label = useMemo(
-      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
-      [field]
-    )
+    if (meta?.label) {
+      label = meta?.label
+    } else {
+      label = useMemo(
+        () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+        [field]
+      )
+    }
+  }
+  if (!description && meta?.description) {
+    description = meta?.description
   }
 
   if ((defaultValue && value === undefined) || value === '') {
@@ -340,6 +347,7 @@ export const FormItemInner: FC<{
 
   return (
     <Input
+      disabled={meta?.readOnly}
       error={isError}
       message={isError && isString ? validateResult : undefined}
       autoFocus={autoFocus}
@@ -398,7 +406,16 @@ export const FormItem: FC<{
     type === 'range' ||
     type === 'file'
   )
-    return <FormItemInner {...props} />
+    return (
+      <span
+        style={{
+          pointerEvents: meta?.readOnly ? 'none' : 'auto',
+          opacity: meta?.readOnly ? '0.4' : '1',
+        }}
+      >
+        <FormItemInner {...props} />
+      </span>
+    )
 
   if (!label) {
     label = useMemo(
@@ -408,13 +425,20 @@ export const FormItem: FC<{
   }
 
   return (
-    <Label
-      description={props.item.description}
-      label={label}
-      style={props.style}
-      labelWidth={props.width ?? 160}
+    <span
+      style={{
+        pointerEvents: meta?.readOnly ? 'none' : 'auto',
+        opacity: meta?.readOnly ? '0.4' : '1',
+      }}
     >
-      <FormItemInner {...props} />
-    </Label>
+      <Label
+        description={props.item.description}
+        label={label}
+        style={props.style}
+        labelWidth={props.width ?? 160}
+      >
+        <FormItemInner {...props} />
+      </Label>
+    </span>
   )
 }

@@ -328,7 +328,21 @@ export const FormItem: FC<{
   deleteFunc?: () => void
   style?: Style
 }> = (props) => {
-  let { label, field, type, meta } = props.item
+  let { label, field, type, meta, description } = props.item
+
+  if (!label) {
+    if (meta?.label) {
+      label = meta?.label
+    } else {
+      label = useMemo(
+        () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+        [field]
+      )
+    }
+  }
+  if (!description && meta?.description) {
+    description = meta?.description
+  }
 
   if (type === 'references' || meta?.isLinkedField) {
     return <></>
@@ -336,7 +350,13 @@ export const FormItem: FC<{
 
   if (props.noLabel || type === 'array')
     return (
-      <span style={{ position: 'relative' }}>
+      <span
+        style={{
+          position: 'relative',
+          pointerEvents: meta?.readOnly ? 'none' : 'auto',
+          opacity: meta?.readOnly ? '0.4' : '1',
+        }}
+      >
         <FormItemInner {...props} />
         <styled.div
           style={{
@@ -355,16 +375,16 @@ export const FormItem: FC<{
       </span>
     )
 
-  if (!label) {
-    label = useMemo(
-      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
-      [field]
-    )
-  }
-
   return (
-    <Label description={props.item.description} label={label}>
-      <FormItemInner {...props} />
-    </Label>
+    <span
+      style={{
+        pointerEvents: meta?.readOnly ? 'none' : 'auto',
+        opacity: meta?.readOnly ? '0.4' : '1',
+      }}
+    >
+      <Label description={props.item.description} label={label}>
+        <FormItemInner {...props} />
+      </Label>
+    </span>
   )
 }
