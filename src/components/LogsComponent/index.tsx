@@ -4,7 +4,6 @@ import { LogProps } from './Log'
 import { Style, styled } from 'inlines'
 import { Input } from '../Input'
 import { Pill } from '../Pill'
-import { Text } from '../Text'
 import { Button } from '../Button'
 import { BpMobile } from '../../utils'
 import { Counter } from '../Counter'
@@ -16,6 +15,20 @@ export type LogsProps = {
   style?: Style
   onDelete?: () => void
   showCounters?: boolean
+}
+
+const filterThis = (data, searchFilter, typeFilter) => {
+  return data
+    .filter(
+      typeFilter.length !== 0
+        ? (item) => typeFilter.includes(item.type)
+        : (item) => item
+    )
+    .filter(
+      searchFilter !== ''
+        ? (item) => item.log.includes(searchFilter)
+        : (item) => item
+    )
 }
 
 export const Logs = ({
@@ -47,7 +60,7 @@ export const Logs = ({
     positive: 0,
   }
 
-  dataProp.map((item) => (counterData[item.type] += 1))
+  data.map((item) => (counterData[item.type] += 1))
 
   return (
     <styled.div
@@ -148,7 +161,10 @@ export const Logs = ({
         </styled.div>
       )}
 
-      <LogsText data={data} style={style} />
+      <LogsText
+        data={filterThis(data, searchFilter, typeFilter)}
+        style={style}
+      />
     </styled.div>
   )
 }
