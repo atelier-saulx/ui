@@ -19,6 +19,8 @@ export function ValuePlugin({ defaultValue, onChange }: ValuePluginProps) {
       editor.update(() => {
         editor.setEditorState(editor.parseEditorState(JSON.parse(defaultValue)))
       })
+
+      console.log(JSON.parse(defaultValue), '🐱')
     }
   }, [isFirstRender, defaultValue, editor])
 

@@ -20,6 +20,7 @@ import { useCallbackRef } from '../../hooks/useCallbackRef'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
 import { styled } from 'inlines'
+import { TableTopBar } from './TableTopBar'
 
 type RenderAs =
   | 'badge'
@@ -263,76 +264,82 @@ export function Table({
 
   const onRowClick = useCallbackRef(onRowClickProp)
 
-  return (
-    <styled.div
-      ref={tableContainerRef}
-      style={{
-        overflow: 'auto',
-        height: '100%',
-        width: '100%',
-        scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
-        scrollbarWidth: 'thin',
-        '&::-webkit-scrollbar': {
-          visibility: 'hidden',
-        },
-        '&::-webkit-scrollbar:vertical': {
-          width: '8px',
-        },
-        '&::-webkit-scrollbar:horizontal': {
-          height: '8px',
-        },
-        '@media (hover: hover)': {
-          '&:hover': {
-            '&::-webkit-scrollbar': {
-              visibility: 'visible',
-            },
+  let tableHeaderGroups = table.getHeaderGroups()[0].headers
 
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: color('border', 'default', 'strong'),
-              borderRadius: '4px',
-            },
-            '&::-webkit-scrollbar-thumb:vertical': {
-              borderRight: `2px solid ${color(
-                'background',
-                'default',
-                'surface'
-              )}`,
-              minHeight: '32px',
-            },
-            '&::-webkit-scrollbar-thumb:horizontal': {
-              borderBottom: `2px solid ${color(
-                'background',
-                'default',
-                'surface'
-              )}`,
-              minWidth: '32px',
+  return (
+    <>
+      <TableTopBar tableHeaderGroups={tableHeaderGroups} />
+      <styled.div
+        ref={tableContainerRef}
+        style={{
+          overflow: 'auto',
+          height: '100%',
+          width: '100%',
+          scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
+          scrollbarWidth: 'thin',
+          '&::-webkit-scrollbar': {
+            visibility: 'hidden',
+          },
+          '&::-webkit-scrollbar:vertical': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar:horizontal': {
+            height: '8px',
+          },
+          '@media (hover: hover)': {
+            '&:hover': {
+              '&::-webkit-scrollbar': {
+                visibility: 'visible',
+              },
+
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: color('border', 'default', 'strong'),
+                borderRadius: '4px',
+              },
+              '&::-webkit-scrollbar-thumb:vertical': {
+                borderRight: `2px solid ${color(
+                  'background',
+                  'default',
+                  'surface'
+                )}`,
+                minHeight: '32px',
+              },
+              '&::-webkit-scrollbar-thumb:horizontal': {
+                borderBottom: `2px solid ${color(
+                  'background',
+                  'default',
+                  'surface'
+                )}`,
+                minWidth: '32px',
+              },
             },
           },
-        },
-      }}
-      onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
-    >
-      <table
-        style={{
-          width: '100%',
-          borderCollapse: 'separate',
-          borderSpacing: 0,
-          ...(border
-            ? {
-                border: `1px solid ${color('border', 'default', 'strong')}`,
-                borderRadius: 16,
-              }
-            : {}),
         }}
+        onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
       >
-        <tbody>
-          {virtualized && paddingTop > 0 && (
-            <tr>
-              <td style={{ height: `${paddingTop}px` }} />
-            </tr>
-          )}
-          {(virtualized ? virtualRows.map((row) => rows[row.index]) : rows).map(
-            (row, index) => {
+        <table
+          style={{
+            width: '100%',
+            borderCollapse: 'separate',
+            borderSpacing: 0,
+            ...(border
+              ? {
+                  border: `1px solid ${color('border', 'default', 'strong')}`,
+                  borderRadius: 16,
+                }
+              : {}),
+          }}
+        >
+          <tbody>
+            {virtualized && paddingTop > 0 && (
+              <tr>
+                <td style={{ height: `${paddingTop}px` }} />
+              </tr>
+            )}
+            {(virtualized
+              ? virtualRows.map((row) => rows[row.index])
+              : rows
+            ).map((row, index) => {
               return (
                 <tr
                   onClick={(e) => {
@@ -387,92 +394,93 @@ export function Table({
                   })}
                 </tr>
               )
-            }
-          )}
-          {virtualized && paddingBottom > 0 && (
-            <tr>
-              <td style={{ height: `${paddingBottom}px` }} />
-            </tr>
-          )}
-        </tbody>
-        {header && (
-          <thead
-            style={{
-              ...(header === 'sticky'
-                ? {
-                    position: 'sticky',
-                    top: 0,
-                    margin: 0,
-                    textAlign: 'left',
-                    background: color('background', 'default', 'strong'),
-                  }
-                : {}),
-            }}
-          >
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <th
-                      key={header.id}
-                      style={{
-                        padding: '0 12px',
-                        height: 42,
-                        boxSizing: 'border-box',
-                        borderTop:
-                          !border &&
-                          `1px solid ${color('border', 'default', 'strong')}`,
-                        borderBottom: `1px solid ${color(
-                          'border',
-                          'default',
-                          'strong'
-                        )}`,
-                      }}
-                    >
-                      {header.isPlaceholder ? null : (
-                        <div
-                          onClick={header.column.getToggleSortingHandler()}
-                          style={{
-                            display: 'flex',
-                            height: '100%',
-                            justifyContent:
-                              (header.column.columnDef as any).align ?? 'start',
-                            alignItems: 'center',
-                            userSelect: 'none',
-                            cursor: header.column.getCanSort()
-                              ? 'pointer'
-                              : 'default',
-                            color: header.column.getIsSorted()
-                              ? color('content', 'brand', 'primary')
-                              : color('content', 'default', 'secondary'),
-                          }}
-                        >
-                          {{
-                            asc: (
-                              <IconSortAsc
-                                style={{
-                                  marginRight: 8,
-                                }}
-                              />
-                            ),
-                            desc: <IconSortDesc style={{ marginRight: 8 }} />,
-                          }[header.column.getIsSorted() as string] ?? null}
-                          <Text>
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                          </Text>
-                        </div>
-                      )}
-                    </th>
-                  )
-                })}
+            })}
+            {virtualized && paddingBottom > 0 && (
+              <tr>
+                <td style={{ height: `${paddingBottom}px` }} />
               </tr>
-            ))}
-          </thead>
-        )}
-      </table>
-    </styled.div>
+            )}
+          </tbody>
+          {header && (
+            <thead
+              style={{
+                ...(header === 'sticky'
+                  ? {
+                      position: 'sticky',
+                      top: 0,
+                      margin: 0,
+                      textAlign: 'left',
+                      background: color('background', 'default', 'strong'),
+                    }
+                  : {}),
+              }}
+            >
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <th
+                        key={header.id}
+                        style={{
+                          padding: '0 12px',
+                          height: 42,
+                          boxSizing: 'border-box',
+                          borderTop:
+                            !border &&
+                            `1px solid ${color('border', 'default', 'strong')}`,
+                          borderBottom: `1px solid ${color(
+                            'border',
+                            'default',
+                            'strong'
+                          )}`,
+                        }}
+                      >
+                        {header.isPlaceholder ? null : (
+                          <div
+                            onClick={header.column.getToggleSortingHandler()}
+                            style={{
+                              display: 'flex',
+                              height: '100%',
+                              justifyContent:
+                                (header.column.columnDef as any).align ??
+                                'start',
+                              alignItems: 'center',
+                              userSelect: 'none',
+                              cursor: header.column.getCanSort()
+                                ? 'pointer'
+                                : 'default',
+                              color: header.column.getIsSorted()
+                                ? color('content', 'brand', 'primary')
+                                : color('content', 'default', 'secondary'),
+                            }}
+                          >
+                            {{
+                              asc: (
+                                <IconSortAsc
+                                  style={{
+                                    marginRight: 8,
+                                  }}
+                                />
+                              ),
+                              desc: <IconSortDesc style={{ marginRight: 8 }} />,
+                            }[header.column.getIsSorted() as string] ?? null}
+                            <Text>
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                            </Text>
+                          </div>
+                        )}
+                      </th>
+                    )
+                  })}
+                </tr>
+              ))}
+            </thead>
+          )}
+        </table>
+      </styled.div>
+    </>
   )
 }
