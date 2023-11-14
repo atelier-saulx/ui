@@ -99,6 +99,7 @@ export type TableProps = {
   rowAction?: (row: any) => ReactNode
   onRowClick?: (row: any) => void
   selectable?: boolean
+  onMultiSelectDelete?: () => void
 }
 
 function generateColumDefinitionsFromData(element) {
@@ -187,6 +188,7 @@ export function Table({
   rowAction,
   onRowClick: onRowClickProp,
   selectable,
+  onMultiSelectDelete,
 }: TableProps) {
   const [selectedPillVal, setSelectedPillVal] = useState('')
   const [searchValue, setSearchValue] = useState('')
@@ -316,6 +318,9 @@ export function Table({
   return (
     <>
       <TableTopBar
+        onMultiSelectDelete={onMultiSelectDelete}
+        rowSelection={rowSelection}
+        setRowSelection={setRowSelection}
         allColumnNames={allColumnNames}
         setSelectedPillVal={setSelectedPillVal}
         searchValue={searchValue}
@@ -404,7 +409,18 @@ export function Table({
                   key={row.id}
                 >
                   {selectable && (
-                    <td>
+                    <td
+                      style={{
+                        borderBottom:
+                          index !==
+                            (virtualized
+                              ? virtualRows.map((row) => rows[row.index])
+                              : rows
+                            ).length -
+                              1 &&
+                          `1px solid ${color('border', 'default', 'strong')}`,
+                      }}
+                    >
                       <Input
                         type="checkbox"
                         value={row.getIsSelected()}
@@ -482,7 +498,18 @@ export function Table({
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {selectable && (
-                    <th>
+                    <th
+                      style={{
+                        borderTop:
+                          !border &&
+                          `1px solid ${color('border', 'default', 'strong')}`,
+                        borderBottom: `1px solid ${color(
+                          'border',
+                          'default',
+                          'strong'
+                        )}`,
+                      }}
+                    >
                       <Input
                         type="checkbox"
                         value={table.getIsAllRowsSelected()}
@@ -498,7 +525,7 @@ export function Table({
                             )
                           }
                         }}
-                        style={{ marginLeft: 3 }}
+                        style={{ marginLeft: 3, marginBottom: 4 }}
                       />
                     </th>
                   )}

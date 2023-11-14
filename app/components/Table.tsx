@@ -64,6 +64,7 @@ const example: ComponentDef = {
                   </Dropdown.Items>
                 </Dropdown.Root>
               )}
+              onMultiSelectDelete={() => console.log('Delete This 🗑')}
             />
           </div>
         )
@@ -140,6 +141,7 @@ const example: ComponentDef = {
             }}
           >
             <Table
+              selectable={true}
               header={header}
               virtualized={virtualized}
               data={data}
