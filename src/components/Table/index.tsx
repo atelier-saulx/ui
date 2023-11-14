@@ -187,6 +187,9 @@ export function Table({
 }: TableProps) {
   const [selectedPillVal, setSelectedPillVal] = useState('')
   const [searchValue, setSearchValue] = useState('')
+  const [filteredColumns, setFilteredColumns] = useState([])
+
+  console.log('Filtered columns --> 🔥', filteredColumns)
 
   if (searchValue) {
     const res = data.filter((obj) =>
@@ -283,7 +286,7 @@ export function Table({
 
   let tableHeaderGroups = table.getHeaderGroups()[0].headers
 
-  console.log('DATA 🐸', data)
+  // console.log('DATA 🐸', data)
 
   return (
     <>
@@ -292,6 +295,8 @@ export function Table({
         setSelectedPillVal={setSelectedPillVal}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
+        filteredColumns={filteredColumns}
+        setFilteredColumns={setFilteredColumns}
       />
       <styled.div
         ref={tableContainerRef}

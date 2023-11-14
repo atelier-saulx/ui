@@ -6,6 +6,7 @@ import { Button } from '../Button'
 import { IconFilter, IconPlus } from '../../icons'
 import { color } from '../../varsUtilities'
 import { Row } from '../Styled'
+import { Dropdown } from '..'
 
 const SearchBar = ({ searchValue, setSearchValue }) => {
   return (
@@ -72,16 +73,41 @@ const TableFilters = ({ pillOptions, setSelectedPillVal }) => {
   )
 }
 
-const DisplayColumns = () => {
+const DisplayColumns = ({
+  pillOptions,
+  filteredColumns,
+  setFilteredColumns,
+}) => {
   return (
     <styled.div>
-      <Button
-        size="small"
-        icon={<IconPlus />}
-        color="system"
-        light
-        style={{ marginLeft: 8 }}
-      />
+      <Dropdown.Root>
+        <Dropdown.Trigger>
+          <Button
+            size="small"
+            icon={<IconPlus />}
+            color="system"
+            light
+            style={{ marginLeft: 12 }}
+          />
+        </Dropdown.Trigger>
+        <Dropdown.Items>
+          {pillOptions.map((item, idx) => (
+            <Input
+              type="checkbox"
+              value={!filteredColumns.includes(item.value)}
+              key={idx}
+              title={item.value}
+              onChange={(v) => {
+                if (!v) {
+                  console.log('snurp')
+                  setFilteredColumns([...filteredColumns, item.value])
+                } else {
+                }
+              }}
+            />
+          ))}
+        </Dropdown.Items>
+      </Dropdown.Root>
     </styled.div>
   )
 }
@@ -91,6 +117,8 @@ export const TableTopBar = ({
   setSelectedPillVal,
   searchValue,
   setSearchValue,
+  filteredColumns,
+  setFilteredColumns,
 }) => {
   //   console.log(tableHeaderGroups)
 
@@ -116,7 +144,11 @@ export const TableTopBar = ({
       />
       <Row>
         <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
-        <DisplayColumns />
+        <DisplayColumns
+          pillOptions={pillOptions}
+          filteredColumns={filteredColumns}
+          setFilteredColumns={setFilteredColumns}
+        />
       </Row>
     </styled.div>
   )
