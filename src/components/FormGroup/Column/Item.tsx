@@ -346,7 +346,7 @@ export const FormItem: FC<{
 
   if (props.noLabel || type === 'array')
     return (
-      <span
+      <div
         style={{
           position: 'relative',
           pointerEvents: meta?.readOnly ? 'none' : 'auto',
@@ -368,7 +368,7 @@ export const FormItem: FC<{
             <IconClose onClick={props.deleteFunc} />
           )}
         </styled.div>
-      </span>
+      </div>
     )
 
   return (

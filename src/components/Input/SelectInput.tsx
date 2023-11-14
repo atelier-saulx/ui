@@ -118,7 +118,7 @@ export function SelectInput({
     setOpen(true)
     onOpen()
     if (searchable) {
-      inputRef.current?.select()
+      // inputRef.current?.select()
     }
   }
 

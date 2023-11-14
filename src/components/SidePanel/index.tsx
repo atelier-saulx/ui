@@ -112,8 +112,6 @@ export function Content({
               },
               background: color('standalone', 'modal', 'default'),
               borderRadius: 12,
-              overflowY: 'auto',
-              ...scrollAreaStyle,
             }}
           >
             {typeof children === 'function'
@@ -215,11 +213,15 @@ export function Body({ children }: SidePanelBodyProps) {
   return (
     <styled.div
       style={{
-        height: '-webkit-fill-available',
+        // height: '-webkit-fill-available',
+        height: '100%',
         padding: '24px 24px 24px',
+        paddingBottom: '200px',
         display: 'flex',
         flexDirection: 'column',
+        overflowY: 'auto',
         gap: 24,
+        ...scrollAreaStyle,
       }}
     >
       {children}
@@ -251,6 +253,7 @@ export function Actions({ children }: SidePanelActionsProps) {
         // // margin: '0 -32px',
         // borderTop: `1px solid ${color('border', 'default', 'strong')}`,
         position: 'sticky',
+        top: 'auto',
         bottom: 0,
         overflow: 'hidden',
         background: color('standalone', 'modal', 'default'),
