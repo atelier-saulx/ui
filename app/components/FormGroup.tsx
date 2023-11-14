@@ -30,7 +30,7 @@ const fieldProps = {
         format: 'rich-text',
         linkedField: 'linkedHtml',
         label: 'real label',
-        readOnly: true,
+        //  readOnly: true,
       },
       // label: 'asdasd',
     },

@@ -23,9 +23,6 @@ import { BehaviourPlugin } from './plugins/BehaviourPlugin'
 import { EmbedPlugin } from './plugins/EmbedPlugin'
 import { EmbedNode } from './nodes/EmbedNode'
 
-// TODO add embed node
-// TODO add export to HTML
-
 export type RichTextEditorProps = {
   label?: string
   placeholder?: string

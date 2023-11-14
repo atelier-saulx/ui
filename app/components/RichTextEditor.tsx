@@ -20,8 +20,10 @@ const example: ComponentDef = {
               placeholder="Enter some rich text..."
               defaultValue={localStorage.getItem('rte-test') ?? undefined}
               onChange={({ json, html }) => {
+                //  localStorage.setItem('rte-test', json)
                 localStorage.setItem('rte-test', json)
-                console.log(html)
+                console.log('html --> ', html)
+                console.log('json --> ', json)
               }}
             />
           </div>

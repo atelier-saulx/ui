@@ -15,11 +15,18 @@ import {
   Toggle,
   color,
 } from '../..'
-import React, { ReactNode, useCallback, useEffect, useMemo } from 'react'
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useCallbackRef } from '../../hooks/useCallbackRef'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
 import { styled } from 'inlines'
+import { TableTopBar } from './TableTopBar'
 
 type RenderAs =
   | 'badge'
@@ -178,6 +185,26 @@ export function Table({
   rowAction,
   onRowClick: onRowClickProp,
 }: TableProps) {
+  const [selectedPillVal, setSelectedPillVal] = useState('')
+  const [searchValue, setSearchValue] = useState('')
+  const [filteredColumns, setFilteredColumns] = useState([])
+  const [allColumnNames, setAllColumnNames] = useState([])
+
+  // if (data) {
+  //   console.log(
+  //     'whats this -> 🥒',
+  //     generateColumDefinitionsFromData(data[0] ?? {})
+  //   )
+  // }
+
+  if (searchValue) {
+    const res = data.filter((obj) =>
+      JSON.stringify(obj).toLowerCase().includes(searchValue.toLowerCase())
+    )
+
+    data = res
+  }
+
   const columns = useMemo(() => {
     return [
       ...(columnsProp ?? generateColumDefinitionsFromData(data[0] ?? {})),
@@ -196,23 +223,28 @@ export function Table({
 
   const table = useReactTable({
     data,
-    columns: columns.map((c) => {
-      if ('id' in c) {
+    columns: columns
+      .filter((item: any) => !filteredColumns.includes(item.key))
+      .map((c) => {
+        if ('id' in c) {
+          return {
+            align: c.align,
+            id: c.id,
+            header: c.header,
+            cell: ({ row }) => c.renderAs(row.original),
+          }
+        }
+
         return {
           align: c.align,
-          id: c.id,
           header: c.header,
-          cell: ({ row }) => c.renderAs(row.original),
+          accessorKey: c.key,
+          cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
         }
-      }
-
-      return {
-        align: c.align,
-        header: c.header,
-        accessorKey: c.key,
-        cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
-      }
-    }),
+      }),
+    // state: {
+    //   columnVisibility
+    // },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   })
@@ -263,76 +295,98 @@ export function Table({
 
   const onRowClick = useCallbackRef(onRowClickProp)
 
-  return (
-    <styled.div
-      ref={tableContainerRef}
-      style={{
-        overflow: 'auto',
-        height: '100%',
-        width: '100%',
-        scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
-        scrollbarWidth: 'thin',
-        '&::-webkit-scrollbar': {
-          visibility: 'hidden',
-        },
-        '&::-webkit-scrollbar:vertical': {
-          width: '8px',
-        },
-        '&::-webkit-scrollbar:horizontal': {
-          height: '8px',
-        },
-        '@media (hover: hover)': {
-          '&:hover': {
-            '&::-webkit-scrollbar': {
-              visibility: 'visible',
-            },
+  let tableHeaderGroups = table.getAllLeafColumns()
 
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: color('border', 'default', 'strong'),
-              borderRadius: '4px',
-            },
-            '&::-webkit-scrollbar-thumb:vertical': {
-              borderRight: `2px solid ${color(
-                'background',
-                'default',
-                'surface'
-              )}`,
-              minHeight: '32px',
-            },
-            '&::-webkit-scrollbar-thumb:horizontal': {
-              borderBottom: `2px solid ${color(
-                'background',
-                'default',
-                'surface'
-              )}`,
-              minWidth: '32px',
+  useEffect(() => {
+    let pillOptions = []
+    tableHeaderGroups?.map((item) =>
+      pillOptions.push({ label: item.id, value: item.id })
+    )
+
+    setAllColumnNames(pillOptions)
+  }, [])
+
+  return (
+    <>
+      <TableTopBar
+        allColumnNames={allColumnNames}
+        setSelectedPillVal={setSelectedPillVal}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        filteredColumns={filteredColumns}
+        setFilteredColumns={setFilteredColumns}
+      />
+      <styled.div
+        ref={tableContainerRef}
+        style={{
+          overflow: 'auto',
+          height: '100%',
+          width: '100%',
+          scrollbarColor: `${color('border', 'default', 'strong')} transparent`,
+          scrollbarWidth: 'thin',
+          '&::-webkit-scrollbar': {
+            visibility: 'hidden',
+          },
+          '&::-webkit-scrollbar:vertical': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar:horizontal': {
+            height: '8px',
+          },
+          '@media (hover: hover)': {
+            '&:hover': {
+              '&::-webkit-scrollbar': {
+                visibility: 'visible',
+              },
+
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: color('border', 'default', 'strong'),
+                borderRadius: '4px',
+              },
+              '&::-webkit-scrollbar-thumb:vertical': {
+                borderRight: `2px solid ${color(
+                  'background',
+                  'default',
+                  'surface'
+                )}`,
+                minHeight: '32px',
+              },
+              '&::-webkit-scrollbar-thumb:horizontal': {
+                borderBottom: `2px solid ${color(
+                  'background',
+                  'default',
+                  'surface'
+                )}`,
+                minWidth: '32px',
+              },
             },
           },
-        },
-      }}
-      onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
-    >
-      <table
-        style={{
-          width: '100%',
-          borderCollapse: 'separate',
-          borderSpacing: 0,
-          ...(border
-            ? {
-                border: `1px solid ${color('border', 'default', 'strong')}`,
-                borderRadius: 16,
-              }
-            : {}),
         }}
+        onScroll={(e) => handleScroll(e.target as HTMLDivElement)}
       >
-        <tbody>
-          {virtualized && paddingTop > 0 && (
-            <tr>
-              <td style={{ height: `${paddingTop}px` }} />
-            </tr>
-          )}
-          {(virtualized ? virtualRows.map((row) => rows[row.index]) : rows).map(
-            (row, index) => {
+        <table
+          style={{
+            width: '100%',
+            borderCollapse: 'separate',
+            borderSpacing: 0,
+            ...(border
+              ? {
+                  border: `1px solid ${color('border', 'default', 'strong')}`,
+                  borderRadius: 16,
+                }
+              : {}),
+          }}
+        >
+          <tbody>
+            {virtualized && paddingTop > 0 && (
+              <tr>
+                <td style={{ height: `${paddingTop}px` }} />
+              </tr>
+            )}
+            {(virtualized
+              ? virtualRows.map((row) => rows[row.index])
+              : rows
+            ).map((row, index) => {
               return (
                 <tr
                   onClick={(e) => {
@@ -387,92 +441,109 @@ export function Table({
                   })}
                 </tr>
               )
-            }
-          )}
-          {virtualized && paddingBottom > 0 && (
-            <tr>
-              <td style={{ height: `${paddingBottom}px` }} />
-            </tr>
-          )}
-        </tbody>
-        {header && (
-          <thead
-            style={{
-              ...(header === 'sticky'
-                ? {
-                    position: 'sticky',
-                    top: 0,
-                    margin: 0,
-                    textAlign: 'left',
-                    background: color('background', 'default', 'strong'),
-                  }
-                : {}),
-            }}
-          >
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <th
-                      key={header.id}
-                      style={{
-                        padding: '0 12px',
-                        height: 42,
-                        boxSizing: 'border-box',
-                        borderTop:
-                          !border &&
-                          `1px solid ${color('border', 'default', 'strong')}`,
-                        borderBottom: `1px solid ${color(
-                          'border',
-                          'default',
-                          'strong'
-                        )}`,
-                      }}
-                    >
-                      {header.isPlaceholder ? null : (
-                        <div
-                          onClick={header.column.getToggleSortingHandler()}
-                          style={{
-                            display: 'flex',
-                            height: '100%',
-                            justifyContent:
-                              (header.column.columnDef as any).align ?? 'start',
-                            alignItems: 'center',
-                            userSelect: 'none',
-                            cursor: header.column.getCanSort()
-                              ? 'pointer'
-                              : 'default',
-                            color: header.column.getIsSorted()
-                              ? color('content', 'brand', 'primary')
-                              : color('content', 'default', 'secondary'),
-                          }}
-                        >
-                          {{
-                            asc: (
-                              <IconSortAsc
-                                style={{
-                                  marginRight: 8,
-                                }}
-                              />
-                            ),
-                            desc: <IconSortDesc style={{ marginRight: 8 }} />,
-                          }[header.column.getIsSorted() as string] ?? null}
-                          <Text>
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                          </Text>
-                        </div>
-                      )}
-                    </th>
-                  )
-                })}
+            })}
+            {virtualized && paddingBottom > 0 && (
+              <tr>
+                <td style={{ height: `${paddingBottom}px` }} />
               </tr>
-            ))}
-          </thead>
-        )}
-      </table>
-    </styled.div>
+            )}
+          </tbody>
+          {header && (
+            <thead
+              style={{
+                ...(header === 'sticky'
+                  ? {
+                      position: 'sticky',
+                      top: 0,
+                      margin: 0,
+                      textAlign: 'left',
+                      background: color('background', 'default', 'strong'),
+                    }
+                  : {}),
+              }}
+            >
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <th
+                        key={header.id}
+                        style={{
+                          padding: '0 12px',
+                          height: 42,
+                          boxSizing: 'border-box',
+                          borderTop:
+                            !border &&
+                            `1px solid ${color('border', 'default', 'strong')}`,
+                          borderBottom: `1px solid ${color(
+                            'border',
+                            'default',
+                            'strong'
+                          )}`,
+                        }}
+                      >
+                        {header.isPlaceholder ? null : (
+                          <div
+                            onClick={header.column.getToggleSortingHandler()}
+                            style={{
+                              display: 'flex',
+                              height: '100%',
+                              justifyContent:
+                                (header.column.columnDef as any).align ??
+                                'start',
+                              alignItems: 'center',
+                              userSelect: 'none',
+                              cursor: header.column.getCanSort()
+                                ? 'pointer'
+                                : 'default',
+                            }}
+                          >
+                            {{
+                              asc: (
+                                <IconSortAsc
+                                  color="brand"
+                                  style={{
+                                    marginRight: 8,
+                                  }}
+                                />
+                              ),
+                              desc: (
+                                <IconSortDesc
+                                  style={{ marginRight: 8 }}
+                                  color="brand"
+                                />
+                              ),
+                            }[header.column.getIsSorted() as string] ?? null}
+                            <Text
+                              style={{
+                                color:
+                                  header.column.getIsSorted() ||
+                                  selectedPillVal === header.id
+                                    ? color('content', 'brand', 'primary')
+                                    : color('content', 'default', 'secondary'),
+                              }}
+                              weight={
+                                selectedPillVal === header.id
+                                  ? 'medium'
+                                  : 'normal'
+                              }
+                            >
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                            </Text>
+                          </div>
+                        )}
+                      </th>
+                    )
+                  })}
+                </tr>
+              ))}
+            </thead>
+          )}
+        </table>
+      </styled.div>
+    </>
   )
 }
