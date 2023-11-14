@@ -188,8 +188,9 @@ export function Table({
   const [selectedPillVal, setSelectedPillVal] = useState('')
   const [searchValue, setSearchValue] = useState('')
   const [filteredColumns, setFilteredColumns] = useState([])
-
-  console.log('Filtered columns --> 🔥', filteredColumns)
+  const [allColumnNames, setAllColumnNames] = useState(
+    generateColumDefinitionsFromData(data[0] ?? {})
+  )
 
   if (searchValue) {
     const res = data.filter((obj) =>
@@ -217,23 +218,25 @@ export function Table({
 
   const table = useReactTable({
     data,
-    columns: columns.map((c) => {
-      if ('id' in c) {
+    columns: columns
+      .filter((item: any) => !filteredColumns.includes(item.key))
+      .map((c) => {
+        if ('id' in c) {
+          return {
+            align: c.align,
+            id: c.id,
+            header: c.header,
+            cell: ({ row }) => c.renderAs(row.original),
+          }
+        }
+
         return {
           align: c.align,
-          id: c.id,
           header: c.header,
-          cell: ({ row }) => c.renderAs(row.original),
+          accessorKey: c.key,
+          cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
         }
-      }
-
-      return {
-        align: c.align,
-        header: c.header,
-        accessorKey: c.key,
-        cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
-      }
-    }),
+      }),
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   })
@@ -284,14 +287,10 @@ export function Table({
 
   const onRowClick = useCallbackRef(onRowClickProp)
 
-  let tableHeaderGroups = table.getHeaderGroups()[0].headers
-
-  // console.log('DATA 🐸', data)
-
   return (
     <>
       <TableTopBar
-        tableHeaderGroups={tableHeaderGroups}
+        allColumnNames={allColumnNames}
         setSelectedPillVal={setSelectedPillVal}
         searchValue={searchValue}
         setSearchValue={setSearchValue}

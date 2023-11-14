@@ -99,9 +99,11 @@ const DisplayColumns = ({
               title={item.value}
               onChange={(v) => {
                 if (!v) {
-                  console.log('snurp')
                   setFilteredColumns([...filteredColumns, item.value])
                 } else {
+                  setFilteredColumns([
+                    ...filteredColumns.filter((snurp) => snurp !== item.value),
+                  ])
                 }
               }}
             />
@@ -113,7 +115,7 @@ const DisplayColumns = ({
 }
 
 export const TableTopBar = ({
-  tableHeaderGroups,
+  allColumnNames,
   setSelectedPillVal,
   searchValue,
   setSearchValue,
@@ -124,8 +126,8 @@ export const TableTopBar = ({
 
   let pillOptions = []
 
-  tableHeaderGroups?.map((item) =>
-    pillOptions.push({ label: item.id, value: item.id })
+  allColumnNames?.map((item) =>
+    pillOptions.push({ label: item.key, value: item.key })
   )
 
   return (
