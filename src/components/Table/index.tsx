@@ -283,6 +283,8 @@ export function Table({
 
   let tableHeaderGroups = table.getHeaderGroups()[0].headers
 
+  console.log('DATA 🐸', data)
+
   return (
     <>
       <TableTopBar
@@ -476,12 +478,18 @@ export function Table({
                             {{
                               asc: (
                                 <IconSortAsc
+                                  color="brand"
                                   style={{
                                     marginRight: 8,
                                   }}
                                 />
                               ),
-                              desc: <IconSortDesc style={{ marginRight: 8 }} />,
+                              desc: (
+                                <IconSortDesc
+                                  style={{ marginRight: 8 }}
+                                  color="brand"
+                                />
+                              ),
                             }[header.column.getIsSorted() as string] ?? null}
                             <Text
                               style={{
