@@ -76,7 +76,7 @@ export const FormItemInner: FC<{
     value = ['']
   }
 
-  if (multiple || type === 'array' || type === 'set') {
+  if (multiple || type === 'array' || type === 'set' || type === 'references') {
     return (
       <styled.div style={{ width: '100%', marginBottom: 16 }}>
         <List
@@ -393,7 +393,7 @@ export const FormItem: FC<{
 }> = (props) => {
   let { label, field, type, options, meta } = props.item
 
-  if (type === 'references' || meta?.isLinkedField) {
+  if (meta?.isLinkedField) {
     return <></>
   }
 

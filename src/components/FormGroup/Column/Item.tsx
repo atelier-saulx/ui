@@ -6,11 +6,7 @@ import { Input, Row, List, Toggle, Code, Button } from '../..'
 import { ObjectItem } from '../ObjectItem'
 import { IconClose } from '../../../icons'
 
-// | 'timestamp'
 // | 'record'
-// | 'set'
-// | 'reference'
-// | 'references'
 // | 'text'
 // | 'cardinality'
 
@@ -66,7 +62,7 @@ const FormItemInner: FC<{
     value = ['']
   }
 
-  if (multiple || type === 'array' || type === 'set') {
+  if (multiple || type === 'array' || type === 'set' || type === 'references') {
     return (
       <Label>
         <List
@@ -344,7 +340,7 @@ export const FormItem: FC<{
     description = meta?.description
   }
 
-  if (type === 'references' || meta?.isLinkedField) {
+  if (meta?.isLinkedField) {
     return <></>
   }
 

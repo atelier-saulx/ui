@@ -7,7 +7,7 @@ import { IconAlertFill, IconClose } from '../../icons'
 import { scrollAreaStyle } from '../ScrollArea'
 import { useControllableState } from '../../hooks/useControllableState'
 import { Button } from '../Button'
-import { BpMobile } from '../../utils'
+import { BpMobile, BpTablet } from '../../utils'
 
 type UseSidePanelProps = {
   open: boolean
@@ -107,7 +107,7 @@ export function Content({
               height: '100%',
               width: '90vw',
               maxWidth: width,
-              [BpMobile]: {
+              [BpTablet]: {
                 maxWidth: '100%',
               },
               background: color('standalone', 'modal', 'default'),
