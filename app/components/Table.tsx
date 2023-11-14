@@ -9,8 +9,6 @@ import {
   Input,
   Modal,
   Table,
-  Text,
-  Thumbnail,
   useInfiniteQuery,
 } from '../../src'
 import { ComponentDef } from '../types'
@@ -47,6 +45,7 @@ const example: ComponentDef = {
         return (
           <div style={{ width: 900 }}>
             <Table
+              selectable={true}
               header={header}
               virtualized={virtualized}
               data={data}

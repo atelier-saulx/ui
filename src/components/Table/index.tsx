@@ -14,6 +14,7 @@ import {
   Thumbnail,
   Toggle,
   color,
+  Input,
 } from '../..'
 import React, {
   ReactNode,
@@ -97,6 +98,7 @@ export type TableProps = {
   border?: boolean
   rowAction?: (row: any) => ReactNode
   onRowClick?: (row: any) => void
+  selectable?: boolean
 }
 
 function generateColumDefinitionsFromData(element) {
@@ -184,26 +186,29 @@ export function Table({
   border,
   rowAction,
   onRowClick: onRowClickProp,
+  selectable,
 }: TableProps) {
   const [selectedPillVal, setSelectedPillVal] = useState('')
   const [searchValue, setSearchValue] = useState('')
   const [filteredColumns, setFilteredColumns] = useState([])
   const [allColumnNames, setAllColumnNames] = useState([])
-
-  // if (data) {
-  //   console.log(
-  //     'whats this -> 🥒',
-  //     generateColumDefinitionsFromData(data[0] ?? {})
-  //   )
-  // }
+  const [rowSelection, setRowSelection] = useState({})
 
   if (searchValue) {
     const res = data.filter((obj) =>
       JSON.stringify(obj).toLowerCase().includes(searchValue.toLowerCase())
     )
-
     data = res
   }
+
+  useEffect(() => {
+    setRowSelection({})
+  }, [searchValue])
+
+  useEffect(() => {
+    console.log('YOW he 🍿', rowSelection)
+    console.log('AND THIS YOAW', table.getSelectedRowModel().flatRows)
+  }, [rowSelection])
 
   const columns = useMemo(() => {
     return [
@@ -242,9 +247,11 @@ export function Table({
           cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
         }
       }),
-    // state: {
-    //   columnVisibility
-    // },
+    state: {
+      rowSelection,
+    },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   })
@@ -396,6 +403,16 @@ export function Table({
                   }}
                   key={row.id}
                 >
+                  {selectable && (
+                    <td>
+                      <Input
+                        type="checkbox"
+                        value={row.getIsSelected()}
+                        onChange={row.getToggleSelectedHandler()}
+                        style={{ marginLeft: 3 }}
+                      />
+                    </td>
+                  )}
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <td
@@ -464,6 +481,27 @@ export function Table({
             >
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
+                  {selectable && (
+                    <th>
+                      <Input
+                        type="checkbox"
+                        value={table.getIsAllRowsSelected()}
+                        onChange={() => {
+                          if (table.getIsAllRowsSelected()) {
+                            setRowSelection({})
+                          } else {
+                            setRowSelection(
+                              Object.assign(
+                                {},
+                                new Array(data.length).fill(true)
+                              )
+                            )
+                          }
+                        }}
+                        style={{ marginLeft: 3 }}
+                      />
+                    </th>
+                  )}
                   {headerGroup.headers.map((header) => {
                     return (
                       <th
