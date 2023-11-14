@@ -105,8 +105,10 @@ export function Content({
               marginRight: position === 'right' ? '0px' : 'auto',
               marginLeft: position === 'right' ? 'auto' : '0px',
               height: '100%',
+              position: 'relative',
               width: '90vw',
               maxWidth: width,
+              overflow: 'hidden',
               [BpTablet]: {
                 maxWidth: '100%',
               },
@@ -239,8 +241,8 @@ export function Actions({ children }: SidePanelActionsProps) {
       style={{
         // position: 'sticky',
         // bottom: 0,
-        // left: 0,
-        // right: 0,
+        left: 0,
+        right: 0,
         // padding: 24,
         // background: color('standalone', 'modal', 'default'),
         // display: 'flex',
