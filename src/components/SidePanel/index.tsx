@@ -7,7 +7,7 @@ import { IconAlertFill, IconClose } from '../../icons'
 import { scrollAreaStyle } from '../ScrollArea'
 import { useControllableState } from '../../hooks/useControllableState'
 import { Button } from '../Button'
-import { BpMobile } from '../../utils'
+import { BpMobile, BpTablet } from '../../utils'
 
 type UseSidePanelProps = {
   open: boolean
@@ -107,13 +107,11 @@ export function Content({
               height: '100%',
               width: '90vw',
               maxWidth: width,
-              [BpMobile]: {
+              [BpTablet]: {
                 maxWidth: '100%',
               },
               background: color('standalone', 'modal', 'default'),
               borderRadius: 12,
-              overflowY: 'auto',
-              ...scrollAreaStyle,
             }}
           >
             {typeof children === 'function'
@@ -215,11 +213,15 @@ export function Body({ children }: SidePanelBodyProps) {
   return (
     <styled.div
       style={{
-        height: '-webkit-fill-available',
+        // height: '-webkit-fill-available',
+        height: '100%',
         padding: '24px 24px 24px',
+        paddingBottom: '200px',
         display: 'flex',
         flexDirection: 'column',
+        overflowY: 'auto',
         gap: 24,
+        ...scrollAreaStyle,
       }}
     >
       {children}
@@ -251,6 +253,7 @@ export function Actions({ children }: SidePanelActionsProps) {
         // // margin: '0 -32px',
         // borderTop: `1px solid ${color('border', 'default', 'strong')}`,
         position: 'sticky',
+        top: 'auto',
         bottom: 0,
         overflow: 'hidden',
         background: color('standalone', 'modal', 'default'),

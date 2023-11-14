@@ -6,11 +6,7 @@ import { Input, Row, List, Toggle, Code, Button } from '../..'
 import { ObjectItem } from '../ObjectItem'
 import { IconClose } from '../../../icons'
 
-// | 'timestamp'
 // | 'record'
-// | 'set'
-// | 'reference'
-// | 'references'
 // | 'text'
 // | 'cardinality'
 
@@ -66,7 +62,7 @@ const FormItemInner: FC<{
     value = ['']
   }
 
-  if (multiple || type === 'array' || type === 'set') {
+  if (multiple || type === 'array' || type === 'set' || type === 'references') {
     return (
       <Label>
         <List
@@ -344,13 +340,13 @@ export const FormItem: FC<{
     description = meta?.description
   }
 
-  if (type === 'references' || meta?.isLinkedField) {
+  if (meta?.isLinkedField) {
     return <></>
   }
 
   if (props.noLabel || type === 'array')
     return (
-      <span
+      <div
         style={{
           position: 'relative',
           pointerEvents: meta?.readOnly ? 'none' : 'auto',
@@ -372,7 +368,7 @@ export const FormItem: FC<{
             <IconClose onClick={props.deleteFunc} />
           )}
         </styled.div>
-      </span>
+      </div>
     )
 
   return (
