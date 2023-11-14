@@ -188,9 +188,14 @@ export function Table({
   const [selectedPillVal, setSelectedPillVal] = useState('')
   const [searchValue, setSearchValue] = useState('')
   const [filteredColumns, setFilteredColumns] = useState([])
-  const [allColumnNames, setAllColumnNames] = useState(
-    generateColumDefinitionsFromData(data[0] ?? {})
-  )
+  const [allColumnNames, setAllColumnNames] = useState([])
+
+  // if (data) {
+  //   console.log(
+  //     'whats this -> 🥒',
+  //     generateColumDefinitionsFromData(data[0] ?? {})
+  //   )
+  // }
 
   if (searchValue) {
     const res = data.filter((obj) =>
@@ -237,6 +242,9 @@ export function Table({
           cell: ({ row }) => renderCell(c.key, row.original, c.renderAs),
         }
       }),
+    // state: {
+    //   columnVisibility
+    // },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   })
@@ -286,6 +294,17 @@ export function Table({
   )
 
   const onRowClick = useCallbackRef(onRowClickProp)
+
+  let tableHeaderGroups = table.getAllLeafColumns()
+
+  useEffect(() => {
+    let pillOptions = []
+    tableHeaderGroups?.map((item) =>
+      pillOptions.push({ label: item.id, value: item.id })
+    )
+
+    setAllColumnNames(pillOptions)
+  }, [])
 
   return (
     <>

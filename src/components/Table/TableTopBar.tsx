@@ -28,14 +28,14 @@ const SearchBar = ({ searchValue, setSearchValue }) => {
   )
 }
 
-const TableFilters = ({ pillOptions, setSelectedPillVal }) => {
+const TableFilters = ({ allColumnNames, setSelectedPillVal }) => {
   const [pillValue, setPillValue] = useState<any>('')
 
   return (
     <styled.div style={{ display: 'flex', gap: 6 }}>
       <styled.div>
         <Pill
-          options={pillOptions}
+          options={allColumnNames}
           type="select"
           value={pillValue}
           onChange={(v) => {
@@ -74,7 +74,7 @@ const TableFilters = ({ pillOptions, setSelectedPillVal }) => {
 }
 
 const DisplayColumns = ({
-  pillOptions,
+  allColumnNames,
   filteredColumns,
   setFilteredColumns,
 }) => {
@@ -91,7 +91,7 @@ const DisplayColumns = ({
           />
         </Dropdown.Trigger>
         <Dropdown.Items>
-          {pillOptions.map((item, idx) => (
+          {allColumnNames.map((item, idx) => (
             <Input
               type="checkbox"
               value={!filteredColumns.includes(item.value)}
@@ -122,14 +122,6 @@ export const TableTopBar = ({
   filteredColumns,
   setFilteredColumns,
 }) => {
-  //   console.log(tableHeaderGroups)
-
-  let pillOptions = []
-
-  allColumnNames?.map((item) =>
-    pillOptions.push({ label: item.key, value: item.key })
-  )
-
   return (
     <styled.div
       style={{
@@ -141,13 +133,13 @@ export const TableTopBar = ({
       }}
     >
       <TableFilters
-        pillOptions={pillOptions}
+        allColumnNames={allColumnNames}
         setSelectedPillVal={setSelectedPillVal}
       />
       <Row>
         <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
         <DisplayColumns
-          pillOptions={pillOptions}
+          allColumnNames={allColumnNames}
           filteredColumns={filteredColumns}
           setFilteredColumns={setFilteredColumns}
         />
