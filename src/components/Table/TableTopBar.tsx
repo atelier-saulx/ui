@@ -4,16 +4,22 @@ import { Input } from '../Input'
 import { Pill } from '../Pill'
 import { Button } from '../Button'
 import { IconFilter } from '../../icons'
+import { color } from '../../varsUtilities'
 
-const SearchBar = () => {
+const SearchBar = ({ searchValue, setSearchValue }) => {
   return (
     <styled.div style={{ maxWidth: 246 }}>
-      <Input type="search" placeholder="Search for an item" />
+      <Input
+        type="search"
+        placeholder="Search for an item"
+        value={searchValue}
+        onChange={(v) => setSearchValue(v)}
+      />
     </styled.div>
   )
 }
 
-const TableFilters = ({ pillOptions }) => {
+const TableFilters = ({ pillOptions, setSelectedPillVal }) => {
   const [pillValue, setPillValue] = useState<any>('')
 
   return (
@@ -23,7 +29,10 @@ const TableFilters = ({ pillOptions }) => {
           options={pillOptions}
           type="select"
           value={pillValue}
-          onChange={(v) => setPillValue(v)}
+          onChange={(v) => {
+            setPillValue(v)
+            setSelectedPillVal(v)
+          }}
         />
       </styled.div>
       {pillValue ? (
@@ -43,8 +52,13 @@ const TableFilters = ({ pillOptions }) => {
   )
 }
 
-export const TableTopBar = ({ tableHeaderGroups }) => {
-  console.log(tableHeaderGroups)
+export const TableTopBar = ({
+  tableHeaderGroups,
+  setSelectedPillVal,
+  searchValue,
+  setSearchValue,
+}) => {
+  //   console.log(tableHeaderGroups)
 
   let pillOptions = []
 
@@ -57,12 +71,16 @@ export const TableTopBar = ({ tableHeaderGroups }) => {
       style={{
         display: 'flex',
         alignItems: 'center',
-        padding: '12px 6px ',
+        padding: '8px 6px ',
         justifyContent: 'space-between',
+        borderTop: `1px solid ${color('border', 'default', 'strong')}`,
       }}
     >
-      <TableFilters pillOptions={pillOptions} />
-      <SearchBar />
+      <TableFilters
+        pillOptions={pillOptions}
+        setSelectedPillVal={setSelectedPillVal}
+      />
+      <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
     </styled.div>
   )
 }

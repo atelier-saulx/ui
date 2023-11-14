@@ -15,7 +15,13 @@ import {
   Toggle,
   color,
 } from '../..'
-import React, { ReactNode, useCallback, useEffect, useMemo } from 'react'
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useCallbackRef } from '../../hooks/useCallbackRef'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
@@ -179,6 +185,17 @@ export function Table({
   rowAction,
   onRowClick: onRowClickProp,
 }: TableProps) {
+  const [selectedPillVal, setSelectedPillVal] = useState('')
+  const [searchValue, setSearchValue] = useState('')
+
+  if (searchValue) {
+    const res = data.filter((obj) =>
+      JSON.stringify(obj).toLowerCase().includes(searchValue.toLowerCase())
+    )
+
+    data = res
+  }
+
   const columns = useMemo(() => {
     return [
       ...(columnsProp ?? generateColumDefinitionsFromData(data[0] ?? {})),
@@ -268,7 +285,12 @@ export function Table({
 
   return (
     <>
-      <TableTopBar tableHeaderGroups={tableHeaderGroups} />
+      <TableTopBar
+        tableHeaderGroups={tableHeaderGroups}
+        setSelectedPillVal={setSelectedPillVal}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
       <styled.div
         ref={tableContainerRef}
         style={{
@@ -449,9 +471,6 @@ export function Table({
                               cursor: header.column.getCanSort()
                                 ? 'pointer'
                                 : 'default',
-                              color: header.column.getIsSorted()
-                                ? color('content', 'brand', 'primary')
-                                : color('content', 'default', 'secondary'),
                             }}
                           >
                             {{
@@ -464,7 +483,20 @@ export function Table({
                               ),
                               desc: <IconSortDesc style={{ marginRight: 8 }} />,
                             }[header.column.getIsSorted() as string] ?? null}
-                            <Text>
+                            <Text
+                              style={{
+                                color:
+                                  header.column.getIsSorted() ||
+                                  selectedPillVal === header.id
+                                    ? color('content', 'brand', 'primary')
+                                    : color('content', 'default', 'secondary'),
+                              }}
+                              weight={
+                                selectedPillVal === header.id
+                                  ? 'medium'
+                                  : 'normal'
+                              }
+                            >
                               {flexRender(
                                 header.column.columnDef.header,
                                 header.getContext()
