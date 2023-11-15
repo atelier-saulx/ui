@@ -73,40 +73,6 @@ const example: ComponentDef = {
       },
     },
     {
-      name: 'No header, no border, no virtualization',
-      description: 'No header',
-      props: { header: false, virtualized: false },
-      customRenderer: ({ header, virtualized }) => {
-        const [data] = useState(() =>
-          new Array(6).fill(null).map(() => ({
-            name: faker.person.fullName(),
-            avatar: faker.image.avatar(),
-            tag: faker.lorem.words(1),
-            role: faker.lorem.words(1),
-            createdAt: faker.date.anytime().getTime(),
-          }))
-        )
-
-        return (
-          <div style={{ width: 900 }}>
-            <Table
-              header={header}
-              virtualized={virtualized}
-              data={data}
-              onRowClick={(row) => {
-                console.log(row)
-              }}
-              rowAction={(row) => (
-                <ConfirmModal onCancel={() => {}} onConfirm={() => {}}>
-                  <Button ghost icon={<IconDelete />} />
-                </ConfirmModal>
-              )}
-            />
-          </div>
-        )
-      },
-    },
-    {
       name: 'Virtualized, sticky header, no border',
       props: { header: 'sticky', virtualized: true },
       customRenderer: ({ header, virtualized }) => {
@@ -143,6 +109,7 @@ const example: ComponentDef = {
             }}
           >
             <Table
+              topBar={true}
               selectable={true}
               header={header}
               virtualized={virtualized}
@@ -239,6 +206,40 @@ const example: ComponentDef = {
                 </Modal.Actions>
               </Modal.Content>
             </Modal.Root>
+          </div>
+        )
+      },
+    },
+    {
+      name: 'No header, no border, no virtualization',
+      description: 'No header',
+      props: { header: false, virtualized: false },
+      customRenderer: ({ header, virtualized }) => {
+        const [data] = useState(() =>
+          new Array(6).fill(null).map(() => ({
+            name: faker.person.fullName(),
+            avatar: faker.image.avatar(),
+            tag: faker.lorem.words(1),
+            role: faker.lorem.words(1),
+            createdAt: faker.date.anytime().getTime(),
+          }))
+        )
+
+        return (
+          <div style={{ width: 900 }}>
+            <Table
+              header={header}
+              virtualized={virtualized}
+              data={data}
+              onRowClick={(row) => {
+                console.log(row)
+              }}
+              rowAction={(row) => (
+                <ConfirmModal onCancel={() => {}} onConfirm={() => {}}>
+                  <Button ghost icon={<IconDelete />} />
+                </ConfirmModal>
+              )}
+            />
           </div>
         )
       },
