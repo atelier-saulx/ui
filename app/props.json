@@ -1544,9 +1544,13 @@
         "maxLength": {
           "optional": true,
           "type": "number"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type TextInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value: string) => void\n  onFocus?: () => void\n  onBlur?: (value: string) => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: boolean\n  message?: ReactNode\n  password?: boolean\n  maxLength?: number\n}",
+      "code": "type TextInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value: string) => void\n  onFocus?: () => void\n  onBlur?: (value: string) => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  icon?: React.ReactNode\n  style?: Style\n  afterIcon?: React.ReactNode\n  clearButton?: boolean\n  error?: boolean\n  message?: ReactNode\n  password?: boolean\n  maxLength?: number\n  autoFocus?: boolean\n}",
       "file": "/components/Input/TextInput.tsx"
     },
     "CommonInputProps": {
@@ -1571,9 +1575,13 @@
         "indent": {
           "optional": true,
           "type": "boolean"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type CommonInputProps = {\n  label?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  description?: string\n  indent?: boolean\n}",
+      "code": "type CommonInputProps = {\n  label?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  description?: string\n  indent?: boolean\n  autoFocus?: boolean\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelAndErrorWrapperProps": {
@@ -3068,9 +3076,21 @@
         "onRowClick": {
           "optional": true,
           "type": "function"
+        },
+        "topBar": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "selectable": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onMultiSelectDelete": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type TableProps = {\n  columns?: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n  rowAction?: (row: any) => ReactNode\n  onRowClick?: (row: any) => void\n}",
+      "code": "type TableProps = {\n  columns?: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n  rowAction?: (row: any) => ReactNode\n  onRowClick?: (row: any) => void\n  topBar?: boolean\n  selectable?: boolean\n  onMultiSelectDelete?: () => void\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
@@ -3512,6 +3532,10 @@
             "ReactNode",
             {
               "array": "ReactNode"
+            },
+            "Element",
+            {
+              "array": "Element"
             }
           ]
         },
@@ -3520,7 +3544,7 @@
           "type": "Style"
         }
       },
-      "code": "type TopNavigationProps = {\n  sticky?: boolean\n  children?: ReactNode | ReactNode[]\n  style?: Style\n}",
+      "code": "type TopNavigationProps = {\n  sticky?: boolean\n  children?: ReactNode | ReactNode[] | Element | Element[]\n  style?: Style\n}",
       "file": "/components/TopNavigation/index.tsx"
     },
     "UseThemeProps": {

@@ -20,6 +20,7 @@ const example: ComponentDef = {
         prefix: 'Identity',
         placeholder: 'Select more',
         searchable: true,
+        autoFocus: true,
       },
       description: 'Multi-Select MultiSelectInput',
       customRenderer: (props) => {

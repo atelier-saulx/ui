@@ -19,6 +19,7 @@ const example: ComponentDef = {
       props: {
         type: 'select',
         label: 'This is a label',
+        autoFocus: true,
         options: Array.from({ length: 25 }).map((_, i) => ({
           label: faker.person.fullName(),
           value: `id${i}`,

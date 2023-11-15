@@ -8,22 +8,24 @@ const example: ComponentDef = {
   component: Input,
   description: 'Text Input',
   properties: {
-    style: { type: 'Style' },
-    value: { type: 'string' },
-    onFocus: { type: 'OnFocus' },
+    autoFocus: { type: 'boolean' },
+    clearButton: { type: 'boolean' },
+    error: { type: 'boolean' },
+    label: { type: 'string' },
+    message: { type: 'ReactNode' },
     onBlur: { type: 'OnBlurf' },
     onChange: { type: 'OnChangeHandler' },
-    label: { type: 'string' },
-    error: { type: 'boolean' },
+    onFocus: { type: 'OnFocus' },
     placeholder: { type: 'string' },
-    clearButton: { type: 'boolean' },
-    message: { type: 'ReactNode' },
+    style: { type: 'Style' },
+    value: { type: 'string' },
   },
   examples: [
     {
       props: {
         type: 'text',
         placeholder: 'Some text',
+        autoFocus: true,
       },
     },
     {

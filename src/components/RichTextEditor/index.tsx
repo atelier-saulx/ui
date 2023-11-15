@@ -26,12 +26,14 @@ import { EmbedNode } from './nodes/EmbedNode'
 export type RichTextEditorProps = {
   label?: string
   placeholder?: string
+  autoFocus?: boolean
 } & ValuePluginProps
 
 export function RichTextEditor({
   label,
   placeholder,
   defaultValue,
+  autoFocus,
   onChange,
 }: RichTextEditorProps) {
   return (
@@ -98,7 +100,11 @@ export function RichTextEditor({
           <HistoryPlugin />
           <BehaviourPlugin />
           <EmbedPlugin />
-          <ValuePlugin defaultValue={defaultValue} onChange={onChange} />
+          <ValuePlugin
+            defaultValue={defaultValue}
+            onChange={onChange}
+            autoFocus={autoFocus}
+          />
         </styled.div>
       </styled.div>
     </LexicalComposer>

@@ -22,6 +22,7 @@ export type MultiSelectProps = {
   hugContent?: boolean
   defaultValue: string[]
   searchable?: boolean
+  autoFocus?: boolean
 }
 
 export function MultiSelect({
@@ -36,6 +37,7 @@ export function MultiSelect({
   },
   hugContent,
   searchable = true,
+  autoFocus,
 }: // props,
 MultiSelectProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -97,6 +99,12 @@ MultiSelectProps) {
   useEffect(() => {
     setHug(inputRef.current?.offsetWidth)
   }, [inputRef.current])
+
+  useEffect(() => {
+    if (autoFocus) {
+      inputRef.current.focus()
+    }
+  }, [])
 
   return (
     <Popover.Root open={open}>

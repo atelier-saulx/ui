@@ -4,7 +4,7 @@ import { Input } from '../Input'
 import { Pill } from '../Pill'
 import { Button } from '../Button'
 import { Text } from '../Text'
-import { IconDelete, IconFilter, IconPlus } from '../../icons'
+import { IconDelete, IconFilter, IconPlus, IconEye } from '../../icons'
 import { color } from '../../varsUtilities'
 import { Row } from '../Styled'
 import { Dropdown } from '..'
@@ -42,7 +42,7 @@ const DisplayColumns = ({
         <Dropdown.Trigger>
           <Button
             size="small"
-            icon={<IconPlus />}
+            icon={<IconEye />}
             color="system"
             light
             style={{ marginLeft: 12 }}

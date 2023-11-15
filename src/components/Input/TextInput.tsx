@@ -23,6 +23,7 @@ export type TextInputProps = {
   message?: ReactNode
   password?: boolean
   maxLength?: number
+  autoFocus?: boolean
 }
 
 export function TextInput({
@@ -42,6 +43,7 @@ export function TextInput({
   error,
   password,
   maxLength,
+  autoFocus,
 }: TextInputProps) {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -133,6 +135,7 @@ export function TextInput({
         placeholder={placeholder}
         type={password ? 'password' : 'inherit'}
         maxLength={maxLength}
+        autoFocus={autoFocus}
       />
       {suffix && <Badge {...suffix} />}
       {(clearButton || afterIcon) && (

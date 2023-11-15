@@ -31,6 +31,7 @@ export type NumberInputOwnProps = {
   max?: number
   step?: number
   integer?: boolean
+  autoFocus?: boolean
 }
 
 export type NumberInputProps = NumberInputOwnProps &
@@ -55,6 +56,7 @@ export const NumberInput: FC<NumberInputProps> = ({
   placeholder,
   step = 1,
   integer = false,
+  autoFocus,
   ...props
 }) => {
   const [value, setValue] = useControllableState({
@@ -194,6 +196,7 @@ export const NumberInput: FC<NumberInputProps> = ({
         }}
         placeholder={placeholder}
         type="number"
+        autoFocus={autoFocus}
         {...props}
       />
 

@@ -17,6 +17,7 @@ const example: ComponentDef = {
         return (
           <div style={{ width: 900 }}>
             <RichTextEditor
+              autoFocus={true}
               placeholder="Enter some rich text..."
               defaultValue={localStorage.getItem('rte-test') ?? undefined}
               onChange={({ json, html }) => {

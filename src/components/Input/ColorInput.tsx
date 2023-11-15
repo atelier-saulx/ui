@@ -40,6 +40,7 @@ export type ColorInputProps = {
   disabled?: boolean
   style?: CSSProperties
   error?: boolean
+  autoFocus?: boolean
 }
 
 export const ColorInput = ({
@@ -49,6 +50,7 @@ export const ColorInput = ({
   disabled,
   style,
   error,
+  autoFocus,
   onChange: onChangeProp = (e) => console.log(),
   ...props
 }: ColorInputProps) => {
@@ -77,6 +79,7 @@ export const ColorInput = ({
           }}
         >
           <styled.input
+            autoFocus={autoFocus}
             {...props}
             type="text"
             value={inputVal || ''}
