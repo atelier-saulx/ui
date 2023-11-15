@@ -195,6 +195,8 @@ export function Table({
   const [filteredColumns, setFilteredColumns] = useState([])
   const [allColumnNames, setAllColumnNames] = useState([])
   const [rowSelection, setRowSelection] = useState({})
+  const [tableSearchFilterValue, setTableSearchFilterValue] = useState('')
+  const [operatorTableSearchValue, setOperatorTableSearchValue] = useState('')
 
   if (searchValue) {
     const res = data.filter((obj) =>
@@ -203,14 +205,44 @@ export function Table({
     data = res
   }
 
+  // selectedPillValue and FilterSearchValue
+  // return new data from this so
+  console.log(
+    'Table Filters 🐸',
+    selectedPillVal,
+    operatorTableSearchValue,
+    tableSearchFilterValue
+  )
+
+  if (selectedPillVal && operatorTableSearchValue && tableSearchFilterValue) {
+    // filter this
+    let res
+    if (operatorTableSearchValue === '=') {
+      res = data.filter(
+        (obj) =>
+          obj[selectedPillVal].toString().toLowerCase() ===
+          tableSearchFilterValue.toString().toLowerCase()
+      )
+    } else if (operatorTableSearchValue === '<') {
+      res = data.filter((obj) => obj[selectedPillVal] < tableSearchFilterValue)
+    } else if (operatorTableSearchValue === '>') {
+      res = data.filter((obj) => obj[selectedPillVal] > tableSearchFilterValue)
+    }
+
+    console.log('fire 🔥', res)
+    if (res.length > 0) {
+      data = res
+    }
+  }
+
   useEffect(() => {
     setRowSelection({})
   }, [searchValue])
 
-  useEffect(() => {
-    console.log('YOW he 🍿', rowSelection)
-    console.log('AND THIS YOAW', table.getSelectedRowModel().flatRows)
-  }, [rowSelection])
+  // useEffect(() => {
+  //   console.log('YOW he 🍿', rowSelection)
+  //   console.log('AND THIS YOAW', table.getSelectedRowModel().flatRows)
+  // }, [rowSelection])
 
   const columns = useMemo(() => {
     return [
@@ -323,10 +355,15 @@ export function Table({
         setRowSelection={setRowSelection}
         allColumnNames={allColumnNames}
         setSelectedPillVal={setSelectedPillVal}
+        selectedPillVal={selectedPillVal}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
         filteredColumns={filteredColumns}
         setFilteredColumns={setFilteredColumns}
+        tableSearchFilterValue={tableSearchFilterValue}
+        setTableSearchFilterValue={setTableSearchFilterValue}
+        operatorTableSearchValue={operatorTableSearchValue}
+        setOperatorTableSearchValue={setOperatorTableSearchValue}
       />
       <styled.div
         ref={tableContainerRef}

@@ -30,6 +30,7 @@ const example: ComponentDef = {
         const [data] = useState(() =>
           new Array(6).fill(null).map(() => ({
             id: faker.datatype.uuid().slice(0, 8),
+            number: faker.number.int(10),
             logo: faker.image.avatar(),
             firstname: faker.person.firstName(),
             middlename: faker.person.middleName(),

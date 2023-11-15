@@ -9,6 +9,7 @@ import { color } from '../../varsUtilities'
 import { Row } from '../Styled'
 import { Dropdown } from '..'
 import { ConfirmModal } from '..'
+import { TableFilters } from './TableFilters'
 
 const SearchBar = ({ searchValue, setSearchValue }) => {
   return (
@@ -26,51 +27,6 @@ const SearchBar = ({ searchValue, setSearchValue }) => {
           },
         }}
       />
-    </styled.div>
-  )
-}
-
-const TableFilters = ({ allColumnNames, setSelectedPillVal }) => {
-  const [pillValue, setPillValue] = useState<any>('')
-
-  return (
-    <styled.div style={{ display: 'flex', gap: 6 }}>
-      <styled.div>
-        <Pill
-          options={allColumnNames}
-          type="select"
-          value={pillValue}
-          onChange={(v) => {
-            setPillValue(v)
-            setSelectedPillVal(v)
-          }}
-          prefix="Field"
-        />
-      </styled.div>
-      {pillValue ? (
-        <>
-          <Pill
-            options={[{ value: 'x', label: 'x' }]}
-            type="select"
-            value=""
-            onChange={(v) => {
-              console.log(v)
-            }}
-            prefix="Filter"
-          />
-          <Button
-            onClick={() => console.log('beng beng')}
-            size="small"
-            ghost
-            color="primary"
-            icon={<IconFilter />}
-          >
-            Add filter
-          </Button>
-        </>
-      ) : (
-        ''
-      )}
     </styled.div>
   )
 }
@@ -159,6 +115,7 @@ const SelectedOptionButtons = ({
 export const TableTopBar = ({
   onMultiSelectDelete,
   allColumnNames,
+  selectedPillVal,
   setSelectedPillVal,
   searchValue,
   setSearchValue,
@@ -166,6 +123,10 @@ export const TableTopBar = ({
   setFilteredColumns,
   rowSelection,
   setRowSelection,
+  tableSearchFilterValue,
+  setTableSearchFilterValue,
+  operatorTableSearchValue,
+  setOperatorTableSearchValue,
 }) => {
   const rowSelectionArr = Object.keys(rowSelection)
 
@@ -189,6 +150,11 @@ export const TableTopBar = ({
         <TableFilters
           allColumnNames={allColumnNames}
           setSelectedPillVal={setSelectedPillVal}
+          selectedPillVal={selectedPillVal}
+          tableSearchFilterValue={tableSearchFilterValue}
+          setTableSearchFilterValue={setTableSearchFilterValue}
+          operatorTableSearchValue={operatorTableSearchValue}
+          setOperatorTableSearchValue={setOperatorTableSearchValue}
         />
       )}
       <Row>
