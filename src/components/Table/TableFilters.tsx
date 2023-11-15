@@ -38,7 +38,7 @@ export const TableFilters = ({
               //   { value: 'OR', label: 'OR' },
             ]}
             type="select"
-            value=""
+            value={operatorTableSearchValue}
             onChange={(v) => {
               setOperatorTableSearchValue(v)
             }}
@@ -47,6 +47,7 @@ export const TableFilters = ({
           {operatorTableSearchValue === '=' && (
             <Input
               type="text"
+              autoFocus
               value={tableSearchFilterValue}
               onChange={(v) => {
                 setTableSearchFilterValue(v)
@@ -84,6 +85,7 @@ export const TableFilters = ({
             (operatorTableSearchValue === '<' ||
               operatorTableSearchValue === '>') && (
               <Input
+                autoFocus
                 type="number"
                 value={tableSearchFilterValue}
                 onChange={(v) => {
@@ -104,9 +106,9 @@ export const TableFilters = ({
             color="neutral"
             size="xsmall"
             onClick={() => {
-              setSelectedPillVal(undefined)
-              setOperatorTableSearchValue(undefined)
               setTableSearchFilterValue(undefined)
+              setOperatorTableSearchValue(undefined)
+              setSelectedPillVal(undefined)
             }}
           >
             Clear filters

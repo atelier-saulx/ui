@@ -6,10 +6,14 @@ const example: ComponentDef = {
   name: 'Date Picker',
   properties: props.props.DatePickerProps.props,
   description: 'Single day picker',
+
   component: DatePicker,
   examples: [
     {
-      props: { onChange: (e) => console.log(e), value: 12312123300000 },
+      props: {
+        onChange: (e) => console.log(e),
+        value: 12312123300000,
+      },
     },
   ],
 }

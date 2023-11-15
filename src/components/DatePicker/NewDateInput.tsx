@@ -15,6 +15,7 @@ type newDateProps = {
   time?: boolean
   style?: Style
   numbered?: boolean
+  autoFocus?: boolean
 }
 
 const hover = {
@@ -28,6 +29,7 @@ export const NewDateInput = ({
   setValue,
   time,
   style,
+  autoFocus,
   numbered = false,
 }: newDateProps) => {
   const dayRef = useRef<HTMLInputElement>(null)
