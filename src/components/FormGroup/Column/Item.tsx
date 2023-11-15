@@ -165,7 +165,7 @@ const FormItemInner: FC<{
           if (typeof value !== 'object') {
             return { value: String(i), label: value }
           }
-          return { value }
+          return value
         })}
         {...props}
         // @ts-ignore
