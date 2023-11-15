@@ -3,6 +3,7 @@ import { styled } from 'inlines'
 import { Input } from '../Input'
 import { Pill } from '../Pill'
 import { Button } from '../Button'
+import { DatePicker } from '../DatePicker'
 
 export const TableFilters = ({
   allColumnNames,
@@ -59,24 +60,41 @@ export const TableFilters = ({
               }}
             />
           )}
-          {(operatorTableSearchValue === '<' ||
-            operatorTableSearchValue === '>') && (
+          {((operatorTableSearchValue === '<' ||
+            operatorTableSearchValue === '>') &&
             // or date
-            <Input
-              type="number"
+            selectedPillVal === 'createdAt') ||
+          selectedPillVal === 'updatedAt' ? (
+            <DatePicker
               value={tableSearchFilterValue}
-              onChange={(v) => {
-                setTableSearchFilterValue(v)
-              }}
+              onChange={(v) => setTableSearchFilterValue(v)}
               style={{
-                minHeight: '34px',
-                height: '32px',
-                '& input': {
-                  height: '32px',
+                '& div ': {
+                  height: '32px !important',
+                  lineHeight: '30px !important',
                 },
               }}
             />
+          ) : (
+            (operatorTableSearchValue === '<' ||
+              operatorTableSearchValue === '>') && (
+              <Input
+                type="number"
+                value={tableSearchFilterValue}
+                onChange={(v) => {
+                  setTableSearchFilterValue(v)
+                }}
+                style={{
+                  minHeight: '34px',
+                  height: '32px',
+                  '& input': {
+                    height: '32px',
+                  },
+                }}
+              />
+            )
           )}
+
           <Button
             color="neutral"
             size="xsmall"

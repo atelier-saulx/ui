@@ -217,6 +217,9 @@ export function Table({
   if (selectedPillVal && operatorTableSearchValue && tableSearchFilterValue) {
     // filter this
     let res
+
+    console.log('type of field 🧐', typeof data[0][selectedPillVal])
+
     if (operatorTableSearchValue === '=') {
       res = data.filter(
         (obj) =>

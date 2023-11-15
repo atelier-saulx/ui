@@ -135,7 +135,7 @@ export const TableTopBar = ({
       style={{
         display: 'flex',
         alignItems: 'center',
-        padding: '12px 6px ',
+        padding: '8px 6px ',
         justifyContent: 'space-between',
         borderTop: `1px solid ${color('border', 'default', 'strong')}`,
       }}
