@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Button,
   ConfirmModal,
@@ -77,29 +77,37 @@ const example: ComponentDef = {
       props: { header: 'sticky', virtualized: true },
       customRenderer: ({ header, virtualized }) => {
         const [open, setOpen] = useState<string | null>(null)
+        // const [filter, setFilter] = useState({})
 
-        const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
-          accessFn: (data) => data.files,
-          queryFn: (offset) => ({
-            $id: 'root',
-            files: {
-              $all: true,
-              $list: {
-                $sort: { $field: 'updatedAt', $order: 'desc' },
-                $offset: offset,
-                $limit: 25,
-                $find: {
-                  $traverse: 'children',
-                  $filter: {
-                    $operator: '=',
-                    $field: 'type',
-                    $value: 'todo',
+        const { data, fetchMore, setVisibleElements } = useInfiniteQuery(
+          {
+            accessFn: (data) => data.files,
+            queryFn: (offset) => ({
+              $id: 'root',
+              files: {
+                $all: true,
+                $list: {
+                  $sort: { $field: 'updatedAt', $order: 'desc' },
+                  $offset: offset,
+                  $limit: 25,
+                  $find: {
+                    $traverse: 'children',
+                    $filter: {
+                      $operator: '=',
+                      $field: 'type',
+                      $value: 'todo',
+                    },
                   },
                 },
               },
-            },
-          }),
-        })
+            }),
+          }
+          // , [filter]
+        )
+
+        // useEffect(() => {
+        //   console.log('WHAT is the NEW FILTER 😯--> ', filter)
+        // }, [filter])
 
         return (
           <div
@@ -109,6 +117,9 @@ const example: ComponentDef = {
             }}
           >
             <Table
+              // onFilterChange={(v) => {
+              //   setFilter(v)
+              // }}
               topBar={true}
               selectable={true}
               header={header}

@@ -101,6 +101,7 @@ export type TableProps = {
   topBar?: boolean
   selectable?: boolean
   onMultiSelectDelete?: () => void
+  onFilterChange?: ({ operator, field, value }) => void
 }
 
 function generateColumDefinitionsFromData(element) {
@@ -191,6 +192,7 @@ export function Table({
   selectable,
   onMultiSelectDelete,
   topBar,
+  onFilterChange,
 }: TableProps) {
   const [selectedPillVal, setSelectedPillVal] = useState('')
   const [searchValue, setSearchValue] = useState('')
@@ -207,6 +209,7 @@ export function Table({
     data = res
   }
 
+  // filter changes
   if (selectedPillVal && operatorTableSearchValue && tableSearchFilterValue) {
     let res
 
@@ -231,6 +234,25 @@ export function Table({
   useEffect(() => {
     setRowSelection({})
   }, [searchValue])
+
+  // useEffect(() => {
+  //   if (!selectedPillVal && virtualized && onFilterChange) {
+  //     onFilterChange(null)
+  //   }
+  //   if (virtualized && onFilterChange) {
+  //     if (
+  //       selectedPillVal &&
+  //       operatorTableSearchValue &&
+  //       tableSearchFilterValue
+  //     ) {
+  //       onFilterChange({
+  //         operator: operatorTableSearchValue,
+  //         field: selectedPillVal,
+  //         value: tableSearchFilterValue,
+  //       })
+  //     }
+  //   }
+  // }, [tableSearchFilterValue, selectedPillVal])
 
   // useEffect(() => {
   //   console.log('YOW he 🍿', rowSelection)
