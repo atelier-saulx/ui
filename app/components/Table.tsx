@@ -46,6 +46,7 @@ const example: ComponentDef = {
         return (
           <div style={{ width: 900 }}>
             <Table
+              topBar={true}
               selectable={true}
               header={header}
               virtualized={virtualized}

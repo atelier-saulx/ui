@@ -127,6 +127,7 @@ export const TableTopBar = ({
   setTableSearchFilterValue,
   operatorTableSearchValue,
   setOperatorTableSearchValue,
+  style,
 }) => {
   const rowSelectionArr = Object.keys(rowSelection)
 
@@ -138,6 +139,7 @@ export const TableTopBar = ({
         padding: '8px 6px ',
         justifyContent: 'space-between',
         borderTop: `1px solid ${color('border', 'default', 'strong')}`,
+        ...style,
       }}
     >
       {rowSelectionArr.length > 0 ? (

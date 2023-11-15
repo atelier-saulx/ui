@@ -69,9 +69,14 @@ export const TableFilters = ({
               value={tableSearchFilterValue}
               onChange={(v) => setTableSearchFilterValue(v)}
               style={{
+                marginTop: '-2px',
                 '& div ': {
-                  height: '32px !important',
+                  height: '34px !important',
                   lineHeight: '30px !important',
+                  borderRadius: '4px !important',
+                },
+                '& svg': {
+                  marginTop: '5px',
                 },
               }}
             />

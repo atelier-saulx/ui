@@ -98,6 +98,7 @@ export type TableProps = {
   border?: boolean
   rowAction?: (row: any) => ReactNode
   onRowClick?: (row: any) => void
+  topBar?: boolean
   selectable?: boolean
   onMultiSelectDelete?: () => void
 }
@@ -189,6 +190,7 @@ export function Table({
   onRowClick: onRowClickProp,
   selectable,
   onMultiSelectDelete,
+  topBar,
 }: TableProps) {
   const [selectedPillVal, setSelectedPillVal] = useState('')
   const [searchValue, setSearchValue] = useState('')
@@ -205,20 +207,8 @@ export function Table({
     data = res
   }
 
-  // selectedPillValue and FilterSearchValue
-  // return new data from this so
-  console.log(
-    'Table Filters 🐸',
-    selectedPillVal,
-    operatorTableSearchValue,
-    tableSearchFilterValue
-  )
-
   if (selectedPillVal && operatorTableSearchValue && tableSearchFilterValue) {
-    // filter this
     let res
-
-    console.log('type of field 🧐', typeof data[0][selectedPillVal])
 
     if (operatorTableSearchValue === '=') {
       res = data.filter(
@@ -232,7 +222,7 @@ export function Table({
       res = data.filter((obj) => obj[selectedPillVal] > tableSearchFilterValue)
     }
 
-    console.log('fire 🔥', res)
+    // console.log('fire 🔥', res)
     if (res.length > 0) {
       data = res
     }
@@ -352,22 +342,32 @@ export function Table({
 
   return (
     <>
-      <TableTopBar
-        onMultiSelectDelete={onMultiSelectDelete}
-        rowSelection={rowSelection}
-        setRowSelection={setRowSelection}
-        allColumnNames={allColumnNames}
-        setSelectedPillVal={setSelectedPillVal}
-        selectedPillVal={selectedPillVal}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        filteredColumns={filteredColumns}
-        setFilteredColumns={setFilteredColumns}
-        tableSearchFilterValue={tableSearchFilterValue}
-        setTableSearchFilterValue={setTableSearchFilterValue}
-        operatorTableSearchValue={operatorTableSearchValue}
-        setOperatorTableSearchValue={setOperatorTableSearchValue}
-      />
+      {topBar && (
+        <TableTopBar
+          onMultiSelectDelete={onMultiSelectDelete}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          allColumnNames={allColumnNames}
+          setSelectedPillVal={setSelectedPillVal}
+          selectedPillVal={selectedPillVal}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          filteredColumns={filteredColumns}
+          setFilteredColumns={setFilteredColumns}
+          tableSearchFilterValue={tableSearchFilterValue}
+          setTableSearchFilterValue={setTableSearchFilterValue}
+          operatorTableSearchValue={operatorTableSearchValue}
+          setOperatorTableSearchValue={setOperatorTableSearchValue}
+          style={{
+            borderLeft: border
+              ? `1px solid ${color('border', 'default', 'strong')}`
+              : 0,
+            borderRight: border
+              ? `1px solid ${color('border', 'default', 'strong')}`
+              : 0,
+          }}
+        />
+      )}
       <styled.div
         ref={tableContainerRef}
         style={{
@@ -425,6 +425,8 @@ export function Table({
               ? {
                   border: `1px solid ${color('border', 'default', 'strong')}`,
                   borderRadius: 16,
+                  borderTopRightRadius: topBar ? 0 : 16,
+                  borderTopLeftRadius: topBar ? 0 : 16,
                 }
               : {}),
           }}
@@ -465,7 +467,7 @@ export function Table({
                         type="checkbox"
                         value={row.getIsSelected()}
                         onChange={row.getToggleSelectedHandler()}
-                        style={{ marginLeft: 3 }}
+                        style={{ marginLeft: 8 }}
                       />
                     </td>
                   )}
@@ -565,7 +567,7 @@ export function Table({
                             )
                           }
                         }}
-                        style={{ marginLeft: 3, marginBottom: 4 }}
+                        style={{ marginLeft: 8, marginBottom: 4 }}
                       />
                     </th>
                   )}
