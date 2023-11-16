@@ -1,7 +1,16 @@
 import React, { useState } from 'react'
 import props from '../props.json'
 import { ComponentDef } from '../types'
-import { Button, FormGroup, Input, SidePanel, Tab, Tabs, Text } from '../../src'
+import {
+  Button,
+  FormGroup,
+  Input,
+  SidePanel,
+  Tab,
+  Tabs,
+  Modal,
+  IconDelete,
+} from '../../src'
 import { CheckboxInput } from '../../src/components/Input/CheckboxInput'
 
 const example: ComponentDef = {
@@ -287,6 +296,30 @@ const example: ComponentDef = {
                   },
                 }}
               />
+              {/*can overlay sidepanel stuff here */}
+              <SidePanel.Actions>
+                <Modal.Root>
+                  <Modal.Trigger>
+                    <Button
+                      color="alert"
+                      afterIcon={<IconDelete />}
+                      style={{ marginLeft: 0, marginRight: 'auto' }}
+                    >
+                      Delete
+                    </Button>
+                  </Modal.Trigger>
+                  <Modal.Confirmation
+                    title="Delete Field"
+                    description="Are you sure you want to delete this item"
+                    label="Deleting this item is an irreversible action"
+                    type="alert"
+                    action={{
+                      label: 'Confirm',
+                      action: () => console.log('ligma'),
+                    }}
+                  />
+                </Modal.Root>
+              </SidePanel.Actions>
             </SidePanel.Content>
           </SidePanel.Root>
         )

@@ -240,6 +240,7 @@ export function Actions({ children }: SidePanelActionsProps) {
     <styled.div
       style={{
         // position: 'sticky',
+        pointerEvents: 'none',
         // bottom: 0,
         left: 0,
         right: 0,
@@ -258,7 +259,7 @@ export function Actions({ children }: SidePanelActionsProps) {
         top: 'auto',
         bottom: 0,
         overflow: 'hidden',
-        background: color('standalone', 'modal', 'default'),
+        // background: color('standalone', 'modal', 'default'),
         display: 'flex',
         justifyContent: 'end',
         alignItems: 'center',
