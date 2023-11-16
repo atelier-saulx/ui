@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input } from '../../src'
+import { Button, Input, Modal, SidePanel } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 
@@ -18,6 +18,30 @@ const example: ComponentDef = {
         },
       },
     },
+    // {
+    //   props: {
+    //     type: 'file',
+    //     label: 'Avatar',
+    //     onChange: (value) => {
+    //       console.log(value)
+    //     },
+    //   },
+    //   customRenderer: (props) => {
+    //     return (
+    //       <SidePanel.Root>
+    //         <SidePanel.Trigger>
+    //           <Button>open</Button>
+    //         </SidePanel.Trigger>
+    //         <SidePanel.Content>
+    //           <SidePanel.Body>
+    //             <Input {...props} />
+    //           </SidePanel.Body>
+    //           <SidePanel.Actions />
+    //         </SidePanel.Content>
+    //       </SidePanel.Root>
+    //     )
+    //   },
+    // },
   ],
 }
 

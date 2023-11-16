@@ -195,11 +195,11 @@ export function Title({ children, closeFunc }: SidePanelTitleProps) {
           icon={<IconClose />}
           style={{ borderRadius: '50%' }}
           light
-          keyboardShortcut="0"
+          keyboardShortcut="Esc"
           hideFocusState
           onClick={() => {
             theContext.setOpen(false)
-            closeFunc()
+            closeFunc?.()
           }}
         />
       </styled.div>

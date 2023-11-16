@@ -27,6 +27,8 @@ export function FileInput({ onChange }: FileInputProps) {
     'initial' | 'uploading' | 'success' | 'error'
   >('initial')
 
+  console.log(status)
+
   return (
     <styled.label
       style={{
@@ -55,6 +57,13 @@ export function FileInput({ onChange }: FileInputProps) {
               )}`,
             },
           }),
+          ...(status === 'error' && {
+            cursor: 'pointer',
+            border: `1px dashed ${color('inputBorder', 'alert', 'default')}`,
+            '&:hover': {
+              border: `1px dashed ${color('inputBorder', 'alert', 'default')}`,
+            },
+          }),
           ...(status === 'uploading' && {
             border: `1px solid ${color(
               'inputBorder',
@@ -81,6 +90,18 @@ export function FileInput({ onChange }: FileInputProps) {
           >
             <IconUpload />
             <Text>Upload new file</Text>
+          </styled.div>
+        )}
+        {status === 'error' && (
+          <styled.div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              '& > * + *': { marginLeft: '8px' },
+            }}
+          >
+            <IconUpload />
+            <Text>An error has occured</Text>
           </styled.div>
         )}
         {status === 'uploading' && (
