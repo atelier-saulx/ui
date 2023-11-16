@@ -297,7 +297,7 @@ const example: ComponentDef = {
                 }}
               />
               {/*can overlay sidepanel stuff here */}
-              <SidePanel.Actions>
+              <SidePanel.Actions transparent>
                 <Modal.Root>
                   <Modal.Trigger>
                     <Button

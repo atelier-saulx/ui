@@ -8,6 +8,7 @@ import { scrollAreaStyle } from '../ScrollArea'
 import { useControllableState } from '../../hooks/useControllableState'
 import { Button } from '../Button'
 import { BpMobile, BpTablet } from '../../utils'
+import { ColorBackgroundColors } from 'src/varsTypes'
 
 type UseSidePanelProps = {
   open: boolean
@@ -233,9 +234,13 @@ export function Body({ children }: SidePanelBodyProps) {
 
 export type SidePanelActionsProps = {
   children: ReactNode
+  transparent?: boolean
 }
 
-export function Actions({ children }: SidePanelActionsProps) {
+export function Actions({
+  children,
+  transparent = false,
+}: SidePanelActionsProps) {
   return (
     <styled.div
       style={{
@@ -259,7 +264,9 @@ export function Actions({ children }: SidePanelActionsProps) {
         top: 'auto',
         bottom: 0,
         overflow: 'hidden',
-        // background: color('standalone', 'modal', 'default'),
+        background: transparent
+          ? null
+          : color('standalone', 'modal', 'default'),
         display: 'flex',
         justifyContent: 'end',
         alignItems: 'center',

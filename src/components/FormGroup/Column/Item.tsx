@@ -329,6 +329,8 @@ export const FormItem: FC<{
   if (!label) {
     if (meta?.label) {
       label = meta?.label
+    } else if (meta?.name) {
+      label = meta?.name
     } else {
       label = useMemo(
         () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
@@ -353,7 +355,10 @@ export const FormItem: FC<{
           opacity: meta?.readOnly ? '0.4' : '1',
         }}
       >
-        <FormItemInner {...props} />
+        <FormItemInner
+          {...props}
+          item={{ ...props.item, label, description }}
+        />
         <styled.div
           style={{
             position: 'absolute',
@@ -378,7 +383,7 @@ export const FormItem: FC<{
         opacity: meta?.readOnly ? '0.4' : '1',
       }}
     >
-      <Label description={props.item.description} label={label}>
+      <Label description={description} label={label}>
         <FormItemInner {...props} />
       </Label>
     </span>

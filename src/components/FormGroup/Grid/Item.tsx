@@ -391,10 +391,26 @@ export const FormItem: FC<{
   style?: Style
   noLabel?: boolean
 }> = (props) => {
-  let { label, field, type, options, meta } = props.item
+  let { label, field, type, options, meta, description } = props.item
 
   if (meta?.isLinkedField) {
     return <></>
+  }
+
+  if (!label) {
+    if (meta?.label) {
+      label = meta?.label
+    } else if (meta?.name) {
+      label = meta?.name
+    } else {
+      label = useMemo(
+        () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+        [field]
+      )
+    }
+  }
+  if (!description && meta?.description) {
+    description = meta?.description
   }
 
   if (
@@ -413,16 +429,12 @@ export const FormItem: FC<{
           opacity: meta?.readOnly ? '0.4' : '1',
         }}
       >
-        <FormItemInner {...props} />
+        <FormItemInner
+          {...props}
+          item={{ ...props.item, label, description }}
+        />
       </span>
     )
-
-  if (!label) {
-    label = useMemo(
-      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
-      [field]
-    )
-  }
 
   return (
     <span
@@ -432,7 +444,7 @@ export const FormItem: FC<{
       }}
     >
       <Label
-        description={props.item.description}
+        description={description}
         label={label}
         style={props.style}
         labelWidth={props.width ?? 160}
