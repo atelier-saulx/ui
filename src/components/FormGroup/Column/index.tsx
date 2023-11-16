@@ -3,6 +3,8 @@ import { Confirmation, Column } from '../../../components'
 import { FormItem } from './Item'
 import { getValue } from '../utils'
 import { FormGroupVariantProps } from '../types'
+import { color } from '../../../varsUtilities'
+import { styled } from 'inlines'
 
 import { ObjectItem } from '../ObjectItem'
 
@@ -52,6 +54,62 @@ export const FormGroupColumn: FC<FormGroupVariantProps> = ({
     )
 
     hasAutoFocus = true
+  }
+
+  if (confirmationVariant === 'modal') {
+    return (
+      <>
+        <Column
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            ...style,
+          }}
+        >
+          {fields}
+        </Column>
+        <styled.div
+          style={{
+            // position: 'sticky',
+            // bottom: 0,
+            left: 0,
+            right: 0,
+            position: 'sticky',
+            top: 'auto',
+            bottom: 0,
+            overflow: 'hidden',
+            background: color('standalone', 'modal', 'default'),
+            display: 'flex',
+            justifyContent: 'end',
+            alignItems: 'center',
+            '& > * + *': {
+              marginLeft: '24px',
+            },
+            minHeight: 98,
+            padding: '24px 32px 32px',
+            // margin: '0 -32px',
+            borderTop: `1px solid ${color('border', 'default', 'strong')}`,
+          }}
+        >
+          {alwaysAccept || !hasChanges ? null : (
+            <Confirmation
+              label={confirmationLabel}
+              variant="buttons"
+              onCancel={() => {
+                valuesChanged.current = {}
+                setChanges(false)
+              }}
+              onConfirm={async () => {
+                await onChange(valuesChanged.current)
+                valuesChanged.current = {}
+                setChanges(false)
+              }}
+            />
+          )}
+        </styled.div>
+      </>
+    )
   }
 
   return (
