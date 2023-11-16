@@ -7,13 +7,14 @@ const example: ComponentDef = {
   component: Input,
   description: 'Like a text input... but multiline 🙀',
   properties: {
+    autoFocus: { type: 'boolean' },
+    clearButton: { type: 'boolean' },
+    error: { type: 'string' },
+    label: { type: 'string' },
+    onChange: { type: 'OnChangeHandler' },
+    placeholder: { type: 'string' },
     style: { type: 'Style' },
     value: { type: 'string' },
-    onChange: { type: 'OnChangeHandler' },
-    label: { type: 'string' },
-    error: { type: 'string' },
-    placeholder: { type: 'string' },
-    clearButton: { type: 'boolean' },
   },
   examples: [
     {
@@ -21,6 +22,7 @@ const example: ComponentDef = {
         type: 'textarea',
         placeholder: 'Some text',
         defaultValue: '',
+        autoFocus: true,
       },
     },
     {

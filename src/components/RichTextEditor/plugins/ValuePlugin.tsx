@@ -7,9 +7,14 @@ import { $getRoot } from 'lexical'
 export type ValuePluginProps = {
   defaultValue?: string
   onChange?: ({ json, html }: { json: string; html: string }) => void
+  autoFocus?: boolean
 }
 
-export function ValuePlugin({ defaultValue, onChange }: ValuePluginProps) {
+export function ValuePlugin({
+  defaultValue,
+  onChange,
+  autoFocus,
+}: ValuePluginProps) {
   const [editor] = useLexicalComposerContext()
   const [isFirstRender, setIsFirstRender] = useState(true)
 
@@ -23,6 +28,12 @@ export function ValuePlugin({ defaultValue, onChange }: ValuePluginProps) {
       console.log(JSON.parse(defaultValue), '🐱')
     }
   }, [isFirstRender, defaultValue, editor])
+
+  useEffect(() => {
+    if (autoFocus && editor) {
+      editor.focus()
+    }
+  }, [])
 
   return (
     <OnChangePlugin

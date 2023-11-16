@@ -27,6 +27,7 @@ export type SelectInputProps = {
   style?: Style
   searchable?: boolean
   hugContent?: boolean
+  autoFocus?: boolean
 }
 
 const inputToString = (input: SelectOption | ''): string => {
@@ -51,6 +52,7 @@ export function SelectInput({
   style,
   searchable = false,
   hugContent = false,
+  autoFocus,
 }: SelectInputProps) {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -131,6 +133,12 @@ export function SelectInput({
   useEffect(() => {
     setHug(inputRef.current?.offsetWidth)
   }, [inputRef.current])
+
+  useEffect(() => {
+    if (autoFocus) {
+      inputRef.current.focus()
+    }
+  }, [])
 
   return (
     <Popover.Root open={open}>

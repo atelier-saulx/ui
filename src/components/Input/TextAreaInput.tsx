@@ -14,6 +14,7 @@ export type TextAreaInputProps = {
   style?: Style
   error?: boolean
   maxLength?: number
+  autoFocus?: boolean
 }
 
 export function TextAreaInput({
@@ -25,6 +26,7 @@ export function TextAreaInput({
   placeholder,
   error,
   maxLength,
+  autoFocus,
 }: TextAreaInputProps) {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -56,6 +58,7 @@ export function TextAreaInput({
       }}
     >
       <styled.textarea
+        autoFocus={autoFocus}
         value={value}
         onChange={(e) => {
           setValue(e.target.value)

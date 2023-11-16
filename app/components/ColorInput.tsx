@@ -13,6 +13,7 @@ const example: ComponentDef = {
       props: {
         label: 'color input',
         type: 'color',
+
         // onChange: (v) => {
         //   console.log(v)
         // },

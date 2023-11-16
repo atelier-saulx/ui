@@ -98,7 +98,10 @@ export type TableProps = {
   border?: boolean
   rowAction?: (row: any) => ReactNode
   onRowClick?: (row: any) => void
+  topBar?: boolean
   selectable?: boolean
+  onMultiSelectDelete?: () => void
+  onFilterChange?: ({ operator, field, value }) => void
 }
 
 function generateColumDefinitionsFromData(element) {
@@ -187,12 +190,17 @@ export function Table({
   rowAction,
   onRowClick: onRowClickProp,
   selectable,
+  onMultiSelectDelete,
+  topBar,
+  onFilterChange,
 }: TableProps) {
   const [selectedPillVal, setSelectedPillVal] = useState('')
   const [searchValue, setSearchValue] = useState('')
   const [filteredColumns, setFilteredColumns] = useState([])
   const [allColumnNames, setAllColumnNames] = useState([])
   const [rowSelection, setRowSelection] = useState({})
+  const [tableSearchFilterValue, setTableSearchFilterValue] = useState('')
+  const [operatorTableSearchValue, setOperatorTableSearchValue] = useState('')
 
   if (searchValue) {
     const res = data.filter((obj) =>
@@ -201,14 +209,55 @@ export function Table({
     data = res
   }
 
+  // filter changes
+  if (selectedPillVal && operatorTableSearchValue && tableSearchFilterValue) {
+    let res
+
+    if (operatorTableSearchValue === '=') {
+      res = data.filter(
+        (obj) =>
+          obj[selectedPillVal].toString().toLowerCase() ===
+          tableSearchFilterValue.toString().toLowerCase()
+      )
+    } else if (operatorTableSearchValue === '<') {
+      res = data.filter((obj) => obj[selectedPillVal] < tableSearchFilterValue)
+    } else if (operatorTableSearchValue === '>') {
+      res = data.filter((obj) => obj[selectedPillVal] > tableSearchFilterValue)
+    }
+
+    // console.log('fire 🔥', res)
+    if (res.length > 0) {
+      data = res
+    }
+  }
+
   useEffect(() => {
     setRowSelection({})
   }, [searchValue])
 
-  useEffect(() => {
-    console.log('YOW he 🍿', rowSelection)
-    console.log('AND THIS YOAW', table.getSelectedRowModel().flatRows)
-  }, [rowSelection])
+  // useEffect(() => {
+  //   if (!selectedPillVal && virtualized && onFilterChange) {
+  //     onFilterChange(null)
+  //   }
+  //   if (virtualized && onFilterChange) {
+  //     if (
+  //       selectedPillVal &&
+  //       operatorTableSearchValue &&
+  //       tableSearchFilterValue
+  //     ) {
+  //       onFilterChange({
+  //         operator: operatorTableSearchValue,
+  //         field: selectedPillVal,
+  //         value: tableSearchFilterValue,
+  //       })
+  //     }
+  //   }
+  // }, [tableSearchFilterValue, selectedPillVal])
+
+  // useEffect(() => {
+  //   console.log('YOW he 🍿', rowSelection)
+  //   console.log('AND THIS YOAW', table.getSelectedRowModel().flatRows)
+  // }, [rowSelection])
 
   const columns = useMemo(() => {
     return [
@@ -315,14 +364,32 @@ export function Table({
 
   return (
     <>
-      <TableTopBar
-        allColumnNames={allColumnNames}
-        setSelectedPillVal={setSelectedPillVal}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        filteredColumns={filteredColumns}
-        setFilteredColumns={setFilteredColumns}
-      />
+      {topBar && (
+        <TableTopBar
+          onMultiSelectDelete={onMultiSelectDelete}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          allColumnNames={allColumnNames}
+          setSelectedPillVal={setSelectedPillVal}
+          selectedPillVal={selectedPillVal}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          filteredColumns={filteredColumns}
+          setFilteredColumns={setFilteredColumns}
+          tableSearchFilterValue={tableSearchFilterValue}
+          setTableSearchFilterValue={setTableSearchFilterValue}
+          operatorTableSearchValue={operatorTableSearchValue}
+          setOperatorTableSearchValue={setOperatorTableSearchValue}
+          style={{
+            borderLeft: border
+              ? `1px solid ${color('border', 'default', 'strong')}`
+              : 0,
+            borderRight: border
+              ? `1px solid ${color('border', 'default', 'strong')}`
+              : 0,
+          }}
+        />
+      )}
       <styled.div
         ref={tableContainerRef}
         style={{
@@ -380,6 +447,8 @@ export function Table({
               ? {
                   border: `1px solid ${color('border', 'default', 'strong')}`,
                   borderRadius: 16,
+                  borderTopRightRadius: topBar ? 0 : 16,
+                  borderTopLeftRadius: topBar ? 0 : 16,
                 }
               : {}),
           }}
@@ -404,12 +473,23 @@ export function Table({
                   key={row.id}
                 >
                   {selectable && (
-                    <td>
+                    <td
+                      style={{
+                        borderBottom:
+                          index !==
+                            (virtualized
+                              ? virtualRows.map((row) => rows[row.index])
+                              : rows
+                            ).length -
+                              1 &&
+                          `1px solid ${color('border', 'default', 'strong')}`,
+                      }}
+                    >
                       <Input
                         type="checkbox"
                         value={row.getIsSelected()}
                         onChange={row.getToggleSelectedHandler()}
-                        style={{ marginLeft: 3 }}
+                        style={{ marginLeft: 8 }}
                       />
                     </td>
                   )}
@@ -482,7 +562,18 @@ export function Table({
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {selectable && (
-                    <th>
+                    <th
+                      style={{
+                        borderTop:
+                          !border &&
+                          `1px solid ${color('border', 'default', 'strong')}`,
+                        borderBottom: `1px solid ${color(
+                          'border',
+                          'default',
+                          'strong'
+                        )}`,
+                      }}
+                    >
                       <Input
                         type="checkbox"
                         value={table.getIsAllRowsSelected()}
@@ -498,7 +589,7 @@ export function Table({
                             )
                           }
                         }}
-                        style={{ marginLeft: 3 }}
+                        style={{ marginLeft: 8, marginBottom: 4 }}
                       />
                     </th>
                   )}

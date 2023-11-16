@@ -22,6 +22,7 @@ export type CommonInputProps = {
   message?: ReactNode
   description?: string
   indent?: boolean
+  autoFocus?: boolean
 }
 
 // | ({ type: 'markdown' } & MarkdownInputProps)

@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from 'react'
+import React, { ReactNode, useRef, useState, useEffect } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
@@ -10,9 +10,9 @@ import {
 } from '../../icons'
 import { color } from '../../varsUtilities'
 import { RemoveScroll } from 'react-remove-scroll'
-
 import { scrollAreaStyle } from '../ScrollArea'
 import { BpTablet } from '../../utils'
+import { usePropState } from '../../hooks'
 
 export type PillOption = { label?: ReactNode; value: string }
 
@@ -46,11 +46,13 @@ export function SelectPill({
 SelectPillProps) {
   const [open, setOpen] = useState(false)
 
-  const [inputValue, setInputValue] = useState<PillOption | void>(() => {
-    return options.find((e) => {
-      e.value === value
-    })
-  })
+  // const [inputValue, setInputValue] = useState<PillOption | void>(() => {
+  //   return options.find((e) => {
+  //     e.value === value
+  //   })
+  // })
+
+  const [inputValue, setInputValue] = useState<any>(value)
 
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
@@ -63,7 +65,6 @@ SelectPillProps) {
   }
 
   function handleClose() {
-    setInputValue(options.find((e) => e.value === value))
     setOpen(false)
     setActiveIndex(null)
   }
@@ -71,6 +72,12 @@ SelectPillProps) {
   function handleOpen() {
     setOpen(true)
   }
+
+  useEffect(() => {
+    if (!value) {
+      setInputValue(0)
+    }
+  }, [value])
 
   return (
     <Popover.Root open={open}>
@@ -84,11 +91,12 @@ SelectPillProps) {
             //TODO wont open for some reason?
             handleOpen()
           }}
-          value={inputToString(inputValue)}
+          value={inputValue ? inputToString(inputValue) : ''}
           ref={inputRef}
           onChange={(e) => {
             e.preventDefault()
             e.stopPropagation()
+            console.log('sup:', e.target.value)
             setInputValue({ value: e.target.value })
             setActiveIndex(null)
           }}

@@ -3,17 +3,20 @@ import { styled } from 'inlines'
 import { Input } from '../Input'
 import { Pill } from '../Pill'
 import { Button } from '../Button'
-import { IconFilter, IconPlus } from '../../icons'
+import { Text } from '../Text'
+import { IconDelete, IconFilter, IconPlus, IconEye } from '../../icons'
 import { color } from '../../varsUtilities'
 import { Row } from '../Styled'
 import { Dropdown } from '..'
+import { ConfirmModal } from '..'
+import { TableFilters } from './TableFilters'
 
 const SearchBar = ({ searchValue, setSearchValue }) => {
   return (
     <styled.div style={{ maxWidth: 246 }}>
       <Input
         type="search"
-        placeholder="Search for an item"
+        placeholder="Search for any item..."
         value={searchValue}
         onChange={(v) => setSearchValue(v)}
         style={{
@@ -24,51 +27,6 @@ const SearchBar = ({ searchValue, setSearchValue }) => {
           },
         }}
       />
-    </styled.div>
-  )
-}
-
-const TableFilters = ({ allColumnNames, setSelectedPillVal }) => {
-  const [pillValue, setPillValue] = useState<any>('')
-
-  return (
-    <styled.div style={{ display: 'flex', gap: 6 }}>
-      <styled.div>
-        <Pill
-          options={allColumnNames}
-          type="select"
-          value={pillValue}
-          onChange={(v) => {
-            setPillValue(v)
-            setSelectedPillVal(v)
-          }}
-          prefix="Field"
-        />
-      </styled.div>
-      {pillValue ? (
-        <>
-          <Pill
-            options={[{ value: 'x', label: 'x' }]}
-            type="select"
-            value=""
-            onChange={(v) => {
-              console.log(v)
-            }}
-            prefix="Filter"
-          />
-          <Button
-            onClick={() => console.log('beng beng')}
-            size="small"
-            ghost
-            color="primary"
-            icon={<IconFilter />}
-          >
-            Add filter
-          </Button>
-        </>
-      ) : (
-        ''
-      )}
     </styled.div>
   )
 }
@@ -84,7 +42,7 @@ const DisplayColumns = ({
         <Dropdown.Trigger>
           <Button
             size="small"
-            icon={<IconPlus />}
+            icon={<IconEye />}
             color="system"
             light
             style={{ marginLeft: 12 }}
@@ -114,28 +72,93 @@ const DisplayColumns = ({
   )
 }
 
+const SelectedOptionButtons = ({
+  onMultiSelectDelete,
+  rowSelectionArr,
+  setRowSelection,
+}) => {
+  return (
+    <styled.div
+      style={{
+        border: `1px solid ${color('border', 'default', 'strong')}`,
+        borderRadius: 4,
+        boxShadow: '0px 1px 4px 0px rgba(27, 36, 44, 0.04)',
+        display: 'flex',
+        gap: 16,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '2px 12px',
+      }}
+    >
+      <Text color="brand" weight="medium">
+        {rowSelectionArr.length} selected
+      </Text>
+      <Button color="neutral" size="xsmall" onClick={() => setRowSelection({})}>
+        Clear selection
+      </Button>
+
+      <ConfirmModal
+        onCancel={() => {}}
+        onConfirm={() => {
+          onMultiSelectDelete()
+          setRowSelection({})
+        }}
+      >
+        <Button color="alert" size="xsmall" icon={<IconDelete />}>
+          Delete
+        </Button>
+      </ConfirmModal>
+    </styled.div>
+  )
+}
+
 export const TableTopBar = ({
+  onMultiSelectDelete,
   allColumnNames,
+  selectedPillVal,
   setSelectedPillVal,
   searchValue,
   setSearchValue,
   filteredColumns,
   setFilteredColumns,
+  rowSelection,
+  setRowSelection,
+  tableSearchFilterValue,
+  setTableSearchFilterValue,
+  operatorTableSearchValue,
+  setOperatorTableSearchValue,
+  style,
 }) => {
+  const rowSelectionArr = Object.keys(rowSelection)
+
   return (
     <styled.div
       style={{
         display: 'flex',
         alignItems: 'center',
-        padding: '12px 6px ',
+        padding: '8px 6px ',
         justifyContent: 'space-between',
         borderTop: `1px solid ${color('border', 'default', 'strong')}`,
+        ...style,
       }}
     >
-      <TableFilters
-        allColumnNames={allColumnNames}
-        setSelectedPillVal={setSelectedPillVal}
-      />
+      {rowSelectionArr.length > 0 ? (
+        <SelectedOptionButtons
+          onMultiSelectDelete={onMultiSelectDelete}
+          rowSelectionArr={rowSelectionArr}
+          setRowSelection={setRowSelection}
+        />
+      ) : (
+        <TableFilters
+          allColumnNames={allColumnNames}
+          setSelectedPillVal={setSelectedPillVal}
+          selectedPillVal={selectedPillVal}
+          tableSearchFilterValue={tableSearchFilterValue}
+          setTableSearchFilterValue={setTableSearchFilterValue}
+          operatorTableSearchValue={operatorTableSearchValue}
+          setOperatorTableSearchValue={setOperatorTableSearchValue}
+        />
+      )}
       <Row>
         <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
         <DisplayColumns

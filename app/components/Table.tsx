@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Button,
   ConfirmModal,
@@ -30,6 +30,7 @@ const example: ComponentDef = {
         const [data] = useState(() =>
           new Array(6).fill(null).map(() => ({
             id: faker.datatype.uuid().slice(0, 8),
+            number: faker.number.int(10),
             logo: faker.image.avatar(),
             firstname: faker.person.firstName(),
             middlename: faker.person.middleName(),
@@ -45,6 +46,7 @@ const example: ComponentDef = {
         return (
           <div style={{ width: 900 }}>
             <Table
+              topBar={true}
               selectable={true}
               header={header}
               virtualized={virtualized}
@@ -64,40 +66,7 @@ const example: ComponentDef = {
                   </Dropdown.Items>
                 </Dropdown.Root>
               )}
-            />
-          </div>
-        )
-      },
-    },
-    {
-      name: 'No header, no border, no virtualization',
-      description: 'No header',
-      props: { header: false, virtualized: false },
-      customRenderer: ({ header, virtualized }) => {
-        const [data] = useState(() =>
-          new Array(6).fill(null).map(() => ({
-            name: faker.person.fullName(),
-            avatar: faker.image.avatar(),
-            tag: faker.lorem.words(1),
-            role: faker.lorem.words(1),
-            createdAt: faker.date.anytime().getTime(),
-          }))
-        )
-
-        return (
-          <div style={{ width: 900 }}>
-            <Table
-              header={header}
-              virtualized={virtualized}
-              data={data}
-              onRowClick={(row) => {
-                console.log(row)
-              }}
-              rowAction={(row) => (
-                <ConfirmModal onCancel={() => {}} onConfirm={() => {}}>
-                  <Button ghost icon={<IconDelete />} />
-                </ConfirmModal>
-              )}
+              onMultiSelectDelete={() => console.log('Delete This 🗑')}
             />
           </div>
         )
@@ -108,29 +77,37 @@ const example: ComponentDef = {
       props: { header: 'sticky', virtualized: true },
       customRenderer: ({ header, virtualized }) => {
         const [open, setOpen] = useState<string | null>(null)
+        // const [filter, setFilter] = useState({})
 
-        const { data, fetchMore, setVisibleElements } = useInfiniteQuery({
-          accessFn: (data) => data.files,
-          queryFn: (offset) => ({
-            $id: 'root',
-            files: {
-              $all: true,
-              $list: {
-                $sort: { $field: 'updatedAt', $order: 'desc' },
-                $offset: offset,
-                $limit: 25,
-                $find: {
-                  $traverse: 'children',
-                  $filter: {
-                    $operator: '=',
-                    $field: 'type',
-                    $value: 'todo',
+        const { data, fetchMore, setVisibleElements } = useInfiniteQuery(
+          {
+            accessFn: (data) => data.files,
+            queryFn: (offset) => ({
+              $id: 'root',
+              files: {
+                $all: true,
+                $list: {
+                  $sort: { $field: 'updatedAt', $order: 'desc' },
+                  $offset: offset,
+                  $limit: 25,
+                  $find: {
+                    $traverse: 'children',
+                    $filter: {
+                      $operator: '=',
+                      $field: 'type',
+                      $value: 'todo',
+                    },
                   },
                 },
               },
-            },
-          }),
-        })
+            }),
+          }
+          // , [filter]
+        )
+
+        // useEffect(() => {
+        //   console.log('WHAT is the NEW FILTER 😯--> ', filter)
+        // }, [filter])
 
         return (
           <div
@@ -140,6 +117,11 @@ const example: ComponentDef = {
             }}
           >
             <Table
+              // onFilterChange={(v) => {
+              //   setFilter(v)
+              // }}
+              topBar={true}
+              selectable={true}
               header={header}
               virtualized={virtualized}
               data={data}
@@ -235,6 +217,40 @@ const example: ComponentDef = {
                 </Modal.Actions>
               </Modal.Content>
             </Modal.Root>
+          </div>
+        )
+      },
+    },
+    {
+      name: 'No header, no border, no virtualization',
+      description: 'No header',
+      props: { header: false, virtualized: false },
+      customRenderer: ({ header, virtualized }) => {
+        const [data] = useState(() =>
+          new Array(6).fill(null).map(() => ({
+            name: faker.person.fullName(),
+            avatar: faker.image.avatar(),
+            tag: faker.lorem.words(1),
+            role: faker.lorem.words(1),
+            createdAt: faker.date.anytime().getTime(),
+          }))
+        )
+
+        return (
+          <div style={{ width: 900 }}>
+            <Table
+              header={header}
+              virtualized={virtualized}
+              data={data}
+              onRowClick={(row) => {
+                console.log(row)
+              }}
+              rowAction={(row) => (
+                <ConfirmModal onCancel={() => {}} onConfirm={() => {}}>
+                  <Button ghost icon={<IconDelete />} />
+                </ConfirmModal>
+              )}
+            />
           </div>
         )
       },
