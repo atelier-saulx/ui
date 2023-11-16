@@ -19,14 +19,14 @@ export type ContainerProps = {
   description?: ReactNode
   children?: ReactNode
   onClick?: ClickHandler
-  seperator?: boolean
+  divider?: boolean
 }
 
 export const Container: FC<ContainerProps> = ({
   color = 'default',
   children,
   style,
-  seperator,
+  divider,
   expandable,
   isExpanded,
   icon,
@@ -76,7 +76,7 @@ export const Container: FC<ContainerProps> = ({
             paddingLeft: 16,
             paddingRight: 16,
             paddingTop: 16,
-            paddingBottom: seperator || (label && !description) ? 16 : 4,
+            paddingBottom: divider || (label && !description) ? 16 : 4,
             position: 'relative',
             '@media (hover: hover)': {
               '&:hover':
@@ -91,7 +91,7 @@ export const Container: FC<ContainerProps> = ({
                   : null,
             },
             borderBottom:
-              seperator && !(expandable && !isExpanded) ? border(1) : undefined,
+              divider && !(expandable && !isExpanded) ? border(1) : undefined,
           }}
           onClick={
             !onClick
@@ -156,8 +156,7 @@ export const Container: FC<ContainerProps> = ({
             paddingLeft: 16,
             paddingRight: 16,
             paddingBottom: 16,
-            marginTop:
-              icon || description || seperator ? 12 : hasHeader ? 4 : 16,
+            marginTop: icon || description || divider ? 12 : hasHeader ? 4 : 16,
             flexGrow: 1,
           }}
         >

@@ -22,7 +22,7 @@ const example: ComponentDef = {
         style: {
           width: 700,
         },
-        seperator: true,
+        divider: true,
         afterIcon: () => <IconMoreHorizontal />,
         icon: () => <Avatar />,
         label: 'This is a container',
@@ -41,7 +41,7 @@ const example: ComponentDef = {
           width: 700,
         },
         expandable: true,
-        seperator: true,
+        divider: true,
         afterIcon: () => <IconMoreHorizontal />,
         label: 'This is a container',
         description: 'This is a description',
@@ -70,7 +70,7 @@ const example: ComponentDef = {
 
     {
       name: 'Variations',
-      description: 'No description / no seperator',
+      description: 'No description / no divider',
       props: {
         style: {
           width: 700,
@@ -80,7 +80,7 @@ const example: ComponentDef = {
       },
     },
     {
-      description: 'No seperator',
+      description: 'No divider',
       props: {
         style: {
           width: 700,
@@ -128,7 +128,7 @@ const example: ComponentDef = {
         style: {
           width: 700,
         },
-        seperator: true,
+        divider: true,
         color: 'brand',
         label: 'This is a container',
         children: () => <Text>These are some children...</Text>,

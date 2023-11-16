@@ -750,12 +750,12 @@
           "optional": true,
           "type": "ClickHandler"
         },
-        "seperator": {
+        "divider": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type ContainerProps = {\n  color?: ColorBackgroundColors\n  style?: Style\n  expandable?: boolean\n  onExpand?: (expanded: boolean) => void\n  isExpanded?: boolean //(same can be controlled etc) undefined means uncontrolled\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  label?: ReactNode\n  description?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  seperator?: boolean\n}",
+      "code": "type ContainerProps = {\n  color?: ColorBackgroundColors\n  style?: Style\n  expandable?: boolean\n  onExpand?: (expanded: boolean) => void\n  isExpanded?: boolean //(same can be controlled etc) undefined means uncontrolled\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  label?: ReactNode\n  description?: ReactNode\n  children?: ReactNode\n  onClick?: ClickHandler\n  divider?: boolean\n}",
       "file": "/components/Container/index.tsx"
     },
     "CounterProps": {
@@ -3068,9 +3068,13 @@
         "onRowClick": {
           "optional": true,
           "type": "function"
+        },
+        "selectable": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type TableProps = {\n  columns?: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n  rowAction?: (row: any) => ReactNode\n  onRowClick?: (row: any) => void\n}",
+      "code": "type TableProps = {\n  columns?: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n  rowAction?: (row: any) => ReactNode\n  onRowClick?: (row: any) => void\n  selectable?: boolean\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
@@ -3512,6 +3516,10 @@
             "ReactNode",
             {
               "array": "ReactNode"
+            },
+            "Element",
+            {
+              "array": "Element"
             }
           ]
         },
@@ -3520,7 +3528,7 @@
           "type": "Style"
         }
       },
-      "code": "type TopNavigationProps = {\n  sticky?: boolean\n  children?: ReactNode | ReactNode[]\n  style?: Style\n}",
+      "code": "type TopNavigationProps = {\n  sticky?: boolean\n  children?: ReactNode | ReactNode[] | Element | Element[]\n  style?: Style\n}",
       "file": "/components/TopNavigation/index.tsx"
     },
     "UseThemeProps": {
