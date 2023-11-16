@@ -145,7 +145,9 @@ export const FormGroupGrid: FC<FormGroupVariantProps> = ({
           <Text light>Apply changes</Text>
           <Confirmation
             variant={
-              confirmationVariant === 'none' ? 'buttons' : confirmationVariant
+              confirmationVariant === 'none' || confirmationVariant === 'modal'
+                ? 'buttons'
+                : confirmationVariant
             }
             label={confirmationLabel}
             onCancel={() => {
