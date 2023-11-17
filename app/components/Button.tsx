@@ -86,7 +86,7 @@ const example: ComponentDef = {
       props: {
         children: 'Yes!',
         displayShortcut: true,
-        keyboardShortcut: 'Enter',
+        keyboardShortcut: 'Esc',
         onClick: async () => {
           console.info('bla')
           // alert('hello!')

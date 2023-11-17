@@ -50,8 +50,12 @@ export const useKeyUp = (
   }, [handler, ref])
 }
 
-const keyMatch = (k: string, e: KeyboardEvent): boolean =>
-  k === e.key || k.toLowerCase() === e.key.toLocaleLowerCase()
+const keyMatch = (k: string, e: KeyboardEvent): boolean => {
+  if (k === 'esc') {
+    k = 'escape'
+  }
+  return k === e.key || k.toLowerCase() === e.key.toLocaleLowerCase()
+}
 
 export const useKeyDown = (
   handler: (event: TempEvent) => void,
