@@ -32,6 +32,7 @@ export const TableFilters = ({
           <Pill
             options={[
               { value: '=', label: '=' },
+              { value: '!=', label: '!=' },
               { value: '<', label: '<' },
               { value: '>', label: '>' },
               //   { value: 'AND', label: 'AND' },
@@ -44,7 +45,8 @@ export const TableFilters = ({
             }}
             prefix="Operator"
           />
-          {operatorTableSearchValue === '=' && (
+          {(operatorTableSearchValue === '=' ||
+            operatorTableSearchValue === '!=') && (
             <Input
               type="text"
               autoFocus
@@ -61,6 +63,7 @@ export const TableFilters = ({
               }}
             />
           )}
+
           {((operatorTableSearchValue === '<' ||
             operatorTableSearchValue === '>') &&
             // or date

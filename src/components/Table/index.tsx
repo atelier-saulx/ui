@@ -210,6 +210,7 @@ export function Table({
   }
 
   // filter changes
+  // TODO: do something if there is a query or not..
   if (selectedPillVal && operatorTableSearchValue && tableSearchFilterValue) {
     let res
 
@@ -219,13 +220,19 @@ export function Table({
           obj[selectedPillVal].toString().toLowerCase() ===
           tableSearchFilterValue.toString().toLowerCase()
       )
+    } else if (operatorTableSearchValue === '!=') {
+      res = data.filter(
+        (obj) =>
+          obj[selectedPillVal].toString().toLowerCase() !==
+          tableSearchFilterValue.toString().toLowerCase()
+      )
     } else if (operatorTableSearchValue === '<') {
       res = data.filter((obj) => obj[selectedPillVal] < tableSearchFilterValue)
     } else if (operatorTableSearchValue === '>') {
       res = data.filter((obj) => obj[selectedPillVal] > tableSearchFilterValue)
     }
 
-    // console.log('fire 🔥', res)
+    console.log('fire 🔥', res)
     if (res.length > 0) {
       data = res
     }
@@ -235,24 +242,24 @@ export function Table({
     setRowSelection({})
   }, [searchValue])
 
-  // useEffect(() => {
-  //   if (!selectedPillVal && virtualized && onFilterChange) {
-  //     onFilterChange(null)
-  //   }
-  //   if (virtualized && onFilterChange) {
-  //     if (
-  //       selectedPillVal &&
-  //       operatorTableSearchValue &&
-  //       tableSearchFilterValue
-  //     ) {
-  //       onFilterChange({
-  //         operator: operatorTableSearchValue,
-  //         field: selectedPillVal,
-  //         value: tableSearchFilterValue,
-  //       })
-  //     }
-  //   }
-  // }, [tableSearchFilterValue, selectedPillVal])
+  useEffect(() => {
+    if (!selectedPillVal && virtualized && onFilterChange) {
+      onFilterChange(null)
+    }
+    if (virtualized && onFilterChange) {
+      if (
+        selectedPillVal &&
+        operatorTableSearchValue &&
+        tableSearchFilterValue
+      ) {
+        onFilterChange({
+          operator: operatorTableSearchValue,
+          field: selectedPillVal,
+          value: tableSearchFilterValue,
+        })
+      }
+    }
+  }, [tableSearchFilterValue, selectedPillVal])
 
   // useEffect(() => {
   //   console.log('YOW he 🍿', rowSelection)

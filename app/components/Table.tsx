@@ -24,90 +24,48 @@ const example: ComponentDef = {
   properties: props.props.TableProps.props,
   examples: [
     {
-      name: 'Header, no border, no virtualization',
-      props: { header: true, virtualized: false },
-      customRenderer: ({ header, virtualized }) => {
-        const [data] = useState(() =>
-          new Array(6).fill(null).map(() => ({
-            id: faker.datatype.uuid().slice(0, 8),
-            number: faker.number.int(10),
-            logo: faker.image.avatar(),
-            firstname: faker.person.firstName(),
-            middlename: faker.person.middleName(),
-            lastname: faker.person.lastName(),
-            status: faker.lorem.words(1),
-            avatar: faker.internet.emoji(),
-            createdAt: faker.date.anytime().getTime(),
-            updatedAt: faker.date.anytime().getTime(),
-            price: Math.random() * 1e4,
-          }))
-        )
-
-        return (
-          <div style={{ width: 900 }}>
-            <Table
-              topBar={true}
-              selectable={true}
-              header={header}
-              virtualized={virtualized}
-              data={data}
-              onRowClick={(row) => {
-                console.log(row)
-              }}
-              rowAction={(row) => (
-                <Dropdown.Root>
-                  <Dropdown.Trigger>
-                    <Button ghost icon={<IconMoreHorizontal />} />
-                  </Dropdown.Trigger>
-                  <Dropdown.Items>
-                    <Dropdown.Item icon={<IconEdit />}>Edit</Dropdown.Item>
-                    <Dropdown.Separator />
-                    <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
-                  </Dropdown.Items>
-                </Dropdown.Root>
-              )}
-              onMultiSelectDelete={() => console.log('Delete This 🗑')}
-            />
-          </div>
-        )
-      },
-    },
-    {
       name: 'Virtualized, sticky header, no border',
       props: { header: 'sticky', virtualized: true },
       customRenderer: ({ header, virtualized }) => {
         const [open, setOpen] = useState<string | null>(null)
-        // const [filter, setFilter] = useState({})
+        const [filter, setFilter] = useState({
+          operator: '=',
+          field: 'type',
+          value: 'todo',
+        })
 
-        const { data, fetchMore, setVisibleElements } = useInfiniteQuery(
-          {
-            accessFn: (data) => data.files,
-            queryFn: (offset) => ({
-              $id: 'root',
-              files: {
-                $all: true,
-                $list: {
-                  $sort: { $field: 'updatedAt', $order: 'desc' },
-                  $offset: offset,
-                  $limit: 25,
-                  $find: {
-                    $traverse: 'children',
-                    $filter: {
-                      $operator: '=',
-                      $field: 'type',
-                      $value: 'todo',
+        const { data, fetchMore, setVisibleElements, filterChange } =
+          useInfiniteQuery(
+            {
+              accessFn: (data) => data.files,
+              queryFn: (offset) => ({
+                $id: 'root',
+                files: {
+                  $all: true,
+                  $list: {
+                    $sort: { $field: 'updatedAt', $order: 'desc' },
+                    $offset: offset,
+                    $limit: 25,
+                    $find: {
+                      $traverse: 'children',
+                      $filter: {
+                        $operator: filter?.operator,
+                        $field: filter?.field,
+                        $value: filter?.value,
+                      },
                     },
                   },
                 },
-              },
-            }),
-          }
-          // , [filter]
-        )
+              }),
+            }
 
-        // useEffect(() => {
-        //   console.log('WHAT is the NEW FILTER 😯--> ', filter)
-        // }, [filter])
+            // , [filter]
+          )
+
+        useEffect(() => {
+          console.log('what is the filter', filter)
+          //   filterChanged()
+        }, [filter])
 
         return (
           <div
@@ -117,9 +75,12 @@ const example: ComponentDef = {
             }}
           >
             <Table
-              // onFilterChange={(v) => {
-              //   setFilter(v)
-              // }}
+              onFilterChange={(v) => {
+                if (v) {
+                  setFilter(v)
+                  filterChange()
+                }
+              }}
               topBar={true}
               selectable={true}
               header={header}
@@ -217,6 +178,55 @@ const example: ComponentDef = {
                 </Modal.Actions>
               </Modal.Content>
             </Modal.Root>
+          </div>
+        )
+      },
+    },
+    {
+      name: 'Header, no border, no virtualization',
+      props: { header: true, virtualized: false },
+      customRenderer: ({ header, virtualized }) => {
+        const [data] = useState(() =>
+          new Array(6).fill(null).map(() => ({
+            id: faker.datatype.uuid().slice(0, 8),
+            number: faker.number.int(10),
+            logo: faker.image.avatar(),
+            firstname: faker.person.firstName(),
+            middlename: faker.person.middleName(),
+            lastname: faker.person.lastName(),
+            status: faker.lorem.words(1),
+            avatar: faker.internet.emoji(),
+            createdAt: faker.date.anytime().getTime(),
+            updatedAt: faker.date.anytime().getTime(),
+            price: Math.random() * 1e4,
+          }))
+        )
+
+        return (
+          <div style={{ width: 900 }}>
+            <Table
+              topBar={true}
+              selectable={true}
+              header={header}
+              virtualized={virtualized}
+              data={data}
+              onRowClick={(row) => {
+                console.log(row)
+              }}
+              rowAction={(row) => (
+                <Dropdown.Root>
+                  <Dropdown.Trigger>
+                    <Button ghost icon={<IconMoreHorizontal />} />
+                  </Dropdown.Trigger>
+                  <Dropdown.Items>
+                    <Dropdown.Item icon={<IconEdit />}>Edit</Dropdown.Item>
+                    <Dropdown.Separator />
+                    <Dropdown.Item icon={<IconDelete />}>Delete</Dropdown.Item>
+                  </Dropdown.Items>
+                </Dropdown.Root>
+              )}
+              onMultiSelectDelete={() => console.log('Delete This 🗑')}
+            />
           </div>
         )
       },
