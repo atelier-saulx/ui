@@ -247,11 +247,7 @@ export function Table({
       onFilterChange(null)
     }
     if (virtualized && onFilterChange) {
-      if (
-        selectedPillVal &&
-        operatorTableSearchValue &&
-        tableSearchFilterValue
-      ) {
+      if (selectedPillVal) {
         onFilterChange({
           operator: operatorTableSearchValue,
           field: selectedPillVal,
