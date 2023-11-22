@@ -32,6 +32,9 @@ const fieldProps = {
     typje: {
       type: 'type',
     },
+    multiRef: {
+      type: 'references',
+    },
     flapppp: {
       type: 'json',
       meta: {

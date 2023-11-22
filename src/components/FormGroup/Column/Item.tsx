@@ -62,7 +62,7 @@ const FormItemInner: FC<{
     value = ['']
   }
 
-  if (multiple || type === 'array' || type === 'set' || type === 'references') {
+  if (multiple || type === 'array' || type === 'set') {
     return (
       <Label>
         <List
@@ -123,6 +123,10 @@ const FormItemInner: FC<{
 
   if (item.type === 'type') {
     return ''
+  }
+
+  if (item.type === 'references') {
+    return 'references'
   }
 
   if (typeof type === 'function') {
