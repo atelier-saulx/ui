@@ -26,7 +26,9 @@ const example: ComponentDef = {
             }}
           >
             <Tabs {...props}>
-              <Tab label="Apple" children="🍎" />
+              <Tab label="Apple" style={{ background: 'yellow' }}>
+                🥒
+              </Tab>
               <Tab label="Bear" children="🐻" />
               <Tab label="Crescendo" children="🎵" />
             </Tabs>

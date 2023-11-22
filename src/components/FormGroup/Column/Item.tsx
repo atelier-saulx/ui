@@ -121,6 +121,10 @@ const FormItemInner: FC<{
     )
   }
 
+  if (item.type === 'type') {
+    return ''
+  }
+
   if (typeof type === 'function') {
     return (
       <>
