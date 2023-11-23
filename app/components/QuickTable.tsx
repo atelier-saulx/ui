@@ -47,19 +47,17 @@ const example: ComponentDef = {
       props: {},
       customRenderer: (props) => {
         return (
-          <div
-          // style={{ height: 420, width: 676 }}
-          >
-            <QuickTable
-              data={genTableData()}
-              //  data={someExampleData}
-              height={420}
-              width={676}
-              style={{}}
-              onRowClick={(v) => console.log('clicked row', v)}
-              onCellClick={(r, c) => console.log('clicked cell', r, c)}
-            />
-          </div>
+          <QuickTable
+            data={genTableData()}
+            //  data={someExampleData}
+            height={420}
+            width={676}
+            onRowClick={(r, rIdx) => console.log('clicked row', r, rIdx)}
+            onCellClick={(c, rIdx, cIdx) =>
+              console.log('clicked cell', c, rIdx, cIdx)
+            }
+            style={{}}
+          />
         )
       },
     },
