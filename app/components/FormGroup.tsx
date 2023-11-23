@@ -341,7 +341,16 @@ const fieldProps = {
     text: {
       description: 'Write smth',
       type: 'text',
+      meta: {
+        description: '',
+        maxChar: 10,
+        mustFill: true,
+        name: 'metathing',
+        readOnly: false,
+        regex: '123',
+      },
     },
+
     custom: {
       label: 'Status',
       description: 'status time',
