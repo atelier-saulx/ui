@@ -2,7 +2,7 @@ import React, { CSSProperties, FC, useState } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { Style, styled } from 'inlines'
-import { color } from 'src/varsUtilities'
+import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { SortOptions, useInfiniteQuery } from './useInfiniteQuery'
 import { BasedQuery } from '@based/client'
@@ -14,6 +14,8 @@ type QuickTableProps = {
   queryId?: number | string
   query?: (start: number, limit: number) => BasedQuery
   getQueryItems?: (data: any) => any[]
+  onRowClick?: (v) => void
+  onCellClick?: (rIdx, cIdx) => void
   style?: CSSProperties | Style
 }
 
@@ -24,6 +26,8 @@ export const QuickTable: FC<QuickTableProps> = ({
   queryId,
   query,
   getQueryItems,
+  onRowClick,
+  onCellClick,
   style,
 }) => {
   const [sortOptions, setSortOpts] = useState<SortOptions>({
@@ -34,8 +38,7 @@ export const QuickTable: FC<QuickTableProps> = ({
   let w = width
   let h = height
 
-  const columnNames = Object.keys(data[0])
-  const noOfColumns = Object.keys(data[0]).length
+  const columnNames = [...new Set(data.flatMap(Object.keys))] as string[]
 
   const Cell = ({ columnIndex, rowIndex, style }) => {
     return (
@@ -50,14 +53,10 @@ export const QuickTable: FC<QuickTableProps> = ({
           )}`,
           ...style,
         }}
-        onClick={() =>
-          console.log(
-            'clicked on row numbrer ',
-            rowIndex,
-            'column -> ',
-            columnIndex
-          )
-        }
+        onClick={() => {
+          onRowClick(rowIndex)
+          onCellClick(rowIndex, columnIndex)
+        }}
       >
         {/* render cell based on column name type */}
         <Text>{data[rowIndex][columnNames[columnIndex]]}</Text>
@@ -78,23 +77,25 @@ export const QuickTable: FC<QuickTableProps> = ({
   console.log(result, 'Result>?')
 
   return (
-    <AutoSizer>
-      {({ height, width }) => (
-        <Grid
-          height={h}
-          rowCount={data?.length}
-          columnCount={noOfColumns}
-          width={w}
-          rowHeight={(index) => 60}
-          columnWidth={(index) => 124}
-          onScroll={(e) => {
-            //       result.onScrollY(e.scrollTop)
-          }}
-          style={{ ...style }}
-        >
-          {Cell}
-        </Grid>
-      )}
-    </AutoSizer>
+    <div style={{ width: w, height: h }}>
+      <AutoSizer>
+        {({ height, width }) => (
+          <Grid
+            height={h}
+            rowCount={data?.length}
+            columnCount={columnNames.length}
+            width={w}
+            rowHeight={(index) => 60}
+            columnWidth={(index) => 124}
+            onScroll={(e) => {
+              //       result.onScrollY(e.scrollTop)
+            }}
+            style={{ ...style }}
+          >
+            {Cell}
+          </Grid>
+        )}
+      </AutoSizer>
+    </div>
   )
 }

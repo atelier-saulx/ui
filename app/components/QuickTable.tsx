@@ -8,8 +8,17 @@ const someExampleData = [
   { createdAt: 32342342, id: '3287323', type: 'testie', updatedAt: 43434534 },
   { createdAt: 3453353, id: '5675675', type: 'testie', updatedAt: 43434534 },
   { createdAt: 4353453, id: '7575677', type: 'testie', updatedAt: 43434534 },
+  {
+    createdAt: 3353,
+    id: '5675675',
+    type: 'Snupr',
+    updatedAt: 43434534,
+    flap: 'flip',
+    click: 'boom',
+  },
   { createdAt: 67567657, id: '35345357', type: 'testie', updatedAt: 43434534 },
 ]
+
 const genTableData = (): {
   title?: string
   subtitle?: string
@@ -38,12 +47,17 @@ const example: ComponentDef = {
       props: {},
       customRenderer: (props) => {
         return (
-          <div style={{ height: 420, width: 676 }}>
+          <div
+          // style={{ height: 420, width: 676 }}
+          >
             <QuickTable
               data={genTableData()}
+              //  data={someExampleData}
               height={420}
               width={676}
-              style={{ background: 'orange' }}
+              style={{}}
+              onRowClick={(v) => console.log('clicked row', v)}
+              onCellClick={(r, c) => console.log('clicked cell', r, c)}
             />
           </div>
         )
