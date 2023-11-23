@@ -13,9 +13,11 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
   const subscriptions = useRef<(CloseObserve | null)[]>([])
   const dataChecksums = useRef<number[]>([])
   const fetchingMore = useRef(false)
+
   const queryFn = useCallbackRef(props.queryFn)
   const accessFn = useCallbackRef(props.accessFn)
   const [visibleElements, setVisibleElements] = useState<number[] | null>()
+  const [didFilterChange, setDidFilterChange] = useState(false)
 
   const [data, setData] = useState<any[]>([])
   const chunkSize = useMemo(
@@ -48,6 +50,7 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
           setData((prevData) => {
             const newData = [...prevData]
             newData[index] = chunk
+            console.log('WHAT IS NEW DATA', newData)
             return newData
           })
           fetchingMore.current = false
@@ -63,6 +66,24 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
       }
     }
   }, [])
+
+  const filterChange = () => {
+    setDidFilterChange(true)
+  }
+
+  useEffect(() => {
+    if (didFilterChange) {
+      for (const unsubscribe of subscriptions.current) {
+        unsubscribe?.()
+      }
+      setData([])
+      // console.log('reached here')
+      fetchingMore.current = false
+      fetchMore()
+    }
+
+    setDidFilterChange(false)
+  }, [didFilterChange])
 
   useEffect(() => {
     if (visibleElements?.length) {
@@ -105,5 +126,5 @@ export function useInfiniteQuery(props: UseInfiniteQueryProps) {
     }
   }, [visibleElements, chunkSize])
 
-  return { data: flatData, fetchMore, setVisibleElements }
+  return { data: flatData, fetchMore, setVisibleElements, filterChange }
 }

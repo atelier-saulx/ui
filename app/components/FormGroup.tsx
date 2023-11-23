@@ -23,7 +23,18 @@ const fieldProps = {
       },
     },
   },
+
   config: {
+    setje: {
+      type: 'set',
+      items: 'string',
+    },
+    typje: {
+      type: 'type',
+    },
+    multiRef: {
+      type: 'references',
+    },
     flapppp: {
       type: 'json',
       meta: {
@@ -37,6 +48,14 @@ const fieldProps = {
     linkedHtml: {
       type: 'string',
       meta: { isLinkedField: true },
+    },
+    bonjour: {
+      type: 'timestamp',
+      // meta: { isLinkedField: true },
+    },
+    bonsoir: {
+      type: 'reference',
+      // meta: { isLinkedField: true },
     },
     array: {
       type: 'array',
