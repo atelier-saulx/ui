@@ -80,6 +80,17 @@
       "code": "type AlertBannerProps = {\n  color?: ColorBackgroundColors\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
       "file": "/components/AlertBanner/index.tsx"
     },
+    "QuickTableProps": {
+      "name": "QuickTableProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type QuickTableProps = {\n  data?: any\n}",
+      "file": "/components/QuickTable/index.tsx"
+    },
     "AuthProviderProps": {
       "name": "AuthProviderProps",
       "props": {
@@ -825,9 +836,13 @@
         "numbered": {
           "optional": true,
           "type": "boolean"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type newDateProps = {\n  value: number\n  setValue: (e) => void\n  time?: boolean\n  style?: Style\n  numbered?: boolean\n}",
+      "code": "type newDateProps = {\n  value: number\n  setValue: (e) => void\n  time?: boolean\n  style?: Style\n  numbered?: boolean\n  autoFocus?: boolean\n}",
       "file": "/components/DatePicker/NewDateInput.tsx"
     },
     "PickerProps": {
@@ -1194,9 +1209,13 @@
         "error": {
           "optional": true,
           "type": "boolean"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type ColorInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (target) => void\n  placeholder?: string\n  disabled?: boolean\n  style?: CSSProperties\n  error?: boolean\n}",
+      "code": "type ColorInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (target) => void\n  placeholder?: string\n  disabled?: boolean\n  style?: CSSProperties\n  error?: boolean\n  autoFocus?: boolean\n}",
       "file": "/components/Input/ColorInput.tsx"
     },
     "FileInputProps": {
@@ -1268,9 +1287,13 @@
         "searchable": {
           "optional": true,
           "type": "boolean"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type MultiSelectProps = {\n  value: string[]\n  options: MultiSelectOption[]\n  placeholder?: string\n  style?: Style\n  onChange: (value) => void\n  onOpen: () => void\n  hugContent?: boolean\n  defaultValue: string[]\n  searchable?: boolean\n}",
+      "code": "type MultiSelectProps = {\n  value: string[]\n  options: MultiSelectOption[]\n  placeholder?: string\n  style?: Style\n  onChange: (value) => void\n  onOpen: () => void\n  hugContent?: boolean\n  defaultValue: string[]\n  searchable?: boolean\n  autoFocus?: boolean\n}",
       "file": "/components/Input/MultiSelect.tsx"
     },
     "NumberInputOwnProps": {
@@ -1351,9 +1374,13 @@
         "integer": {
           "optional": true,
           "type": "boolean"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type NumberInputOwnProps = {\n  value?: number\n  defaultValue?: number\n  onChange?: (value: number) => void\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  style?: Style\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  min?: number\n  max?: number\n  step?: number\n  integer?: boolean\n}",
+      "code": "type NumberInputOwnProps = {\n  value?: number\n  defaultValue?: number\n  onChange?: (value: number) => void\n  clearButton?: boolean\n  icon?: ReactNode\n  afterIcon?: ReactNode\n  prefix?: BadgeProps\n  suffix?: BadgeProps\n  style?: Style\n  onFocus?: () => void\n  onBlur?: () => void\n  disabled?: boolean\n  placeholder?: ReactNode\n  error?: boolean\n  message?: ReactNode\n  min?: number\n  max?: number\n  step?: number\n  integer?: boolean\n  autoFocus?: boolean\n}",
       "file": "/components/Input/NumberInput.tsx"
     },
     "SelectInputProps": {
@@ -1410,9 +1437,13 @@
         "hugContent": {
           "optional": true,
           "type": "boolean"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SelectInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value) => void\n  onOpen?: () => void\n  options: SelectOption[]\n  placeholder?: string\n  clearbutton?: boolean\n  size?: 'small' | 'normal'\n  style?: Style\n  searchable?: boolean\n  hugContent?: boolean\n}",
+      "code": "type SelectInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value) => void\n  onOpen?: () => void\n  options: SelectOption[]\n  placeholder?: string\n  clearbutton?: boolean\n  size?: 'small' | 'normal'\n  style?: Style\n  searchable?: boolean\n  hugContent?: boolean\n  autoFocus?: boolean\n}",
       "file": "/components/Input/SelectInput.tsx"
     },
     "TextAreaInputProps": {
@@ -1452,9 +1483,13 @@
         "maxLength": {
           "optional": true,
           "type": "number"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type TextAreaInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  icon?: React.ReactNode\n  style?: Style\n  error?: boolean\n  maxLength?: number\n}",
+      "code": "type TextAreaInputProps = {\n  value?: string\n  defaultValue?: string\n  onChange?: (value: string) => void\n  disabled?: boolean\n  placeholder?: string\n  icon?: React.ReactNode\n  style?: Style\n  error?: boolean\n  maxLength?: number\n  autoFocus?: boolean\n}",
       "file": "/components/Input/TextAreaInput.tsx"
     },
     "TextInputProps": {
@@ -2664,9 +2699,13 @@
         "onChange": {
           "optional": true,
           "type": "function"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type ValuePluginProps = {\n  defaultValue?: string\n  onChange?: ({ json, html }: { json: string; html: string }) => void\n}",
+      "code": "type ValuePluginProps = {\n  defaultValue?: string\n  onChange?: ({ json, html }: { json: string; html: string }) => void\n  autoFocus?: boolean\n}",
       "file": "/components/RichTextEditor/plugins/ValuePlugin.tsx"
     },
     "ScrollAreaProps": {
@@ -2857,9 +2896,13 @@
       "props": {
         "children": {
           "type": "ReactNode"
+        },
+        "transparent": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SidePanelActionsProps = {\n  children: ReactNode\n}",
+      "code": "type SidePanelActionsProps = {\n  children: ReactNode\n  transparent?: boolean\n}",
       "file": "/components/SidePanel/index.tsx"
     },
     "SingleMetricProps": {
@@ -3029,9 +3072,13 @@
         "onMultiSelectDelete": {
           "optional": true,
           "type": "function"
+        },
+        "onFilterChange": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type TableProps = {\n  columns?: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n  rowAction?: (row: any) => ReactNode\n  onRowClick?: (row: any) => void\n  topBar?: boolean\n  selectable?: boolean\n  onMultiSelectDelete?: () => void\n}",
+      "code": "type TableProps = {\n  columns?: TableColumn[]\n  data: any\n  onScrollToBottom?: () => void\n  onVisibleElementsChange?: (visibleElements: number[]) => void\n  virtualized?: boolean\n  header?: true | false | 'sticky'\n  border?: boolean\n  rowAction?: (row: any) => ReactNode\n  onRowClick?: (row: any) => void\n  topBar?: boolean\n  selectable?: boolean\n  onMultiSelectDelete?: () => void\n  onFilterChange?: ({ operator, field, value }) => void\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
