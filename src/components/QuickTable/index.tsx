@@ -1,21 +1,30 @@
-import React, { FC, useState } from 'react'
+import React, { CSSProperties, FC, useState } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeGrid as Grid } from 'react-window'
-import { styled } from 'inlines'
+import { Style, styled } from 'inlines'
 import { color } from 'src/varsUtilities'
 import { Text } from '../Text'
 import { SortOptions, useInfiniteQuery } from './useInfiniteQuery'
+import { BasedQuery } from '@based/client'
 
 type QuickTableProps = {
   data?: any
   width?: number
   height?: number
+  queryId?: number | string
+  query?: (start: number, limit: number) => BasedQuery
+  getQueryItems?: (data: any) => any[]
+  style?: CSSProperties | Style
 }
 
 export const QuickTable: FC<QuickTableProps> = ({
   data,
   width = 300,
   height = 300,
+  queryId,
+  query,
+  getQueryItems,
+  style,
 }) => {
   const [sortOptions, setSortOpts] = useState<SortOptions>({
     $field: 'createdAt',
@@ -71,28 +80,20 @@ export const QuickTable: FC<QuickTableProps> = ({
   return (
     <AutoSizer>
       {({ height, width }) => (
-        <styled.div
-          style={{
-            minHeight: h,
-            width: '100%',
-            height: '100%',
-            maxWidth: w,
+        <Grid
+          height={h}
+          rowCount={data?.length}
+          columnCount={noOfColumns}
+          width={w}
+          rowHeight={(index) => 60}
+          columnWidth={(index) => 124}
+          onScroll={(e) => {
+            //       result.onScrollY(e.scrollTop)
           }}
+          style={{ ...style }}
         >
-          <Grid
-            height={h}
-            rowCount={data?.length}
-            columnCount={noOfColumns}
-            width={w}
-            rowHeight={(index) => 60}
-            columnWidth={(index) => 124}
-            onScroll={(e) => {
-              result.onScrollY(e.scrollTop)
-            }}
-          >
-            {Cell}
-          </Grid>
-        </styled.div>
+          {Cell}
+        </Grid>
       )}
     </AutoSizer>
   )
