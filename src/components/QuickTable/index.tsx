@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useState } from 'react'
+import React, { CSSProperties, FC, useState, useRef } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { Style, styled } from 'inlines'
@@ -36,6 +36,7 @@ export const QuickTable: FC<QuickTableProps> = ({
     $field: 'createdAt',
     $order: 'desc',
   })
+  const [horizontalScrollOffset, setHorizontalScrollOffset] = useState(0)
 
   let w = width
   let h = height
@@ -89,7 +90,7 @@ export const QuickTable: FC<QuickTableProps> = ({
   console.log(result, 'Result>?')
 
   return (
-    <div style={{ width: w, height: h }}>
+    <styled.div style={{ width: w, height: h }}>
       <AutoSizer>
         {({ height, width }) => (
           <>
@@ -97,6 +98,7 @@ export const QuickTable: FC<QuickTableProps> = ({
               width={width}
               columnWidth={COLUMN_WIDTH}
               headerColumns={columnNames}
+              scrollLeft={horizontalScrollOffset}
             />
             <Grid
               height={h}
@@ -106,6 +108,8 @@ export const QuickTable: FC<QuickTableProps> = ({
               rowHeight={(index) => ROW_HEIGHT}
               columnWidth={(index) => COLUMN_WIDTH}
               onScroll={(e) => {
+                console.log('horizontal scroll??', e)
+                setHorizontalScrollOffset(e.scrollLeft)
                 //       result.onScrollY(e.scrollTop)
               }}
               style={{ ...style }}
@@ -115,6 +119,6 @@ export const QuickTable: FC<QuickTableProps> = ({
           </>
         )}
       </AutoSizer>
-    </div>
+    </styled.div>
   )
 }
