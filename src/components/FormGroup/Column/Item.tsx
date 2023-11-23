@@ -279,11 +279,20 @@ const FormItemInner: FC<{
   }
 
   const validateResult = validation ? validation(value) : true
+  const newRegExp = meta?.regex ? new RegExp(meta?.regex) : false
   const isString = typeof validateResult === 'string'
-  const isError = isString ? true : !validateResult
+  const isError = newRegExp
+    ? !newRegExp.test(value)
+    : isString
+    ? true
+    : !validateResult
 
+  console.log(newRegExp ? newRegExp.test(value) : label)
   return (
     <Input
+      min={meta?.minimum}
+      max={meta?.maximum}
+      maxLength={meta?.maxChar}
       integer={type === 'integer' ? true : undefined}
       error={isError}
       message={isError && isString ? validateResult : undefined}
