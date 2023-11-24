@@ -145,6 +145,7 @@ export const QuickTable: FC<QuickTableProps> = ({
       <AutoSizer>
         {({ height, width }) => (
           <>
+            {height} {width}
             <TableHeader
               width={width}
               columnWidth={COLUMN_WIDTH}
@@ -164,7 +165,7 @@ export const QuickTable: FC<QuickTableProps> = ({
                 setHorizontalScrollOffset(e.scrollLeft)
                 result.onScrollY(e.scrollTop)
               }}
-              style={{ ...style }}
+              //  style={{ ...style }}
               itemData={{
                 data: parsedData,
               }}

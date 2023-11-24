@@ -100,7 +100,7 @@ const example: ComponentDef = {
               console.log('clicked cell', c, rIdx, cIdx)
             }
             getQueryItems={(d) => {
-              console.info(d)
+              console.info(d, 'Nnaie?')
               return d.children
             }}
             style={{}}
