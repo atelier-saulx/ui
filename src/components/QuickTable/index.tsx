@@ -6,7 +6,7 @@ import { color } from '../../varsUtilities'
 import { Text } from '../Text'
 import { SortOptions, useInfiniteQuery } from './useInfiniteQuery'
 import { BasedQuery } from '@based/client'
-import { RenderAs } from './renderAs'
+import { RenderAs } from './RenderAs'
 import { TableHeader } from './TableHeader'
 
 type QuickTableProps = {
@@ -89,8 +89,56 @@ export const QuickTable: FC<QuickTableProps> = ({
 
   console.log(result, 'Result>?')
 
+  const scrollbarColor = color('border', 'default', 'strong')
+  const transparentAreaColor = color('background', 'default', 'surface')
+
   return (
-    <styled.div style={{ width: w, height: h }}>
+    <styled.div
+      style={{
+        width: w,
+        height: h,
+        '& .grid-class': {
+          scrollbarGutter: 'stable',
+          overflowY: 'overlay',
+          overflowX: 'overlay',
+          // minWidth: 'fit-content', // <=== this breaks it
+          // firefox
+          scrollbarColor: `${scrollbarColor} transparent`,
+          scrollbarWidth: 'thin',
+          '&::-webkit-scrollbar': {
+            visibility: 'hidden',
+          },
+          // the rest
+          '&::-webkit-scrollbar:vertical': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar:horizontal': {
+            height: '8px',
+          },
+          '@media (hover: hover)': {
+            '&:hover': {
+              // the rest
+              '&::-webkit-scrollbar': {
+                visibility: 'visible',
+              },
+
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: scrollbarColor,
+                borderRadius: '4px',
+              },
+              '&::-webkit-scrollbar-thumb:vertical': {
+                borderRight: `2px solid ${transparentAreaColor}`,
+                minHeight: '32px',
+              },
+              '&::-webkit-scrollbar-thumb:horizontal': {
+                borderBottom: `2px solid ${transparentAreaColor}`,
+                minWidth: '32px',
+              },
+            },
+          },
+        },
+      }}
+    >
       <AutoSizer>
         {({ height, width }) => (
           <>
@@ -101,6 +149,7 @@ export const QuickTable: FC<QuickTableProps> = ({
               scrollLeft={horizontalScrollOffset}
             />
             <Grid
+              className="grid-class"
               height={h}
               rowCount={data?.length}
               columnCount={columnNames.length}

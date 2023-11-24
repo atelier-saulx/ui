@@ -36,7 +36,7 @@ export const TableHeader = ({
         overflowX: 'hidden',
         scrollBehaviour: 'smooth',
         // right scrollbar offset here
-        paddingRight: 18,
+        paddingRight: 8,
       }}
     >
       {headerColumns.map((item, idx) => (
