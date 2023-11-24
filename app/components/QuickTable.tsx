@@ -66,7 +66,6 @@ const example: ComponentDef = {
           },
         })
 
-        console.log(' 🥥', data)
         const client = useClient()
 
         return (
@@ -78,8 +77,8 @@ const example: ComponentDef = {
                   $all: true,
                   $list: {
                     $sort: { $field: 'updatedAt', $order: 'desc' },
-                    $offset: 0,
-                    $limit: 50,
+                    $offset: offset,
+                    $limit: limit,
                     $find: {
                       $filter: {
                         $operator: '=',
