@@ -52,10 +52,12 @@ export const List: FC<{
     onChange(field, value)
   }
 
+  const itemType = type === 'references' ? 'reference' : type
+
   const addType =
-    items.type === 'object'
+    itemType === 'object'
       ? {}
-      : items.type === 'array' || items.type === 'set'
+      : itemType === 'array' || itemType === 'set'
       ? ['']
       : ''
 
@@ -89,7 +91,7 @@ export const List: FC<{
             />
           }
         />
-        {!open && items.type === 'array' && value.length > 1 && (
+        {!open && itemType === 'array' && value.length > 1 && (
           <Badge style={{ marginLeft: 4 }} color="neutral" light>
             +{value.length}
           </Badge>
@@ -129,7 +131,7 @@ export const List: FC<{
                 onFocus={() => setOpen(true)}
                 style={{ position: 'relative' }}
               >
-                {!open && items.type !== 'array' && value.length > 1 && (
+                {!open && itemType !== 'array' && value.length > 1 && (
                   <styled.div
                     style={{
                       position: 'absolute',
@@ -141,7 +143,7 @@ export const List: FC<{
                       padding: 12,
                       overflow: 'hidden',
                       paddingLeft:
-                        items.type === 'boolean' || items.type === 'checkbox'
+                        itemType === 'boolean' || itemType === 'checkbox'
                           ? 70
                           : 12,
                     }}
@@ -155,7 +157,7 @@ export const List: FC<{
                       }}
                       color="inherit"
                     >
-                      {items.type !== 'object' ? value[0] : ''}
+                      {itemType !== 'object' ? value[0] : ''}
                     </Text>
                     <Badge color="neutral" light>
                       +{value.length}
@@ -168,9 +170,9 @@ export const List: FC<{
                   objValues={items}
                   item={{
                     ...thing,
-                    properties: item.items.properties,
-                    type: item.items.type,
-                    items: item.items.items ?? {},
+                    properties: item.items?.properties,
+                    type: type === 'references' ? 'reference' : item.items.type,
+                    items: item.items?.items ?? {},
                     field: newField,
                   }}
                   onChange={onChange}
@@ -188,8 +190,8 @@ export const List: FC<{
                     )
                   }}
                 />
-                {items.type === 'array' ||
-                  (items.type === 'object' && (
+                {itemType === 'array' ||
+                  (itemType === 'object' && (
                     <styled.div
                       style={{
                         position: 'absolute',
@@ -227,7 +229,7 @@ export const List: FC<{
             onChange(field, [...value, addType])
           }}
         >
-          Add {items.type as string}
+          Add {itemType as string}
         </Button>
       </styled.div>
     </>

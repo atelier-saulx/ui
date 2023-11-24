@@ -76,7 +76,7 @@ export const FormItemInner: FC<{
     value = ['']
   }
 
-  if (multiple || type === 'array' || type === 'set') {
+  if (multiple || type === 'array' || type === 'set' || type === 'references') {
     return (
       <styled.div style={{ width: '100%', marginBottom: 16 }}>
         <List
@@ -137,10 +137,6 @@ export const FormItemInner: FC<{
 
   if (item.type === 'type') {
     return ''
-  }
-
-  if (item.type === 'references') {
-    return 'references'
   }
 
   if (typeof type === 'function') {
@@ -434,6 +430,8 @@ export const FormItem: FC<{
     typeof type === 'function' ||
     props.noLabel ||
     type === 'array' ||
+    type === 'set' ||
+    type === 'references' ||
     type === 'json' ||
     type === 'range' ||
     type === 'file'

@@ -14,7 +14,7 @@ const example: ComponentDef = {
         type: 'file',
         label: 'Avatar',
         onChange: (value) => {
-          console.log(value)
+          // console.log(value)
         },
       },
     },
