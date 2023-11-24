@@ -47,7 +47,11 @@
         },
         "active": {
           "optional": true,
-          "type": ["null", "Number", "Array"]
+          "type": [
+            "null",
+            "Number",
+            "Array"
+          ]
         },
         "style": {
           "optional": true,
@@ -79,17 +83,6 @@
       },
       "code": "type AlertBannerProps = {\n  color?: ColorBackgroundColors\n  children?: ReactNode\n  style?: Style\n  action?: { onClick: () => void; label: string }\n}",
       "file": "/components/AlertBanner/index.tsx"
-    },
-    "QuickTableProps": {
-      "name": "QuickTableProps",
-      "props": {
-        "data": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        }
-      },
-      "code": "type QuickTableProps = {\n  data?: any\n}",
-      "file": "/components/QuickTable/index.tsx"
     },
     "AuthProviderProps": {
       "name": "AuthProviderProps",
@@ -169,7 +162,10 @@
         },
         "color": {
           "optional": true,
-          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
         },
         "icon": {
           "optional": true,
@@ -193,7 +189,10 @@
         },
         "copyValue": {
           "optional": true,
-          "type": ["string", "number"]
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "copy": {
           "optional": true,
@@ -568,7 +567,10 @@
         },
         "onChange": {
           "optional": true,
-          "type": ["TSParenthesizedType", "Dispatch"]
+          "type": [
+            "TSParenthesizedType",
+            "Dispatch"
+          ]
         },
         "style": {
           "optional": true,
@@ -689,7 +691,10 @@
           "type": "ReactNode"
         },
         "onConfirm": {
-          "type": ["TSParenthesizedType", "TSParenthesizedType"]
+          "type": [
+            "TSParenthesizedType",
+            "TSParenthesizedType"
+          ]
         },
         "onCancel": {
           "type": "function"
@@ -758,7 +763,10 @@
       "props": {
         "color": {
           "optional": true,
-          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
         },
         "children": {
           "optional": true,
@@ -1642,7 +1650,10 @@
         },
         "valueFormat": {
           "optional": true,
-          "type": ["NumberFormat", "string"]
+          "type": [
+            "NumberFormat",
+            "string"
+          ]
         },
         "label": {
           "optional": true,
@@ -2064,11 +2075,17 @@
       "name": "ModalContentProps",
       "props": {
         "children": {
-          "type": ["TSParenthesizedType", "ReactNode"]
+          "type": [
+            "TSParenthesizedType",
+            "ReactNode"
+          ]
         },
         "width": {
           "optional": true,
-          "type": ["string", "number"]
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "style": {
           "optional": true,
@@ -2129,7 +2146,10 @@
       "name": "ModalDescriptionProps",
       "props": {
         "children": {
-          "type": ["string", "ReactNode"]
+          "type": [
+            "string",
+            "ReactNode"
+          ]
         }
       },
       "code": "type ModalDescriptionProps = {\n  children: string | ReactNode\n}",
@@ -2406,7 +2426,10 @@
       "name": "PopoverContentProps",
       "props": {
         "children": {
-          "type": ["TSParenthesizedType", "ReactNode"]
+          "type": [
+            "TSParenthesizedType",
+            "ReactNode"
+          ]
         },
         "style": {
           "optional": true,
@@ -2482,11 +2505,17 @@
       "name": "PromptAlertContentProps",
       "props": {
         "children": {
-          "type": ["TSParenthesizedType", "ReactNode"]
+          "type": [
+            "TSParenthesizedType",
+            "ReactNode"
+          ]
         },
         "width": {
           "optional": true,
-          "type": ["string", "number"]
+          "type": [
+            "string",
+            "number"
+          ]
         }
       },
       "code": "type PromptAlertContentProps = {\n  children:\n    | (({ open, close }: { open: boolean; close: () => void }) => ReactNode)\n    | ReactNode\n  width?: string | number\n}",
@@ -2506,7 +2535,10 @@
       "name": "PromptAlertDescriptionProps",
       "props": {
         "children": {
-          "type": ["string", "ReactNode"]
+          "type": [
+            "string",
+            "ReactNode"
+          ]
         }
       },
       "code": "type PromptAlertDescriptionProps = {\n  children: string | ReactNode\n}",
@@ -2614,6 +2646,55 @@
       "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: BasedClient\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n  path?: string\n}",
       "file": "/components/Provider/index.tsx"
     },
+    "QuickTableProps": {
+      "name": "QuickTableProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        },
+        "queryId": {
+          "optional": true,
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "query": {
+          "optional": true,
+          "type": "function"
+        },
+        "getQueryItems": {
+          "optional": true,
+          "type": "function"
+        },
+        "onRowClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "onCellClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": [
+            "CSSProperties",
+            "Style"
+          ]
+        }
+      },
+      "code": "type QuickTableProps = {\n  data?: any\n  width?: number\n  height?: number\n  queryId?: number | string\n  query?: (start: number, limit: number) => BasedQuery\n  getQueryItems?: (data: any) => any[]\n  onRowClick?: (v, rIdx) => void\n  onCellClick?: (v, rIdx, cIdx) => void\n  style?: CSSProperties | Style\n}",
+      "file": "/components/QuickTable/index.tsx"
+    },
     "RadioButtonProps": {
       "name": "RadioButtonProps",
       "props": {
@@ -2672,7 +2753,11 @@
         },
         "value": {
           "optional": true,
-          "type": ["string", "boolean", "number"]
+          "type": [
+            "string",
+            "boolean",
+            "number"
+          ]
         }
       },
       "code": "type RadioButtonsProps = {\n  color?: ColorActionColors\n  data?: Array<{\n    label?: ReactNode\n    value: string | boolean | number\n    description?: string\n  }>\n  direction?: 'horizontal' | 'vertical'\n  disabled?: boolean\n  onChange?: (value: string | number | boolean) => void\n  value?: string | boolean | number\n}",
@@ -2815,11 +2900,17 @@
       "name": "SidePanelContentProps",
       "props": {
         "children": {
-          "type": ["TSParenthesizedType", "ReactNode"]
+          "type": [
+            "TSParenthesizedType",
+            "ReactNode"
+          ]
         },
         "width": {
           "optional": true,
-          "type": ["string", "number"]
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "position": {
           "optional": true,
@@ -2958,7 +3049,10 @@
         },
         "value": {
           "optional": true,
-          "type": ["number", "TSTypeLiteral"]
+          "type": [
+            "number",
+            "TSTypeLiteral"
+          ]
         },
         "steps": {
           "optional": true,
@@ -2985,7 +3079,10 @@
       "props": {
         "color": {
           "optional": true,
-          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
         },
         "ghost": {
           "optional": true,
@@ -3086,7 +3183,10 @@
       "props": {
         "label": {
           "optional": true,
-          "type": ["string", "ReactNode"]
+          "type": [
+            "string",
+            "ReactNode"
+          ]
         },
         "children": {
           "optional": true,
@@ -3282,7 +3382,10 @@
         },
         "truncate": {
           "optional": true,
-          "type": ["number", "boolean"]
+          "type": [
+            "number",
+            "boolean"
+          ]
         },
         "underline": {
           "optional": true,
@@ -3325,7 +3428,10 @@
         },
         "valueFormat": {
           "optional": true,
-          "type": ["NumberFormat", "DateFormat"]
+          "type": [
+            "NumberFormat",
+            "DateFormat"
+          ]
         }
       },
       "code": "type TextProps = {\n  children: ReactNode\n  color?: ColorContentColors | 'inherit'\n  size?: 10 | 12 | 14 | 16 | 18 | 24 | 32 | 40 | 48\n  style?: Style\n  light?: boolean\n  weight?: 'strong' | 'medium' | 'normal'\n  onClick?: ClickHandler\n  transform?: 'capitalize' | 'uppercase' | 'lowercase' | 'initial' | 'none'\n  align?: 'left' | 'center' | 'right'\n  truncate?: number | boolean\n  underline?: boolean\n  selectable?:\n    | 'none'\n    | 'auto'\n    | 'text'\n    | 'contain'\n    | 'all'\n    | 'inherit'\n    | 'initial'\n    | 'revert'\n    | 'revert-layer'\n    | 'unset'\n  valueFormat?: NumberFormat | DateFormat\n}",
@@ -3358,7 +3464,10 @@
         },
         "color": {
           "optional": true,
-          "type": ["ColorBackgroundColors", "ColorNonSemanticBackgroundColors"]
+          "type": [
+            "ColorBackgroundColors",
+            "ColorNonSemanticBackgroundColors"
+          ]
         },
         "style": {
           "optional": true,

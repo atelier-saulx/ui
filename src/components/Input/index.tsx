@@ -50,6 +50,7 @@ export function Input(props: InputProps) {
           message={props.message}
           label={props.label}
           error={props.error}
+          description={props.description}
         >
           <TextInput {...narrowedProps} />
         </LabelAndErrorWrapper>
@@ -62,6 +63,7 @@ export function Input(props: InputProps) {
           message={props.message}
           label={props.label}
           error={props.error}
+          description={props.description}
         >
           <TextAreaInput {...narrowedProps} />
         </LabelAndErrorWrapper>
@@ -74,6 +76,7 @@ export function Input(props: InputProps) {
           message={props.message}
           label={props.label}
           error={props.error}
+          description={props.description}
         >
           <SearchInput {...narrowedProps} />
         </LabelAndErrorWrapper>
@@ -86,6 +89,7 @@ export function Input(props: InputProps) {
           message={props.message}
           label={props.label}
           error={props.error}
+          description={props.description}
         >
           <SelectInput {...narrowedProps} />
         </LabelAndErrorWrapper>
@@ -98,6 +102,7 @@ export function Input(props: InputProps) {
           message={props.message}
           label={props.label}
           error={props.error}
+          description={props.description}
         >
           <MultiSelect {...narrowedProps} />
         </LabelAndErrorWrapper>
@@ -123,6 +128,7 @@ export function Input(props: InputProps) {
           message={props.message}
           label={props.label}
           error={props.error}
+          description={props.description}
         >
           <ColorInput {...narrowedProps} />
         </LabelAndErrorWrapper>
@@ -138,8 +144,8 @@ export function Input(props: InputProps) {
         <LabelAndErrorWrapper
           label={props.label}
           error={props.error}
-          indent={props.indent}
           description={props.description}
+          indent={props.indent}
         >
           <FileInput {...narrowedProps} />
         </LabelAndErrorWrapper>
@@ -148,7 +154,11 @@ export function Input(props: InputProps) {
     case 'checkbox': {
       const { type, ...narrowedProps } = props
       return (
-        <LabelAndErrorWrapper label={props.label} error={props.error}>
+        <LabelAndErrorWrapper
+          label={props.label}
+          error={props.error}
+          description={props.description}
+        >
           <CheckboxInput {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
@@ -156,7 +166,11 @@ export function Input(props: InputProps) {
     case 'password': {
       const { type, ...narrowedProps } = props
       return (
-        <LabelAndErrorWrapper label={props.label} error={props.error}>
+        <LabelAndErrorWrapper
+          label={props.label}
+          error={props.error}
+          description={props.description}
+        >
           <TextInput {...narrowedProps} password />
         </LabelAndErrorWrapper>
       )
@@ -164,7 +178,11 @@ export function Input(props: InputProps) {
     case 'rich-text': {
       const { type, ...narrowedProps } = props
       return (
-        <LabelAndErrorWrapper label={props.label} error={props.error}>
+        <LabelAndErrorWrapper
+          label={props.label}
+          error={props.error}
+          description={props.description}
+        >
           <RichTextEditor {...narrowedProps} />
         </LabelAndErrorWrapper>
       )
