@@ -27,7 +27,9 @@ const fieldProps = {
   config: {
     setje: {
       type: 'set',
-      items: 'string',
+      items: {
+        type: 'string',
+      },
     },
     typje: {
       type: 'type',

@@ -62,7 +62,7 @@ const FormItemInner: FC<{
     value = ['']
   }
 
-  if (multiple || type === 'array' || type === 'set') {
+  if (multiple || type === 'array' || type === 'set' || type === 'references') {
     return (
       <Label>
         <List
@@ -126,6 +126,7 @@ const FormItemInner: FC<{
   }
 
   if (item.type === 'references') {
+    console.log('tpye', type)
     return 'references'
   }
 
@@ -287,7 +288,7 @@ const FormItemInner: FC<{
     ? true
     : !validateResult
 
-  console.log(newRegExp ? newRegExp.test(value) : label)
+  // console.log(newRegExp ? newRegExp.test(value) : label)
   return (
     <Input
       min={meta?.minimum}
@@ -363,7 +364,12 @@ export const FormItem: FC<{
     return <></>
   }
 
-  if (props.noLabel || type === 'array')
+  if (
+    props.noLabel ||
+    type === 'array' ||
+    type === 'references' ||
+    type === 'set'
+  )
     return (
       <div
         style={{

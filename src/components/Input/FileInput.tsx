@@ -27,7 +27,7 @@ export function FileInput({ onChange }: FileInputProps) {
     'initial' | 'uploading' | 'success' | 'error'
   >('initial')
 
-  console.log(status)
+  // console.log(status)
 
   return (
     <styled.label
