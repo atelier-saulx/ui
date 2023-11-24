@@ -44,9 +44,25 @@ export const QuickTable: FC<QuickTableProps> = ({
   let COLUMN_WIDTH = 124
   let ROW_HEIGHT = 60
 
-  const columnNames = [...new Set(data?.flatMap(Object.keys))] as string[]
+  const result = useInfiniteQuery({
+    query,
+    getQueryItems,
+    rowHeight: 60,
+    queryId: queryId + sortOptions.$field + sortOptions.$order,
+    sortOptions: sortOptions,
+    itemCount: data?.length,
+    height: h,
+  })
+
+  const parsedData = query ? result.items : data
+
+  const columnNames = [...new Set(parsedData?.flatMap(Object.keys))] as string[]
+
+  console.log(result, 'Result>?')
+  console.log(parsedData, 'ParsedDAta?')
 
   const Cell = ({ columnIndex, rowIndex, style }) => {
+    console.log('CELL >??')
     return (
       <styled.div
         style={{
@@ -60,9 +76,9 @@ export const QuickTable: FC<QuickTableProps> = ({
           ...style,
         }}
         onClick={() => {
-          onRowClick(data[rowIndex], rowIndex)
+          onRowClick(parsedData[rowIndex], rowIndex)
           onCellClick(
-            data[rowIndex][columnNames[columnIndex]],
+            parsedData[rowIndex][columnNames[columnIndex]],
             rowIndex,
             columnIndex
           )
@@ -70,27 +86,12 @@ export const QuickTable: FC<QuickTableProps> = ({
       >
         {/* render cell based on column name type renderAs */}
         <RenderAs
-          input={data[rowIndex][columnNames[columnIndex]]}
+          input={parsedData[rowIndex][columnNames[columnIndex]]}
           colName={columnNames[columnIndex]}
         />
       </styled.div>
     )
   }
-
-  const result = useInfiniteQuery({
-    query,
-    getQueryItems,
-    rowHeight: 60,
-    queryId: queryId + sortOptions.$field + sortOptions.$order,
-    sortOptions: sortOptions,
-    itemCount: data?.length,
-    height: h,
-  })
-
-  const parsedData = query ? result.items : data
-
-  console.log(result, 'Result>?')
-  console.log(parsedData, 'ParsedDAta?')
 
   const scrollbarColor = color('border', 'default', 'strong')
   const transparentAreaColor = color('background', 'default', 'surface')
@@ -145,7 +146,6 @@ export const QuickTable: FC<QuickTableProps> = ({
       <AutoSizer>
         {({ height, width }) => (
           <>
-            {height} {width}
             <TableHeader
               width={width}
               columnWidth={COLUMN_WIDTH}
@@ -154,8 +154,8 @@ export const QuickTable: FC<QuickTableProps> = ({
             />
             <Grid
               className="grid-class"
-              height={h}
-              rowCount={data?.length}
+              height={height}
+              rowCount={parsedData?.length}
               columnCount={columnNames.length}
               width={w}
               rowHeight={(index) => ROW_HEIGHT}
@@ -165,10 +165,7 @@ export const QuickTable: FC<QuickTableProps> = ({
                 setHorizontalScrollOffset(e.scrollLeft)
                 result.onScrollY(e.scrollTop)
               }}
-              //  style={{ ...style }}
-              itemData={{
-                data: parsedData,
-              }}
+              style={{ ...style }}
             >
               {Cell}
             </Grid>

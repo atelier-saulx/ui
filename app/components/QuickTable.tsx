@@ -108,24 +108,24 @@ const example: ComponentDef = {
         )
       },
     },
-    {
-      props: {},
-      customRenderer: (props) => {
-        return (
-          <QuickTable
-            // data={genTableData()}
-            data={someExampleData}
-            height={420}
-            width={676}
-            onRowClick={(r, rIdx) => console.log('clicked row', r, rIdx)}
-            onCellClick={(c, rIdx, cIdx) =>
-              console.log('clicked cell', c, rIdx, cIdx)
-            }
-            style={{}}
-          />
-        )
-      },
-    },
+    // {
+    //   props: {},
+    //   customRenderer: (props) => {
+    //     return (
+    //       <QuickTable
+    //         // data={genTableData()}
+    //         data={someExampleData}
+    //         height={420}
+    //         width={676}
+    //         onRowClick={(r, rIdx) => console.log('clicked row', r, rIdx)}
+    //         onCellClick={(c, rIdx, cIdx) =>
+    //           console.log('clicked cell', c, rIdx, cIdx)
+    //         }
+    //         style={{}}
+    //       />
+    //     )
+    //   },
+    // },
   ],
 }
 
