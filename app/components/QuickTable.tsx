@@ -2,6 +2,7 @@ import React from 'react'
 import { QuickTable } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
+import { useQuery, useClient } from '@based/react'
 
 const someExampleData = [
   { createdAt: 43534543, id: '3287323', type: 'testie', updatedAt: 43434534 },
@@ -46,10 +47,74 @@ const example: ComponentDef = {
     {
       props: {},
       customRenderer: (props) => {
+        const { data, loading } = useQuery('db', {
+          $id: 'root',
+          children: {
+            $all: true,
+            $list: {
+              $sort: { $field: 'updatedAt', $order: 'desc' },
+              $offset: 0,
+              $limit: 25,
+              $find: {
+                $filter: {
+                  $operator: '=',
+                  $value: 'file',
+                  $field: 'type',
+                },
+              },
+            },
+          },
+        })
+
+        console.log(' 🥥', data)
+        const client = useClient()
+
         return (
           <QuickTable
-            data={genTableData()}
+            query={(offset, limit) => {
+              return client.query('db', {
+                $id: 'root',
+                children: {
+                  $all: true,
+                  $list: {
+                    $sort: { $field: 'updatedAt', $order: 'desc' },
+                    $offset: 0,
+                    $limit: 50,
+                    $find: {
+                      $filter: {
+                        $operator: '=',
+                        $value: 'file',
+                        $field: 'type',
+                      },
+                    },
+                  },
+                },
+              })
+            }}
+            // data={genTableData()}
             //  data={someExampleData}
+            height={420}
+            width={676}
+            onRowClick={(r, rIdx) => console.log('clicked row', r, rIdx)}
+            onCellClick={(c, rIdx, cIdx) =>
+              console.log('clicked cell', c, rIdx, cIdx)
+            }
+            getQueryItems={(d) => {
+              console.info(d)
+              return d.children
+            }}
+            style={{}}
+          />
+        )
+      },
+    },
+    {
+      props: {},
+      customRenderer: (props) => {
+        return (
+          <QuickTable
+            // data={genTableData()}
+            data={someExampleData}
             height={420}
             width={676}
             onRowClick={(r, rIdx) => console.log('clicked row', r, rIdx)}

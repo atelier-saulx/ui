@@ -49,7 +49,7 @@ export const TableHeader = ({
             alignItems: 'center',
           }}
         >
-          <Text weight="medium" transform="capitalize">
+          <Text weight="strong" transform="capitalize">
             {item}
           </Text>
         </styled.div>

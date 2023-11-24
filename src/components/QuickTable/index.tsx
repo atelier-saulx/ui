@@ -44,7 +44,7 @@ export const QuickTable: FC<QuickTableProps> = ({
   let COLUMN_WIDTH = 124
   let ROW_HEIGHT = 60
 
-  const columnNames = [...new Set(data.flatMap(Object.keys))] as string[]
+  const columnNames = [...new Set(data?.flatMap(Object.keys))] as string[]
 
   const Cell = ({ columnIndex, rowIndex, style }) => {
     return (
@@ -87,7 +87,10 @@ export const QuickTable: FC<QuickTableProps> = ({
     height: h,
   })
 
+  const parsedData = query ? result.items : data
+
   console.log(result, 'Result>?')
+  console.log(parsedData, 'ParsedDAta?')
 
   const scrollbarColor = color('border', 'default', 'strong')
   const transparentAreaColor = color('background', 'default', 'surface')
@@ -159,9 +162,12 @@ export const QuickTable: FC<QuickTableProps> = ({
               onScroll={(e) => {
                 console.log('horizontal scroll??', e)
                 setHorizontalScrollOffset(e.scrollLeft)
-                //       result.onScrollY(e.scrollTop)
+                result.onScrollY(e.scrollTop)
               }}
               style={{ ...style }}
+              itemData={{
+                data: parsedData,
+              }}
             >
               {Cell}
             </Grid>
