@@ -19,6 +19,7 @@ const example: ComponentDef = {
     placeholder: { type: 'string' },
     style: { type: 'Style' },
     value: { type: 'string' },
+    description: { type: 'string' },
   },
   examples: [
     {
@@ -26,6 +27,7 @@ const example: ComponentDef = {
         type: 'text',
         placeholder: 'Some text',
         autoFocus: true,
+        description: 'This is a description',
       },
     },
     {
