@@ -5,6 +5,7 @@ import accordion from './components/Accordion'
 import action from './components/Action'
 import alert from './components/Alert'
 import alertBanner from './components/AlertBanner'
+import quickTable from './components/QuickTable'
 import avatar from './components/Avatar'
 import badge from './components/Badge'
 import barGraph from './components/BarGraph'
@@ -87,7 +88,7 @@ export const input = [
   toggle,
 ]
 
-export const misc = [code, colorPicker, logsText, tag]
+export const misc = [quickTable, code, colorPicker, logsText, tag]
 
 export const overlay = [
   alert,

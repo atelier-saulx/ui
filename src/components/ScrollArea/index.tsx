@@ -12,7 +12,6 @@ export const scrollAreaStyle = {
   scrollbarGutter: 'stable',
   overflowY: 'overlay',
   overflowX: 'overlay',
-  // minWidth: 'fit-content', // <=== this breaks it
   // firefox
   scrollbarColor: `${scrollbarColor} transparent`,
   scrollbarWidth: 'thin',
