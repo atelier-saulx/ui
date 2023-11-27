@@ -5,7 +5,7 @@ import { prettyDate } from '@based/pretty-date'
 import { prettyNumber } from '@based/pretty-number'
 import { styled } from 'inlines'
 import { Thumbnail } from '../Thumbnail'
-import { IconAttachment } from 'src/icons'
+import { IconAttachment } from '../../icons'
 
 export const RenderAs = ({ colName, input }) => {
   let cName = colName.toLowerCase()
