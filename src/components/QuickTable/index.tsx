@@ -7,7 +7,10 @@ import { Text } from '../Text'
 import { SortOptions, useInfiniteQuery } from './useInfiniteQuery'
 import { BasedQuery } from '@based/client'
 import { RenderAs } from './RenderAs'
-import { TableHeader } from './TableHeader'
+import { Input } from '../Input'
+import { Dropdown } from '..'
+import { Button } from '..'
+import { IconEye } from '../../icons'
 
 type QuickTableProps = {
   data?: any
@@ -32,6 +35,7 @@ export const QuickTable: FC<QuickTableProps> = ({
   onCellClick,
   style,
 }) => {
+  const [filteredColumns, setFilteredColumns] = useState([])
   const [sortOptions, setSortOptions] = useState<SortOptions>({
     $field: 'createdAt',
     $order: 'desc',
@@ -56,6 +60,9 @@ export const QuickTable: FC<QuickTableProps> = ({
   const parsedData = query ? result.items : data
 
   const columnNames = [...new Set(parsedData?.flatMap(Object.keys))] as string[]
+  const filteredColumnNames = columnNames.filter(
+    (item) => !filteredColumns.includes(item.toLowerCase())
+  )
 
   console.log(result, 'Result>?')
   console.log(parsedData, 'ParsedDAta?')
@@ -76,9 +83,9 @@ export const QuickTable: FC<QuickTableProps> = ({
           ...style,
         }}
         onClick={() => {
-          onRowClick(parsedData[rowIndex], rowIndex)
+          onRowClick(filteredColumnNames[rowIndex], rowIndex)
           onCellClick(
-            parsedData[rowIndex][columnNames[columnIndex]],
+            parsedData[rowIndex][filteredColumnNames[columnIndex]],
             rowIndex,
             columnIndex
           )
@@ -86,8 +93,8 @@ export const QuickTable: FC<QuickTableProps> = ({
       >
         {/* render cell based on column name type renderAs */}
         <RenderAs
-          input={parsedData[rowIndex][columnNames[columnIndex]]}
-          colName={columnNames[columnIndex]}
+          input={parsedData[rowIndex][filteredColumnNames[columnIndex]]}
+          colName={filteredColumnNames[columnIndex]}
         />
       </styled.div>
     )
@@ -106,7 +113,6 @@ export const QuickTable: FC<QuickTableProps> = ({
           scrollbarGutter: 'stable',
           overflowY: 'overlay',
           overflowX: 'overlay',
-          // minWidth: 'fit-content', // <=== this breaks it
           // firefox
           scrollbarColor: `${scrollbarColor} transparent`,
           scrollbarWidth: 'thin',
@@ -144,6 +150,37 @@ export const QuickTable: FC<QuickTableProps> = ({
         },
       }}
     >
+      <Dropdown.Root>
+        <Dropdown.Trigger>
+          <Button
+            color="system"
+            icon={<IconEye />}
+            size="xsmall"
+            style={{ marginLeft: 'auto' }}
+          />
+        </Dropdown.Trigger>
+
+        <Dropdown.Items>
+          {columnNames?.map((item) => (
+            <Input
+              title={item}
+              type="checkbox"
+              value={!filteredColumns.includes(item.toLowerCase())}
+              onChange={(v) => {
+                if (v) {
+                  setFilteredColumns([
+                    ...filteredColumns.filter((x) => x !== item.toLowerCase()),
+                  ])
+                } else {
+                  setFilteredColumns([...filteredColumns, item.toLowerCase()])
+                  console.log(v, 'falkse')
+                }
+              }}
+            />
+          ))}
+        </Dropdown.Items>
+      </Dropdown.Root>
+
       <AutoSizer>
         {({ height, width }) => (
           <>
@@ -161,7 +198,7 @@ export const QuickTable: FC<QuickTableProps> = ({
                 paddingRight: 8,
               }}
             >
-              {columnNames.map((item, idx) => (
+              {filteredColumnNames.map((item, idx) => (
                 <styled.div
                   key={idx}
                   style={{
@@ -181,7 +218,7 @@ export const QuickTable: FC<QuickTableProps> = ({
               className="grid-class"
               height={height}
               rowCount={parsedData?.length}
-              columnCount={columnNames.length}
+              columnCount={filteredColumnNames.length}
               width={w}
               rowHeight={(index) => ROW_HEIGHT}
               columnWidth={(index) => COLUMN_WIDTH}
