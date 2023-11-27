@@ -36,7 +36,6 @@ export const QuickTable: FC<QuickTableProps> = ({
     $field: 'createdAt',
     $order: 'desc',
   })
-  const [horizontalScrollOffset, setHorizontalScrollOffset] = useState(0)
 
   let w = width
   let h = height
@@ -61,8 +60,9 @@ export const QuickTable: FC<QuickTableProps> = ({
   console.log(result, 'Result>?')
   console.log(parsedData, 'ParsedDAta?')
 
+  const tableHeaderRef = useRef<HTMLDivElement>()
+
   const Cell = ({ columnIndex, rowIndex, style }) => {
-    console.log('CELL >??')
     return (
       <styled.div
         style={{
@@ -95,6 +95,7 @@ export const QuickTable: FC<QuickTableProps> = ({
 
   const scrollbarColor = color('border', 'default', 'strong')
   const transparentAreaColor = color('background', 'default', 'surface')
+  const borderColor = color('inputBorder', 'neutralNormal', 'default')
 
   return (
     <styled.div
@@ -146,12 +147,36 @@ export const QuickTable: FC<QuickTableProps> = ({
       <AutoSizer>
         {({ height, width }) => (
           <>
-            <TableHeader
-              width={width}
-              columnWidth={COLUMN_WIDTH}
-              headerColumns={columnNames}
-              scrollLeft={horizontalScrollOffset}
-            />
+            {/* Table header */}
+            <styled.div
+              ref={tableHeaderRef}
+              style={{
+                borderTop: `1px solid ${borderColor}`,
+                borderBottom: `1px solid ${borderColor}`,
+                display: 'flex',
+                width: width,
+                overflowX: 'hidden',
+                scrollBehavior: 'auto',
+                // right scrollbar offset here
+                paddingRight: 8,
+              }}
+            >
+              {columnNames.map((item, idx) => (
+                <styled.div
+                  key={idx}
+                  style={{
+                    minWidth: COLUMN_WIDTH,
+                    height: 40,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text weight="strong" transform="capitalize">
+                    {item}
+                  </Text>
+                </styled.div>
+              ))}
+            </styled.div>
             <Grid
               className="grid-class"
               height={height}
@@ -161,8 +186,9 @@ export const QuickTable: FC<QuickTableProps> = ({
               rowHeight={(index) => ROW_HEIGHT}
               columnWidth={(index) => COLUMN_WIDTH}
               onScroll={(e) => {
-                console.log('horizontal scroll??', e)
-                setHorizontalScrollOffset(e.scrollLeft)
+                if (tableHeaderRef?.current) {
+                  tableHeaderRef.current.scrollLeft = e.scrollLeft
+                }
                 result.onScrollY(e.scrollTop)
               }}
               style={{ ...style }}

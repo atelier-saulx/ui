@@ -34,7 +34,7 @@ export const TableHeader = ({
         display: 'flex',
         width: width,
         overflowX: 'hidden',
-        scrollBehaviour: 'smooth',
+        scrollBehavior: 'smooth',
         // right scrollbar offset here
         paddingRight: 8,
       }}
