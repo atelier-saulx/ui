@@ -6,13 +6,14 @@ import { prettyNumber } from '@based/pretty-number'
 import { styled } from 'inlines'
 import { Thumbnail } from '../Thumbnail'
 import { IconAttachment } from '../../icons'
+import { Toggle } from '../Toggle'
 
 export const RenderAs = ({ colName, input }) => {
   let cName = colName.toLowerCase()
 
   if (cName === 'id') {
     return (
-      <Badge light autoColor>
+      <Badge light autoColor copy>
         {input}
       </Badge>
     )
@@ -24,6 +25,8 @@ export const RenderAs = ({ colName, input }) => {
     return (
       <Thumbnail src={input} size="small" icon={<IconAttachment />} light />
     )
+  } else if (typeof input === 'boolean') {
+    return <Toggle value={input} disabled />
   }
 
   return <Text truncate>{input}</Text>

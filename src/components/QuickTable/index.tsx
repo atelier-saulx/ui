@@ -17,7 +17,12 @@ type QuickTableProps = {
   width?: number
   height?: number
   queryId?: number | string
-  query?: (start: number, limit: number) => BasedQuery
+  query?: (
+    start: number,
+    limit: number,
+    sortOptions?: SortOptions,
+    filter?: {}
+  ) => BasedQuery
   getQueryItems?: (data: any) => any[]
   onRowClick?: (v, rIdx) => void
   onCellClick?: (v, rIdx, cIdx) => void
@@ -35,11 +40,13 @@ export const QuickTable: FC<QuickTableProps> = ({
   onCellClick,
   style,
 }) => {
-  const [filteredColumns, setFilteredColumns] = useState([])
+  const [hiddenColumns, setFilteredColumns] = useState([])
   const [sortOptions, setSortOptions] = useState<SortOptions>({
     $field: 'createdAt',
     $order: 'desc',
   })
+
+  const [customFilter, setCustomFilter] = useState()
 
   let w = width
   let h = height
@@ -55,17 +62,18 @@ export const QuickTable: FC<QuickTableProps> = ({
     sortOptions: sortOptions,
     itemCount: data?.length,
     height: h,
+    filter: customFilter,
   })
 
   const parsedData = query ? result.items : data
 
   const columnNames = [...new Set(parsedData?.flatMap(Object.keys))] as string[]
-  const filteredColumnNames = columnNames.filter(
-    (item) => !filteredColumns.includes(item.toLowerCase())
+  const hiddenColumnNames = columnNames.filter(
+    (item) => !hiddenColumns.includes(item.toLowerCase())
   )
 
-  console.log(result, 'Result>?')
-  console.log(parsedData, 'ParsedDAta?')
+  // console.log(result, 'Result>?')
+  // console.log(parsedData, 'ParsedDAta?')
 
   const tableHeaderRef = useRef<HTMLDivElement>()
 
@@ -85,7 +93,7 @@ export const QuickTable: FC<QuickTableProps> = ({
         onClick={() => {
           onRowClick(parsedData[rowIndex], rowIndex)
           onCellClick(
-            parsedData[rowIndex][filteredColumnNames[columnIndex]],
+            parsedData[rowIndex][hiddenColumnNames[columnIndex]],
             rowIndex,
             columnIndex
           )
@@ -93,8 +101,8 @@ export const QuickTable: FC<QuickTableProps> = ({
       >
         {/* render cell based on column name type renderAs */}
         <RenderAs
-          input={parsedData[rowIndex][filteredColumnNames[columnIndex]]}
-          colName={filteredColumnNames[columnIndex]}
+          input={parsedData[rowIndex][hiddenColumnNames[columnIndex]]}
+          colName={hiddenColumnNames[columnIndex]}
         />
       </styled.div>
     )
@@ -150,6 +158,21 @@ export const QuickTable: FC<QuickTableProps> = ({
         },
       }}
     >
+      <Button onClick={() => setSortOptions({ $field: 'id', $order: 'desc' })}>
+        Sort This
+      </Button>
+      <Button
+        color="alert"
+        onClick={() =>
+          setCustomFilter({
+            $operator: '<',
+            $value: 30000,
+            $field: 'size',
+          })
+        }
+      >
+        Filter This
+      </Button>
       <Dropdown.Root>
         <Dropdown.Trigger>
           <Button
@@ -161,18 +184,19 @@ export const QuickTable: FC<QuickTableProps> = ({
         </Dropdown.Trigger>
 
         <Dropdown.Items>
-          {columnNames?.map((item) => (
+          {columnNames?.map((item, idx) => (
             <Input
+              key={idx}
               title={item}
               type="checkbox"
-              value={!filteredColumns.includes(item.toLowerCase())}
+              value={!hiddenColumns.includes(item.toLowerCase())}
               onChange={(v) => {
                 if (v) {
                   setFilteredColumns([
-                    ...filteredColumns.filter((x) => x !== item.toLowerCase()),
+                    ...hiddenColumns.filter((x) => x !== item.toLowerCase()),
                   ])
                 } else {
-                  setFilteredColumns([...filteredColumns, item.toLowerCase()])
+                  setFilteredColumns([...hiddenColumns, item.toLowerCase()])
                   console.log(v, 'falkse')
                 }
               }}
@@ -198,7 +222,7 @@ export const QuickTable: FC<QuickTableProps> = ({
                 paddingRight: 8,
               }}
             >
-              {filteredColumnNames.map((item, idx) => (
+              {hiddenColumnNames.map((item, idx) => (
                 <styled.div
                   key={idx}
                   style={{
@@ -218,7 +242,7 @@ export const QuickTable: FC<QuickTableProps> = ({
               className="grid-class"
               height={height}
               rowCount={parsedData?.length}
-              columnCount={filteredColumnNames.length}
+              columnCount={hiddenColumnNames.length}
               width={w}
               rowHeight={(index) => ROW_HEIGHT}
               columnWidth={(index) => COLUMN_WIDTH}
