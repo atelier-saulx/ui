@@ -11,6 +11,7 @@ import { Input } from '../Input'
 import { Dropdown } from '..'
 import { Button } from '..'
 import { IconEye } from '../../icons'
+import { Filter } from './Filter'
 
 type QuickTableProps = {
   data?: any
@@ -175,6 +176,7 @@ export const QuickTable: FC<QuickTableProps> = ({
       >
         Filter This
       </Button>
+      <Filter setCustomFilter={setCustomFilter} columnNames={columnNames} />
       <Dropdown.Root>
         <Dropdown.Trigger>
           <Button
