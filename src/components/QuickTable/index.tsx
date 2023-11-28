@@ -24,6 +24,7 @@ type QuickTableProps = {
     filter?: {}
   ) => BasedQuery
   getQueryItems?: (data: any) => any[]
+  filter?: {}
   onRowClick?: (v, rIdx) => void
   onCellClick?: (v, rIdx, cIdx) => void
   style?: CSSProperties | Style
@@ -36,6 +37,7 @@ export const QuickTable: FC<QuickTableProps> = ({
   queryId,
   query,
   getQueryItems,
+  filter,
   onRowClick,
   onCellClick,
   style,
@@ -46,7 +48,7 @@ export const QuickTable: FC<QuickTableProps> = ({
     $order: 'desc',
   })
 
-  const [customFilter, setCustomFilter] = useState()
+  const [customFilter, setCustomFilter] = useState(filter)
 
   let w = width
   let h = height

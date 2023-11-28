@@ -64,7 +64,7 @@ const example: ComponentDef = {
 
         return (
           <QuickTable
-            query={(offset, limit, sortOptions, myFilter) => {
+            query={(offset, limit, sortOptions, filter) => {
               return client.query('db', {
                 $id: 'root',
                 children: {
@@ -74,12 +74,13 @@ const example: ComponentDef = {
                     $offset: offset,
                     $limit: limit,
                     $find: {
-                      $filter: myFilter,
+                      $filter: filter,
                     },
                   },
                 },
               })
             }}
+            filter={myFilter}
             // data={genTableData()}
             //  data={someExampleData}
             height={420}
