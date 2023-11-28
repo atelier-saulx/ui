@@ -83,7 +83,7 @@ export const QuickTable: FC<QuickTableProps> = ({
           ...style,
         }}
         onClick={() => {
-          onRowClick(filteredColumnNames[rowIndex], rowIndex)
+          onRowClick(parsedData[rowIndex], rowIndex)
           onCellClick(
             parsedData[rowIndex][filteredColumnNames[columnIndex]],
             rowIndex,
