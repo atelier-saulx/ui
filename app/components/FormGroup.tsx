@@ -350,6 +350,7 @@ const fieldProps = {
         mustFill: true,
         name: 'metathing',
         readOnly: false,
+        index: 8,
         regex: '123',
         order: 2,
       },

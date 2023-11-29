@@ -72,7 +72,7 @@ const sortByOrder = (parsedData) => {
       array.push(item)
     }
   }
-  orderedArray.sort((a, b) => a?.order - b?.order)
+  orderedArray.sort((a, b) => a?.meta.order - b?.meta.order)
 
   return [...orderedArray, ...array]
   // return orderedArray
