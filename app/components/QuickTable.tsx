@@ -84,6 +84,11 @@ const example: ComponentDef = {
                         $operator: '=',
                         $value: 'file',
                         $field: 'type',
+                        // $and: {
+                        //   $field: 'technicalData.runtime',
+                        //   $operator: '>',
+                        //   $value: 100,
+                        // },
                       },
                     },
                   },
@@ -98,6 +103,7 @@ const example: ComponentDef = {
             onCellClick={(c, rIdx, cIdx) =>
               console.log('clicked cell', c, rIdx, cIdx)
             }
+            // queryId={filter + (statusFilter ?? '')}
             getQueryItems={(d) => {
               console.info(d, 'Nnaie?')
               return d.children
