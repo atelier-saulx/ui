@@ -12,6 +12,7 @@ import { Dropdown } from '..'
 import { Button } from '..'
 import { IconEye } from '../../icons'
 import { Filter } from './Filter'
+import { Row } from '..'
 
 type QuickTableProps = {
   data?: any
@@ -161,10 +162,13 @@ export const QuickTable: FC<QuickTableProps> = ({
         },
       }}
     >
-      <Button onClick={() => setSortOptions({ $field: 'id', $order: 'desc' })}>
+      <Button
+        onClick={() => setSortOptions({ $field: 'id', $order: 'desc' })}
+        style={{ marginBottom: 30 }}
+      >
         Sort This
       </Button>
-      <Button
+      {/* <Button
         color="alert"
         onClick={() =>
           setCustomFilter({
@@ -175,39 +179,45 @@ export const QuickTable: FC<QuickTableProps> = ({
         }
       >
         Filter This
-      </Button>
-      <Filter setCustomFilter={setCustomFilter} columnNames={columnNames} />
-      <Dropdown.Root>
-        <Dropdown.Trigger>
-          <Button
-            color="system"
-            icon={<IconEye />}
-            size="xsmall"
-            style={{ marginLeft: 'auto' }}
-          />
-        </Dropdown.Trigger>
-
-        <Dropdown.Items>
-          {columnNames?.map((item, idx) => (
-            <Input
-              key={idx}
-              title={item}
-              type="checkbox"
-              value={!hiddenColumns.includes(item.toLowerCase())}
-              onChange={(v) => {
-                if (v) {
-                  setFilteredColumns([
-                    ...hiddenColumns.filter((x) => x !== item.toLowerCase()),
-                  ])
-                } else {
-                  setFilteredColumns([...hiddenColumns, item.toLowerCase()])
-                  console.log(v, 'falkse')
-                }
-              }}
+      </Button> */}
+      <Row>
+        <Filter
+          customFilter={customFilter}
+          setCustomFilter={setCustomFilter}
+          columnNames={columnNames}
+        />
+        <Dropdown.Root>
+          <Dropdown.Trigger>
+            <Button
+              color="system"
+              icon={<IconEye />}
+              size="xsmall"
+              style={{ marginLeft: 'auto' }}
             />
-          ))}
-        </Dropdown.Items>
-      </Dropdown.Root>
+          </Dropdown.Trigger>
+
+          <Dropdown.Items>
+            {columnNames?.map((item, idx) => (
+              <Input
+                key={idx}
+                title={item}
+                type="checkbox"
+                value={!hiddenColumns.includes(item.toLowerCase())}
+                onChange={(v) => {
+                  if (v) {
+                    setFilteredColumns([
+                      ...hiddenColumns.filter((x) => x !== item.toLowerCase()),
+                    ])
+                  } else {
+                    setFilteredColumns([...hiddenColumns, item.toLowerCase()])
+                    console.log(v, 'falkse')
+                  }
+                }}
+              />
+            ))}
+          </Dropdown.Items>
+        </Dropdown.Root>
+      </Row>
 
       <AutoSizer>
         {({ height, width }) => (

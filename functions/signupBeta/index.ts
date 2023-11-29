@@ -1,14 +1,20 @@
 import { Client as PostmarkClient } from 'postmark'
-import {
-  GoogleSpreadsheet,
-  ServiceAccountCredentials,
-} from 'google-spreadsheet'
+import { GoogleSpreadsheet } from 'google-spreadsheet'
 
 let postMarkClient: PostmarkClient | undefined
 
-const signupBeta = async ({ based, payload }) => {
-  // const { cloud } = <{ cloud: Cloud }>based.state
+/**
+ * Sheets docs:
+ * https://theoephraim.github.io/node-google-spreadsheet/#/classes/google-spreadsheet
+ * https://github.com/theoephraim/node-google-spreadsheet/blob/master/docs/getting-started/authentication.md
+ */
 
+/**
+ * Access sheet:
+ * https://docs.google.com/spreadsheets/d/1ofBw22Y6DdqetlWJBJBk-VQV-hyZGRLWoCRXJgfAJ7A/edit#gid=0
+ */
+
+const signupBeta = async (based, payload) => {
   const { email: userEmail, website = '', motivation = '' } = payload
 
   if (isEmptyString(userEmail)) {
@@ -16,18 +22,36 @@ const signupBeta = async ({ based, payload }) => {
   }
 
   if (!postMarkClient) {
-    // const serverToken = cloud.config.postmark.serverToken
-    const serverToken = await based.secret('postmarkServerToken')
+    const serverToken = await based
+      .query('based:secret', 'postmarkServerToken')
+      .get()
     postMarkClient = new PostmarkClient(serverToken)
   }
 
-  const sheetsServiceCreds = cloud.config.google.spreadsheets
-    .credentials as unknown as ServiceAccountCredentials
+  const SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+  let sheetsServiceCreds
+
+  // if (!sheetsServiceCreds) {
+  const googleSheetPrivateKey = await based
+    .query('based:secret', 'googleSheetKey')
+    .get()
+
+  const googleEmail = await based
+    .query('based:secret', 'googleSheetEmail')
+    .get()
+
+  sheetsServiceCreds = {
+    client_email: googleEmail,
+    private_key: googleSheetPrivateKey,
+    scopes: SCOPES,
+  }
+  // }
 
   // Target specific Google Spreadsheet that we all have access to
   const betaSpreadsheetId = '1ofBw22Y6DdqetlWJBJBk-VQV-hyZGRLWoCRXJgfAJ7A'
 
   const document = new GoogleSpreadsheet(betaSpreadsheetId)
+
   await document.useServiceAccountAuth(sheetsServiceCreds)
 
   // Load document properties and worksheets
@@ -48,7 +72,17 @@ const signupBeta = async ({ based, payload }) => {
   const userWebsite = isEmptyString(website) ? '---' : website
   const userMotivation = isEmptyString(motivation) ? '---' : motivation
 
-  await signupSheet.addRow([userEmail, signupDate, userWebsite, userMotivation])
+  try {
+    await signupSheet.addRow([
+      userEmail,
+      signupDate,
+      userWebsite,
+      userMotivation,
+    ])
+  } catch (error) {
+    console.log('the flipping ', error)
+    throw error
+  }
 
   return await postMarkClient.sendEmail({
     From: 'Based <auth@based.io>',
