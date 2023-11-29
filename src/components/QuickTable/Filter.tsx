@@ -12,53 +12,52 @@ const OPERATORS = [
 
 export const Filter = ({ customFilter, setCustomFilter, columnNames }) => {
   const [inputVal, setInputVal] = useState(customFilter?.$value)
-  const [type, setType] = useState(customFilter?.$type)
+  const [field, setField] = useState(customFilter?.$field)
   const [operator, setOperator] = useState(customFilter?.$operator)
 
-  let TYPES = []
+  let FIELDS = []
 
   columnNames.map((name) =>
-    TYPES.push({
+    FIELDS.push({
       value: name,
     })
   )
 
   console.log(customFilter, '🐵')
-  console.log(TYPES, 'types', columnNames)
+  console.log(FIELDS, 'types', columnNames)
 
   const applyFilter = () => {
-    console.log(inputVal, type, operator)
+    console.log(inputVal, field, operator)
 
     setCustomFilter({
       $operator: operator,
       $value: inputVal,
-      $field: type,
+      $field: field,
     })
   }
 
   return (
-    <styled.div
-      style={{ display: 'flex', gap: 8, '& div': { width: 'auto !important' } }}
-    >
+    <styled.div style={{ display: 'flex', gap: 8, '& div': { width: 'auto' } }}>
       <Input
         type="select"
-        options={TYPES}
-        value={type}
-        onChange={(v) => setType(v)}
-        style={{ minWidth: 164 }}
+        placeholder={field}
+        options={FIELDS}
+        value={field}
+        onChange={(v) => setField(v)}
+        style={{ minWidth: 132 }}
       />
       <Input
         type="select"
         options={OPERATORS}
         value={operator}
         onChange={(v) => setOperator(v)}
-        style={{ minWidth: 96 }}
+        style={{ maxWidth: 96 }}
       />
       <Input
         type="text"
         value={inputVal}
         onChange={(v) => setInputVal(v)}
-        style={{ minWidth: 164 }}
+        style={{ minWidth: 132 }}
       />
       <Button size="small" onClick={() => applyFilter()}>
         Apply

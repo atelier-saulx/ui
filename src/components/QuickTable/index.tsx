@@ -162,12 +162,12 @@ export const QuickTable: FC<QuickTableProps> = ({
         },
       }}
     >
-      <Button
-        onClick={() => setSortOptions({ $field: 'id', $order: 'desc' })}
+      {/* <Button
+        onClick={() => setSortOptions({ $field: 'size', $order: 'desc' })}
         style={{ marginBottom: 30 }}
       >
         Sort This
-      </Button>
+      </Button> */}
       {/* <Button
         color="alert"
         onClick={() =>
@@ -180,7 +180,7 @@ export const QuickTable: FC<QuickTableProps> = ({
       >
         Filter This
       </Button> */}
-      <Row>
+      <Row style={{ marginBottom: 8 }}>
         <Filter
           customFilter={customFilter}
           setCustomFilter={setCustomFilter}
