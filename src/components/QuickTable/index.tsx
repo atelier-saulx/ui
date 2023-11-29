@@ -10,7 +10,7 @@ import { RenderAs } from './RenderAs'
 import { Input } from '../Input'
 import { Dropdown } from '..'
 import { Button } from '..'
-import { IconEye } from '../../icons'
+import { IconEye, IconSortDesc, IconSortAsc } from '../../icons'
 import { Filter } from './Filter'
 import { Row } from '..'
 
@@ -168,18 +168,7 @@ export const QuickTable: FC<QuickTableProps> = ({
       >
         Sort This
       </Button> */}
-      {/* <Button
-        color="alert"
-        onClick={() =>
-          setCustomFilter({
-            $operator: '<',
-            $value: 30000,
-            $field: 'size',
-          })
-        }
-      >
-        Filter This
-      </Button> */}
+
       <Row style={{ marginBottom: 8 }}>
         <Filter
           customFilter={customFilter}
@@ -210,7 +199,6 @@ export const QuickTable: FC<QuickTableProps> = ({
                     ])
                   } else {
                     setFilteredColumns([...hiddenColumns, item.toLowerCase()])
-                    console.log(v, 'falkse')
                   }
                 }}
               />
@@ -244,9 +232,27 @@ export const QuickTable: FC<QuickTableProps> = ({
                     height: 40,
                     display: 'flex',
                     alignItems: 'center',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => {
+                    if (sortOptions.$order === 'desc') {
+                      setSortOptions({ $field: item, $order: 'asc' })
+                    } else setSortOptions({ $field: item, $order: 'desc' })
                   }}
                 >
-                  <Text weight="strong" transform="capitalize">
+                  {sortOptions.$field === item &&
+                    sortOptions.$order === 'desc' && (
+                      <IconSortDesc color="brand" style={{ marginRight: 6 }} />
+                    )}
+                  {sortOptions.$field === item &&
+                    sortOptions.$order === 'asc' && (
+                      <IconSortAsc color="brand" style={{ marginRight: 6 }} />
+                    )}
+                  <Text
+                    weight="strong"
+                    transform="capitalize"
+                    color={sortOptions.$field === item ? 'brand' : 'default'}
+                  >
                     {item}
                   </Text>
                 </styled.div>
