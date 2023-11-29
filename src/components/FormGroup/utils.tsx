@@ -61,6 +61,23 @@ export const equalChanges = (
   return true
 }
 
+const sortByOrder = (parsedData) => {
+  const orderedArray = [] as any
+  const array = [] as any
+  for (const i in parsedData) {
+    const item = parsedData[i]
+    if (item.meta?.order) {
+      orderedArray.push(item)
+    } else {
+      array.push(item)
+    }
+  }
+  orderedArray.sort((a, b) => a?.order - b?.order)
+
+  return [...orderedArray, ...array]
+  // return orderedArray
+}
+
 export const parseData = (properties) => {
   let parsedData: FormItemProps[]
 
@@ -83,5 +100,6 @@ export const parseData = (properties) => {
   } else {
     parsedData = properties
   }
-  return parsedData
+
+  return sortByOrder(parsedData)
 }

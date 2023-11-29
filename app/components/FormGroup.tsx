@@ -281,6 +281,7 @@ const fieldProps = {
     port: {
       type: 'number',
       description: 'Network port',
+      meta: { order: 1 },
     },
     json: {
       type: 'json',
@@ -350,6 +351,7 @@ const fieldProps = {
         name: 'metathing',
         readOnly: false,
         regex: '123',
+        order: 2,
       },
     },
 
