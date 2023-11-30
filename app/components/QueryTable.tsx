@@ -1,5 +1,5 @@
 import React from 'react'
-import { QuickTable } from '../../src'
+import { QueryTable } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 import { useQuery, useClient } from '@based/react'
@@ -46,16 +46,15 @@ const genTableData = (): {
 }
 
 const example: ComponentDef = {
-  name: 'QuickTable',
-  properties: props.props.QuickTableProps.props,
+  name: 'QueryTable',
+  properties: props.props.QueryTableProps.props,
   description: '',
-  component: QuickTable,
+  component: QueryTable,
   examples: [
     {
       props: {},
       customRenderer: (props) => {
         const client = useClient()
-
         const myFilter = {
           $operator: '=',
           $value: 'file',
@@ -63,7 +62,7 @@ const example: ComponentDef = {
         }
 
         return (
-          <QuickTable
+          <QueryTable
             query={(offset, limit, sortOptions, filter) => {
               return client.query('db', {
                 $id: 'root',
@@ -103,7 +102,7 @@ const example: ComponentDef = {
       props: {},
       customRenderer: (props) => {
         return (
-          <QuickTable
+          <QueryTable
             // data={genTableData()}
             data={someExampleData}
             height={420}

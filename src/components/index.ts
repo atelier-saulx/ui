@@ -1,6 +1,6 @@
 export * from './Accordion'
 export * from './AlertBanner'
-export * from './QuickTable'
+export * from './QueryTable'
 export * from './Avatar'
 export * from './Action'
 export * from './Badge'

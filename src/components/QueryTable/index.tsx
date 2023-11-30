@@ -10,11 +10,11 @@ import { RenderAs } from './RenderAs'
 import { Input } from '../Input'
 import { Dropdown } from '..'
 import { Button } from '..'
-import { IconEye, IconSortDesc, IconSortAsc } from '../../icons'
+import { IconEye, IconSortDesc, IconSortAsc, IconDelete } from '../../icons'
 import { Filter } from './Filter'
 import { Row } from '..'
 
-type QuickTableProps = {
+type QueryTableProps = {
   data?: any
   width?: number
   height?: number
@@ -32,7 +32,7 @@ type QuickTableProps = {
   style?: CSSProperties | Style
 }
 
-export const QuickTable: FC<QuickTableProps> = ({
+export const QueryTable: FC<QueryTableProps> = ({
   data,
   width = 300,
   height = 300,
@@ -49,8 +49,8 @@ export const QuickTable: FC<QuickTableProps> = ({
     $field: 'createdAt',
     $order: 'desc',
   })
-
   const [customFilter, setCustomFilter] = useState(filter)
+  const [selectedRowIndexes, setSelectedRowIndexes] = useState([])
 
   let w = width
   let h = height
@@ -103,6 +103,32 @@ export const QuickTable: FC<QuickTableProps> = ({
           )
         }}
       >
+        {columnIndex === 0 && (
+          <styled.div
+            style={{
+              marginRight: '8px',
+              marginLeft: '3px',
+              '& div': { width: '24px' },
+            }}
+          >
+            <Input
+              type="checkbox"
+              style={{ maxWidth: 24 }}
+              value={selectedRowIndexes.includes(rowIndex)}
+              onChange={() => {
+                console.log('selected rowindex', rowIndex)
+                if (!selectedRowIndexes.includes(rowIndex)) {
+                  setSelectedRowIndexes([...selectedRowIndexes, rowIndex])
+                } else {
+                  let tempArr = selectedRowIndexes.filter(
+                    (item) => item !== rowIndex
+                  )
+                  setSelectedRowIndexes([...tempArr])
+                }
+              }}
+            />
+          </styled.div>
+        )}
         {/* render cell based on column name type renderAs */}
         <RenderAs
           input={parsedData[rowIndex][hiddenColumnNames[columnIndex]]}
@@ -162,13 +188,29 @@ export const QuickTable: FC<QuickTableProps> = ({
         },
       }}
     >
-      {/* <Button
-        onClick={() => setSortOptions({ $field: 'size', $order: 'desc' })}
-        style={{ marginBottom: 30 }}
-      >
-        Sort This
-      </Button> */}
-
+      {/* selected rows options */}
+      <Row style={{ marginBottom: 12 }}>
+        <Row
+          style={{
+            gap: 12,
+            padding: '6px 12px',
+            border: `1px solid ${borderColor}`,
+            borderRadius: 4,
+            boxShadow: `0px 1px 4px 0px rgba(27, 36, 44, 0.04)`,
+          }}
+        >
+          <Text weight="strong" color="brand">
+            {selectedRowIndexes.length} selected rows
+          </Text>
+          <Button size="xsmall" onClick={() => setSelectedRowIndexes([])}>
+            Clear selection
+          </Button>
+          <Button size="xsmall" color="alert" icon={<IconDelete />}>
+            Delete
+          </Button>
+        </Row>
+      </Row>
+      {/* filter and show button */}
       <Row style={{ marginBottom: 8 }}>
         <Filter
           customFilter={customFilter}
@@ -228,18 +270,29 @@ export const QuickTable: FC<QuickTableProps> = ({
                 <styled.div
                   key={idx}
                   style={{
-                    minWidth: COLUMN_WIDTH,
+                    minWidth: idx === 0 ? COLUMN_WIDTH + 32 : COLUMN_WIDTH,
                     height: 40,
                     display: 'flex',
                     alignItems: 'center',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    if (sortOptions.$order === 'desc') {
-                      setSortOptions({ $field: item, $order: 'asc' })
-                    } else setSortOptions({ $field: item, $order: 'desc' })
                   }}
                 >
+                  {idx === 0 && (
+                    <styled.div
+                      style={{
+                        marginRight: '8px',
+                        marginLeft: '3px',
+                        '& div': { width: '24px' },
+                      }}
+                    >
+                      <Input
+                        type="checkbox"
+                        style={{ maxWidth: 24 }}
+                        onChange={() => {
+                          console.log('Select ALL ROWS NOEW!')
+                        }}
+                      />
+                    </styled.div>
+                  )}
                   {sortOptions.$field === item &&
                     sortOptions.$order === 'desc' && (
                       <IconSortDesc color="brand" style={{ marginRight: 6 }} />
@@ -252,6 +305,12 @@ export const QuickTable: FC<QuickTableProps> = ({
                     weight="strong"
                     transform="capitalize"
                     color={sortOptions.$field === item ? 'brand' : 'default'}
+                    onClick={() => {
+                      if (sortOptions.$order === 'desc') {
+                        setSortOptions({ $field: item, $order: 'asc' })
+                      } else setSortOptions({ $field: item, $order: 'desc' })
+                    }}
+                    style={{ cursor: 'pointer' }}
                   >
                     {item}
                   </Text>
@@ -265,7 +324,9 @@ export const QuickTable: FC<QuickTableProps> = ({
               columnCount={hiddenColumnNames.length}
               width={w}
               rowHeight={(index) => ROW_HEIGHT}
-              columnWidth={(index) => COLUMN_WIDTH}
+              columnWidth={(index) =>
+                index === 0 ? COLUMN_WIDTH + 32 : COLUMN_WIDTH
+              }
               onScroll={(e) => {
                 if (tableHeaderRef?.current) {
                   tableHeaderRef.current.scrollLeft = e.scrollLeft
