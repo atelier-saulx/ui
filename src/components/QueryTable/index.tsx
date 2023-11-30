@@ -29,6 +29,7 @@ type QueryTableProps = {
   filter?: {}
   onRowClick?: (v, rIdx) => void
   onCellClick?: (v, rIdx, cIdx) => void
+  onDelete?: () => void
   style?: CSSProperties | Style
 }
 
@@ -42,6 +43,7 @@ export const QueryTable: FC<QueryTableProps> = ({
   filter,
   onRowClick,
   onCellClick,
+  onDelete,
   style,
 }) => {
   const [hiddenColumns, setFilteredColumns] = useState([])
@@ -189,27 +191,34 @@ export const QueryTable: FC<QueryTableProps> = ({
       }}
     >
       {/* selected rows options */}
-      <Row style={{ marginBottom: 12 }}>
-        <Row
-          style={{
-            gap: 12,
-            padding: '6px 12px',
-            border: `1px solid ${borderColor}`,
-            borderRadius: 4,
-            boxShadow: `0px 1px 4px 0px rgba(27, 36, 44, 0.04)`,
-          }}
-        >
-          <Text weight="strong" color="brand">
-            {selectedRowIndexes.length} selected rows
-          </Text>
-          <Button size="xsmall" onClick={() => setSelectedRowIndexes([])}>
-            Clear selection
-          </Button>
-          <Button size="xsmall" color="alert" icon={<IconDelete />}>
-            Delete
-          </Button>
+      {selectedRowIndexes.length > 0 && (
+        <Row style={{ marginBottom: 12 }}>
+          <Row
+            style={{
+              gap: 12,
+              padding: '6px 12px',
+              border: `1px solid ${borderColor}`,
+              borderRadius: 4,
+              boxShadow: `0px 1px 4px 0px rgba(27, 36, 44, 0.04)`,
+            }}
+          >
+            <Text weight="strong" color="brand">
+              {selectedRowIndexes.length} selected rows
+            </Text>
+            <Button size="xsmall" onClick={() => setSelectedRowIndexes([])}>
+              Clear selection
+            </Button>
+            <Button
+              size="xsmall"
+              color="alert"
+              icon={<IconDelete />}
+              onClick={() => onDelete()}
+            >
+              Delete
+            </Button>
+          </Row>
         </Row>
-      </Row>
+      )}
       {/* filter and show button */}
       <Row style={{ marginBottom: 8 }}>
         <Filter
@@ -316,7 +325,10 @@ export const QueryTable: FC<QueryTableProps> = ({
                     onClick={() => {
                       if (sortOptions.$order === 'desc') {
                         setSortOptions({ $field: item, $order: 'asc' })
-                      } else setSortOptions({ $field: item, $order: 'desc' })
+                      } else {
+                        setSortOptions({ $field: item, $order: 'desc' })
+                      }
+                      setSelectedRowIndexes([])
                     }}
                     style={{ cursor: 'pointer' }}
                   >
