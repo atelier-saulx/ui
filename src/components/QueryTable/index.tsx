@@ -13,6 +13,7 @@ import { Button } from '..'
 import { IconEye, IconSortDesc, IconSortAsc, IconDelete } from '../../icons'
 import { Filter } from './Filter'
 import { Row } from '..'
+import { usePropState } from '../../hooks'
 
 type QueryTableProps = {
   data?: any
@@ -48,7 +49,7 @@ export const QueryTable: FC<QueryTableProps> = ({
 }) => {
   const [hiddenColumns, setFilteredColumns] = useState([])
   const [sortOptions, setSortOptions] = useState<SortOptions>({
-    $field: 'createdAt',
+    $field: 'updatedAt',
     $order: 'desc',
   })
   const [customFilter, setCustomFilter] = useState(filter)
@@ -151,8 +152,9 @@ export const QueryTable: FC<QueryTableProps> = ({
         height: h,
         '& .grid-class': {
           scrollbarGutter: 'stable',
-          overflowY: 'overlay',
-          overflowX: 'overlay',
+          // overflowY: 'overlay',
+          // overflowX: 'overlay',
+          overflow: 'scroll !important',
           // firefox
           scrollbarColor: `${scrollbarColor} transparent`,
           scrollbarWidth: 'thin',
@@ -220,7 +222,7 @@ export const QueryTable: FC<QueryTableProps> = ({
         </Row>
       )}
       {/* filter and show button */}
-      <Row style={{ marginBottom: 8 }}>
+      <Row style={{ marginBottom: 12 }}>
         <Filter
           customFilter={customFilter}
           setCustomFilter={setCustomFilter}

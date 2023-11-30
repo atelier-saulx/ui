@@ -83,7 +83,7 @@ const example: ComponentDef = {
             // data={genTableData()}
             //  data={someExampleData}
             height={420}
-            width={676}
+            width={767}
             onRowClick={(r, rIdx) => console.log('clicked row', r, rIdx)}
             onCellClick={(c, rIdx, cIdx) =>
               console.log('clicked cell', c, rIdx, cIdx)
@@ -93,7 +93,6 @@ const example: ComponentDef = {
               // console.info(d, 'Nnaie?')
               return d.children
             }}
-            style={{}}
           />
         )
       },
@@ -106,7 +105,7 @@ const example: ComponentDef = {
             // data={genTableData()}
             data={someExampleData}
             height={420}
-            width={676}
+            width={767}
             onRowClick={(r, rIdx) => console.log('clicked row', r, rIdx)}
             onCellClick={(c, rIdx, cIdx) =>
               console.log('clicked cell', c, rIdx, cIdx)

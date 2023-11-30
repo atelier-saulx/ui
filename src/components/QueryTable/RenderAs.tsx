@@ -23,7 +23,15 @@ export const RenderAs = ({ colName, input }) => {
     return <Text>{prettyNumber(input, 'number-bytes')}</Text>
   } else if (cName === 'src' || cName === 'thumb') {
     return (
-      <Thumbnail src={input} size="small" icon={<IconAttachment />} light />
+      //TODO check if input ends with image extension i guess?
+      <Thumbnail
+        src={input}
+        size="small"
+        icon={
+          input.match(/\.(jpg|jpeg|png|gif|svg)$/i) ? null : <IconAttachment />
+        }
+        light
+      />
     )
   } else if (typeof input === 'boolean') {
     return <Toggle value={input} disabled />
