@@ -8,12 +8,18 @@ import { SortOptions, useInfiniteQuery } from './useInfiniteQuery'
 import { BasedQuery } from '@based/client'
 import { RenderAs } from './RenderAs'
 import { Input } from '../Input'
-import { Dropdown } from '..'
+import { Dropdown, Pill } from '..'
 import { Button } from '..'
-import { IconEye, IconSortDesc, IconSortAsc, IconDelete } from '../../icons'
+import {
+  IconEye,
+  IconSortDesc,
+  IconSortAsc,
+  IconDelete,
+  IconFilter,
+} from '../../icons'
 import { Filter } from './Filter'
 import { Row } from '..'
-import { usePropState } from '../../hooks'
+import { Modal } from '..'
 
 type QueryTableProps = {
   data?: any
@@ -27,7 +33,11 @@ type QueryTableProps = {
     filter?: {}
   ) => BasedQuery
   getQueryItems?: (data: any) => any[]
-  filter?: {}
+  filter?: {
+    $field?: string
+    $operator?: string
+    $value?: string | number | boolean
+  }
   onRowClick?: (v, rIdx) => void
   onCellClick?: (v, rIdx, cIdx) => void
   onDelete?: () => void
@@ -52,7 +62,7 @@ export const QueryTable: FC<QueryTableProps> = ({
     $field: 'updatedAt',
     $order: 'desc',
   })
-  const [customFilter, setCustomFilter] = useState(filter)
+  // const [customFilter, setCustomFilter] = useState(filter)
   const [selectedRowIndexes, setSelectedRowIndexes] = useState([])
 
   let w = width
@@ -69,7 +79,7 @@ export const QueryTable: FC<QueryTableProps> = ({
     sortOptions: sortOptions,
     itemCount: data?.length,
     height: h,
-    filter: customFilter,
+    filter: filter,
   })
 
   const parsedData = query ? result.items : data
@@ -193,6 +203,7 @@ export const QueryTable: FC<QueryTableProps> = ({
       }}
     >
       {/* selected rows options */}
+
       {selectedRowIndexes.length > 0 && (
         <Row style={{ marginBottom: 12 }}>
           <Row
@@ -223,11 +234,83 @@ export const QueryTable: FC<QueryTableProps> = ({
       )}
       {/* filter and show button */}
       <Row style={{ marginBottom: 12 }}>
-        <Filter
+        {/* <Filter
           customFilter={customFilter}
           setCustomFilter={setCustomFilter}
           columnNames={columnNames}
-        />
+        /> */}
+        <styled.div
+          style={{
+            height: '32px',
+            padding: '6px 10px',
+            display: 'flex',
+            alignItems: 'center',
+            borderRadius: 4,
+            border: `1px solid ${borderColor}`,
+            marginRight: 8,
+          }}
+        >
+          <Text light size={14}>
+            {filter?.$field} {filter?.$operator} {filter?.$value}
+          </Text>
+        </styled.div>
+        <Modal.Root>
+          <Modal.Trigger>
+            <Button color="primary" size="xsmall" icon={<IconFilter />}>
+              Add Filter
+            </Button>
+          </Modal.Trigger>
+          <Modal.Content>
+            {({ close }) => {
+              return (
+                <>
+                  <Modal.Title>Define your filter.</Modal.Title>
+                  <Modal.Body>
+                    <Input
+                      label={'and or?'}
+                      value={'$and'}
+                      type="select"
+                      options={[
+                        { value: '$and', label: 'AND' },
+                        { value: '$or', label: 'OR' },
+                      ]}
+                    />
+                    <Input
+                      label="$field"
+                      value=""
+                      type="select"
+                      options={[
+                        { value: '$and', label: 'AND' },
+                        { value: '$or', label: 'OR' },
+                      ]}
+                    />
+                    <Input
+                      label="$operator"
+                      value="="
+                      type="select"
+                      options={[
+                        { value: '=' },
+                        { value: '!=' },
+                        { value: '<' },
+                        { value: '>' },
+                      ]}
+                    />
+                    <Input label="$value" value="" type="text" />
+                  </Modal.Body>
+                  <Modal.Actions>
+                    <Button onClick={close} color="system">
+                      Cancel
+                    </Button>
+                    <Button onClick={() => close} color="primary">
+                      Apply
+                    </Button>
+                  </Modal.Actions>
+                </>
+              )
+            }}
+          </Modal.Content>
+        </Modal.Root>
+
         <Dropdown.Root>
           <Dropdown.Trigger>
             <Button
@@ -259,7 +342,6 @@ export const QueryTable: FC<QueryTableProps> = ({
           </Dropdown.Items>
         </Dropdown.Root>
       </Row>
-
       <AutoSizer>
         {({ height, width }) => (
           <>
