@@ -287,8 +287,16 @@ export const QueryTable: FC<QueryTableProps> = ({
                       <Input
                         type="checkbox"
                         style={{ maxWidth: 24 }}
+                        value={selectedRowIndexes.length === parsedData.length}
                         onChange={() => {
-                          console.log('Select ALL ROWS NOEW!')
+                          if (selectedRowIndexes.length !== parsedData.length) {
+                            let arr = Array.from(
+                              Array(parsedData.length).keys()
+                            )
+                            setSelectedRowIndexes([...arr])
+                          } else {
+                            setSelectedRowIndexes([])
+                          }
                         }}
                       />
                     </styled.div>
