@@ -1,5 +1,5 @@
 import React from 'react'
-import { QuickTable } from '../../src'
+import { QueryTable } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
 import { useQuery, useClient } from '@based/react'
@@ -8,11 +8,18 @@ const someExampleData = [
   { createdAt: 43534543, id: '3287323', type: 'testie', updatedAt: 43434534 },
   { createdAt: 32342342, id: '3287323', type: 'testie', updatedAt: 43434534 },
   { createdAt: 3453353, id: '5675675', type: 'testie', updatedAt: 43434534 },
-  { createdAt: 4353453, id: '7575677', type: 'testie', updatedAt: 43434534 },
+  {
+    createdAt: 4353453,
+    id: '7575677',
+    type: 'testie',
+    boolie: false,
+    updatedAt: 43434534,
+  },
   {
     createdAt: 3353,
     id: '5675675',
     type: 'Snupr',
+    boolie: true,
     updatedAt: 43434534,
     flap: 'flip',
     click: 'boom',
@@ -39,76 +46,53 @@ const genTableData = (): {
 }
 
 const example: ComponentDef = {
-  name: 'QuickTable',
-  properties: props.props.QuickTableProps.props,
+  name: 'QueryTable',
+  properties: props.props.QueryTableProps.props,
   description: '',
-  component: QuickTable,
+  component: QueryTable,
   examples: [
     {
       props: {},
       customRenderer: (props) => {
-        const { data, loading } = useQuery('db', {
-          $id: 'root',
-          children: {
-            $all: true,
-            $list: {
-              $sort: { $field: 'updatedAt', $order: 'desc' },
-              $offset: 0,
-              $limit: 25,
-              $find: {
-                $filter: {
-                  $operator: '=',
-                  $value: 'file',
-                  $field: 'type',
-                },
-              },
-            },
-          },
-        })
-
         const client = useClient()
+        const myFilter = {
+          $operator: '=',
+          $value: 'file',
+          $field: 'type',
+        }
 
         return (
-          <QuickTable
-            query={(offset, limit) => {
+          <QueryTable
+            query={(offset, limit, sortOptions, filter) => {
               return client.query('db', {
                 $id: 'root',
                 children: {
                   $all: true,
                   $list: {
-                    $sort: { $field: 'updatedAt', $order: 'desc' },
+                    $sort: sortOptions,
                     $offset: offset,
                     $limit: limit,
                     $find: {
-                      $filter: {
-                        $operator: '=',
-                        $value: 'file',
-                        $field: 'type',
-                        // $and: {
-                        //   $field: 'technicalData.runtime',
-                        //   $operator: '>',
-                        //   $value: 100,
-                        // },
-                      },
+                      $filter: filter,
                     },
                   },
                 },
               })
             }}
+            filter={myFilter}
             // data={genTableData()}
             //  data={someExampleData}
             height={420}
-            width={676}
+            width={767}
             onRowClick={(r, rIdx) => console.log('clicked row', r, rIdx)}
             onCellClick={(c, rIdx, cIdx) =>
               console.log('clicked cell', c, rIdx, cIdx)
             }
             // queryId={filter + (statusFilter ?? '')}
             getQueryItems={(d) => {
-              console.info(d, 'Nnaie?')
+              // console.info(d, 'Nnaie?')
               return d.children
             }}
-            style={{}}
           />
         )
       },
@@ -117,11 +101,11 @@ const example: ComponentDef = {
       props: {},
       customRenderer: (props) => {
         return (
-          <QuickTable
+          <QueryTable
             // data={genTableData()}
             data={someExampleData}
             height={420}
-            width={676}
+            width={767}
             onRowClick={(r, rIdx) => console.log('clicked row', r, rIdx)}
             onCellClick={(c, rIdx, cIdx) =>
               console.log('clicked cell', c, rIdx, cIdx)

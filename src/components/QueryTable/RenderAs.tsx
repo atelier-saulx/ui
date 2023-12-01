@@ -6,13 +6,14 @@ import { prettyNumber } from '@based/pretty-number'
 import { styled } from 'inlines'
 import { Thumbnail } from '../Thumbnail'
 import { IconAttachment } from '../../icons'
+import { Toggle } from '../Toggle'
 
 export const RenderAs = ({ colName, input }) => {
   let cName = colName.toLowerCase()
 
   if (cName === 'id') {
     return (
-      <Badge light autoColor>
+      <Badge light autoColor copy>
         {input}
       </Badge>
     )
@@ -22,8 +23,18 @@ export const RenderAs = ({ colName, input }) => {
     return <Text>{prettyNumber(input, 'number-bytes')}</Text>
   } else if (cName === 'src' || cName === 'thumb') {
     return (
-      <Thumbnail src={input} size="small" icon={<IconAttachment />} light />
+      //TODO check if input ends with image extension i guess?
+      <Thumbnail
+        src={input}
+        size="small"
+        icon={
+          input.match(/\.(jpg|jpeg|png|gif|svg)$/i) ? null : <IconAttachment />
+        }
+        light
+      />
     )
+  } else if (typeof input === 'boolean') {
+    return <Toggle value={input} disabled />
   }
 
   return <Text truncate>{input}</Text>
