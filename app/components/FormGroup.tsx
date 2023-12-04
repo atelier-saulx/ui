@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormGroup, Button } from '../../src'
 import props from '../props.json'
 import { ComponentDef } from '../types'
@@ -42,6 +42,7 @@ const fieldProps = {
       meta: {
         format: 'rich-text',
         linkedField: 'linkedHtml',
+
         label: 'real label',
         //  readOnly: true,
       },
@@ -419,9 +420,42 @@ const example: ComponentDef = {
       },
     },
     {
+      name: 'Always Accept',
+      description: 'Passes all changed values directly to onChange function',
+      props: {
+        alwaysAccept: true,
+        ...fieldProps,
+        style: {
+          width: 750,
+        },
+        variant: 'column',
+      },
+      customRenderer: (props) => {
+        const [value, setValue] = useState<any>()
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <FormGroup
+              {...props}
+              values={{ ...props.values, ...value }}
+              onChange={(v) => setValue({ ...value, ...v })}
+            />
+            <Button
+              keyboardShortcut="Enter"
+              displayShortcut
+              onClick={() => console.log(value)}
+            >
+              This button is connected to state storing value seperate from the
+              formgroup
+            </Button>
+          </div>
+        )
+      },
+    },
+    {
       name: 'Column',
       description: 'Same form displayed as a colum',
       props: {
+        alwaysAccept: true,
         ...fieldProps,
         style: {
           width: 750,
