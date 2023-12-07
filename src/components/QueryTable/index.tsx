@@ -17,7 +17,6 @@ import {
   IconDelete,
   IconFilter,
 } from '../../icons'
-import { Filter } from './Filter'
 import { Row } from '..'
 import { Modal } from '..'
 
@@ -234,11 +233,6 @@ export const QueryTable: FC<QueryTableProps> = ({
       )}
       {/* filter and show button */}
       <Row style={{ marginBottom: 12 }}>
-        {/* <Filter
-          customFilter={customFilter}
-          setCustomFilter={setCustomFilter}
-          columnNames={columnNames}
-        /> */}
         <styled.div
           style={{
             height: '32px',
@@ -267,7 +261,7 @@ export const QueryTable: FC<QueryTableProps> = ({
                   <Modal.Title>Define your filter.</Modal.Title>
                   <Modal.Body>
                     <Input
-                      label={'and or?'}
+                      label={'$and or $or?'}
                       value={'$and'}
                       type="select"
                       options={[
@@ -302,7 +296,7 @@ export const QueryTable: FC<QueryTableProps> = ({
                       Cancel
                     </Button>
                     <Button onClick={() => close} color="primary">
-                      Apply
+                      Add
                     </Button>
                   </Modal.Actions>
                 </>

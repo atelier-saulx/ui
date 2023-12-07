@@ -62,20 +62,20 @@ export const equalChanges = (
 }
 
 const sortByOrder = (parsedData) => {
-  const orderedArray = [] as any
+  const indexedArray = [] as any
   const array = [] as any
   for (const i in parsedData) {
     const item = parsedData[i]
-    if (item.meta?.order) {
-      orderedArray.push(item)
+    if (item.meta?.index) {
+      indexedArray.push(item)
     } else {
       array.push(item)
     }
   }
-  orderedArray.sort((a, b) => a?.meta.order - b?.meta.order)
+  indexedArray.sort((a, b) => a?.meta.index - b?.meta.index)
 
-  return [...orderedArray, ...array]
-  // return orderedArray
+  return [...indexedArray, ...array]
+  // return indexedArray
 }
 
 export const parseData = (properties) => {

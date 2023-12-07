@@ -30,10 +30,13 @@ export const FormGroup: FC<FormGroupProps> = ({
 
   const onChangeField: OnChangeField = (field, value) => {
     if (alwaysAccept) {
-      // console.log('thingy')
-      const newV = {}
-      setValue(field, newV, value)
-      onChange(newV)
+      // valuesChanged.current = {}
+      setValue(field, valuesChanged.current, value)
+      onChange(valuesChanged.current)
+      update()
+      // const newV = {}
+      // setValue(field, newV, value)
+      // onChange(newV)
     } else {
       setChanges(true)
       setValue(field, valuesChanged.current, value)

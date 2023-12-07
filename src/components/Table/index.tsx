@@ -64,7 +64,7 @@ function renderCell(key: string, row: any, renderAs: RenderAs = 'normal') {
     )
   if (renderAs === 'avatar')
     return (
-      <Avatar light autoColor>
+      <Avatar src={row[key]} light autoColor>
         {row[key]}
       </Avatar>
     )
