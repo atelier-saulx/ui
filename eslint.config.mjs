@@ -10,23 +10,26 @@ import noOnlyTests from 'eslint-plugin-no-only-tests'
 import eslintComments from 'eslint-plugin-eslint-comments'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const compat = new FlatCompat({
   baseDirectory: __dirname,
   recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
-});
+  allConfig: js.configs.all,
+})
 
 export default [
   {
     ignores: ['**/node_modules', '**/dist'],
   },
-  ...fixupConfigRules(compat.extends(
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:react-hooks/recommended",
-  )),
+  ...fixupConfigRules(
+    compat.extends(
+      'eslint:recommended',
+      'plugin:@typescript-eslint/recommended',
+      'plugin:react-hooks/recommended',
+      'plugin:storybook/recommended',
+    ),
+  ),
   {
     plugins: {
       '@typescript-eslint': typescriptEslint,
@@ -55,9 +58,12 @@ export default [
       'no-console': 'warn',
       'no-debugger': 'warn',
 
-      "react-refresh/only-export-components": ["warn", {
-        allowConstantExport: true,
-      }],
+      'react-refresh/only-export-components': [
+        'warn',
+        {
+          allowConstantExport: true,
+        },
+      ],
 
       '@typescript-eslint/no-unused-vars': [
         'warn',
