@@ -3,7 +3,7 @@ name: Deploy Storybook
 on: [push]
 
 jobs:
-  build:
+  deploy-storybook:
     runs-on: ubuntu-latest
 
     steps:
