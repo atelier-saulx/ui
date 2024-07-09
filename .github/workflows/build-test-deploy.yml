@@ -1,9 +1,9 @@
-name: Deploy Storybook
+name: Build, test and deploy
 
 on: [push]
 
 jobs:
-  deploy-storybook:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,8 +15,10 @@ jobs:
           node-version: '18.x'
       - name: Install dependencies
         run: npm ci
-      - name: Build Storybook
-        run: npm run build:storybook
+      - name: Build
+        run: npm run build
+      - name: Run tests
+        run: npm run test
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:

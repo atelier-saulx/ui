@@ -7,18 +7,15 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npx tsc",
-    "esbuild": "node esbuild.config.cjs",
-    "watch": "npm run build -- --watch",
-    "clean": "rimraf {dist,node_modules}",
-    "test": "vitest",
-    "format": "prettier --ignore-path .gitignore -w \"src/**/*.{ts,json,css,tsx}\"",
-    "lint": "eslint",
+    "dev": "storybook dev -p 6006",
+    "build": "npx tsc && node esbuild.config.cjs && storybook build",
+    "test": "vitest run",
     "release:patch": "npm version patch",
     "release:minor": "npm version minor",
     "release:major": "npm version major",
-    "dev": "storybook dev -p 6006",
-    "build:storybook": "storybook build"
+    "chore:clean": "rimraf {dist,node_modules}",
+    "chore:format": "prettier --ignore-path .gitignore -w \"src/**/*.{ts,json,css,tsx}\"",
+    "chore:lint": "eslint"
   },
   "sideEffects": false,
   "repository": {
