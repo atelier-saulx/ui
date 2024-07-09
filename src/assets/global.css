@@ -9,6 +9,15 @@
 :root {
   --font-sans: Inter;
 
+  /* Border radii */
+  --border-radii-sharp: 0px;
+  --border-radii-muted: 4px;
+  --border-radii-rounded: 8px;
+  --border-radii-blunt: 12px;
+  --border-radii-smooth: 16px;
+  --border-radii-curved: 24px;
+  --border-radii-circular: 9999px;
+
   /* Semantic colors */
   --color-neutral-5: var(--color-black-5);
   --color-neutral-10: var(--color-black-10);
