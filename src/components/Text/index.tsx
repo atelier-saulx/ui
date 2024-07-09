@@ -1,6 +1,8 @@
+import { Color, ColorSwatch, color } from '../../utils/colors.ts'
+
 type TextProps = {
   children: string
-  variant:
+  variant?:
     | 'display-regular'
     | 'display-medium'
     | 'display-bold'
@@ -11,16 +13,22 @@ type TextProps = {
     | 'subtext-medium'
     | 'subtext-bold'
   align?: 'left' | 'center' | 'right'
+  color?: 'inherit' | ColorSwatch | Color
 }
 
-function Text({ variant, children, align = 'left' }: TextProps) {
+function Text({
+  children,
+  variant = 'display-regular',
+  color: colorProp = 'neutral',
+  align = 'left',
+}: TextProps) {
   return (
     <div
       style={{
         textAlign: align,
         overflowWrap: 'break-word',
-        color: 'currentColor',
-        fontFamily: 'Inter',
+        color: colorProp === 'inherit' ? 'inherit' : color(colorProp),
+        fontFamily: 'var(--font-sans)',
         lineHeight: 1,
         letterSpacing: 'normal',
         ...(variant === 'display-regular' && {
