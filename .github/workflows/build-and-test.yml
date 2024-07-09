@@ -1,4 +1,4 @@
-name: Build, test and deploy
+name: Build and test
 
 on: [push]
 
@@ -19,10 +19,3 @@ jobs:
         run: npm run build
       - name: Run tests
         run: npm run test
-      - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: 0f3245a938ac700e485dd7fa57b5d209
-          projectName: ui-storybook
-          directory: storybook-static
