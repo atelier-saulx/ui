@@ -1,6 +1,19 @@
+@font-face {
+  font-family: 'Inter';
+  font-weight: 400 800;
+  font-display: block;
+  font-style: normal;
+  src: url(/Inter-roman.var.woff2) format('woff2');
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+}
+
+* {
+  margin: 0;
+  overscroll-behavior: none;
 }

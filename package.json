@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "storybook dev -p 6006",
     "build": "npx tsc && node esbuild.config.cjs && storybook build",
+    "postbuild": "cp -r src/assets dist",
     "test": "vitest run",
     "release:patch": "npm version patch",
     "release:minor": "npm version minor",
