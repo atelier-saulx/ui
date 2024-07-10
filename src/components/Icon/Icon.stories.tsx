@@ -19,27 +19,29 @@ export const Default = {
         gridTemplateColumns: 'repeat(auto-fill, minmax(8rem, 1fr))',
       }}
     >
-      {ICONS.map((variant) => (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 8,
-            padding: 16,
-            borderRadius: borderRadius(8),
-            background: color('neutral', 10),
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            navigator.clipboard.writeText(`<Icon variant="${variant}" />`)
-          }}
-        >
-          <Icon variant={variant} />
-          <Text align="center">{variant}</Text>
-        </div>
-      ))}
+      {[...ICONS]
+        .sort((a, b) => a.localeCompare(b))
+        .map((variant) => (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 8,
+              padding: 16,
+              borderRadius: borderRadius(8),
+              background: color('neutral', 10),
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              navigator.clipboard.writeText(`<Icon variant="${variant}" />`)
+            }}
+          >
+            <Icon variant={variant} />
+            <Text align="center">{variant}</Text>
+          </div>
+        ))}
     </div>
   ),
 }

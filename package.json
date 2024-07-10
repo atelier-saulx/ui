@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "prettier": "@saulx/prettier-config",
   "scripts": {
-    "dev": "storybook dev -p 6006",
+    "dev": "storybook dev -p 1234",
     "test": "vitest run",
     "prebuild": "rm -rf dist",
     "build": "tsc",
