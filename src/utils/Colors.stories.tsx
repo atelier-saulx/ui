@@ -39,7 +39,7 @@ export const Semantics = {
                   gap: 8,
                   height: 64,
                   background: color(c, alpha),
-                  borderRadius: borderRadius('rounded'),
+                  borderRadius: borderRadius(8),
                   border: `1px solid ${color('neutral', 10)}`,
                   marginBottom: 16,
                 }}
@@ -76,7 +76,7 @@ export const Swatches = {
                   gap: 8,
                   height: 64,
                   background: colorSwatch(swatch, alpha),
-                  borderRadius: borderRadius('rounded'),
+                  borderRadius: borderRadius(8),
                   border: `1px solid ${color('neutral', 10)}`,
                   marginBottom: 16,
                 }}

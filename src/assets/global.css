@@ -10,13 +10,13 @@
   --font-sans: Inter;
 
   /* Border radii */
-  --border-radii-sharp: 0px;
-  --border-radii-muted: 4px;
-  --border-radii-rounded: 8px;
-  --border-radii-blunt: 12px;
-  --border-radii-smooth: 16px;
-  --border-radii-curved: 24px;
-  --border-radii-circular: 9999px;
+  --border-radii-0: 0px;
+  --border-radii-4: 4px;
+  --border-radii-8: 8px;
+  --border-radii-12: 12px;
+  --border-radii-16: 16px;
+  --border-radii-24: 24px;
+  --border-radii-full: 9999px;
 
   /* Semantic colors */
   --color-neutral-5: var(--color-black-5);
