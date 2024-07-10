@@ -6,13 +6,15 @@ const COLOR_SWATCHES = [
   'indigo',
   'amber',
 ] as const
+const COLOR_SWATCH_ALPHAS = [5, 10, 20, 40, 60, 80, 90, 95, 100] as const
 const COLORS = ['neutral', 'neutral-inverted', 'accent', 'destructive'] as const
+const COLOR_ALPHAS = [5, 10, 20, 60, 80, 100] as const
 
 type ColorSwatch = (typeof COLOR_SWATCHES)[number]
-type ColorSwatchAlpha = 5 | 10 | 20 | 40 | 60 | 80 | 90 | 95 | 100
+type ColorSwatchAlpha = (typeof COLOR_SWATCH_ALPHAS)[number]
 
 type Color = (typeof COLORS)[number]
-type ColorAlpha = 5 | 10 | 20 | 60 | 80 | 100
+type ColorAlpha = (typeof COLOR_ALPHAS)[number]
 
 function color(c: Color, alpha?: ColorAlpha) {
   if (typeof alpha === 'undefined') {
@@ -30,5 +32,12 @@ function colorSwatch(c: ColorSwatch, alpha?: ColorSwatchAlpha) {
   return `var(--color-${c}-${alpha})`
 }
 
-export { color, colorSwatch, COLORS, COLOR_SWATCHES }
+export {
+  color,
+  colorSwatch,
+  COLORS,
+  COLOR_SWATCHES,
+  COLOR_ALPHAS,
+  COLOR_SWATCH_ALPHAS,
+}
 export type { Color, ColorAlpha, ColorSwatch, ColorSwatchAlpha }
