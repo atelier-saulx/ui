@@ -1,39 +1,19 @@
 {
   "name": "@based/ui",
   "version": "6.0.0-alpha",
-  "author": "Based.io",
-  "license": "MIT",
-  "private": false,
   "type": "module",
   "main": "dist/index.js",
+  "prettier": "@saulx/prettier-config",
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "npx tsc && node esbuild.config.cjs && storybook build",
-    "postbuild": "cp -r src/assets dist",
     "test": "vitest run",
-    "release:patch": "npm version patch",
-    "release:minor": "npm version minor",
-    "release:major": "npm version major",
-    "chore:clean": "rimraf {dist,node_modules}",
-    "chore:format": "prettier --ignore-path .gitignore -w \"src/**/*.{ts,json,css,tsx}\"",
-    "chore:lint": "eslint"
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
+    "postbuild": "cp -r src/assets dist",
+    "build:storybook": "storybook build",
+    "format": "prettier --ignore-path .gitignore -w \"src/**/*.{ts,json,css,tsx}\"",
+    "lint": "eslint"
   },
-  "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/atelier-saulx/react.git"
-  },
-  "bugs": {
-    "url": "https://github.com/atelier-saulx/react/issues"
-  },
-  "homepage": "https://github.com/atelier-saulx/react#readme",
-  "keywords": [
-    "ui",
-    "components",
-    "react",
-    "based"
-  ],
-  "prettier": "@saulx/prettier-config",
   "devDependencies": {
     "@eslint/compat": "^1.1.0",
     "@eslint/eslintrc": "^3.1.0",
@@ -51,7 +31,6 @@
     "@typescript-eslint/eslint-plugin": "^7.14.1",
     "@typescript-eslint/parser": "^7.14.1",
     "@vitejs/plugin-react-swc": "^3.7.0",
-    "esbuild": "^0.22.0",
     "eslint": "^8.57.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-no-only-tests": "^3.1.0",

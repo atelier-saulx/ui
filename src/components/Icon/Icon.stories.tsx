@@ -1,7 +1,8 @@
+import React from 'react'
 import { ICONS, Icon } from './index.js'
 import { Text } from '../Text/index.js'
-import { borderRadius } from '../../utils/border.ts'
-import { color } from '../../utils/colors.ts'
+import { borderRadius } from '../../utils/border.js'
+import { color } from '../../utils/colors.js'
 
 export default {
   title: 'Bits/Icon',

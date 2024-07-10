@@ -4,7 +4,7 @@ import {
   ColorSwatch,
   color,
   colorSwatch,
-} from '../../utils/colors.ts'
+} from '../../utils/colors.js'
 
 type TextProps = {
   children: string
