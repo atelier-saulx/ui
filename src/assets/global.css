@@ -141,3 +141,8 @@
   margin: 0;
   overscroll-behavior: none;
 }
+
+html {
+  background: var(--color-neutral-inverted-100);
+  color: var(--color-neutral-100);
+}

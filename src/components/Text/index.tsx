@@ -1,4 +1,10 @@
-import { Color, ColorSwatch, color } from '../../utils/colors.ts'
+import {
+  COLORS,
+  Color,
+  ColorSwatch,
+  color,
+  colorSwatch,
+} from '../../utils/colors.ts'
 
 type TextProps = {
   children: string
@@ -13,7 +19,7 @@ type TextProps = {
     | 'subtext-medium'
     | 'subtext-bold'
   align?: 'left' | 'center' | 'right'
-  color?: 'inherit' | ColorSwatch | Color
+  color?: 'inherit' | Color | ColorSwatch
 }
 
 function Text({
@@ -27,7 +33,12 @@ function Text({
       style={{
         textAlign: align,
         overflowWrap: 'break-word',
-        color: colorProp === 'inherit' ? 'inherit' : color(colorProp),
+        color:
+          colorProp === 'inherit'
+            ? 'inherit'
+            : COLORS.includes(colorProp as Color)
+              ? color(colorProp as Color)
+              : colorSwatch(colorProp as ColorSwatch),
         fontFamily: 'var(--font-sans)',
         lineHeight: 1,
         letterSpacing: 'normal',
