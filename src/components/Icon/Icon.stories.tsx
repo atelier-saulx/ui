@@ -28,7 +28,7 @@ export const Default = {
             alignItems: 'center',
             gap: 8,
             padding: 16,
-            borderRadius: borderRadius('rounded'),
+            borderRadius: borderRadius(8),
             background: color('neutral', 10),
             cursor: 'pointer',
           }}
