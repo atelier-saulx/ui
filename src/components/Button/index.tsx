@@ -84,6 +84,41 @@ function Button({
               background: color('destructive-20'),
             }),
           }),
+
+        ...(variant === 'ghost' &&
+          colorProp === 'neutral' && {
+            color: color('neutral-80'),
+            background: 'transparent',
+            ...(focus &&
+              !disabled && {
+                outlineWidth: 4,
+                outlineStyle: 'solid',
+                outlineColor: color('neutral-20'),
+              }),
+            ...(disabled && {
+              color: color('neutral-20'),
+              background: 'transparent',
+            }),
+          }),
+        ...(variant === 'ghost' &&
+          colorProp === 'destructive' && {
+            color: color('destructive-80'),
+            background: 'transparent',
+            ...(hover &&
+              !disabled && {
+                color: color('destructive-100'),
+              }),
+            ...(focus &&
+              !disabled && {
+                color: color('destructive-100'),
+                outlineWidth: 4,
+                outlineStyle: 'solid',
+                outlineColor: color('destructive-60'),
+              }),
+            ...(disabled && {
+              color: color('destructive-20'),
+            }),
+          }),
       }}
     >
       <div
@@ -102,6 +137,18 @@ function Button({
             (hover || focus) &&
             !disabled && {
               background: color('neutral-10'),
+            }),
+          ...(variant === 'ghost' &&
+            colorProp === 'neutral' &&
+            (hover || focus) &&
+            !disabled && {
+              background: color('neutral-10'),
+            }),
+          ...(variant === 'ghost' &&
+            colorProp === 'destructive' &&
+            (hover || focus) &&
+            !disabled && {
+              background: color('destructive-20'),
             }),
         }}
       />
