@@ -85,6 +85,51 @@ function Button({
             }),
           }),
 
+        ...(variant === 'secondary' &&
+          colorProp === 'neutral' && {
+            color: color('neutral-80'),
+            background: 'transparent',
+            boxShadow: `inset 0 0 0 1px ${color('neutral-20-adjusted')}`,
+            ...(hover &&
+              !disabled && {
+                boxShadow: 'none',
+              }),
+            ...(focus &&
+              !disabled && {
+                outlineWidth: 4,
+                outlineStyle: 'solid',
+                outlineColor: color('neutral-20'),
+                boxShadow: 'none',
+              }),
+            ...(disabled && {
+              color: color('neutral-20'),
+              background: 'transparent',
+              boxShadow: `inset 0 0 0 1px ${color('neutral-10-adjusted')}`,
+            }),
+          }),
+        ...(variant === 'secondary' &&
+          colorProp === 'destructive' && {
+            color: color('destructive-80'),
+            background: 'transparent',
+            boxShadow: `inset 0 0 0 1px ${color('destructive-20')}`,
+            ...(hover &&
+              !disabled && {
+                boxShadow: 'none',
+                color: color('destructive-100'),
+              }),
+            ...(focus &&
+              !disabled && {
+                boxShadow: 'none',
+                color: color('destructive-100'),
+                outlineWidth: 4,
+                outlineStyle: 'solid',
+                outlineColor: color('destructive-60'),
+              }),
+            ...(disabled && {
+              boxShadow: `inset 0 0 0 1px ${color('destructive-10')}`,
+              color: color('destructive-20'),
+            }),
+          }),
         ...(variant === 'ghost' &&
           colorProp === 'neutral' && {
             color: color('neutral-80'),
@@ -137,6 +182,24 @@ function Button({
             (hover || focus) &&
             !disabled && {
               background: color('neutral-10'),
+            }),
+          ...(variant === 'secondary' &&
+            colorProp === 'neutral' &&
+            hover &&
+            !disabled && {
+              background: color('neutral-20-adjusted'),
+            }),
+          ...(variant === 'secondary' &&
+            colorProp === 'neutral' &&
+            focus &&
+            !disabled && {
+              background: color('neutral-10'),
+            }),
+          ...(variant === 'secondary' &&
+            colorProp === 'destructive' &&
+            (hover || focus) &&
+            !disabled && {
+              background: color('destructive-20'),
             }),
           ...(variant === 'ghost' &&
             colorProp === 'neutral' &&

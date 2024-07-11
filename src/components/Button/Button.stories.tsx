@@ -28,7 +28,7 @@ export const PrimaryDestructive = {
 export const Secondary = {
   args: {
     children: 'Button label',
-    variant: 'secondar',
+    variant: 'secondary',
     color: 'neutral',
     disabled: false,
     leadIcon: 'add',
