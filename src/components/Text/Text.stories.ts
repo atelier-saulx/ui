@@ -10,6 +10,6 @@ export const Default = {
     children: 'The quick brown fox jumps over the lazy dog',
     align: 'left',
     variant: 'display-regular',
-    color: 'neutral',
+    color: 'neutral-100',
   },
 }

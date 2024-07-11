@@ -31,7 +31,7 @@ export const Default = {
               gap: 8,
               padding: 16,
               borderRadius: borderRadius(8),
-              background: color('neutral', 10),
+              background: color('neutral-10'),
               cursor: 'pointer',
             }}
             onClick={() => {

@@ -20,23 +20,32 @@
 
   /* Semantic colors */
   --color-neutral-5: var(--color-black-5);
+  --color-neutral-10-background: var(--color-white-100);
+  --color-neutral-10-adjusted: var(--color-black-5);
   --color-neutral-10: var(--color-black-10);
   --color-neutral-20: var(--color-black-20);
+  --color-neutral-20-adjusted: var(--color-black-10);
   --color-neutral-60: var(--color-black-60);
   --color-neutral-80: var(--color-black-80);
   --color-neutral-100: var(--color-black-100);
-  --color-neutral-inverted-5: var(--color-white-5);
-  --color-neutral-inverted-10: var(--color-white-10);
+  --color-neutral-inverted-5: var(--color-white-10);
+  --color-neutral-inverted-10: var(--color-white-20);
   --color-neutral-inverted-20: var(--color-white-20);
-  --color-neutral-inverted-60: var(--color-white-60);
+  --color-neutral-inverted-60: var(--color-white-40);
   --color-neutral-inverted-80: var(--color-white-80);
   --color-neutral-inverted-100: var(--color-white-100);
-  --color-accent-5: var(--color-indigo-5);
-  --color-accent-10: var(--color-indigo-10);
-  --color-accent-20: var(--color-indigo-20);
-  --color-accent-60: var(--color-indigo-60);
-  --color-accent-80: var(--color-indigo-80);
-  --color-accent-100: var(--color-indigo-100);
+  --color-highlight-5: var(--color-indigo-5);
+  --color-highlight-10: var(--color-indigo-10);
+  --color-highlight-20: var(--color-indigo-20);
+  --color-highlight-60: var(--color-indigo-60);
+  --color-highlight-80: var(--color-indigo-80);
+  --color-highlight-100: var(--color-indigo-100);
+  --color-alert-5: var(--color-amber-5);
+  --color-alert-10: var(--color-amber-10);
+  --color-alert-20: var(--color-amber-20);
+  --color-alert-60: var(--color-amber-60);
+  --color-alert-80: var(--color-amber-80);
+  --color-alert-100: var(--color-amber-100);
   --color-destructive-5: var(--color-red-5);
   --color-destructive-10: var(--color-red-10);
   --color-destructive-20: var(--color-red-20);
@@ -103,10 +112,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-neutral-5: var(--color-white-5);
+    --color-neutral-5: var(--color-black-5);
+    --color-neutral-10-background: var(--color-white-10);
+    --color-neutral-10-adjusted: var(--color-white-10);
     --color-neutral-10: var(--color-white-10);
     --color-neutral-20: var(--color-white-20);
-    --color-neutral-60: var(--color-white-60);
+    --color-neutral-20-adjusted: var(--color-white-20);
+    --color-neutral-60: var(--color-white-40);
     --color-neutral-80: var(--color-white-80);
     --color-neutral-100: var(--color-white-100);
     --color-neutral-inverted-5: var(--color-black-5);
@@ -115,18 +127,6 @@
     --color-neutral-inverted-60: var(--color-black-60);
     --color-neutral-inverted-80: var(--color-black-80);
     --color-neutral-inverted-100: var(--color-black-100);
-    --color-accent-5: var(--color-indigo-5);
-    --color-accent-10: var(--color-indigo-10);
-    --color-accent-20: var(--color-indigo-20);
-    --color-accent-60: var(--color-indigo-60);
-    --color-accent-80: var(--color-indigo-80);
-    --color-accent-100: var(--color-indigo-100);
-    --color-destructive-5: var(--color-red-5);
-    --color-destructive-10: var(--color-red-10);
-    --color-destructive-20: var(--color-red-20);
-    --color-destructive-60: var(--color-red-60);
-    --color-destructive-80: var(--color-red-80);
-    --color-destructive-100: var(--color-red-100);
   }
 }
 

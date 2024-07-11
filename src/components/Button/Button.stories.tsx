@@ -5,8 +5,22 @@ export default {
   component: Button,
 }
 
-export const Default = {
+export const Primary = {
   args: {
     children: 'Button label',
+    variant: 'primary',
+    color: 'neutral',
+    disabled: false,
+    leadIcon: 'add',
+  },
+}
+
+export const Secondary = {
+  args: {
+    children: 'Button label',
+    variant: 'secondar',
+    color: 'neutral',
+    disabled: false,
+    leadIcon: 'add',
   },
 }

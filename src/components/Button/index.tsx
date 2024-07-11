@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { borderRadius } from '../../utils/border.js'
-import { color, colorSwatch } from '../../utils/colors.js'
+import { color } from '../../utils/colors.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 
@@ -56,32 +56,32 @@ function Button({
         outlineStyle: 'none',
         ...(variant === 'primary' &&
           colorProp === 'neutral' && {
-            color: color('neutral-inverted', 100),
-            background: color('neutral', 100),
+            color: color('neutral-inverted-100'),
+            background: color('neutral-100'),
             ...(focus &&
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
-                outlineColor: color('neutral', 20),
+                outlineColor: color('neutral-20'),
               }),
             ...(disabled && {
-              color: color('neutral-inverted', 60),
-              background: color('neutral', 20),
+              color: color('neutral-inverted-60'),
+              background: color('neutral-20'),
             }),
           }),
         ...(variant === 'primary' &&
           colorProp === 'destructive' && {
-            color: colorSwatch('white', 100),
-            background: color('destructive', 100),
+            color: color('white-100'),
+            background: color('destructive-100'),
             ...(focus &&
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
-                outlineColor: color('destructive', 60),
+                outlineColor: color('destructive-60'),
               }),
             ...(disabled && {
-              color: colorSwatch('white', 20),
-              background: color('destructive', 20),
+              color: color('white-20'),
+              background: color('destructive-20'),
             }),
           }),
       }}
@@ -95,13 +95,13 @@ function Button({
             colorProp === 'neutral' &&
             (hover || focus) &&
             !disabled && {
-              background: color('neutral-inverted', 20),
+              background: color('neutral-inverted-20'),
             }),
           ...(variant === 'primary' &&
             colorProp === 'destructive' &&
             (hover || focus) &&
             !disabled && {
-              background: color('neutral', 10),
+              background: color('neutral-10'),
             }),
         }}
       />

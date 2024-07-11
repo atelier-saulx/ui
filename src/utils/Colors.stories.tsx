@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  COLORS,
-  COLOR_ALPHAS,
-  COLOR_SWATCHES,
-  COLOR_SWATCH_ALPHAS,
-  color,
-  colorSwatch,
-} from './colors'
+import { COLORS, COLOR_SWATCHES, color } from './colors'
 import { borderRadius } from './border'
 import { Text } from '../components/Text'
 
@@ -22,32 +15,28 @@ export const Semantics = {
         display: 'grid',
         gap: 24,
         gridAutoRows: '1fr',
-        gridTemplateColumns: `repeat(${COLOR_ALPHAS.length}, 1fr)`,
+        gridTemplateColumns: `repeat(9, 1fr)`,
       }}
     >
-      {COLORS.map((c) =>
-        [...COLOR_ALPHAS]
-          .sort((a, b) => b - a)
-          .map((alpha) => (
-            <div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 8,
-                  height: 64,
-                  background: color(c, alpha),
-                  borderRadius: borderRadius(8),
-                  border: `1px solid ${color('neutral', 10)}`,
-                  marginBottom: 16,
-                }}
-              />
-              <Text variant="subtext-bold">{`${c.charAt(0).toUpperCase() + c.slice(1)} ${alpha}`}</Text>
-            </div>
-          )),
-      )}
+      {[...COLORS].map((c) => (
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 8,
+              height: 64,
+              background: color(c),
+              borderRadius: borderRadius(8),
+              border: `1px solid ${color('neutral-10')}`,
+              marginBottom: 16,
+            }}
+          />
+          <Text variant="subtext-bold">{c}</Text>
+        </div>
+      ))}
     </div>
   ),
 }
@@ -59,32 +48,28 @@ export const Swatches = {
         display: 'grid',
         gap: 24,
         gridAutoRows: '1fr',
-        gridTemplateColumns: `repeat(${COLOR_SWATCH_ALPHAS.length}, 1fr)`,
+        gridTemplateColumns: `repeat(9, 1fr)`,
       }}
     >
-      {COLOR_SWATCHES.map((swatch) =>
-        [...COLOR_SWATCH_ALPHAS]
-          .sort((a, b) => b - a)
-          .map((alpha) => (
-            <div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: 8,
-                  height: 64,
-                  background: colorSwatch(swatch, alpha),
-                  borderRadius: borderRadius(8),
-                  border: `1px solid ${color('neutral', 10)}`,
-                  marginBottom: 16,
-                }}
-              />
-              <Text variant="subtext-bold">{`${swatch.charAt(0).toUpperCase() + swatch.slice(1)} ${alpha}`}</Text>
-            </div>
-          )),
-      )}
+      {[...COLOR_SWATCHES].map((c) => (
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 8,
+              height: 64,
+              background: color(c),
+              borderRadius: borderRadius(8),
+              border: `1px solid ${color('neutral-10')}`,
+              marginBottom: 16,
+            }}
+          />
+          <Text variant="subtext-bold">{c}</Text>
+        </div>
+      ))}
     </div>
   ),
 }

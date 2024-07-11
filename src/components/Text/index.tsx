@@ -1,10 +1,4 @@
-import {
-  COLORS,
-  Color,
-  ColorSwatch,
-  color,
-  colorSwatch,
-} from '../../utils/colors.js'
+import { Color, color } from '../../utils/colors.js'
 
 type TextProps = {
   children: string
@@ -19,13 +13,13 @@ type TextProps = {
     | 'subtext-medium'
     | 'subtext-bold'
   align?: 'left' | 'center' | 'right'
-  color?: 'inherit' | Color | ColorSwatch
+  color?: 'inherit' | Color
 }
 
 function Text({
   children,
   variant = 'display-regular',
-  color: colorProp = 'neutral',
+  color: colorProp = 'neutral-100',
   align = 'left',
 }: TextProps) {
   return (
@@ -33,12 +27,7 @@ function Text({
       style={{
         textAlign: align,
         overflowWrap: 'break-word',
-        color:
-          colorProp === 'inherit'
-            ? 'inherit'
-            : COLORS.includes(colorProp as Color)
-              ? color(colorProp as Color)
-              : colorSwatch(colorProp as ColorSwatch),
+        color: colorProp === 'inherit' ? 'inherit' : color(colorProp),
         fontFamily: 'var(--font-sans)',
         lineHeight: 1,
         letterSpacing: 'normal',
