@@ -31,10 +31,10 @@ function Button({
       onClick={() => {
         onClick?.()
       }}
-      onMouseEnter={(e) => {
+      onMouseEnter={() => {
         setHover(true)
       }}
-      onMouseLeave={(e) => {
+      onMouseLeave={() => {
         setHover(false)
       }}
       onFocus={() => {
