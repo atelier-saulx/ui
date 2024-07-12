@@ -3,6 +3,14 @@ import { IconButton } from './index.js'
 export default {
   title: 'Components/IconButton',
   component: IconButton,
+  argTypes: {
+    disabled: {
+      control: { type: 'boolean' },
+    },
+    loading: {
+      control: { type: 'boolean' },
+    },
+  },
 }
 
 export const NeutralNormal = {
@@ -19,6 +27,23 @@ export const NeutralSmall = {
     color: 'neutral',
     disabled: false,
     size: 'small',
+  },
+}
+
+export const NeutralTiny = {
+  args: {
+    variant: 'close',
+    color: 'neutral',
+    disabled: false,
+    size: 'tiny',
+  },
+}
+export const DestructiveTiny = {
+  args: {
+    variant: 'close',
+    color: 'destructive',
+    disabled: false,
+    size: 'tiny',
   },
 }
 

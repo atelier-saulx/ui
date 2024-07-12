@@ -13,6 +13,7 @@ type ButtonProps = {
   leadIcon?: IconProps['variant']
   trailIcon?: IconProps['variant']
   loading?: boolean
+  size?: 'normal' | 'small'
 }
 
 function Button({
@@ -22,6 +23,7 @@ function Button({
   loading,
   variant = 'primary',
   color: colorProp = 'neutral',
+  size = 'normal',
   leadIcon,
   trailIcon,
 }: ButtonProps) {
@@ -48,13 +50,13 @@ function Button({
       }}
       style={{
         position: 'relative',
-        padding: '6px 8px',
         borderRadius: borderRadius(8),
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
         border: 'none',
-        minHeight: 36,
+        padding: size === 'normal' ? '6px 8px' : '0px 2px',
+        minHeight: size === 'normal' ? 36 : 24,
         cursor: disabled ? 'not-allowed' : 'pointer',
         outlineStyle: 'none',
         ...(variant === 'primary' &&

@@ -7,7 +7,7 @@ type IconButtonProps = {
   variant: IconProps['variant']
   onClick?: () => void
   disabled?: boolean
-  size?: 'normal' | 'small'
+  size?: 'normal' | 'small' | 'tiny'
   color?: 'neutral' | 'destructive'
 }
 
@@ -39,18 +39,26 @@ function IconButton({
         setFocus(false)
       }}
       style={{
-        borderRadius: borderRadius(8),
-        display: 'inline-flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        position: 'relative',
         border: 'none',
+        overflow: 'hidden',
         cursor: disabled ? 'not-allowed' : 'pointer',
         outlineStyle: 'none',
+        padding: 0,
         ...(size === 'normal' && {
-          padding: '6px',
+          width: 36,
+          height: 36,
+          borderRadius: borderRadius(8),
         }),
         ...(size === 'small' && {
-          padding: 0,
+          width: 24,
+          height: 24,
+          borderRadius: borderRadius(8),
+        }),
+        ...(size === 'tiny' && {
+          width: 16,
+          height: 16,
+          borderRadius: borderRadius(4),
         }),
         ...(colorProp === 'neutral' && {
           background: 'transparent',
@@ -96,7 +104,17 @@ function IconButton({
         }),
       }}
     >
-      <Icon variant={variant} />
+      <div
+        style={{
+          display: 'flex',
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <Icon variant={variant} />
+      </div>
     </button>
   )
 }
