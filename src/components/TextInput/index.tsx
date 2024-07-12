@@ -3,6 +3,7 @@ import { borderRadius } from '../../utils/border.js'
 import { color } from '../../utils/colors.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
+import { IconButton } from '../IconButton/index.js'
 
 // TODO add maxlength/char counter
 
@@ -134,20 +135,13 @@ function TextInput({
           }}
         />
         {clearable && !empty && (
-          <span
-            tabIndex={0}
-            style={{
-              color: color('neutral-80'),
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+          <IconButton
+            size="small"
+            variant="close"
             onClick={() => {
               onChange('')
             }}
-          >
-            <Icon variant="close" />
-          </span>
+          />
         )}
       </div>
       {error && (

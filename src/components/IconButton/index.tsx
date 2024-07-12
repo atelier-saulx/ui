@@ -53,8 +53,8 @@ function IconButton({
           padding: 0,
         }),
         ...(colorProp === 'neutral' && {
-          background: color('neutral-100'),
-          color: color('neutral-inverted-100'),
+          background: 'transparent',
+          color: color('neutral-80'),
           ...(hover &&
             !disabled && {
               background: color('neutral-10-adjusted'),
@@ -70,12 +70,12 @@ function IconButton({
             }),
           ...(disabled && {
             background: 'transparent',
-            color: color('neutral-80'),
+            color: color('neutral-20'),
           }),
         }),
         ...(colorProp === 'destructive' && {
-          background: color('destructive-100'),
-          color: color('neutral-inverted-100'),
+          background: 'transparent',
+          color: color('destructive-80'),
           ...(hover &&
             !disabled && {
               background: color('destructive-10'),
@@ -91,7 +91,7 @@ function IconButton({
             }),
           ...(disabled && {
             background: 'transparent',
-            color: color('destructive-80'),
+            color: color('destructive-20'),
           }),
         }),
       }}
