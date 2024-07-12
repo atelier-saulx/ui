@@ -152,7 +152,6 @@ function TextInput({
               bottom: -5,
               padding: '4px 6px',
               borderRadius: borderRadius(4),
-
               background: color('neutral-100'),
               color: color('neutral-inverted-100'),
               transform: 'translateY(100%)',
