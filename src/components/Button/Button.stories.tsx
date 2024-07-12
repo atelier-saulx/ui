@@ -3,6 +3,14 @@ import { Button } from './index.js'
 export default {
   title: 'Components/Button',
   component: Button,
+  argTypes: {
+    disabled: {
+      control: { type: 'boolean' },
+    },
+    loading: {
+      control: { type: 'boolean' },
+    },
+  },
 }
 
 export const Primary = {
@@ -12,6 +20,7 @@ export const Primary = {
     color: 'neutral',
     disabled: false,
     leadIcon: 'add',
+    loading: false,
   },
 }
 
@@ -22,6 +31,17 @@ export const PrimaryDestructive = {
     color: 'destructive',
     disabled: false,
     leadIcon: 'add',
+  },
+}
+
+export const PrimaryLoading = {
+  args: {
+    children: 'Button label',
+    variant: 'primary',
+    color: 'neutral',
+    disabled: false,
+    trail: 'add',
+    loading: true,
   },
 }
 

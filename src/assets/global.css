@@ -146,3 +146,12 @@ html {
   background: var(--color-neutral-inverted-100);
   color: var(--color-neutral-100);
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

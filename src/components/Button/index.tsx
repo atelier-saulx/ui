@@ -12,12 +12,14 @@ type ButtonProps = {
   color?: 'neutral' | 'destructive'
   leadIcon?: IconProps['variant']
   trailIcon?: IconProps['variant']
+  loading?: boolean
 }
 
 function Button({
   children,
   onClick,
-  disabled,
+  disabled: disabledProp,
+  loading,
   variant = 'primary',
   color: colorProp = 'neutral',
   leadIcon,
@@ -25,6 +27,7 @@ function Button({
 }: ButtonProps) {
   const [hover, setHover] = useState(false)
   const [focus, setFocus] = useState(false)
+  const disabled = loading || disabledProp
 
   return (
     <button
@@ -224,13 +227,18 @@ function Button({
           alignItems: 'center',
         }}
       >
-        {leadIcon && <Icon variant={leadIcon} />}
+        {!leadIcon && !trailIcon && loading && <Icon variant="loader" />}
+        {leadIcon && <Icon variant={loading ? 'loader' : leadIcon} />}
         {!leadIcon && trailIcon && <div style={{ width: 2, height: '100%' }} />}
         <Text color="inherit" variant="display-medium">
           {children}
         </Text>
-        {trailIcon && <Icon variant={trailIcon} />}
-        {leadIcon && !trailIcon && <div style={{ width: 2, height: '100%' }} />}
+        {trailIcon && (
+          <Icon variant={loading && !leadIcon ? 'loader' : trailIcon} />
+        )}
+        {(leadIcon || (!leadIcon && !trailIcon && loading)) && !trailIcon && (
+          <div style={{ width: 2, height: '100%' }} />
+        )}
       </div>
     </button>
   )
