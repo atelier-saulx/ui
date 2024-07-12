@@ -5,8 +5,6 @@ import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 import { IconButton } from '../IconButton/index.js'
 
-// TODO add maxlength/char counter
-
 type TextInputProps = {
   value: string
   onChange: (value: string) => void
@@ -32,9 +30,10 @@ function TextInput({
   prefix,
   leadIcon,
   clearable,
+  maxLength,
 }: TextInputProps) {
   const [focus, setFocus] = useState(false)
-  const empty = typeof value !== 'string' || value.length === 0
+  const length = typeof value !== 'string' ? 0 : value.length
   const ref = useRef<HTMLInputElement>(null)
 
   return (
@@ -53,6 +52,7 @@ function TextInput({
       )}
       <div
         style={{
+          position: 'relative',
           height: 36,
           gap: 4,
           display: 'inline-flex',
@@ -107,11 +107,12 @@ function TextInput({
           value={value}
           disabled={disabled}
           placeholder={placeholder}
+          maxLength={maxLength}
           type="text"
           style={{
             width: '100%',
             height: '100%',
-            color: empty ? color('neutral-60') : color('neutral-100'),
+            color: length === 0 ? color('neutral-60') : color('neutral-100'),
             fontFamily: 'var(--font-sans)',
             fontSize: 14,
             fontWeight: 400,
@@ -134,7 +135,7 @@ function TextInput({
             setFocus(false)
           }}
         />
-        {clearable && !empty && (
+        {clearable && length !== 0 && (
           <IconButton
             size="small"
             variant="close"
@@ -142,6 +143,30 @@ function TextInput({
               onChange('')
             }}
           />
+        )}
+        {focus && maxLength && (
+          <div
+            style={{
+              position: 'absolute',
+              right: 0,
+              bottom: -5,
+              padding: '4px 6px',
+              borderRadius: borderRadius(4),
+
+              background: color('neutral-100'),
+              color: color('neutral-inverted-100'),
+              transform: 'translateY(100%)',
+              ...(error && {
+                background: color('destructive-100'),
+                color: color('neutral-100'),
+              }),
+            }}
+          >
+            <Text
+              color="inherit"
+              variant="subtext-medium"
+            >{`${length}/${maxLength}`}</Text>
+          </div>
         )}
       </div>
       {error && (

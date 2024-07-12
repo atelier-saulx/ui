@@ -63,6 +63,19 @@ export const Clearable = () => {
   )
 }
 
+export const MaxLength = () => {
+  const [value, setValue] = useState('')
+  return (
+    <TextInput
+      value={value}
+      onChange={setValue}
+      leadIcon="search"
+      prefix="https://"
+      maxLength={10}
+    />
+  )
+}
+
 export const KitchenSink = () => {
   const [value, setValue] = useState('')
   return (
@@ -76,6 +89,7 @@ export const KitchenSink = () => {
       placeholder="placeholder"
       description="This is a description"
       clearable
+      maxLength={25}
     />
   )
 }
