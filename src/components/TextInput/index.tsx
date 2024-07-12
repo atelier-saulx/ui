@@ -169,12 +169,16 @@ function TextInput({
         )}
       </div>
       {error && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <Icon
-            style={{ color: color('destructive-100') }}
-            variant="error-filled"
-          />
-          <Text color="destructive-100" variant="display-medium">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            color: color('destructive-100'),
+          }}
+        >
+          <Icon variant="error-filled" />
+          <Text color="inherit" variant="display-medium">
             {error}
           </Text>
         </div>
