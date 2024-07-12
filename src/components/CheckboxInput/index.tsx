@@ -1,15 +1,21 @@
 import { useState } from 'react'
 import { borderRadius } from '../../utils/border.js'
 import { color } from '../../utils/colors.js'
+import { Icon } from '../Icon/index.js'
 
-type SwitchInputProps = {
+type CheckboxInputProps = {
   value: boolean
   onChange: (value: boolean) => void
   disabled?: boolean
   error?: boolean
 }
 
-function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
+function CheckboxInput({
+  value,
+  onChange,
+  disabled,
+  error,
+}: CheckboxInputProps) {
   const [focus, setFocus] = useState(false)
 
   return (
@@ -21,13 +27,19 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
         setFocus(false)
       }}
       style={{
-        width: 24,
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 16,
         height: 16,
-        borderRadius: borderRadius('full'),
+        borderRadius: borderRadius(4),
         border: `1px solid ${color('neutral-20-adjusted')}`,
-        background: color('neutral-10-adjusted'),
+        background: 'transparent',
         cursor: 'pointer',
         outline: 'none',
+        color: color('neutral-inverted-100'),
         ...(value && {
           border: `1px solid ${color('neutral-100')}`,
           background: color('neutral-100'),
@@ -38,7 +50,6 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
           }),
         ...(error && {
           border: `1px solid ${color('destructive-100')}`,
-          background: color('neutral-10-adjusted'),
           ...(value && {
             border: `1px solid ${color('destructive-100')}`,
             background: color('destructive-100'),
@@ -61,27 +72,20 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
         onChange(!value)
       }}
     >
-      <div
-        style={{
-          width: 14,
-          height: 14,
-          borderRadius: borderRadius('full'),
-          background: color('neutral-100'),
-          ...(value && {
-            marginLeft: 'auto',
-            background: color('neutral-inverted-100'),
-          }),
-          ...(error && {
-            background: color('neutral-100'),
-          }),
-          ...(disabled && {
-            background: color('neutral-inverted-80'),
-          }),
-        }}
-      />
+      {value && (
+        <span
+          style={{
+            position: 'absolute',
+            left: -5,
+            top: -5,
+          }}
+        >
+          <Icon variant="checkmark-small" />
+        </span>
+      )}
     </div>
   )
 }
 
-export type { SwitchInputProps }
-export { SwitchInput }
+export type { CheckboxInputProps }
+export { CheckboxInput }
