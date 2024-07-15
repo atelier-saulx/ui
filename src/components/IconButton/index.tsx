@@ -44,6 +44,7 @@ function IconButton({
         setFocus(false)
       }}
       style={{
+        flexShrink: 0,
         position: 'relative',
         border: 'none',
         overflow: 'hidden',

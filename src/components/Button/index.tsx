@@ -52,6 +52,7 @@ function Button({
         setFocus(false)
       }}
       style={{
+        flexShrink: 0,
         position: 'relative',
         borderRadius: radius[8],
         display: 'inline-flex',
