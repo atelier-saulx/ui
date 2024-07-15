@@ -9,7 +9,7 @@ const preview: Preview = {
       values: [
         {
           name: 'system',
-          value: 'var(--color-neutral-inverted-100)',
+          value: 'var(--neutral-inverted-100)',
         },
       ],
     },
