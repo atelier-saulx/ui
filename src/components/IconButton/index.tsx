@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { borderRadius } from '../../utils/border.js'
 import { Icon, IconProps } from '../Icon/index.js'
-import { color } from '../../utils/colors.js'
+import { colors } from '../../utils/colors.js'
 
 type IconButtonProps = {
   variant: IconProps['variant']
@@ -62,44 +62,44 @@ function IconButton({
         }),
         ...(colorProp === 'neutral' && {
           background: 'transparent',
-          color: color('neutral-80'),
+          color: colors.neutral80,
           ...(hover &&
             !disabled && {
-              background: color('neutral-10-adjusted'),
-              color: color('neutral-100'),
+              background: colors.neutral10Adjusted,
+              color: colors.neutral100,
             }),
           ...(focus &&
             !disabled && {
-              background: color('neutral-10-adjusted'),
-              color: color('neutral-100'),
+              background: colors.neutral10Adjusted,
+              color: colors.neutral100,
               outlineWidth: 4,
               outlineStyle: 'solid',
-              outlineColor: color('neutral-20'),
+              outlineColor: colors.neutral20,
             }),
           ...(disabled && {
             background: 'transparent',
-            color: color('neutral-20'),
+            color: colors.neutral20,
           }),
         }),
         ...(colorProp === 'destructive' && {
           background: 'transparent',
-          color: color('destructive-80'),
+          color: colors.red80,
           ...(hover &&
             !disabled && {
-              background: color('destructive-10'),
-              color: color('destructive-100'),
+              background: colors.red10,
+              color: colors.red100,
             }),
           ...(focus &&
             !disabled && {
-              background: color('destructive-10'),
-              color: color('destructive-100'),
+              background: colors.red10,
+              color: colors.red100,
               outlineWidth: 4,
               outlineStyle: 'solid',
-              outlineColor: color('destructive-20'),
+              outlineColor: colors.red20,
             }),
           ...(disabled && {
             background: 'transparent',
-            color: color('destructive-20'),
+            color: colors.red20,
           }),
         }),
       }}

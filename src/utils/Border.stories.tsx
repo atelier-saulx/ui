@@ -1,7 +1,7 @@
 import React from 'react'
-import { color } from './colors'
 import { borderRadius, BORDER_RADII } from './border'
 import { Text } from '../components/Text'
+import { colors } from './colors'
 
 export default {
   title: 'Bits/BorderRadii',
@@ -31,9 +31,9 @@ export const Default = {
             style={{
               width: 100,
               height: 100,
-              background: color('neutral-20'),
+              background: colors.neutral20,
               borderRadius: borderRadius(b),
-              border: `1px solid ${color('neutral-10')}`,
+              border: `1px solid ${colors.neutral10}`,
             }}
           />
           <Text variant="subtext-bold">{b as string}</Text>

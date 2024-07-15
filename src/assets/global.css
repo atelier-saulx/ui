@@ -7,8 +7,6 @@
 }
 
 :root {
-  --font-sans: Inter;
-
   /* Border radii */
   --border-radii-0: 0px;
   --border-radii-4: 4px;
@@ -145,6 +143,7 @@
 html {
   background: var(--color-neutral-inverted-100);
   color: var(--color-neutral-100);
+  font-family: Inter;
 }
 
 @keyframes spin {

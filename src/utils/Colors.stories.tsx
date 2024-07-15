@@ -1,5 +1,5 @@
 import React from 'react'
-import { COLORS, COLOR_SWATCHES, color } from './colors'
+import { colors } from './colors'
 import { borderRadius } from './border'
 import { Text } from '../components/Text'
 
@@ -14,11 +14,9 @@ export const Semantics = {
       style={{
         display: 'grid',
         gap: 24,
-        gridAutoRows: '1fr',
-        gridTemplateColumns: `repeat(9, 1fr)`,
       }}
     >
-      {[...COLORS].map((c) => (
+      {Object.keys(colors).map((key) => (
         <div>
           <div
             style={{
@@ -28,46 +26,13 @@ export const Semantics = {
               alignItems: 'center',
               gap: 8,
               height: 64,
-              background: color(c),
+              background: colors[key],
               borderRadius: borderRadius(8),
-              border: `1px solid ${color('neutral-10')}`,
+              border: `1px solid ${colors.neutral10}`,
               marginBottom: 16,
             }}
           />
-          <Text variant="subtext-bold">{c}</Text>
-        </div>
-      ))}
-    </div>
-  ),
-}
-
-export const Swatches = {
-  render: () => (
-    <div
-      style={{
-        display: 'grid',
-        gap: 24,
-        gridAutoRows: '1fr',
-        gridTemplateColumns: `repeat(9, 1fr)`,
-      }}
-    >
-      {[...COLOR_SWATCHES].map((c) => (
-        <div>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: 8,
-              height: 64,
-              background: color(c),
-              borderRadius: borderRadius(8),
-              border: `1px solid ${color('neutral-10')}`,
-              marginBottom: 16,
-            }}
-          />
-          <Text variant="subtext-bold">{c}</Text>
+          <Text variant="subtext-bold">{key}</Text>
         </div>
       ))}
     </div>

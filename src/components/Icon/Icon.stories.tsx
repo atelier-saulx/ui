@@ -2,7 +2,7 @@ import React from 'react'
 import { ICONS, Icon } from './index.js'
 import { Text } from '../Text/index.js'
 import { borderRadius } from '../../utils/border.js'
-import { color } from '../../utils/colors.js'
+import { colors } from '../../utils/colors.js'
 
 export default {
   title: 'Bits/Icon',
@@ -31,7 +31,7 @@ export const Default = {
               gap: 8,
               padding: 16,
               borderRadius: borderRadius(8),
-              background: color('neutral-10'),
+              background: colors.neutral10,
               cursor: 'pointer',
             }}
             onClick={() => {

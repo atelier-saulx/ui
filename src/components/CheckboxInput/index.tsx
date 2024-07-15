@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { borderRadius } from '../../utils/border.js'
-import { color } from '../../utils/colors.js'
 import { Icon } from '../Icon/index.js'
+import { colors } from '../../utils/colors.js'
 
 type CheckboxInputProps = {
   value: boolean
@@ -35,34 +35,34 @@ function CheckboxInput({
         width: 16,
         height: 16,
         borderRadius: borderRadius(4),
-        border: `1px solid ${color('neutral-20-adjusted')}`,
+        border: `1px solid ${colors.neutral20Adjusted}`,
         background: 'transparent',
         cursor: 'pointer',
         outline: 'none',
-        color: color('neutral-inverted-100'),
+        color: colors.neutralInverted100,
         ...(value && {
-          border: `1px solid ${color('neutral-100')}`,
-          background: color('neutral-100'),
+          border: `1px solid ${colors.neutral100}`,
+          background: colors.neutral100,
         }),
         ...(focus &&
           !disabled && {
-            outline: `4px solid ${color('neutral-20-adjusted')}`,
+            outline: `4px solid ${colors.neutral20Adjusted}`,
           }),
         ...(error && {
-          border: `1px solid ${color('destructive-100')}`,
+          border: `1px solid ${colors.red100}`,
           ...(value && {
-            border: `1px solid ${color('destructive-100')}`,
-            background: color('destructive-100'),
+            border: `1px solid ${colors.red100}`,
+            background: colors.red100,
           }),
           ...(focus &&
             !disabled && {
-              outline: `4px solid ${color('destructive-60')}`,
+              outline: `4px solid ${colors.red60}`,
             }),
         }),
         ...(disabled && {
           cursor: 'not-allowed',
           border: `1px solid transparent`,
-          background: color('neutral-20'),
+          background: colors.neutral20,
         }),
       }}
       tabIndex={0}

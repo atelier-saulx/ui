@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { borderRadius } from '../../utils/border.js'
-import { color } from '../../utils/colors.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
+import { colors } from '../../utils/colors.js'
 
 type ButtonProps = {
   children: string
@@ -61,40 +61,40 @@ function Button({
         outlineStyle: 'none',
         ...(variant === 'primary' &&
           colorProp === 'neutral' && {
-            color: color('neutral-inverted-100'),
-            background: color('neutral-100'),
+            color: colors.neutralInverted100,
+            background: colors.neutral100,
             ...(focus &&
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
-                outlineColor: color('neutral-20'),
+                outlineColor: colors.neutral20,
               }),
             ...(disabled && {
-              color: color('neutral-inverted-60'),
-              background: color('neutral-20'),
+              color: colors.neutralInverted60,
+              background: colors.neutral20,
             }),
           }),
         ...(variant === 'primary' &&
           colorProp === 'destructive' && {
-            color: color('white-100'),
-            background: color('destructive-100'),
+            color: colors.white100,
+            background: colors.red100,
             ...(focus &&
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
-                outlineColor: color('destructive-60'),
+                outlineColor: colors.red60,
               }),
             ...(disabled && {
-              color: color('white-20'),
-              background: color('destructive-20'),
+              color: colors.white20,
+              background: colors.red20,
             }),
           }),
 
         ...(variant === 'secondary' &&
           colorProp === 'neutral' && {
-            color: color('neutral-80'),
+            color: colors.neutral80,
             background: 'transparent',
-            boxShadow: `inset 0 0 0 1px ${color('neutral-20-adjusted')}`,
+            boxShadow: `inset 0 0 0 1px ${colors.neutral20Adjusted}`,
             ...(hover &&
               !disabled && {
                 boxShadow: 'none',
@@ -103,70 +103,70 @@ function Button({
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
-                outlineColor: color('neutral-20'),
+                outlineColor: colors.neutral20,
                 boxShadow: 'none',
               }),
             ...(disabled && {
-              color: color('neutral-20'),
+              color: colors.neutral20,
               background: 'transparent',
-              boxShadow: `inset 0 0 0 1px ${color('neutral-10-adjusted')}`,
+              boxShadow: `inset 0 0 0 1px ${colors.neutral10Adjusted}`,
             }),
           }),
         ...(variant === 'secondary' &&
           colorProp === 'destructive' && {
-            color: color('destructive-80'),
+            color: colors.red80,
             background: 'transparent',
-            boxShadow: `inset 0 0 0 1px ${color('destructive-20')}`,
+            boxShadow: `inset 0 0 0 1px ${colors.red20}`,
             ...(hover &&
               !disabled && {
                 boxShadow: 'none',
-                color: color('destructive-100'),
+                color: colors.red100,
               }),
             ...(focus &&
               !disabled && {
                 boxShadow: 'none',
-                color: color('destructive-100'),
+                color: colors.red100,
                 outlineWidth: 4,
                 outlineStyle: 'solid',
-                outlineColor: color('destructive-60'),
+                outlineColor: colors.red60,
               }),
             ...(disabled && {
-              boxShadow: `inset 0 0 0 1px ${color('destructive-10')}`,
-              color: color('destructive-20'),
+              boxShadow: `inset 0 0 0 1px ${colors.red10}`,
+              color: colors.red20,
             }),
           }),
         ...(variant === 'ghost' &&
           colorProp === 'neutral' && {
-            color: color('neutral-80'),
+            color: colors.neutral80,
             background: 'transparent',
             ...(focus &&
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
-                outlineColor: color('neutral-20'),
+                outlineColor: colors.neutral20,
               }),
             ...(disabled && {
-              color: color('neutral-20'),
+              color: colors.neutral20,
               background: 'transparent',
             }),
           }),
         ...(variant === 'ghost' &&
           colorProp === 'destructive' && {
-            color: color('destructive-80'),
+            color: colors.red80,
             background: 'transparent',
             ...(hover &&
               !disabled && {
-                color: color('destructive-100'),
+                color: colors.red100,
               }),
             ...(focus &&
               !disabled && {
-                color: color('destructive-100'),
+                color: colors.red100,
                 outlineWidth: 4,
                 outlineStyle: 'solid',
-                outlineColor: color('destructive-60'),
+                outlineColor: colors.red60,
               }),
             ...(disabled && {
-              color: color('destructive-20'),
+              color: colors.red20,
             }),
           }),
       }}
@@ -180,43 +180,43 @@ function Button({
             colorProp === 'neutral' &&
             (hover || focus) &&
             !disabled && {
-              background: color('neutral-inverted-20'),
+              background: colors.neutralInverted20,
             }),
           ...(variant === 'primary' &&
             colorProp === 'destructive' &&
             (hover || focus) &&
             !disabled && {
-              background: color('neutral-10'),
+              background: colors.neutral10,
             }),
           ...(variant === 'secondary' &&
             colorProp === 'neutral' &&
             hover &&
             !disabled && {
-              background: color('neutral-20-adjusted'),
+              background: colors.neutral20Adjusted,
             }),
           ...(variant === 'secondary' &&
             colorProp === 'neutral' &&
             focus &&
             !disabled && {
-              background: color('neutral-10'),
+              background: colors.neutral10,
             }),
           ...(variant === 'secondary' &&
             colorProp === 'destructive' &&
             (hover || focus) &&
             !disabled && {
-              background: color('destructive-20'),
+              background: colors.red20,
             }),
           ...(variant === 'ghost' &&
             colorProp === 'neutral' &&
             (hover || focus) &&
             !disabled && {
-              background: color('neutral-10'),
+              background: colors.neutral10,
             }),
           ...(variant === 'ghost' &&
             colorProp === 'destructive' &&
             (hover || focus) &&
             !disabled && {
-              background: color('destructive-20'),
+              background: colors.red20,
             }),
         }}
       />
