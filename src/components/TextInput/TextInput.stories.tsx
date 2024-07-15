@@ -45,6 +45,7 @@ export const Error = () => {
       onChange={setValue}
       leadIcon="search"
       prefix="https://"
+      error="Error message."
     />
   )
 }
