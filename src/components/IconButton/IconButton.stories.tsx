@@ -8,7 +8,7 @@ export default {
     disabled: {
       control: { type: 'boolean' },
     },
-    loading: {
+    toggled: {
       control: { type: 'boolean' },
     },
   },
