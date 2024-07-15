@@ -9,6 +9,7 @@ type IconButtonProps = {
   disabled?: boolean
   size?: 'normal' | 'small' | 'tiny'
   color?: 'neutral' | 'destructive'
+  toggled?: boolean
 }
 
 function IconButton({
@@ -17,6 +18,7 @@ function IconButton({
   disabled,
   size = 'normal',
   color: colorProp = 'neutral',
+  toggled,
 }: IconButtonProps) {
   const [hover, setHover] = useState(false)
   const [focus, setFocus] = useState(false)
@@ -80,6 +82,14 @@ function IconButton({
             background: 'transparent',
             color: colors.neutral20,
           }),
+          ...(toggled && {
+            background: colors.neutral100,
+            color: colors.neutralInverted100,
+            ...(disabled && {
+              background: colors.neutral20,
+              color: colors.neutralInverted60,
+            }),
+          }),
         }),
         ...(colorProp === 'destructive' && {
           background: 'transparent',
@@ -101,9 +111,36 @@ function IconButton({
             background: 'transparent',
             color: colors.red20,
           }),
+          ...(toggled && {
+            background: colors.red100,
+            color: colors.white100,
+            ...(disabled && {
+              background: colors.red20,
+              color: colors.white20,
+            }),
+          }),
         }),
       }}
     >
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: size === 'tiny' ? radius[4] : radius[8],
+          ...(toggled &&
+            colorProp === 'neutral' &&
+            (hover || focus) &&
+            !disabled && {
+              background: colors.neutralInverted20,
+            }),
+          ...(toggled &&
+            colorProp === 'destructive' &&
+            (hover || focus) &&
+            !disabled && {
+              background: colors.neutral10,
+            }),
+        }}
+      />
       <div
         style={{
           display: 'flex',

@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import { IconButton } from './index.js'
 
 export default {
@@ -21,6 +22,19 @@ export const NeutralNormal = {
     size: 'normal',
   },
 }
+
+export const NeutralToggle = () => {
+  const [value, setValue] = useState(false)
+
+  return (
+    <IconButton
+      variant="text"
+      toggled={value}
+      onClick={() => setValue(!value)}
+    />
+  )
+}
+
 export const NeutralSmall = {
   args: {
     variant: 'close',
@@ -38,6 +52,7 @@ export const NeutralTiny = {
     size: 'tiny',
   },
 }
+
 export const DestructiveTiny = {
   args: {
     variant: 'close',
@@ -55,6 +70,20 @@ export const DestructiveNormal = {
     size: 'normal',
   },
 }
+
+export const DestructiveToggle = () => {
+  const [value, setValue] = useState(false)
+
+  return (
+    <IconButton
+      variant="text"
+      color="destructive"
+      toggled={value}
+      onClick={() => setValue(!value)}
+    />
+  )
+}
+
 export const DestructiveSmall = {
   args: {
     variant: 'close',
