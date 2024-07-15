@@ -1,7 +1,7 @@
 import { IconButton } from './index.js'
 
 export default {
-  title: 'Components/IconButton',
+  title: 'Atoms/IconButton',
   component: IconButton,
   argTypes: {
     disabled: {

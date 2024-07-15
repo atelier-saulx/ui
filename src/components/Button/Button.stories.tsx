@@ -1,7 +1,7 @@
 import { Button } from './index.js'
 
 export default {
-  title: 'Components/Button',
+  title: 'Atoms/Button',
   component: Button,
   argTypes: {
     disabled: {

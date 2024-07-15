@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { TextInput } from './index.js'
 
 export default {
-  title: 'Components/TextInput',
+  title: 'Atoms/TextInput',
   component: TextInput,
 }
 
