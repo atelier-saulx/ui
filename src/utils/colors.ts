@@ -1,43 +1,57 @@
-const COLOR_SWATCHES = [
-  'white',
-  'black',
-  'red',
-  'green',
-  'indigo',
-  'amber',
-] as const
-const COLOR_SWATCH_ALPHAS = [5, 10, 20, 40, 60, 80, 90, 95, 100] as const
-const COLORS = ['neutral', 'neutral-inverted', 'accent', 'destructive'] as const
-const COLOR_ALPHAS = [5, 10, 20, 60, 80, 100] as const
-
-type ColorSwatch = (typeof COLOR_SWATCHES)[number]
-type ColorSwatchAlpha = (typeof COLOR_SWATCH_ALPHAS)[number]
-
-type Color = (typeof COLORS)[number]
-type ColorAlpha = (typeof COLOR_ALPHAS)[number]
-
-function color(c: Color, alpha?: ColorAlpha) {
-  if (typeof alpha === 'undefined') {
-    return `var(--color-${c}-100)`
-  }
-
-  return `var(--color-${c}-${alpha})`
+const colors = {
+  neutral100: 'var(--neutral-100)',
+  neutral80: 'var(--neutral-80)',
+  neutral60: 'var(--neutral-60)',
+  neutral20: 'var(--neutral-20)',
+  neutral20Adjusted: 'var(--neutral-20-adjusted)',
+  neutral10: 'var(--neutral-10)',
+  neutral10Adjusted: 'var(--neutral-10-adjusted)',
+  neutral10Background: 'var(--neutral-10-background)',
+  neutral5: 'var(--neutral-5)',
+  neutralInverted100: 'var(--neutral-inverted-100)',
+  neutralInverted80: 'var(--neutral-inverted-80)',
+  neutralInverted60: 'var(--neutral-inverted-60)',
+  neutralInverted20: 'var(--neutral-inverted-20)',
+  neutralInverted10: 'var(--neutral-inverted-10)',
+  neutralInverted5: 'var(--neutral-inverted-5)',
+  red100: 'var(--red-100)',
+  red80: 'var(--red-80)',
+  red60: 'var(--red-60)',
+  red20: 'var(--red-20)',
+  red10: 'var(--red-10)',
+  red5: 'var(--red-5)',
+  amber100: 'var(--amber-100)',
+  amber80: 'var(--amber-80)',
+  amber60: 'var(--amber-60)',
+  amber20: 'var(--amber-20)',
+  amber10: 'var(--amber-10)',
+  amber5: 'var(--amber-5)',
+  indigo100: 'var(--indigo-100)',
+  indigo80: 'var(--indigo-80)',
+  indigo60: 'var(--indigo-60)',
+  indigo20: 'var(--indigo-20)',
+  indigo10: 'var(--indigo-10)',
+  indigo5: 'var(--indigo-5)',
+  green100: 'var(--green-100)',
+  green80: 'var(--green-80)',
+  green60: 'var(--green-60)',
+  green20: 'var(--green-20)',
+  green10: 'var(--green-10)',
+  green5: 'var(--green-5)',
+  white100: 'var(--white-100)',
+  white80: 'var(--white-80)',
+  white60: 'var(--white-60)',
+  white20: 'var(--white-20)',
+  white10: 'var(--white-10)',
+  white5: 'var(--white-5)',
+  black100: 'var(--black-100)',
+  black80: 'var(--black-80)',
+  black60: 'var(--black-60)',
+  black20: 'var(--black-20)',
+  black10: 'var(--black-10)',
+  black5: 'var(--black-5)',
 }
 
-function colorSwatch(c: ColorSwatch, alpha?: ColorSwatchAlpha) {
-  if (typeof alpha === 'undefined') {
-    return `var(--color-${c}-100)`
-  }
+type Color = keyof typeof colors
 
-  return `var(--color-${c}-${alpha})`
-}
-
-export {
-  color,
-  colorSwatch,
-  COLORS,
-  COLOR_SWATCHES,
-  COLOR_ALPHAS,
-  COLOR_SWATCH_ALPHAS,
-}
-export type { Color, ColorAlpha, ColorSwatch, ColorSwatchAlpha }
+export { colors, Color }
