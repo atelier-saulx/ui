@@ -4,7 +4,7 @@ import { Text } from '../components/Text'
 import { colors } from './colors'
 
 export default {
-  title: 'Bits/BorderRadii',
+  title: 'Quarks/Radius',
   component: () => <div />,
 }
 

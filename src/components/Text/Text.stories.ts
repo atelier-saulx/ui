@@ -1,7 +1,7 @@
 import { Text } from './index.js'
 
 export default {
-  title: 'Bits/Text',
+  title: 'Quarks/Text',
   component: Text,
 }
 
