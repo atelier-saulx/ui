@@ -4,7 +4,7 @@ import { radius } from './radius'
 import { Text } from '../components/Text'
 
 export default {
-  title: 'Quats/Color',
+  title: 'Quarks/Color',
   component: () => <div />,
 }
 
