@@ -3,6 +3,7 @@ import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 import { colors } from '../../utils/colors.js'
+import { useHadKeyboardEvent } from '../../hooks/useHadKeyboardEvent.js'
 
 type ButtonProps = {
   children: string
@@ -27,8 +28,10 @@ function Button({
   leadIcon,
   trailIcon,
 }: ButtonProps) {
-  const [hover, setHover] = useState(false)
+  const [hovered, setHovered] = useState(false)
   const [focus, setFocus] = useState(false)
+  const hadKeyboardEvent = useHadKeyboardEvent()
+  const focused = focus && hadKeyboardEvent
   const disabled = loading || disabledProp
 
   return (
@@ -37,10 +40,10 @@ function Button({
         onClick?.()
       }}
       onMouseEnter={() => {
-        setHover(true)
+        setHovered(true)
       }}
       onMouseLeave={() => {
-        setHover(false)
+        setHovered(false)
       }}
       onFocus={() => {
         setFocus(true)
@@ -63,7 +66,7 @@ function Button({
           colorProp === 'neutral' && {
             color: colors.neutralInverted100,
             background: colors.neutral100,
-            ...(focus &&
+            ...(focused &&
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
@@ -78,7 +81,7 @@ function Button({
           colorProp === 'destructive' && {
             color: colors.white100,
             background: colors.red100,
-            ...(focus &&
+            ...(focused &&
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
@@ -95,11 +98,11 @@ function Button({
             color: colors.neutral80,
             background: 'transparent',
             boxShadow: `inset 0 0 0 1px ${colors.neutral20Adjusted}`,
-            ...(hover &&
+            ...(hovered &&
               !disabled && {
                 boxShadow: 'none',
               }),
-            ...(focus &&
+            ...(focused &&
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
@@ -117,12 +120,12 @@ function Button({
             color: colors.red80,
             background: 'transparent',
             boxShadow: `inset 0 0 0 1px ${colors.red20}`,
-            ...(hover &&
+            ...(hovered &&
               !disabled && {
                 boxShadow: 'none',
                 color: colors.red100,
               }),
-            ...(focus &&
+            ...(focused &&
               !disabled && {
                 boxShadow: 'none',
                 color: colors.red100,
@@ -139,7 +142,7 @@ function Button({
           colorProp === 'neutral' && {
             color: colors.neutral80,
             background: 'transparent',
-            ...(focus &&
+            ...(focused &&
               !disabled && {
                 outlineWidth: 4,
                 outlineStyle: 'solid',
@@ -154,11 +157,11 @@ function Button({
           colorProp === 'destructive' && {
             color: colors.red80,
             background: 'transparent',
-            ...(hover &&
+            ...(hovered &&
               !disabled && {
                 color: colors.red100,
               }),
-            ...(focus &&
+            ...(focused &&
               !disabled && {
                 color: colors.red100,
                 outlineWidth: 4,
@@ -178,43 +181,43 @@ function Button({
           borderRadius: radius[8],
           ...(variant === 'primary' &&
             colorProp === 'neutral' &&
-            (hover || focus) &&
+            (hovered || focused) &&
             !disabled && {
               background: colors.neutralInverted20,
             }),
           ...(variant === 'primary' &&
             colorProp === 'destructive' &&
-            (hover || focus) &&
+            (hovered || focused) &&
             !disabled && {
               background: colors.neutral10,
             }),
           ...(variant === 'secondary' &&
             colorProp === 'neutral' &&
-            hover &&
+            hovered &&
             !disabled && {
               background: colors.neutral20Adjusted,
             }),
           ...(variant === 'secondary' &&
             colorProp === 'neutral' &&
-            focus &&
+            focused &&
             !disabled && {
               background: colors.neutral10,
             }),
           ...(variant === 'secondary' &&
             colorProp === 'destructive' &&
-            (hover || focus) &&
+            (hovered || focused) &&
             !disabled && {
               background: colors.red20,
             }),
           ...(variant === 'ghost' &&
             colorProp === 'neutral' &&
-            (hover || focus) &&
+            (hovered || focused) &&
             !disabled && {
               background: colors.neutral10,
             }),
           ...(variant === 'ghost' &&
             colorProp === 'destructive' &&
-            (hover || focus) &&
+            (hovered || focused) &&
             !disabled && {
               background: colors.red20,
             }),

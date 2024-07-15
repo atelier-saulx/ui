@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { colors } from '../../utils/colors.js'
+import { useHadKeyboardEvent } from '../../hooks/useHadKeyboardEvent.js'
 
 type IconButtonProps = {
   variant: IconProps['variant']
@@ -20,8 +21,10 @@ function IconButton({
   color: colorProp = 'neutral',
   toggled,
 }: IconButtonProps) {
-  const [hover, setHover] = useState(false)
+  const [hovered, setHovered] = useState(false)
   const [focus, setFocus] = useState(false)
+  const hadKeyboardEvent = useHadKeyboardEvent()
+  const focused = focus && hadKeyboardEvent
 
   return (
     <button
@@ -29,10 +32,10 @@ function IconButton({
         onClick?.()
       }}
       onMouseEnter={() => {
-        setHover(true)
+        setHovered(true)
       }}
       onMouseLeave={() => {
-        setHover(false)
+        setHovered(false)
       }}
       onFocus={() => {
         setFocus(true)
@@ -65,12 +68,12 @@ function IconButton({
         ...(colorProp === 'neutral' && {
           background: 'transparent',
           color: colors.neutral80,
-          ...(hover &&
+          ...(hovered &&
             !disabled && {
               background: colors.neutral10Adjusted,
               color: colors.neutral100,
             }),
-          ...(focus &&
+          ...(focused &&
             !disabled && {
               background: colors.neutral10Adjusted,
               color: colors.neutral100,
@@ -94,12 +97,12 @@ function IconButton({
         ...(colorProp === 'destructive' && {
           background: 'transparent',
           color: colors.red80,
-          ...(hover &&
+          ...(hovered &&
             !disabled && {
               background: colors.red10,
               color: colors.red100,
             }),
-          ...(focus &&
+          ...(focused &&
             !disabled && {
               background: colors.red10,
               color: colors.red100,
@@ -129,13 +132,13 @@ function IconButton({
           borderRadius: size === 'tiny' ? radius[4] : radius[8],
           ...(toggled &&
             colorProp === 'neutral' &&
-            (hover || focus) &&
+            (hovered || focused) &&
             !disabled && {
               background: colors.neutralInverted20,
             }),
           ...(toggled &&
             colorProp === 'destructive' &&
-            (hover || focus) &&
+            (hovered || focused) &&
             !disabled && {
               background: colors.neutral10,
             }),

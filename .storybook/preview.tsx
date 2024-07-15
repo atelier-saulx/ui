@@ -1,5 +1,7 @@
 import type { Preview } from '@storybook/react'
 import '../src/assets/global.css'
+import * as React from 'react'
+import { KeyboardEventProvider } from '../src/hooks/useHadKeyboardEvent'
 
 const preview: Preview = {
   tags: ['autodocs'],
@@ -14,6 +16,11 @@ const preview: Preview = {
       ],
     },
   },
+  decorators: (Story) => (
+    <KeyboardEventProvider>
+      <Story />
+    </KeyboardEventProvider>
+  ),
 }
 
 export default preview

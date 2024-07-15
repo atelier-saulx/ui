@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { radius } from '../../utils/radius.js'
 import { Icon } from '../Icon/index.js'
 import { colors } from '../../utils/colors.js'
+import { useHadKeyboardEvent } from '../../hooks/useHadKeyboardEvent.js'
 
 type CheckboxInputProps = {
   value: boolean
@@ -17,6 +18,8 @@ function CheckboxInput({
   error,
 }: CheckboxInputProps) {
   const [focus, setFocus] = useState(false)
+  const hadKeyboardEvent = useHadKeyboardEvent()
+  const focused = focus && hadKeyboardEvent
 
   return (
     <div
@@ -44,7 +47,7 @@ function CheckboxInput({
           border: `1px solid ${colors.neutral100}`,
           background: colors.neutral100,
         }),
-        ...(focus &&
+        ...(focused &&
           !disabled && {
             outline: `4px solid ${colors.neutral20Adjusted}`,
           }),
@@ -54,7 +57,7 @@ function CheckboxInput({
             border: `1px solid ${colors.red100}`,
             background: colors.red100,
           }),
-          ...(focus &&
+          ...(focused &&
             !disabled && {
               outline: `4px solid ${colors.red60}`,
             }),
