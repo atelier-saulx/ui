@@ -1,6 +1,6 @@
 import React from 'react'
 import { colors } from './colors'
-import { borderRadius } from './border'
+import { radius } from './radius'
 import { Text } from '../components/Text'
 
 export default {
@@ -27,7 +27,7 @@ export const Semantics = {
               gap: 8,
               height: 64,
               background: colors[key],
-              borderRadius: borderRadius(8),
+              borderRadius: radius[8],
               border: `1px solid ${colors.neutral10}`,
               marginBottom: 16,
             }}

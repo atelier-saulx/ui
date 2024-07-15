@@ -1,5 +1,5 @@
 import React from 'react'
-import { borderRadius, BORDER_RADII } from './border'
+import { radius } from './radius.js'
 import { Text } from '../components/Text'
 import { colors } from './colors'
 
@@ -17,7 +17,7 @@ export const Default = {
         gap: 24,
       }}
     >
-      {BORDER_RADII.map((b) => (
+      {Object.keys(radius).map((key) => (
         <div
           style={{
             display: 'flex',
@@ -32,11 +32,11 @@ export const Default = {
               width: 100,
               height: 100,
               background: colors.neutral20,
-              borderRadius: borderRadius(b),
+              borderRadius: radius[key],
               border: `1px solid ${colors.neutral10}`,
             }}
           />
-          <Text variant="subtext-bold">{b as string}</Text>
+          <Text variant="subtext-bold">{key}</Text>
         </div>
       ))}
     </div>
