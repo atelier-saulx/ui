@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { borderRadius } from '../../utils/border.js'
+import { radius } from '../../utils/radius.js'
 import { colors } from '../../utils/colors.js'
 
 type SwitchInputProps = {
@@ -23,7 +23,7 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
       style={{
         width: 24,
         height: 16,
-        borderRadius: borderRadius('full'),
+        borderRadius: radius.full,
         border: `1px solid ${colors.neutral20Adjusted}`,
         background: colors.neutral10Adjusted,
         cursor: 'pointer',
@@ -65,7 +65,7 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
         style={{
           width: 14,
           height: 14,
-          borderRadius: borderRadius('full'),
+          borderRadius: radius.full,
           background: colors.neutral100,
           ...(value && {
             marginLeft: 'auto',

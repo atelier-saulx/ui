@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { borderRadius } from '../../utils/border.js'
+import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 import { colors } from '../../utils/colors.js'
@@ -50,7 +50,7 @@ function Button({
       }}
       style={{
         position: 'relative',
-        borderRadius: borderRadius(8),
+        borderRadius: radius[8],
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -175,7 +175,7 @@ function Button({
         style={{
           position: 'absolute',
           inset: 0,
-          borderRadius: borderRadius(8),
+          borderRadius: radius[8],
           ...(variant === 'primary' &&
             colorProp === 'neutral' &&
             (hover || focus) &&

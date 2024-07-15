@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { borderRadius } from '../../utils/border.js'
+import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { colors } from '../../utils/colors.js'
 
@@ -48,17 +48,17 @@ function IconButton({
         ...(size === 'normal' && {
           width: 36,
           height: 36,
-          borderRadius: borderRadius(8),
+          borderRadius: radius[8],
         }),
         ...(size === 'small' && {
           width: 24,
           height: 24,
-          borderRadius: borderRadius(8),
+          borderRadius: radius[8],
         }),
         ...(size === 'tiny' && {
           width: 16,
           height: 16,
-          borderRadius: borderRadius(4),
+          borderRadius: radius[4],
         }),
         ...(colorProp === 'neutral' && {
           background: 'transparent',

@@ -1,8 +1,8 @@
 import React from 'react'
 import { ICONS, Icon } from './index.js'
 import { Text } from '../Text/index.js'
-import { borderRadius } from '../../utils/border.js'
 import { colors } from '../../utils/colors.js'
+import { radius } from '../../utils/radius.js'
 
 export default {
   title: 'Bits/Icon',
@@ -30,7 +30,7 @@ export const Default = {
               alignItems: 'center',
               gap: 8,
               padding: 16,
-              borderRadius: borderRadius(8),
+              borderRadius: radius[8],
               background: colors.neutral10,
               cursor: 'pointer',
             }}

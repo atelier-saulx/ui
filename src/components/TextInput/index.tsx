@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { borderRadius } from '../../utils/border.js'
+import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 import { IconButton } from '../IconButton/index.js'
@@ -59,7 +59,7 @@ function TextInput({
           justifyContent: 'center',
           alignItems: 'center',
           padding: '0 8px',
-          borderRadius: borderRadius(8),
+          borderRadius: radius[8],
           border: `1px solid ${colors.neutral20Adjusted}`,
           color: colors.neutral60,
           outline: 'none',
@@ -151,7 +151,7 @@ function TextInput({
               right: 0,
               bottom: -5,
               padding: '4px 6px',
-              borderRadius: borderRadius(4),
+              borderRadius: radius[4],
               background: colors.neutral100,
               color: colors.neutralInverted100,
               transform: 'translateY(100%)',

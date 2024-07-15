@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { borderRadius } from '../../utils/border.js'
+import { radius } from '../../utils/radius.js'
 import { Icon } from '../Icon/index.js'
 import { colors } from '../../utils/colors.js'
 
@@ -34,7 +34,7 @@ function CheckboxInput({
         alignItems: 'center',
         width: 16,
         height: 16,
-        borderRadius: borderRadius(4),
+        borderRadius: radius[4],
         border: `1px solid ${colors.neutral20Adjusted}`,
         background: 'transparent',
         cursor: 'pointer',
