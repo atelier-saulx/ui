@@ -15,6 +15,7 @@ type ButtonProps = {
   trailIcon?: IconProps['variant']
   loading?: boolean
   size?: 'normal' | 'small'
+  toggled?: boolean
 }
 
 function Button({
@@ -27,6 +28,7 @@ function Button({
   size = 'normal',
   leadIcon,
   trailIcon,
+  toggled,
 }: ButtonProps) {
   const [hovered, setHovered] = useState(false)
   const [focus, setFocus] = useState(false)
@@ -115,6 +117,15 @@ function Button({
               background: 'transparent',
               boxShadow: `inset 0 0 0 1px ${colors.neutral10Adjusted}`,
             }),
+            ...(toggled && {
+              boxShadow: 'none',
+              background: colors.neutral100,
+              color: colors.neutralInverted100,
+              ...(disabled && {
+                background: colors.neutral20,
+                color: colors.neutralInverted60,
+              }),
+            }),
           }),
         ...(variant === 'secondary' &&
           colorProp === 'destructive' && {
@@ -138,6 +149,15 @@ function Button({
               boxShadow: `inset 0 0 0 1px ${colors.red10}`,
               color: colors.red20,
             }),
+            ...(toggled && {
+              boxShadow: 'none',
+              background: colors.red100,
+              color: colors.white100,
+              ...(disabled && {
+                background: colors.red20,
+                color: colors.white20,
+              }),
+            }),
           }),
         ...(variant === 'ghost' &&
           colorProp === 'neutral' && {
@@ -152,6 +172,15 @@ function Button({
             ...(disabled && {
               color: colors.neutral20,
               background: 'transparent',
+            }),
+            ...(toggled && {
+              boxShadow: 'none',
+              background: colors.neutral100,
+              color: colors.neutralInverted100,
+              ...(disabled && {
+                background: colors.neutral20,
+                color: colors.neutralInverted60,
+              }),
             }),
           }),
         ...(variant === 'ghost' &&
@@ -171,6 +200,15 @@ function Button({
               }),
             ...(disabled && {
               color: colors.red20,
+            }),
+            ...(toggled && {
+              boxShadow: 'none',
+              background: colors.red100,
+              color: colors.white100,
+              ...(disabled && {
+                background: colors.red20,
+                color: colors.white20,
+              }),
             }),
           }),
       }}
@@ -196,7 +234,7 @@ function Button({
             colorProp === 'neutral' &&
             hovered &&
             !disabled && {
-              background: colors.neutral20Adjusted,
+              background: colors.neutral10Adjusted,
             }),
           ...(variant === 'secondary' &&
             colorProp === 'neutral' &&
@@ -205,10 +243,24 @@ function Button({
               background: colors.neutral10,
             }),
           ...(variant === 'secondary' &&
+            colorProp === 'neutral' &&
+            toggled &&
+            !disabled &&
+            (hovered || focused) && {
+              background: colors.neutralInverted20,
+            }),
+          ...(variant === 'secondary' &&
             colorProp === 'destructive' &&
             (hovered || focused) &&
             !disabled && {
               background: colors.red20,
+            }),
+          ...(variant === 'secondary' &&
+            colorProp === 'destructive' &&
+            toggled &&
+            !disabled &&
+            (hovered || focused) && {
+              background: colors.neutral10,
             }),
           ...(variant === 'ghost' &&
             colorProp === 'neutral' &&
@@ -221,6 +273,20 @@ function Button({
             (hovered || focused) &&
             !disabled && {
               background: colors.red20,
+            }),
+          ...(variant === 'ghost' &&
+            colorProp === 'neutral' &&
+            toggled &&
+            !disabled &&
+            (hovered || focused) && {
+              background: colors.neutralInverted20,
+            }),
+          ...(variant === 'ghost' &&
+            colorProp === 'destructive' &&
+            toggled &&
+            !disabled &&
+            (hovered || focused) && {
+              background: colors.neutral10,
             }),
         }}
       />

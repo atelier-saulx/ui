@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import { Button } from './index.js'
 
 export default {
@@ -8,6 +9,9 @@ export default {
       control: { type: 'boolean' },
     },
     loading: {
+      control: { type: 'boolean' },
+    },
+    toggled: {
       control: { type: 'boolean' },
     },
   },
@@ -65,6 +69,38 @@ export const SecondaryDestructive = {
   },
 }
 
+export const SecondaryToggle = () => {
+  const [value, setValue] = useState(false)
+
+  return (
+    <Button
+      leadIcon="add"
+      color="neutral"
+      variant="secondary"
+      toggled={value}
+      onClick={() => setValue(!value)}
+    >
+      Button label
+    </Button>
+  )
+}
+
+export const SecondaryDestructiveToggle = () => {
+  const [value, setValue] = useState(false)
+
+  return (
+    <Button
+      leadIcon="add"
+      color="destructive"
+      variant="secondary"
+      toggled={value}
+      onClick={() => setValue(!value)}
+    >
+      Button label
+    </Button>
+  )
+}
+
 export const Ghost = {
   args: {
     children: 'Button label',
@@ -83,4 +119,36 @@ export const GhostDestructive = {
     disabled: false,
     leadIcon: 'add',
   },
+}
+
+export const GhostToggle = () => {
+  const [value, setValue] = useState(false)
+
+  return (
+    <Button
+      leadIcon="add"
+      color="neutral"
+      variant="ghost"
+      toggled={value}
+      onClick={() => setValue(!value)}
+    >
+      Button label
+    </Button>
+  )
+}
+
+export const GhostDestructiveToggle = () => {
+  const [value, setValue] = useState(false)
+
+  return (
+    <Button
+      leadIcon="add"
+      color="destructive"
+      variant="ghost"
+      toggled={value}
+      onClick={() => setValue(!value)}
+    >
+      Button label
+    </Button>
+  )
 }
