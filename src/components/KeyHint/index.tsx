@@ -105,17 +105,33 @@ function KeyHint({ hint, color = 'neutral', type = 'subtle' }: KeyHintProps) {
         padding: '0px 4px',
         height: 16,
         borderRadius: radius[4],
-        ...(color === 'neutral' && {
-          background: colors.neutral20,
-          color: colors.neutral60,
+        ...(type === 'subtle' && {
+          ...(color === 'neutral' && {
+            background: colors.neutral20,
+            color: colors.neutral60,
+          }),
+          ...(color === 'inverted' && {
+            background: colors.neutralInverted20,
+            color: colors.neutral100,
+          }),
+          ...(color === 'red' && {
+            background: colors.red10,
+            color: colors.red60,
+          }),
         }),
-        ...(color === 'inverted' && {
-          background: colors.neutralInverted20,
-          color: colors.neutral100,
-        }),
-        ...(color === 'red' && {
-          background: colors.red10,
-          color: colors.red60,
+        ...(type === 'filled' && {
+          ...(color === 'neutral' && {
+            background: colors.neutral100,
+            color: colors.neutralInverted100,
+          }),
+          ...(color === 'inverted' && {
+            background: colors.neutralInverted100,
+            color: colors.neutral100,
+          }),
+          ...(color === 'red' && {
+            background: colors.red100,
+            color: colors.white100,
+          }),
         }),
       }}
     >
