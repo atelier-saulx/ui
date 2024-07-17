@@ -28,6 +28,18 @@ export const Primary = {
   },
 }
 
+export const PrimaryKeyHint = {
+  args: {
+    children: 'Button label',
+    variant: 'primary',
+    color: 'neutral',
+    disabled: false,
+    leadIcon: 'add',
+    loading: false,
+    keyHint: 'Cmd+F',
+  },
+}
+
 export const PrimaryDestructive = {
   args: {
     children: 'Button label',
@@ -35,6 +47,18 @@ export const PrimaryDestructive = {
     color: 'destructive',
     disabled: false,
     leadIcon: 'add',
+  },
+}
+
+export const PrimaryDestructiveKeyHint = {
+  args: {
+    children: 'Button label',
+    variant: 'primary',
+    color: 'destructive',
+    disabled: false,
+    leadIcon: 'add',
+    loading: false,
+    keyHint: 'Cmd+F',
   },
 }
 

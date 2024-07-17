@@ -108,7 +108,7 @@ function KeyHint({ hint, color = 'neutral', type = 'subtle' }: KeyHintProps) {
         ...(type === 'subtle' && {
           ...(color === 'neutral' && {
             background: colors.neutral20,
-            color: colors.neutral60,
+            color: colors.neutral100,
           }),
           ...(color === 'inverted' && {
             background: colors.neutralInverted20,

@@ -4,6 +4,7 @@ import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 import { colors } from '../../utils/colors.js'
 import { useHadKeyboardEvent } from '../../hooks/useHadKeyboardEvent.js'
+import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
 
 type ButtonProps = {
   children: string
@@ -16,6 +17,7 @@ type ButtonProps = {
   loading?: boolean
   size?: 'normal' | 'small'
   toggled?: boolean
+  keyHint?: KeyHintProps['hint']
 }
 
 function Button({
@@ -29,6 +31,7 @@ function Button({
   leadIcon,
   trailIcon,
   toggled,
+  keyHint,
 }: ButtonProps) {
   const [hovered, setHovered] = useState(false)
   const [focus, setFocus] = useState(false)
@@ -294,7 +297,7 @@ function Button({
         style={{
           position: 'relative',
           display: 'flex',
-          gap: 2,
+          gap: 4,
           justifyContent: 'center',
           alignItems: 'center',
         }}
@@ -305,6 +308,29 @@ function Button({
         <Text color="inherit" variant="display-medium">
           {children}
         </Text>
+        {size === 'normal' && keyHint && (
+          <div style={{ opacity: disabled || loading ? 0.2 : 1 }}>
+            <KeyHint
+              hint={keyHint}
+              type={
+                variant === 'primary' || toggled
+                  ? colorProp === 'neutral'
+                    ? 'filled'
+                    : 'subtle'
+                  : 'subtle'
+              }
+              color={
+                variant === 'primary' || toggled
+                  ? colorProp === 'neutral'
+                    ? 'inverted'
+                    : 'neutral'
+                  : colorProp === 'neutral'
+                    ? 'neutral'
+                    : 'red'
+              }
+            />
+          </div>
+        )}
         {trailIcon && (
           <Icon variant={loading && !leadIcon ? 'loader' : trailIcon} />
         )}
