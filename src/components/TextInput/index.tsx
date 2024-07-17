@@ -4,6 +4,7 @@ import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 import { IconButton } from '../IconButton/index.js'
 import { colors } from '../../utils/colors.js'
+import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
 
 type TextInputProps = {
   value: string
@@ -17,6 +18,8 @@ type TextInputProps = {
   error?: string
   maxLength?: number
   clearable?: boolean
+  suffix?: string
+  keyHint?: KeyHintProps['hint']
 }
 
 function TextInput({
@@ -31,6 +34,8 @@ function TextInput({
   leadIcon,
   clearable,
   maxLength,
+  suffix,
+  keyHint,
 }: TextInputProps) {
   const [focus, setFocus] = useState(false)
   const length = typeof value !== 'string' ? 0 : value.length
@@ -135,6 +140,12 @@ function TextInput({
             setFocus(false)
           }}
         />
+        {suffix && (
+          <span style={{ marginLeft: -4, pointerEvents: 'none' }}>
+            <Text color="inherit">{suffix}</Text>
+          </span>
+        )}
+        {keyHint && <KeyHint hint={keyHint} color="neutral" />}
         {clearable && length !== 0 && (
           <IconButton
             size="small"

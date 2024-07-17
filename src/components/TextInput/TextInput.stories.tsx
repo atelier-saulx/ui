@@ -77,6 +77,32 @@ export const MaxLength = () => {
   )
 }
 
+export const Suffix = () => {
+  const [value, setValue] = useState('')
+  return (
+    <TextInput
+      value={value}
+      onChange={setValue}
+      leadIcon="search"
+      prefix="https://"
+      suffix="@once.net"
+    />
+  )
+}
+
+export const KeyHint = () => {
+  const [value, setValue] = useState('')
+  return (
+    <TextInput
+      value={value}
+      onChange={setValue}
+      leadIcon="search"
+      prefix="https://"
+      keyHint="Cmd+F"
+    />
+  )
+}
+
 export const KitchenSink = () => {
   const [value, setValue] = useState('')
   return (
@@ -91,6 +117,8 @@ export const KitchenSink = () => {
       description="This is a description"
       clearable
       maxLength={25}
+      suffix="@once.net"
+      keyHint="Cmd+F"
     />
   )
 }

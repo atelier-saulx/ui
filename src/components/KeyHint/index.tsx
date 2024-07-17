@@ -77,9 +77,10 @@ type DoubleMod<M extends ModKeys> = `${M}+${Exclude<ModKeys, M>}+${InputKey}`
 type KeyHintProps = {
   hint: Key
   color?: 'neutral' | 'inverted' | 'red'
+  type?: 'filled' | 'subtle'
 }
 
-function KeyHint({ hint, color = 'neutral' }: KeyHintProps) {
+function KeyHint({ hint, color = 'neutral', type = 'subtle' }: KeyHintProps) {
   const isMac = useMemo(
     () =>
       /(macintosh|macintel|macppc|mac68k|macos)/i.test(
