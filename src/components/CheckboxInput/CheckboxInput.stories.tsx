@@ -20,3 +20,20 @@ export const Disabled = () => {
   const [value, setValue] = useState(true)
   return <CheckboxInput value={value} onChange={setValue} disabled />
 }
+
+export const SmallDefault = () => {
+  const [value, setValue] = useState(false)
+  return <CheckboxInput size="small" value={value} onChange={setValue} />
+}
+
+export const SmallError = () => {
+  const [value, setValue] = useState(true)
+  return <CheckboxInput size="small" error value={value} onChange={setValue} />
+}
+
+export const SmallDisabled = () => {
+  const [value, setValue] = useState(true)
+  return (
+    <CheckboxInput size="small" value={value} onChange={setValue} disabled />
+  )
+}

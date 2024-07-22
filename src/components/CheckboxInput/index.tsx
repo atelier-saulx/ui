@@ -9,6 +9,7 @@ type CheckboxInputProps = {
   onChange: (value: boolean) => void
   disabled?: boolean
   error?: boolean
+  size?: 'normal' | 'small'
 }
 
 function CheckboxInput({
@@ -16,6 +17,7 @@ function CheckboxInput({
   onChange,
   disabled,
   error,
+  size = 'normal',
 }: CheckboxInputProps) {
   const [focus, setFocus] = useState(false)
   const hadKeyboardEvent = useHadKeyboardEvent()
@@ -35,8 +37,8 @@ function CheckboxInput({
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 16,
-        height: 16,
+        width: size === 'small' ? 16 : 20,
+        height: size === 'small' ? 16 : 20,
         borderRadius: radius[4],
         border: `1px solid ${colors.neutral20Adjusted}`,
         background: 'transparent',
@@ -79,8 +81,8 @@ function CheckboxInput({
         <span
           style={{
             position: 'absolute',
-            left: -5,
-            top: -5,
+            left: size === 'small' ? -5 : -3,
+            top: size === 'small' ? -5 : -3,
           }}
         >
           <Icon variant="checkmark-small" />
