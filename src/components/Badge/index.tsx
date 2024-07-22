@@ -73,10 +73,13 @@ function Badge({
       }}
     >
       {leadIcon && <Icon size="small" variant={leadIcon} />}
+      {trailIcon && !leadIcon && <div style={{ width: 2, height: '100%' }} />}
       <Text color="inherit" variant="subtext-medium">
         {children}
       </Text>
       {trailIcon && <Icon size="small" variant={trailIcon} />}
+
+      {leadIcon && !trailIcon && <div style={{ width: 2, height: '100%' }} />}
     </div>
   )
 }
