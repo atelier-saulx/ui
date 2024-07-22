@@ -1,19 +1,30 @@
 import { colors } from '../../utils/colors.js'
 import { radius } from '../../utils/radius.js'
+import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 
 type BadgeProps = {
   children: string
   color?: 'neutral' | 'red' | 'green' | 'indigo' | 'amber'
   type?: 'filled' | 'subtle'
+  leadIcon?: IconProps['variant']
+  trailIcon?: IconProps['variant']
 }
 
-function Badge({ children, color = 'neutral', type = 'filled' }: BadgeProps) {
+function Badge({
+  children,
+  color = 'neutral',
+  type = 'filled',
+  leadIcon,
+  trailIcon,
+}: BadgeProps) {
   return (
     <div
       style={{
         display: 'inline-flex',
         padding: '4px 6px',
+        alignItems: 'center',
+        justifyContent: 'center',
         borderRadius: radius[4],
         ...(type === 'filled' && {
           ...(color === 'neutral' && {
@@ -61,9 +72,11 @@ function Badge({ children, color = 'neutral', type = 'filled' }: BadgeProps) {
         }),
       }}
     >
+      {leadIcon && <Icon size="small" variant={leadIcon} />}
       <Text color="inherit" variant="subtext-medium">
         {children}
       </Text>
+      {trailIcon && <Icon size="small" variant={trailIcon} />}
     </div>
   )
 }

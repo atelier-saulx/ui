@@ -5,6 +5,25 @@ export default {
   component: Badge,
 }
 
+export const Default = {
+  args: {
+    children: 'Going up +20%',
+    color: 'green',
+    type: 'filled',
+    leadIcon: 'arrow-up',
+    trailIcon: 'arrow-up',
+  },
+}
+
+export const SingleIcon = {
+  args: {
+    children: 'Going up +20%',
+    color: 'green',
+    type: 'filled',
+    leadIcon: 'arrow-up',
+  },
+}
+
 export const NeutralFilled = {
   args: {
     children: 'Published',
