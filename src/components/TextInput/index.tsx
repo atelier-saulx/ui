@@ -5,6 +5,7 @@ import { Text } from '../Text/index.js'
 import { IconButton } from '../IconButton/index.js'
 import { colors } from '../../utils/colors.js'
 import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
+import { Badge } from '../Badge/index.js'
 
 type TextInputProps = {
   value: string
@@ -161,21 +162,13 @@ function TextInput({
               position: 'absolute',
               right: 0,
               bottom: -5,
-              padding: '4px 6px',
-              borderRadius: radius[4],
-              background: colors.neutral100,
-              color: colors.neutralInverted100,
               transform: 'translateY(100%)',
-              ...(error && {
-                background: colors.red100,
-                color: colors.neutral100,
-              }),
+              display: 'flex',
             }}
           >
-            <Text
-              color="inherit"
-              variant="subtext-medium"
-            >{`${length}/${maxLength}`}</Text>
+            <Badge
+              color={error ? 'red' : 'neutral'}
+            >{`${length}/${maxLength}`}</Badge>
           </div>
         )}
       </div>

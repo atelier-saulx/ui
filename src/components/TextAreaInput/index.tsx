@@ -3,6 +3,7 @@ import { Text } from '../Text/index.js'
 import { colors } from '../../utils/colors.js'
 import { Icon } from '../Icon/index.js'
 import { radius } from '../../utils/radius.js'
+import { Badge } from '../Badge/index.js'
 
 type TextAreaInputProps = {
   value: string
@@ -108,21 +109,13 @@ function TextAreaInput({
               position: 'absolute',
               right: 0,
               bottom: -4,
-              padding: '4px 6px',
-              borderRadius: radius[4],
-              background: colors.neutral100,
-              color: colors.neutralInverted100,
               transform: 'translateY(100%)',
-              ...(error && {
-                background: colors.red100,
-                color: colors.neutral100,
-              }),
+              display: 'flex',
             }}
           >
-            <Text
-              color="inherit"
-              variant="subtext-medium"
-            >{`${length}/${maxLength}`}</Text>
+            <Badge
+              color={error ? 'red' : 'neutral'}
+            >{`${length}/${maxLength}`}</Badge>
           </div>
         )}
       </div>
