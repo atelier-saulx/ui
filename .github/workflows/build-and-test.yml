@@ -1,9 +1,9 @@
-name: Build and test
+name: Build
 
 on: [push]
 
 jobs:
-  build-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,5 +17,3 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      # - name: Run tests
-      #   run: npm run test
