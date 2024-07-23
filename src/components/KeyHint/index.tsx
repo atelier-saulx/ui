@@ -156,7 +156,7 @@ function KeyHint({
           }),
           ...(color === 'red' && {
             background: colors.red10,
-            color: colors.red60,
+            color: colors.red100,
           }),
         }),
         ...(type === 'filled' && {
