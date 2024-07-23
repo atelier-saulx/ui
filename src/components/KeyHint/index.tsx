@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { colors } from '../../utils/colors.js'
 import { radius } from '../../utils/radius.js'
 import { useIsMac } from '../../hooks/useIsMac.js'
@@ -91,7 +91,7 @@ function KeyHint({
   const triggerFnRef = useRef(onTrigger)
   const isMac = useIsMac()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     triggerFnRef.current = onTrigger
   })
 
