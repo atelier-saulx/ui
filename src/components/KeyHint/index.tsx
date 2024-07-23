@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { colors } from '../../utils/colors.js'
 import { radius } from '../../utils/radius.js'
+import { useIsMac } from '../../hooks/useIsMac.js'
 import { Text } from '../Text/index.js'
 
 type Char =
@@ -76,18 +77,57 @@ type DoubleMod<M extends ModKeys> = `${M}+${Exclude<ModKeys, M>}+${InputKey}`
 
 type KeyHintProps = {
   hint: Key
+  onTrigger: () => void
   color?: 'neutral' | 'inverted' | 'red'
   type?: 'filled' | 'subtle'
 }
 
-function KeyHint({ hint, color = 'neutral', type = 'subtle' }: KeyHintProps) {
-  const isMac = useMemo(
-    () =>
-      /(macintosh|macintel|macppc|mac68k|macos)/i.test(
-        window.navigator.userAgent,
-      ),
-    [],
+function KeyHint({
+  hint,
+  color = 'neutral',
+  type = 'subtle',
+  onTrigger,
+}: KeyHintProps) {
+  const triggerFnRef = useRef(onTrigger)
+  const isMac = useIsMac()
+
+  useLayoutEffect(() => {
+    triggerFnRef.current = onTrigger
+  })
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      const eventKey = event.key.toLocaleLowerCase()
+      const p = hint
+        .toLocaleLowerCase()
+        .split('+')
+        .map((e) => (e === 'esc' ? 'escape' : e))
+      const modKeys: { [key: string]: boolean } = {
+        cmd: isMac ? event.metaKey : event.ctrlKey,
+        alt: event.altKey,
+        shift: event.shiftKey,
+      }
+
+      if (
+        (p.length === 1 && eventKey === p[0]) ||
+        (p.length === 2 && modKeys[p[0]] && eventKey === p[1]) ||
+        (p.length === 3 && modKeys[p[0]] && modKeys[p[1]] && eventKey === p[2])
+      ) {
+        event.preventDefault()
+        triggerFnRef.current()
+      }
+    },
+    [hint],
   )
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
   const text = useMemo(() => {
     if (hint.includes('Cmd')) {
       return isMac ? hint.replace('Cmd', '⌘') : hint.replace('Cmd', 'Ctrl')

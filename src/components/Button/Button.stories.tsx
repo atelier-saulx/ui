@@ -37,6 +37,9 @@ export const PrimaryKeyHint = {
     leadIcon: 'add',
     loading: false,
     keyHint: 'Cmd+F',
+    onClick: () => {
+      alert('clicked')
+    },
   },
 }
 
@@ -59,6 +62,9 @@ export const PrimaryDestructiveKeyHint = {
     leadIcon: 'add',
     loading: false,
     keyHint: 'Cmd+F',
+    onClick: () => {
+      alert('clicked')
+    },
   },
 }
 

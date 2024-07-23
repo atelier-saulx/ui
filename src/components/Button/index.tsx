@@ -8,7 +8,7 @@ import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
 
 type ButtonProps = {
   children: string
-  onClick?: () => void
+  onClick: () => void
   disabled?: boolean
   variant?: 'primary' | 'secondary' | 'ghost'
   color?: 'neutral' | 'destructive'
@@ -311,6 +311,7 @@ function Button({
         {size === 'normal' && keyHint && (
           <div style={{ opacity: disabled || loading ? 0.2 : 1 }}>
             <KeyHint
+              onTrigger={onClick}
               hint={keyHint}
               type={
                 variant === 'primary' || toggled
