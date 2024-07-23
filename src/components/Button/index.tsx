@@ -5,10 +5,11 @@ import { Text } from '../Text/index.js'
 import { colors } from '../../utils/colors.js'
 import { useHadKeyboardEvent } from '../../hooks/useHadKeyboardEvent.js'
 import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
+import { styled } from 'inlines'
 
 type ButtonProps = {
   children: string
-  onClick: () => void
+  onClick: () => void | Promise<void>
   disabled?: boolean
   variant?: 'primary' | 'secondary' | 'ghost'
   color?: 'neutral' | 'destructive'
@@ -24,7 +25,7 @@ function Button({
   children,
   onClick,
   disabled: disabledProp,
-  loading,
+  loading: loadingProp,
   variant = 'primary',
   color: colorProp = 'neutral',
   size = 'normal',
@@ -35,14 +36,25 @@ function Button({
 }: ButtonProps) {
   const [hovered, setHovered] = useState(false)
   const [focus, setFocus] = useState(false)
+  const [internalLoading, setInternalLoading] = useState(false)
   const hadKeyboardEvent = useHadKeyboardEvent()
   const focused = focus && hadKeyboardEvent
+  const loading = loadingProp || internalLoading
   const disabled = loading || disabledProp
 
   return (
-    <button
-      onClick={() => {
-        onClick?.()
+    <styled.button
+      onClick={async () => {
+        try {
+          const result = onClick()
+
+          if (result instanceof Promise) {
+            setInternalLoading(true)
+            await result
+          }
+        } finally {
+          setInternalLoading(false)
+        }
       }}
       onMouseEnter={() => {
         setHovered(true)
@@ -56,6 +68,7 @@ function Button({
       onBlur={() => {
         setFocus(false)
       }}
+      disabled={disabled}
       style={{
         flexShrink: 0,
         position: 'relative',
@@ -68,6 +81,10 @@ function Button({
         minHeight: size === 'normal' ? 36 : 24,
         cursor: disabled ? 'not-allowed' : 'pointer',
         outlineStyle: 'none',
+        transition: 'transform 100ms cubic-bezier(0.2,0,0,1)',
+        '&:active:not(:disabled)': {
+          transform: 'scale(0.96)',
+        },
         ...(variant === 'primary' &&
           colorProp === 'neutral' && {
             color: colors.neutralInverted100,
@@ -98,7 +115,6 @@ function Button({
               background: colors.red20,
             }),
           }),
-
         ...(variant === 'secondary' &&
           colorProp === 'neutral' && {
             color: colors.neutral80,
@@ -339,7 +355,7 @@ function Button({
           <div style={{ width: 2, height: '100%' }} />
         )}
       </div>
-    </button>
+    </styled.button>
   )
 }
 

@@ -74,8 +74,22 @@ export const PrimaryLoading = {
     variant: 'primary',
     color: 'neutral',
     disabled: false,
-    trail: 'add',
     loading: true,
+  },
+}
+
+export const AsyncOnClick = {
+  args: {
+    children: 'Button label',
+    variant: 'primary',
+    color: 'destructive',
+    leadIcon: 'delete',
+    onClick: async () => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000)
+      })
+      console.log('promise resolved')
+    },
   },
 }
 
