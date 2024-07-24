@@ -6,7 +6,15 @@ import { Provider } from '../src/components/Provider/index.js'
 const preview: Preview = {
   tags: ['autodocs'],
   parameters: {
-    backgrounds: { disable: true },
+    backgrounds: {
+      default: 'auto',
+      values: [
+        {
+          name: 'auto',
+          value: 'var(--neutral-inverted-100)',
+        },
+      ],
+    },
     viewport: { disable: true },
   },
   globalTypes: {

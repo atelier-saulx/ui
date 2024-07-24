@@ -22,7 +22,8 @@ function Badge({
     <div
       style={{
         display: 'inline-flex',
-        padding: '4px 6px',
+        height: 24,
+        padding: '0 6px',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: radius[4],
