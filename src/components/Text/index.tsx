@@ -1,7 +1,8 @@
+import { ReactNode } from 'react'
 import { Color, colors } from '../../utils/colors.js'
 
 type TextProps = {
-  children: string
+  children: ReactNode
   variant?:
     | 'display-regular'
     | 'display-medium'

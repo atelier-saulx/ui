@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
@@ -8,7 +8,7 @@ import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
 import { styled } from 'inlines'
 
 type ButtonProps = {
-  children: string
+  children: ReactNode
   onClick: () => void | Promise<void>
   disabled?: boolean
   variant?: 'primary' | 'secondary' | 'ghost'
