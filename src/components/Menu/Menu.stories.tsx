@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Menu } from './index.js'
 import { Button } from '../Button/index.js'
-import { Separator } from '../Separator/index.js'
 
 export default {
   title: 'Molecules/Menu',
@@ -74,7 +73,7 @@ export const Default = () => {
             >
               Country
             </Menu.ToggleItem>
-            <Separator />
+            <Menu.Separator />
             <Menu.Item
               leadIcon="show"
               onClick={() => {
@@ -85,7 +84,7 @@ export const Default = () => {
             </Menu.Item>
           </Menu.Items>
         </Menu>
-        <Separator />
+        <Menu.Separator />
         <Menu.Item
           leadIcon="revert"
           onClick={() => {
