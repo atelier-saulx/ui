@@ -5,6 +5,7 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from 'react'
 import { Text } from '../Text/index.js'
@@ -13,7 +14,10 @@ import { colors } from '../../utils/colors.js'
 import {
   autoPlacement,
   autoUpdate,
+  FloatingFocusManager,
+  FloatingList,
   FloatingNode,
+  FloatingPortal,
   FloatingTree,
   offset,
   safePolygon,
@@ -25,16 +29,18 @@ import {
   useFloatingTree,
   useHover,
   useInteractions,
+  useListItem,
+  useListNavigation,
+  useMergeRefs,
 } from '@floating-ui/react'
 import { Icon, IconProps } from '../Icon/index.js'
-import { styled } from 'inlines'
 import { Separator } from '../Separator/index.js'
 
-// TODO allow menutrigger to be a render prop so that open state can be handled per implementation
 // TODO implement option card group
-// TODO look into focus styles for items
-// TODO portal and focusmanager
-// TODO keyboard navigation
+// TODO add red variant to menuitem
+// TODO add toggled variant to menuitem (what's the usecase?)
+// TODO add counter to menuitem
+// TODO keyboard navigation (portal and focusmanager)
 
 type MenuContextType = {
   open: boolean
@@ -43,6 +49,7 @@ type MenuContextType = {
   getReferenceProps: ReturnType<typeof useInteractions>['getReferenceProps']
   getFloatingProps: ReturnType<typeof useInteractions>['getFloatingProps']
   getItemProps: ReturnType<typeof useInteractions>['getItemProps']
+  activeIndex: number | null
 } | null
 
 const MenuContext = createContext<MenuContextType>(null)
@@ -67,6 +74,7 @@ function Menu(props: MenuRootProps) {
 
 function MenuInner({ children }: MenuRootProps) {
   const [open, setOpen] = useState(false)
+  const elementsRef = useRef([])
   const tree = useFloatingTree()
   const nodeId = useFloatingNodeId()
   const parentId = useFloatingParentNodeId()
@@ -96,9 +104,16 @@ function MenuInner({ children }: MenuRootProps) {
     handleClose: safePolygon({ blockPointerEvents: true }),
   })
   const dismiss = useDismiss(context, { bubbles: true })
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const listNavigation = useListNavigation(context, {
+    listRef: elementsRef,
+    activeIndex,
+    nested: nested,
+    onNavigate: setActiveIndex,
+  })
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
-    [click, hover, dismiss],
+    [click, hover, dismiss, listNavigation],
   )
 
   useEffect(() => {
@@ -116,8 +131,8 @@ function MenuInner({ children }: MenuRootProps) {
   }, [tree, nodeId, parentId])
 
   useEffect(() => {
-    if (open && tree) {
-      tree.events.emit('menuopen', { parentId, nodeId })
+    if (tree) {
+      tree.events.emit(open ? 'menuopen' : 'menuclose', { parentId, nodeId })
     }
   }, [tree, open, nodeId, parentId])
 
@@ -131,9 +146,10 @@ function MenuInner({ children }: MenuRootProps) {
           getReferenceProps,
           getFloatingProps,
           getItemProps,
+          activeIndex,
         }}
       >
-        {children}
+        <FloatingList elementsRef={elementsRef}>{children}</FloatingList>
       </MenuContext.Provider>
     </FloatingNode>
   )
@@ -199,11 +215,13 @@ type MenuItemProps = {
 }
 
 function MenuItem({ children, leadIcon, trailIcon, onClick }: MenuItemProps) {
-  const { getItemProps } = useContext(MenuContext)
+  const { getItemProps, activeIndex } = useContext(MenuContext)
   const tree = useFloatingTree()
+  const item = useListItem()
 
   return (
-    <styled.div
+    <div
+      ref={item.ref}
       {...getItemProps({
         onClick() {
           onClick?.()
@@ -217,11 +235,12 @@ function MenuItem({ children, leadIcon, trailIcon, onClick }: MenuItemProps) {
         alignItems: 'center',
         gap: 8,
         padding: '0 8px',
+        cursor: 'pointer',
         borderRadius: radius[8],
-        '&:hover:not(:disabled)': {
+        ...(activeIndex === item.index && {
           color: colors.neutral100,
           background: colors.neutral10Adjusted,
-        },
+        }),
       }}
     >
       {leadIcon && <Icon variant={leadIcon} />}
@@ -229,7 +248,7 @@ function MenuItem({ children, leadIcon, trailIcon, onClick }: MenuItemProps) {
         {children}
       </Text>
       {trailIcon && <Icon variant={trailIcon} />}
-    </styled.div>
+    </div>
   )
 }
 
@@ -246,14 +265,19 @@ function MenuToggleItem({
   onChange,
   disabled,
 }: MenuToggleItemProps) {
-  return (
-    <styled.div
-      onClick={() => {
-        if (disabled) return
+  const { getItemProps, activeIndex } = useContext(MenuContext)
+  const item = useListItem()
 
-        onChange?.()
-      }}
-      data-disabled={disabled}
+  return (
+    <div
+      ref={item.ref}
+      {...getItemProps({
+        onClick() {
+          if (disabled) return
+
+          onChange?.()
+        },
+      })}
       style={{
         height: 32,
         color: colors.neutral80,
@@ -264,15 +288,14 @@ function MenuToggleItem({
         padding: '0 8px',
         borderRadius: radius[8],
         cursor: 'pointer',
-        '&:hover:not([data-disabled])': {
+        ...(activeIndex === item.index && {
           color: colors.neutral100,
           background: colors.neutral10Adjusted,
-        },
-        '&[data-disabled]': {
-          background: 'transparent',
+        }),
+        ...(disabled && {
           color: colors.neutral20,
           cursor: 'not-allowed',
-        },
+        }),
       }}
     >
       <div style={{ height: 24, width: 24 }}>
@@ -281,7 +304,7 @@ function MenuToggleItem({
       <Text variant="display-medium" color="inherit">
         {children}
       </Text>
-    </styled.div>
+    </div>
   )
 }
 
@@ -309,14 +332,40 @@ type MenuTriggerItemProps = {
 }
 
 function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
-  const { refs, getReferenceProps } = useContext(MenuContext)
+  const { refs, getReferenceProps, getItemProps } = useContext(MenuContext)
+  const item = useListItem()
+  const tree = useFloatingTree()
+  const parentId = useFloatingParentNodeId()
+  const [submenuOpen, setSubmenuOpen] = useState(false)
 
-  // TODO show hover/focust styles when submenu is open
+  useEffect(() => {
+    if (!tree) return
+
+    function handleMenuOpen(event: any) {
+      if (event.nodeId === parentId) {
+        setSubmenuOpen(true)
+      }
+    }
+
+    function handleMenuClose(event: any) {
+      if (event.nodeId === parentId) {
+        setSubmenuOpen(false)
+      }
+    }
+
+    tree.events.on('menuopen', handleMenuOpen)
+    tree.events.on('menuclose', handleMenuClose)
+
+    return () => {
+      tree.events.off('menuopen', handleMenuOpen)
+      tree.events.on('menuclose', handleMenuClose)
+    }
+  }, [tree, parentId])
 
   return (
-    <styled.div
-      ref={refs.setReference}
-      {...getReferenceProps()}
+    <div
+      ref={useMergeRefs([item.ref, refs.setReference])}
+      {...getReferenceProps(getItemProps())}
       style={{
         height: 32,
         color: colors.neutral80,
@@ -325,10 +374,11 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
         gap: 8,
         padding: '0 8px',
         borderRadius: radius[8],
-        '&:hover:not(:disabled)': {
+        cursor: 'pointer',
+        ...(submenuOpen && {
           color: colors.neutral100,
           background: colors.neutral10Adjusted,
-        },
+        }),
       }}
     >
       {leadIcon && <Icon variant={leadIcon} />}
@@ -345,7 +395,7 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
       >
         <Icon variant="chevron-right" />
       </div>
-    </styled.div>
+    </div>
   )
 }
 
