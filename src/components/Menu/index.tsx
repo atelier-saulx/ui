@@ -288,10 +288,11 @@ function MenuToggleItem({
         padding: '0 8px',
         borderRadius: radius[8],
         cursor: 'pointer',
-        ...(activeIndex === item.index && {
-          color: colors.neutral100,
-          background: colors.neutral10Adjusted,
-        }),
+        ...(activeIndex === item.index &&
+          !disabled && {
+            color: colors.neutral100,
+            background: colors.neutral10Adjusted,
+          }),
         ...(disabled && {
           color: colors.neutral20,
           cursor: 'not-allowed',
