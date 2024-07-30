@@ -326,6 +326,7 @@ function MenuToggleItem({
         },
       })}
       type="button"
+      disabled={disabled}
       tabIndex={item.index === activeIndex ? 0 : -1}
       style={{
         height: 32,
