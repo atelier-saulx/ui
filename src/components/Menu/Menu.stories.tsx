@@ -99,61 +99,11 @@ export const Default = () => {
           onClick={() => {
             setRowHeight('short')
             setVisibleFields(['name'])
+            setView('table')
           }}
         >
           Reset view
         </Menu.Item>
-        <Menu.Item leadIcon="delete" color="red">
-          Delete view
-        </Menu.Item>
-      </Menu.Items>
-    </Menu>
-  )
-}
-
-export const Simple = () => {
-  const [value, setValue] = useState('a')
-
-  return (
-    <Menu>
-      <Menu.Trigger>
-        {({ open }) => (
-          <Button
-            variant="secondary"
-            trailIcon={open ? 'chevron-up' : 'chevron-down'}
-          >
-            Sample menu
-          </Button>
-        )}
-      </Menu.Trigger>
-      <Menu.Items>
-        <Menu.Header>Some toggle stuff</Menu.Header>
-        <Menu.ToggleItem
-          value={value === 'a'}
-          onChange={() => {
-            setValue('a')
-          }}
-        >
-          Option A
-        </Menu.ToggleItem>
-        <Menu.ToggleItem
-          value={value === 'b'}
-          onChange={() => {
-            setValue('b')
-          }}
-        >
-          Option B
-        </Menu.ToggleItem>
-        <Menu.Separator />
-        <Menu>
-          <Menu.TriggerItem leadIcon="grid">Submenu</Menu.TriggerItem>
-          <Menu.Items>
-            <Menu.Item leadIcon="revert">Something nested one</Menu.Item>
-            <Menu.Item leadIcon="revert">Something nested two</Menu.Item>
-          </Menu.Items>
-        </Menu>
-        <Menu.Separator />
-        <Menu.Item leadIcon="revert">Reset view</Menu.Item>
         <Menu.Item leadIcon="delete" color="red">
           Delete view
         </Menu.Item>
