@@ -21,8 +21,11 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
   }
 
   return (
-    <div
+    <fieldset
       style={{
+        appearance: 'none',
+        border: 'none',
+        padding: 0,
         display: 'flex',
         gap: 4,
         ...(options.length > 3 && {
@@ -32,9 +35,7 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
       }}
     >
       {options.map((option) => (
-        <styled.button
-          type="button"
-          tabIndex={option.disabled ? -1 : 0}
+        <styled.label
           data-selected={option.value === value ? true : undefined}
           data-disabled={option.disabled ? true : undefined}
           style={{
@@ -55,7 +56,7 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
               color: colors.neutral100,
               background: colors.neutral10Adjusted,
             },
-            '&:focus-visible:not([data-disabled])': {
+            '&:has(:focus-visible):not([data-disabled])': {
               outlineWidth: 4,
               outlineStyle: 'solid',
               outlineColor: colors.neutral20,
@@ -72,11 +73,6 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
               cursor: 'not-allowed',
             },
           }}
-          onClick={() => {
-            if (option.disabled) return
-
-            onChange(option.value)
-          }}
         >
           <Icon variant={option.icon} />
           <Text
@@ -85,9 +81,28 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
           >
             {option.label}
           </Text>
-        </styled.button>
+          <input
+            style={{
+              position: 'absolute',
+              width: 1,
+              height: 1,
+              padding: 0,
+              margin: -1,
+              overflow: 'hidden',
+              clip: 'rect(0, 0, 0, 0)',
+              whiteSpace: 'nowrap',
+              borderWidth: 0,
+            }}
+            type="radio"
+            checked={option.value === value}
+            onChange={() => {
+              onChange(option.value)
+            }}
+            disabled={option.disabled}
+          />
+        </styled.label>
       ))}
-    </div>
+    </fieldset>
   )
 }
 

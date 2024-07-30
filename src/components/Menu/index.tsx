@@ -206,7 +206,7 @@ function MenuItems({ children }: MenuItemsProps) {
         <FloatingFocusManager
           modal={false}
           context={floatingContext}
-          initialFocus={nested ? -1 : 0}
+          initialFocus={-1}
           returnFocus={!nested}
         >
           <div
@@ -263,7 +263,6 @@ function MenuItem({
         },
       })}
       type="button"
-      tabIndex={item.index === activeIndex ? 0 : -1}
       style={{
         height: 32,
         color: colors.neutral80,
@@ -327,7 +326,6 @@ function MenuToggleItem({
       })}
       type="button"
       disabled={disabled}
-      tabIndex={item.index === activeIndex ? 0 : -1}
       style={{
         height: 32,
         color: colors.neutral80,
@@ -428,7 +426,6 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
       ref={useMergeRefs([refs.setReference, item.ref])}
       {...getReferenceProps(parent.getItemProps())}
       type="button"
-      tabIndex={item.index === parent.activeIndex ? 0 : -1}
       style={{
         height: 32,
         color: colors.neutral80,
