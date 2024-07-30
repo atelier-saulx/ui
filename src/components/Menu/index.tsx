@@ -35,11 +35,13 @@ import {
 } from '@floating-ui/react'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Separator } from '../Separator/index.js'
+import {
+  OptionCardGroup,
+  OptionCardGroupProps,
+} from '../OptionCardGroup/index.js'
 
-// TODO implement option card group
-// TODO add red variant to menuitem
 // TODO add toggled variant to menuitem (what's the usecase?)
-// TODO add counter to menuitem
+// TODO add focus states to items, remove outlines from others
 // TODO keyboard navigation (portal and focusmanager)
 
 type MenuContextType = {
@@ -212,9 +214,16 @@ type MenuItemProps = {
   leadIcon?: IconProps['variant']
   trailIcon?: IconProps['variant']
   onClick?: () => void
+  color?: 'neutral' | 'red'
 }
 
-function MenuItem({ children, leadIcon, trailIcon, onClick }: MenuItemProps) {
+function MenuItem({
+  children,
+  leadIcon,
+  trailIcon,
+  onClick,
+  color = 'neutral',
+}: MenuItemProps) {
   const { getItemProps, activeIndex } = useContext(MenuContext)
   const tree = useFloatingTree()
   const item = useListItem()
@@ -240,6 +249,13 @@ function MenuItem({ children, leadIcon, trailIcon, onClick }: MenuItemProps) {
         ...(activeIndex === item.index && {
           color: colors.neutral100,
           background: colors.neutral10Adjusted,
+        }),
+        ...(color === 'red' && {
+          color: colors.red80,
+          ...(activeIndex === item.index && {
+            color: colors.red100,
+            background: colors.red10,
+          }),
         }),
       }}
     >
@@ -327,6 +343,12 @@ function MenuSeparator({}: MenuSeparatorProps) {
   return <Separator />
 }
 
+type MenuOptionCardGroupProps = OptionCardGroupProps
+
+function MenuOptionCardGroup(props: MenuOptionCardGroupProps) {
+  return <OptionCardGroup {...props} />
+}
+
 type MenuTriggerItemProps = {
   children: string
   leadIcon?: IconProps['variant']
@@ -407,6 +429,7 @@ Menu.Separator = MenuSeparator
 Menu.Item = MenuItem
 Menu.ToggleItem = MenuToggleItem
 Menu.TriggerItem = MenuTriggerItem
+Menu.OptionCardGroup = MenuOptionCardGroup
 
 export { Menu }
 
@@ -418,4 +441,5 @@ export type {
   MenuItemProps,
   MenuTriggerItemProps,
   MenuSeparatorProps,
+  MenuOptionCardGroupProps,
 }
