@@ -26,6 +26,7 @@ import {
   useFloating,
   useFloatingNodeId,
   useFloatingParentNodeId,
+  UseFloatingReturn,
   useFloatingTree,
   useHover,
   useInteractions,
@@ -40,7 +41,6 @@ import {
   OptionCardGroupProps,
 } from '../OptionCardGroup/index.js'
 
-// TODO add toggled variant to menuitem (what's the usecase?)
 // TODO add focus states to items, remove outlines from others
 // TODO keyboard navigation (portal and focusmanager)
 
@@ -52,6 +52,8 @@ type MenuContextType = {
   getFloatingProps: ReturnType<typeof useInteractions>['getFloatingProps']
   getItemProps: ReturnType<typeof useInteractions>['getItemProps']
   activeIndex: number | null
+  floatingContext: UseFloatingReturn['context']
+  nested: boolean
 } | null
 
 const MenuContext = createContext<MenuContextType>(null)
@@ -149,6 +151,8 @@ function MenuInner({ children }: MenuRootProps) {
           getFloatingProps,
           getItemProps,
           activeIndex,
+          floatingContext: context,
+          nested,
         }}
       >
         <FloatingList elementsRef={elementsRef}>{children}</FloatingList>
@@ -182,30 +186,46 @@ type MenuItemsProps = {
 }
 
 function MenuItems({ children }: MenuItemsProps) {
-  const { open, refs, floatingStyles, getFloatingProps } =
-    useContext(MenuContext)
+  const {
+    open,
+    refs,
+    floatingStyles,
+    getFloatingProps,
+    floatingContext,
+    nested,
+  } = useContext(MenuContext)
 
   if (!open) return null
 
   return (
-    <div
-      ref={refs.setFloating}
-      style={{
-        position: 'relative',
-        width: 240,
-        borderRadius: radius[16],
-        padding: 8,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 4,
-        border: `1px solid ${colors.neutral10}`,
-        background: colors.neutral10Adjusted,
-        ...floatingStyles,
-      }}
-      {...getFloatingProps()}
-    >
-      {children}
-    </div>
+    <FloatingPortal>
+      <FloatingFocusManager
+        modal={false}
+        context={floatingContext}
+        initialFocus={nested ? -1 : 0}
+        returnFocus={!nested}
+      >
+        <div
+          ref={refs.setFloating}
+          style={{
+            position: 'relative',
+            width: 240,
+            borderRadius: radius[16],
+            padding: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 4,
+            outline: 'none',
+            border: `1px solid ${colors.neutral10}`,
+            background: colors.neutral10Adjusted,
+            ...floatingStyles,
+          }}
+          {...getFloatingProps()}
+        >
+          {children}
+        </div>
+      </FloatingFocusManager>
+    </FloatingPortal>
   )
 }
 
@@ -229,7 +249,7 @@ function MenuItem({
   const item = useListItem()
 
   return (
-    <div
+    <button
       ref={item.ref}
       {...getItemProps({
         onClick() {
@@ -237,6 +257,8 @@ function MenuItem({
           tree?.events.emit('click')
         },
       })}
+      type="button"
+      tabIndex={item.index === activeIndex ? 0 : -1}
       style={{
         height: 32,
         color: colors.neutral80,
@@ -246,6 +268,10 @@ function MenuItem({
         padding: '0 8px',
         cursor: 'pointer',
         borderRadius: radius[8],
+        border: 'none',
+        background: 'transparent',
+        appearance: 'none',
+        outline: 'none',
         ...(activeIndex === item.index && {
           color: colors.neutral100,
           background: colors.neutral10Adjusted,
@@ -264,7 +290,7 @@ function MenuItem({
         {children}
       </Text>
       {trailIcon && <Icon variant={trailIcon} />}
-    </div>
+    </button>
   )
 }
 
@@ -285,7 +311,7 @@ function MenuToggleItem({
   const item = useListItem()
 
   return (
-    <div
+    <button
       ref={item.ref}
       {...getItemProps({
         onClick() {
@@ -294,6 +320,8 @@ function MenuToggleItem({
           onChange?.()
         },
       })}
+      type="button"
+      tabIndex={item.index === activeIndex ? 0 : -1}
       style={{
         height: 32,
         color: colors.neutral80,
@@ -304,6 +332,9 @@ function MenuToggleItem({
         padding: '0 8px',
         borderRadius: radius[8],
         cursor: 'pointer',
+        border: 'none',
+        appearance: 'none',
+        outline: 'none',
         ...(activeIndex === item.index &&
           !disabled && {
             color: colors.neutral100,
@@ -321,7 +352,7 @@ function MenuToggleItem({
       <Text variant="display-medium" color="inherit">
         {children}
       </Text>
-    </div>
+    </button>
   )
 }
 
@@ -355,7 +386,8 @@ type MenuTriggerItemProps = {
 }
 
 function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
-  const { refs, getReferenceProps, getItemProps } = useContext(MenuContext)
+  const { refs, getReferenceProps, getItemProps, activeIndex } =
+    useContext(MenuContext)
   const item = useListItem()
   const tree = useFloatingTree()
   const parentId = useFloatingParentNodeId()
@@ -364,13 +396,13 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
   useEffect(() => {
     if (!tree) return
 
-    function handleMenuOpen(event: any) {
+    function handleMenuOpen(event: { nodeId: string }) {
       if (event.nodeId === parentId) {
         setSubmenuOpen(true)
       }
     }
 
-    function handleMenuClose(event: any) {
+    function handleMenuClose(event: { nodeId: string }) {
       if (event.nodeId === parentId) {
         setSubmenuOpen(false)
       }
@@ -386,9 +418,11 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
   }, [tree, parentId])
 
   return (
-    <div
+    <button
       ref={useMergeRefs([item.ref, refs.setReference])}
       {...getReferenceProps(getItemProps())}
+      type="button"
+      tabIndex={item.index === activeIndex ? 0 : -1}
       style={{
         height: 32,
         color: colors.neutral80,
@@ -397,7 +431,11 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
         gap: 8,
         padding: '0 8px',
         borderRadius: radius[8],
+        background: 'transparent',
         cursor: 'pointer',
+        border: 'none',
+        appearance: 'none',
+        outline: 'none',
         ...(submenuOpen && {
           color: colors.neutral100,
           background: colors.neutral10Adjusted,
@@ -418,7 +456,7 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
       >
         <Icon variant="chevron-right" />
       </div>
-    </div>
+    </button>
   )
 }
 

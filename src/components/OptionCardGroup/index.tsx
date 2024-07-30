@@ -33,6 +33,7 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
     >
       {options.map((option) => (
         <styled.button
+          type="button"
           tabIndex={option.disabled ? -1 : 0}
           data-selected={option.value === value ? true : undefined}
           data-disabled={option.disabled ? true : undefined}
