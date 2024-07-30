@@ -10,6 +10,7 @@ export default {
 export const Default = () => {
   const [rowHeight, setRowHeight] = useState('short')
   const [visibleFields, setVisibleFields] = useState(['name'])
+  const [view, setView] = useState('table')
 
   return (
     <Menu>
@@ -24,6 +25,14 @@ export const Default = () => {
         )}
       </Menu.Trigger>
       <Menu.Items>
+        <Menu.OptionCardGroup
+          value={view}
+          onChange={setView}
+          options={[
+            { label: 'Table', value: 'table', icon: 'sheet' },
+            { label: 'Gallery', value: 'gallery', icon: 'gallery' },
+          ]}
+        />
         <Menu.Header>Row height</Menu.Header>
         <Menu.ToggleItem
           value={rowHeight === 'short'}
@@ -93,6 +102,9 @@ export const Default = () => {
           }}
         >
           Reset view
+        </Menu.Item>
+        <Menu.Item leadIcon="delete" color="red">
+          Delete view
         </Menu.Item>
       </Menu.Items>
     </Menu>
