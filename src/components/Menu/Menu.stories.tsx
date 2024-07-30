@@ -115,45 +115,49 @@ export const Simple = () => {
   const [value, setValue] = useState('a')
 
   return (
-    <>
-      <Menu>
-        <Menu.Trigger>
-          <Button variant="secondary">Sample menu</Button>
-        </Menu.Trigger>
-        <Menu.Items>
-          <Menu.Header>Some toggle stuff</Menu.Header>
-          <Menu.ToggleItem
-            value={value === 'a'}
-            onChange={() => {
-              setValue('a')
-            }}
+    <Menu>
+      <Menu.Trigger>
+        {({ open }) => (
+          <Button
+            variant="secondary"
+            trailIcon={open ? 'chevron-up' : 'chevron-down'}
           >
-            Option A
-          </Menu.ToggleItem>
-          <Menu.ToggleItem
-            value={value === 'b'}
-            onChange={() => {
-              setValue('b')
-            }}
-          >
-            Option B
-          </Menu.ToggleItem>
-          <Menu.Separator />
-          <Menu>
-            <Menu.TriggerItem leadIcon="grid">Submenu</Menu.TriggerItem>
-            <Menu.Items>
-              <Menu.Item leadIcon="revert">Something nested one</Menu.Item>
-              <Menu.Item leadIcon="revert">Something nested two</Menu.Item>
-            </Menu.Items>
-          </Menu>
-          <Menu.Separator />
-          <Menu.Item leadIcon="revert">Reset view</Menu.Item>
-          <Menu.Item leadIcon="delete" color="red">
-            Delete view
-          </Menu.Item>
-        </Menu.Items>
-      </Menu>
-      <Button variant="ghost">Random other focusable element</Button>
-    </>
+            Sample menu
+          </Button>
+        )}
+      </Menu.Trigger>
+      <Menu.Items>
+        <Menu.Header>Some toggle stuff</Menu.Header>
+        <Menu.ToggleItem
+          value={value === 'a'}
+          onChange={() => {
+            setValue('a')
+          }}
+        >
+          Option A
+        </Menu.ToggleItem>
+        <Menu.ToggleItem
+          value={value === 'b'}
+          onChange={() => {
+            setValue('b')
+          }}
+        >
+          Option B
+        </Menu.ToggleItem>
+        <Menu.Separator />
+        <Menu>
+          <Menu.TriggerItem leadIcon="grid">Submenu</Menu.TriggerItem>
+          <Menu.Items>
+            <Menu.Item leadIcon="revert">Something nested one</Menu.Item>
+            <Menu.Item leadIcon="revert">Something nested two</Menu.Item>
+          </Menu.Items>
+        </Menu>
+        <Menu.Separator />
+        <Menu.Item leadIcon="revert">Reset view</Menu.Item>
+        <Menu.Item leadIcon="delete" color="red">
+          Delete view
+        </Menu.Item>
+      </Menu.Items>
+    </Menu>
   )
 }

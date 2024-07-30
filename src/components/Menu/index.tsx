@@ -41,9 +41,6 @@ import {
   OptionCardGroupProps,
 } from '../OptionCardGroup/index.js'
 
-// TODO add focus states to items, remove outlines from others
-// TODO keyboard navigation (portal and focusmanager)
-
 type MenuContextType = {
   open: boolean
   refs: ReturnType<typeof useFloating>['refs']
@@ -54,6 +51,8 @@ type MenuContextType = {
   activeIndex: number | null
   floatingContext: UseFloatingReturn['context']
   nested: boolean
+  parent: MenuContextType
+  elementsRef: React.MutableRefObject<any[]>
 } | null
 
 const MenuContext = createContext<MenuContextType>(null)
@@ -81,6 +80,7 @@ function MenuInner({ children }: MenuRootProps) {
   const elementsRef = useRef([])
   const tree = useFloatingTree()
   const nodeId = useFloatingNodeId()
+  const parent = useContext(MenuContext)
   const parentId = useFloatingParentNodeId()
   const nested = parentId !== null
   const { refs, floatingStyles, context } = useFloating({
@@ -153,9 +153,11 @@ function MenuInner({ children }: MenuRootProps) {
           activeIndex,
           floatingContext: context,
           nested,
+          parent,
+          elementsRef,
         }}
       >
-        <FloatingList elementsRef={elementsRef}>{children}</FloatingList>
+        {children}
       </MenuContext.Provider>
     </FloatingNode>
   )
@@ -193,39 +195,42 @@ function MenuItems({ children }: MenuItemsProps) {
     getFloatingProps,
     floatingContext,
     nested,
+    elementsRef,
   } = useContext(MenuContext)
 
   if (!open) return null
 
   return (
-    <FloatingPortal>
-      <FloatingFocusManager
-        modal={false}
-        context={floatingContext}
-        initialFocus={nested ? -1 : 0}
-        returnFocus={!nested}
-      >
-        <div
-          ref={refs.setFloating}
-          style={{
-            position: 'relative',
-            width: 240,
-            borderRadius: radius[16],
-            padding: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 4,
-            outline: 'none',
-            border: `1px solid ${colors.neutral10}`,
-            background: colors.neutral10Adjusted,
-            ...floatingStyles,
-          }}
-          {...getFloatingProps()}
+    <FloatingList elementsRef={elementsRef}>
+      <FloatingPortal>
+        <FloatingFocusManager
+          modal={false}
+          context={floatingContext}
+          initialFocus={nested ? -1 : 0}
+          returnFocus={!nested}
         >
-          {children}
-        </div>
-      </FloatingFocusManager>
-    </FloatingPortal>
+          <div
+            ref={refs.setFloating}
+            style={{
+              position: 'relative',
+              width: 240,
+              borderRadius: radius[16],
+              padding: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 4,
+              outline: 'none',
+              border: `1px solid ${colors.neutral10}`,
+              background: colors.neutral10Adjusted,
+              ...floatingStyles,
+            }}
+            {...getFloatingProps()}
+          >
+            {children}
+          </div>
+        </FloatingFocusManager>
+      </FloatingPortal>
+    </FloatingList>
   )
 }
 
@@ -386,7 +391,7 @@ type MenuTriggerItemProps = {
 }
 
 function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
-  const { refs, getReferenceProps, getItemProps, activeIndex } =
+  const { refs, getReferenceProps, activeIndex, parent } =
     useContext(MenuContext)
   const item = useListItem()
   const tree = useFloatingTree()
@@ -419,10 +424,10 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
 
   return (
     <button
-      ref={useMergeRefs([item.ref, refs.setReference])}
-      {...getReferenceProps(getItemProps())}
+      ref={useMergeRefs([refs.setReference, item.ref])}
+      {...getReferenceProps(parent.getItemProps())}
       type="button"
-      tabIndex={item.index === activeIndex ? 0 : -1}
+      tabIndex={item.index === parent.activeIndex ? 0 : -1}
       style={{
         height: 32,
         color: colors.neutral80,
@@ -436,7 +441,7 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
         border: 'none',
         appearance: 'none',
         outline: 'none',
-        ...(submenuOpen && {
+        ...((submenuOpen || item.index === parent.activeIndex) && {
           color: colors.neutral100,
           background: colors.neutral10Adjusted,
         }),
