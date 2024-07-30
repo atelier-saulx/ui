@@ -32,7 +32,7 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
       }}
     >
       {options.map((option) => (
-        <styled.div
+        <styled.button
           tabIndex={option.disabled ? -1 : 0}
           data-selected={option.value === value ? true : undefined}
           data-disabled={option.disabled ? true : undefined}
@@ -47,6 +47,9 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
+            border: 'none',
+            appearance: 'none',
+            background: 'transparent',
             '&:hover:not([data-disabled])': {
               color: colors.neutral100,
               background: colors.neutral10Adjusted,
@@ -81,7 +84,7 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
           >
             {option.label}
           </Text>
-        </styled.div>
+        </styled.button>
       ))}
     </div>
   )
