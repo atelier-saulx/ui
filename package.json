@@ -32,6 +32,7 @@
     "react-dom": "^18.3.1"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.26.20",
     "inlines": "^0.4.0-alpha.25"
   }
 }
