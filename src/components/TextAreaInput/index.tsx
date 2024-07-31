@@ -114,7 +114,7 @@ function TextAreaInput({
             }}
           >
             <Badge
-              color={error ? 'red' : 'neutral'}
+              color={error ? 'red-fill' : 'neutral-fill'}
             >{`${length}/${maxLength}`}</Badge>
           </div>
         )}
