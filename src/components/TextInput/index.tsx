@@ -152,7 +152,7 @@ function TextInput({
               ref.current.focus()
             }}
             hint={keyHint}
-            color="neutral"
+            color="neutral-subtle"
           />
         )}
         {clearable && length !== 0 && (

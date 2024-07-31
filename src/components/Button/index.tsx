@@ -339,21 +339,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               <KeyHint
                 onTrigger={onClick ?? (() => {})}
                 hint={keyHint}
-                type={
-                  variant === 'primary' || toggled
-                    ? colorProp === 'neutral'
-                      ? 'filled'
-                      : 'subtle'
-                    : 'subtle'
-                }
                 color={
-                  variant === 'primary' || toggled
-                    ? colorProp === 'neutral'
-                      ? 'inverted'
-                      : 'neutral'
-                    : colorProp === 'neutral'
-                      ? 'neutral'
-                      : 'red'
+                  colorProp == 'destructive'
+                    ? variant === 'primary' || toggled
+                      ? 'white-subtle'
+                      : 'red-subtle'
+                    : variant === 'primary' || toggled
+                      ? 'inverted-fill'
+                      : 'neutral-subtle'
                 }
               />
             </div>

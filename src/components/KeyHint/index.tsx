@@ -78,16 +78,19 @@ type DoubleMod<M extends ModKeys> = `${M}+${Exclude<ModKeys, M>}+${InputKey}`
 type KeyHintProps = {
   hint: Key
   onTrigger: () => void
-  color?: 'neutral' | 'inverted' | 'red'
+  color?:
+    | 'neutral-subtle'
+    | 'neutral-fill'
+    | 'inverted-subtle'
+    | 'inverted-fill'
+    | 'red-subtle'
+    | 'red-fill'
+    | 'white-subtle'
+    | 'white-fill'
   type?: 'filled' | 'subtle'
 }
 
-function KeyHint({
-  hint,
-  color = 'neutral',
-  type = 'subtle',
-  onTrigger,
-}: KeyHintProps) {
+function KeyHint({ hint, color = 'neutral-subtle', onTrigger }: KeyHintProps) {
   const triggerFnRef = useRef(onTrigger)
   const isMac = useIsMac()
 
@@ -129,49 +132,51 @@ function KeyHint({
   }, [])
 
   const text = useMemo(() => {
-    if (hint.includes('Cmd')) {
-      return isMac ? hint.replace('Cmd', '⌘') : hint.replace('Cmd', 'Ctrl')
-    }
-
-    return hint
+    return hint.replace('Cmd', isMac ? '⌘' : 'Ctrl')
   }, [isMac, hint])
 
   return (
     <div
       style={{
+        flexShrink: 0,
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
         padding: '0px 4px',
         height: 16,
+        minWidth: 20,
         borderRadius: radius[4],
-        ...(type === 'subtle' && {
-          ...(color === 'neutral' && {
-            background: colors.neutral20,
-            color: colors.neutral100,
-          }),
-          ...(color === 'inverted' && {
-            background: colors.neutralInverted20,
-            color: colors.neutral100,
-          }),
-          ...(color === 'red' && {
-            background: colors.red10,
-            color: colors.red100,
-          }),
+        ...(color === 'neutral-subtle' && {
+          background: colors.neutral20,
+          color: colors.neutral100,
         }),
-        ...(type === 'filled' && {
-          ...(color === 'neutral' && {
-            background: colors.neutral100,
-            color: colors.neutralInverted100,
-          }),
-          ...(color === 'inverted' && {
-            background: colors.neutralInverted100,
-            color: colors.neutral100,
-          }),
-          ...(color === 'red' && {
-            background: colors.red100,
-            color: colors.white100,
-          }),
+        ...(color === 'inverted-subtle' && {
+          background: colors.neutralInverted60,
+          color: colors.neutral100,
+        }),
+        ...(color === 'red-subtle' && {
+          background: colors.red20,
+          color: colors.red100,
+        }),
+        ...(color === 'white-subtle' && {
+          background: colors.white20,
+          color: colors.white100,
+        }),
+        ...(color === 'neutral-fill' && {
+          background: colors.neutral100,
+          color: colors.neutralInverted100,
+        }),
+        ...(color === 'inverted-fill' && {
+          background: colors.neutralInverted100,
+          color: colors.neutral100,
+        }),
+        ...(color === 'red-fill' && {
+          background: colors.red100,
+          color: colors.white100,
+        }),
+        ...(color === 'white-fill' && {
+          background: colors.white100,
+          color: colors.black100,
         }),
       }}
     >
