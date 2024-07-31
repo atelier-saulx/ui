@@ -1,9 +1,10 @@
+import { ReactNode } from 'react'
 import { colors } from '../../utils/colors.js'
 import { radius } from '../../utils/radius.js'
 import { Text } from '../Text/index.js'
 
 type CounterProps = {
-  children: number
+  children: ReactNode
   color?: 'neutral' | 'inverted' | 'red' | 'green' | 'indigo' | 'amber'
 }
 
@@ -14,7 +15,7 @@ function Counter({ children, color = 'neutral' }: CounterProps) {
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '3px',
+        padding: '0 4px',
         height: 20,
         minWidth: 20,
         borderRadius: radius.full,
@@ -44,8 +45,8 @@ function Counter({ children, color = 'neutral' }: CounterProps) {
         }),
       }}
     >
-      <Text color="inherit" variant="subtext-medium">
-        {children.toString()}
+      <Text color="inherit" variant="subtext-bold">
+        {children}
       </Text>
     </div>
   )

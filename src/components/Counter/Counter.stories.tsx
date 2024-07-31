@@ -1,3 +1,4 @@
+import React from 'react'
 import { Counter } from './index.js'
 
 export default {
@@ -5,44 +6,35 @@ export default {
   component: Counter,
 }
 
-export const Neutral = {
-  args: {
-    children: 2,
-    color: 'neutral',
-  },
-}
-
-export const Inverted = {
-  args: {
-    children: 2,
-    color: 'inverted',
-  },
-}
-
-export const Red = {
-  args: {
-    children: 2,
-    color: 'red',
-  },
-}
-
-export const Indigo = {
-  args: {
-    children: 2,
-    color: 'indigo',
-  },
-}
-
-export const Green = {
-  args: {
-    children: 2,
-    color: 'green',
-  },
-}
-
-export const Amber = {
-  args: {
-    children: 2,
-    color: 'amber',
-  },
+export const Default = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 32, flexDirection: 'column' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 24,
+        }}
+      >
+        {['neutral', 'inverted', 'red', 'green', 'indigo', 'amber'].map(
+          (color) => (
+            <Counter color={color as any}>0</Counter>
+          ),
+        )}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 24,
+        }}
+      >
+        {['neutral', 'inverted', 'red', 'green', 'indigo', 'amber'].map(
+          (color) => (
+            <Counter color={color as any}>99+</Counter>
+          ),
+        )}
+      </div>
+    </div>
+  ),
 }

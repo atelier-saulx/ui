@@ -1,10 +1,11 @@
+import { ReactNode } from 'react'
 import { colors } from '../../utils/colors.js'
 import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 
 type BadgeProps = {
-  children: string
+  children: ReactNode
   color?:
     | 'neutral-subtle'
     | 'neutral-fill'

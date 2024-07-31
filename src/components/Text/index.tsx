@@ -30,7 +30,7 @@ function Text({
         overflowWrap: 'break-word',
         color: colorProp === 'inherit' ? 'inherit' : colors[colorProp],
         fontFamily: 'inherit',
-        lineHeight: 1,
+        lineHeight: 'normal',
         letterSpacing: 'normal',
         ...(variant === 'display-regular' && {
           fontSize: 14,
