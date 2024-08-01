@@ -31,21 +31,28 @@ function Loader({ value, color = 'neutral' }: LoaderProps) {
         >
           <defs>
             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop
-                offset="0%"
-                stopColor={color === 'red' ? colors.red100 : colors.neutral100}
-                stopOpacity="0"
-              />
+              <stop offset="0%" stopColor={colors.neutral100} stopOpacity="0" />
               <stop
                 offset="50%"
-                stopColor={color === 'red' ? colors.red100 : colors.neutral100}
+                stopColor={colors.neutral100}
                 stopOpacity="0.4"
               />
               <stop
                 offset="100%"
-                stopColor={color === 'red' ? colors.red100 : colors.neutral100}
+                stopColor={colors.neutral100}
                 stopOpacity="1"
               />
+            </linearGradient>
+            <linearGradient
+              id="gradient-red"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor={colors.red100} stopOpacity="0" />
+              <stop offset="50%" stopColor={colors.red100} stopOpacity="0.4" />
+              <stop offset="100%" stopColor={colors.red100} stopOpacity="1" />
             </linearGradient>
           </defs>
           <styled.circle
@@ -54,7 +61,7 @@ function Loader({ value, color = 'neutral' }: LoaderProps) {
             r={45}
             style={{
               transformOrigin: '50px 50px',
-              stroke: 'url(#gradient)',
+              stroke: color === 'red' ? 'url(#gradient-red)' : 'url(#gradient)',
               strokeWidth: 10,
               strokeDasharray: `${(2 / 3) * 100 * ((45 * 2 * Math.PI) / 100)} ${45 * 2 * Math.PI}`,
               strokeLinecap: 'round',
