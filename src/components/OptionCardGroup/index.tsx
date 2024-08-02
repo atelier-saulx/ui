@@ -75,10 +75,7 @@ function OptionCardGroup({ value, onChange, options }: OptionCardGroupProps) {
           }}
         >
           <Icon variant={option.icon} />
-          <Text
-            variant={option.value === value ? 'display-bold' : 'display-medium'}
-            color="inherit"
-          >
+          <Text variant="display-medium" color="inherit">
             {option.label}
           </Text>
           <input
