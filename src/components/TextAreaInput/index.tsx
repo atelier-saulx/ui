@@ -37,7 +37,7 @@ function TextAreaInput({
       style={{
         display: 'inline-flex',
         flexDirection: 'column',
-        gap: 4,
+        gap: 8,
         width: '100%',
       }}
     >
