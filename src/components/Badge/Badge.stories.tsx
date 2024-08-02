@@ -16,14 +16,15 @@ export const Default = {
       }}
     >
       {['subtle', 'fill'].map((variant) =>
-        ['neutral', 'red', 'indigo', 'green', 'amber'].map((color) =>
-          [{}, { leadIcon: 'arrow-up' }, { trailIcon: 'arrow-up' }].map(
-            (icon) => (
-              <Badge color={`${color}-${variant}` as any} {...(icon as any)}>
-                Badge
-              </Badge>
+        ['neutral', 'red', 'indigo', 'green', 'amber', 'inverted', 'white'].map(
+          (color) =>
+            [{}, { leadIcon: 'arrow-up' }, { trailIcon: 'arrow-up' }].map(
+              (icon) => (
+                <Badge color={`${color}-${variant}` as any} {...(icon as any)}>
+                  Badge
+                </Badge>
+              ),
             ),
-          ),
         ),
       )}
     </div>

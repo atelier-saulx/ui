@@ -17,6 +17,10 @@ type BadgeProps = {
     | 'green-fill'
     | 'amber-subtle'
     | 'amber-fill'
+    | 'white-subtle'
+    | 'white-fill'
+    | 'inverted-subtle'
+    | 'inverted-fill'
   leadIcon?: IconProps['variant']
   trailIcon?: IconProps['variant']
 }
@@ -65,7 +69,7 @@ function Badge({
           color: colors.white100,
         }),
         ...(color === 'neutral-subtle' && {
-          background: colors.neutral20,
+          background: colors.neutral20Adjusted,
           color: colors.neutral100,
         }),
         ...(color === 'red-subtle' && {
@@ -83,6 +87,22 @@ function Badge({
         ...(color === 'amber-subtle' && {
           background: colors.amber20,
           color: colors.amber100,
+        }),
+        ...(color === 'inverted-subtle' && {
+          background: colors.neutralInverted20,
+          color: colors.neutralInverted100,
+        }),
+        ...(color === 'inverted-fill' && {
+          background: colors.neutralInverted100,
+          color: colors.neutral100,
+        }),
+        ...(color === 'white-subtle' && {
+          background: colors.white20,
+          color: colors.white100,
+        }),
+        ...(color === 'white-fill' && {
+          background: colors.white100,
+          color: colors.black100,
         }),
       }}
     >
