@@ -10,4 +10,5 @@ const radius = Object.freeze({
 
 type Radius = keyof typeof radius
 
-export { radius, Radius }
+export { radius }
+export type { Radius }

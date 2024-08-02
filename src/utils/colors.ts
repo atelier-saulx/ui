@@ -1,4 +1,4 @@
-const colors = {
+const colors = Object.freeze({
   neutral100: 'var(--neutral-100)',
   neutral80: 'var(--neutral-80)',
   neutral60: 'var(--neutral-60)',
@@ -50,8 +50,9 @@ const colors = {
   black20: 'var(--black-20)',
   black10: 'var(--black-10)',
   black5: 'var(--black-5)',
-}
+})
 
 type Color = keyof typeof colors
 
-export { colors, Color }
+export { colors }
+export type { Color }
