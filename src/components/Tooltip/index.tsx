@@ -105,7 +105,9 @@ function Tooltip({ children, value, keyHint }: TooltipProps) {
                 ...transitionStyles,
               }}
             >
-              <Text color="neutral100">{value}</Text>
+              <Text variant="subtext-medium" color="neutral100">
+                {value}
+              </Text>
               {keyHint && <KeyHint onTrigger={() => {}} hint={keyHint} />}
             </div>
           </div>
