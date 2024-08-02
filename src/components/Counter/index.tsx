@@ -5,7 +5,14 @@ import { Text } from '../Text/index.js'
 
 type CounterProps = {
   children: ReactNode
-  color?: 'neutral' | 'inverted' | 'red' | 'green' | 'indigo' | 'amber'
+  color?:
+    | 'neutral'
+    | 'inverted'
+    | 'red'
+    | 'green'
+    | 'indigo'
+    | 'amber'
+    | 'white'
 }
 
 function Counter({ children, color = 'neutral' }: CounterProps) {
@@ -42,6 +49,10 @@ function Counter({ children, color = 'neutral' }: CounterProps) {
         ...(color === 'amber' && {
           background: colors.amber100,
           color: colors.neutralInverted100,
+        }),
+        ...(color === 'white' && {
+          background: colors.white100,
+          color: colors.black100,
         }),
       }}
     >
