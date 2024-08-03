@@ -336,8 +336,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </Text>
           {size === 'normal' && keyHint && (
             <div style={{ opacity: disabled || loading ? 0.2 : 1 }}>
-              <KeyHint
-                onTrigger={onClick ?? (() => {})}
+              {/* TODO fix in button rework next week */}
+              {/* <KeyHint
                 hint={keyHint}
                 color={
                   colorProp == 'destructive'
@@ -348,7 +348,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                       ? 'inverted-fill'
                       : 'neutral-subtle'
                 }
-              />
+              /> */}
             </div>
           )}
           {trailIcon && (

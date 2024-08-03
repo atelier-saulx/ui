@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 import { colors } from '../../utils/colors.js'
 import { radius } from '../../utils/radius.js'
 import { useIsMac } from '../../hooks/useIsMac.js'
@@ -41,18 +41,6 @@ type Char =
   | '7'
   | '8'
   | '9'
-  | '`'
-  | '§'
-  | ','
-  | '.'
-  | '/'
-  | ';'
-  | "'"
-  | '\\'
-  | '['
-  | ']'
-  | '-'
-  | '='
 
 type InputKey =
   | 'Enter'
@@ -62,6 +50,7 @@ type InputKey =
   | 'ArrowLeft'
   | 'ArrowRight'
   | 'Tab'
+  | 'Delete'
   | Char
 
 export type Key =
@@ -77,62 +66,24 @@ type DoubleMod<M extends ModKeys> = `${M}+${Exclude<ModKeys, M>}+${InputKey}`
 
 type KeyHintProps = {
   hint: Key
-  onTrigger: () => void
-  color?:
-    | 'neutral-subtle'
-    | 'neutral-fill'
-    | 'inverted-subtle'
-    | 'inverted-fill'
-    | 'red-subtle'
-    | 'red-fill'
-    | 'white-subtle'
-    | 'white-fill'
-  type?: 'filled' | 'subtle'
+  color?: 'neutral' | 'inverted' | 'red' | 'white'
 }
 
-function KeyHint({ hint, color = 'neutral-subtle', onTrigger }: KeyHintProps) {
-  const triggerFnRef = useRef(onTrigger)
+function KeyHint({ hint, color = 'neutral' }: KeyHintProps) {
   const isMac = useIsMac()
 
-  useEffect(() => {
-    triggerFnRef.current = onTrigger
-  })
-
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      const eventKey = event.key.toLocaleLowerCase()
-      const p = hint
-        .toLocaleLowerCase()
-        .split('+')
-        .map((e) => (e === 'esc' ? 'escape' : e))
-      const modKeys: { [key: string]: boolean } = {
-        cmd: isMac ? event.metaKey : event.ctrlKey,
-        alt: event.altKey,
-        shift: event.shiftKey,
-      }
-
-      if (
-        (p.length === 1 && eventKey === p[0]) ||
-        (p.length === 2 && modKeys[p[0]] && eventKey === p[1]) ||
-        (p.length === 3 && modKeys[p[0]] && modKeys[p[1]] && eventKey === p[2])
-      ) {
-        event.preventDefault()
-        triggerFnRef.current()
-      }
-    },
-    [hint],
-  )
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
-
-  const text = useMemo(() => {
-    return hint.replace('Cmd', isMac ? '⌘' : 'Ctrl')
+  const keys = useMemo(() => {
+    return hint
+      .replace('Cmd', isMac ? '⌘' : 'Ctrl')
+      .replace('Shift', '⇧')
+      .replace('Alt', isMac ? '⌥' : 'Alt')
+      .replace('Enter', '↩')
+      .replace('Delete', '⌫')
+      .replace('ArrowUp', '↑')
+      .replace('ArrowDown', '↓')
+      .replace('ArrowLeft', '←')
+      .replace('ArrowRight', '→')
+      .split('+')
   }, [isMac, hint])
 
   return (
@@ -140,49 +91,48 @@ function KeyHint({ hint, color = 'neutral-subtle', onTrigger }: KeyHintProps) {
       style={{
         flexShrink: 0,
         display: 'inline-flex',
-        justifyContent: 'center',
         alignItems: 'center',
-        padding: '0px 4px',
-        height: 16,
-        minWidth: 20,
-        borderRadius: radius[4],
-        ...(color === 'neutral-subtle' && {
-          background: colors.neutral20,
-          color: colors.neutral100,
-        }),
-        ...(color === 'inverted-subtle' && {
-          background: colors.neutralInverted60,
-          color: colors.neutral100,
-        }),
-        ...(color === 'red-subtle' && {
-          background: colors.red20,
-          color: colors.red100,
-        }),
-        ...(color === 'white-subtle' && {
-          background: colors.white20,
-          color: colors.white100,
-        }),
-        ...(color === 'neutral-fill' && {
-          background: colors.neutral100,
-          color: colors.neutralInverted100,
-        }),
-        ...(color === 'inverted-fill' && {
-          background: colors.neutralInverted100,
-          color: colors.neutral100,
-        }),
-        ...(color === 'red-fill' && {
-          background: colors.red100,
-          color: colors.white100,
-        }),
-        ...(color === 'white-fill' && {
-          background: colors.white100,
-          color: colors.black100,
-        }),
+        gap: 2,
       }}
     >
-      <Text color="inherit" variant="subtext-regular">
-        {text}
-      </Text>
+      {keys.map((key) => (
+        <kbd
+          style={{
+            fontFamily: 'inherit',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: radius[4],
+            height: 16,
+            minWidth: 16,
+            padding: '0 3px',
+            ...(color === 'neutral' && {
+              background: colors.neutral20Adjusted,
+              color: colors.neutral100,
+              boxShadow: `inset 0px -1px 0px 0px ${colors.black20}`,
+            }),
+            ...(color === 'inverted' && {
+              background: colors.neutralInverted10,
+              color: colors.neutralInverted100,
+              boxShadow: `inset 0px -1px 0px 0px ${colors.neutralInverted20}`,
+            }),
+            ...(color === 'red' && {
+              background: colors.red20,
+              color: colors.red100,
+              boxShadow: `inset 0px -1px 0px 0px ${colors.red60}`,
+            }),
+            ...(color === 'white' && {
+              background: colors.white20,
+              color: colors.white100,
+              boxShadow: `inset 0px -1px 0px 0px ${colors.black20}`,
+            }),
+          }}
+        >
+          <Text color="inherit" variant="subtext-regular">
+            {key}
+          </Text>
+        </kbd>
+      ))}
     </div>
   )
 }

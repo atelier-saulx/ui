@@ -108,7 +108,7 @@ function Tooltip({ children, value, keyHint }: TooltipProps) {
               <Text variant="subtext-medium" color="neutral100">
                 {value}
               </Text>
-              {keyHint && <KeyHint onTrigger={() => {}} hint={keyHint} />}
+              {keyHint && <KeyHint hint={keyHint} />}
             </div>
           </div>
         </FloatingPortal>

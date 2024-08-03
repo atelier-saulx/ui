@@ -12,7 +12,7 @@ export const Default = {
       style={{
         display: 'inline-grid',
         gap: 24,
-        gridTemplateColumns: 'auto auto auto',
+        gridTemplateColumns: 'repeat(3, auto)',
       }}
     >
       {['subtle', 'fill'].map((variant) =>

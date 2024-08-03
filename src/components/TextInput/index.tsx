@@ -146,15 +146,7 @@ function TextInput({
             <Text color="inherit">{suffix}</Text>
           </span>
         )}
-        {keyHint && (
-          <KeyHint
-            onTrigger={() => {
-              ref.current.focus()
-            }}
-            hint={keyHint}
-            color="neutral-subtle"
-          />
-        )}
+        {keyHint && <KeyHint hint={keyHint} color="neutral" />}
         {clearable && length !== 0 && (
           <IconButton
             size="small"
