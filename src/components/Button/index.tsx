@@ -3,7 +3,6 @@ import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 import { colors } from '../../utils/colors.js'
-import { useHadKeyboardEvent } from '../../hooks/useHadKeyboardEvent.js'
 import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
 import { styled } from 'inlines'
 
@@ -43,8 +42,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const [hovered, setHovered] = useState(false)
     const [focus, setFocus] = useState(false)
     const [internalLoading, setInternalLoading] = useState(false)
-    const hadKeyboardEvent = useHadKeyboardEvent()
-    const focused = focus && hadKeyboardEvent
+    const focused = focus
     const loading = loadingProp || internalLoading
     const disabled = loading || disabledProp
 

@@ -3,7 +3,7 @@ import { styled } from 'inlines'
 
 type LoaderProps = {
   value?: number
-  color?: 'neutral' | 'red'
+  color?: 'neutral' | 'red' | 'inverted'
 }
 
 function Loader({ value, color = 'neutral' }: LoaderProps) {
@@ -17,6 +17,7 @@ function Loader({ value, color = 'neutral' }: LoaderProps) {
     return (
       <div
         style={{
+          pointerEvents: 'none',
           display: 'inline-flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -30,7 +31,13 @@ function Loader({ value, color = 'neutral' }: LoaderProps) {
           style={{ width: 16, height: 16 }}
         >
           <defs>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient
+              id="gradient-neutral"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
               <stop offset="0%" stopColor={colors.neutral100} stopOpacity="0" />
               <stop
                 offset="50%"
@@ -54,6 +61,29 @@ function Loader({ value, color = 'neutral' }: LoaderProps) {
               <stop offset="50%" stopColor={colors.red100} stopOpacity="0.4" />
               <stop offset="100%" stopColor={colors.red100} stopOpacity="1" />
             </linearGradient>
+            <linearGradient
+              id="gradient-inverted"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop
+                offset="0%"
+                stopColor={colors.neutralInverted100}
+                stopOpacity="0"
+              />
+              <stop
+                offset="50%"
+                stopColor={colors.neutralInverted100}
+                stopOpacity="0.4"
+              />
+              <stop
+                offset="100%"
+                stopColor={colors.neutralInverted100}
+                stopOpacity="1"
+              />
+            </linearGradient>
           </defs>
           <styled.circle
             cx={50}
@@ -61,7 +91,7 @@ function Loader({ value, color = 'neutral' }: LoaderProps) {
             r={45}
             style={{
               transformOrigin: '50px 50px',
-              stroke: color === 'red' ? 'url(#gradient-red)' : 'url(#gradient)',
+              stroke: `url(#gradient-${color})`,
               strokeWidth: 10,
               strokeDasharray: `${(2 / 3) * 100 * ((45 * 2 * Math.PI) / 100)} ${45 * 2 * Math.PI}`,
               strokeLinecap: 'round',
@@ -90,6 +120,7 @@ function Loader({ value, color = 'neutral' }: LoaderProps) {
   return (
     <div
       style={{
+        pointerEvents: 'none',
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -103,7 +134,12 @@ function Loader({ value, color = 'neutral' }: LoaderProps) {
           cy={50}
           r={45}
           style={{
-            stroke: color === 'red' ? colors.red20 : colors.neutral20,
+            stroke:
+              color === 'inverted'
+                ? colors.neutralInverted20
+                : color === 'red'
+                  ? colors.red20
+                  : colors.neutral20,
             strokeWidth: 10,
           }}
         />
@@ -114,7 +150,12 @@ function Loader({ value, color = 'neutral' }: LoaderProps) {
           style={{
             transform: 'rotate(-90deg)',
             transformOrigin: '50px 50px',
-            stroke: color === 'red' ? colors.red100 : colors.neutral100,
+            stroke:
+              color === 'inverted'
+                ? colors.neutralInverted100
+                : color === 'red'
+                  ? colors.red100
+                  : colors.neutral100,
             strokeWidth: 10,
             strokeDasharray: `${value * ((45 * 2 * Math.PI) / 100)} ${45 * 2 * Math.PI}`,
             transition: 'all 250ms ease',

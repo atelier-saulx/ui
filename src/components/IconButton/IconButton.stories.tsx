@@ -1,94 +1,50 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { IconButton } from './index.js'
 
 export default {
   title: 'Atoms/IconButton',
   component: IconButton,
-  argTypes: {
-    disabled: {
-      control: { type: 'boolean' },
-    },
-    toggled: {
-      control: { type: 'boolean' },
-    },
-  },
 }
 
-export const NeutralNormal = {
-  args: {
-    variant: 'close',
-    color: 'neutral',
-    disabled: false,
-    size: 'normal',
-  },
+export const Default = {
+  render: () => (
+    <div
+      style={{
+        display: 'inline-grid',
+        gap: 24,
+        gridTemplateColumns: 'repeat(3, auto)',
+        placeItems: 'center',
+      }}
+    >
+      {(['neutral', 'red'] as const).map((color) =>
+        [false, true].map((toggled) =>
+          [{}, { disabled: true }, { loading: true }].map((props) =>
+            (['regular', 'small', 'tiny'] as const).map((size) => (
+              <IconButton
+                icon="close"
+                color={color}
+                size={size}
+                toggled={toggled}
+                tooltip={`${size} ${color} ${toggled ? 'toggled' : ''} ${props?.loading ? 'loading' : ''} ${props?.disabled ? 'disabled' : ''}`}
+                {...props}
+              />
+            )),
+          ),
+        ),
+      )}
+    </div>
+  ),
 }
 
-export const NeutralToggle = () => {
-  const [value, setValue] = useState(false)
-
+export const KeyHint = () => {
   return (
     <IconButton
-      variant="text"
-      toggled={value}
-      onClick={() => setValue(!value)}
+      icon="close"
+      keyHint="Esc"
+      tooltip="Close something"
+      onClick={() => {
+        alert('close button clicked')
+      }}
     />
   )
-}
-
-export const NeutralSmall = {
-  args: {
-    variant: 'close',
-    color: 'neutral',
-    disabled: false,
-    size: 'small',
-  },
-}
-
-export const NeutralTiny = {
-  args: {
-    variant: 'close',
-    color: 'neutral',
-    disabled: false,
-    size: 'tiny',
-  },
-}
-
-export const DestructiveTiny = {
-  args: {
-    variant: 'close',
-    color: 'destructive',
-    disabled: false,
-    size: 'tiny',
-  },
-}
-
-export const DestructiveNormal = {
-  args: {
-    variant: 'close',
-    color: 'destructive',
-    disabled: false,
-    size: 'normal',
-  },
-}
-
-export const DestructiveToggle = () => {
-  const [value, setValue] = useState(false)
-
-  return (
-    <IconButton
-      variant="text"
-      color="destructive"
-      toggled={value}
-      onClick={() => setValue(!value)}
-    />
-  )
-}
-
-export const DestructiveSmall = {
-  args: {
-    variant: 'close',
-    color: 'destructive',
-    disabled: false,
-    size: 'small',
-  },
 }
