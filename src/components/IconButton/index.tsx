@@ -53,6 +53,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           data-disabled={disabled ? disabled : undefined}
           data-toggled={toggled ? toggled : undefined}
           style={{
+            flexShrink: 0,
             appearance: 'none',
             outline: 'none',
             border: 'none',
@@ -92,11 +93,11 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             },
 
             // hover styles
-            '&[data-color=neutral]:hover': {
+            '&[data-color=neutral]:hover:not(:disabled):not([data-toggled])': {
               background: colors.neutral10Adjusted,
               color: colors.neutral100,
             },
-            '&[data-color=red]:hover': {
+            '&[data-color=red]:hover:not(:disabled):not([data-toggled])': {
               background: colors.red20,
               color: colors.red100,
             },
@@ -115,7 +116,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
             // disabled styles
             '&[data-disabled]': {
-              pointerEvents: 'none',
+              cursor: 'not-allowed',
             },
             '&[data-color=neutral][data-disabled]': {
               background: 'transparent',
@@ -128,7 +129,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
             // loading styles
             '&[data-loading]': {
-              pointerEvents: 'none',
+              cursor: 'not-allowed',
             },
             '&[data-loading][data-color=neutral]': {
               opacity: 0.2,
@@ -148,10 +149,11 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             },
 
             // toggled hover styles
-            '&[data-toggled][data-color=neutral]:hover > .overlay': {
-              background: colors.neutralInverted20,
-            },
-            '&[data-toggled][data-color=red]:hover > .overlay': {
+            '&[data-toggled][data-color=neutral]:hover:not(:disabled) > .overlay':
+              {
+                background: colors.neutralInverted20,
+              },
+            '&[data-toggled][data-color=red]:hover:not(:disabled) > .overlay': {
               background: colors.neutral10,
             },
 

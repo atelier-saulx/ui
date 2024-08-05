@@ -150,7 +150,7 @@ function TextInput({
         {clearable && length !== 0 && (
           <IconButton
             size="small"
-            variant="close"
+            icon="close"
             onClick={() => {
               onChange('')
             }}

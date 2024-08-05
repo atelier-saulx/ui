@@ -185,14 +185,14 @@ function NumberInput({
         >
           <IconButton
             size="tiny"
-            variant="tiny-chevron-up"
+            icon="tiny-chevron-up"
             onClick={() => {
               onChange(value === null ? 1 : value + 1)
             }}
           />
           <IconButton
             size="tiny"
-            variant="tiny-chevron-down"
+            icon="tiny-chevron-down"
             onClick={() => {
               onChange(value === null ? -1 : value - 1)
             }}
