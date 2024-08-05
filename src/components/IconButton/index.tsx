@@ -178,7 +178,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
             transition: 'transform 100ms cubic-bezier(0.2,0,0,1)',
             '&:active:not(:disabled)': {
-              transform: 'scale(0.93)',
+              transform: 'scale(0.945)',
             },
           }}
         >
