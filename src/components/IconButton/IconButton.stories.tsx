@@ -41,7 +41,6 @@ export const KeyHint = () => {
     <IconButton
       icon="close"
       keyHint="Esc"
-      tooltip="Close something"
       onClick={() => {
         alert('close button clicked')
       }}

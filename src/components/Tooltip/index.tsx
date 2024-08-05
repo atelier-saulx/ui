@@ -100,14 +100,21 @@ function Tooltip({ children, value, keyHint }: TooltipProps) {
                 borderRadius: radius[8],
                 gap: 4,
                 height: 28,
-                padding: keyHint ? '0 6px 0 8px' : '0 8px',
+                padding:
+                  keyHint && value
+                    ? '0 6px 0 8px'
+                    : keyHint
+                      ? '0 6px'
+                      : '0 8px',
                 transitionTimingFunction: 'ease-in-out',
                 ...transitionStyles,
               }}
             >
-              <Text variant="subtext-medium" color="neutral100">
-                {value}
-              </Text>
+              {value && (
+                <Text variant="subtext-medium" color="neutral100">
+                  {value}
+                </Text>
+              )}
               {keyHint && <KeyHint hint={keyHint} />}
             </div>
           </div>

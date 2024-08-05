@@ -19,7 +19,7 @@ export const OnButton = () => {
 export const OnIconButton = () => {
   return (
     <Tooltip value="Close" keyHint="Esc">
-      <IconButton variant="close" />
+      <IconButton icon="close" />
     </Tooltip>
   )
 }
