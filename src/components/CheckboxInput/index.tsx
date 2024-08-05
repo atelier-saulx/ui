@@ -1,15 +1,14 @@
-import { useState } from 'react'
 import { radius } from '../../utils/radius.js'
 import { Icon } from '../Icon/index.js'
 import { colors } from '../../utils/colors.js'
-import { useHadKeyboardEvent } from '../../hooks/useHadKeyboardEvent.js'
+import { styled } from 'inlines'
 
 type CheckboxInputProps = {
   value: boolean
   onChange: (value: boolean) => void
   disabled?: boolean
   error?: boolean
-  size?: 'normal' | 'small'
+  size?: 'regular' | 'small'
 }
 
 function CheckboxInput({
@@ -17,20 +16,13 @@ function CheckboxInput({
   onChange,
   disabled,
   error,
-  size = 'normal',
+  size = 'regular',
 }: CheckboxInputProps) {
-  const [focus, setFocus] = useState(false)
-  const hadKeyboardEvent = useHadKeyboardEvent()
-  const focused = focus && hadKeyboardEvent
-
   return (
-    <div
-      onFocus={() => {
-        setFocus(true)
-      }}
-      onBlur={() => {
-        setFocus(false)
-      }}
+    <styled.label
+      data-disabled={disabled ? disabled : undefined}
+      data-checked={value ? value : undefined}
+      data-error={error ? value : undefined}
       style={{
         position: 'relative',
         overflow: 'hidden',
@@ -45,50 +37,63 @@ function CheckboxInput({
         cursor: 'pointer',
         outline: 'none',
         color: colors.neutralInverted100,
-        ...(value && {
+        '&[data-checked]': {
           border: `1px solid ${colors.neutral100}`,
           background: colors.neutral100,
-        }),
-        ...(focused &&
-          !disabled && {
-            outline: `4px solid ${colors.neutral20Adjusted}`,
-          }),
-        ...(error && {
+        },
+        '&:has(:focus-visible):not([data-disabled])': {
+          outline: `4px solid ${colors.neutral20Adjusted}`,
+        },
+        '&[data-error]': {
           border: `1px solid ${colors.red100}`,
-          ...(value && {
-            border: `1px solid ${colors.red100}`,
-            background: colors.red100,
-          }),
-          ...(focused &&
-            !disabled && {
-              outline: `4px solid ${colors.red60}`,
-            }),
-        }),
-        ...(disabled && {
+        },
+        '&[data-error][data-checked]': {
+          background: colors.red100,
+        },
+        '&[data-error]:has(:focus-visible):not([data-disabled])': {
+          outline: `4px solid ${colors.red60}`,
+        },
+        '&[data-disabled]': {
           cursor: 'not-allowed',
           border: `1px solid transparent`,
           background: colors.neutral20,
-        }),
-      }}
-      tabIndex={0}
-      onClick={() => {
-        if (disabled) return
-
-        onChange(!value)
+        },
       }}
     >
       {value && (
         <span
           style={{
             position: 'absolute',
+            pointerEvents: 'none',
             left: size === 'small' ? -5 : -3,
             top: size === 'small' ? -5 : -3,
           }}
         >
-          <Icon variant="checkmark-small" />
+          <Icon variant={size === 'small' ? 'checkmark-small' : 'checkmark'} />
         </span>
       )}
-    </div>
+      <input
+        style={{
+          position: 'absolute',
+          width: 1,
+          height: 1,
+          padding: 0,
+          margin: -1,
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          borderWidth: 0,
+        }}
+        type="checkbox"
+        checked={value}
+        onChange={() => {
+          if (disabled) return
+
+          onChange(!value)
+        }}
+        disabled={disabled}
+      />
+    </styled.label>
   )
 }
 
