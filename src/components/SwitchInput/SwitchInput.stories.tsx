@@ -17,6 +17,6 @@ export const Error = () => {
 }
 
 export const Disabled = () => {
-  const [value, setValue] = useState(true)
+  const [value, setValue] = useState(false)
   return <SwitchInput value={value} onChange={setValue} disabled />
 }
