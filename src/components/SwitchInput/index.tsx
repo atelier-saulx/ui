@@ -29,7 +29,7 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
           background: colors.neutral100,
         },
         '&:has(:focus-visible):not([data-disabled])': {
-          outline: `4px solid ${colors.neutral20Adjusted}`,
+          outline: `4px solid ${colors.neutral20}`,
         },
         '&[data-error]': {
           background: colors.red100,
@@ -41,6 +41,7 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
           cursor: 'not-allowed',
           background: colors.neutral20Adjusted,
         },
+        transition: 'all 150ms ease-out',
       }}
     >
       <div
@@ -50,15 +51,16 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
           borderRadius: radius.full,
           background: colors.neutralInverted100,
           ...(value && {
-            marginLeft: 'auto',
+            marginLeft: 8,
             background: colors.neutralInverted100,
           }),
           ...(error && {
-            background: colors.neutral100,
+            background: colors.white100,
           }),
           ...(disabled && {
             background: colors.neutralInverted60,
           }),
+          transition: 'all 150ms ease-out',
         }}
       />
       <input
