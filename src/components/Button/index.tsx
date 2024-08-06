@@ -313,7 +313,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 />
               </div>
             )}
-            <Text color="inherit" variant="display-medium">
+            <Text
+              color="inherit"
+              variant={size === 'small' ? 'subtext-medium' : 'display-medium'}
+            >
               {children}
             </Text>
             {trailIcon && !loading && <Icon variant={trailIcon} />}
