@@ -1,23 +1,27 @@
-import { ReactNode, useState, forwardRef } from 'react'
+import { ReactNode, useState, forwardRef, Fragment } from 'react'
 import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 import { colors } from '../../utils/colors.js'
 import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
 import { styled } from 'inlines'
+import { Tooltip, TooltipProps } from '../Tooltip/index.js'
+import { useKeyboardShortcut } from '../../hooks/useKeyboardShortcut.js'
+import { Loader } from '../Loader/index.js'
 
 type ButtonProps = {
   children: ReactNode
   disabled?: boolean
-  variant?: 'primary' | 'secondary' | 'ghost'
-  color?: 'neutral' | 'destructive'
+  variant?: 'fill' | 'border' | 'ghost'
+  color?: 'neutral' | 'red'
+  size?: 'regular' | 'small'
   leadIcon?: IconProps['variant']
   trailIcon?: IconProps['variant']
   loading?: boolean
-  size?: 'normal' | 'small'
   toggled?: boolean
   keyHint?: KeyHintProps['hint']
-  tabIndex?: number
+  keyHintPlacement?: 'label' | 'tooltip' | 'none'
+  tooltip?: TooltipProps['value']
   onClick?: (e?: MouseEvent) => void | Promise<void>
 }
 
@@ -25,338 +29,330 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
-      onClick,
-      disabled: disabledProp,
-      loading: loadingProp,
-      variant = 'primary',
-      color: colorProp = 'neutral',
-      size = 'normal',
+      disabled,
+      variant: variantProp = 'fill',
+      color = 'neutral',
+      size = 'regular',
       leadIcon,
       trailIcon,
+      loading: loadingProp,
       toggled,
       keyHint,
-      tabIndex,
+      tooltip,
+      keyHintPlacement = 'label',
+      onClick,
     },
     ref,
   ) => {
-    const [hovered, setHovered] = useState(false)
-    const [focus, setFocus] = useState(false)
+    if (leadIcon && trailIcon) {
+      throw new Error('Button only supports one icon at a time.')
+    }
+
     const [internalLoading, setInternalLoading] = useState(false)
-    const focused = focus
-    const loading = loadingProp || internalLoading
-    const disabled = loading || disabledProp
+    const loading = internalLoading || loadingProp
+    const variant = toggled ? 'fill' : variantProp
+
+    useKeyboardShortcut(keyHint, onClick)
+
+    const Wrapper =
+      tooltip || (keyHint && keyHintPlacement === 'tooltip')
+        ? Tooltip
+        : Fragment
+    const wrapperProps =
+      tooltip || (keyHint && keyHintPlacement === 'tooltip')
+        ? {
+            value: tooltip,
+            keyHint: keyHintPlacement === 'tooltip' ? keyHint : undefined,
+          }
+        : {}
 
     return (
-      <styled.button
-        ref={ref}
-        onClick={async (e) => {
-          try {
-            const result = onClick?.(e as unknown as MouseEvent)
+      <Wrapper {...wrapperProps}>
+        <styled.button
+          ref={ref}
+          onClick={async (e) => {
+            try {
+              const result = onClick?.(e as unknown as MouseEvent)
 
-            if (result instanceof Promise) {
-              setInternalLoading(true)
-              await result
+              if (result instanceof Promise) {
+                setInternalLoading(true)
+                await result
+              }
+            } finally {
+              setInternalLoading(false)
             }
-          } finally {
-            setInternalLoading(false)
-          }
-        }}
-        onMouseEnter={() => {
-          setHovered(true)
-        }}
-        onMouseLeave={() => {
-          setHovered(false)
-        }}
-        onFocus={() => {
-          setFocus(true)
-        }}
-        onBlur={() => {
-          setFocus(false)
-        }}
-        disabled={disabled}
-        tabIndex={tabIndex}
-        style={{
-          flexShrink: 0,
-          position: 'relative',
-          borderRadius: radius[8],
-          display: 'inline-flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          border: 'none',
-          padding: size === 'normal' ? '6px 8px' : '0px 2px',
-          minHeight: size === 'normal' ? 36 : 24,
-          cursor: disabled ? 'not-allowed' : 'pointer',
-          outlineStyle: 'none',
-          transition: 'transform 100ms cubic-bezier(0.2,0,0,1)',
-          '&:active:not(:disabled)': {
-            transform: 'scale(0.96)',
-          },
-          ...(variant === 'primary' &&
-            colorProp === 'neutral' && {
-              color: colors.neutralInverted100,
-              background: colors.neutral100,
-              ...(focused &&
-                !disabled && {
-                  outlineWidth: 4,
-                  outlineStyle: 'solid',
-                  outlineColor: colors.neutral20,
-                }),
-              ...(disabled && {
-                color: colors.neutralInverted60,
-                background: colors.neutral20,
-              }),
-            }),
-          ...(variant === 'primary' &&
-            colorProp === 'destructive' && {
-              color: colors.white100,
-              background: colors.red100,
-              ...(focused &&
-                !disabled && {
-                  outlineWidth: 4,
-                  outlineStyle: 'solid',
-                  outlineColor: colors.red60,
-                }),
-              ...(disabled && {
-                color: colors.white20,
-                background: colors.red20,
-              }),
-            }),
-          ...(variant === 'secondary' &&
-            colorProp === 'neutral' && {
-              color: colors.neutral80,
-              background: 'transparent',
-              boxShadow: `inset 0 0 0 1px ${colors.neutral20Adjusted}`,
-              ...(hovered &&
-                !disabled && {
-                  boxShadow: 'none',
-                }),
-              ...(focused &&
-                !disabled && {
-                  outlineWidth: 4,
-                  outlineStyle: 'solid',
-                  outlineColor: colors.neutral20,
-                  boxShadow: 'none',
-                }),
-              ...(disabled && {
-                color: colors.neutral20,
-                background: 'transparent',
-                boxShadow: `inset 0 0 0 1px ${colors.neutral10Adjusted}`,
-              }),
-              ...(toggled && {
-                boxShadow: 'none',
-                background: colors.neutral100,
-                color: colors.neutralInverted100,
-                ...(disabled && {
-                  background: colors.neutral20,
-                  color: colors.neutralInverted60,
-                }),
-              }),
-            }),
-          ...(variant === 'secondary' &&
-            colorProp === 'destructive' && {
-              color: colors.red80,
-              background: 'transparent',
-              boxShadow: `inset 0 0 0 1px ${colors.red20}`,
-              ...(hovered &&
-                !disabled && {
-                  boxShadow: 'none',
-                  color: colors.red100,
-                }),
-              ...(focused &&
-                !disabled && {
-                  boxShadow: 'none',
-                  color: colors.red100,
-                  outlineWidth: 4,
-                  outlineStyle: 'solid',
-                  outlineColor: colors.red60,
-                }),
-              ...(disabled && {
-                boxShadow: `inset 0 0 0 1px ${colors.red10}`,
-                color: colors.red20,
-              }),
-              ...(toggled && {
-                boxShadow: 'none',
-                background: colors.red100,
-                color: colors.white100,
-                ...(disabled && {
-                  background: colors.red20,
-                  color: colors.white20,
-                }),
-              }),
-            }),
-          ...(variant === 'ghost' &&
-            colorProp === 'neutral' && {
-              color: colors.neutral80,
-              background: 'transparent',
-              ...(focused &&
-                !disabled && {
-                  outlineWidth: 4,
-                  outlineStyle: 'solid',
-                  outlineColor: colors.neutral20,
-                }),
-              ...(disabled && {
-                color: colors.neutral20,
-                background: 'transparent',
-              }),
-              ...(toggled && {
-                boxShadow: 'none',
-                background: colors.neutral100,
-                color: colors.neutralInverted100,
-                ...(disabled && {
-                  background: colors.neutral20,
-                  color: colors.neutralInverted60,
-                }),
-              }),
-            }),
-          ...(variant === 'ghost' &&
-            colorProp === 'destructive' && {
-              color: colors.red80,
-              background: 'transparent',
-              ...(hovered &&
-                !disabled && {
-                  color: colors.red100,
-                }),
-              ...(focused &&
-                !disabled && {
-                  color: colors.red100,
-                  outlineWidth: 4,
-                  outlineStyle: 'solid',
-                  outlineColor: colors.red60,
-                }),
-              ...(disabled && {
-                color: colors.red20,
-              }),
-              ...(toggled && {
-                boxShadow: 'none',
-                background: colors.red100,
-                color: colors.white100,
-                ...(disabled && {
-                  background: colors.red20,
-                  color: colors.white20,
-                }),
-              }),
-            }),
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: radius[8],
-            ...(variant === 'primary' &&
-              colorProp === 'neutral' &&
-              (hovered || focused) &&
-              !disabled && {
-                background: colors.neutralInverted20,
-              }),
-            ...(variant === 'primary' &&
-              colorProp === 'destructive' &&
-              (hovered || focused) &&
-              !disabled && {
-                background: colors.neutral10,
-              }),
-            ...(variant === 'secondary' &&
-              colorProp === 'neutral' &&
-              hovered &&
-              !disabled && {
-                background: colors.neutral10Adjusted,
-              }),
-            ...(variant === 'secondary' &&
-              colorProp === 'neutral' &&
-              focused &&
-              !disabled && {
-                background: colors.neutral10,
-              }),
-            ...(variant === 'secondary' &&
-              colorProp === 'neutral' &&
-              toggled &&
-              !disabled &&
-              (hovered || focused) && {
-                background: colors.neutralInverted20,
-              }),
-            ...(variant === 'secondary' &&
-              colorProp === 'destructive' &&
-              (hovered || focused) &&
-              !disabled && {
-                background: colors.red20,
-              }),
-            ...(variant === 'secondary' &&
-              colorProp === 'destructive' &&
-              toggled &&
-              !disabled &&
-              (hovered || focused) && {
-                background: colors.neutral10,
-              }),
-            ...(variant === 'ghost' &&
-              colorProp === 'neutral' &&
-              (hovered || focused) &&
-              !disabled && {
-                background: colors.neutral10,
-              }),
-            ...(variant === 'ghost' &&
-              colorProp === 'destructive' &&
-              (hovered || focused) &&
-              !disabled && {
-                background: colors.red20,
-              }),
-            ...(variant === 'ghost' &&
-              colorProp === 'neutral' &&
-              toggled &&
-              !disabled &&
-              (hovered || focused) && {
-                background: colors.neutralInverted20,
-              }),
-            ...(variant === 'ghost' &&
-              colorProp === 'destructive' &&
-              toggled &&
-              !disabled &&
-              (hovered || focused) && {
-                background: colors.neutral10,
-              }),
           }}
-        />
-        <div
+          disabled={disabled || loading}
+          data-size={size}
+          data-variant={variant}
+          data-color={color}
+          data-loading={loading ? loading : undefined}
+          data-disabled={disabled ? disabled : undefined}
+          data-toggled={toggled ? toggled : undefined}
           style={{
+            flexShrink: 0,
+            appearance: 'none',
+            outline: 'none',
+            overflow: 'hidden',
+            border: 'none',
+
             position: 'relative',
-            display: 'flex',
-            gap: 4,
+            display: 'inline-flex',
             justifyContent: 'center',
             alignItems: 'center',
+            borderRadius: radius[8],
+
+            // size styles
+            '&[data-size=regular]': {
+              height: 32,
+              paddingTop: 0,
+              paddingBottom: 0,
+              paddingLeft: leadIcon ? 6 : 10,
+              paddingRight: trailIcon ? 6 : 10,
+            },
+            '&[data-size=small]': {
+              height: 24,
+              paddingTop: 0,
+              paddingBottom: 0,
+              paddingLeft: leadIcon ? 4 : 6,
+              paddingRight: trailIcon || keyHint ? 4 : 6,
+            },
+
+            // focus outline styles
+            '&[data-color=neutral]:focus-visible': {
+              outline: `${colors.neutral20} solid 4px`,
+            },
+            '&[data-color=red]:focus-visible': {
+              outline: `${colors.red60} solid 4px`,
+            },
+
+            // fill variant styles
+            '&[data-variant=fill][data-color=neutral]': {
+              background: colors.neutral100,
+              color: colors.neutralInverted100,
+            },
+            '&[data-variant=fill][data-color=neutral]:hover:not(:disabled) .overlay':
+              {
+                background: colors.neutralInverted20,
+              },
+            '&[data-variant=fill][data-color=neutral]:focus-visible .overlay': {
+              background: colors.neutralInverted20,
+            },
+            '&[data-variant=fill][data-color=neutral]:disabled': {
+              opacity: 0.2,
+            },
+            '&[data-variant=fill][data-color=red]': {
+              background: colors.red100,
+              color: colors.white100,
+            },
+            '&[data-variant=fill][data-color=red]:hover:not(:disabled) .overlay':
+              {
+                background: colors.neutral10,
+              },
+            '&[data-variant=fill][data-color=red]:focus-visible .overlay': {
+              background: colors.neutral10,
+            },
+            '&[data-variant=fill][data-color=red]:disabled': {
+              background: colors.red20,
+              color: colors.red20,
+            },
+            '&[data-variant=fill][data-color=red]:disabled .keyHintOverlay': {
+              opacity: 0.2,
+            },
+            '&[data-variant=fill][data-color=red]:disabled .loaderOverlay': {
+              opacity: 0.2,
+            },
+
+            // border variant styles
+            '&[data-variant=border][data-color=neutral]': {
+              background: 'transparent',
+              color: colors.neutral80,
+              boxShadow: `inset 0 0 0 1px ${colors.neutral20Adjusted}`,
+            },
+            '&[data-variant=border][data-color=neutral]:hover:not(:disabled)': {
+              color: colors.neutral100,
+              background: colors.neutral10Adjusted,
+              boxShadow: 'none',
+            },
+            '&[data-variant=border][data-color=neutral]:focus-visible': {
+              color: colors.neutral100,
+              background: colors.neutral10Adjusted,
+              boxShadow: 'none',
+            },
+            '&[data-variant=border][data-color=neutral]:disabled': {
+              background: 'transparent',
+              boxShadow: `inset 0 0 0 1px ${colors.neutral10Adjusted}`,
+              color: colors.neutral20,
+            },
+            '&[data-variant=border][data-color=neutral]:disabled .keyHintOverlay':
+              {
+                opacity: 0.2,
+              },
+            '&[data-variant=border][data-color=neutral]:disabled .loaderOverlay':
+              {
+                opacity: 0.2,
+              },
+            '&[data-variant=border][data-color=red]': {
+              background: 'transparent',
+              color: colors.red80,
+              boxShadow: `inset 0 0 0 1px ${colors.red20}`,
+            },
+            '&[data-variant=border][data-color=red]:hover:not(:disabled)': {
+              background: colors.red20,
+              color: colors.red100,
+              boxShadow: 'none',
+            },
+            '&[data-variant=border][data-color=red]:focus-visible': {
+              background: colors.red20,
+              color: colors.red100,
+              boxShadow: 'none',
+            },
+            '&[data-variant=border][data-color=red]:disabled': {
+              background: 'transparent',
+              color: colors.red20,
+              boxShadow: `inset 0 0 0 1px ${colors.red10}`,
+            },
+            '&[data-variant=border][data-color=red]:disabled .keyHintOverlay': {
+              opacity: 0.2,
+            },
+            '&[data-variant=border][data-color=red]:disabled .loaderOverlay': {
+              opacity: 0.2,
+            },
+
+            // ghost variant styles
+            '&[data-variant=ghost][data-color=neutral]': {
+              background: 'transparent',
+              color: colors.neutral80,
+            },
+            '&[data-variant=ghost][data-color=neutral]:hover:not(:disabled)': {
+              color: colors.neutral100,
+              background: colors.neutral10Adjusted,
+            },
+            '&[data-variant=ghost][data-color=neutral]:focus-visible': {
+              color: colors.neutral100,
+              background: colors.neutral10Adjusted,
+            },
+            '&[data-variant=ghost][data-color=neutral]:disabled': {
+              background: 'transparent',
+              color: colors.neutral20,
+            },
+            '&[data-variant=ghost][data-color=neutral]:disabled .keyHintOverlay':
+              {
+                opacity: 0.2,
+              },
+            '&[data-variant=ghost][data-color=neutral]:disabled .loaderOverlay':
+              {
+                opacity: 0.2,
+              },
+            '&[data-variant=ghost][data-color=red]': {
+              background: 'transparent',
+              color: colors.red80,
+            },
+            '&[data-variant=ghost][data-color=red]:hover:not(:disabled)': {
+              background: colors.red20,
+              color: colors.red100,
+            },
+            '&[data-variant=ghost][data-color=red]:focus-visible': {
+              background: colors.red20,
+              color: colors.red100,
+            },
+            '&[data-variant=ghost][data-color=red]:disabled': {
+              background: 'transparent',
+              color: colors.red20,
+            },
+            '&[data-variant=ghost][data-color=red]:disabled .keyHintOverlay': {
+              opacity: 0.2,
+            },
+            '&[data-variant=ghost][data-color=red]:disabled .loaderOverlay': {
+              opacity: 0.2,
+            },
+
+            transition: 'transform 100ms cubic-bezier(0.2,0,0,1)',
+            '&:active:not(:disabled)': {
+              transform: 'scale(0.96)',
+            },
           }}
         >
-          {!leadIcon && !trailIcon && loading && <Icon variant="loader" />}
-          {leadIcon && <Icon variant={loading ? 'loader' : leadIcon} />}
-          {!leadIcon && trailIcon && (
-            <div style={{ width: 2, height: '100%' }} />
-          )}
-          <Text color="inherit" variant="display-medium">
-            {children}
-          </Text>
-          {size === 'normal' && keyHint && (
-            <div style={{ opacity: disabled || loading ? 0.2 : 1 }}>
-              {/* TODO fix in button rework next week */}
-              {/* <KeyHint
-                hint={keyHint}
-                color={
-                  colorProp == 'destructive'
-                    ? variant === 'primary' || toggled
-                      ? 'white-subtle'
-                      : 'red-subtle'
-                    : variant === 'primary' || toggled
-                      ? 'inverted-fill'
-                      : 'neutral-subtle'
-                }
-              /> */}
-            </div>
-          )}
-          {trailIcon && (
-            <Icon variant={loading && !leadIcon ? 'loader' : trailIcon} />
-          )}
-          {(leadIcon || (!leadIcon && !trailIcon && loading)) && !trailIcon && (
-            <div style={{ width: 2, height: '100%' }} />
-          )}
-        </div>
-      </styled.button>
+          <div
+            className="overlay"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+            }}
+          />
+          <styled.div
+            data-size={size}
+            style={{
+              position: 'relative',
+              display: 'flex',
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              '&[data-size=regular]': {
+                gap: 4,
+              },
+              '&[data-size=small]': {
+                gap: 2,
+              },
+            }}
+          >
+            {leadIcon && !loading && <Icon variant={leadIcon} />}
+            {leadIcon && loading && (
+              <div className="loaderOverlay" style={{ display: 'flex' }}>
+                <Loader
+                  color={
+                    variant === 'fill'
+                      ? color === 'red'
+                        ? 'red'
+                        : 'inverted'
+                      : color === 'red'
+                        ? 'red'
+                        : 'neutral'
+                  }
+                />
+              </div>
+            )}
+            <Text color="inherit" variant="display-medium">
+              {children}
+            </Text>
+            {trailIcon && !loading && <Icon variant={trailIcon} />}
+            {((!trailIcon && !leadIcon) || trailIcon) && loading && (
+              <div className="loaderOverlay" style={{ display: 'flex' }}>
+                <Loader
+                  color={
+                    variant === 'fill'
+                      ? color === 'red'
+                        ? 'red'
+                        : 'inverted'
+                      : color === 'red'
+                        ? 'red'
+                        : 'neutral'
+                  }
+                />
+              </div>
+            )}
+            {keyHint && keyHintPlacement === 'label' && (
+              <div className="keyHintOverlay" style={{ display: 'flex' }}>
+                <KeyHint
+                  color={
+                    variant === 'fill'
+                      ? color === 'red'
+                        ? loading || disabled
+                          ? 'red'
+                          : 'white'
+                        : 'inverted'
+                      : color === 'red'
+                        ? 'red'
+                        : 'neutral'
+                  }
+                  hint={keyHint}
+                />
+              </div>
+            )}
+          </styled.div>
+        </styled.button>
+      </Wrapper>
     )
   },
 )
