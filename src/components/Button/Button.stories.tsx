@@ -19,7 +19,7 @@ export default {
 
 export const Default = {
   render: () => (
-    <div style={{ display: 'flex', gap: 76 }}>
+    <div style={{ display: 'flex', gap: 76, minWidth: 1420 }}>
       {(['fill', 'border', 'ghost'] as const).map((variant) => (
         <div
           style={{
