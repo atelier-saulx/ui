@@ -33,6 +33,13 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.20",
-    "inlines": "^0.4.0-alpha.25"
+    "@lexical/headless": "^0.17.0",
+    "@lexical/link": "^0.17.0",
+    "@lexical/list": "^0.17.0",
+    "@lexical/react": "^0.17.0",
+    "@lexical/rich-text": "^0.17.0",
+    "@lexical/utils": "^0.17.0",
+    "inlines": "^0.4.0-alpha.25",
+    "lexical": "^0.17.0"
   }
 }
