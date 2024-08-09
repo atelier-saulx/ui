@@ -17,7 +17,7 @@ export const Default = () => {
       <Menu.Trigger>
         {({ open }) => (
           <Button
-            variant="secondary"
+            variant="border"
             trailIcon={open ? 'chevron-up' : 'chevron-down'}
           >
             Sample menu

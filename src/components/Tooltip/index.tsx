@@ -10,6 +10,7 @@ import {
   useFocus,
   useHover,
   useInteractions,
+  useMergeRefs,
   useTransitionStyles,
 } from '@floating-ui/react'
 import { Text } from '../Text/index.js'
@@ -52,7 +53,7 @@ function Tooltip({ children, value, keyHint }: TooltipProps) {
 
   const hover = useHover(context, { move: false })
   const focus = useFocus(context)
-  const dismiss = useDismiss(context)
+  const dismiss = useDismiss(context, { referencePress: true })
   const { getReferenceProps, getFloatingProps } = useInteractions([
     hover,
     focus,
@@ -78,7 +79,10 @@ function Tooltip({ children, value, keyHint }: TooltipProps) {
     <>
       {cloneElement(children, {
         ...getReferenceProps({
-          ref: refs.setReference,
+          ref: useMergeRefs([
+            refs.setReference,
+            (children as any)?.ref ?? null,
+          ]),
           ...children.props,
         }),
       })}
