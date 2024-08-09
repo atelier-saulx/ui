@@ -40,6 +40,7 @@ import {
   OptionCardGroup,
   OptionCardGroupProps,
 } from '../OptionCardGroup/index.js'
+import { shadows } from '../../utils/shadows.js'
 
 type MenuContextType = {
   open: boolean
@@ -221,7 +222,8 @@ function MenuItems({ children }: MenuItemsProps) {
               gap: 4,
               outline: 'none',
               border: `1px solid ${colors.neutral10}`,
-              background: colors.neutral10Adjusted,
+              background: colors.neutralInverted100,
+              boxShadow: shadows.popoverLarge,
               ...floatingStyles,
             }}
             {...getFloatingProps()}

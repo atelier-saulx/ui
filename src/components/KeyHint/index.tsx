@@ -97,6 +97,7 @@ function KeyHint({ hint, color = 'neutral' }: KeyHintProps) {
     >
       {keys.map((key) => (
         <kbd
+          key={key}
           style={{
             fontFamily: 'inherit',
             display: 'flex',

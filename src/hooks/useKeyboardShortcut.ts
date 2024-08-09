@@ -36,12 +36,14 @@ function useKeyboardShortcut(shortcut: Key, onTrigger: () => void) {
   )
 
   useEffect(() => {
+    if (!shortcut) return
+
     document.addEventListener('keydown', handleKeyDown)
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [])
+  }, [shortcut])
 }
 
 export { useKeyboardShortcut }
