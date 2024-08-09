@@ -31,6 +31,7 @@ import { LinkNode } from '@lexical/link'
 import { IconButton } from '../IconButton/index.js'
 import { Menu } from '../Menu/index.js'
 import { Separator } from '../Separator/index.js'
+import { MiniSheet } from '../MiniSheet/index.js'
 
 export function Toolbar() {
   const [editor] = useLexicalComposerContext()
@@ -224,33 +225,40 @@ export function Toolbar() {
         }}
       />
       <Separator orientation="vertical" />
-      <IconButton
-        tooltip="Create list"
-        size="small"
-        icon="numbered-list"
-        trailChevron="down"
-        onClick={() => {}}
-      />
-      <IconButton
-        tooltip="Bulleted list"
-        size="small"
-        icon="bulleted-list"
-        onClick={() => {
-          editor.update(() => {
-            editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)
-          })
-        }}
-      />
-      <IconButton
-        tooltip="Numbered list"
-        size="small"
-        icon="numbered-list"
-        onClick={() => {
-          editor.update(() => {
-            editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined)
-          })
-        }}
-      />
+
+      <MiniSheet>
+        <MiniSheet.Trigger>
+          {({ open }) => (
+            <IconButton
+              tooltip="Create list"
+              size="small"
+              icon="numbered-list"
+              trailChevron="down"
+              forceHover={open}
+            />
+          )}
+        </MiniSheet.Trigger>
+        <MiniSheet.Items>
+          <MiniSheet.Item
+            size="small"
+            icon="bulleted-list"
+            onClick={() => {
+              editor.update(() => {
+                editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)
+              })
+            }}
+          />
+          <MiniSheet.Item
+            size="small"
+            icon="numbered-list"
+            onClick={() => {
+              editor.update(() => {
+                editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined)
+              })
+            }}
+          />
+        </MiniSheet.Items>
+      </MiniSheet>
       <Separator orientation="vertical" />
       <IconButton
         tooltip={nodeType === 'quote' ? 'Remove Quote' : 'Quote'}
@@ -277,7 +285,6 @@ export function Toolbar() {
           editor.dispatchCommand(UNDO_COMMAND, undefined)
         }}
       />
-
       <IconButton
         tooltip="Redo"
         keyHint="Cmd+Y"
