@@ -18,6 +18,7 @@ type IconButtonProps = {
   loading?: boolean
   tooltip?: TooltipProps['value']
   keyHint?: KeyHintProps['hint']
+  trailChevron?: 'up' | 'down' | 'left' | 'right'
 }
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -32,6 +33,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       tooltip,
       size = 'regular',
       keyHint,
+      trailChevron,
     },
     ref,
   ) => {
@@ -68,17 +70,17 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             // size styles
             '&[data-size=regular]': {
               height: 36,
-              width: 36,
+              width: trailChevron ? 56 : 36,
               borderRadius: radius[8],
             },
             '&[data-size=small]': {
               height: 24,
-              width: 24,
+              width: trailChevron ? 44 : 24,
               borderRadius: radius[8],
             },
             '&[data-size=tiny]': {
               height: 16,
-              width: 16,
+              width: trailChevron ? 36 : 16,
               borderRadius: radius[4],
             },
 
@@ -170,10 +172,12 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             // toggled loading styles
             '&[data-toggled][data-loading][data-color=neutral]': {
               opacity: 0.2,
+              color: colors.neutralInverted60,
             },
             '&[data-toggled][data-loading][data-color=red]': {
               opacity: 1,
               background: colors.red20,
+              color: colors.red20,
             },
 
             transition: 'transform 100ms cubic-bezier(0.2,0,0,1)',
@@ -195,6 +199,8 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           <div
             style={{
               display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               position: 'absolute',
               top: '50%',
               left: '50%',
@@ -213,8 +219,41 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
                   color={color === 'neutral' && toggled ? 'inverted' : color}
                 />
               </span>
+            ) : size === 'tiny' ? (
+              <div style={{ width: 16, height: 16, position: 'relative' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                >
+                  <Icon variant={icon} />
+                </div>
+              </div>
             ) : (
               <Icon variant={icon} />
+            )}
+            {trailChevron && (
+              <div style={{ width: 16, height: 16, position: 'relative' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                >
+                  <Icon variant={`tiny-chevron-${trailChevron}`} />
+                </div>
+              </div>
             )}
           </div>
         </styled.button>
