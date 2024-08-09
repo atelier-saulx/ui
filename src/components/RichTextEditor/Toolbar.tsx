@@ -28,6 +28,8 @@ import {
 } from '@lexical/list'
 import { $getNearestNodeOfType } from '@lexical/utils'
 import { LinkNode } from '@lexical/link'
+import { IconButton } from '../IconButton/index.js'
+import { Menu } from '../Menu/index.js'
 
 export function Toolbar() {
   const [editor] = useLexicalComposerContext()
@@ -89,6 +91,20 @@ export function Toolbar() {
 
   return (
     <>
+      <Menu>
+        <Menu.Trigger>
+          <IconButton
+            tooltip="Select text style"
+            size="small"
+            icon="text-styling"
+            trailChevron="down"
+          />
+        </Menu.Trigger>
+        <Menu.Items>
+          <Menu.Item>Heading</Menu.Item>
+          <Menu.Item>Paragraph</Menu.Item>
+        </Menu.Items>
+      </Menu>
       <p>node type</p>
       <select
         value={nodeType}
