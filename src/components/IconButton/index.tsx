@@ -19,6 +19,7 @@ type IconButtonProps = {
   tooltip?: TooltipProps['value']
   keyHint?: KeyHintProps['hint']
   trailChevron?: 'up' | 'down' | 'left' | 'right'
+  forceHover?: boolean
 }
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -34,6 +35,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       size = 'regular',
       keyHint,
       trailChevron,
+      forceHover,
     },
     ref,
   ) => {
@@ -54,6 +56,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           data-loading={loading ? loading : undefined}
           data-disabled={disabled ? disabled : undefined}
           data-toggled={toggled ? toggled : undefined}
+          data-forcehover={forceHover ? forceHover : undefined}
           style={{
             flexShrink: 0,
             appearance: 'none',
@@ -95,14 +98,16 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             },
 
             // hover styles
-            '&[data-color=neutral]:hover:not(:disabled):not([data-toggled])': {
-              background: colors.neutral10Adjusted,
-              color: colors.neutral100,
-            },
-            '&[data-color=red]:hover:not(:disabled):not([data-toggled])': {
-              background: colors.red20,
-              color: colors.red100,
-            },
+            '&[data-color=neutral]:hover:not(:disabled):not([data-toggled]), &[data-color=neutral][data-forcehover]:not(:disabled):not([data-toggled])':
+              {
+                background: colors.neutral10Adjusted,
+                color: colors.neutral100,
+              },
+            '&[data-color=red]:hover:not(:disabled):not([data-toggled]), &[data-color=red][data-forcehover]:not(:disabled):not([data-toggled])':
+              {
+                background: colors.red20,
+                color: colors.red100,
+              },
 
             // focus styles
             '&[data-color=neutral]:focus-visible': {
@@ -151,13 +156,14 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             },
 
             // toggled hover styles
-            '&[data-toggled][data-color=neutral]:hover:not(:disabled) > .overlay':
+            '&[data-toggled][data-color=neutral]:hover:not(:disabled) > .overlay, &[data-toggled][data-color=neutral][data-forcehover]:not(:disabled) > .overlay':
               {
                 background: colors.neutralInverted20,
               },
-            '&[data-toggled][data-color=red]:hover:not(:disabled) > .overlay': {
-              background: colors.neutral10,
-            },
+            '&[data-toggled][data-color=red]:hover:not(:disabled) > .overlay, &[data-toggled][data-color=red][data-forcehover]:not(:disabled) > .overlay':
+              {
+                background: colors.neutral10,
+              },
 
             // toggled disabled styles
             '&[data-toggled][data-color=neutral][data-disabled]': {

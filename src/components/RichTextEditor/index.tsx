@@ -23,7 +23,7 @@ export function RichTextEditor({
         }}
       >
         <Toolbar />
-        <div style={{ position: 'relative', display: 'flex', gap: 64 }}>
+        <div style={{ position: 'relative', display: 'flex', marginTop: 48 }}>
           <RichTextPlugin
             contentEditable={
               <ContentEditable
@@ -38,7 +38,7 @@ export function RichTextEditor({
               />
             }
             placeholder={
-              <div style={{ position: 'absolute', left: 17, top: 29 }}>
+              <div style={{ position: 'absolute', left: 17, top: 13 }}>
                 placeholder
               </div>
             }
