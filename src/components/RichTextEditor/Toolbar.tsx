@@ -13,7 +13,7 @@ import {
 } from 'lexical'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { $setBlocksType } from '@lexical/selection'
-import { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import {
   $findMatchingParent,
   $insertNodeToNearestRoot,
@@ -32,6 +32,56 @@ import { IconButton } from '../IconButton/index.js'
 import { Menu } from '../Menu/index.js'
 import { Separator } from '../Separator/index.js'
 import { MiniSheet } from '../MiniSheet/index.js'
+import { useClient } from '@based/react'
+
+function ImageUploadButton({ onUpload }: { onUpload: (id: string) => void }) {
+  const client = useClient()
+  const fileInputRef = useRef<HTMLInputElement>()
+  const [loading, setLoading] = useState(false)
+
+  return (
+    <>
+      <IconButton
+        tooltip="Insert image"
+        size="small"
+        icon="image"
+        onClick={() => {
+          fileInputRef.current?.click()
+        }}
+        loading={loading}
+      />
+      <input
+        style={{
+          position: 'absolute',
+          width: 1,
+          height: 1,
+          padding: 0,
+          margin: -1,
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          borderWidth: 0,
+        }}
+        ref={fileInputRef}
+        type="file"
+        onChange={async (e) => {
+          const file = e.target.files[0]
+          if (!file) return
+          setLoading(true)
+
+          try {
+            const { id } = await client.stream('db:file-upload', {
+              contents: file,
+            })
+            onUpload(id)
+          } finally {
+            setLoading(false)
+          }
+        }}
+      />
+    </>
+  )
+}
 
 export function Toolbar() {
   const [editor] = useLexicalComposerContext()
@@ -200,13 +250,10 @@ export function Toolbar() {
           })
         }}
       />
-      <IconButton
-        tooltip="Insert image"
-        size="small"
-        icon="image"
-        onClick={() => {
+      <ImageUploadButton
+        onUpload={(id) => {
           editor.update(() => {
-            const imageNode = new ImageNode('test123')
+            const imageNode = new ImageNode(id)
             $insertNodeToNearestRoot(imageNode)
           })
         }}

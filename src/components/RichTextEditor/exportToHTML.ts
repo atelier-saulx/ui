@@ -6,12 +6,13 @@ import { EmbedNode } from './nodes/EmbedNode.js'
 import { ImageNode } from './nodes/ImageNode.js'
 import { ListItemNode, ListNode } from '@lexical/list'
 import { LinkNode } from '@lexical/link'
+import { BasedClient } from '@based/client'
 
 type ImageMetadata = {
-  key: string
+  id: string
+  src: string
   width: number
   height: number
-  thumbhash: string
 }
 
 function $convertToHTMLString(images: ImageMetadata[]): string {
@@ -100,15 +101,10 @@ function $convertToHTMLString(images: ImageMetadata[]): string {
     }
 
     if (node instanceof ImageNode) {
-      const image = images.find((e) => e.key === node.__id)!
-      const src =
-        process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DISTRIBUTION_URL +
-        '/' +
-        image.key
-      const caption = 'TODO caption'
+      const image = images.find((e) => e.id === node.__id)!
 
       output.push(
-        `<figure><img style="display:block;max-width:100%;height:auto" src="${src}" width="${image.width}" height="${image.height}" /><figcaption>${caption}</figcaption></figure>`,
+        `<figure><img style="display:block;max-width:100%;height:auto" src="${image.src}" width="${image.width}" height="${image.height}" /></figure>`,
       )
     }
 
@@ -163,7 +159,10 @@ function $getImages(): string[] {
   return output
 }
 
-export async function exportToHTML(jsonEditorStateString: string) {
+export async function exportToHTML(
+  jsonEditorStateString: string,
+  client: BasedClient,
+) {
   const editor = createHeadlessEditor({
     nodes: NODES,
   })
@@ -173,11 +172,11 @@ export async function exportToHTML(jsonEditorStateString: string) {
   editorState.read(() => {
     images = $getImages()
   })
-  // TODO
-  // const fetchedImageMetadata: ImageMetadata[] = await batchGetItems(
-  //   images.map((image) => ({ pk: `file::${image}`, sk: 'data' })),
-  // )
-  const fetchedImageMetadata = []
+  const fetchedImageMetadata: ImageMetadata[] = await Promise.all(
+    images.map((imageId) =>
+      client.call('db:get', { $id: imageId, id: true, src: true }),
+    ),
+  )
 
   let html = ''
   editorState.read(() => {

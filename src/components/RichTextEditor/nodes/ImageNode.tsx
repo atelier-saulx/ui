@@ -1,3 +1,4 @@
+import { useQuery } from '@based/react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection'
 import {
@@ -69,16 +70,12 @@ export class ImageNode extends DecoratorNode<ReactNode> {
   }
 }
 
-// TODO fetch correct image src, width etc based on ID from db
-
 function Image({ id, nodeKey }: { id: string; nodeKey: NodeKey }) {
   const ref = useRef<HTMLElement>(null)
   const [editor] = useLexicalComposerContext()
   const [isSelected, setSelected, clearSelection] =
     useLexicalNodeSelection(nodeKey)
-  const [data, setData] = useState<{ src: string; caption?: string } | null>(
-    null,
-  )
+  const { data } = useQuery('db', { $id: id, id: true, src: true })
 
   useLayoutEffect(() => {
     return editor.registerCommand(
@@ -96,22 +93,6 @@ function Image({ id, nodeKey }: { id: string; nodeKey: NodeKey }) {
     )
   }, [editor, clearSelection, setSelected])
 
-  // TODO fix this
-  useEffect(() => {
-    fetch(`/api/files/${id}`)
-      .then((res) => res.json())
-      .then((data) =>
-        setData({
-          ...data,
-          src:
-            process.env.NEXT_PUBLIC_AWS_CLOUDFRONT_DISTRIBUTION_URL +
-            '/' +
-            data.key,
-          caption: 'TODO caption',
-        }),
-      )
-  }, [id])
-
   return (
     <figure
       ref={ref}
@@ -126,7 +107,6 @@ function Image({ id, nodeKey }: { id: string; nodeKey: NodeKey }) {
         }}
         src={data?.src}
       />
-      {data?.caption && <figcaption>{data.caption}</figcaption>}
     </figure>
   )
 }

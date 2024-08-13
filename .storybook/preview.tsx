@@ -8,7 +8,7 @@ import { Provider as BasedProvider } from '@based/react'
 const client = based({
   org: 'saulx',
   project: 'based-ui',
-  env: 'storybook',
+  env: 'prod',
 })
 
 const preview: Preview = {
