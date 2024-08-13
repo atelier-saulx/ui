@@ -12,7 +12,6 @@ const client = based({
 })
 
 const preview: Preview = {
-  tags: ['autodocs'],
   parameters: {
     backgrounds: {
       default: 'auto',
