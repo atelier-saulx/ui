@@ -1,7 +1,7 @@
 import { Text } from './index.js'
 
 export default {
-  title: 'Quarks/Text',
+  title: 'Text',
   component: Text,
 }
 

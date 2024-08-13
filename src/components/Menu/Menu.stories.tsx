@@ -3,7 +3,7 @@ import { Menu } from './index.js'
 import { Button } from '../Button/index.js'
 
 export default {
-  title: 'Molecules/Menu',
+  title: 'Menu',
   component: () => {},
 }
 

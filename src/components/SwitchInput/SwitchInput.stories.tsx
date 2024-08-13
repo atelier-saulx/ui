@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { SwitchInput } from './index.js'
 
 export default {
-  title: 'Atoms/SwitchInput',
+  title: 'SwitchInput',
   component: SwitchInput,
 }
 

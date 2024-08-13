@@ -5,7 +5,7 @@ import { colors } from '../../utils/colors.js'
 import { radius } from '../../utils/radius.js'
 
 export default {
-  title: 'Quarks/Icon',
+  title: 'Icon',
   component: Icon,
 }
 

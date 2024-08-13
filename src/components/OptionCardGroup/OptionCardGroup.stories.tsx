@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { OptionCardGroup } from './index.js'
 
 export default {
-  title: 'Atoms/OptionCardGroup',
+  title: 'OptionCardGroup',
   component: OptionCardGroup,
 }
 

@@ -2,6 +2,14 @@ import type { Preview } from '@storybook/react'
 import '../src/assets/global.css'
 import * as React from 'react'
 import { Provider } from '../src/components/Provider/index.js'
+import based from '@based/client'
+import { Provider as BasedProvider } from '@based/react'
+
+const client = based({
+  org: 'saulx',
+  project: 'based-ui',
+  env: 'storybook',
+})
 
 const preview: Preview = {
   tags: ['autodocs'],
@@ -32,9 +40,11 @@ const preview: Preview = {
   },
   decorators: (Story, context) => {
     return (
-      <Provider forcedTheme={context.globals.theme}>
-        <Story />
-      </Provider>
+      <BasedProvider client={client}>
+        <Provider forcedTheme={context.globals.theme}>
+          <Story />
+        </Provider>
+      </BasedProvider>
     )
   },
 }

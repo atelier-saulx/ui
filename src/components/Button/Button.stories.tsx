@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Button } from './index.js'
+import { useClient } from '@based/react'
 
 export default {
-  title: 'Atoms/Button',
+  title: 'Button',
   component: Button,
   argTypes: {
     disabled: {
@@ -63,17 +64,10 @@ export const Default = {
   ),
 }
 
-export const AsyncOnClick = {
-  args: {
-    children: 'Button label',
-    variant: 'fill',
-    color: 'red',
-    leadIcon: 'delete',
-    onClick: async () => {
-      await new Promise((resolve) => {
-        setTimeout(resolve, 1000)
-      })
-      console.log('promise resolved')
-    },
-  },
+export const FileUploadAsyncOnClick = () => {
+  const client = useClient()
+
+  console.log(client)
+
+  return <Button>Upload a file</Button>
 }

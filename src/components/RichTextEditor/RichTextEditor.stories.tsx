@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { RichTextEditor } from './index.js'
 
 export default {
-  title: 'Molecules/RichTextEditor',
+  title: 'RichTextEditor',
   component: RichTextEditor,
 }
 

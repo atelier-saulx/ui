@@ -1,10 +1,9 @@
 import React from 'react'
 import { MiniSheet } from './index.js'
 import { IconButton } from '../IconButton/index.js'
-import { Separator } from '../Separator/index.js'
 
 export default {
-  title: 'Molecules/MiniSheet',
+  title: 'MiniSheet',
   component: () => {},
 }
 

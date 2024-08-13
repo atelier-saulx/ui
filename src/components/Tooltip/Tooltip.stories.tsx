@@ -4,7 +4,7 @@ import { Button } from '../Button/index.js'
 import { IconButton } from '../IconButton/index.js'
 
 export default {
-  title: 'Atoms/Tooltip',
+  title: 'Tooltip',
   component: Tooltip,
 }
 

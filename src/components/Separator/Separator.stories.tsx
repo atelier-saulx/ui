@@ -1,7 +1,7 @@
 import { Separator } from './index.js'
 
 export default {
-  title: 'Quarks/Separator',
+  title: 'Separator',
   component: Separator,
 }
 

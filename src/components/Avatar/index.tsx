@@ -7,8 +7,6 @@ type AvatarProps = {
 }
 
 function Avatar({ src, color }: AvatarProps) {
-  console.log('color', color, typeof color)
-
   if (!color) {
     return (
       <div

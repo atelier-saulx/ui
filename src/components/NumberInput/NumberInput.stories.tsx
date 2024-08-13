@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { NumberInput } from './index.js'
 
 export default {
-  title: 'Atoms/NumberInput',
+  title: 'NumberInput',
   component: NumberInput,
 }
 

@@ -3,7 +3,7 @@ import { KeyHint } from './index.js'
 import { colors } from '../../utils/colors.js'
 
 export default {
-  title: 'Quarks/KeyHint',
+  title: 'KeyHint',
   component: KeyHint,
 }
 

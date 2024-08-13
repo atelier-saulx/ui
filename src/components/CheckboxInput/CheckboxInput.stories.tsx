@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { CheckboxInput } from './index.js'
 
 export default {
-  title: 'Atoms/CheckboxInput',
+  title: 'CheckboxInput',
   component: CheckboxInput,
 }
 

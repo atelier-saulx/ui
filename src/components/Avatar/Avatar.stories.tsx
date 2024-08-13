@@ -2,7 +2,7 @@ import React from 'react'
 import { Avatar } from './index.js'
 
 export default {
-  title: 'Quarks/Avatar',
+  title: 'Avatar',
   component: Avatar,
 }
 

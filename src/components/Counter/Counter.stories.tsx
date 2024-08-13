@@ -2,7 +2,7 @@ import React from 'react'
 import { Counter } from './index.js'
 
 export default {
-  title: 'Quarks/Counter',
+  title: 'Counter',
   component: Counter,
 }
 

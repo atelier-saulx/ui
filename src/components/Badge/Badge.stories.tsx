@@ -2,7 +2,7 @@ import React from 'react'
 import { Badge } from './index.js'
 
 export default {
-  title: 'Quarks/Badge',
+  title: 'Badge',
   component: Badge,
 }
 

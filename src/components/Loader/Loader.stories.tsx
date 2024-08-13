@@ -2,7 +2,7 @@ import { Loader } from './index.js'
 import React, { useEffect, useState } from 'react'
 
 export default {
-  title: 'Quarks/Loader',
+  title: 'Loader',
   component: Loader,
 }
 
