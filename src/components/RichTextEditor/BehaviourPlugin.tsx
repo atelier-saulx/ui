@@ -74,10 +74,10 @@ export function BehaviourPlugin({
           node.insertBefore(newNode)
           node.remove()
         }
-
-        if (node.getFormatType() !== 'left') {
-          node.setFormat('left')
-        }
+        // TODO only allow left center right
+        // if (node.getFormatType() !== 'left') {
+        //   node.setFormat('left')
+        // }
         if (node.getIndent() !== 0) {
           node.setIndent(0)
         }
@@ -86,9 +86,10 @@ export function BehaviourPlugin({
         }
       }),
       editor.registerNodeTransform(ParagraphNode, (node) => {
-        if (node.getFormatType() !== 'left') {
-          node.setFormat('left')
-        }
+        // TODO only allow left center right
+        // if (node.getFormatType() !== 'left') {
+        //   node.setFormat('left')
+        // }
         if (node.getIndent() !== 0) {
           node.setIndent(0)
         }
@@ -97,9 +98,10 @@ export function BehaviourPlugin({
         }
       }),
       editor.registerNodeTransform(QuoteNode, (node) => {
-        if (node.getFormatType() !== 'left') {
-          node.setFormat('left')
-        }
+        // TODO only allow left center right
+        // if (node.getFormatType() !== 'left') {
+        //   node.setFormat('left')
+        // }
         if (node.getIndent() !== 0) {
           node.setIndent(0)
         }
@@ -108,9 +110,10 @@ export function BehaviourPlugin({
         }
       }),
       editor.registerNodeTransform(LinkNode, (node) => {
-        if (node.getFormatType() !== 'left') {
-          node.setFormat('left')
-        }
+        // TODO only allow left center right
+        // if (node.getFormatType() !== 'left') {
+        //   node.setFormat('left')
+        // }
         if (node.getIndent() !== 0) {
           node.setIndent(0)
         }
@@ -119,9 +122,10 @@ export function BehaviourPlugin({
         }
       }),
       editor.registerNodeTransform(ListNode, (node) => {
-        if (node.getFormatType() !== 'left') {
-          node.setFormat('left')
-        }
+        // TODO only allow left center right
+        // if (node.getFormatType() !== 'left') {
+        //   node.setFormat('left')
+        // }
         if (node.getIndent() !== 0) {
           node.setIndent(0)
         }
@@ -130,9 +134,10 @@ export function BehaviourPlugin({
         }
       }),
       editor.registerNodeTransform(ListItemNode, (node) => {
-        if (node.getFormatType() !== 'left') {
-          node.setFormat('left')
-        }
+        // TODO only allow left center right
+        // if (node.getFormatType() !== 'left') {
+        //   node.setFormat('left')
+        // }
         if (node.getIndent() !== 0) {
           node.setIndent(0)
         }

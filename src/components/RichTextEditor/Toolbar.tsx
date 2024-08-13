@@ -7,6 +7,7 @@ import {
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
   COMMAND_PRIORITY_LOW,
+  FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   ParagraphNode,
   REDO_COMMAND,
@@ -94,6 +95,7 @@ export function Toolbar() {
   const [isItalic, setIsItalic] = useState(false)
   const [isUnderline, setIsUnderline] = useState(false)
   const [isStrikethrough, setIsStrikethrough] = useState(false)
+  const [align, setAlign] = useState('left')
 
   useLayoutEffect(() => {
     return mergeRegister(
@@ -113,21 +115,35 @@ export function Toolbar() {
           setIsUnderline(selection.hasFormat('underline'))
           setIsStrikethrough(selection.hasFormat('strikethrough'))
 
+          // setAlign(
+          //   $isElementNode(parentList)
+          //     ? matchingParent.getFormatType()
+          //     : $isElementNode(node)
+          //     ? node.getFormatType()
+          //     : parent?.getFormatType() || 'left',
+          // );
+          setAlign(
+            $isElementNode(anchorNode)
+              ? anchorNode.getFormatType()
+              : anchorNode.getParent()?.getFormatType() || 'left',
+          )
+
+          const parentList = $getNearestNodeOfType<ListNode>(
+            anchorNode,
+            ListNode,
+          )
+
+          if (parentList) {
+            setNodeType(parentList.getListType())
+            return
+          }
+
           const anchorClosestRootNode =
             anchorNode.getKey() === 'root'
               ? anchorNode
               : $findMatchingParent(anchorNode, (e) =>
                   $isRootOrShadowRoot(e.getParent()),
                 )
-          const parentList = $getNearestNodeOfType<ListNode>(
-            anchorNode,
-            ListNode,
-          )
-          if (parentList) {
-            setNodeType(parentList.getListType())
-            return
-          }
-
           setNodeType(anchorClosestRootNode?.getType() ?? '')
         })
       }),
@@ -239,7 +255,7 @@ export function Toolbar() {
             <IconButton
               tooltip="Align text"
               size="small"
-              icon="text-align-left"
+              icon={align ? (`text-align-${align}` as any) : 'text-align-left'}
               trailChevron="down"
               forceHover={open}
             />
@@ -249,18 +265,26 @@ export function Toolbar() {
           <MiniSheet.Item
             size="small"
             icon="text-align-left"
-            onClick={() => {}}
-            toggled
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
+            }}
+            toggled={align === 'left'}
           />
           <MiniSheet.Item
             size="small"
             icon="text-align-center"
-            onClick={() => {}}
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
+            }}
+            toggled={align === 'center'}
           />
           <MiniSheet.Item
             size="small"
             icon="text-align-right"
-            onClick={() => {}}
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
+            }}
+            toggled={align === 'right'}
           />
         </MiniSheet.Items>
       </MiniSheet>
