@@ -7,6 +7,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { NODES } from './nodes.js'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
+import { styled } from 'inlines'
 
 export function RichTextEditor({
   onChange,
@@ -20,13 +21,59 @@ export function RichTextEditor({
           namespace: 'foo',
           onError: console.error,
           nodes: NODES,
+          theme: {
+            heading: {
+              h1: 'editor-heading-h1',
+              h2: 'editor-heading-h2',
+            },
+            link: 'editor-link',
+            list: {
+              listitem: 'editor-listitem',
+              nested: {
+                listitem: 'editor-nested-listitem',
+              },
+              ol: 'editor-list-ol',
+              ul: 'editor-list-ul',
+            },
+            quote: 'editor-quote',
+            paragraph: 'editor-paragraph',
+            text: {
+              bold: 'text-bold',
+              italic: 'text-italic',
+              strikethrough: 'text-strikethrough',
+              underline: 'text-underline',
+              underlineStrikethrough: 'text-underline-strikethrough',
+            },
+          },
         }}
       >
         <Toolbar />
-        <div style={{ position: 'relative', display: 'flex', marginTop: 48 }}>
+        <styled.div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            marginTop: 48,
+            '& > .editor .text-bold': {
+              fontWeight: 'bold',
+            },
+            '& > .editor .text-italic': {
+              fontStyle: 'italic',
+            },
+            '& > .editor .text-underline': {
+              textDecoration: 'underline',
+            },
+            '& > .editor .text-strikethrough': {
+              textDecoration: 'line-through',
+            },
+            '& > .editor .text-underline-strikethrough': {
+              textDecoration: 'underline line-through',
+            },
+          }}
+        >
           <RichTextPlugin
             contentEditable={
               <ContentEditable
+                className="editor"
                 style={{
                   outline: 'none',
                   padding: '12px 16px',
@@ -44,7 +91,7 @@ export function RichTextEditor({
             }
             ErrorBoundary={LexicalErrorBoundary}
           />
-        </div>
+        </styled.div>
         <BehaviourPlugin onChange={onChange} />
         <ListPlugin />
         <HistoryPlugin />

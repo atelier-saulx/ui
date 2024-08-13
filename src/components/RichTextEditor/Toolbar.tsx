@@ -7,6 +7,7 @@ import {
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
   COMMAND_PRIORITY_LOW,
+  FORMAT_TEXT_COMMAND,
   ParagraphNode,
   REDO_COMMAND,
   UNDO_COMMAND,
@@ -89,6 +90,10 @@ export function Toolbar() {
   const [canUndo, setCanUndo] = useState(false)
   const [nodeType, setNodeType] = useState('')
   const [isLink, setIsLink] = useState(false)
+  const [isBold, setIsBold] = useState(false)
+  const [isItalic, setIsItalic] = useState(false)
+  const [isUnderline, setIsUnderline] = useState(false)
+  const [isStrikethrough, setIsStrikethrough] = useState(false)
 
   useLayoutEffect(() => {
     return mergeRegister(
@@ -98,6 +103,16 @@ export function Toolbar() {
           if (!$isRangeSelection(selection)) return
 
           const anchorNode = selection.anchor.getNode()
+
+          setIsLink(
+            anchorNode instanceof LinkNode ||
+              anchorNode.getParent() instanceof LinkNode,
+          )
+          setIsBold(selection.hasFormat('bold'))
+          setIsItalic(selection.hasFormat('italic'))
+          setIsUnderline(selection.hasFormat('underline'))
+          setIsStrikethrough(selection.hasFormat('strikethrough'))
+
           const anchorClosestRootNode =
             anchorNode.getKey() === 'root'
               ? anchorNode
@@ -108,18 +123,12 @@ export function Toolbar() {
             anchorNode,
             ListNode,
           )
-
           if (parentList) {
             setNodeType(parentList.getListType())
             return
           }
 
           setNodeType(anchorClosestRootNode?.getType() ?? '')
-
-          setIsLink(
-            anchorNode instanceof LinkNode ||
-              anchorNode.getParent() instanceof LinkNode,
-          )
         })
       }),
       editor.registerCommand<boolean>(
@@ -183,20 +192,78 @@ export function Toolbar() {
         </Menu.Items>
       </Menu>
       <Separator orientation="vertical" />
-      <IconButton tooltip="Bold" keyHint="Cmd+B" size="small" icon="bold" />
-      <IconButton tooltip="Italic" keyHint="Cmd+I" size="small" icon="italic" />
+      <IconButton
+        toggled={isBold}
+        tooltip="Bold"
+        keyHint="Cmd+B"
+        size="small"
+        icon="bold"
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
+        }}
+      />
+      <IconButton
+        tooltip="Italic"
+        keyHint="Cmd+I"
+        size="small"
+        icon="italic"
+        toggled={isItalic}
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
+        }}
+      />
       <IconButton
         tooltip="Underlined"
         keyHint="Cmd+U"
         size="small"
         icon="underline"
+        toggled={isUnderline}
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
+        }}
       />
       <IconButton
         tooltip="Strikethrough"
         keyHint="Cmd+Shift+X"
         size="small"
+        toggled={isStrikethrough}
         icon="strikethrough"
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
+        }}
       />
+      <Separator orientation="vertical" />
+      <MiniSheet>
+        <MiniSheet.Trigger>
+          {({ open }) => (
+            <IconButton
+              tooltip="Align text"
+              size="small"
+              icon="text-align-left"
+              trailChevron="down"
+              forceHover={open}
+            />
+          )}
+        </MiniSheet.Trigger>
+        <MiniSheet.Items>
+          <MiniSheet.Item
+            size="small"
+            icon="text-align-left"
+            onClick={() => {}}
+            toggled
+          />
+          <MiniSheet.Item
+            size="small"
+            icon="text-align-center"
+            onClick={() => {}}
+          />
+          <MiniSheet.Item
+            size="small"
+            icon="text-align-right"
+            onClick={() => {}}
+          />
+        </MiniSheet.Items>
+      </MiniSheet>
       <Separator orientation="vertical" />
       <IconButton
         tooltip={isLink ? 'Remove link' : 'Insert link'}

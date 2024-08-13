@@ -47,11 +47,12 @@ export function BehaviourPlugin({
           }
         })
       }),
-      editor.registerNodeTransform(TextNode, (node) => {
-        if (node.getFormat() !== 0) {
-          node.setFormat(0)
-        }
-      }),
+      // TODO make sure only the allowed formats are left on the node.
+      // editor.registerNodeTransform(TextNode, (node) => {
+      //   if (node.getFormat() !== 0) {
+      //     node.setFormat(0)
+      //   }
+      // }),
       editor.registerNodeTransform(HeadingNode, (node) => {
         const nodes = node.getChildren()
 
