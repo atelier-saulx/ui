@@ -219,7 +219,7 @@ function MenuItems({ children }: MenuItemsProps) {
               padding: 8,
               display: 'flex',
               flexDirection: 'column',
-              gap: 4,
+              gap: 2,
               outline: 'none',
               border: `1px solid ${colors.neutral10}`,
               background: colors.neutralInverted100,
@@ -228,6 +228,15 @@ function MenuItems({ children }: MenuItemsProps) {
             }}
             {...getFloatingProps()}
           >
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                borderRadius: radius[16] - 1,
+                background: colors.neutral10,
+                pointerEvents: 'none',
+              }}
+            />
             {children}
           </div>
         </FloatingFocusManager>
@@ -286,7 +295,7 @@ function MenuItem({
           color: colors.red80,
           ...(activeIndex === item.index && {
             color: colors.red100,
-            background: colors.red10,
+            background: colors.red20,
           }),
         }),
       }}
@@ -341,14 +350,12 @@ function MenuToggleItem({
         border: 'none',
         appearance: 'none',
         outline: 'none',
-        ...(activeIndex === item.index &&
-          !disabled && {
-            color: colors.neutral100,
-            background: colors.neutral10Adjusted,
-          }),
+        ...(activeIndex === item.index && {
+          color: colors.neutral100,
+          background: colors.neutral10Adjusted,
+        }),
         ...(disabled && {
-          color: colors.neutral20,
-          cursor: 'not-allowed',
+          opacity: 0.2,
         }),
       }}
     >
