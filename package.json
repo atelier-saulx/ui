@@ -41,6 +41,7 @@
     "@lexical/react": "^0.17.0",
     "@lexical/rich-text": "^0.17.0",
     "@lexical/utils": "^0.17.0",
+    "date-fns": "^3.6.0",
     "inlines": "^0.4.0-alpha.25",
     "lexical": "^0.17.0"
   }

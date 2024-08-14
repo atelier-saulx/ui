@@ -23,6 +23,8 @@ type ButtonProps = {
   keyHintPlacement?: 'label' | 'tooltip' | 'none'
   tooltip?: TooltipProps['value']
   onClick?: (e?: MouseEvent) => void | Promise<void>
+  width?: 'auto' | 'full'
+  forceHover?: boolean
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -41,6 +43,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       tooltip,
       keyHintPlacement = 'label',
       onClick,
+      width = 'auto',
+      forceHover,
     },
     ref,
   ) => {
@@ -89,7 +93,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           data-loading={loading ? loading : undefined}
           data-disabled={disabled ? disabled : undefined}
           data-toggled={toggled ? toggled : undefined}
+          data-forcehover={forceHover ? forceHover : undefined}
           style={{
+            width: width === 'full' ? '100%' : 'auto',
             flexShrink: 0,
             appearance: 'none',
             outline: 'none',
@@ -131,7 +137,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               background: colors.neutral100,
               color: colors.neutralInverted100,
             },
-            '&[data-variant=fill][data-color=neutral]:hover:not(:disabled) .overlay':
+            '&[data-variant=fill][data-color=neutral]:hover:not(:disabled) .overlay, &[data-variant=fill][data-color=neutral][data-forcehover]:not(:disabled) .overlay':
               {
                 background: colors.neutralInverted20,
               },
@@ -145,7 +151,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               background: colors.red100,
               color: colors.white100,
             },
-            '&[data-variant=fill][data-color=red]:hover:not(:disabled) .overlay':
+            '&[data-variant=fill][data-color=red]:hover:not(:disabled) .overlay, &[data-variant=fill][data-color=red][data-forcehover]:not(:disabled) .overlay':
               {
                 background: colors.neutral10,
               },
@@ -169,11 +175,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               color: colors.neutral80,
               boxShadow: `inset 0 0 0 1px ${colors.neutral20Adjusted}`,
             },
-            '&[data-variant=border][data-color=neutral]:hover:not(:disabled)': {
-              color: colors.neutral100,
-              background: colors.neutral10Adjusted,
-              boxShadow: 'none',
-            },
+            '&[data-variant=border][data-color=neutral]:hover:not(:disabled), &[data-variant=border][data-color=neutral][data-forcehover]:not(:disabled)':
+              {
+                color: colors.neutral100,
+                background: colors.neutral10Adjusted,
+                boxShadow: 'none',
+              },
             '&[data-variant=border][data-color=neutral]:focus-visible': {
               color: colors.neutral100,
               background: colors.neutral10Adjusted,
@@ -197,7 +204,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               color: colors.red80,
               boxShadow: `inset 0 0 0 1px ${colors.red20}`,
             },
-            '&[data-variant=border][data-color=red]:hover:not(:disabled)': {
+            '&[data-variant=border][data-color=red]:hover:not(:disabled), &[data-variant=border][data-color=red][data-forcehover]:not(:disabled)': {
               background: colors.red20,
               color: colors.red100,
               boxShadow: 'none',
@@ -224,7 +231,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               background: 'transparent',
               color: colors.neutral80,
             },
-            '&[data-variant=ghost][data-color=neutral]:hover:not(:disabled)': {
+            '&[data-variant=ghost][data-color=neutral]:hover:not(:disabled), &[data-variant=ghost][data-color=neutral][data-forcehover]:not(:disabled)': {
               color: colors.neutral100,
               background: colors.neutral10Adjusted,
             },
@@ -248,7 +255,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               background: 'transparent',
               color: colors.red80,
             },
-            '&[data-variant=ghost][data-color=red]:hover:not(:disabled)': {
+            '&[data-variant=ghost][data-color=red]:hover:not(:disabled), &[data-variant=ghost][data-color=red][data-forcehover]:not(:disabled)': {
               background: colors.red20,
               color: colors.red100,
             },

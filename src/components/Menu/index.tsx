@@ -222,21 +222,12 @@ function MenuItems({ children }: MenuItemsProps) {
               gap: 2,
               outline: 'none',
               border: `1px solid ${colors.neutral10}`,
-              background: colors.neutralInverted100,
+              background: colors.neutral10Background,
               boxShadow: shadows.popoverLarge,
               ...floatingStyles,
             }}
             {...getFloatingProps()}
           >
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                borderRadius: radius[16] - 1,
-                background: colors.neutral10,
-                pointerEvents: 'none',
-              }}
-            />
             {children}
           </div>
         </FloatingFocusManager>
