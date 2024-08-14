@@ -226,7 +226,7 @@ function DatePicker({
           </Button>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <div
+          <styled.div
             style={{
               flex: 1,
               display: 'flex',
@@ -235,6 +235,9 @@ function DatePicker({
               height: 184,
               overflowY: 'auto',
               scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
             }}
             ref={monthContainerRef}
           >
@@ -267,8 +270,8 @@ function DatePicker({
                 </Text>
               </styled.div>
             ))}
-          </div>
-          <div
+          </styled.div>
+          <styled.div
             style={{
               flex: 1,
               display: 'flex',
@@ -277,6 +280,9 @@ function DatePicker({
               height: 184,
               overflowY: 'auto',
               scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
             }}
             ref={yearContainerRef}
           >
@@ -314,7 +320,7 @@ function DatePicker({
                 </Text>
               </styled.div>
             ))}
-          </div>
+          </styled.div>
         </div>
       </div>
     )
@@ -428,7 +434,7 @@ function TimePicker({
 
   return (
     <div style={{ display: 'flex', gap: 8 }}>
-      <div
+      <styled.div
         style={{
           flex: 1,
           display: 'flex',
@@ -437,6 +443,9 @@ function TimePicker({
           height: 184,
           overflowY: 'auto',
           scrollbarWidth: 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         }}
         ref={timeContainerRef}
       >
@@ -472,7 +481,7 @@ function TimePicker({
             </Text>
           </styled.div>
         ))}
-      </div>
+      </styled.div>
     </div>
   )
 }
