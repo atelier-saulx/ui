@@ -49,6 +49,7 @@ import {
   isSameYear,
   isToday,
   roundToNearestMinutes,
+  set,
   setMonth,
   setYear,
   startOfDay,
@@ -381,7 +382,13 @@ function DatePicker({
                 isSameDay(value, e) ? 'fill' : isToday(e) ? 'border' : 'ghost'
               }
               onClick={() => {
-                onChange(e)
+                onChange(
+                  set(value, {
+                    year: e.getFullYear(),
+                    month: e.getMonth(),
+                    date: e.getDate(),
+                  }),
+                )
               }}
             >
               {format(e, 'd')}
