@@ -16,6 +16,7 @@ export const Default = () => {
       {({ open }) => (
         <Button
           variant="border"
+          forceHover={open}
           trailIcon={open ? 'chevron-up' : 'chevron-down'}
         >
           {format(new Date(value), 'MMM d, yyy')}
@@ -32,6 +33,7 @@ export const DateTime = () => {
     <Calendar variant="date-time" value={value} onChange={setValue}>
       {({ open }) => (
         <Button
+          forceHover={open}
           variant="border"
           trailIcon={open ? 'chevron-up' : 'chevron-down'}
         >
