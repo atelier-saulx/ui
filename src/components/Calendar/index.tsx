@@ -250,7 +250,7 @@ function DatePicker({
                   cursor: 'pointer',
                   borderRadius: radius[8],
                   '&:hover': {
-                    background: colors.neutral10Background,
+                    background: colors.neutral10Adjusted,
                   },
                 }}
                 onClick={() => {
@@ -292,7 +292,7 @@ function DatePicker({
                   cursor: 'pointer',
                   borderRadius: radius[8],
                   '&:hover': {
-                    background: colors.neutral10Background,
+                    background: colors.neutral10Adjusted,
                   },
                 }}
                 onClick={() => {
@@ -452,7 +452,7 @@ function TimePicker({
               cursor: 'pointer',
               borderRadius: radius[8],
               '&:hover': {
-                background: colors.neutral10Background,
+                background: colors.neutral10Adjusted,
               },
             }}
             onClick={() => {
