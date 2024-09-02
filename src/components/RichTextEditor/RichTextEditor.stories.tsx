@@ -4,7 +4,7 @@ import { exportToHTML } from './exportToHTML.js'
 import { useClient } from '@based/react'
 
 export default {
-  title: 'RichTextEditor',
+  title: 'RichTextEditor (WIP)',
   component: RichTextEditor,
 }
 
