@@ -164,7 +164,7 @@ function Dialog({
                   onDismiss()
                 }}
               >
-                {dismissButtonLabel}
+                {actionButtonLabel}
               </Button>
             )}
           </div>
