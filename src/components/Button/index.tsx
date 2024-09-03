@@ -110,7 +110,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
             // size styles
             '&[data-size=regular]': {
-              height: 32,
+              height: 36,
               paddingTop: 0,
               paddingBottom: 0,
               paddingLeft: leadIcon ? 6 : 10,
@@ -204,11 +204,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               color: colors.red80,
               boxShadow: `inset 0 0 0 1px ${colors.red20}`,
             },
-            '&[data-variant=border][data-color=red]:hover:not(:disabled), &[data-variant=border][data-color=red][data-forcehover]:not(:disabled)': {
-              background: colors.red20,
-              color: colors.red100,
-              boxShadow: 'none',
-            },
+            '&[data-variant=border][data-color=red]:hover:not(:disabled), &[data-variant=border][data-color=red][data-forcehover]:not(:disabled)':
+              {
+                background: colors.red20,
+                color: colors.red100,
+                boxShadow: 'none',
+              },
             '&[data-variant=border][data-color=red]:focus-visible': {
               background: colors.red20,
               color: colors.red100,
@@ -231,10 +232,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               background: 'transparent',
               color: colors.neutral80,
             },
-            '&[data-variant=ghost][data-color=neutral]:hover:not(:disabled), &[data-variant=ghost][data-color=neutral][data-forcehover]:not(:disabled)': {
-              color: colors.neutral100,
-              background: colors.neutral10Adjusted,
-            },
+            '&[data-variant=ghost][data-color=neutral]:hover:not(:disabled), &[data-variant=ghost][data-color=neutral][data-forcehover]:not(:disabled)':
+              {
+                color: colors.neutral100,
+                background: colors.neutral10Adjusted,
+              },
             '&[data-variant=ghost][data-color=neutral]:focus-visible': {
               color: colors.neutral100,
               background: colors.neutral10Adjusted,
@@ -255,10 +257,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               background: 'transparent',
               color: colors.red80,
             },
-            '&[data-variant=ghost][data-color=red]:hover:not(:disabled), &[data-variant=ghost][data-color=red][data-forcehover]:not(:disabled)': {
-              background: colors.red20,
-              color: colors.red100,
-            },
+            '&[data-variant=ghost][data-color=red]:hover:not(:disabled), &[data-variant=ghost][data-color=red][data-forcehover]:not(:disabled)':
+              {
+                background: colors.red20,
+                color: colors.red100,
+              },
             '&[data-variant=ghost][data-color=red]:focus-visible': {
               background: colors.red20,
               color: colors.red100,
