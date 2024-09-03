@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormErrors, FormField, useForm } from './index.js'
+import { FormErrors, FormField, FormFieldGroup, useForm } from './index.js'
 import { TextInput } from '../TextInput/index.js'
 import { Button } from '../Button/index.js'
 
@@ -59,29 +59,31 @@ export const WIP = () => {
 
   return (
     <>
-      <FormField label="Email">
-        <TextInput
-          type="email"
-          //  TODO @vassbence fix "as string"
-          disabled={form.isSubmitting}
-          value={form.values['email'] as string}
-          onChange={(value) => {
-            form.setValue('email', value)
-          }}
-          error={form.errors['email']}
-        />
-      </FormField>
-      <FormField label="Password">
-        <TextInput
-          type="password"
-          disabled={form.isSubmitting}
-          value={form.values['password'] as string}
-          onChange={(value) => {
-            form.setValue('password', value)
-          }}
-          error={form.errors['password']}
-        />
-      </FormField>
+      <FormFieldGroup header="Group title">
+        <FormField label="Email">
+          <TextInput
+            type="email"
+            //  TODO @vassbence fix "as string"
+            disabled={form.isSubmitting}
+            value={form.values['email'] as string}
+            onChange={(value) => {
+              form.setValue('email', value)
+            }}
+            error={form.errors['email']}
+          />
+        </FormField>
+        <FormField label="Password">
+          <TextInput
+            type="password"
+            disabled={form.isSubmitting}
+            value={form.values['password'] as string}
+            onChange={(value) => {
+              form.setValue('password', value)
+            }}
+            error={form.errors['password']}
+          />
+        </FormField>
+      </FormFieldGroup>
       <Button
         disabled={form.isSubmitting}
         variant="border"

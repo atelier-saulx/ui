@@ -2,6 +2,7 @@ import { ReactNode, useCallback, useEffect, useRef } from 'react'
 import { Text } from '../Text/index.js'
 import { useRerender } from '../../hooks/useRerender.js'
 import { deepEqual } from '../../utils/deepEqual.js'
+import { colors } from '../../utils/colors.js'
 
 type FormValues = { [key: string]: string | boolean | number }
 type FormErrors = { [key: string]: string }
@@ -17,7 +18,6 @@ type FormState = {
   failedAtLeastOneValidation: boolean
   numberOfInFlightValidations: number
 }
-
 type UseFormProps = {
   initialValues: FormValues
   onSubmit: (values: FormValues) => void | Promise<void>
@@ -145,6 +145,31 @@ function useForm({ initialValues, onSubmit, validate }: UseFormProps) {
   }
 }
 
+type FormFieldGroupProps = {
+  header?: string
+  children: ReactNode
+}
+
+function FormFieldGroup({ header, children }: FormFieldGroupProps) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {header && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <Text variant="display-bold" color="neutral80">
+            {header}
+          </Text>
+          <div
+            style={{ height: 1, width: '100%', background: colors.neutral10 }}
+          />
+        </div>
+      )}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {children}
+      </div>
+    </div>
+  )
+}
+
 type FormFieldProps = {
   label: string
   children: ReactNode
@@ -170,5 +195,11 @@ function FormField({ label, children }: FormFieldProps) {
   )
 }
 
-export { FormField, useForm }
-export type { FormFieldProps, UseFormProps, FormErrors, FormValues }
+export { FormField, FormFieldGroup, useForm }
+export type {
+  FormFieldProps,
+  UseFormProps,
+  FormErrors,
+  FormValues,
+  FormFieldGroupProps,
+}
