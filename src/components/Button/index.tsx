@@ -96,6 +96,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           data-forcehover={forceHover ? forceHover : undefined}
           style={{
             width: width === 'full' ? '100%' : 'auto',
+            flex: width === 'full' ? 1 : undefined,
             flexShrink: 0,
             appearance: 'none',
             outline: 'none',
