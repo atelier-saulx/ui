@@ -107,7 +107,6 @@ function Dialog({
       lockScroll
       style={{
         background: colors.black60,
-        outline: 'none',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -130,6 +129,7 @@ function Dialog({
             justifyContent: 'center',
             flexDirection: 'column',
             gap: 16,
+            outline: 'none',
             ...styles,
           }}
         >

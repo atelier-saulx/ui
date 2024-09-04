@@ -69,7 +69,6 @@ function Modal({ children, open, onOpenChange }: ModalRootProps) {
           justifyContent: 'center',
           alignItems: 'center',
           zIndex: 2,
-          outline: 'none',
           ...overlayStyles,
         }}
       >
@@ -87,6 +86,7 @@ function Modal({ children, open, onOpenChange }: ModalRootProps) {
               display: 'flex',
               justifyContent: 'center',
               flexDirection: 'column',
+              outline: 'none',
               ...styles,
             }}
           >
@@ -152,14 +152,14 @@ function ModalBody({ children }: ModalBodyProps) {
         paddingLeft: 24,
         paddingRight: 24,
         maxHeight: 480,
-        overflowY: 'auto',
-        scrollbarWidth: 'none',
-        '&::-webkit-scrollbar': {
-          display: 'none',
-        },
         ...(contentHeight > 480 && {
           borderTop: `1px solid ${colors.neutral10}`,
           borderBottom: `1px solid ${colors.neutral10}`,
+          overflowY: 'scroll',
+          scrollbarWidth: 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         }),
       }}
     >

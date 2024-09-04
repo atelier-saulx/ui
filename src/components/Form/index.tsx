@@ -19,12 +19,12 @@ type FormState = {
   numberOfInFlightValidations: number
 }
 type UseFormProps = {
-  initialValues: FormValues
+  initialValues?: FormValues
   onSubmit: (values: FormValues) => void | Promise<void>
   validate?: (values: FormValues) => FormErrors | Promise<FormErrors>
 }
 
-function useForm({ initialValues, onSubmit, validate }: UseFormProps) {
+function useForm({ initialValues = {}, onSubmit, validate }: UseFormProps) {
   const rerender = useRerender()
   const state = useRef<FormState>({
     values: initialValues,
@@ -107,12 +107,20 @@ function useForm({ initialValues, onSubmit, validate }: UseFormProps) {
     rerender()
 
     await validateForm()
-    if (Object.keys(state.current.errors).length === 0) {
-      await onSubmit(state.current.mergedValues)
+    if (Object.keys(state.current.errors).length !== 0) {
+      state.current.isSubmitting = false
+      rerender()
+      return
     }
 
-    state.current.isSubmitting = false
-    rerender()
+    try {
+      await onSubmit(state.current.mergedValues)
+    } catch {
+      // no-op
+    } finally {
+      state.current.isSubmitting = false
+      rerender()
+    }
   }, [validateForm, onSubmit])
 
   const resetForm = useCallback(() => {

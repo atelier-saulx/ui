@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormErrors, FormField, FormFieldGroup, useForm } from './index.js'
 import { TextInput } from '../TextInput/index.js'
 import { TextAreaInput } from '../TextAreaInput/index.js'
@@ -16,7 +16,6 @@ export default {
 
 export const AllTypes = () => {
   const form = useForm({
-    initialValues: {},
     onSubmit: (values) => {
       console.log('onSubmit', values)
     },
@@ -96,7 +95,7 @@ export const AllTypes = () => {
 }
 
 export const WIP = () => {
-  const [apiResponse, setApiResponse] = React.useState<any>(null)
+  const [apiResponse, setApiResponse] = React.useState<any>()
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -111,7 +110,7 @@ export const WIP = () => {
   }, [])
 
   const form = useForm({
-    initialValues: apiResponse ?? {},
+    initialValues: apiResponse,
     validate: async (values) => {
       const errors: FormErrors = {}
 
