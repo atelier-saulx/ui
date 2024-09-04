@@ -22,7 +22,7 @@ type ButtonProps = {
   keyHint?: KeyHintProps['hint']
   keyHintPlacement?: 'label' | 'tooltip' | 'none'
   tooltip?: TooltipProps['value']
-  onClick?: (e?: MouseEvent) => void | Promise<void>
+  onClick?: (e?: React.MouseEvent) => void | Promise<void>
   width?: 'auto' | 'full'
   forceHover?: boolean
 }
@@ -56,7 +56,20 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const loading = internalLoading || loadingProp
     const variant = toggled ? 'fill' : variantProp
 
-    useKeyboardShortcut(keyHint, onClick)
+    async function handleClick(e: React.MouseEvent) {
+      try {
+        const result = onClick?.(e)
+
+        if (result instanceof Promise) {
+          setInternalLoading(true)
+          await result
+        }
+      } finally {
+        setInternalLoading(false)
+      }
+    }
+
+    useKeyboardShortcut(keyHint, handleClick)
 
     const Wrapper =
       tooltip || (keyHint && keyHintPlacement === 'tooltip')
@@ -74,18 +87,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <Wrapper {...wrapperProps}>
         <styled.button
           ref={ref}
-          onClick={async (e) => {
-            try {
-              const result = onClick?.(e as unknown as MouseEvent)
-
-              if (result instanceof Promise) {
-                setInternalLoading(true)
-                await result
-              }
-            } finally {
-              setInternalLoading(false)
-            }
-          }}
+          onClick={handleClick}
           disabled={disabled || loading}
           data-size={size}
           data-variant={variant}

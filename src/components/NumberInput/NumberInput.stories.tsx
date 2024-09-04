@@ -7,7 +7,7 @@ export default {
 }
 
 export const Default = () => {
-  const [value, setValue] = useState<number | null>(null)
+  const [value, setValue] = useState<number>()
   return (
     <NumberInput
       value={value}
@@ -40,14 +40,14 @@ export const ChangingOutsideValue = () => {
 }
 
 export const Placeholder = () => {
-  const [value, setValue] = useState<number | null>(null)
+  const [value, setValue] = useState<number>()
   return (
     <NumberInput value={value} onChange={setValue} placeholder="Hint text" />
   )
 }
 
 export const Disabled = () => {
-  const [value, setValue] = useState<number | null>(null)
+  const [value, setValue] = useState<number>()
   return (
     <NumberInput
       value={value}
@@ -60,7 +60,7 @@ export const Disabled = () => {
 }
 
 export const Error = () => {
-  const [value, setValue] = useState<number | null>(null)
+  const [value, setValue] = useState<number>()
   return (
     <NumberInput
       value={value}
@@ -73,7 +73,7 @@ export const Error = () => {
 }
 
 export const Suffix = () => {
-  const [value, setValue] = useState<number | null>(null)
+  const [value, setValue] = useState<number>()
   return (
     <NumberInput
       value={value}
@@ -86,7 +86,7 @@ export const Suffix = () => {
 }
 
 export const KitchenSink = () => {
-  const [value, setValue] = useState<number | null>(null)
+  const [value, setValue] = useState<number>()
   return (
     <NumberInput
       value={value}

@@ -6,7 +6,7 @@ import { radius } from '../../utils/radius.js'
 import { Badge } from '../Badge/index.js'
 
 type TextAreaInputProps = {
-  value: string
+  value?: string
   onChange: (value: string) => void
   placeholder?: string
   label?: string
@@ -49,7 +49,7 @@ function TextAreaInput({
       <div style={{ position: 'relative', display: 'flex' }}>
         <textarea
           ref={ref}
-          value={value}
+          value={value ?? ''}
           onChange={(e) => {
             onChange(e.target.value)
           }}

@@ -8,7 +8,7 @@ import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
 import { Badge } from '../Badge/index.js'
 
 type TextInputProps = {
-  value: string
+  value?: string
   onChange: (value: string) => void
   disabled?: boolean
   placeholder?: string
@@ -21,6 +21,7 @@ type TextInputProps = {
   clearable?: boolean
   suffix?: string
   keyHint?: KeyHintProps['hint']
+  type?: 'text' | 'email' | 'password'
 }
 
 function TextInput({
@@ -37,6 +38,7 @@ function TextInput({
   maxLength,
   suffix,
   keyHint,
+  type = 'text',
 }: TextInputProps) {
   const [focus, setFocus] = useState(false)
   const length = typeof value !== 'string' ? 0 : value.length
@@ -110,11 +112,11 @@ function TextInput({
         )}
         <input
           ref={ref}
-          value={value}
+          value={value ?? ''}
           disabled={disabled}
           placeholder={placeholder}
           maxLength={maxLength}
-          type="text"
+          type={type}
           style={{
             width: '100%',
             height: '100%',
