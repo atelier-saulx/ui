@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { Key } from '../components/KeyHint/index.js'
 import { useIsMac } from './useIsMac.js'
 
-function useKeyboardShortcut(shortcut: Key, onTrigger: () => void) {
+function useKeyboardShortcut(shortcut: Key, onTrigger: (...args: any) => void) {
   const triggerFnRef = useRef(onTrigger)
   const isMac = useIsMac()
 
