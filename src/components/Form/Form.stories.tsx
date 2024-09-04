@@ -111,10 +111,7 @@ export const WIP = () => {
   }, [])
 
   const form = useForm({
-    initialValues: apiResponse ?? {
-      email: '',
-      password: '',
-    },
+    initialValues: apiResponse ?? {},
     validate: async (values) => {
       const errors: FormErrors = {}
 
