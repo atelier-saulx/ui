@@ -65,7 +65,7 @@ import { styled } from 'inlines'
 type CalendarProps = {
   children: ReactElement | (({ open }: { open: boolean }) => ReactElement)
   variant: 'date' | 'date-time'
-  value: number // milliseconds elapsed since the epoch (so like Date.now())
+  value?: number // milliseconds elapsed since the epoch (so like Date.now())
   onChange: (value: number) => void
 }
 
@@ -93,7 +93,10 @@ function Calendar({
     ],
     whileElementsMounted: autoUpdate,
   })
-  const value = useMemo(() => new Date(msValue), [msValue])
+  const value = useMemo(
+    () => new Date(typeof msValue === 'undefined' ? Date.now() : msValue),
+    [msValue],
+  )
 
   const click = useClick(context, {
     event: 'click',
@@ -101,9 +104,10 @@ function Calendar({
   })
   const dismiss = useDismiss(context, { bubbles: true })
 
-  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
-    [click, dismiss],
-  )
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    click,
+    dismiss,
+  ])
 
   return (
     <>
@@ -241,8 +245,9 @@ function DatePicker({
             }}
             ref={monthContainerRef}
           >
-            {[...Array(12).keys()].map((e) => (
+            {[...Array(12).keys()].map((e, i) => (
               <styled.div
+                key={i}
                 style={{
                   height: 32,
                   flexShrink: 0,
@@ -286,8 +291,9 @@ function DatePicker({
             }}
             ref={yearContainerRef}
           >
-            {[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((e) => (
+            {[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((e, i) => (
               <styled.div
+                key={i}
                 style={{
                   height: 32,
                   flexShrink: 0,
@@ -374,14 +380,15 @@ function DatePicker({
           placeItems: 'center',
         }}
       >
-        {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((e) => (
-          <Text variant="subtext-regular" color="neutral20">
+        {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((e, i) => (
+          <Text key={i} variant="subtext-regular" color="neutral20">
             {e}
           </Text>
         ))}
         {getDays().map((e) =>
           isSameMonth(currentMonth, e) ? (
             <Button
+              key={e.getTime()}
               size="small"
               width="full"
               variant={
@@ -400,7 +407,7 @@ function DatePicker({
               {format(e, 'd')}
             </Button>
           ) : (
-            <div />
+            <div key={e.getTime()} />
           ),
         )}
       </div>
@@ -449,8 +456,9 @@ function TimePicker({
         }}
         ref={timeContainerRef}
       >
-        {[...Array(24 * 2).keys()].map((e) => (
+        {[...Array(24 * 2).keys()].map((e, i) => (
           <styled.div
+            key={i}
             style={{
               height: 32,
               flexShrink: 0,

@@ -3,7 +3,7 @@ import { colors } from '../../utils/colors.js'
 import { styled } from 'inlines'
 
 type SwitchInputProps = {
-  value: boolean
+  value?: boolean
   onChange: (value: boolean) => void
   disabled?: boolean
   error?: boolean
@@ -76,7 +76,7 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
           borderWidth: 0,
         }}
         type="checkbox"
-        checked={value}
+        checked={value ?? false}
         onChange={() => {
           if (disabled) return
 

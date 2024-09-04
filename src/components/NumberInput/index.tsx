@@ -6,7 +6,7 @@ import { colors } from '../../utils/colors.js'
 import { IconButton } from '../IconButton/index.js'
 
 type NumberInputProps = {
-  value: number | null
+  value?: number
   onChange: (value: number) => void
   disabled?: boolean
   placeholder?: string
@@ -31,14 +31,14 @@ function NumberInput({
   suffix,
 }: NumberInputProps) {
   const [internalValue, setInternalValue] = useState(
-    value === null ? '' : value.toString(),
+    typeof value === 'number' ? value.toString() : '',
   )
   const [focus, setFocus] = useState(false)
   const empty = internalValue.length === 0
   const ref = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (value === null) {
+    if (typeof value === 'undefined') {
       setInternalValue('')
       return
     }
@@ -139,7 +139,7 @@ function NumberInput({
             let raw = e.target.value
 
             if (raw === '') {
-              onChange(null)
+              onChange(undefined)
               setInternalValue('')
               return
             }

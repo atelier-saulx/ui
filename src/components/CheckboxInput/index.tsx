@@ -4,7 +4,7 @@ import { colors } from '../../utils/colors.js'
 import { styled } from 'inlines'
 
 type CheckboxInputProps = {
-  value: boolean
+  value?: boolean
   onChange: (value: boolean) => void
   disabled?: boolean
   error?: boolean
@@ -85,7 +85,7 @@ function CheckboxInput({
           borderWidth: 0,
         }}
         type="checkbox"
-        checked={value}
+        checked={value ?? false}
         onChange={() => {
           if (disabled) return
 

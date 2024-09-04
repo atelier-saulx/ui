@@ -4,7 +4,7 @@ import { useRerender } from '../../hooks/useRerender.js'
 import { deepEqual } from '../../utils/deepEqual.js'
 import { colors } from '../../utils/colors.js'
 
-type FormValues = { [key: string]: string | boolean | number }
+type FormValues = { [key: string]: string | boolean | number | null }
 type FormErrors = { [key: string]: string }
 type FormState = {
   values: FormValues
@@ -183,6 +183,7 @@ function FormField({ label, children }: FormFieldProps) {
         width: '100%',
         display: 'flex',
         gap: 16,
+        minHeight: 36,
       }}
     >
       <div style={{ width: 160, paddingTop: 9.5 }}>
@@ -190,7 +191,9 @@ function FormField({ label, children }: FormFieldProps) {
           {label}
         </Text>
       </div>
-      <div style={{ flex: 1 }}>{children}</div>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+        {children}
+      </div>
     </div>
   )
 }

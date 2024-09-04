@@ -8,7 +8,7 @@ import { KeyHint, KeyHintProps } from '../KeyHint/index.js'
 import { Badge } from '../Badge/index.js'
 
 type TextInputProps = {
-  value: string
+  value?: string
   onChange: (value: string) => void
   disabled?: boolean
   placeholder?: string
@@ -112,7 +112,7 @@ function TextInput({
         )}
         <input
           ref={ref}
-          value={value}
+          value={value ?? ''}
           disabled={disabled}
           placeholder={placeholder}
           maxLength={maxLength}
