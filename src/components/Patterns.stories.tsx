@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, Form, FormFields } from '../index.js'
+import { Button, Modal, Form } from '../index.js'
 
 export default {
   title: 'Patterns (WIP)',
@@ -8,6 +8,7 @@ export default {
 
 // TODO actually use based for the data, form submits  etc.
 
+// TODO this could be a good candidate for a HoC: `FormModal` -> takes title, description, buttonLabels, fields, validation onsubmit but not much else i guess.
 export function FormInModalWithDataFromAPI() {
   const [open, setOpen] = useState(false)
 
@@ -66,7 +67,7 @@ export function FormInModalWithDataFromAPI() {
           {({ isSubmitting, isDirty, submitForm, resetForm }) => (
             <>
               <Modal.Body>
-                <FormFields />
+                <Form.Fields />
               </Modal.Body>
               <Modal.Actions>
                 {({ close }) => (

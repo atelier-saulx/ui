@@ -171,5 +171,7 @@ function FormFields({ horizontal }: FormFieldsProps) {
   return <FormFieldGroup>{children}</FormFieldGroup>
 }
 
-export { Form, FormFields }
+Form.Fields = FormFields
+
+export { Form }
 export type { FormProps, FormFieldsProps }

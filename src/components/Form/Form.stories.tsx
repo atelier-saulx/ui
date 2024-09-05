@@ -8,7 +8,7 @@ import { SwitchInput } from '../SwitchInput/index.js'
 import { Calendar } from '../Calendar/index.js'
 import { Button } from '../Button/index.js'
 import { format } from 'date-fns'
-import { Form, FormFields } from './Form.js'
+import { Form } from './Form.js'
 
 export default {
   title: 'Form',
@@ -56,7 +56,7 @@ export const Component = () => {
         isDirty,
       }) => (
         <>
-          <FormFields horizontal />
+          <Form.Fields horizontal />
           <div
             style={{
               display: 'flex',
@@ -132,7 +132,7 @@ export const Async = () => {
         isDirty,
       }) => (
         <>
-          <FormFields />
+          <Form.Fields />
           <div
             style={{
               display: 'flex',
