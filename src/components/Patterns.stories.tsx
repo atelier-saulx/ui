@@ -79,10 +79,7 @@ export function FormInModal() {
                       keyHint="Enter"
                       disabled={isSubmitting || !isDirty}
                       loading={isSubmitting}
-                      onClick={async () => {
-                        await submitForm()
-                        resetForm()
-                      }}
+                      onClick={submitForm}
                     >
                       Create Todo
                     </Button>
