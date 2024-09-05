@@ -171,14 +171,14 @@ function NumberInput({
           size="tiny"
           icon="tiny-chevron-up"
           onClick={() => {
-            onChange(value === null ? 1 : value + 1)
+            onChange(typeof value === 'undefined' ? 1 : value + 1)
           }}
         />
         <IconButton
           size="tiny"
           icon="tiny-chevron-down"
           onClick={() => {
-            onChange(value === null ? -1 : value - 1)
+            onChange(typeof value === 'undefined' ? -1 : value - 1)
           }}
         />
       </div>

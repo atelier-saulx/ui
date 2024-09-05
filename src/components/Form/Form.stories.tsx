@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormErrors, FormField, FormFieldGroup, useForm } from './index.js'
 import { TextInput } from '../TextInput/index.js'
 import { TextAreaInput } from '../TextAreaInput/index.js'
@@ -8,179 +8,161 @@ import { SwitchInput } from '../SwitchInput/index.js'
 import { Calendar } from '../Calendar/index.js'
 import { Button } from '../Button/index.js'
 import { format } from 'date-fns'
+import { Form, FormFields } from './Form.js'
 
 export default {
   title: 'Form',
   component: () => {},
 }
 
-export const Default = () => {
-  const form = useForm({
-    onSubmit: (values) => {
-      console.log('onSubmit', values)
-    },
-    validate: () => {
-      return {}
-    },
-  })
-
+export const Component = () => {
   return (
-    <>
-      <FormFieldGroup label="Group title">
-        <FormField label="TextInput">
-          <TextInput
-            value={form.values['text'] as string}
-            onChange={(value) => {
-              form.setValue('text', value)
-            }}
-          />
-        </FormField>
-        <FormField label="TextInput">
-          <TextAreaInput
-            value={form.values['textarea'] as string}
-            onChange={(value) => {
-              form.setValue('textarea', value)
-            }}
-          />
-        </FormField>
-        <FormField label="NumberInput">
-          <NumberInput
-            value={form.values['number'] as number}
-            onChange={(value) => {
-              form.setValue('number', value)
-            }}
-          />
-        </FormField>
-        <FormField label="CheckboxInput">
-          <CheckboxInput
-            size="small"
-            value={form.values['checkbox'] as boolean}
-            onChange={(value) => {
-              form.setValue('checkbox', value)
-            }}
-          />
-        </FormField>
-        <FormField label="SwitchInput">
-          <SwitchInput
-            value={form.values['switch'] as boolean}
-            onChange={(value) => {
-              form.setValue('switch', value)
-            }}
-          />
-        </FormField>
-        <FormField label="Calendar">
-          <Calendar
-            variant="date-time"
-            value={form.values['calendar'] as number}
-            onChange={(value) => {
-              form.setValue('calendar', value)
+    <Form
+      fields={{
+        text: { type: 'text', label: 'Text' },
+        textarea: { type: 'textarea', label: 'Textarea' },
+        number: { type: 'number', label: 'Number' },
+        switch: { type: 'switch', label: 'Switch' },
+        checkbox: { type: 'checkbox', label: 'Checkbox' },
+        datetime: { type: 'datetime', label: 'DateTime' },
+      }}
+      validate={(values) => {
+        const errors: FormErrors = {}
+
+        if (!values['text']) {
+          errors['text'] = 'text is required'
+        }
+
+        if (!values['checkbox']) {
+          errors['checkbox'] = 'checkbox is required'
+        }
+
+        if (!values['datetime']) {
+          errors['datetime'] = 'datetime is required'
+        } else if ((values['datetime'] as number) < Date.now()) {
+          errors['datetime'] = 'datetime must be in the future'
+        }
+
+        return errors
+      }}
+      onSubmit={console.log}
+    >
+      {({
+        submitForm,
+        resetForm,
+        validateForm,
+        isSubmitting,
+        isValidating,
+        isDirty,
+      }) => (
+        <>
+          <FormFields horizontal />
+          <div
+            style={{
+              display: 'flex',
+              gap: 16,
+              paddingTop: 16,
             }}
           >
-            <Button variant="border" leadIcon="date">
-              {form.values['calendar']
-                ? format(
-                    new Date(form.values['calendar'] as number),
-                    'MMM d, yyy HH:mm',
-                  )
-                : 'Pick a date'}
+            <Button disabled={isSubmitting} onClick={resetForm} variant="ghost">
+              Reset
             </Button>
-          </Calendar>
-        </FormField>
-      </FormFieldGroup>
-    </>
+            <Button
+              disabled={isSubmitting}
+              loading={isValidating}
+              onClick={validateForm}
+              variant="border"
+            >
+              Validate
+            </Button>
+            <div style={{ marginLeft: 'auto' }}>
+              <Button
+                disabled={isSubmitting || !isDirty}
+                loading={isSubmitting}
+                onClick={submitForm}
+              >
+                Submit
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+    </Form>
   )
 }
 
-export const DynamicInitialValue = () => {
-  const [apiResponse, setApiResponse] = React.useState<any>()
+export const Async = () => {
+  const [data, setData] = useState<any>()
 
-  React.useEffect(() => {
+  useEffect(() => {
     setInterval(() => {
-      setApiResponse((p) => ({ ...p, email: crypto.randomUUID() }))
-    }, 500)
+      setData((p) => ({ ...p, text: crypto.randomUUID() }))
+    }, 1000)
   }, [])
 
-  const form = useForm({
-    initialValues: apiResponse,
-    validate: async (values) => {
-      const errors: FormErrors = {}
-
-      if (!values.email) {
-        errors['email'] = 'Please provide an email.'
-      }
-
-      if (!values.password) {
-        errors['password'] = 'Please provide a password.'
-      }
-
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve('foo')
-        }, 2000)
-      })
-
-      return errors
-    },
-    onSubmit: async (values) => {
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve('foo')
-        }, 2000)
-      })
-      console.log('form submitted with', values)
-    },
-  })
-
   return (
-    <>
-      <FormFieldGroup label="Group title">
-        <FormField label="Email" error={form.errors['email']}>
-          <TextInput
-            type="email"
-            disabled={form.isSubmitting}
-            value={form.values['email'] as string}
-            onChange={(value) => {
-              form.setValue('email', value)
+    <Form
+      initialValues={data}
+      fields={{
+        text: { type: 'text', label: 'Text' },
+      }}
+      validate={async () => {
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve('foo')
+          }, 1000)
+        })
+
+        return {}
+      }}
+      onSubmit={async () => {
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve('foo')
+          }, 2000)
+        })
+      }}
+    >
+      {({
+        submitForm,
+        resetForm,
+        validateForm,
+        isSubmitting,
+        isValidating,
+        isDirty,
+      }) => (
+        <>
+          <FormFields />
+          <div
+            style={{
+              display: 'flex',
+              gap: 16,
+              paddingTop: 16,
             }}
-            error={!!form.errors['email']}
-          />
-        </FormField>
-        <FormField label="Password" error={form.errors['password']}>
-          <TextInput
-            type="password"
-            disabled={form.isSubmitting}
-            value={form.values['password'] as string}
-            onChange={(value) => {
-              form.setValue('password', value)
-            }}
-            error={!!form.errors['password']}
-          />
-        </FormField>
-      </FormFieldGroup>
-      <Button
-        disabled={form.isSubmitting}
-        variant="border"
-        onClick={form.resetForm}
-      >
-        Reset form
-      </Button>
-      <Button
-        disabled={form.isSubmitting}
-        loading={form.isValidating}
-        variant="border"
-        onClick={form.validateForm}
-      >
-        Validate form
-      </Button>
-      <Button
-        disabled={form.isSubmitting || !form.isDirty}
-        loading={form.isSubmitting}
-        onClick={form.submitForm}
-      >
-        Submit form
-      </Button>
-      <hr />
-      <pre>{JSON.stringify(form, null, 2)}</pre>
-    </>
+          >
+            <Button disabled={isSubmitting} onClick={resetForm} variant="ghost">
+              Reset
+            </Button>
+            <Button
+              disabled={isSubmitting}
+              loading={isValidating}
+              onClick={validateForm}
+              variant="border"
+            >
+              Validate
+            </Button>
+            <div style={{ marginLeft: 'auto' }}>
+              <Button
+                disabled={isSubmitting || !isDirty}
+                loading={isSubmitting}
+                onClick={submitForm}
+              >
+                Submit
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+    </Form>
   )
 }

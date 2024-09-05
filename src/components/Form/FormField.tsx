@@ -35,7 +35,13 @@ function FormField({
           </Text>
         </div>
         <div
-          style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}
+          style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+            alignItems: 'start',
+          }}
         >
           {children}
           {error && (
