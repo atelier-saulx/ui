@@ -10,11 +10,11 @@ import { Button } from '../Button/index.js'
 import { format } from 'date-fns'
 
 export default {
-  title: 'Form (WIP)',
+  title: 'Form',
   component: () => {},
 }
 
-export const AllTypes = () => {
+export const Default = () => {
   const form = useForm({
     onSubmit: (values) => {
       console.log('onSubmit', values)
@@ -24,11 +24,9 @@ export const AllTypes = () => {
     },
   })
 
-  console.count('rerender')
-
   return (
     <>
-      <FormFieldGroup header="Group title">
+      <FormFieldGroup label="Group title">
         <FormField label="TextInput">
           <TextInput
             value={form.values['text'] as string}
@@ -89,24 +87,17 @@ export const AllTypes = () => {
           </Calendar>
         </FormField>
       </FormFieldGroup>
-      <pre>{JSON.stringify(form, null, 2)}</pre>
     </>
   )
 }
 
-export const WIP = () => {
+export const DynamicInitialValue = () => {
   const [apiResponse, setApiResponse] = React.useState<any>()
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setApiResponse({
-        email: 'email-from-api@example.com',
-        password: crypto.randomUUID(),
-      })
-      setInterval(() => {
-        setApiResponse((p) => ({ ...p, password: crypto.randomUUID() }))
-      }, 500)
-    }, 1500)
+    setInterval(() => {
+      setApiResponse((p) => ({ ...p, email: crypto.randomUUID() }))
+    }, 500)
   }, [])
 
   const form = useForm({
@@ -142,20 +133,19 @@ export const WIP = () => {
 
   return (
     <>
-      <FormFieldGroup header="Group title">
-        <FormField label="Email">
+      <FormFieldGroup label="Group title">
+        <FormField label="Email" error={form.errors['email']}>
           <TextInput
             type="email"
-            //  TODO @vassbence fix "as string"
             disabled={form.isSubmitting}
             value={form.values['email'] as string}
             onChange={(value) => {
               form.setValue('email', value)
             }}
-            error={form.errors['email']}
+            error={!!form.errors['email']}
           />
         </FormField>
-        <FormField label="Password">
+        <FormField label="Password" error={form.errors['password']}>
           <TextInput
             type="password"
             disabled={form.isSubmitting}
@@ -163,7 +153,7 @@ export const WIP = () => {
             onChange={(value) => {
               form.setValue('password', value)
             }}
-            error={form.errors['password']}
+            error={!!form.errors['password']}
           />
         </FormField>
       </FormFieldGroup>

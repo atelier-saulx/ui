@@ -63,11 +63,3 @@ export const Default = {
     </div>
   ),
 }
-
-export const FileUploadAsyncOnClick = () => {
-  const client = useClient()
-
-  console.log(client)
-
-  return <Button>Upload a file</Button>
-}

@@ -14,7 +14,6 @@ export const Default = () => {
       onChange={setValue}
       leadIcon="search"
       prefix="https://"
-      label="Label"
     />
   )
 }
@@ -45,7 +44,7 @@ export const Error = () => {
       onChange={setValue}
       leadIcon="search"
       prefix="https://"
-      error="Error message."
+      error
     />
   )
 }
@@ -58,7 +57,7 @@ export const Clearable = () => {
       onChange={setValue}
       leadIcon="search"
       prefix="https://"
-      error="Error message."
+      error
       clearable
     />
   )
@@ -110,11 +109,9 @@ export const KitchenSink = () => {
       value={value}
       onChange={setValue}
       leadIcon="search"
-      label="Enter your name"
       prefix="https://"
-      error="Error message."
+      error
       placeholder="placeholder"
-      description="This is a description"
       clearable
       maxLength={25}
       suffix="@once.net"

@@ -52,9 +52,7 @@ export const KitchenSink = () => {
       placeholder="Enter some text..."
       value={value}
       onChange={setValue}
-      error="Error message."
-      label="Label"
-      description="Description"
+      error
       maxLength={100}
     />
   )

@@ -6,10 +6,12 @@ import {
   TextInput,
   CheckboxInput,
   TextAreaInput,
+  FormField,
+  FormFieldGroup,
 } from '../index.js'
 
 export default {
-  title: 'Patterns',
+  title: 'Patterns (WIP)',
   component: () => {},
 }
 
@@ -64,26 +66,38 @@ export function FormInModalWithDataFromAPI() {
           Add a beautiful little todo here to make sure you remember
         </Modal.Description>
         <Modal.Body>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <TextInput
-              disabled={form.isSubmitting}
-              label="Title"
-              value={form.values['title'] as string}
-              onChange={(v) => {
-                form.setValue('title', v)
-              }}
-              error={form.errors['title']}
-            />
-            <TextAreaInput
-              disabled={form.isSubmitting}
-              label="Description"
-              value={form.values['description'] as string}
-              onChange={(v) => {
-                form.setValue('description', v)
-              }}
-              error={form.errors['description']}
-            />
-          </div>
+          <FormFieldGroup>
+            <FormField label="Email" error={form.errors['title']}>
+              <TextInput
+                disabled={form.isSubmitting}
+                value={form.values['title'] as string}
+                onChange={(v) => {
+                  form.setValue('title', v)
+                }}
+                error={!!form.errors['title']}
+              />
+            </FormField>
+            <FormField label="Description" error={form.errors['description']}>
+              <TextAreaInput
+                disabled={form.isSubmitting}
+                value={form.values['description'] as string}
+                onChange={(v) => {
+                  form.setValue('description', v)
+                }}
+                error={!!form.errors['description']}
+              />
+            </FormField>
+            <FormField label="Done" error={form.errors['done']}>
+              <CheckboxInput
+                disabled={form.isSubmitting}
+                value={form.values['done'] as boolean}
+                onChange={(v) => {
+                  form.setValue('done', v)
+                }}
+                error={!!form.errors['done']}
+              />
+            </FormField>
+          </FormFieldGroup>
         </Modal.Body>
         <Modal.Actions>
           {({ close }) => (
