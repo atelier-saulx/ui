@@ -41,6 +41,7 @@ function FormField({
             flexDirection: 'column',
             gap: 8,
             alignItems: 'start',
+            justifyContent: 'center',
           }}
         >
           {children}

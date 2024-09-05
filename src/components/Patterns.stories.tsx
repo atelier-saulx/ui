@@ -9,7 +9,7 @@ export default {
 // TODO actually use based for the data, form submits  etc.
 
 // TODO this could be a good candidate for a HoC: `FormModal` -> takes title, description, buttonLabels, fields, validation onsubmit but not much else i guess.
-export function FormInModalWithDataFromAPI() {
+export function FormInModal() {
   const [open, setOpen] = useState(false)
 
   return (
