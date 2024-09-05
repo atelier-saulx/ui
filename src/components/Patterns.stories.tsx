@@ -63,7 +63,7 @@ export function FormInModalWithDataFromAPI() {
             setOpen(false)
           }}
         >
-          {({ isSubmitting, isDirty, submitForm }) => (
+          {({ isSubmitting, isDirty, submitForm, resetForm }) => (
             <>
               <Modal.Body>
                 <FormFields />
@@ -78,7 +78,10 @@ export function FormInModalWithDataFromAPI() {
                       keyHint="Enter"
                       disabled={isSubmitting || !isDirty}
                       loading={isSubmitting}
-                      onClick={submitForm}
+                      onClick={async () => {
+                        await submitForm()
+                        resetForm()
+                      }}
                     >
                       Create Todo
                     </Button>
