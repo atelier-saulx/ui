@@ -63,6 +63,7 @@ const MenuContext = createContext<MenuContextType>(null)
 
 type MenuRootProps = {
   children: ReactNode
+  onOpenChange?: (open: boolean) => void
 }
 
 function Menu(props: MenuRootProps) {
@@ -79,7 +80,7 @@ function Menu(props: MenuRootProps) {
   )
 }
 
-function MenuInner({ children }: MenuRootProps) {
+function MenuInner({ children, onOpenChange }: MenuRootProps) {
   const [open, setOpen] = useState(false)
   const elementsRef = useRef([])
   const tree = useFloatingTree()
@@ -127,11 +128,18 @@ function MenuInner({ children }: MenuRootProps) {
     activeIndex,
     nested: nested,
     onNavigate: setActiveIndex,
+    focusItemOnOpen: false,
+    virtual: true,
+    allowEscape: true,
   })
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
     [click, hover, dismiss, listNavigation],
   )
+
+  useEffect(() => {
+    onOpenChange?.(open)
+  }, [open])
 
   useEffect(() => {
     if (!tree) return
@@ -219,8 +227,8 @@ function MenuItems({ children }: MenuItemsProps) {
         <FloatingFocusManager
           modal={false}
           context={floatingContext}
-          initialFocus={-1}
-          returnFocus={!nested}
+          // initialFocus={-1}
+          // returnFocus={!nested}
         >
           <styled.div
             ref={refs.setFloating}
@@ -318,7 +326,7 @@ function MenuItem({
 }
 
 type MenuToggleItemProps = {
-  children: string
+  children: string | ReactNode
   value: boolean
   onChange?: () => void
   disabled?: boolean
@@ -332,6 +340,7 @@ function MenuToggleItem({
 }: MenuToggleItemProps) {
   const { getItemProps, activeIndex } = useContext(MenuContext)
   const item = useListItem()
+  const tree = useFloatingTree()
 
   return (
     <button
@@ -341,6 +350,7 @@ function MenuToggleItem({
           if (disabled) return
 
           onChange?.()
+          tree?.events.emit('click')
         },
       })}
       type="button"
@@ -371,9 +381,13 @@ function MenuToggleItem({
       <div style={{ height: 24, width: 24 }}>
         {value && <Icon variant="checkmark" />}
       </div>
-      <Text variant="display-medium" color="inherit">
-        {children}
-      </Text>
+      {typeof children === 'string' ? (
+        <Text variant="display-medium" color="inherit">
+          {children}
+        </Text>
+      ) : (
+        children
+      )}
     </button>
   )
 }

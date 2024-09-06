@@ -20,6 +20,8 @@ type TextInputProps = {
   suffix?: string
   keyHint?: KeyHintProps['hint']
   type?: 'text' | 'email' | 'password'
+  size?: 'regular' | 'small'
+  variant?: 'border' | 'ghost'
 }
 
 function TextInput({
@@ -35,45 +37,67 @@ function TextInput({
   suffix,
   keyHint,
   type = 'text',
+  size = 'regular',
+  variant = 'border',
 }: TextInputProps) {
   const [focus, setFocus] = useState(false)
   const length = typeof value !== 'string' ? 0 : value.length
   const ref = useRef<HTMLInputElement>(null)
+
+  if (variant === 'border' && size === 'small')
+    throw new Error('border variant doesnt support small size')
+  if (variant === 'ghost' && error)
+    throw new Error('ghost variant doesnt support error')
 
   return (
     <div
       style={{
         position: 'relative',
         width: '100%',
-        height: 36,
         gap: 4,
         display: 'inline-flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '0 8px',
         borderRadius: radius[8],
-        border: `1px solid ${colors.neutral20Adjusted}`,
         color: colors.neutral60,
         outline: 'none',
-        ...(focus &&
-          !disabled && {
-            background: colors.neutralInverted100,
-            border: `1px solid ${colors.neutral100}`,
-            outline: `4px solid ${colors.neutral20}`,
-          }),
-        ...(error && {
-          border: `1px solid ${colors.red80}`,
+        ...(size === 'regular' && {
+          height: 36,
+          padding: '0 8px',
+        }),
+        ...(size === 'small' && {
+          height: 24,
+          padding: '0 8px',
+        }),
+        ...(variant === 'border' && {
+          border: `1px solid ${colors.neutral20Adjusted}`,
           ...(focus &&
             !disabled && {
               background: colors.neutralInverted100,
-              border: `1px solid ${colors.red100}`,
-              outline: `4px solid ${colors.red60}`,
+              border: `1px solid ${colors.neutral100}`,
+              outline: `4px solid ${colors.neutral20}`,
             }),
+          ...(error && {
+            border: `1px solid ${colors.red80}`,
+            ...(focus &&
+              !disabled && {
+                background: colors.neutralInverted100,
+                border: `1px solid ${colors.red100}`,
+                outline: `4px solid ${colors.red60}`,
+              }),
+          }),
+          ...(disabled && {
+            color: colors.neutral20,
+            background: colors.neutral5,
+            border: `1px solid transparent`,
+          }),
         }),
-        ...(disabled && {
-          color: colors.neutral20,
-          background: colors.neutral5,
-          border: `1px solid transparent`,
+        ...(variant === 'ghost' && {
+          border: 'none',
+          ...(disabled && {
+            color: colors.neutral20,
+            background: colors.neutral5,
+          }),
         }),
       }}
     >
@@ -105,7 +129,6 @@ function TextInput({
           width: '100%',
           height: '100%',
           color: length === 0 ? colors.neutral60 : colors.neutral100,
-          fontFamily: 'inherit',
           fontSize: 14,
           fontWeight: 400,
           lineHeight: 'normal',

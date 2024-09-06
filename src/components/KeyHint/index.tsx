@@ -99,7 +99,6 @@ function KeyHint({ hint, color = 'neutral' }: KeyHintProps) {
         <kbd
           key={key}
           style={{
-            fontFamily: 'inherit',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',

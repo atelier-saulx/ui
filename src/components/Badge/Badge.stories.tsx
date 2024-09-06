@@ -1,5 +1,6 @@
 import React from 'react'
 import { Badge } from './index.js'
+import { Tooltip } from '../Tooltip/index.js'
 
 export default {
   title: 'Badge',
@@ -20,9 +21,14 @@ export const Default = {
           (color) =>
             [{}, { leadIcon: 'arrow-up' }, { trailIcon: 'arrow-up' }].map(
               (icon) => (
-                <Badge color={`${color}-${variant}` as any} {...(icon as any)}>
-                  Badge
-                </Badge>
+                <Tooltip value={`${color}-${variant}`}>
+                  <Badge
+                    color={`${color}-${variant}` as any}
+                    {...(icon as any)}
+                  >
+                    Badge
+                  </Badge>
+                </Tooltip>
               ),
             ),
         ),

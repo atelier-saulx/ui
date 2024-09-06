@@ -4,16 +4,17 @@ import { radius } from '../../utils/radius.js'
 type AvatarProps = {
   src: string
   color?: 'neutral' | 'inverted' | 'red' | 'amber' | 'indigo' | 'green'
+  size?: 'regular' | 'small'
 }
 
-function Avatar({ src, color }: AvatarProps) {
+function Avatar({ src, color, size = 'regular' }: AvatarProps) {
   if (!color) {
     return (
       <div
         style={{
           flexShrink: 0,
-          width: 32,
-          height: 32,
+          width: size === 'small' ? 24 : 32,
+          height: size === 'small' ? 24 : 32,
           position: 'relative',
         }}
       >
@@ -45,8 +46,8 @@ function Avatar({ src, color }: AvatarProps) {
     <div
       style={{
         flexShrink: 0,
-        width: 32,
-        height: 32,
+        width: size === 'small' ? 24 : 32,
+        height: size === 'small' ? 24 : 32,
         position: 'relative',
         borderRadius: radius.full,
         ...(color === 'neutral' && {

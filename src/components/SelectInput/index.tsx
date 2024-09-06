@@ -1,17 +1,19 @@
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { colors } from '../../utils/colors.js'
 import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { styled } from 'inlines'
 import { Text } from '../Text/index.js'
 import { Menu } from '../Menu/index.js'
+import { TextInput } from '../TextInput/index.js'
+import { Separator } from '../Separator/index.js'
 
-// TODO once done hoist the dropdown out, so it can be reused.
-// TODO correct placeholder color
+// TODO @vassbence hoist the dropdown out, so it can be reused for eg the datetimeinput.
 
 type SelectInputOption = {
   value: string
-  label: string
+  label: string | ReactNode
+  labelFilterText?: string
 }
 
 type SelectInputProps = {
@@ -33,8 +35,15 @@ function SelectInput({
   onChange,
   placeholder,
 }: SelectInputProps) {
+  const [filter, setFilter] = useState<string>()
+  const empty = !value
+
   return (
-    <Menu>
+    <Menu
+      onOpenChange={() => {
+        setFilter('')
+      }}
+    >
       <Menu.Trigger>
         {({ open }) => (
           <styled.button
@@ -47,13 +56,13 @@ function SelectInput({
               height: 36,
               gap: 4,
               display: 'inline-flex',
-              justifyContent: 'space-between',
+              justifyContent: 'start',
               alignItems: 'center',
               padding: '0 8px',
               background: 'transparent',
               borderRadius: radius[8],
               border: `1px solid ${colors.neutral20Adjusted}`,
-              color: colors.neutral60,
+              color: empty ? colors.neutral60 : colors.neutral100,
               outline: 'none',
               '&:not(:disabled):focus-visible, &[data-open]': {
                 background: colors.neutralInverted100,
@@ -77,14 +86,16 @@ function SelectInput({
             }}
           >
             {leadIcon && <Icon variant={leadIcon} />}
-            <Text>
-              {value
-                ? options.find((e) => e.value === value).label
-                : placeholder}
+            <Text color="inherit">
+              {empty
+                ? placeholder
+                : options.find((e) => e.value === value).label}
             </Text>
             <div
               style={{
+                marginLeft: 'auto',
                 display: 'flex',
+                color: open ? colors.neutral100 : colors.neutral60,
                 transition: 'transform 300ms cubic-bezier(0.7, -0.4, 0.4, 1.4)',
                 ...(open && {
                   transform: 'rotate(180deg)',
@@ -97,15 +108,43 @@ function SelectInput({
         )}
       </Menu.Trigger>
       <Menu.Items>
-        {options.map((option) => (
-          <Menu.Item
-            onClick={() => {
-              onChange(option.value)
-            }}
-          >
-            {option.label}
-          </Menu.Item>
-        ))}
+        <TextInput
+          value={filter}
+          onChange={(value) => {
+            setFilter(value)
+          }}
+          variant="ghost"
+          leadIcon="search"
+          placeholder="Find..."
+          size="small"
+        />
+        <Separator />
+        {options
+          .filter((option) => {
+            if (filter && option.labelFilterText) {
+              return option.labelFilterText
+                .toLowerCase()
+                .startsWith(filter.toLocaleLowerCase())
+            }
+
+            if (filter && typeof option.label === 'string') {
+              return option.label
+                .toLowerCase()
+                .startsWith(filter.toLocaleLowerCase())
+            }
+
+            return true
+          })
+          .map((option) => (
+            <Menu.ToggleItem
+              value={value === option.value}
+              onChange={() => {
+                onChange(option.value)
+              }}
+            >
+              {option.label}
+            </Menu.ToggleItem>
+          ))}
       </Menu.Items>
     </Menu>
   )

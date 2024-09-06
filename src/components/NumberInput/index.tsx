@@ -107,7 +107,6 @@ function NumberInput({
           width: '100%',
           height: '100%',
           color: empty ? colors.neutral60 : colors.neutral100,
-          fontFamily: 'inherit',
           fontSize: 14,
           fontWeight: 400,
           lineHeight: 'normal',

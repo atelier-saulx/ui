@@ -119,9 +119,7 @@
 *::after {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-}
-
-* {
+  font-family: Inter;
   margin: 0;
   overscroll-behavior: none;
 }
@@ -129,14 +127,4 @@
 html {
   background: var(--neutral-inverted-100);
   color: var(--neutral-100);
-  font-family: Inter;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

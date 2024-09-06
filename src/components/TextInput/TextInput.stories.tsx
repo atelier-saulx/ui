@@ -18,6 +18,47 @@ export const Default = () => {
   )
 }
 
+export const Ghost = () => {
+  const [value, setValue] = useState('')
+  return (
+    <TextInput
+      variant="ghost"
+      value={value}
+      onChange={setValue}
+      leadIcon="search"
+      prefix="https://"
+    />
+  )
+}
+
+export const GhostSmall = () => {
+  const [value, setValue] = useState('')
+  return (
+    <TextInput
+      variant="ghost"
+      size="small"
+      value={value}
+      onChange={setValue}
+      leadIcon="search"
+      prefix="https://"
+    />
+  )
+}
+
+export const GhostDisabled = () => {
+  const [value, setValue] = useState('')
+  return (
+    <TextInput
+      disabled
+      variant="ghost"
+      value={value}
+      onChange={setValue}
+      leadIcon="search"
+      prefix="https://"
+    />
+  )
+}
+
 export const Placeholder = () => {
   const [value, setValue] = useState('')
   return <TextInput value={value} onChange={setValue} placeholder="Hint text" />

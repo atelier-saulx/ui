@@ -29,7 +29,6 @@ function Text({
         textAlign: align,
         overflowWrap: 'break-word',
         color: colorProp === 'inherit' ? 'inherit' : colors[colorProp],
-        fontFamily: 'inherit',
         lineHeight: 'normal',
         letterSpacing: 'normal',
         ...(variant === 'display-regular' && {

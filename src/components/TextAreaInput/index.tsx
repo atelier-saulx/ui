@@ -50,7 +50,6 @@ function TextAreaInput({
           padding: '6px 8px',
           outline: 'none',
           width: '100%',
-          fontFamily: 'inherit',
           fontSize: 14,
           fontWeight: 400,
           lineHeight: 'normal',

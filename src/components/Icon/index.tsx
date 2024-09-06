@@ -100,9 +100,6 @@ function Icon({ variant, size = 'regular' }: IconProps) {
         flexShrink: 0,
         ...(size === 'regular' && { height: 24, width: 24 }),
         ...(size === 'small' && { height: 16, width: 16 }),
-        ...(variant === 'loader' && {
-          animation: 'spin 1s linear infinite',
-        }),
       }}
     >
       {variant === 'search' && (
