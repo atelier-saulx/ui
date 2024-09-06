@@ -30,8 +30,7 @@ type CheckboxFormField = { type: 'checkbox' }
 type DateTimeFormField = { type: 'datetime' }
 type SelectFormField = {
   type: 'select'
-  options: SelectInputProps['options']
-}
+} & Pick<SelectInputProps, 'options' | 'filterable'>
 
 type FormProps = {
   children: ReactNode | ((form: ReturnType<typeof useForm>) => React.ReactNode)
@@ -86,6 +85,7 @@ function FormFields({ horizontal }: FormFieldsProps) {
                 error={form.errors[key]}
               >
                 <TextInput
+                  disabled={form.isSubmitting}
                   value={form.values[key] as string | undefined}
                   onChange={(value) => form.setValue(key, value)}
                   error={!!form.errors[key]}
@@ -102,6 +102,7 @@ function FormFields({ horizontal }: FormFieldsProps) {
                 error={form.errors[key]}
               >
                 <TextAreaInput
+                  disabled={form.isSubmitting}
                   value={form.values[key] as string | undefined}
                   onChange={(value) => form.setValue(key, value)}
                   error={!!form.errors[key]}
@@ -118,6 +119,7 @@ function FormFields({ horizontal }: FormFieldsProps) {
                 error={form.errors[key]}
               >
                 <SwitchInput
+                  disabled={form.isSubmitting}
                   value={form.values[key] as boolean | undefined}
                   onChange={(value) => form.setValue(key, value)}
                   error={!!form.errors[key]}
@@ -134,6 +136,7 @@ function FormFields({ horizontal }: FormFieldsProps) {
                 error={form.errors[key]}
               >
                 <CheckboxInput
+                  disabled={form.isSubmitting}
                   value={form.values[key] as boolean | undefined}
                   onChange={(value) => form.setValue(key, value)}
                   error={!!form.errors[key]}
@@ -150,6 +153,7 @@ function FormFields({ horizontal }: FormFieldsProps) {
                 error={form.errors[key]}
               >
                 <NumberInput
+                  disabled={form.isSubmitting}
                   value={form.values[key] as number | undefined}
                   onChange={(value) => form.setValue(key, value)}
                   error={!!form.errors[key]}
@@ -172,7 +176,11 @@ function FormFields({ horizontal }: FormFieldsProps) {
                     form.setValue(key, value)
                   }}
                 >
-                  <Button variant="border" leadIcon="date">
+                  <Button
+                    variant="border"
+                    leadIcon="date"
+                    disabled={form.isSubmitting}
+                  >
                     {form.values[key]
                       ? format(
                           new Date(form.values[key] as number),
@@ -193,10 +201,12 @@ function FormFields({ horizontal }: FormFieldsProps) {
                 error={form.errors[key]}
               >
                 <SelectInput
+                  disabled={form.isSubmitting}
                   value={form.values[key] as string}
                   onChange={(value) => {
                     form.setValue(key, value)
                   }}
+                  filterable={field.filterable}
                   options={field.options}
                 />
               </FormField>

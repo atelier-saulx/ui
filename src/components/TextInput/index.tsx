@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { KeyboardEvent, useRef, useState } from 'react'
 import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
@@ -22,6 +22,7 @@ type TextInputProps = {
   type?: 'text' | 'email' | 'password'
   size?: 'regular' | 'small'
   variant?: 'border' | 'ghost'
+  onKeyDown?: (event: KeyboardEvent) => void
 }
 
 function TextInput({
@@ -39,6 +40,7 @@ function TextInput({
   type = 'text',
   size = 'regular',
   variant = 'border',
+  onKeyDown,
 }: TextInputProps) {
   const [focus, setFocus] = useState(false)
   const length = typeof value !== 'string' ? 0 : value.length
@@ -149,6 +151,7 @@ function TextInput({
         onBlur={() => {
           setFocus(false)
         }}
+        onKeyDown={onKeyDown}
       />
       {suffix && (
         <span style={{ marginLeft: -4, pointerEvents: 'none' }}>

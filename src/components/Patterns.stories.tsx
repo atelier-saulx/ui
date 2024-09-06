@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Modal, Form, Avatar, Text } from '../index.js'
 
 export default {
-  title: 'Patterns (WIP)',
+  title: 'Patterns',
   component: () => {},
 }
 
@@ -35,11 +35,12 @@ export function FormInModal() {
             assignee: {
               type: 'select',
               label: 'Assignee',
+              filterable: true,
               options: [
                 {
                   label: (
                     <div
-                      style={{ display: 'flex', gap: 4, alignItems: 'center' }}
+                      style={{ display: 'flex', gap: 8, alignItems: 'center' }}
                     >
                       <Avatar
                         size="small"
@@ -56,7 +57,7 @@ export function FormInModal() {
                 {
                   label: (
                     <div
-                      style={{ display: 'flex', gap: 4, alignItems: 'center' }}
+                      style={{ display: 'flex', gap: 8, alignItems: 'center' }}
                     >
                       <Avatar
                         size="small"
@@ -73,7 +74,7 @@ export function FormInModal() {
                 {
                   label: (
                     <div
-                      style={{ display: 'flex', gap: 4, alignItems: 'center' }}
+                      style={{ display: 'flex', gap: 8, alignItems: 'center' }}
                     >
                       <Avatar
                         size="small"
@@ -120,7 +121,7 @@ export function FormInModal() {
             setOpen(false)
           }}
         >
-          {({ isSubmitting, isDirty, submitForm, resetForm }) => (
+          {({ isSubmitting, isDirty, submitForm }) => (
             <>
               <Modal.Body>
                 <Form.Fields />
@@ -128,10 +129,16 @@ export function FormInModal() {
               <Modal.Actions>
                 {({ close }) => (
                   <>
-                    <Button onClick={close} variant="border" keyHint="Esc">
+                    <Button
+                      onClick={close}
+                      disabled={isSubmitting}
+                      variant="border"
+                      keyHint="Esc"
+                    >
                       Close
                     </Button>
                     <Button
+                      keyHint="Enter"
                       disabled={isSubmitting || !isDirty}
                       loading={isSubmitting}
                       onClick={submitForm}

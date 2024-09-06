@@ -57,6 +57,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const variant = toggled ? 'fill' : variantProp
 
     async function handleClick(e: React.MouseEvent) {
+      if (disabled) return
+
       try {
         const result = onClick?.(e)
 

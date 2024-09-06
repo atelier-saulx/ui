@@ -25,6 +25,7 @@ type SelectInputProps = {
   disabled?: boolean
   placeholder?: string
   options: SelectInputOption[]
+  filterable?: boolean
 }
 
 function SelectInput({
@@ -35,6 +36,7 @@ function SelectInput({
   value,
   onChange,
   placeholder,
+  filterable = false,
 }: SelectInputProps) {
   const [filter, setFilter] = useState<string>()
   const empty = !value
@@ -109,17 +111,21 @@ function SelectInput({
         )}
       </Menu.Trigger>
       <Menu.Items>
-        <TextInput
-          value={filter}
-          onChange={(value) => {
-            setFilter(value)
-          }}
-          variant="ghost"
-          leadIcon="search"
-          placeholder="Find..."
-          size="small"
-        />
-        <Separator />
+        {filterable && (
+          <>
+            <TextInput
+              value={filter}
+              onChange={(value) => {
+                setFilter(value)
+              }}
+              variant="ghost"
+              leadIcon="search"
+              placeholder="Find..."
+              size="small"
+            />
+            <Separator />
+          </>
+        )}
         {options
           .filter((option) => {
             if (filter && option.labelFilterText) {

@@ -1,8 +1,10 @@
 import {
   cloneElement,
   createContext,
+  Dispatch,
   ReactElement,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useRef,
@@ -42,11 +44,11 @@ import {
   OptionCardGroupProps,
 } from '../OptionCardGroup/index.js'
 import { shadows } from '../../utils/shadows.js'
-import { flushSync } from 'react-dom'
 import { styled } from 'inlines'
 
 type MenuContextType = {
   open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
   refs: ReturnType<typeof useFloating>['refs']
   floatingStyles: ReturnType<typeof useFloating>['floatingStyles']
   getReferenceProps: ReturnType<typeof useInteractions>['getReferenceProps']
@@ -130,7 +132,6 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
     onNavigate: setActiveIndex,
     focusItemOnOpen: false,
     virtual: true,
-    allowEscape: true,
   })
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
@@ -166,6 +167,7 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
       <MenuContext.Provider
         value={{
           open,
+          setOpen,
           refs,
           floatingStyles,
           getReferenceProps,
@@ -211,12 +213,13 @@ type MenuItemsProps = {
 function MenuItems({ children }: MenuItemsProps) {
   const {
     open,
+    setOpen,
     refs,
     floatingStyles,
     getFloatingProps,
     floatingContext,
-    nested,
     elementsRef,
+    activeIndex,
   } = useContext(MenuContext)
 
   if (!open) return null
@@ -224,11 +227,7 @@ function MenuItems({ children }: MenuItemsProps) {
   return (
     <FloatingList elementsRef={elementsRef}>
       <FloatingPortal>
-        <FloatingFocusManager
-          context={floatingContext}
-          modal={true}
-          returnFocus={!nested}
-        >
+        <FloatingFocusManager context={floatingContext} modal={false}>
           <styled.div
             ref={refs.setFloating}
             style={{
@@ -240,8 +239,7 @@ function MenuItems({ children }: MenuItemsProps) {
               flexDirection: 'column',
               gap: 2,
               outline: 'none',
-              border: `1px solid ${colors.neutral10}`,
-              background: colors.neutral10Background,
+              background: colors.neutralInverted100,
               boxShadow: shadows.popoverLarge,
               overflowY: 'auto',
               scrollbarWidth: 'none',
@@ -250,8 +248,35 @@ function MenuItems({ children }: MenuItemsProps) {
               },
               ...floatingStyles,
             }}
-            {...getFloatingProps()}
+            {...getFloatingProps({
+              onKeyDown: (event) => {
+                if (event.key === 'Escape') {
+                  event.stopPropagation()
+                }
+                if (event.key === 'Enter') {
+                  event.stopPropagation()
+                  event.preventDefault()
+                  if (
+                    activeIndex !== null &&
+                    elementsRef.current?.[activeIndex]
+                  ) {
+                    elementsRef.current[activeIndex].click()
+                    setOpen(false)
+                  }
+                }
+              },
+            })}
           >
+            <div
+              style={{
+                inset: 0,
+                zIndex: -1,
+                position: 'absolute',
+                background: colors.neutral10Background,
+                border: `1px solid ${colors.neutral10}`,
+                borderRadius: radius[16],
+              }}
+            />
             {children}
           </styled.div>
         </FloatingFocusManager>
@@ -288,6 +313,7 @@ function MenuItem({
           tree?.events.emit('click')
         },
       })}
+      tabIndex={-1}
       type="button"
       style={{
         flexShrink: 0,
@@ -345,6 +371,7 @@ function MenuToggleItem({
   return (
     <button
       ref={item.ref}
+      tabIndex={-1}
       {...getItemProps({
         onClick() {
           if (disabled) return
@@ -455,6 +482,7 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
 
   return (
     <button
+      tabIndex={-1}
       ref={useMergeRefs([refs.setReference, item.ref])}
       {...getReferenceProps(parent.getItemProps())}
       type="button"

@@ -5,7 +5,7 @@ import { Avatar } from '../Avatar/index.js'
 import { Badge } from '../Badge/index.js'
 
 export default {
-  title: 'SelectInput (WIP)',
+  title: 'SelectInput',
   component: SelectInput,
 }
 
@@ -80,10 +80,11 @@ export const CustomLabelBadge = () => {
   )
 }
 
-export const CustomLabelAvatar = () => {
+export const FilterableCustomLabelAvatar = () => {
   const [value, setValue] = useState<string>()
   return (
     <SelectInput
+      filterable
       value={value}
       onChange={setValue}
       options={[
