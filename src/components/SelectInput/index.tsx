@@ -143,14 +143,15 @@ function SelectInput({
             return true
           })
           .map((option) => (
-            <Menu.ToggleItem
-              value={value === option.value}
-              onChange={() => {
+            <Menu.Item
+              indentContent
+              leadIcon={value === option.value ? 'checkmark' : undefined}
+              onClick={() => {
                 onChange(option.value)
               }}
             >
               {option.label}
-            </Menu.ToggleItem>
+            </Menu.Item>
           ))}
       </Menu.Items>
     </Menu>

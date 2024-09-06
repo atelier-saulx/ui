@@ -130,8 +130,8 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
     activeIndex,
     nested: nested,
     onNavigate: setActiveIndex,
-    focusItemOnOpen: false,
     virtual: true,
+    focusItemOnOpen: true,
   })
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
@@ -261,7 +261,6 @@ function MenuItems({ children }: MenuItemsProps) {
                     elementsRef.current?.[activeIndex]
                   ) {
                     elementsRef.current[activeIndex].click()
-                    setOpen(false)
                   }
                 }
               },
@@ -286,16 +285,18 @@ function MenuItems({ children }: MenuItemsProps) {
 }
 
 type MenuItemProps = {
-  children: string
+  children: string | ReactNode
   leadIcon?: IconProps['variant']
   trailIcon?: IconProps['variant']
   onClick?: () => void
   color?: 'neutral' | 'red'
+  indentContent?: boolean
 }
 
 function MenuItem({
   children,
   leadIcon,
+  indentContent = false,
   trailIcon,
   onClick,
   color = 'neutral',
@@ -342,7 +343,14 @@ function MenuItem({
         }),
       }}
     >
-      {leadIcon && <Icon variant={leadIcon} />}
+      {indentContent ? (
+        <div style={{ height: 24, width: 24 }}>
+          {leadIcon && <Icon variant={leadIcon} />}
+        </div>
+      ) : (
+        <>{leadIcon && <Icon variant={leadIcon} />}</>
+      )}
+
       <Text variant="display-medium" color="inherit">
         {children}
       </Text>
@@ -366,7 +374,6 @@ function MenuToggleItem({
 }: MenuToggleItemProps) {
   const { getItemProps, activeIndex } = useContext(MenuContext)
   const item = useListItem()
-  const tree = useFloatingTree()
 
   return (
     <button
@@ -377,7 +384,6 @@ function MenuToggleItem({
           if (disabled) return
 
           onChange?.()
-          tree?.events.emit('click')
         },
       })}
       type="button"
