@@ -10,20 +10,42 @@ import { NumberInput } from '../NumberInput/index.js'
 import { Calendar } from '../Calendar/index.js'
 import { Button } from '../Button/index.js'
 import { format } from 'date-fns'
+import { SelectInput, SelectInputProps } from '../SelectInput/index.js'
 
 const FormContext = createContext<{
   fields: FormProps['fields']
   form: ReturnType<typeof useForm>
 } | null>(null)
 
+type CommonFormFieldProps = {
+  label?: string
+  description?: string
+}
+
+type TextFormField = { type: 'text' }
+type TextAreaFormField = { type: 'textarea' }
+type NumberFormField = { type: 'number' }
+type SwitchFormField = { type: 'switch' }
+type CheckboxFormField = { type: 'checkbox' }
+type DateTimeFormField = { type: 'datetime' }
+type SelectFormField = {
+  type: 'select'
+  options: SelectInputProps['options']
+}
+
 type FormProps = {
   children: ReactNode | ((form: ReturnType<typeof useForm>) => React.ReactNode)
   fields: {
-    [key: string]: {
-      type: 'text' | 'textarea' | 'number' | 'switch' | 'checkbox' | 'datetime'
-      label?: string
-      description?: string
-    }
+    [key: string]: (
+      | TextFormField
+      | TextAreaFormField
+      | NumberFormField
+      | SwitchFormField
+      | CheckboxFormField
+      | DateTimeFormField
+      | SelectFormField
+    ) &
+      CommonFormFieldProps
   }
 } & UseFormProps
 
@@ -159,6 +181,24 @@ function FormFields({ horizontal }: FormFieldsProps) {
                       : 'Pick a date'}
                   </Button>
                 </Calendar>
+              </FormField>
+            )
+          case 'select':
+            return (
+              <FormField
+                key={key}
+                horizontal={horizontal}
+                label={field.label}
+                description={field.description}
+                error={form.errors[key]}
+              >
+                <SelectInput
+                  value={form.values[key] as string}
+                  onChange={(value) => {
+                    form.setValue(key, value)
+                  }}
+                  options={field.options}
+                />
               </FormField>
             )
           default:

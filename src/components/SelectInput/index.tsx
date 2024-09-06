@@ -9,6 +9,7 @@ import { TextInput } from '../TextInput/index.js'
 import { Separator } from '../Separator/index.js'
 
 // TODO @vassbence hoist the dropdown out, so it can be reused for eg the datetimeinput.
+// TODO @vassbence select item on enter
 
 type SelectInputOption = {
   value: string
@@ -124,13 +125,13 @@ function SelectInput({
             if (filter && option.labelFilterText) {
               return option.labelFilterText
                 .toLowerCase()
-                .startsWith(filter.toLocaleLowerCase())
+                .includes(filter.toLocaleLowerCase())
             }
 
             if (filter && typeof option.label === 'string') {
               return option.label
                 .toLowerCase()
-                .startsWith(filter.toLocaleLowerCase())
+                .includes(filter.toLocaleLowerCase())
             }
 
             return true

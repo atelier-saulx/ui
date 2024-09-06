@@ -9,6 +9,7 @@ import { Calendar } from '../Calendar/index.js'
 import { Button } from '../Button/index.js'
 import { format } from 'date-fns'
 import { Form } from './Form.js'
+import { Badge } from '../Badge/index.js'
 
 export default {
   title: 'Form',
@@ -22,6 +23,39 @@ export const Component = () => {
         text: { type: 'text', label: 'Text' },
         textarea: { type: 'textarea', label: 'Textarea' },
         number: { type: 'number', label: 'Number' },
+        simpleSelect: {
+          type: 'select',
+          label: 'Simple select',
+          options: [
+            { value: 'option1', label: 'Option 1' },
+            { value: 'option2', label: 'Option 2' },
+            { value: 'option3', label: 'Option 3' },
+          ],
+        },
+        fancySelect: {
+          type: 'select',
+          label: 'Fancy select',
+          options: [
+            {
+              value: 'live',
+              label: (
+                <Badge color="green-subtle" leadIcon="settings">
+                  Live
+                </Badge>
+              ),
+              labelFilterText: 'Live',
+            },
+            {
+              value: 'scheduled',
+              label: (
+                <Badge color="indigo-subtle" leadIcon="date">
+                  Scheduled
+                </Badge>
+              ),
+              labelFilterText: 'Scheduled',
+            },
+          ],
+        },
         switch: { type: 'switch', label: 'Switch' },
         checkbox: { type: 'checkbox', label: 'Checkbox' },
         datetime: { type: 'datetime', label: 'DateTime' },
@@ -96,7 +130,7 @@ export const Async = () => {
 
   useEffect(() => {
     setInterval(() => {
-      setData((p) => ({ ...p, text: crypto.randomUUID() }))
+      setData((p) => ({ ...p, async: crypto.randomUUID() }))
     }, 1000)
   }, [])
 
@@ -104,7 +138,8 @@ export const Async = () => {
     <Form
       initialValues={data}
       fields={{
-        text: { type: 'text', label: 'Text' },
+        normal: { type: 'text', label: 'Normal' },
+        async: { type: 'text', label: 'AsyncDynamicValue' },
       }}
       validate={async () => {
         await new Promise((resolve) => {
