@@ -225,14 +225,14 @@ function MenuItems({ children }: MenuItemsProps) {
     <FloatingList elementsRef={elementsRef}>
       <FloatingPortal>
         <FloatingFocusManager
-          modal={false}
           context={floatingContext}
-          // initialFocus={-1}
-          // returnFocus={!nested}
+          modal={true}
+          returnFocus={!nested}
         >
           <styled.div
             ref={refs.setFloating}
             style={{
+              zIndex: 2,
               position: 'relative',
               borderRadius: radius[16],
               padding: 8,

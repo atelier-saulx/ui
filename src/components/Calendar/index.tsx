@@ -121,7 +121,7 @@ function Calendar({
       {open && (
         <FloatingPortal>
           <FloatingFocusManager
-            modal={false}
+            modal={true}
             context={context}
             initialFocus={-1}
             returnFocus={true}
