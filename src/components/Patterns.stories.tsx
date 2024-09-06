@@ -90,6 +90,11 @@ export function FormInModal() {
                 },
               ],
             },
+            dueDate: {
+              type: 'datetime',
+              label: 'DateTime',
+              variant: 'date-time',
+            },
           }}
           validate={async (values) => {
             const errors = {}

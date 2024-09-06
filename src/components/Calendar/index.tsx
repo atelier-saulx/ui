@@ -129,6 +129,7 @@ function Calendar({
             <div
               ref={refs.setFloating}
               style={{
+                zIndex: 2,
                 position: 'relative',
                 width: 240,
                 borderRadius: radius[16],
