@@ -1,15 +1,9 @@
 import { ReactNode, useState } from 'react'
-import { colors } from '../../utils/colors.js'
-import { radius } from '../../utils/radius.js'
-import { Icon, IconProps } from '../Icon/index.js'
-import { styled } from 'inlines'
-import { Text } from '../Text/index.js'
+import { IconProps } from '../Icon/index.js'
 import { Menu } from '../Menu/index.js'
 import { TextInput } from '../TextInput/index.js'
 import { Separator } from '../Separator/index.js'
-
-// TODO @vassbence hoist the dropdown out, so it can be reused for eg the datetimeinput.
-// TODO @vassbence select item on enter
+import { Dropdown } from '../Dropdown/index.js'
 
 type SelectInputOption = {
   value: string
@@ -39,7 +33,6 @@ function SelectInput({
   filterable = false,
 }: SelectInputProps) {
   const [filter, setFilter] = useState<string>()
-  const empty = !value
 
   return (
     <Menu
@@ -49,65 +42,16 @@ function SelectInput({
     >
       <Menu.Trigger>
         {({ open }) => (
-          <styled.button
+          <Dropdown
+            open={open}
+            error={error}
+            leadIcon={leadIcon}
             disabled={disabled}
-            data-open={open ? open : undefined}
-            data-error={error ? error : undefined}
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: 36,
-              gap: 4,
-              display: 'inline-flex',
-              justifyContent: 'start',
-              alignItems: 'center',
-              padding: '0 8px',
-              background: 'transparent',
-              borderRadius: radius[8],
-              border: `1px solid ${colors.neutral20Adjusted}`,
-              color: empty ? colors.neutral60 : colors.neutral100,
-              outline: 'none',
-              '&:not(:disabled):focus-visible, &[data-open]': {
-                background: colors.neutralInverted100,
-                border: `1px solid ${colors.neutral100}`,
-                outline: `4px solid ${colors.neutral20}`,
-              },
-              '&[data-error]': {
-                border: `1px solid ${colors.red80}`,
-              },
-              '&[data-error]:not(:disabled):focus-visible, &[data-error][data-open]':
-                {
-                  background: colors.neutralInverted100,
-                  border: `1px solid ${colors.red100}`,
-                  outline: `4px solid ${colors.red60}`,
-                },
-              '&:disabled': {
-                color: colors.neutral20,
-                background: colors.neutral5,
-                border: `1px solid transparent`,
-              },
-            }}
-          >
-            {leadIcon && <Icon variant={leadIcon} />}
-            <Text color="inherit">
-              {empty
-                ? placeholder
-                : options.find((e) => e.value === value).label}
-            </Text>
-            <div
-              style={{
-                marginLeft: 'auto',
-                display: 'flex',
-                color: open ? colors.neutral100 : colors.neutral60,
-                transition: 'transform 300ms cubic-bezier(0.7, -0.4, 0.4, 1.4)',
-                ...(open && {
-                  transform: 'rotate(180deg)',
-                }),
-              }}
-            >
-              <Icon variant="chevron-down" />
-            </div>
-          </styled.button>
+            placeholder={placeholder}
+            value={
+              value ? options.find((e) => e.value === value).label : undefined
+            }
+          />
         )}
       </Menu.Trigger>
       <Menu.Items>

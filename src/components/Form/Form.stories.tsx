@@ -58,7 +58,8 @@ export const Component = () => {
         },
         switch: { type: 'switch', label: 'Switch' },
         checkbox: { type: 'checkbox', label: 'Checkbox' },
-        datetime: { type: 'datetime', label: 'DateTime' },
+        date: { type: 'datetime', label: 'Date', variant: 'date' },
+        datetime: { type: 'datetime', label: 'DateTime', variant: 'date-time' },
       }}
       validate={(values) => {
         const errors: FormErrors = {}

@@ -94,7 +94,7 @@ function Calendar({
     whileElementsMounted: autoUpdate,
   })
   const value = useMemo(
-    () => new Date(typeof msValue === 'undefined' ? Date.now() : msValue),
+    () => (msValue ? new Date(msValue) : undefined),
     [msValue],
   )
 
@@ -137,13 +137,22 @@ function Calendar({
                 flexDirection: 'column',
                 gap: 2,
                 outline: 'none',
-                border: `1px solid ${colors.neutral10}`,
-                background: colors.neutral10Background,
+                background: colors.neutralInverted100,
                 boxShadow: shadows.popoverLarge,
                 ...floatingStyles,
               }}
               {...getFloatingProps()}
             >
+              <div
+                style={{
+                  inset: 0,
+                  zIndex: -1,
+                  position: 'absolute',
+                  background: colors.neutral10Background,
+                  border: `1px solid ${colors.neutral10}`,
+                  borderRadius: radius[16],
+                }}
+              />
               {variant === 'date' && (
                 <DatePicker
                   value={value}
@@ -152,7 +161,6 @@ function Calendar({
                   }}
                 />
               )}
-              {/* {variant === 'time' && <TimePicker />} */}
               {variant === 'date-time' && (
                 <DateTimePicker
                   value={value}
@@ -173,7 +181,7 @@ function DatePicker({
   value,
   onChange,
 }: {
-  value: Date
+  value?: Date
   onChange: (value: Date) => void
 }) {
   const [view, setView] = useState('day')
@@ -396,7 +404,7 @@ function DatePicker({
               }
               onClick={() => {
                 onChange(
-                  set(value, {
+                  set(value ?? new Date(), {
                     year: e.getFullYear(),
                     month: e.getMonth(),
                     date: e.getDate(),
@@ -419,15 +427,17 @@ function TimePicker({
   value: rawValue,
   onChange,
 }: {
-  value: Date
+  value?: Date
   onChange: (value: Date) => void
 }) {
   const value = useMemo(
     () =>
-      roundToNearestMinutes(rawValue, {
-        nearestTo: 30,
-        roundingMethod: 'floor',
-      }),
+      rawValue
+        ? roundToNearestMinutes(rawValue, {
+            nearestTo: 30,
+            roundingMethod: 'floor',
+          })
+        : undefined,
     [rawValue],
   )
   const timeContainerRef = useRef<HTMLDivElement>()
@@ -473,10 +483,11 @@ function TimePicker({
               },
             }}
             onClick={() => {
-              onChange(addMinutes(startOfDay(value), e * 30))
+              onChange(addMinutes(startOfDay(value ?? new Date()), e * 30))
             }}
           >
-            {getHours(value) ===
+            {value &&
+            getHours(value) ===
               getHours(addMinutes(startOfDay(value), e * 30)) &&
             getMinutes(value) ===
               getMinutes(addMinutes(startOfDay(value), e * 30)) ? (
@@ -485,7 +496,10 @@ function TimePicker({
               <div style={{ height: 24, width: 24 }} />
             )}
             <Text variant="display-medium">
-              {format(addMinutes(startOfDay(value), e * 30), 'HH:mm')}
+              {format(
+                addMinutes(startOfDay(value ?? new Date()), e * 30),
+                'HH:mm',
+              )}
             </Text>
           </styled.div>
         ))}
@@ -498,7 +512,7 @@ function DateTimePicker({
   value,
   onChange,
 }: {
-  value: Date
+  value?: Date
   onChange: (value: Date) => void
 }) {
   const [view, setView] = useState('date')
@@ -524,7 +538,7 @@ function DateTimePicker({
           forceHover={view === 'date'}
           tooltip="Select date"
         >
-          {format(new Date(value), 'MMM dd, yyyy')}
+          {format(value ?? new Date(), 'MMM dd, yyyy')}
         </Button>
       </div>
       <div style={{ width: '100%', padding: '2px 8px' }}>
@@ -559,7 +573,13 @@ function DateTimePicker({
           forceHover={view === 'time'}
           tooltip="Select time"
         >
-          {format(new Date(value), 'HH:mm')}
+          {format(
+            roundToNearestMinutes(value ?? new Date(), {
+              nearestTo: 30,
+              roundingMethod: 'floor',
+            }),
+            'HH:mm',
+          )}
         </Button>
       </div>
       {view === 'time' && (

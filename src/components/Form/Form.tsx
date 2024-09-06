@@ -11,6 +11,7 @@ import { Calendar } from '../Calendar/index.js'
 import { Button } from '../Button/index.js'
 import { format } from 'date-fns'
 import { SelectInput, SelectInputProps } from '../SelectInput/index.js'
+import { DateInput, DateInputProps } from '../DateInput/index.js'
 
 const FormContext = createContext<{
   fields: FormProps['fields']
@@ -27,7 +28,7 @@ type TextAreaFormField = { type: 'textarea' }
 type NumberFormField = { type: 'number' }
 type SwitchFormField = { type: 'switch' }
 type CheckboxFormField = { type: 'checkbox' }
-type DateTimeFormField = { type: 'datetime' }
+type DateTimeFormField = { type: 'datetime' } & Pick<DateInputProps, 'variant'>
 type SelectFormField = {
   type: 'select'
 } & Pick<SelectInputProps, 'options' | 'filterable'>
@@ -169,26 +170,15 @@ function FormFields({ horizontal }: FormFieldsProps) {
                 description={field.description}
                 error={form.errors[key]}
               >
-                <Calendar
-                  variant="date-time"
+                <DateInput
+                  variant={field.variant}
+                  error={!!form.errors[key]}
+                  disabled={form.isSubmitting}
                   value={form.values[key] as number}
                   onChange={(value) => {
                     form.setValue(key, value)
                   }}
-                >
-                  <Button
-                    variant="border"
-                    leadIcon="date"
-                    disabled={form.isSubmitting}
-                  >
-                    {form.values[key]
-                      ? format(
-                          new Date(form.values[key] as number),
-                          'MMM d, yyy HH:mm',
-                        )
-                      : 'Pick a date'}
-                  </Button>
-                </Calendar>
+                />
               </FormField>
             )
           case 'select':
