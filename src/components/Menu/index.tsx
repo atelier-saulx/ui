@@ -131,7 +131,7 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
     nested: nested,
     onNavigate: setActiveIndex,
     virtual: true,
-    focusItemOnOpen: true,
+    focusItemOnOpen: 'auto',
   })
 
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
