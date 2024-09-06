@@ -3,7 +3,7 @@ import { radius } from '../../utils/radius.js'
 
 type AvatarProps = {
   src: string
-  color?: 'neutral' | 'inverted' | 'red' | 'amber' | 'indigo' | 'green'
+  color?: 'neutral' | 'inverted' | 'red' | 'orange' | 'blue' | 'green'
   size?: 'regular' | 'small'
 }
 
@@ -59,11 +59,11 @@ function Avatar({ src, color, size = 'regular' }: AvatarProps) {
         ...(color === 'red' && {
           border: `2px solid ${colors.red100}`,
         }),
-        ...(color === 'amber' && {
-          border: `2px solid ${colors.amber100}`,
+        ...(color === 'orange' && {
+          border: `2px solid ${colors.orange100}`,
         }),
-        ...(color === 'indigo' && {
-          border: `2px solid ${colors.indigo100}`,
+        ...(color === 'blue' && {
+          border: `2px solid ${colors.blue100}`,
         }),
         ...(color === 'green' && {
           border: `2px solid ${colors.green100}`,

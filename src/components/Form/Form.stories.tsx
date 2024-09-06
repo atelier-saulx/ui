@@ -48,7 +48,7 @@ export const Component = () => {
             {
               value: 'scheduled',
               label: (
-                <Badge color="indigo-subtle" leadIcon="date">
+                <Badge color="blue-subtle" leadIcon="date">
                   Scheduled
                 </Badge>
               ),

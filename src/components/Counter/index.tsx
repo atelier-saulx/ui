@@ -10,8 +10,8 @@ type CounterProps = {
     | 'inverted'
     | 'red'
     | 'green'
-    | 'indigo'
-    | 'amber'
+    | 'blue'
+    | 'orange'
     | 'white'
 }
 
@@ -42,12 +42,12 @@ function Counter({ children, color = 'neutral' }: CounterProps) {
           background: colors.green100,
           color: colors.neutralInverted100,
         }),
-        ...(color === 'indigo' && {
-          background: colors.indigo100,
+        ...(color === 'blue' && {
+          background: colors.blue100,
           color: colors.neutralInverted100,
         }),
-        ...(color === 'amber' && {
-          background: colors.amber100,
+        ...(color === 'orange' && {
+          background: colors.orange100,
           color: colors.neutralInverted100,
         }),
         ...(color === 'white' && {

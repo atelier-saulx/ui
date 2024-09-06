@@ -11,12 +11,12 @@ type BadgeProps = {
     | 'neutral-fill'
     | 'red-subtle'
     | 'red-fill'
-    | 'indigo-subtle'
-    | 'indigo-fill'
+    | 'blue-subtle'
+    | 'blue-fill'
     | 'green-subtle'
     | 'green-fill'
-    | 'amber-subtle'
-    | 'amber-fill'
+    | 'orange-subtle'
+    | 'orange-fill'
     | 'white-subtle'
     | 'white-fill'
     | 'inverted-subtle'
@@ -58,12 +58,12 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
             background: colors.green100,
             color: colors.white100,
           }),
-          ...(color === 'indigo-fill' && {
-            background: colors.indigo100,
+          ...(color === 'blue-fill' && {
+            background: colors.blue100,
             color: colors.white100,
           }),
-          ...(color === 'amber-fill' && {
-            background: colors.amber100,
+          ...(color === 'orange-fill' && {
+            background: colors.orange100,
             color: colors.white100,
           }),
           ...(color === 'neutral-subtle' && {
@@ -78,13 +78,13 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
             background: colors.green20,
             color: colors.green100,
           }),
-          ...(color === 'indigo-subtle' && {
-            background: colors.indigo20,
-            color: colors.indigo100,
+          ...(color === 'blue-subtle' && {
+            background: colors.blue20,
+            color: colors.blue100,
           }),
-          ...(color === 'amber-subtle' && {
-            background: colors.amber20,
-            color: colors.amber100,
+          ...(color === 'orange-subtle' && {
+            background: colors.orange20,
+            color: colors.orange100,
           }),
           ...(color === 'inverted-subtle' && {
             background: colors.neutralInverted20,

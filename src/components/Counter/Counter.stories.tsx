@@ -21,8 +21,8 @@ export const Default = {
           'inverted',
           'red',
           'green',
-          'indigo',
-          'amber',
+          'blue',
+          'orange',
           'white',
         ].map((color) => (
           <Counter color={color as any}>0</Counter>
@@ -40,8 +40,8 @@ export const Default = {
           'inverted',
           'red',
           'green',
-          'indigo',
-          'amber',
+          'blue',
+          'orange',
           'white',
         ].map((color) => (
           <Counter color={color as any}>99+</Counter>

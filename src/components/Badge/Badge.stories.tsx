@@ -17,7 +17,7 @@ export const Default = {
       }}
     >
       {['subtle', 'fill'].map((variant) =>
-        ['neutral', 'red', 'indigo', 'green', 'amber', 'inverted', 'white'].map(
+        ['neutral', 'red', 'blue', 'green', 'orange', 'inverted', 'white'].map(
           (color) =>
             [{}, { leadIcon: 'arrow-up' }, { trailIcon: 'arrow-up' }].map(
               (icon) => (
