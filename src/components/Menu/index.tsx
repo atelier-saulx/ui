@@ -21,6 +21,7 @@ import {
   FloatingTree,
   offset,
   safePolygon,
+  size,
   useClick,
   useDismiss,
   useFloating,
@@ -41,6 +42,8 @@ import {
   OptionCardGroupProps,
 } from '../OptionCardGroup/index.js'
 import { shadows } from '../../utils/shadows.js'
+import { flushSync } from 'react-dom'
+import { styled } from 'inlines'
 
 type MenuContextType = {
   open: boolean
@@ -95,6 +98,15 @@ function MenuInner({ children }: MenuRootProps) {
         allowedPlacements: nested
           ? ['right-start', 'right-end', 'left-start', 'left-end']
           : ['top-start', 'top-end', 'bottom-start', 'bottom-end'],
+      }),
+      size({
+        apply({ availableHeight, rects, elements }) {
+          Object.assign(elements.floating.style, {
+            maxHeight: `${availableHeight - 8}px`,
+            minWidth: '240px',
+            width: `${rects.reference.width}px`,
+          })
+        },
       }),
     ],
     whileElementsMounted: autoUpdate,
@@ -210,11 +222,10 @@ function MenuItems({ children }: MenuItemsProps) {
           initialFocus={-1}
           returnFocus={!nested}
         >
-          <div
+          <styled.div
             ref={refs.setFloating}
             style={{
               position: 'relative',
-              width: 240,
               borderRadius: radius[16],
               padding: 8,
               display: 'flex',
@@ -224,12 +235,17 @@ function MenuItems({ children }: MenuItemsProps) {
               border: `1px solid ${colors.neutral10}`,
               background: colors.neutral10Background,
               boxShadow: shadows.popoverLarge,
+              overflowY: 'auto',
+              scrollbarWidth: 'none',
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
               ...floatingStyles,
             }}
             {...getFloatingProps()}
           >
             {children}
-          </div>
+          </styled.div>
         </FloatingFocusManager>
       </FloatingPortal>
     </FloatingList>
@@ -266,6 +282,7 @@ function MenuItem({
       })}
       type="button"
       style={{
+        flexShrink: 0,
         height: 32,
         color: colors.neutral80,
         display: 'flex',
@@ -329,6 +346,7 @@ function MenuToggleItem({
       type="button"
       disabled={disabled}
       style={{
+        flexShrink: 0,
         height: 32,
         color: colors.neutral80,
         background: 'transparent',
@@ -427,6 +445,7 @@ function MenuTriggerItem({ children, leadIcon }: MenuTriggerItemProps) {
       {...getReferenceProps(parent.getItemProps())}
       type="button"
       style={{
+        flexShrink: 0,
         height: 32,
         color: colors.neutral80,
         display: 'flex',
