@@ -91,7 +91,10 @@ function Tooltip({ children, value, keyHint }: TooltipProps) {
           <div
             ref={refs.setFloating}
             {...getFloatingProps()}
-            style={{ ...floatingStyles }}
+            style={{
+              ...floatingStyles,
+              zIndex: 3,
+            }}
           >
             <div
               style={{
