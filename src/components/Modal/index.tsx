@@ -80,8 +80,7 @@ function Modal({ children, open, onOpenChange }: ModalRootProps) {
               width: 480,
               padding: 24,
               borderRadius: radius[24],
-              background: colors.neutral10Background,
-              border: `1px solid ${colors.neutral10}`,
+              background: colors.neutralInverted100,
               boxShadow: shadows.popoverLarge,
               display: 'flex',
               justifyContent: 'center',
@@ -90,6 +89,15 @@ function Modal({ children, open, onOpenChange }: ModalRootProps) {
               ...styles,
             }}
           >
+            <div
+              style={{
+                background: colors.neutral10Background,
+                position: 'absolute',
+                inset: 0,
+                borderRadius: radius[24],
+                border: `1px solid ${colors.neutral10}`,
+              }}
+            />
             {children}
           </div>
         </FloatingFocusManager>

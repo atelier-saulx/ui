@@ -122,8 +122,7 @@ function Dialog({
             width: 360,
             padding: 24,
             borderRadius: radius[24],
-            background: colors.neutral10Background,
-            border: `1px solid ${colors.neutral10}`,
+            background: colors.neutralInverted100,
             boxShadow: shadows.popoverLarge,
             display: 'flex',
             justifyContent: 'center',
@@ -133,6 +132,15 @@ function Dialog({
             ...styles,
           }}
         >
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: colors.neutral10Background,
+              borderRadius: radius[24],
+              border: `1px solid ${colors.neutral10}`,
+            }}
+          />
           <Text variant="subheading-bold" color="neutral100" align="center">
             {title}
           </Text>
@@ -148,7 +156,7 @@ function Dialog({
             <Button
               width="full"
               keyHint="Esc"
-              keyHintPlacement="label"
+              keyHintPlacement="none"
               variant="border"
               onClick={onDismiss}
             >
@@ -158,7 +166,7 @@ function Dialog({
               <Button
                 width="full"
                 keyHint="Enter"
-                keyHintPlacement="label"
+                keyHintPlacement="none"
                 color={color}
                 onClick={() => {
                   onAction()

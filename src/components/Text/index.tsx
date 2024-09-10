@@ -15,6 +15,7 @@ type TextProps = {
     | 'subtext-bold'
   align?: 'left' | 'center' | 'right'
   color?: 'inherit' | Color
+  maxWidth?: number
 }
 
 function Text({
@@ -22,15 +23,22 @@ function Text({
   variant = 'display-regular',
   color: colorProp = 'neutral100',
   align = 'left',
+  maxWidth,
 }: TextProps) {
   return (
     <div
       style={{
         textAlign: align,
-        overflowWrap: 'break-word',
         color: colorProp === 'inherit' ? 'inherit' : colors[colorProp],
         lineHeight: 'normal',
         letterSpacing: 'normal',
+        overflowWrap: 'break-word',
+        ...(maxWidth && {
+          maxWidth: maxWidth,
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+        }),
         ...(variant === 'display-regular' && {
           fontSize: 14,
           fontWeight: 400,
