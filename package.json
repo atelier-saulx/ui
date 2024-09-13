@@ -15,6 +15,7 @@
   "devDependencies": {
     "@based/client": "^6.10.1",
     "@based/react": "^5.0.3",
+    "@ngneat/falso": "^7.2.0",
     "@saulx/prettier-config": "^2.0.0",
     "@saulx/tsconfig": "^1.1.3",
     "@storybook/addon-essentials": "^8.1.11",
@@ -42,6 +43,7 @@
     "@lexical/react": "^0.17.0",
     "@lexical/rich-text": "^0.17.0",
     "@lexical/utils": "^0.17.0",
+    "@tanstack/react-virtual": "^3.10.7",
     "date-fns": "^3.6.0",
     "inlines": "^0.4.0-alpha.25",
     "lexical": "^0.17.0"
