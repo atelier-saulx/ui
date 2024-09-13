@@ -12,7 +12,20 @@ import { styled } from 'inlines'
 import { IconButton } from '../IconButton/index.js'
 import { Menu } from '../Menu/index.js'
 
+// TODO download button
+// TODO individual errors per uploaded files
+// TODO handle outside state/value correctly
+// TODO correctly handle partial UIFiles
+
+type UIFile = {
+  name?: string
+  src: string
+  size?: number
+}
+
 type FileInptuProps = {
+  value?: UIFile | UIFile[]
+  onChange: (value: UIFile | UIFile[]) => void
   error?: string
 }
 
