@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Table, TableSelect, TableSort } from './index.js'
 import { Badge } from '../Badge/index.js'
 import { Menu } from '../Menu/index.js'
 import { IconButton } from '../IconButton/index.js'
 import {
+  randEmail,
+  randFullName,
   randPastDate,
   randSeatNumber,
   randStatus,
@@ -12,46 +14,12 @@ import {
 import { colors } from '../../utils/colors.js'
 import { Text } from '../Text/index.js'
 import { useQuery } from '@based/react'
+import { useVirtualizer } from '../../hooks/useVirtualizer.js'
 
 export default {
   title: 'Table (WIP)',
   component: Table,
 }
-
-const exampleData = Array.from({ length: 100 }).map((_) => ({
-  id: randSeatNumber(),
-  title: randText({ length: 3 }),
-  status: randStatus(),
-  createdAt: randPastDate(),
-}))
-
-const exampleDataColumns = [
-  { key: 'id', header: 'ID' },
-  {
-    key: 'createdAt',
-    header: 'Created At',
-    cell: (row) => (
-      <Text variant="display-medium" color="neutral80">
-        {new Date(row.createdAt).toISOString()}
-      </Text>
-    ),
-  },
-  // { key: 'title', header: 'Title' },
-  // {
-  //   key: 'status',
-  //   header: 'Status',
-  //   cell: (row) => <Badge color="orange-subtle">{row.status}</Badge>,
-  // },
-  // {
-  //   key: 'createdAt',
-  //   header: 'Created At',
-  //   cell: (row) => (
-  //     <Text variant="display-medium" color="neutral80">
-  //       {row.createdAt.toISOString()}
-  //     </Text>
-  //   ),
-  // },
-]
 
 export const FullScreenAndSortableAndSelectableAndAction = () => {
   const [sort, setSort] = useState<TableSort>()
@@ -75,9 +43,9 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
   })
 
   return (
-    <div style={{ height: '100svh', margin: -16 }}>
+    <div style={{ height: '85svh' }}>
       <Table
-        data={data?.files ?? []}
+        data={data?.files}
         columns={[
           { key: 'id', header: 'ID' },
           { key: 'name', header: 'Name' },
@@ -123,13 +91,72 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
             ),
           },
         ]}
-        sortable
         sort={sort}
         onSortChange={setSort}
-        selectable
         select={select}
         onSelectChange={setSelect}
       />
+    </div>
+  )
+}
+
+export const Virtualizer = () => {
+  const DATA = Array.from({ length: 10_000 }).map((_, index) => ({
+    id: index,
+    name: randFullName(),
+    email: randEmail(),
+  }))
+
+  const ITEM_HEIGHT = 80
+
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const virtualizer = useVirtualizer({
+    count: DATA.length,
+    itemHeight: ITEM_HEIGHT,
+    scrollElementRef: scrollRef,
+  })
+
+  return (
+    <div
+      ref={scrollRef}
+      style={{
+        width: '100%',
+        height: '85svh',
+        overflowY: 'auto',
+        border: '4px solid blue',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          position: 'relative',
+          height: virtualizer.totalHeight,
+        }}
+      >
+        {DATA.slice(
+          virtualizer.firstVisibleItemIndex,
+          virtualizer.lastVisibleItemIndex,
+        ).map((item, index) => (
+          <div
+            key={item.id}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: ITEM_HEIGHT,
+              border: '1px solid red',
+              transform: `translateY(${
+                (virtualizer.firstVisibleItemIndex + index) *
+                virtualizer.itemHeight
+              }px)`,
+            }}
+          >
+            {item.id}: {item.email}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

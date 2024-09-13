@@ -28,23 +28,19 @@ type TableColumn = {
 }
 
 type TableProps = {
-  data: any[]
+  data?: any[]
   columns: TableColumn[]
-  sortable?: boolean
   sort?: TableSort
   onSortChange?: (sort?: TableSort) => void
-  selectable?: boolean
   select?: TableSelect
   onSelectChange?: (select?: TableSelect) => void
 }
 
 function Table({
-  data,
+  data = [],
   columns,
-  sortable,
   sort,
   onSortChange,
-  selectable,
   select,
   onSelectChange,
 }: TableProps) {
@@ -72,7 +68,7 @@ function Table({
       >
         <thead>
           <tr>
-            {selectable && (
+            {onSelectChange && (
               <th
                 style={{
                   width: 44,
@@ -122,12 +118,12 @@ function Table({
                   top: 0,
                   background: colors.neutralInverted100,
                   zIndex: 2,
-                  ...(sortable && {
+                  ...(onSortChange && {
                     cursor: 'pointer',
                   }),
                 }}
                 onClick={() => {
-                  if (!sortable) return
+                  if (!onSortChange) return
 
                   if (sort?.key !== column.key) {
                     onSortChange({ key: column.key, direction: 'desc' })
@@ -150,7 +146,7 @@ function Table({
                     userSelect: 'none',
                   }}
                 >
-                  {sortable && sort?.key === column.key && (
+                  {onSortChange && sort?.key === column.key && (
                     <Icon
                       variant={
                         sort.direction === 'desc' ? 'arrow-down' : 'arrow-up'
@@ -173,7 +169,7 @@ function Table({
                 setHover(undefined)
               }}
             >
-              {selectable && (
+              {onSelectChange && (
                 <td
                   style={{
                     padding: 0,
