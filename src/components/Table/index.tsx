@@ -48,12 +48,10 @@ function Table({
 
   const ITEM_HEIGHT = 44
   const ITEM_COUNT = data.length
-
   const scrollElementRef = useRef<HTMLDivElement>()
-
   const { firstVisibleItemIndex, lastVisibleItemIndex } = useVirtualizer({
     scrollElementRef,
-    count: data.length,
+    itemCount: data.length,
     itemHeight: ITEM_HEIGHT,
   })
 
@@ -89,7 +87,7 @@ function Table({
                   position: 'sticky',
                   top: 0,
                   background: colors.neutralInverted100,
-                  zIndex: 2,
+                  zIndex: 3,
                 }}
               >
                 <div
@@ -130,7 +128,7 @@ function Table({
                   position: 'sticky',
                   top: 0,
                   background: colors.neutralInverted100,
-                  zIndex: 2,
+                  zIndex: 3,
                   ...(onSortChange && {
                     cursor: 'pointer',
                   }),

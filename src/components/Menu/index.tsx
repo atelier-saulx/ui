@@ -90,10 +90,11 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
   const parent = useContext(MenuContext)
   const parentId = useFloatingParentNodeId()
   const nested = parentId !== null
-  const { refs, floatingStyles, context, isPositioned } = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
     nodeId,
     open,
     onOpenChange: setOpen,
+    strategy: 'fixed',
     placement: nested ? 'right-start' : 'bottom-start',
     middleware: [
       offset(nested ? 12 : 8),
@@ -115,10 +116,11 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
     whileElementsMounted: (reference, floating, update) => {
       onOpenChange?.(true)
 
-      autoUpdate(reference, floating, update)
+      const cleanup = autoUpdate(reference, floating, update)
 
       return () => {
         onOpenChange?.(false)
+        cleanup()
       }
     },
   })
@@ -145,11 +147,6 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions(
     [click, hover, dismiss, listNavigation],
   )
-
-  useEffect(() => {
-    // console.log('ispos', isPositioned)
-    // onOpenChange?.(isPositioned)
-  }, [isPositioned])
 
   useEffect(() => {
     if (!tree) return
@@ -241,7 +238,7 @@ function MenuItems({ children }: MenuItemsProps) {
             ref={refs.setFloating}
             style={{
               zIndex: 2,
-              position: 'relative',
+              position: 'fixed',
               borderRadius: radius[16],
               padding: 8,
               display: 'flex',

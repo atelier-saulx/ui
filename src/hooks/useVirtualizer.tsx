@@ -1,15 +1,17 @@
 import { RefObject, useLayoutEffect, useState } from 'react'
 
 type UseVirtualizerProps = {
-  count: number
+  itemCount: number
   itemHeight: number
   scrollElementRef: RefObject<HTMLElement>
+  overScan?: number
 }
 
 function useVirtualizer({
-  count,
+  itemCount,
   itemHeight,
   scrollElementRef,
+  overScan = 4,
 }: UseVirtualizerProps) {
   const [firstVisibleItemIndex, setFirstVisibleItemIndex] = useState(0)
   const [lastVisibleItemIndex, setLastVisibleItemIndex] = useState(0)
@@ -23,11 +25,10 @@ function useVirtualizer({
     const lastVisibleItemIndex =
       firstVisibleItemIndex + numberOfItemsVisibleAtOnce
 
-    // const overScan = 0
-    // setFirstVisibleItemIndex(Math.max(0, firstVisibleItemIndex - overScan))
-    // setLastVisibleItemIndex(Math.min(count, lastVisibleItemIndex + overScan))
-    setFirstVisibleItemIndex(firstVisibleItemIndex)
-    setLastVisibleItemIndex(lastVisibleItemIndex)
+    setFirstVisibleItemIndex(Math.max(0, firstVisibleItemIndex - overScan))
+    setLastVisibleItemIndex(
+      Math.min(itemCount, lastVisibleItemIndex + overScan),
+    )
   }
 
   useLayoutEffect(() => {
@@ -42,7 +43,7 @@ function useVirtualizer({
       scrollElementRef.current.removeEventListener('scroll', handleScroll)
       resizeObserver.disconnect()
     }
-  }, [scrollElementRef, count])
+  }, [scrollElementRef, itemCount])
 
   return {
     firstVisibleItemIndex,

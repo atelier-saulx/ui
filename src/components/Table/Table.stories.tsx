@@ -1,24 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Table, TableSelect, TableSort } from './index.js'
 import { Badge } from '../Badge/index.js'
 import { Menu } from '../Menu/index.js'
 import { IconButton } from '../IconButton/index.js'
-import {
-  randEmail,
-  randFullName,
-  randPastDate,
-  randSeatNumber,
-  randStatus,
-  randText,
-} from '@ngneat/falso'
-import { colors } from '../../utils/colors.js'
+
 import { Text } from '../Text/index.js'
 import { useQuery } from '@based/react'
-import { useVirtualizer } from '../../hooks/useVirtualizer.js'
 
 export default {
   title: 'Table (WIP)',
   component: Table,
+  parameters: {
+    layout: 'fullscreen',
+  },
 }
 
 export const FullScreenAndSortableAndSelectableAndAction = () => {
@@ -43,7 +37,7 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
   })
 
   return (
-    <div style={{ height: '85svh' }}>
+    <div style={{ height: '100svh' }}>
       <Table
         data={data?.files}
         columns={[
@@ -71,12 +65,13 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
             cell: (row, table) => (
               <Menu
                 onOpenChange={(open) => {
-                  console.log('onopenchange', open)
                   table.setForceHover(open ? row.id : undefined)
                 }}
               >
                 <Menu.Trigger>
-                  <IconButton size="small" icon="more-vertical" />
+                  <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                    <IconButton size="small" icon="more-vertical" />
+                  </div>
                 </Menu.Trigger>
                 <Menu.Items>
                   <Menu.Item
