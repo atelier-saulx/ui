@@ -11,7 +11,7 @@ function useVirtualizer({
   itemCount,
   itemHeight,
   scrollElementRef,
-  overScan = 4,
+  overScan: overScanProp,
 }: UseVirtualizerProps) {
   const [firstVisibleItemIndex, setFirstVisibleItemIndex] = useState(0)
   const [lastVisibleItemIndex, setLastVisibleItemIndex] = useState(0)
@@ -24,6 +24,8 @@ function useVirtualizer({
     const firstVisibleItemIndex = Math.floor(scrollTop / itemHeight)
     const lastVisibleItemIndex =
       firstVisibleItemIndex + numberOfItemsVisibleAtOnce
+
+    let overScan = overScanProp ?? Math.ceil(numberOfItemsVisibleAtOnce / 2)
 
     setFirstVisibleItemIndex(Math.max(0, firstVisibleItemIndex - overScan))
     setLastVisibleItemIndex(

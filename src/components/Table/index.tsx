@@ -6,10 +6,9 @@ import { CheckboxInput } from '../CheckboxInput/index.js'
 import { styled } from 'inlines'
 import { useVirtualizer } from '../../hooks/useVirtualizer.js'
 
-// TODO virtualization
 // TODO better API for rowActions
 // TODO row onclick
-// TODO better padding when not selectable
+// TODO better padding when not selectable on the left (contact design)
 
 type TableInternal = {
   forceHover?: string
