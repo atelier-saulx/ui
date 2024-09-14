@@ -71,6 +71,7 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
             cell: (row, table) => (
               <Menu
                 onOpenChange={(open) => {
+                  console.log('onopenchange', open)
                   table.setForceHover(open ? row.id : undefined)
                 }}
               >
@@ -96,67 +97,6 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
         select={select}
         onSelectChange={setSelect}
       />
-    </div>
-  )
-}
-
-export const Virtualizer = () => {
-  const DATA = Array.from({ length: 10_000 }).map((_, index) => ({
-    id: index,
-    name: randFullName(),
-    email: randEmail(),
-  }))
-
-  const ITEM_HEIGHT = 80
-
-  const scrollRef = useRef<HTMLDivElement>(null)
-
-  const virtualizer = useVirtualizer({
-    count: DATA.length,
-    itemHeight: ITEM_HEIGHT,
-    scrollElementRef: scrollRef,
-  })
-
-  return (
-    <div
-      ref={scrollRef}
-      style={{
-        width: '100%',
-        height: '85svh',
-        overflowY: 'auto',
-        border: '4px solid blue',
-      }}
-    >
-      <div
-        style={{
-          width: '100%',
-          position: 'relative',
-          height: virtualizer.totalHeight,
-        }}
-      >
-        {DATA.slice(
-          virtualizer.firstVisibleItemIndex,
-          virtualizer.lastVisibleItemIndex,
-        ).map((item, index) => (
-          <div
-            key={item.id}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: ITEM_HEIGHT,
-              border: '1px solid red',
-              transform: `translateY(${
-                (virtualizer.firstVisibleItemIndex + index) *
-                virtualizer.itemHeight
-              }px)`,
-            }}
-          >
-            {item.id}: {item.email}
-          </div>
-        ))}
-      </div>
     </div>
   )
 }

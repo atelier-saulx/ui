@@ -90,7 +90,7 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
   const parent = useContext(MenuContext)
   const parentId = useFloatingParentNodeId()
   const nested = parentId !== null
-  const { refs, floatingStyles, context } = useFloating({
+  const { refs, floatingStyles, context, isPositioned } = useFloating({
     nodeId,
     open,
     onOpenChange: setOpen,
@@ -112,7 +112,15 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
         },
       }),
     ],
-    whileElementsMounted: autoUpdate,
+    whileElementsMounted: (reference, floating, update) => {
+      onOpenChange?.(true)
+
+      autoUpdate(reference, floating, update)
+
+      return () => {
+        onOpenChange?.(false)
+      }
+    },
   })
   const click = useClick(context, {
     event: 'click',
@@ -139,8 +147,9 @@ function MenuInner({ children, onOpenChange }: MenuRootProps) {
   )
 
   useEffect(() => {
-    onOpenChange?.(open)
-  }, [open])
+    // console.log('ispos', isPositioned)
+    // onOpenChange?.(isPositioned)
+  }, [isPositioned])
 
   useEffect(() => {
     if (!tree) return

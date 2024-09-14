@@ -63,10 +63,10 @@ function Table({
         width: '100%',
         height: '100%',
         overflow: 'auto',
-        // scrollbarWidth: 'none',
-        // '&::-webkit-scrollbar': {
-        //   display: 'none',
-        // },
+        scrollbarWidth: 'none',
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
       }}
       ref={scrollElementRef}
     >
@@ -122,6 +122,7 @@ function Table({
             )}
             {columns.map((column) => (
               <th
+                key={column.key}
                 style={{
                   padding: '10px 6px',
                   margin: 0,
@@ -177,7 +178,6 @@ function Table({
               <td
                 style={{
                   padding: 0,
-                  background: 'red',
                   height: firstVisibleItemIndex * ITEM_HEIGHT,
                 }}
               />
@@ -187,6 +187,7 @@ function Table({
             .slice(firstVisibleItemIndex, lastVisibleItemIndex)
             .map((row) => (
               <tr
+                key={row.id}
                 onMouseEnter={() => {
                   setHover(row.id)
                 }}
@@ -233,6 +234,7 @@ function Table({
                 )}
                 {columns.map((column) => (
                   <td
+                    key={row.id + column.key}
                     style={{
                       padding: '10px 6px',
                       margin: 0,
@@ -261,7 +263,6 @@ function Table({
               <td
                 style={{
                   padding: 0,
-                  background: 'red',
                   height: (ITEM_COUNT - lastVisibleItemIndex) * ITEM_HEIGHT,
                 }}
               />
