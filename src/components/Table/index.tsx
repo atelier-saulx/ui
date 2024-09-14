@@ -22,7 +22,7 @@ type TableSort = {
 type TableSelect = string[]
 type TableColumn = {
   key: string
-  header: string
+  header: string | (() => ReactNode)
   cell?: (row: any, table: TableInternal) => ReactNode
 }
 
@@ -134,7 +134,8 @@ function Table({
                   }),
                 }}
                 onClick={() => {
-                  if (!onSortChange) return
+                  if (!onSortChange || typeof column.header === 'function')
+                    return
 
                   if (sort?.key !== column.key) {
                     onSortChange({ key: column.key, direction: 'desc' })
@@ -157,13 +158,21 @@ function Table({
                     userSelect: 'none',
                   }}
                 >
-                  <Text variant="display-bold">{column.header}</Text>
-                  {onSortChange && sort?.key === column.key && (
-                    <Icon
-                      variant={
-                        sort.direction === 'desc' ? 'arrow-down' : 'arrow-up'
-                      }
-                    />
+                  {typeof column.header === 'function' ? (
+                    column.header()
+                  ) : (
+                    <>
+                      <Text variant="display-bold">{column.header}</Text>
+                      {onSortChange && sort?.key === column.key && (
+                        <Icon
+                          variant={
+                            sort.direction === 'desc'
+                              ? 'arrow-down'
+                              : 'arrow-up'
+                          }
+                        />
+                      )}
+                    </>
                   )}
                 </div>
               </th>

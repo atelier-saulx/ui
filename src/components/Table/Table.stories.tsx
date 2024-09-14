@@ -17,7 +17,7 @@ export default {
   },
 }
 
-export const FullScreenAndSortableAndSelectableAndAction = () => {
+export const Default = () => {
   const [sort, setSort] = useState<TableSort>()
   const [select, setSelect] = useState<TableSelect>()
 
@@ -78,7 +78,21 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
           },
           {
             key: 'action',
-            header: '',
+            header: () =>
+              !!select?.length && (
+                <Menu>
+                  <Menu.Trigger>
+                    <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                      <IconButton size="small" icon="more-vertical" />
+                    </div>
+                  </Menu.Trigger>
+                  <Menu.Items>
+                    <Menu.Item leadIcon="delete" color="red">
+                      Delete {select?.length ?? 0} files
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
+              ),
             cell: (row, table) => (
               <Menu
                 onOpenChange={(open) => {
@@ -98,6 +112,9 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
                     }}
                   >
                     Open in new tab
+                  </Menu.Item>
+                  <Menu.Item leadIcon="delete" color="red">
+                    Delete file
                   </Menu.Item>
                 </Menu.Items>
               </Menu>
