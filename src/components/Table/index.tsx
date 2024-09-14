@@ -157,6 +157,7 @@ function Table({
                     userSelect: 'none',
                   }}
                 >
+                  <Text variant="display-bold">{column.header}</Text>
                   {onSortChange && sort?.key === column.key && (
                     <Icon
                       variant={
@@ -164,7 +165,6 @@ function Table({
                       }
                     />
                   )}
-                  <Text variant="display-bold">{column.header}</Text>
                 </div>
               </th>
             ))}
