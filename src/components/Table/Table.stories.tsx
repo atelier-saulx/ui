@@ -3,6 +3,8 @@ import { Table, TableSelect, TableSort } from './index.js'
 import { Badge } from '../Badge/index.js'
 import { Menu } from '../Menu/index.js'
 import { IconButton } from '../IconButton/index.js'
+import { prettyNumber } from '@based/pretty-number'
+import { prettyDate } from '@based/pretty-date'
 
 import { Text } from '../Text/index.js'
 import { useQuery } from '@based/react'
@@ -44,10 +46,25 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
           { key: 'id', header: 'ID' },
           { key: 'name', header: 'Name' },
           {
-            key: 'progress',
-            header: 'Progress',
+            key: 'statusText',
+            header: 'Status',
             cell: (row) => (
-              <Badge color="green-subtle">{row.progress * 100}%</Badge>
+              <Badge
+                color={row.status === 3 ? 'green-subtle' : 'orange-subtle'}
+                leadIcon={row.status === 3 ? 'checkmark' : 'error'}
+              >
+                {row.statusText.slice(0, 1).toUpperCase() +
+                  row.statusText.slice(1)}
+              </Badge>
+            ),
+          },
+          {
+            key: 'size',
+            header: 'Size',
+            cell: (row) => (
+              <Text variant="display-medium" color="neutral80">
+                {prettyNumber(row.size, 'number-bytes').toUpperCase()}
+              </Text>
             ),
           },
           {
@@ -55,7 +72,7 @@ export const FullScreenAndSortableAndSelectableAndAction = () => {
             header: 'Created At',
             cell: (row) => (
               <Text variant="display-medium" color="neutral80">
-                {new Date(row.createdAt).toISOString()}
+                {prettyDate(row.createdAt, 'date-time-human')}
               </Text>
             ),
           },

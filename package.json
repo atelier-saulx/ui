@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@based/pretty-number": "^1.1.2",
+    "@based/pretty-date": "^1.0.4",
     "@floating-ui/react": "^0.26.20",
     "@lexical/headless": "^0.17.0",
     "@lexical/link": "^0.17.0",

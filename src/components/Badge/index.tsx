@@ -38,6 +38,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
       <div
         ref={ref}
         style={{
+          maxWidth: '100%',
           display: 'inline-flex',
           height: 24,
           padding: hasIcon ? '0 4px' : '0 6px',
