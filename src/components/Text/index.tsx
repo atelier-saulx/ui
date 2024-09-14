@@ -33,12 +33,10 @@ function Text({
         lineHeight: 'normal',
         letterSpacing: 'normal',
         overflowWrap: 'break-word',
-        ...(maxWidth && {
-          maxWidth: maxWidth,
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-        }),
+        maxWidth: maxWidth,
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
         ...(variant === 'display-regular' && {
           fontSize: 14,
           fontWeight: 400,

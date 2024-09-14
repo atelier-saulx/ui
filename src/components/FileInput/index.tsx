@@ -56,7 +56,7 @@ function FileInput(props: FileInptuProps) {
 
         await client.stream(
           'db:file-upload',
-          { contents: file },
+          { contents: file, fileName: file.name, mimeType: file.type },
           (progress) => {
             setFiles((p) =>
               p.map((e) => (e.tempId === tempId ? { ...e, progress } : e)),
