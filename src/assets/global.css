@@ -122,6 +122,7 @@
   font-family: Inter;
   margin: 0;
   overscroll-behavior: none;
+  overflow-anchor: none;
 }
 
 html {

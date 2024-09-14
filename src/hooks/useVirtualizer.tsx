@@ -23,10 +23,11 @@ function useVirtualizer({
     const lastVisibleItemIndex =
       firstVisibleItemIndex + numberOfItemsVisibleAtOnce
 
-    const overScan = 1
-
-    setFirstVisibleItemIndex(Math.max(0, firstVisibleItemIndex - overScan))
-    setLastVisibleItemIndex(Math.min(count, lastVisibleItemIndex + overScan))
+    // const overScan = 0
+    // setFirstVisibleItemIndex(Math.max(0, firstVisibleItemIndex - overScan))
+    // setLastVisibleItemIndex(Math.min(count, lastVisibleItemIndex + overScan))
+    setFirstVisibleItemIndex(firstVisibleItemIndex)
+    setLastVisibleItemIndex(lastVisibleItemIndex)
   }
 
   useLayoutEffect(() => {
@@ -41,11 +42,9 @@ function useVirtualizer({
       scrollElementRef.current.removeEventListener('scroll', handleScroll)
       resizeObserver.disconnect()
     }
-  }, [scrollElementRef])
+  }, [scrollElementRef, count])
 
   return {
-    itemHeight,
-    totalHeight: count * itemHeight,
     firstVisibleItemIndex,
     lastVisibleItemIndex,
   }

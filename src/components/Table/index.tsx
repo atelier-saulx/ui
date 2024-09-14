@@ -1,11 +1,10 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useLayoutEffect, useRef, useState } from 'react'
 import { colors } from '../../utils/colors.js'
-import { radius } from '../../utils/radius.js'
 import { Text } from '../Text/index.js'
 import { Icon } from '../Icon/index.js'
 import { CheckboxInput } from '../CheckboxInput/index.js'
 import { styled } from 'inlines'
-import { useVirtualizer } from '@tanstack/react-virtual'
+import { useVirtualizer } from '../../hooks/useVirtualizer.js'
 
 // TODO virtualization
 // TODO better API for rowActions
@@ -47,23 +46,36 @@ function Table({
   const [hover, setHover] = useState<string>()
   const [forceHover, setForceHover] = useState<string>()
 
+  const ITEM_HEIGHT = 44
+  const ITEM_COUNT = data.length
+
+  const scrollElementRef = useRef<HTMLDivElement>()
+
+  const { firstVisibleItemIndex, lastVisibleItemIndex } = useVirtualizer({
+    scrollElementRef,
+    count: data.length,
+    itemHeight: ITEM_HEIGHT,
+  })
+
   return (
     <styled.div
       style={{
         width: '100%',
         height: '100%',
         overflow: 'auto',
-        scrollbarWidth: 'none',
-        '&::-webkit-scrollbar': {
-          display: 'none',
-        },
+        // scrollbarWidth: 'none',
+        // '&::-webkit-scrollbar': {
+        //   display: 'none',
+        // },
       }}
+      ref={scrollElementRef}
     >
       <table
         style={{
           width: '100%',
           height: '100%',
           borderSpacing: 0,
+          tableLayout: 'fixed',
         }}
       >
         <thead>
@@ -73,7 +85,7 @@ function Table({
                 style={{
                   width: 44,
                   padding: '0 12px',
-                  borderBottom: `1px solid ${colors.neutral20Adjusted}`,
+                  boxShadow: `inset 0 -1px 0 0 ${colors.neutral20Adjusted}`,
                   position: 'sticky',
                   top: 0,
                   background: colors.neutralInverted100,
@@ -113,7 +125,7 @@ function Table({
                 style={{
                   padding: '10px 6px',
                   margin: 0,
-                  borderBottom: `1px solid ${colors.neutral20Adjusted}`,
+                  boxShadow: `inset 0 -1px 0 0 ${colors.neutral20Adjusted}`,
                   position: 'sticky',
                   top: 0,
                   background: colors.neutralInverted100,
@@ -160,75 +172,101 @@ function Table({
           </tr>
         </thead>
         <tbody>
-          {data.map((row) => (
-            <tr
-              onMouseEnter={() => {
-                setHover(row.id)
-              }}
-              onMouseLeave={() => {
-                setHover(undefined)
-              }}
-            >
-              {onSelectChange && (
-                <td
-                  style={{
-                    padding: 0,
-                    ...([hover, forceHover, ...(select ?? [])].includes(
-                      row.id,
-                    ) && {
-                      background: colors.neutral10Adjusted,
-                    }),
-                  }}
-                >
-                  <div
+          {!!firstVisibleItemIndex && (
+            <tr>
+              <td
+                style={{
+                  padding: 0,
+                  background: 'red',
+                  height: firstVisibleItemIndex * ITEM_HEIGHT,
+                }}
+              />
+            </tr>
+          )}
+          {data
+            .slice(firstVisibleItemIndex, lastVisibleItemIndex)
+            .map((row) => (
+              <tr
+                onMouseEnter={() => {
+                  setHover(row.id)
+                }}
+                onMouseLeave={() => {
+                  setHover(undefined)
+                }}
+              >
+                {onSelectChange && (
+                  <td
                     style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
+                      padding: 0,
+                      ...([hover, forceHover, ...(select ?? [])].includes(
+                        row.id,
+                      ) && {
+                        background: colors.neutral10Adjusted,
+                      }),
                     }}
                   >
-                    <CheckboxInput
-                      value={select?.includes(row.id)}
-                      onChange={() => {
-                        if (!select) {
-                          onSelectChange([row.id])
-                          return
-                        }
-
-                        if (select.includes(row.id)) {
-                          onSelectChange(select.filter((e) => e !== row.id))
-                          return
-                        }
-
-                        onSelectChange([...select, row.id])
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}
-                    />
-                  </div>
-                </td>
-              )}
-              {columns.map((column) => (
-                <td
-                  style={{
-                    padding: '10px 6px',
-                    margin: 0,
-                    ...([hover, forceHover, ...(select ?? [])].includes(
-                      row.id,
-                    ) && {
-                      background: colors.neutral10Adjusted,
-                    }),
-                  }}
-                >
-                  {column.cell ? (
-                    column.cell(row, { forceHover, setForceHover })
-                  ) : (
-                    <Text variant="display-medium" color="neutral80">
-                      {row[column.key]}
-                    </Text>
-                  )}
-                </td>
-              ))}
+                    >
+                      <CheckboxInput
+                        value={select?.includes(row.id)}
+                        onChange={() => {
+                          if (!select) {
+                            onSelectChange([row.id])
+                            return
+                          }
+
+                          if (select.includes(row.id)) {
+                            onSelectChange(select.filter((e) => e !== row.id))
+                            return
+                          }
+
+                          onSelectChange([...select, row.id])
+                        }}
+                      />
+                    </div>
+                  </td>
+                )}
+                {columns.map((column) => (
+                  <td
+                    style={{
+                      padding: '10px 6px',
+                      margin: 0,
+                      ...([hover, forceHover, ...(select ?? [])].includes(
+                        row.id,
+                      ) && {
+                        background: colors.neutral10Adjusted,
+                      }),
+                    }}
+                  >
+                    <div style={{ display: 'flex' }}>
+                      {column.cell ? (
+                        column.cell(row, { forceHover, setForceHover })
+                      ) : (
+                        <Text variant="display-medium" color="neutral80">
+                          {row[column.key]}
+                        </Text>
+                      )}
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          {lastVisibleItemIndex < ITEM_COUNT && (
+            <tr>
+              <td
+                style={{
+                  padding: 0,
+                  background: 'red',
+                  height: (ITEM_COUNT - lastVisibleItemIndex) * ITEM_HEIGHT,
+                }}
+              />
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </styled.div>
