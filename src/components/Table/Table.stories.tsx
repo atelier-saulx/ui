@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Table, TableSelect, TableSort } from './index.js'
 import { Badge } from '../Badge/index.js'
 import { Menu } from '../Menu/index.js'
@@ -6,8 +6,13 @@ import { IconButton } from '../IconButton/index.js'
 import { prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 
+// TODO BUG:
+// when table is sorted (eg desc createdAt) and new items are added somehow we run into duplicate IDs and that freaks out react. so somehow an entry with the same id (i guess it's the same entry) is in more than 1 chunk.
+
+// a problemat az okozza, hogy ha pl be van toltve 20 chunk (20 subscription), es sorton vagyunk, es hozzaadok uj elemeket, akkor ezek az uj elemek ugyebar az osszes chunkon valtozast okoznak. ezek a valtozasok random sorrendben erkeznek be a reacthez, raadasul egyesevel, es amikor egyesevel erkeznek be siman benne van, hogy egy elem ami epp chunk hataron volt mostmar egy uj chunkba kerul, arrol megjon az update, de az elozoben amiben volt meg nem jott update, igy meg is van a duplikalt ID.
+
 import { Text } from '../Text/index.js'
-import { useQuery } from '@based/react'
+import { useClient } from '@based/react'
 
 export default {
   title: 'Table (WIP)',
@@ -21,27 +26,60 @@ export const Default = () => {
   const [sort, setSort] = useState<TableSort>()
   const [select, setSelect] = useState<TableSelect>()
 
-  const { data } = useQuery('db', {
-    files: {
-      $all: true,
-      $list: {
-        $find: {
-          $traverse: 'children',
-          $filter: {
-            $field: 'type',
-            $operator: '=',
-            $value: 'file',
+  const accessFn = (data) => data.files
+  const client = useClient()
+  const [fetching, setFetching] = useState(false)
+  const [chunks, setChunks] = useState<any[]>([])
+  const data = chunks.flatMap((chunk) => accessFn(chunk))
+
+  function fetchChunk() {
+    if (fetching) return
+    setFetching(true)
+
+    const index = chunks.length
+
+    client
+      .query('db', {
+        files: {
+          $all: true,
+          $list: {
+            $limit: 24,
+            $offset: data.length,
+            $find: {
+              $traverse: 'children',
+              $filter: {
+                $field: 'type',
+                $operator: '=',
+                $value: 'file',
+              },
+            },
+            ...(sort && {
+              $sort: { $field: sort.key, $order: sort.direction },
+            }),
           },
         },
-        ...(sort && { $sort: { $field: sort.key, $order: sort.direction } }),
-      },
-    },
-  })
+      })
+      .subscribe((chunk) => {
+        console.log('update', index)
+        if (accessFn(chunk).length) {
+          setChunks((prevChunks) => {
+            const newArray = [...prevChunks]
+            newArray[index] = chunk
+            return newArray
+          })
+        }
+        setFetching(false)
+      })
+  }
+
+  useEffect(() => {
+    fetchChunk()
+  }, [sort])
 
   return (
     <div style={{ height: '100svh' }}>
       <Table
-        data={data?.files}
+        data={data}
         columns={[
           { key: 'id', header: 'ID' },
           { key: 'name', header: 'Name' },
@@ -122,9 +160,14 @@ export const Default = () => {
           },
         ]}
         sort={sort}
-        onSortChange={setSort}
+        onSortChange={(value) => {
+          setSort(value)
+          setFetching(false)
+          setChunks([])
+        }}
         select={select}
         onSelectChange={setSelect}
+        onScrolledToBottom={fetchChunk}
       />
     </div>
   )

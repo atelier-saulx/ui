@@ -4,11 +4,10 @@ import { Text } from '../Text/index.js'
 import { Icon } from '../Icon/index.js'
 import { CheckboxInput } from '../CheckboxInput/index.js'
 import { styled } from 'inlines'
-import { useVirtualizer } from '../../hooks/useVirtualizer.js'
 
-// TODO add pagination/infinite loading logic
+// TODO finish pagination/infinite loading
 // TODO better API for rowActions
-// TODO row onclick
+// TODO API for row onclick
 // TODO better padding when not selectable on the left (contact design)
 
 type TableInternal = {
@@ -33,6 +32,7 @@ type TableProps = {
   onSortChange?: (sort?: TableSort) => void
   select?: TableSelect
   onSelectChange?: (select?: TableSelect) => void
+  onScrolledToBottom?: () => void
 }
 
 function Table({
@@ -42,18 +42,59 @@ function Table({
   onSortChange,
   select,
   onSelectChange,
+  onScrolledToBottom,
 }: TableProps) {
   const [hover, setHover] = useState<string>()
   const [forceHover, setForceHover] = useState<string>()
-
-  const ITEM_HEIGHT = 44
-  const ITEM_COUNT = data.length
+  const [firstVisibleItemIndex, setFirstVisibleItemIndex] = useState(0)
+  const [lastVisibleItemIndex, setLastVisibleItemIndex] = useState(0)
   const scrollElementRef = useRef<HTMLDivElement>()
-  const { firstVisibleItemIndex, lastVisibleItemIndex } = useVirtualizer({
-    scrollElementRef,
-    itemCount: data.length,
-    itemHeight: ITEM_HEIGHT,
-  })
+  const ROW_HEIGHT = 44
+
+  useLayoutEffect(() => {
+    if (!scrollElementRef.current) return () => {}
+
+    function handleScroll() {
+      const { scrollTop, scrollHeight, clientHeight } = scrollElementRef.current
+
+      // handling virtualization
+      const numberOfItemsVisibleAtOnce = Math.ceil(clientHeight / ROW_HEIGHT)
+      const firstVisibleItemIndex = Math.floor(scrollTop / ROW_HEIGHT)
+      const lastVisibleItemIndex =
+        firstVisibleItemIndex + numberOfItemsVisibleAtOnce
+      const overScan = Math.ceil(numberOfItemsVisibleAtOnce / 2)
+
+      setFirstVisibleItemIndex(Math.max(0, firstVisibleItemIndex - overScan))
+      setLastVisibleItemIndex(
+        Math.min(data.length, lastVisibleItemIndex + overScan),
+      )
+
+      // handling infinity loading
+      const pixelsToBottom = scrollHeight - scrollTop - clientHeight
+      if (
+        scrollTop > 0 &&
+        pixelsToBottom < (numberOfItemsVisibleAtOnce * ROW_HEIGHT) / 2
+      ) {
+        onScrolledToBottom()
+      }
+    }
+
+    handleScroll()
+    scrollElementRef.current.addEventListener('scroll', handleScroll)
+    const resizeObserver = new ResizeObserver(handleScroll)
+    resizeObserver.observe(scrollElementRef.current)
+
+    return () => {
+      scrollElementRef.current.removeEventListener('scroll', handleScroll)
+      resizeObserver.disconnect()
+    }
+  }, [scrollElementRef, data, onScrolledToBottom])
+
+  useLayoutEffect(() => {
+    if (!scrollElementRef.current) return
+
+    scrollElementRef.current.scrollTop = 0
+  }, [sort])
 
   return (
     <styled.div
@@ -71,7 +112,6 @@ function Table({
       <table
         style={{
           width: '100%',
-          height: '100%',
           borderSpacing: 0,
           tableLayout: 'fixed',
         }}
@@ -185,7 +225,7 @@ function Table({
               <td
                 style={{
                   padding: 0,
-                  height: firstVisibleItemIndex * ITEM_HEIGHT,
+                  height: firstVisibleItemIndex * ROW_HEIGHT,
                 }}
               />
             </tr>
@@ -265,12 +305,12 @@ function Table({
                 ))}
               </tr>
             ))}
-          {lastVisibleItemIndex < ITEM_COUNT && (
+          {lastVisibleItemIndex < data.length && (
             <tr>
               <td
                 style={{
                   padding: 0,
-                  height: (ITEM_COUNT - lastVisibleItemIndex) * ITEM_HEIGHT,
+                  height: (data.length - lastVisibleItemIndex) * ROW_HEIGHT,
                 }}
               />
             </tr>

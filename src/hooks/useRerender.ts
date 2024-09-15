@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 
 export function useRerender() {
-  const [, setState] = useState<Record<string, never>>()
+  const [, setState] = useState({})
 
   const rerender = useCallback(() => {
     setState({})
