@@ -5,12 +5,6 @@ import { Menu } from '../Menu/index.js'
 import { IconButton } from '../IconButton/index.js'
 import { prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
-
-// TODO BUG:
-// when table is sorted (eg desc createdAt) and new items are added somehow we run into duplicate IDs and that freaks out react. so somehow an entry with the same id (i guess it's the same entry) is in more than 1 chunk.
-
-// a problemat az okozza, hogy ha pl be van toltve 20 chunk (20 subscription), es sorton vagyunk, es hozzaadok uj elemeket, akkor ezek az uj elemek ugyebar az osszes chunkon valtozast okoznak. ezek a valtozasok random sorrendben erkeznek be a reacthez, raadasul egyesevel, es amikor egyesevel erkeznek be siman benne van, hogy egy elem ami epp chunk hataron volt mostmar egy uj chunkba kerul, arrol megjon az update, de az elozoben amiben volt meg nem jott update, igy meg is van a duplikalt ID.
-
 import { Text } from '../Text/index.js'
 import { useClient } from '@based/react'
 
@@ -26,7 +20,7 @@ export const Default = () => {
   const [sort, setSort] = useState<TableSort>()
   const [select, setSelect] = useState<TableSelect>()
 
-  const accessFn = (data) => data.files
+  const accessFn = (data) => data?.files ?? []
   const client = useClient()
   const [fetching, setFetching] = useState(false)
   const [chunks, setChunks] = useState<any[]>([])
@@ -60,7 +54,6 @@ export const Default = () => {
         },
       })
       .subscribe((chunk) => {
-        console.log('update', index)
         if (accessFn(chunk).length) {
           setChunks((prevChunks) => {
             const newArray = [...prevChunks]
@@ -101,7 +94,7 @@ export const Default = () => {
             header: 'Size',
             cell: (row) => (
               <Text variant="display-medium" color="neutral80">
-                {prettyNumber(row.size, 'number-bytes').toUpperCase()}
+                {prettyNumber(row?.size ?? 0, 'number-bytes').toUpperCase()}
               </Text>
             ),
           },

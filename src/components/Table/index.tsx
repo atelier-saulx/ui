@@ -9,6 +9,7 @@ import { styled } from 'inlines'
 // TODO better API for rowActions
 // TODO API for row onclick
 // TODO better padding when not selectable on the left (contact design)
+// TODO BUG: sort (desc on createdAt), scroll to bottom, add items which end up on the top, this allows to scroll further down but duplicates the last few elements
 
 type TableInternal = {
   forceHover?: string
@@ -232,9 +233,9 @@ function Table({
           )}
           {data
             .slice(firstVisibleItemIndex, lastVisibleItemIndex)
-            .map((row) => (
+            .map((row, index) => (
               <tr
-                key={row.id}
+                key={index}
                 onMouseEnter={() => {
                   setHover(row.id)
                 }}
@@ -281,7 +282,7 @@ function Table({
                 )}
                 {columns.map((column) => (
                   <td
-                    key={row.id + column.key}
+                    key={column.key}
                     style={{
                       padding: '10px 6px',
                       margin: 0,
