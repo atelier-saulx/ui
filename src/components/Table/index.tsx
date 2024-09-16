@@ -233,9 +233,9 @@ function Table({
           )}
           {data
             .slice(firstVisibleItemIndex, lastVisibleItemIndex)
-            .map((row, index) => (
+            .map((row) => (
               <tr
-                key={index}
+                key={data.findIndex((e) => e.id === row.id)}
                 onMouseEnter={() => {
                   setHover(row.id)
                 }}
