@@ -20,7 +20,7 @@ export const Component = () => {
   return (
     <Form
       fields={{
-        text: { type: 'text', label: 'Text' },
+        text: { type: 'text', label: 'Text', description: 'this is a desc' },
         textarea: { type: 'textarea', label: 'Textarea' },
         number: { type: 'number', label: 'Number' },
         simpleSelect: {

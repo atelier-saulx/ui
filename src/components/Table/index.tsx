@@ -10,6 +10,7 @@ import { styled } from 'inlines'
 // TODO API for row onclick
 // TODO better padding when not selectable on the left (contact design)
 // TODO BUG: sort (desc on createdAt), scroll to bottom, add items which end up on the top, this allows to scroll further down but duplicates the last few elements
+// TODO: instead of slicing pass data with start/end 
 
 type TableInternal = {
   forceHover?: string

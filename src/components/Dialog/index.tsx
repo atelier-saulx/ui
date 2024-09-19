@@ -139,6 +139,7 @@ function Dialog({
               background: colors.neutral10Background,
               borderRadius: radius[24],
               border: `1px solid ${colors.neutral10}`,
+              zIndex: -1,
             }}
           />
           <Text variant="subheading-bold" color="neutral100" align="center">

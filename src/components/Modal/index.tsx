@@ -96,6 +96,7 @@ function Modal({ children, open, onOpenChange }: ModalRootProps) {
                 inset: 0,
                 borderRadius: radius[24],
                 border: `1px solid ${colors.neutral10}`,
+                zIndex: -1,
               }}
             />
             {children}
