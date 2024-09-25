@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Table, TableSelect, TableSort } from './index.js'
+import {
+  BasedTable,
+  Table,
+  TableSelect,
+  TableSort,
+  VirtualizedTable,
+} from './index.js'
 import { Badge } from '../Badge/index.js'
 import { Menu } from '../Menu/index.js'
 import { IconButton } from '../IconButton/index.js'
@@ -7,6 +13,12 @@ import { prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 import { Text } from '../Text/index.js'
 import { useClient } from '@based/react'
+import {
+  randAirportCode,
+  randEmail,
+  randFullName,
+  randImg,
+} from '@ngneat/falso'
 
 export default {
   title: 'Table (WIP)',
@@ -16,66 +28,214 @@ export default {
   },
 }
 
-export const Default = () => {
+const TEST_DATA = Array.from({ length: 1000 }).map((_, index) => ({
+  id: index,
+  name: randFullName(),
+  email: randEmail(),
+  airport: randAirportCode(),
+  image: randImg(),
+}))
+
+export const Regular = () => {
   const [sort, setSort] = useState<TableSort>()
   const [select, setSelect] = useState<TableSelect>()
-
-  const accessFn = (data) => data?.files ?? []
-  const client = useClient()
-  const [fetching, setFetching] = useState(false)
-  const [chunks, setChunks] = useState<any[]>([])
-  const data = chunks.flatMap((chunk) => accessFn(chunk))
-
-  function fetchChunk() {
-    if (fetching) return
-    setFetching(true)
-
-    const index = chunks.length
-
-    client
-      .query('db', {
-        files: {
-          $all: true,
-          $list: {
-            $limit: 24,
-            $offset: data.length,
-            $find: {
-              $traverse: 'children',
-              $filter: {
-                $field: 'type',
-                $operator: '=',
-                $value: 'file',
-              },
-            },
-            ...(sort && {
-              $sort: { $field: sort.key, $order: sort.direction },
-            }),
-          },
-        },
-      })
-      .subscribe((chunk) => {
-        if (accessFn(chunk).length) {
-          setChunks((prevChunks) => {
-            const newArray = [...prevChunks]
-            newArray[index] = chunk
-            return newArray
-          })
-        }
-        setFetching(false)
-      })
-  }
-
-  useEffect(() => {
-    fetchChunk()
-  }, [sort])
 
   return (
     <div style={{ height: '100svh' }}>
       <Table
-        data={data}
         columns={[
           { key: 'id', header: 'ID' },
           { key: 'name', header: 'Name' },
+          { key: 'email', header: 'Email' },
+          {
+            key: 'image',
+            header: 'image',
+            cell: (row) => (
+              <img style={{ height: 24, width: 24 }} src={row.image} />
+            ),
+          },
+          {
+            key: 'airport',
+            header: 'Airport',
+            cell: (row) => (
+              <Badge leadIcon="home" color="green-subtle">
+                {row.airport}
+              </Badge>
+            ),
+          },
+          {
+            key: 'action',
+            header: () =>
+              !!select?.length && (
+                <Menu>
+                  <Menu.Trigger>
+                    <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                      <IconButton size="small" icon="more-vertical" />
+                    </div>
+                  </Menu.Trigger>
+                  <Menu.Items>
+                    <Menu.Item leadIcon="delete" color="red">
+                      Delete {select?.length ?? 0} files
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
+              ),
+            cell: (row, table) => (
+              <Menu
+                onOpenChange={(open) => {
+                  table.setForceHover(open ? row.id : undefined)
+                }}
+              >
+                <Menu.Trigger>
+                  <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                    <IconButton size="small" icon="more-vertical" />
+                  </div>
+                </Menu.Trigger>
+                <Menu.Items>
+                  <Menu.Item
+                    leadIcon="external"
+                    onClick={() => {
+                      window.open(row.src, '_blank')
+                    }}
+                  >
+                    Open in new tab
+                  </Menu.Item>
+                  <Menu.Item leadIcon="delete" color="red">
+                    Delete file
+                  </Menu.Item>
+                </Menu.Items>
+              </Menu>
+            ),
+          },
+        ]}
+        data={TEST_DATA}
+        sort={sort}
+        onSortChange={setSort}
+        select={select}
+        onSelectChange={setSelect}
+      />
+    </div>
+  )
+}
+
+export const Virtualized = () => {
+  return (
+    <div style={{ height: '100svh' }}>
+      <VirtualizedTable
+        columns={[
+          { key: 'id', header: 'ID' },
+          { key: 'name', header: 'Name' },
+          { key: 'email', header: 'Email' },
+          {
+            key: 'image',
+            header: 'image',
+            cell: (row) => (
+              <img style={{ height: 24, width: 24 }} src={row.image} />
+            ),
+          },
+          {
+            key: 'airport',
+            header: 'Airport',
+            cell: (row) => (
+              <Badge leadIcon="home" color="green-subtle">
+                {row.airport}
+              </Badge>
+            ),
+          },
+          {
+            key: 'action',
+            header: () => null,
+            cell: (row, table) => (
+              <Menu
+                onOpenChange={(open) => {
+                  table.setForceHover(open ? row.id : undefined)
+                }}
+              >
+                <Menu.Trigger>
+                  <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                    <IconButton size="small" icon="more-vertical" />
+                  </div>
+                </Menu.Trigger>
+                <Menu.Items>
+                  <Menu.Item
+                    leadIcon="external"
+                    onClick={() => {
+                      window.open(row.src, '_blank')
+                    }}
+                  >
+                    Open in new tab
+                  </Menu.Item>
+                  <Menu.Item leadIcon="delete" color="red">
+                    Delete file
+                  </Menu.Item>
+                </Menu.Items>
+              </Menu>
+            ),
+          },
+        ]}
+        data={TEST_DATA}
+      />
+    </div>
+  )
+}
+
+export const Based = () => {
+  const [sort, setSort] = useState<TableSort>()
+  const [select, setSelect] = useState<TableSelect>()
+
+  return (
+    <div style={{ height: '100svh' }}>
+      <BasedTable
+        query={({ limit, offset, sort }) => ({
+          files: {
+            $all: true,
+            $list: {
+              $limit: limit,
+              $offset: offset,
+              $find: {
+                $traverse: 'children',
+                $filter: {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: 'file',
+                },
+              },
+              ...(sort && {
+                $sort: { $field: sort.key, $order: sort.direction },
+              }),
+            },
+          },
+        })}
+        transformQueryResult={(data) => data?.files}
+        totalQuery={() => ({
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: 'children',
+              $filter: [
+                {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: 'file',
+                },
+              ],
+            },
+          },
+        })}
+        columns={[
+          { key: 'id', header: 'ID' },
+          { key: 'name', header: 'Name' },
+          {
+            key: 'image',
+            header: 'Preview',
+            cell: (row) => (
+              <img
+                key={row.src}
+                style={{ height: 24, width: 24 }}
+                src={row.src}
+              />
+            ),
+          },
           {
             key: 'statusText',
             header: 'Status',
@@ -153,14 +313,9 @@ export const Default = () => {
           },
         ]}
         sort={sort}
-        onSortChange={(value) => {
-          setSort(value)
-          setFetching(false)
-          setChunks([])
-        }}
+        onSortChange={setSort}
         select={select}
         onSelectChange={setSelect}
-        onScrolledToBottom={fetchChunk}
       />
     </div>
   )

@@ -1,18 +1,22 @@
-import { ReactNode, useLayoutEffect, useRef, useState } from 'react'
+import {
+  ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { colors } from '../../utils/colors.js'
 import { Text } from '../Text/index.js'
 import { Icon } from '../Icon/index.js'
 import { CheckboxInput } from '../CheckboxInput/index.js'
 import { styled } from 'inlines'
+import { useClient, useQuery } from '@based/react'
 
-// TODO finish pagination/infinite loading
 // TODO better API for rowActions
-// TODO API for row onclick
-// TODO better padding when not selectable on the left (contact design)
-// TODO BUG: sort (desc on createdAt), scroll to bottom, add items which end up on the top, this allows to scroll further down but duplicates the last few elements
-// TODO: instead of slicing pass data with start/end 
+// TODO add api for onRowClick
 
-type TableInternal = {
+type TableInternalState = {
   forceHover?: string
   setForceHover: (value?: string) => void
 }
@@ -24,61 +28,60 @@ type TableSelect = string[]
 type TableColumn = {
   key: string
   header: string | (() => ReactNode)
-  cell?: (row: any, table: TableInternal) => ReactNode
+  cell?: (row: any, table: TableInternalState) => ReactNode
 }
 
-type TableProps = {
-  data?: any[]
+type InternalTableProps = {
+  data: any[]
+  totalCount?: number
   columns: TableColumn[]
   sort?: TableSort
   onSortChange?: (sort?: TableSort) => void
   select?: TableSelect
   onSelectChange?: (select?: TableSelect) => void
-  onScrolledToBottom?: () => void
+  onScroll?: (
+    firstVisibleItemIndex: number,
+    lastVisibleItemIndex: number,
+  ) => void
+  virtualized?: boolean
 }
 
-function Table({
+const HEADER_HEIGHT = 44
+const ROW_HEIGHT = 50
+
+function InternalTable({
   data = [],
+  totalCount,
   columns,
   sort,
   onSortChange,
   select,
   onSelectChange,
-  onScrolledToBottom,
-}: TableProps) {
-  const [hover, setHover] = useState<string>()
+  onScroll,
+  virtualized,
+}: InternalTableProps) {
   const [forceHover, setForceHover] = useState<string>()
   const [firstVisibleItemIndex, setFirstVisibleItemIndex] = useState(0)
   const [lastVisibleItemIndex, setLastVisibleItemIndex] = useState(0)
   const scrollElementRef = useRef<HTMLDivElement>()
-  const ROW_HEIGHT = 44
+  const total = totalCount ?? data.length
+
+  console.log(total)
 
   useLayoutEffect(() => {
-    if (!scrollElementRef.current) return () => {}
+    if (!scrollElementRef.current || !virtualized) return () => {}
 
     function handleScroll() {
-      const { scrollTop, scrollHeight, clientHeight } = scrollElementRef.current
+      const { scrollTop, clientHeight } = scrollElementRef.current
 
-      // handling virtualization
-      const numberOfItemsVisibleAtOnce = Math.ceil(clientHeight / ROW_HEIGHT)
-      const firstVisibleItemIndex = Math.floor(scrollTop / ROW_HEIGHT)
-      const lastVisibleItemIndex =
-        firstVisibleItemIndex + numberOfItemsVisibleAtOnce
-      const overScan = Math.ceil(numberOfItemsVisibleAtOnce / 2)
+      const count = Math.ceil((clientHeight - HEADER_HEIGHT) / ROW_HEIGHT)
+      const extra = count * 2
+      const first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - extra)
+      const last = Math.floor(scrollTop / ROW_HEIGHT) + count + extra
 
-      setFirstVisibleItemIndex(Math.max(0, firstVisibleItemIndex - overScan))
-      setLastVisibleItemIndex(
-        Math.min(data.length, lastVisibleItemIndex + overScan),
-      )
-
-      // handling infinity loading
-      const pixelsToBottom = scrollHeight - scrollTop - clientHeight
-      if (
-        scrollTop > 0 &&
-        pixelsToBottom < (numberOfItemsVisibleAtOnce * ROW_HEIGHT) / 2
-      ) {
-        onScrolledToBottom()
-      }
+      setFirstVisibleItemIndex(first)
+      setLastVisibleItemIndex(last)
+      onScroll?.(first, last)
     }
 
     handleScroll()
@@ -90,7 +93,7 @@ function Table({
       scrollElementRef.current.removeEventListener('scroll', handleScroll)
       resizeObserver.disconnect()
     }
-  }, [scrollElementRef, data, onScrolledToBottom])
+  }, [scrollElementRef, data, onScroll, virtualized])
 
   useLayoutEffect(() => {
     if (!scrollElementRef.current) return
@@ -104,10 +107,11 @@ function Table({
         width: '100%',
         height: '100%',
         overflow: 'auto',
-        scrollbarWidth: 'none',
-        '&::-webkit-scrollbar': {
-          display: 'none',
-        },
+        // TODO nicer scrollbar
+        // scrollbarWidth: 'none',
+        // '&::-webkit-scrollbar': {
+        //   display: 'none',
+        // },
       }}
       ref={scrollElementRef}
     >
@@ -120,18 +124,18 @@ function Table({
       >
         <thead>
           <tr>
-            {onSelectChange && (
-              <th
-                style={{
-                  width: 44,
-                  padding: '0 12px',
-                  boxShadow: `inset 0 -1px 0 0 ${colors.neutral20Adjusted}`,
-                  position: 'sticky',
-                  top: 0,
-                  background: colors.neutralInverted100,
-                  zIndex: 3,
-                }}
-              >
+            <th
+              style={{
+                width: onSelectChange ? 44 : 8,
+                padding: onSelectChange ? '0 12px' : 0,
+                boxShadow: `inset 0 -1px 0 0 ${colors.neutral20Adjusted}`,
+                position: 'sticky',
+                top: 0,
+                background: colors.neutralInverted100,
+                zIndex: 3,
+              }}
+            >
+              {!virtualized && onSelectChange && (
                 <div
                   style={{
                     display: 'flex',
@@ -158,13 +162,14 @@ function Table({
                     }}
                   />
                 </div>
-              </th>
-            )}
+              )}
+            </th>
             {columns.map((column) => (
               <th
                 key={column.key}
                 style={{
-                  padding: '10px 6px',
+                  padding: '0 6px',
+                  height: HEADER_HEIGHT,
                   margin: 0,
                   boxShadow: `inset 0 -1px 0 0 ${colors.neutral20Adjusted}`,
                   position: 'sticky',
@@ -222,7 +227,7 @@ function Table({
           </tr>
         </thead>
         <tbody>
-          {!!firstVisibleItemIndex && (
+          {virtualized && !!firstVisibleItemIndex && (
             <tr>
               <td
                 style={{
@@ -232,87 +237,76 @@ function Table({
               />
             </tr>
           )}
-          {data
-            .slice(firstVisibleItemIndex, lastVisibleItemIndex)
-            .map((row) => (
-              <tr
-                key={data.findIndex((e) => e.id === row.id)}
-                onMouseEnter={() => {
-                  setHover(row.id)
-                }}
-                onMouseLeave={() => {
-                  setHover(undefined)
+          {data.map((row) => (
+            <styled.tr
+              key={data.findIndex((e) => e?.id === row.id)}
+              data-hover={[forceHover, ...(select ?? [])].includes(row.id)}
+              style={{
+                '&:hover > td, &[data-hover=true] > td': {
+                  background: colors.neutral10Adjusted,
+                },
+              }}
+            >
+              <td
+                style={{
+                  padding: 0,
                 }}
               >
                 {onSelectChange && (
-                  <td
+                  <div
                     style={{
-                      padding: 0,
-                      ...([hover, forceHover, ...(select ?? [])].includes(
-                        row.id,
-                      ) && {
-                        background: colors.neutral10Adjusted,
-                      }),
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
                     }}
                   >
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                    <CheckboxInput
+                      value={select?.includes(row.id)}
+                      onChange={() => {
+                        if (!select) {
+                          onSelectChange([row.id])
+                          return
+                        }
+
+                        if (select.includes(row.id)) {
+                          onSelectChange(select.filter((e) => e !== row.id))
+                          return
+                        }
+
+                        onSelectChange([...select, row.id])
                       }}
-                    >
-                      <CheckboxInput
-                        value={select?.includes(row.id)}
-                        onChange={() => {
-                          if (!select) {
-                            onSelectChange([row.id])
-                            return
-                          }
-
-                          if (select.includes(row.id)) {
-                            onSelectChange(select.filter((e) => e !== row.id))
-                            return
-                          }
-
-                          onSelectChange([...select, row.id])
-                        }}
-                      />
-                    </div>
-                  </td>
+                    />
+                  </div>
                 )}
-                {columns.map((column) => (
-                  <td
-                    key={column.key}
-                    style={{
-                      padding: '10px 6px',
-                      margin: 0,
-                      ...([hover, forceHover, ...(select ?? [])].includes(
-                        row.id,
-                      ) && {
-                        background: colors.neutral10Adjusted,
-                      }),
-                    }}
-                  >
-                    <div style={{ display: 'flex' }}>
-                      {column.cell ? (
-                        column.cell(row, { forceHover, setForceHover })
-                      ) : (
-                        <Text variant="display-medium" color="neutral80">
-                          {row[column.key]}
-                        </Text>
-                      )}
-                    </div>
-                  </td>
-                ))}
-              </tr>
-            ))}
-          {lastVisibleItemIndex < data.length && (
+              </td>
+              {columns.map((column) => (
+                <td
+                  key={column.key}
+                  style={{
+                    height: ROW_HEIGHT,
+                    padding: '0 6px',
+                    margin: 0,
+                  }}
+                >
+                  <div style={{ display: 'flex' }}>
+                    {column.cell ? (
+                      column.cell(row, { forceHover, setForceHover })
+                    ) : (
+                      <Text variant="display-medium" color="neutral80">
+                        {row[column.key]}
+                      </Text>
+                    )}
+                  </div>
+                </td>
+              ))}
+            </styled.tr>
+          ))}
+          {virtualized && lastVisibleItemIndex < total && (
             <tr>
               <td
                 style={{
                   padding: 0,
-                  height: (data.length - lastVisibleItemIndex) * ROW_HEIGHT,
+                  height: (total - lastVisibleItemIndex) * ROW_HEIGHT,
                 }}
               />
             </tr>
@@ -323,5 +317,170 @@ function Table({
   )
 }
 
-export { Table }
-export type { TableProps, TableSort, TableColumn, TableSelect }
+type TableProps = Pick<
+  InternalTableProps,
+  'data' | 'columns' | 'sort' | 'onSortChange' | 'select' | 'onSelectChange'
+>
+
+function Table(props: TableProps) {
+  return <InternalTable {...props} />
+}
+
+type VirtualizedTableProps = Pick<
+  InternalTableProps,
+  'data' | 'columns' | 'sort' | 'onSortChange' | 'select' | 'onSelectChange'
+>
+
+function VirtualizedTable({ data, ...props }: VirtualizedTableProps) {
+  const [scroll, setScroll] = useState({ first: 0, last: 0 })
+
+  return (
+    <InternalTable
+      virtualized
+      data={data.slice(scroll.first, scroll.last)}
+      totalCount={data.length}
+      onScroll={(first, last) => {
+        if (scroll.first !== first || scroll.last !== last) {
+          setScroll({ first, last })
+        }
+      }}
+      {...props}
+    />
+  )
+}
+
+type BasedTableProps = {
+  query: (opts: { limit: number; offset: number; sort: TableSort }) => any
+  totalQuery: (opts: { sort: TableSort }) => any
+  transformQueryResult: (queryResult: any) => any
+} & Pick<
+  InternalTableProps,
+  'columns' | 'sort' | 'onSortChange' | 'select' | 'onSelectChange'
+>
+
+function BasedTable({
+  query,
+  totalQuery,
+  transformQueryResult,
+  sort,
+  onSortChange,
+  ...props
+}: BasedTableProps) {
+  const [scroll, setScroll] = useState({ first: 0, last: 0 })
+  const client = useClient()
+  const [chunks, setChunks] = useState<
+    {
+      offset: number
+      limit: number
+      data?: any[]
+      unsubscribe?: () => void
+    }[]
+  >([])
+
+  const data = useMemo(() => {
+    const { first, last } = scroll
+    const res: any[] = []
+
+    for (let i = 0; i < chunks.length; i++) {
+      const chunk = chunks[i]
+      if (!chunk?.data) continue
+      const unwrappedData = transformQueryResult(chunk.data)
+
+      for (let j = 0; j < unwrappedData.length; j++) {
+        if (chunk.offset + j >= first && chunk.offset + j <= last) {
+          res.push(unwrappedData[j])
+        }
+      }
+    }
+
+    return res
+  }, [scroll, chunks])
+  const { data: totalData } = useQuery('db', totalQuery({ sort }))
+
+  // TODO useEventCallback for the query fn or else the useCallback+[query] is useless?
+  const fetchChunk = useCallback(
+    (index: number, offset: number, limit: number) => {
+      const unsubscribe = client
+        .query('db', query({ limit, offset, sort }))
+        .subscribe((data) => {
+          setChunks((p) => {
+            const c = [...p]
+            c[index] = { offset, limit, unsubscribe, data }
+            return c
+          })
+        })
+    },
+    [query],
+  )
+
+  const handleScroll = useCallback(
+    (firstVisibleIndex: number, lastVisibleIndex: number) => {
+      if (
+        scroll.first !== firstVisibleIndex ||
+        scroll.last !== lastVisibleIndex
+      ) {
+        setScroll({ first: firstVisibleIndex, last: lastVisibleIndex })
+      }
+
+      const chunkSize = 128
+      const firstChunk = Math.floor(firstVisibleIndex / chunkSize)
+      const lastChunk = Math.ceil(lastVisibleIndex / chunkSize)
+
+      for (let i = firstChunk; i < lastChunk; i++) {
+        if (!chunks[i]) {
+          setChunks((p) => {
+            const c = [...p]
+            c[i] = { offset: i * chunkSize, limit: chunkSize }
+            return c
+          })
+
+          fetchChunk(i, i * chunkSize, chunkSize)
+        }
+      }
+
+      for (let j = 0; j < chunks.length; j++) {
+        if (firstChunk > j || lastChunk < j) {
+          const chunk = chunks[j]
+
+          if (chunk) {
+            chunk.unsubscribe?.()
+
+            setChunks((p) => {
+              const c = [...p]
+              delete c[j]
+              return c
+            })
+          }
+        }
+      }
+    },
+    [scroll, chunks, fetchChunk],
+  )
+
+  console.log(data)
+
+  return (
+    <InternalTable
+      virtualized
+      data={data}
+      totalCount={totalData?.total}
+      sort={sort}
+      onSortChange={(value) => {
+        setChunks([])
+        onSortChange(value)
+      }}
+      onScroll={handleScroll}
+      {...props}
+    />
+  )
+}
+
+export { Table, VirtualizedTable, BasedTable }
+export type {
+  TableProps,
+  VirtualizedTableProps,
+  BasedTableProps,
+  TableSort,
+  TableColumn,
+  TableSelect,
+}
