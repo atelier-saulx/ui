@@ -66,8 +66,6 @@ function InternalTable({
   const scrollElementRef = useRef<HTMLDivElement>()
   const total = totalCount ?? data.length
 
-  console.log(total)
-
   useLayoutEffect(() => {
     if (!scrollElementRef.current || !virtualized) return () => {}
 
