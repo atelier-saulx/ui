@@ -12,7 +12,6 @@ import { IconButton } from '../IconButton/index.js'
 import { prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 import { Text } from '../Text/index.js'
-import { useClient } from '@based/react'
 import {
   randAirportCode,
   randEmail,

@@ -457,8 +457,6 @@ function BasedTable({
     [scroll, chunks, fetchChunk],
   )
 
-  console.log(data)
-
   return (
     <InternalTable
       virtualized
