@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid, GridSelect } from './index.js'
+import { BasedGrid, Grid, GridSelect, VirtualizedGrid } from './index.js'
 import {
   randAirportCode,
   randEmail,
@@ -15,7 +15,7 @@ export default {
   },
 }
 
-const TEST_DATA = Array.from({ length: 1001 }).map((_, index) => ({
+const TEST_DATA = Array.from({ length: 1000 }).map((_, index) => ({
   id: index,
   name: randFullName(),
   email: randEmail(),
@@ -45,6 +45,98 @@ export const Regular = () => {
           },
           {
             key: 'airport',
+            type: 'description',
+          },
+        ]}
+      />
+    </div>
+  )
+}
+
+export const Virtualized = () => {
+  const [select, setSelect] = useState<GridSelect>()
+
+  return (
+    <div style={{ height: '100svh' }}>
+      <VirtualizedGrid
+        data={TEST_DATA}
+        fields={[
+          {
+            key: 'image',
+            type: 'image',
+          },
+          {
+            key: 'name',
+            type: 'title',
+          },
+          {
+            key: 'email',
+            type: 'description',
+          },
+          {
+            key: 'airport',
+            type: 'description',
+          },
+        ]}
+      />
+    </div>
+  )
+}
+
+export const Based = () => {
+  const [select, setSelect] = useState<GridSelect>()
+
+  return (
+    <div style={{ height: '100svh' }}>
+      <BasedGrid
+        query={({ limit, offset }) => ({
+          files: {
+            $all: true,
+            $list: {
+              $limit: limit,
+              $offset: offset,
+              $find: {
+                $traverse: 'children',
+                $filter: {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: 'file',
+                },
+              },
+            },
+          },
+        })}
+        transformQueryResult={(data) => data?.files}
+        totalQuery={() => ({
+          total: {
+            $aggregate: {
+              $function: 'count',
+              $traverse: 'children',
+              $filter: [
+                {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: 'file',
+                },
+              ],
+            },
+          },
+        })}
+        fields={[
+          {
+            key: 'src',
+            type: 'image',
+          },
+          {
+            key: 'name',
+            type: 'title',
+          },
+          {
+            key: 'size',
+            type: 'description',
+          },
+          {
+            key: 'statusText',
             type: 'description',
           },
         ]}
