@@ -185,7 +185,7 @@ export const Based = () => {
   return (
     <div style={{ height: '100svh' }}>
       <BasedTable
-        query={({ limit, offset, sort }) => ({
+        query={({ limit, offset }) => ({
           files: {
             $all: true,
             $list: {

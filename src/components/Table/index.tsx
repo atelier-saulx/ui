@@ -1,17 +1,13 @@
-import {
-  ReactNode,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { ReactNode, useLayoutEffect, useRef, useState } from 'react'
 import { colors } from '../../utils/colors.js'
 import { Text } from '../Text/index.js'
 import { Icon } from '../Icon/index.js'
 import { CheckboxInput } from '../CheckboxInput/index.js'
 import { styled } from 'inlines'
-import { useClient, useQuery } from '@based/react'
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+} from '../../hooks/useInfiniteQuery.js'
 
 // TODO better API for rowActions
 // TODO add api for onRowClick
@@ -347,14 +343,11 @@ function VirtualizedTable({ data, ...props }: VirtualizedTableProps) {
   )
 }
 
-type BasedTableProps = {
-  query: (opts: { limit: number; offset: number; sort: TableSort }) => any
-  totalQuery: (opts: { sort: TableSort }) => any
-  transformQueryResult: (queryResult: any) => any
-} & Pick<
-  InternalTableProps,
-  'columns' | 'sort' | 'onSortChange' | 'select' | 'onSelectChange'
->
+type BasedTableProps = UseInfiniteQueryOptions &
+  Pick<
+    InternalTableProps,
+    'columns' | 'sort' | 'onSortChange' | 'select' | 'onSelectChange'
+  >
 
 function BasedTable({
   query,
@@ -364,105 +357,20 @@ function BasedTable({
   onSortChange,
   ...props
 }: BasedTableProps) {
-  const [scroll, setScroll] = useState({ first: 0, last: 0 })
-  const client = useClient()
-  const [chunks, setChunks] = useState<
-    {
-      offset: number
-      limit: number
-      data?: any[]
-      unsubscribe?: () => void
-    }[]
-  >([])
-
-  const data = useMemo(() => {
-    const { first, last } = scroll
-    const res: any[] = []
-
-    for (let i = 0; i < chunks.length; i++) {
-      const chunk = chunks[i]
-      if (!chunk?.data) continue
-      const unwrappedData = transformQueryResult(chunk.data)
-
-      for (let j = 0; j < unwrappedData.length; j++) {
-        if (chunk.offset + j >= first && chunk.offset + j <= last) {
-          res.push(unwrappedData[j])
-        }
-      }
-    }
-
-    return res
-  }, [scroll, chunks])
-  const { data: totalData } = useQuery('db', totalQuery({ sort }))
-
-  // TODO useEventCallback for the query fn or else the useCallback+[query] is useless?
-  const fetchChunk = useCallback(
-    (index: number, offset: number, limit: number) => {
-      const unsubscribe = client
-        .query('db', query({ limit, offset, sort }))
-        .subscribe((data) => {
-          setChunks((p) => {
-            const c = [...p]
-            c[index] = { offset, limit, unsubscribe, data }
-            return c
-          })
-        })
-    },
-    [query],
-  )
-
-  const handleScroll = useCallback(
-    (firstVisibleIndex: number, lastVisibleIndex: number) => {
-      if (
-        scroll.first !== firstVisibleIndex ||
-        scroll.last !== lastVisibleIndex
-      ) {
-        setScroll({ first: firstVisibleIndex, last: lastVisibleIndex })
-      }
-
-      const chunkSize = 128
-      const firstChunk = Math.floor(firstVisibleIndex / chunkSize)
-      const lastChunk = Math.ceil(lastVisibleIndex / chunkSize)
-
-      for (let i = firstChunk; i < lastChunk; i++) {
-        if (!chunks[i]) {
-          setChunks((p) => {
-            const c = [...p]
-            c[i] = { offset: i * chunkSize, limit: chunkSize }
-            return c
-          })
-
-          fetchChunk(i, i * chunkSize, chunkSize)
-        }
-      }
-
-      for (let j = 0; j < chunks.length; j++) {
-        if (firstChunk > j || lastChunk < j) {
-          const chunk = chunks[j]
-
-          if (chunk) {
-            chunk.unsubscribe?.()
-
-            setChunks((p) => {
-              const c = [...p]
-              delete c[j]
-              return c
-            })
-          }
-        }
-      }
-    },
-    [scroll, chunks, fetchChunk],
-  )
+  const { data, total, handleScroll, reset } = useInfiniteQuery({
+    query,
+    totalQuery,
+    transformQueryResult,
+  })
 
   return (
     <InternalTable
       virtualized
       data={data}
-      totalCount={totalData?.total}
+      totalCount={total}
       sort={sort}
       onSortChange={(value) => {
-        setChunks([])
+        reset()
         onSortChange(value)
       }}
       onScroll={handleScroll}

@@ -103,7 +103,11 @@ function useInfiniteQuery({
     [scroll, chunks, fetchChunk],
   )
 
-  return { data, total: totalData?.total, handleScroll }
+  const reset = useCallback(() => {
+    setChunks([])
+  }, [])
+
+  return { data, total: totalData?.total, handleScroll, reset }
 }
 
 export { useInfiniteQuery }
