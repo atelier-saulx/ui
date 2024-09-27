@@ -9,6 +9,7 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
 } from '../../hooks/useInfiniteQuery.js'
+import { ScrollArea } from '../ScrollArea/index.js'
 
 // TODO add select, onSelectChange
 
@@ -209,55 +210,52 @@ function InternalGrid({
   }, [scrollElementRef, data])
 
   return (
-    <div
-      ref={scrollElementRef}
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'grid',
-        gap: GRID_GAP,
-        gridTemplateColumns: `repeat(auto-fill, minmax(160px, 1fr))`,
-        overflowY: 'auto',
-        // TODO fix scrollbar colors
-        // scrollbarWidth: 'none',
-        // '&::-webkit-scrollbar': {
-        //   display: 'none',
-        // },
-      }}
-    >
-      {virtualized &&
-        !!firstRow &&
-        Array.from({ length: columns }).map((_, i) => (
-          <div
-            key={'above' + i}
-            style={{ height: firstRow * (itemHeight + GRID_GAP) }}
+    <ScrollArea>
+      <div
+        ref={scrollElementRef}
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'grid',
+          gap: GRID_GAP,
+          gridTemplateColumns: `repeat(auto-fill, minmax(160px, 1fr))`,
+          overflowY: 'auto',
+        }}
+      >
+        {virtualized &&
+          !!firstRow &&
+          Array.from({ length: columns }).map((_, i) => (
+            <div
+              key={'above' + i}
+              style={{ height: firstRow * (itemHeight + GRID_GAP) }}
+            />
+          ))}
+        {data.map((item, index) => (
+          <GridItem
+            ref={
+              index === 0
+                ? (r) => {
+                    firstItemRef.current = r
+                  }
+                : undefined
+            }
+            key={item.id}
+            data={item}
+            fields={fields}
           />
         ))}
-      {data.map((item, index) => (
-        <GridItem
-          ref={
-            index === 0
-              ? (r) => {
-                  firstItemRef.current = r
-                }
-              : undefined
-          }
-          key={item.id}
-          data={item}
-          fields={fields}
-        />
-      ))}
-      {virtualized &&
-        lastRow * columns + columns < total &&
-        Array.from({ length: columns }).map((_, i) => (
-          <div
-            key={'below' + i}
-            style={{
-              height: (total / columns - lastRow) * (itemHeight + GRID_GAP),
-            }}
-          />
-        ))}
-    </div>
+        {virtualized &&
+          lastRow * columns + columns < total &&
+          Array.from({ length: columns }).map((_, i) => (
+            <div
+              key={'below' + i}
+              style={{
+                height: (total / columns - lastRow) * (itemHeight + GRID_GAP),
+              }}
+            />
+          ))}
+      </div>
+    </ScrollArea>
   )
 }
 

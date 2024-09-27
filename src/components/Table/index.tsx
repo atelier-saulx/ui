@@ -8,6 +8,7 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
 } from '../../hooks/useInfiniteQuery.js'
+import { ScrollArea } from '../ScrollArea/index.js'
 
 // TODO better API for rowActions
 // TODO add api for onRowClick
@@ -96,157 +97,35 @@ function InternalTable({
   }, [sort])
 
   return (
-    <styled.div
-      style={{
-        width: '100%',
-        height: '100%',
-        overflow: 'auto',
-        // TODO fix scrollbar colors
-        // scrollbarWidth: 'none',
-        // '&::-webkit-scrollbar': {
-        //   display: 'none',
-        // },
-      }}
-      ref={scrollElementRef}
-    >
-      <table
+    <ScrollArea>
+      <styled.div
         style={{
           width: '100%',
-          borderSpacing: 0,
-          tableLayout: 'fixed',
+          height: '100%',
         }}
+        ref={scrollElementRef}
       >
-        <thead>
-          <tr>
-            <th
-              style={{
-                width: onSelectChange ? 44 : 8,
-                padding: onSelectChange ? '0 12px' : 0,
-                boxShadow: `inset 0 -1px 0 0 ${colors.neutral20Adjusted}`,
-                position: 'sticky',
-                top: 0,
-                background: colors.neutralInverted100,
-                zIndex: 3,
-              }}
-            >
-              {!virtualized && onSelectChange && (
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <CheckboxInput
-                    value={
-                      data.length && data.every((e) => select?.includes(e.id))
-                    }
-                    onChange={() => {
-                      if (!select) {
-                        onSelectChange(data.map((e) => e.id))
-                        return
-                      }
-
-                      if (data.every((e) => select.includes(e.id))) {
-                        onSelectChange([])
-                        return
-                      }
-
-                      onSelectChange(data.map((e) => e.id))
-                    }}
-                  />
-                </div>
-              )}
-            </th>
-            {columns.map((column) => (
+        <table
+          style={{
+            width: '100%',
+            borderSpacing: 0,
+            tableLayout: 'fixed',
+          }}
+        >
+          <thead>
+            <tr>
               <th
-                key={column.key}
                 style={{
-                  padding: '0 6px',
-                  height: HEADER_HEIGHT,
-                  margin: 0,
+                  width: onSelectChange ? 44 : 8,
+                  padding: onSelectChange ? '0 12px' : 0,
                   boxShadow: `inset 0 -1px 0 0 ${colors.neutral20Adjusted}`,
                   position: 'sticky',
                   top: 0,
                   background: colors.neutralInverted100,
                   zIndex: 3,
-                  ...(onSortChange && {
-                    cursor: 'pointer',
-                  }),
-                }}
-                onClick={() => {
-                  if (!onSortChange || typeof column.header === 'function')
-                    return
-
-                  if (sort?.key !== column.key) {
-                    onSortChange({ key: column.key, direction: 'desc' })
-                  } else if (
-                    sort?.key === column.key &&
-                    sort.direction === 'desc'
-                  ) {
-                    onSortChange({ key: column.key, direction: 'asc' })
-                  } else {
-                    onSortChange()
-                  }
                 }}
               >
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 4,
-                    minHeight: 24,
-                    userSelect: 'none',
-                  }}
-                >
-                  {typeof column.header === 'function' ? (
-                    column.header()
-                  ) : (
-                    <>
-                      <Text variant="display-bold">{column.header}</Text>
-                      {onSortChange && sort?.key === column.key && (
-                        <Icon
-                          variant={
-                            sort.direction === 'desc'
-                              ? 'arrow-down'
-                              : 'arrow-up'
-                          }
-                        />
-                      )}
-                    </>
-                  )}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {virtualized && !!firstVisibleItemIndex && (
-            <tr>
-              <td
-                style={{
-                  padding: 0,
-                  height: firstVisibleItemIndex * ROW_HEIGHT,
-                }}
-              />
-            </tr>
-          )}
-          {data.map((row) => (
-            <styled.tr
-              key={data.findIndex((e) => e?.id === row.id)}
-              data-hover={[forceHover, ...(select ?? [])].includes(row.id)}
-              style={{
-                '&:hover > td, &[data-hover=true] > td': {
-                  background: colors.neutral10Adjusted,
-                },
-              }}
-            >
-              <td
-                style={{
-                  padding: 0,
-                }}
-              >
-                {onSelectChange && (
+                {!virtualized && onSelectChange && (
                   <div
                     style={{
                       display: 'flex',
@@ -255,59 +134,177 @@ function InternalTable({
                     }}
                   >
                     <CheckboxInput
-                      value={select?.includes(row.id)}
+                      value={
+                        data.length && data.every((e) => select?.includes(e.id))
+                      }
                       onChange={() => {
                         if (!select) {
-                          onSelectChange([row.id])
+                          onSelectChange(data.map((e) => e.id))
                           return
                         }
 
-                        if (select.includes(row.id)) {
-                          onSelectChange(select.filter((e) => e !== row.id))
+                        if (data.every((e) => select.includes(e.id))) {
+                          onSelectChange([])
                           return
                         }
 
-                        onSelectChange([...select, row.id])
+                        onSelectChange(data.map((e) => e.id))
                       }}
                     />
                   </div>
                 )}
-              </td>
+              </th>
               {columns.map((column) => (
-                <td
+                <th
                   key={column.key}
                   style={{
-                    height: ROW_HEIGHT,
                     padding: '0 6px',
+                    height: HEADER_HEIGHT,
                     margin: 0,
+                    boxShadow: `inset 0 -1px 0 0 ${colors.neutral20Adjusted}`,
+                    position: 'sticky',
+                    top: 0,
+                    background: colors.neutralInverted100,
+                    zIndex: 3,
+                    ...(onSortChange && {
+                      cursor: 'pointer',
+                    }),
+                  }}
+                  onClick={() => {
+                    if (!onSortChange || typeof column.header === 'function')
+                      return
+
+                    if (sort?.key !== column.key) {
+                      onSortChange({ key: column.key, direction: 'desc' })
+                    } else if (
+                      sort?.key === column.key &&
+                      sort.direction === 'desc'
+                    ) {
+                      onSortChange({ key: column.key, direction: 'asc' })
+                    } else {
+                      onSortChange()
+                    }
                   }}
                 >
-                  <div style={{ display: 'flex' }}>
-                    {column.cell ? (
-                      column.cell(row, { forceHover, setForceHover })
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 4,
+                      minHeight: 24,
+                      userSelect: 'none',
+                    }}
+                  >
+                    {typeof column.header === 'function' ? (
+                      column.header()
                     ) : (
-                      <Text variant="display-medium" color="neutral80">
-                        {row[column.key]}
-                      </Text>
+                      <>
+                        <Text variant="display-bold">{column.header}</Text>
+                        {onSortChange && sort?.key === column.key && (
+                          <Icon
+                            variant={
+                              sort.direction === 'desc'
+                                ? 'arrow-down'
+                                : 'arrow-up'
+                            }
+                          />
+                        )}
+                      </>
                     )}
                   </div>
-                </td>
+                </th>
               ))}
-            </styled.tr>
-          ))}
-          {virtualized && lastVisibleItemIndex < total && (
-            <tr>
-              <td
-                style={{
-                  padding: 0,
-                  height: (total - lastVisibleItemIndex) * ROW_HEIGHT,
-                }}
-              />
             </tr>
-          )}
-        </tbody>
-      </table>
-    </styled.div>
+          </thead>
+          <tbody>
+            {virtualized && !!firstVisibleItemIndex && (
+              <tr>
+                <td
+                  style={{
+                    padding: 0,
+                    height: firstVisibleItemIndex * ROW_HEIGHT,
+                  }}
+                />
+              </tr>
+            )}
+            {data.map((row) => (
+              <styled.tr
+                key={data.findIndex((e) => e?.id === row.id)}
+                data-hover={[forceHover, ...(select ?? [])].includes(row.id)}
+                style={{
+                  '&:hover > td, &[data-hover=true] > td': {
+                    background: colors.neutral10Adjusted,
+                  },
+                }}
+              >
+                <td
+                  style={{
+                    padding: 0,
+                  }}
+                >
+                  {onSelectChange && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <CheckboxInput
+                        value={select?.includes(row.id)}
+                        onChange={() => {
+                          if (!select) {
+                            onSelectChange([row.id])
+                            return
+                          }
+
+                          if (select.includes(row.id)) {
+                            onSelectChange(select.filter((e) => e !== row.id))
+                            return
+                          }
+
+                          onSelectChange([...select, row.id])
+                        }}
+                      />
+                    </div>
+                  )}
+                </td>
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    style={{
+                      height: ROW_HEIGHT,
+                      padding: '0 6px',
+                      margin: 0,
+                    }}
+                  >
+                    <div style={{ display: 'flex' }}>
+                      {column.cell ? (
+                        column.cell(row, { forceHover, setForceHover })
+                      ) : (
+                        <Text variant="display-medium" color="neutral80">
+                          {row[column.key]}
+                        </Text>
+                      )}
+                    </div>
+                  </td>
+                ))}
+              </styled.tr>
+            ))}
+            {virtualized && lastVisibleItemIndex < total && (
+              <tr>
+                <td
+                  style={{
+                    padding: 0,
+                    height: (total - lastVisibleItemIndex) * ROW_HEIGHT,
+                  }}
+                />
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </styled.div>
+    </ScrollArea>
   )
 }
 

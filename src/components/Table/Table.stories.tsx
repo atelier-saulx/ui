@@ -27,7 +27,7 @@ export default {
   },
 }
 
-const TEST_DATA = Array.from({ length: 1000 }).map((_, index) => ({
+const TEST_DATA = Array.from({ length: 250 }).map((_, index) => ({
   id: index,
   name: randFullName(),
   email: randEmail(),

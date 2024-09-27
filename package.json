@@ -44,6 +44,7 @@
     "@lexical/react": "^0.17.0",
     "@lexical/rich-text": "^0.17.0",
     "@lexical/utils": "^0.17.0",
+    "@radix-ui/react-scroll-area": "^1.1.0",
     "@tanstack/react-virtual": "^3.10.7",
     "date-fns": "^3.6.0",
     "inlines": "^0.4.0-alpha.25",
