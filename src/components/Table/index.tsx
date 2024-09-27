@@ -89,7 +89,7 @@ function InternalTable({
       scrollElementRef.current.removeEventListener('scroll', measure)
       resizeObserver.disconnect()
     }
-  }, [])
+  }, [onScroll])
 
   useLayoutEffect(() => {
     if (!scrollElementRef.current) return

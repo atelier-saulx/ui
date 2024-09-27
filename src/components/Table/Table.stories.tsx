@@ -228,14 +228,7 @@ export const Based = () => {
             key: 'image',
             header: 'Preview',
             cell: (row) => (
-              <img
-                style={{ height: 24, width: 24 }}
-                src={(() => {
-                  const [prefix, file] = row.src.split('.based.dev')
-
-                  return `${prefix}.based.dev/cdn-cgi/image/format=auto,w=${24 * 2}${file}`
-                })()}
-              />
+              <img style={{ height: 24, width: 24 }} src={row.src} />
             ),
           },
           {
