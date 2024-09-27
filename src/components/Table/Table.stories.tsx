@@ -228,11 +228,7 @@ export const Based = () => {
             key: 'image',
             header: 'Preview',
             cell: (row) => (
-              <img
-                key={row.src}
-                style={{ height: 24, width: 24 }}
-                src={row.src}
-              />
+              <img style={{ height: 24, width: 24 }} src={row.src} />
             ),
           },
           {
