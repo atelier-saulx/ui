@@ -189,8 +189,6 @@ function InternalGrid({
       state.current.itemHeight = itemHeight
       state.current.itemWidth = itemWidth
 
-      console.log(state.current)
-
       onScroll?.(
         state.current.firstRow * state.current.columns,
         state.current.lastRow * state.current.columns + state.current.columns,
@@ -210,16 +208,14 @@ function InternalGrid({
   }, [scrollElementRef, data])
 
   return (
-    <ScrollArea>
+    <ScrollArea ref={scrollElementRef}>
       <div
-        ref={scrollElementRef}
         style={{
           width: '100%',
           height: '100%',
           display: 'grid',
           gap: GRID_GAP,
           gridTemplateColumns: `repeat(auto-fill, minmax(160px, 1fr))`,
-          overflowY: 'auto',
         }}
       >
         {virtualized &&
