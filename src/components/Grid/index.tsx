@@ -158,7 +158,7 @@ function InternalGrid({
     firstRow: 0,
     lastRow: 1,
     itemHeight: 0,
-    itemWidth: 0,
+    itemWidth: 160,
   })
 
   const { columns, itemHeight, firstRow, lastRow } = state.current
@@ -218,6 +218,11 @@ function InternalGrid({
         gap: GRID_GAP,
         gridTemplateColumns: `repeat(auto-fill, minmax(160px, 1fr))`,
         overflowY: 'auto',
+        // TODO fix scrollbar colors
+        // scrollbarWidth: 'none',
+        // '&::-webkit-scrollbar': {
+        //   display: 'none',
+        // },
       }}
     >
       {virtualized &&

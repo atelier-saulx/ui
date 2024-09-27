@@ -101,7 +101,7 @@ function InternalTable({
         width: '100%',
         height: '100%',
         overflow: 'auto',
-        // TODO nicer scrollbar
+        // TODO fix scrollbar colors
         // scrollbarWidth: 'none',
         // '&::-webkit-scrollbar': {
         //   display: 'none',

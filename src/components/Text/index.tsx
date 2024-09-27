@@ -4,6 +4,12 @@ import { Color, colors } from '../../utils/colors.js'
 type TextProps = {
   children: ReactNode
   variant?:
+    | 'title-regular'
+    | 'title-medium'
+    | 'title-bold'
+    | 'heading-regular'
+    | 'heading-medium'
+    | 'heading-bold'
     | 'display-regular'
     | 'display-medium'
     | 'display-bold'
@@ -37,6 +43,30 @@ function Text({
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
+        ...(variant === 'title-regular' && {
+          fontSize: 28,
+          fontWeight: 400,
+        }),
+        ...(variant === 'title-medium' && {
+          fontSize: 28,
+          fontWeight: 600,
+        }),
+        ...(variant === 'title-bold' && {
+          fontSize: 28,
+          fontWeight: 800,
+        }),
+        ...(variant === 'heading-regular' && {
+          fontSize: 22,
+          fontWeight: 300,
+        }),
+        ...(variant === 'heading-medium' && {
+          fontSize: 22,
+          fontWeight: 500,
+        }),
+        ...(variant === 'heading-bold' && {
+          fontSize: 22,
+          fontWeight: 800,
+        }),
         ...(variant === 'display-regular' && {
           fontSize: 14,
           fontWeight: 400,
