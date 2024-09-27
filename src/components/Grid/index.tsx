@@ -58,7 +58,15 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
               >
                 {data[field.key] ? (
                   <img
-                    src={data[field.key]}
+                    src={(() => {
+                      const src = data[field.key]
+
+                      if (!src.includes('.based.dev')) return src
+
+                      const [prefix, file] = src.split('.based.dev')
+
+                      return `${prefix}.based.dev/cdn-cgi/image/format=auto,w=${300 * 2}${file}`
+                    })()}
                     style={{
                       width: '100%',
                       height: '100%',

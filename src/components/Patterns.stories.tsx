@@ -278,6 +278,7 @@ export function App() {
       <div
         style={{
           height: '100svh',
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
         }}
