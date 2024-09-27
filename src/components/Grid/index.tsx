@@ -185,7 +185,7 @@ function InternalGrid({
         firstItemRef.current?.clientWidth ?? state.current.itemWidth
 
       state.current.columns = Math.round(clientWidth / (itemWidth + GRID_GAP))
-      const extra = Math.ceil(clientHeight / (itemHeight + GRID_GAP)) * 2 // rows on screen * 2
+      const extra = Math.ceil(clientHeight / (itemHeight + GRID_GAP))
       state.current.firstRow = Math.max(
         0,
         Math.floor(scrollTop / (itemHeight + GRID_GAP)) - extra,
