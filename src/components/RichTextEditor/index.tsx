@@ -2,6 +2,7 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { BehaviourPlugin } from './BehaviourPlugin.js'
+import { ValuePlugin } from './ValuePlugin.js'
 import { Toolbar } from './Toolbar.js'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
@@ -9,11 +10,12 @@ import { NODES } from './nodes.js'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { styled } from 'inlines'
 
-export function RichTextEditor({
-  onChange,
-}: {
-  onChange: (state: string) => void
-}) {
+type RichTextEditorProps = {
+  value?: string
+  onChange: (value: string) => void
+}
+
+function RichTextEditor({ value, onChange }: RichTextEditorProps) {
   return (
     <div>
       <LexicalComposer
@@ -92,10 +94,14 @@ export function RichTextEditor({
             ErrorBoundary={LexicalErrorBoundary}
           />
         </styled.div>
-        <BehaviourPlugin onChange={onChange} />
+        <BehaviourPlugin />
+        <ValuePlugin value={value} onChange={onChange} />
         <ListPlugin />
         <HistoryPlugin />
       </LexicalComposer>
     </div>
   )
 }
+
+export { RichTextEditor }
+export type { RichTextEditorProps }

@@ -131,7 +131,11 @@ export const Async = () => {
 
   useEffect(() => {
     setInterval(() => {
-      setData((p) => ({ ...p, async: crypto.randomUUID() }))
+      setData((p) => ({
+        ...p,
+        async: crypto.randomUUID(),
+        rich: `{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"${crypto.randomUUID()}","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}`,
+      }))
     }, 1000)
   }, [])
 
@@ -141,6 +145,7 @@ export const Async = () => {
       fields={{
         normal: { type: 'text', label: 'Normal' },
         async: { type: 'text', label: 'AsyncDynamicValue' },
+        rich: { type: 'richtext', label: 'Test' },
       }}
       validate={async () => {
         await new Promise((resolve) => {

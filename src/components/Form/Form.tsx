@@ -12,6 +12,7 @@ import { Button } from '../Button/index.js'
 import { format } from 'date-fns'
 import { SelectInput, SelectInputProps } from '../SelectInput/index.js'
 import { DateInput, DateInputProps } from '../DateInput/index.js'
+import { RichTextEditor } from '../RichTextEditor/index.js'
 
 const FormContext = createContext<{
   fields: FormProps['fields']
@@ -32,6 +33,7 @@ type DateTimeFormField = { type: 'datetime' } & Pick<DateInputProps, 'variant'>
 type SelectFormField = {
   type: 'select'
 } & Pick<SelectInputProps, 'options' | 'filterable'>
+type RichTextFormField = { type: 'richtext' }
 
 type FormProps = {
   children: ReactNode | ((form: ReturnType<typeof useForm>) => React.ReactNode)
@@ -44,6 +46,7 @@ type FormProps = {
       | CheckboxFormField
       | DateTimeFormField
       | SelectFormField
+      | RichTextFormField
     ) &
       CommonFormFieldProps
   }
@@ -72,6 +75,7 @@ function FormFields({ horizontal }: FormFieldsProps) {
 
   const { fields, form } = ctx
 
+  //  TODO do not repeat the FormFields so much, make them only once
   const children = useMemo(
     () =>
       Object.entries(fields).map(([key, field]) => {
@@ -198,6 +202,24 @@ function FormFields({ horizontal }: FormFieldsProps) {
                   }}
                   filterable={field.filterable}
                   options={field.options}
+                />
+              </FormField>
+            )
+          case 'richtext':
+            return (
+              <FormField
+                key={key}
+                horizontal={horizontal}
+                label={field.label}
+                description={field.description}
+                error={form.errors[key]}
+              >
+                {/* TODO missing disabled and error */}
+                <RichTextEditor
+                  value={form.values[key] as string}
+                  onChange={(value) => {
+                    form.setValue(key, value)
+                  }}
                 />
               </FormField>
             )

@@ -24,20 +24,11 @@ import { $createHeadingNode, HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { LinkNode } from '@lexical/link'
 import { ListItemNode, ListNode } from '@lexical/list'
 
-export function BehaviourPlugin({
-  onChange,
-}: {
-  onChange?: (state: string) => void
-}): null {
+function BehaviourPlugin(): null {
   const [editor] = useLexicalComposerContext()
 
   useLayoutEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({ editorState }) => {
-        if (onChange) {
-          onChange(JSON.stringify(editorState.toJSON()))
-        }
-      }),
       editor.registerUpdateListener(() => {
         editor.update(() => {
           if ($getRoot().isEmpty()) {
@@ -47,6 +38,7 @@ export function BehaviourPlugin({
           }
         })
       }),
+
       // TODO make sure only the allowed formats are left on the node.
       // editor.registerNodeTransform(TextNode, (node) => {
       //   if (node.getFormat() !== 0) {
@@ -367,7 +359,9 @@ export function BehaviourPlugin({
         COMMAND_PRIORITY_LOW,
       ),
     )
-  }, [editor, onChange])
+  }, [editor])
 
   return null
 }
+
+export { BehaviourPlugin }
