@@ -22,6 +22,7 @@ type TextProps = {
   align?: 'left' | 'center' | 'right'
   color?: 'inherit' | Color
   maxWidth?: number
+  singleLine?: boolean
 }
 
 function Text({
@@ -30,6 +31,7 @@ function Text({
   color: colorProp = 'neutral100',
   align = 'left',
   maxWidth,
+  singleLine,
 }: TextProps) {
   return (
     <div
@@ -40,9 +42,11 @@ function Text({
         letterSpacing: 'normal',
         overflowWrap: 'break-word',
         maxWidth: maxWidth,
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
+        ...((singleLine || maxWidth) && {
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+        }),
         ...(variant === 'title-regular' && {
           fontSize: 28,
           fontWeight: 400,

@@ -189,7 +189,9 @@ function InternalTable({
                     column.header()
                   ) : (
                     <>
-                      <Text variant="display-bold">{column.header}</Text>
+                      <Text singleLine variant="display-bold">
+                        {column.header}
+                      </Text>
                       {onSortChange && sort?.key === column.key && (
                         <Icon
                           variant={
@@ -272,7 +274,11 @@ function InternalTable({
                     {column.cell ? (
                       column.cell(row, { forceHover, setForceHover })
                     ) : (
-                      <Text variant="display-medium" color="neutral80">
+                      <Text
+                        singleLine
+                        variant="display-medium"
+                        color="neutral80"
+                      >
                         {row[column.key]}
                       </Text>
                     )}

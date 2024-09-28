@@ -85,10 +85,6 @@ function FileInput(props: FileInptuProps) {
             padding: 8,
             maxHeight: 360,
             overflowY: 'auto',
-            scrollbarWidth: 'none',
-            '&::-webkit-scrollbar': {
-              display: 'none',
-            },
           }}
           onDrop={(e) => {
             e.preventDefault()

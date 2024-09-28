@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Modal } from './index.js'
 import { Button } from '../Button/index.js'
-import { FormFieldGroup, FormField } from '../Form/index.js'
+import { FormFieldGroup, FormField, Form } from '../Form/index.js'
 import { TextInput } from '../TextInput/index.js'
 
 export default {
@@ -76,7 +76,23 @@ export const LargeBody = () => {
           Some text here to descripe what we expect from you in this modal.
         </Modal.Description>
         <Modal.Body>
-          <div style={{ height: 500 }} />
+          <Form
+            fields={{
+              title: { type: 'text', label: 'Title' },
+              title2: { type: 'text', label: 'Title' },
+              title3: { type: 'text', label: 'Title' },
+              title4: { type: 'text', label: 'Title' },
+              title5: { type: 'text', label: 'Title' },
+              title6: { type: 'text', label: 'Title' },
+              title7: { type: 'text', label: 'Title' },
+              title8: { type: 'text', label: 'Title' },
+            }}
+            onSubmit={() => {}}
+          >
+            <div style={{ padding: '24px 0' }}>
+              <Form.Fields />
+            </div>
+          </Form>
         </Modal.Body>
         <Modal.Actions>
           {({ close }) => (

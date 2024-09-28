@@ -6,15 +6,19 @@ import { styled } from 'inlines'
 
 type ScrollAreaProps = {
   children: ReactNode
+  style?: React.CSSProperties
 }
 
 const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
-  ({ children }, ref) => {
+  ({ children, style }, ref) => {
     return (
       <Primitive.Root
         style={{ overflow: 'hidden', width: '100%', height: '100%' }}
       >
-        <Primitive.Viewport ref={ref} style={{ width: '100%', height: '100%' }}>
+        <Primitive.Viewport
+          ref={ref}
+          style={{ width: '100%', height: '100%', ...style }}
+        >
           {children}
         </Primitive.Viewport>
         <Primitive.Scrollbar forceMount orientation="vertical" asChild>

@@ -247,11 +247,6 @@ function MenuItems({ children }: MenuItemsProps) {
               outline: 'none',
               background: colors.neutralInverted100,
               boxShadow: shadows.popoverLarge,
-              overflowY: 'auto',
-              scrollbarWidth: 'none',
-              '&::-webkit-scrollbar': {
-                display: 'none',
-              },
               ...floatingStyles,
             }}
             {...getFloatingProps({

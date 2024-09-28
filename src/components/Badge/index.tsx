@@ -107,7 +107,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
       >
         {leadIcon && <Icon size="small" variant={leadIcon} />}
         {trailIcon && !leadIcon && <div style={{ width: 1, height: '100%' }} />}
-        <Text color="inherit" variant="subtext-medium">
+        <Text singleLine color="inherit" variant="subtext-medium">
           {children}
         </Text>
         {trailIcon && <Icon size="small" variant={trailIcon} />}

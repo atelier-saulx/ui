@@ -124,10 +124,6 @@ function Dialog({
             borderRadius: radius[24],
             background: colors.neutralInverted100,
             boxShadow: shadows.popoverLarge,
-            display: 'flex',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            gap: 16,
             outline: 'none',
             ...styles,
           }}
@@ -139,44 +135,55 @@ function Dialog({
               background: colors.neutral10Background,
               borderRadius: radius[24],
               border: `1px solid ${colors.neutral10}`,
-              zIndex: -1,
             }}
           />
-          <Text variant="subheading-bold" color="neutral100" align="center">
-            {title}
-          </Text>
-          <Text variant="display-regular" color="neutral60" align="center">
-            {description}
-          </Text>
           <div
             style={{
+              position: 'relative',
+              width: '100%',
+              height: '100%',
               display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
               gap: 16,
             }}
           >
-            <Button
-              width="full"
-              keyHint="Esc"
-              keyHintPlacement="none"
-              variant="border"
-              onClick={onDismiss}
+            <Text variant="subheading-bold" color="neutral100" align="center">
+              {title}
+            </Text>
+            <Text variant="display-regular" color="neutral60" align="center">
+              {description}
+            </Text>
+            <div
+              style={{
+                display: 'flex',
+                gap: 16,
+              }}
             >
-              {dismissButtonLabel}
-            </Button>
-            {actionButtonLabel && (
               <Button
                 width="full"
-                keyHint="Enter"
+                keyHint="Esc"
                 keyHintPlacement="none"
-                color={color}
-                onClick={() => {
-                  onAction()
-                  onDismiss()
-                }}
+                variant="border"
+                onClick={onDismiss}
               >
-                {actionButtonLabel}
+                {dismissButtonLabel}
               </Button>
-            )}
+              {actionButtonLabel && (
+                <Button
+                  width="full"
+                  keyHint="Enter"
+                  keyHintPlacement="none"
+                  color={color}
+                  onClick={() => {
+                    onAction()
+                    onDismiss()
+                  }}
+                >
+                  {actionButtonLabel}
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </FloatingFocusManager>

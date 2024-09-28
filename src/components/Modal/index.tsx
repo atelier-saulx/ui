@@ -17,7 +17,7 @@ import { useTransitionStyles } from '@floating-ui/react'
 import { colors } from '../../utils/colors.js'
 import { shadows } from '../../utils/shadows.js'
 import { radius } from '../../utils/radius.js'
-import { styled } from 'inlines'
+import { ScrollArea } from '../ScrollArea/index.js'
 
 const ModalContext = createContext<{ close: () => void }>({ close: () => {} })
 
@@ -78,13 +78,9 @@ function Modal({ children, open, onOpenChange }: ModalRootProps) {
             style={{
               position: 'relative',
               width: 480,
-              padding: 24,
               borderRadius: radius[24],
               background: colors.neutralInverted100,
               boxShadow: shadows.popoverLarge,
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
               outline: 'none',
               ...styles,
             }}
@@ -96,10 +92,20 @@ function Modal({ children, open, onOpenChange }: ModalRootProps) {
                 inset: 0,
                 borderRadius: radius[24],
                 border: `1px solid ${colors.neutral10}`,
-                zIndex: -1,
               }}
             />
-            {children}
+            <div
+              style={{
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                width: '100%',
+                height: '100%',
+              }}
+            >
+              {children}
+            </div>
           </div>
         </FloatingFocusManager>
       </FloatingOverlay>
@@ -112,9 +118,11 @@ type ModalTitleProps = {
 }
 function ModalTitle({ children }: ModalTitleProps) {
   return (
-    <Text color="neutral100" variant="subheading-bold">
-      {children}
-    </Text>
+    <div style={{ padding: '24px 24px 0' }}>
+      <Text color="neutral100" variant="subheading-bold">
+        {children}
+      </Text>
+    </div>
   )
 }
 
@@ -123,7 +131,7 @@ type ModalDescriptionProps = {
 }
 function ModalDescription({ children }: ModalDescriptionProps) {
   return (
-    <div style={{ marginTop: 8 }}>
+    <div style={{ padding: '8px 24px 24px' }}>
       <Text variant="display-regular" color="neutral60">
         {children}
       </Text>
@@ -153,27 +161,20 @@ function ModalBody({ children }: ModalBodyProps) {
   }, [])
 
   return (
-    <styled.div
+    <div
       style={{
-        marginTop: 32,
-        marginLeft: -24,
-        marginRight: -24,
-        paddingLeft: 24,
-        paddingRight: 24,
-        maxHeight: 480,
         ...(contentHeight > 480 && {
           borderTop: `1px solid ${colors.neutral10}`,
           borderBottom: `1px solid ${colors.neutral10}`,
-          overflowY: 'scroll',
-          scrollbarWidth: 'none',
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
         }),
       }}
     >
-      <div ref={ref}>{children}</div>
-    </styled.div>
+      <ScrollArea style={{ maxHeight: 480 }}>
+        <div ref={ref} style={{ paddingLeft: 24, paddingRight: 24 }}>
+          {children}
+        </div>
+      </ScrollArea>
+    </div>
   )
 }
 
@@ -190,7 +191,7 @@ function ModalActions({ children }: ModalActionsProps) {
         justifyContent: 'end',
         alignItems: 'center',
         gap: 16,
-        marginTop: 24,
+        padding: 24,
       }}
     >
       {typeof children === 'function' ? children({ close }) : children}

@@ -330,6 +330,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             )}
             <Text
               color="inherit"
+              singleLine
               variant={size === 'small' ? 'subtext-medium' : 'display-medium'}
             >
               {children}

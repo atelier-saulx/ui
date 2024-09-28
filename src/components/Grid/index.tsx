@@ -140,6 +140,7 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
                   key={field.key}
                   variant="display-medium"
                   color="neutral80"
+                  singleLine
                 >
                   {data[field.key]}
                 </Text>
@@ -161,6 +162,7 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
                   key={field.key}
                   variant="display-regular"
                   color="neutral60"
+                  singleLine
                 >
                   {data[field.key]}
                 </Text>

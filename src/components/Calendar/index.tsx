@@ -61,6 +61,7 @@ import { Button } from '../Button/index.js'
 import { IconButton } from '../IconButton/index.js'
 import { Icon } from '../Icon/index.js'
 import { styled } from 'inlines'
+import { ScrollArea } from '../ScrollArea/index.js'
 
 type CalendarProps = {
   children: ReactElement | (({ open }: { open: boolean }) => ReactElement)
@@ -247,43 +248,40 @@ function DatePicker({
               gap: 2,
               height: 184,
               overflowY: 'auto',
-              scrollbarWidth: 'none',
-              '&::-webkit-scrollbar': {
-                display: 'none',
-              },
             }}
-            ref={monthContainerRef}
           >
-            {[...Array(12).keys()].map((e, i) => (
-              <styled.div
-                key={i}
-                style={{
-                  height: 32,
-                  flexShrink: 0,
-                  display: 'flex',
-                  padding: '0 8px',
-                  alignItems: 'center',
-                  gap: 8,
-                  cursor: 'pointer',
-                  borderRadius: radius[8],
-                  '&:hover': {
-                    background: colors.neutral10Adjusted,
-                  },
-                }}
-                onClick={() => {
-                  setCurrentMonth(setMonth(currentMonth, e))
-                }}
-              >
-                {getMonth(currentMonth) === e ? (
-                  <Icon variant="checkmark" />
-                ) : (
-                  <div style={{ height: 24, width: 24 }} />
-                )}
-                <Text variant="display-medium">
-                  {format(addMonths(startOfYear(new Date()), e), 'MMM')}
-                </Text>
-              </styled.div>
-            ))}
+            <ScrollArea ref={monthContainerRef}>
+              {[...Array(12).keys()].map((e, i) => (
+                <styled.div
+                  key={i}
+                  style={{
+                    height: 32,
+                    flexShrink: 0,
+                    display: 'flex',
+                    padding: '0 8px',
+                    alignItems: 'center',
+                    gap: 8,
+                    cursor: 'pointer',
+                    borderRadius: radius[8],
+                    '&:hover': {
+                      background: colors.neutral10Adjusted,
+                    },
+                  }}
+                  onClick={() => {
+                    setCurrentMonth(setMonth(currentMonth, e))
+                  }}
+                >
+                  {getMonth(currentMonth) === e ? (
+                    <Icon variant="checkmark" />
+                  ) : (
+                    <div style={{ height: 24, width: 24 }} />
+                  )}
+                  <Text variant="display-medium">
+                    {format(addMonths(startOfYear(new Date()), e), 'MMM')}
+                  </Text>
+                </styled.div>
+              ))}
+            </ScrollArea>
           </styled.div>
           <styled.div
             style={{
@@ -294,47 +292,45 @@ function DatePicker({
               height: 184,
               overflowY: 'auto',
               scrollbarWidth: 'none',
-              '&::-webkit-scrollbar': {
-                display: 'none',
-              },
             }}
-            ref={yearContainerRef}
           >
-            {[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((e, i) => (
-              <styled.div
-                key={i}
-                style={{
-                  height: 32,
-                  flexShrink: 0,
-                  display: 'flex',
-                  padding: '0 8px',
-                  alignItems: 'center',
-                  gap: 8,
-                  cursor: 'pointer',
-                  borderRadius: radius[8],
-                  '&:hover': {
-                    background: colors.neutral10Adjusted,
-                  },
-                }}
-                onClick={() => {
-                  setCurrentMonth(
-                    setYear(currentMonth, getYear(new Date()) + e),
-                  )
-                }}
-              >
-                {isSameYear(
-                  currentMonth,
-                  addYears(startOfYear(new Date()), e),
-                ) ? (
-                  <Icon variant="checkmark" />
-                ) : (
-                  <div style={{ height: 24, width: 24 }} />
-                )}
-                <Text variant="display-medium">
-                  {format(addYears(startOfYear(new Date()), e), 'yyyy')}
-                </Text>
-              </styled.div>
-            ))}
+            <ScrollArea ref={yearContainerRef}>
+              {[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((e, i) => (
+                <styled.div
+                  key={i}
+                  style={{
+                    height: 32,
+                    flexShrink: 0,
+                    display: 'flex',
+                    padding: '0 8px',
+                    alignItems: 'center',
+                    gap: 8,
+                    cursor: 'pointer',
+                    borderRadius: radius[8],
+                    '&:hover': {
+                      background: colors.neutral10Adjusted,
+                    },
+                  }}
+                  onClick={() => {
+                    setCurrentMonth(
+                      setYear(currentMonth, getYear(new Date()) + e),
+                    )
+                  }}
+                >
+                  {isSameYear(
+                    currentMonth,
+                    addYears(startOfYear(new Date()), e),
+                  ) ? (
+                    <Icon variant="checkmark" />
+                  ) : (
+                    <div style={{ height: 24, width: 24 }} />
+                  )}
+                  <Text variant="display-medium">
+                    {format(addYears(startOfYear(new Date()), e), 'yyyy')}
+                  </Text>
+                </styled.div>
+              ))}
+            </ScrollArea>
           </styled.div>
         </div>
       </div>
@@ -461,49 +457,47 @@ function TimePicker({
           height: 184,
           overflowY: 'auto',
           scrollbarWidth: 'none',
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
         }}
-        ref={timeContainerRef}
       >
-        {[...Array(24 * 2).keys()].map((e, i) => (
-          <styled.div
-            key={i}
-            style={{
-              height: 32,
-              flexShrink: 0,
-              display: 'flex',
-              padding: '0 8px',
-              alignItems: 'center',
-              gap: 8,
-              cursor: 'pointer',
-              borderRadius: radius[8],
-              '&:hover': {
-                background: colors.neutral10Adjusted,
-              },
-            }}
-            onClick={() => {
-              onChange(addMinutes(startOfDay(value ?? new Date()), e * 30))
-            }}
-          >
-            {value &&
-            getHours(value) ===
-              getHours(addMinutes(startOfDay(value), e * 30)) &&
-            getMinutes(value) ===
-              getMinutes(addMinutes(startOfDay(value), e * 30)) ? (
-              <Icon variant="checkmark" />
-            ) : (
-              <div style={{ height: 24, width: 24 }} />
-            )}
-            <Text variant="display-medium">
-              {format(
-                addMinutes(startOfDay(value ?? new Date()), e * 30),
-                'HH:mm',
+        <ScrollArea ref={timeContainerRef}>
+          {[...Array(24 * 2).keys()].map((e, i) => (
+            <styled.div
+              key={i}
+              style={{
+                height: 32,
+                flexShrink: 0,
+                display: 'flex',
+                padding: '0 8px',
+                alignItems: 'center',
+                gap: 8,
+                cursor: 'pointer',
+                borderRadius: radius[8],
+                '&:hover': {
+                  background: colors.neutral10Adjusted,
+                },
+              }}
+              onClick={() => {
+                onChange(addMinutes(startOfDay(value ?? new Date()), e * 30))
+              }}
+            >
+              {value &&
+              getHours(value) ===
+                getHours(addMinutes(startOfDay(value), e * 30)) &&
+              getMinutes(value) ===
+                getMinutes(addMinutes(startOfDay(value), e * 30)) ? (
+                <Icon variant="checkmark" />
+              ) : (
+                <div style={{ height: 24, width: 24 }} />
               )}
-            </Text>
-          </styled.div>
-        ))}
+              <Text variant="display-medium">
+                {format(
+                  addMinutes(startOfDay(value ?? new Date()), e * 30),
+                  'HH:mm',
+                )}
+              </Text>
+            </styled.div>
+          ))}
+        </ScrollArea>
       </styled.div>
     </div>
   )
