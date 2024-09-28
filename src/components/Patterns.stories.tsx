@@ -12,8 +12,6 @@ import {
   IconButton,
   BasedTable,
   Badge,
-  TableSort,
-  TableSelect,
   AppHeader,
   BasedGrid,
 } from '../index.js'
@@ -21,6 +19,7 @@ import { styled } from 'inlines'
 import { prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 import { useQuery } from '@based/react'
+import { Select, Sort } from '../utils/common.js'
 
 export default {
   title: 'Patterns',
@@ -186,8 +185,8 @@ export function FormInModal() {
 
 export function App() {
   const [page, setPage] = useState('media')
-  const [sort, setSort] = useState<TableSort>()
-  const [select, setSelect] = useState<TableSelect>()
+  const [sort, setSort] = useState<Sort>()
+  const [select, setSelect] = useState<Select>()
   const [view, setView] = useState('table')
   const { data: totalData } = useQuery('db', {
     total: {
@@ -289,6 +288,9 @@ export function App() {
             <Text variant="display-regular" color="neutral60">
               {totalData?.total} files
             </Text>
+            {!!select?.length && (
+              <Button trailIcon="chevron-down">{select.length} selected</Button>
+            )}
             <AppHeader.Separator />
             <Button variant="ghost" leadIcon="filter">
               Filter
@@ -434,8 +436,6 @@ export function App() {
                 ),
               },
             ]}
-            sort={sort}
-            onSortChange={setSort}
             select={select}
             onSelectChange={setSelect}
           />
@@ -456,6 +456,9 @@ export function App() {
                       $value: 'file',
                     },
                   },
+                  ...(sort && {
+                    $sort: { $field: sort.key, $order: sort.direction },
+                  }),
                 },
               },
             })}
@@ -475,6 +478,8 @@ export function App() {
                 },
               },
             })}
+            select={select}
+            onSelectChange={setSelect}
             fields={[
               {
                 key: 'src',

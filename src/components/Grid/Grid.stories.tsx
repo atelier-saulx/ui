@@ -26,10 +26,13 @@ const TEST_DATA = Array.from({ length: 250 }).map((_, index) => ({
 
 export const Regular = () => {
   const [select, setSelect] = useState<GridSelect>()
+
   return (
     <div style={{ height: '100svh' }}>
       <Grid
         data={TEST_DATA}
+        select={select}
+        onSelectChange={setSelect}
         fields={[
           {
             key: 'image',
@@ -60,6 +63,8 @@ export const Virtualized = () => {
     <div style={{ height: '100svh' }}>
       <VirtualizedGrid
         data={TEST_DATA}
+        select={select}
+        onSelectChange={setSelect}
         fields={[
           {
             key: 'image',
@@ -89,6 +94,8 @@ export const Based = () => {
   return (
     <div style={{ height: '100svh' }}>
       <BasedGrid
+        select={select}
+        onSelectChange={setSelect}
         query={({ limit, offset }) => ({
           files: {
             $all: true,

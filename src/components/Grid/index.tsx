@@ -10,8 +10,8 @@ import {
   UseInfiniteQueryOptions,
 } from '../../hooks/useInfiniteQuery.js'
 import { ScrollArea } from '../ScrollArea/index.js'
-
-// TODO add select, onSelectChange
+import { Select } from '../../utils/common.js'
+import { CheckboxInput } from '../CheckboxInput/index.js'
 
 type GridField = {
   key: string
@@ -21,24 +21,75 @@ type GridField = {
 type GridItemProps = {
   data: any
   fields: GridField[]
-}
+} & Pick<InternalGridProps, 'select' | 'onSelectChange'>
 
 const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
-  ({ data, fields }, ref) => {
+  ({ data, fields, select, onSelectChange }, ref) => {
+    const selected = select?.includes(data.id)
+
     return (
       <styled.div
         ref={ref}
+        data-selected={selected ? true : undefined}
         style={{
+          position: 'relative',
           display: 'flex',
           flexDirection: 'column',
           gap: 2,
           padding: 8,
           borderRadius: radius[16],
-          '&:hover': {
-            background: colors.neutral10Background,
+          '&:hover, &[data-selected]': {
+            background: colors.neutral10Adjusted,
+          },
+          '&:hover > .selectContainer, &[data-selected] > .selectContainer': {
+            opacity: '100% !important',
           },
         }}
       >
+        {onSelectChange && (
+          <div
+            className="selectContainer"
+            style={{
+              position: 'absolute',
+              top: 16,
+              left: 16,
+              opacity: 0,
+              height: 32,
+              width: 32,
+              borderRadius: radius[8],
+              background: colors.neutralInverted100,
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                background: colors.neutral10Adjusted,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <CheckboxInput
+                value={selected}
+                onChange={() => {
+                  if (!select) {
+                    onSelectChange([data.id])
+                    return
+                  }
+
+                  if (select.includes(data.id)) {
+                    onSelectChange(select.filter((e) => e !== data.id))
+                    return
+                  }
+
+                  onSelectChange([...select, data.id])
+                }}
+              />
+            </div>
+          </div>
+        )}
         {fields.map((field) => {
           const children: ReactNode[] = []
 
@@ -54,6 +105,9 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
                   aspectRatio: 1,
                   overflow: 'hidden',
                   marginBottom: 6,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 {data[field.key] ? (
@@ -140,6 +194,8 @@ type InternalGridProps = {
     firstVisibleItemIndex: number,
     lastVisibleItemIndex: number,
   ) => void
+  select?: Select
+  onSelectChange?: (select?: Select) => void
 }
 
 const GRID_GAP = 4
@@ -150,6 +206,8 @@ function InternalGrid({
   virtualized,
   totalCount,
   onScroll,
+  select,
+  onSelectChange,
 }: InternalGridProps) {
   const scrollElementRef = useRef<HTMLDivElement>()
   const firstItemRef = useRef<HTMLDivElement>()
@@ -216,6 +274,7 @@ function InternalGrid({
           display: 'grid',
           gap: GRID_GAP,
           gridTemplateColumns: `repeat(auto-fill, minmax(160px, 1fr))`,
+          padding: '8px 12px',
         }}
       >
         {virtualized &&
@@ -238,6 +297,8 @@ function InternalGrid({
             key={item.id}
             data={item}
             fields={fields}
+            select={select}
+            onSelectChange={onSelectChange}
           />
         ))}
         {virtualized &&
@@ -255,13 +316,19 @@ function InternalGrid({
   )
 }
 
-type GridProps = Pick<InternalGridProps, 'data' | 'fields'>
+type GridProps = Pick<
+  InternalGridProps,
+  'data' | 'fields' | 'select' | 'onSelectChange'
+>
 
 function Grid(props: GridProps) {
   return <InternalGrid {...props} />
 }
 
-type VirtualizedGridProps = Pick<InternalGridProps, 'data' | 'fields'>
+type VirtualizedGridProps = Pick<
+  InternalGridProps,
+  'data' | 'fields' | 'select' | 'onSelectChange'
+>
 
 function VirtualizedGrid({ data, ...props }: GridProps) {
   const [scroll, setScroll] = useState({ first: 0, last: 0 })
@@ -282,7 +349,7 @@ function VirtualizedGrid({ data, ...props }: GridProps) {
 }
 
 type BasedGridProps = UseInfiniteQueryOptions &
-  Pick<InternalGridProps, 'fields'>
+  Pick<InternalGridProps, 'fields' | 'select' | 'onSelectChange'>
 
 function BasedGrid({
   query,

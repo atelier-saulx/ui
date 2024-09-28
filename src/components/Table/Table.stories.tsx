@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  BasedTable,
-  Table,
-  TableSelect,
-  TableSort,
-  VirtualizedTable,
-} from './index.js'
+import { BasedTable, Table, VirtualizedTable } from './index.js'
 import { Badge } from '../Badge/index.js'
 import { Menu } from '../Menu/index.js'
 import { IconButton } from '../IconButton/index.js'
@@ -18,6 +12,7 @@ import {
   randFullName,
   randImg,
 } from '@ngneat/falso'
+import { Select, Sort } from '../../utils/common.js'
 
 export default {
   title: 'Table (WIP)',
@@ -36,8 +31,8 @@ const TEST_DATA = Array.from({ length: 250 }).map((_, index) => ({
 }))
 
 export const Regular = () => {
-  const [sort, setSort] = useState<TableSort>()
-  const [select, setSelect] = useState<TableSelect>()
+  const [sort, setSort] = useState<Sort>()
+  const [select, setSelect] = useState<Select>()
 
   return (
     <div style={{ height: '100svh' }}>
@@ -179,8 +174,8 @@ export const Virtualized = () => {
 }
 
 export const Based = () => {
-  const [sort, setSort] = useState<TableSort>()
-  const [select, setSelect] = useState<TableSelect>()
+  const [sort, setSort] = useState<Sort>()
+  const [select, setSelect] = useState<Select>()
 
   return (
     <div style={{ height: '100svh' }}>

@@ -9,6 +9,7 @@ import {
   UseInfiniteQueryOptions,
 } from '../../hooks/useInfiniteQuery.js'
 import { ScrollArea } from '../ScrollArea/index.js'
+import type { Sort, Select } from '../../utils/common.js'
 
 // TODO better API for rowActions
 // TODO add api for onRowClick
@@ -17,11 +18,6 @@ type TableInternalState = {
   forceHover?: string
   setForceHover: (value?: string) => void
 }
-type TableSort = {
-  key: string
-  direction: 'asc' | 'desc'
-}
-type TableSelect = string[]
 type TableColumn = {
   key: string
   header: string | (() => ReactNode)
@@ -32,10 +28,10 @@ type InternalTableProps = {
   data: any[]
   totalCount?: number
   columns: TableColumn[]
-  sort?: TableSort
-  onSortChange?: (sort?: TableSort) => void
-  select?: TableSelect
-  onSelectChange?: (select?: TableSelect) => void
+  sort?: Sort
+  onSortChange?: (sort?: Sort) => void
+  select?: Select
+  onSelectChange?: (select?: Select) => void
   onScroll?: (
     firstVisibleItemIndex: number,
     lastVisibleItemIndex: number,
@@ -370,11 +366,4 @@ function BasedTable({
 }
 
 export { Table, VirtualizedTable, BasedTable }
-export type {
-  TableProps,
-  VirtualizedTableProps,
-  BasedTableProps,
-  TableSort,
-  TableColumn,
-  TableSelect,
-}
+export type { TableProps, VirtualizedTableProps, BasedTableProps, TableColumn }
