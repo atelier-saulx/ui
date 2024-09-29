@@ -21,7 +21,12 @@ function useInfiniteQuery({
 }: UseInfiniteQueryOptions) {
   const client = useClient()
   const [chunks, setChunks] = useState<Chunk[]>([])
-  const [scroll, setScroll] = useState({ first: 0, last: 0 })
+  const [scroll, setScroll] = useState({
+    first: 0,
+    last: 0,
+    realFirst: 0,
+    realLast: 0,
+  })
   const { data: totalData } = useQuery('db', totalQuery())
 
   const data = useMemo(() => {
@@ -60,12 +65,22 @@ function useInfiniteQuery({
   )
 
   const handleScroll = useCallback(
-    (firstVisibleIndex: number, lastVisibleIndex: number) => {
+    (
+      firstVisibleIndex: number,
+      lastVisibleIndex: number,
+      realFirst: number,
+      realLast: number,
+    ) => {
       if (
         scroll.first !== firstVisibleIndex ||
         scroll.last !== lastVisibleIndex
       ) {
-        setScroll({ first: firstVisibleIndex, last: lastVisibleIndex })
+        setScroll({
+          first: firstVisibleIndex,
+          last: lastVisibleIndex,
+          realFirst,
+          realLast,
+        })
       }
 
       const chunkSize = 128

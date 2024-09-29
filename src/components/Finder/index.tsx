@@ -102,7 +102,7 @@ function Finder({
         <AppHeader.Right>
           {scroll && total && (
             <Text variant="display-regular" color="neutral60">
-              {scroll.first} - {scroll.last} of {total}
+              {scroll.realFirst} - {scroll.realLast} of {total}
             </Text>
           )}
           {!!select?.length && (
@@ -129,9 +129,7 @@ function Finder({
           fields={fields}
           data={data}
           totalCount={total}
-          onScroll={(first, last) => {
-            handleScroll(first, last)
-          }}
+          onScroll={handleScroll}
           onItemClick={onItemClick}
           select={select}
           onSelectChange={setSelect}

@@ -27,6 +27,8 @@ type InternalTableProps = {
   onScroll?: (
     firstVisibleItemIndex: number,
     lastVisibleItemIndex: number,
+    realFirstVisibleItemIndex: number,
+    realLastVisibleItemIndex: number,
   ) => void
   virtualized?: boolean
   onItemClick?: (item: any) => void
@@ -60,15 +62,16 @@ function InternalTable({
       const { scrollTop, clientHeight } = scrollElementRef.current
 
       const count = Math.ceil((clientHeight - HEADER_HEIGHT) / ROW_HEIGHT)
-      // const extra = count
-      const extra = 0
+      const extra = count
+      const realFirst = Math.floor(scrollTop / ROW_HEIGHT)
+      const realLast = Math.floor(scrollTop / ROW_HEIGHT) + count
       const first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - extra)
       const last = Math.floor(scrollTop / ROW_HEIGHT) + count + extra
 
       setFirstVisibleItemIndex(first)
       setLastVisibleItemIndex(last)
 
-      onScroll?.(first, last)
+      onScroll?.(first, last, realFirst, realLast)
     }
 
     measure()
