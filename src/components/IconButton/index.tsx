@@ -1,4 +1,4 @@
-import { forwardRef, Fragment, useState } from 'react'
+import { forwardRef, Fragment, MouseEvent } from 'react'
 import { radius } from '../../utils/radius.js'
 import { Icon, IconProps } from '../Icon/index.js'
 import { colors } from '../../utils/colors.js'
@@ -10,7 +10,7 @@ import { useKeyboardShortcut } from '../../hooks/useKeyboardShortcut.js'
 
 type IconButtonProps = {
   icon: IconProps['variant']
-  onClick?: () => void
+  onClick?: (e: MouseEvent) => void
   disabled?: boolean
   size?: 'regular' | 'small' | 'tiny'
   color?: 'neutral' | 'red'

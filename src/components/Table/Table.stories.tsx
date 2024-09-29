@@ -13,6 +13,7 @@ import {
   randImg,
 } from '@ngneat/falso'
 import { Select, Sort } from '../../utils/common.js'
+import { useToast } from '../Toast/index.js'
 
 export default {
   title: 'Table (WIP)',
@@ -33,6 +34,7 @@ const TEST_DATA = Array.from({ length: 250 }).map((_, index) => ({
 export const Regular = () => {
   const [sort, setSort] = useState<Sort>()
   const [select, setSelect] = useState<Select>()
+  const toast = useToast()
 
   return (
     <div style={{ height: '100svh' }}>
@@ -81,7 +83,12 @@ export const Regular = () => {
                 }}
               >
                 <Menu.Trigger>
-                  <div style={{ display: 'flex', marginLeft: 'auto' }}>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }}
+                    style={{ display: 'flex', marginLeft: 'auto' }}
+                  >
                     <IconButton size="small" icon="more-vertical" />
                   </div>
                 </Menu.Trigger>
@@ -107,6 +114,9 @@ export const Regular = () => {
         onSortChange={setSort}
         select={select}
         onSelectChange={setSelect}
+        onItemClick={(item) => {
+          toast(`clicked item ${item.id}`)
+        }}
       />
     </div>
   )

@@ -21,7 +21,7 @@ type TableInternalState = {
 type TableColumn = {
   key: string
   header: string | (() => ReactNode)
-  cell?: (row: any, table: TableInternalState) => ReactNode
+  cell?: (item: any, table: TableInternalState) => ReactNode
 }
 
 type InternalTableProps = {
@@ -37,6 +37,7 @@ type InternalTableProps = {
     lastVisibleItemIndex: number,
   ) => void
   virtualized?: boolean
+  onItemClick?: (item: any) => void
 }
 
 const HEADER_HEIGHT = 44
@@ -52,6 +53,7 @@ function InternalTable({
   onSelectChange,
   onScroll,
   virtualized,
+  onItemClick,
 }: InternalTableProps) {
   const [forceHover, setForceHover] = useState<string>()
   const [firstVisibleItemIndex, setFirstVisibleItemIndex] = useState(0)
@@ -269,6 +271,9 @@ function InternalTable({
                     padding: '0 6px',
                     margin: 0,
                   }}
+                  onClick={() => {
+                    onItemClick?.(row)
+                  }}
                 >
                   <div style={{ display: 'flex' }}>
                     {column.cell ? (
@@ -305,7 +310,13 @@ function InternalTable({
 
 type TableProps = Pick<
   InternalTableProps,
-  'data' | 'columns' | 'sort' | 'onSortChange' | 'select' | 'onSelectChange'
+  | 'data'
+  | 'columns'
+  | 'sort'
+  | 'onSortChange'
+  | 'select'
+  | 'onSelectChange'
+  | 'onItemClick'
 >
 
 function Table(props: TableProps) {
@@ -314,7 +325,13 @@ function Table(props: TableProps) {
 
 type VirtualizedTableProps = Pick<
   InternalTableProps,
-  'data' | 'columns' | 'sort' | 'onSortChange' | 'select' | 'onSelectChange'
+  | 'data'
+  | 'columns'
+  | 'sort'
+  | 'onSortChange'
+  | 'select'
+  | 'onSelectChange'
+  | 'onItemClick'
 >
 
 function VirtualizedTable({ data, ...props }: VirtualizedTableProps) {
@@ -338,7 +355,12 @@ function VirtualizedTable({ data, ...props }: VirtualizedTableProps) {
 type BasedTableProps = UseInfiniteQueryOptions &
   Pick<
     InternalTableProps,
-    'columns' | 'sort' | 'onSortChange' | 'select' | 'onSelectChange'
+    | 'columns'
+    | 'sort'
+    | 'onSortChange'
+    | 'select'
+    | 'onSelectChange'
+    | 'onItemClick'
   >
 
 function BasedTable({

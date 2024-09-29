@@ -205,7 +205,13 @@ function MenuTrigger({ children }: MenuTriggerProps) {
         typeof children === 'function' ? children({ open }) : children,
         {
           ref: refs.setReference,
-          ...getReferenceProps(),
+          ...getReferenceProps({
+            onClick: (e) => {
+              typeof children === 'function'
+                ? children({ open }).props.onClick?.(e)
+                : children.props.onClick?.(e)
+            },
+          }),
         },
       )}
     </>
@@ -310,7 +316,8 @@ function MenuItem({
     <button
       ref={item.ref}
       {...getItemProps({
-        onClick() {
+        onClick(e) {
+          e.stopPropagation()
           onClick?.()
           tree?.events.emit('click')
         },
