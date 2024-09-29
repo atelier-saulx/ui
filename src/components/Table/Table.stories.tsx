@@ -39,21 +39,21 @@ export const Regular = () => {
   return (
     <div style={{ height: '100svh' }}>
       <Table
-        columns={[
-          { key: 'id', header: 'ID' },
-          { key: 'name', header: 'Name' },
-          { key: 'email', header: 'Email' },
+        fields={[
+          { key: 'id', title: 'ID' },
+          { key: 'name', title: 'Name' },
+          { key: 'email', title: 'Email' },
           {
             key: 'image',
-            header: 'image',
-            cell: (row) => (
+            title: 'image',
+            render: (row) => (
               <img style={{ height: 24, width: 24 }} src={row.image} />
             ),
           },
           {
             key: 'airport',
-            header: 'Airport',
-            cell: (row) => (
+            title: 'Airport',
+            render: (row) => (
               <Badge leadIcon="home" color="green-subtle">
                 {row.airport}
               </Badge>
@@ -61,7 +61,7 @@ export const Regular = () => {
           },
           {
             key: 'action',
-            header: () =>
+            title: () =>
               !!select?.length && (
                 <Menu>
                   <Menu.Trigger>
@@ -76,10 +76,10 @@ export const Regular = () => {
                   </Menu.Items>
                 </Menu>
               ),
-            cell: (row, table) => (
+            render: (row, opts) => (
               <Menu
                 onOpenChange={(open) => {
-                  table.setForceHover(open ? row.id : undefined)
+                  opts?.setForceHover(open ? row.id : undefined)
                 }}
               >
                 <Menu.Trigger>
@@ -126,21 +126,21 @@ export const Virtualized = () => {
   return (
     <div style={{ height: '100svh' }}>
       <VirtualizedTable
-        columns={[
-          { key: 'id', header: 'ID' },
-          { key: 'name', header: 'Name' },
-          { key: 'email', header: 'Email' },
+        fields={[
+          { key: 'id', title: 'ID' },
+          { key: 'name', title: 'Name' },
+          { key: 'email', title: 'Email' },
           {
             key: 'image',
-            header: 'image',
-            cell: (row) => (
+            title: 'image',
+            render: (row) => (
               <img style={{ height: 24, width: 24 }} src={row.image} />
             ),
           },
           {
             key: 'airport',
-            header: 'Airport',
-            cell: (row) => (
+            title: 'Airport',
+            render: (row) => (
               <Badge leadIcon="home" color="green-subtle">
                 {row.airport}
               </Badge>
@@ -148,11 +148,11 @@ export const Virtualized = () => {
           },
           {
             key: 'action',
-            header: () => null,
-            cell: (row, table) => (
+            title: () => null,
+            render: (row, opts) => (
               <Menu
                 onOpenChange={(open) => {
-                  table.setForceHover(open ? row.id : undefined)
+                  opts?.setForceHover(open ? row.id : undefined)
                 }}
               >
                 <Menu.Trigger>
@@ -226,20 +226,20 @@ export const Based = () => {
             },
           },
         })}
-        columns={[
-          { key: 'id', header: 'ID' },
-          { key: 'name', header: 'Name' },
+        fields={[
+          { key: 'id', title: 'ID' },
+          { key: 'name', title: 'Name' },
           {
             key: 'image',
-            header: 'Preview',
-            cell: (row) => (
+            title: 'Preview',
+            render: (row) => (
               <img style={{ height: 24, width: 24 }} src={row.src} />
             ),
           },
           {
             key: 'statusText',
-            header: 'Status',
-            cell: (row) => (
+            title: 'Status',
+            render: (row) => (
               <Badge
                 color={row.status === 3 ? 'green-subtle' : 'orange-subtle'}
                 leadIcon={row.status === 3 ? 'checkmark' : 'error'}
@@ -251,25 +251,25 @@ export const Based = () => {
           },
           {
             key: 'size',
-            header: 'Size',
-            cell: (row) => (
-              <Text variant="display-medium" color="neutral80">
+            title: 'Size',
+            render: (row) => (
+              <Text variant="display-medium" color="neutral80" singleLine>
                 {prettyNumber(row?.size ?? 0, 'number-bytes').toUpperCase()}
               </Text>
             ),
           },
           {
             key: 'createdAt',
-            header: 'Created At',
-            cell: (row) => (
-              <Text variant="display-medium" color="neutral80">
+            title: 'Created At',
+            render: (row) => (
+              <Text variant="display-medium" color="neutral80" singleLine>
                 {prettyDate(row.createdAt, 'date-time-human')}
               </Text>
             ),
           },
           {
             key: 'action',
-            header: () =>
+            title: () =>
               !!select?.length && (
                 <Menu>
                   <Menu.Trigger>
@@ -284,10 +284,10 @@ export const Based = () => {
                   </Menu.Items>
                 </Menu>
               ),
-            cell: (row, table) => (
+            render: (row, opts) => (
               <Menu
                 onOpenChange={(open) => {
-                  table.setForceHover(open ? row.id : undefined)
+                  opts?.setForceHover(open ? row.id : undefined)
                 }}
               >
                 <Menu.Trigger>

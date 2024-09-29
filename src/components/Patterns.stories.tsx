@@ -346,13 +346,13 @@ export function App() {
                 },
               },
             })}
-            columns={[
-              { key: 'id', header: 'ID' },
-              { key: 'name', header: 'Name' },
+            fields={[
+              { key: 'id', title: 'ID' },
+              { key: 'name', title: 'Name' },
               {
                 key: 'image',
-                header: 'Preview',
-                cell: (row) => (
+                title: 'Preview',
+                render: (row) => (
                   <img
                     key={row.src}
                     style={{ height: 24, width: 24 }}
@@ -362,8 +362,8 @@ export function App() {
               },
               {
                 key: 'statusText',
-                header: 'Status',
-                cell: (row) => (
+                title: 'Status',
+                render: (row) => (
                   <Badge
                     color={row.status === 3 ? 'green-subtle' : 'orange-subtle'}
                     leadIcon={row.status === 3 ? 'checkmark' : 'error'}
@@ -375,8 +375,8 @@ export function App() {
               },
               {
                 key: 'size',
-                header: 'Size',
-                cell: (row) => (
+                title: 'Size',
+                render: (row) => (
                   <Text variant="display-medium" color="neutral80">
                     {prettyNumber(row?.size ?? 0, 'number-bytes').toUpperCase()}
                   </Text>
@@ -384,8 +384,8 @@ export function App() {
               },
               {
                 key: 'createdAt',
-                header: 'Created At',
-                cell: (row) => (
+                title: 'Created At',
+                render: (row) => (
                   <Text variant="display-medium" color="neutral80">
                     {prettyDate(row.createdAt, 'date-time-human')}
                   </Text>
@@ -393,7 +393,7 @@ export function App() {
               },
               {
                 key: 'action',
-                header: () =>
+                title: () =>
                   !!select?.length && (
                     <Menu>
                       <Menu.Trigger>
@@ -408,10 +408,10 @@ export function App() {
                       </Menu.Items>
                     </Menu>
                   ),
-                cell: (row, table) => (
+                render: (row, opts) => (
                   <Menu
                     onOpenChange={(open) => {
-                      table.setForceHover(open ? row.id : undefined)
+                      opts?.setForceHover(open ? row.id : undefined)
                     }}
                   >
                     <Menu.Trigger>

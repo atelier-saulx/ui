@@ -9,25 +9,17 @@ import {
   UseInfiniteQueryOptions,
 } from '../../hooks/useInfiniteQuery.js'
 import { ScrollArea } from '../ScrollArea/index.js'
-import type { Sort, Select } from '../../utils/common.js'
+import type { Sort, Select, Field } from '../../utils/common.js'
 
-// TODO better API for rowActions
-// TODO add api for onRowClick
-
-type TableInternalState = {
+type TableFieldRenderOptions = {
   forceHover?: string
   setForceHover: (value?: string) => void
-}
-type TableColumn = {
-  key: string
-  header: string | (() => ReactNode)
-  cell?: (item: any, table: TableInternalState) => ReactNode
 }
 
 type InternalTableProps = {
   data: any[]
   totalCount?: number
-  columns: TableColumn[]
+  fields: Field[]
   sort?: Sort
   onSortChange?: (sort?: Sort) => void
   select?: Select
@@ -46,7 +38,7 @@ const ROW_HEIGHT = 50
 function InternalTable({
   data = [],
   totalCount,
-  columns,
+  fields,
   sort,
   onSortChange,
   select,
@@ -147,9 +139,9 @@ function InternalTable({
                 </div>
               )}
             </th>
-            {columns.map((column) => (
+            {fields.map((field) => (
               <th
-                key={column.key}
+                key={field.key}
                 style={{
                   padding: '0 6px',
                   height: HEADER_HEIGHT,
@@ -164,16 +156,15 @@ function InternalTable({
                   }),
                 }}
                 onClick={() => {
-                  if (!onSortChange || typeof column.header === 'function')
-                    return
+                  if (!onSortChange || typeof field.title === 'function') return
 
-                  if (sort?.key !== column.key) {
-                    onSortChange({ key: column.key, direction: 'desc' })
+                  if (sort?.key !== field.key) {
+                    onSortChange({ key: field.key, direction: 'desc' })
                   } else if (
-                    sort?.key === column.key &&
+                    sort?.key === field.key &&
                     sort.direction === 'desc'
                   ) {
-                    onSortChange({ key: column.key, direction: 'asc' })
+                    onSortChange({ key: field.key, direction: 'asc' })
                   } else {
                     onSortChange()
                   }
@@ -188,14 +179,14 @@ function InternalTable({
                     userSelect: 'none',
                   }}
                 >
-                  {typeof column.header === 'function' ? (
-                    column.header()
+                  {typeof field.title === 'function' ? (
+                    field.title()
                   ) : (
                     <>
                       <Text singleLine variant="display-bold">
-                        {column.header}
+                        {field.title}
                       </Text>
-                      {onSortChange && sort?.key === column.key && (
+                      {onSortChange && sort?.key === field.key && (
                         <Icon
                           variant={
                             sort.direction === 'desc'
@@ -264,9 +255,9 @@ function InternalTable({
                   </div>
                 )}
               </td>
-              {columns.map((column) => (
+              {fields.map((field) => (
                 <td
-                  key={column.key}
+                  key={field.key}
                   style={{
                     height: ROW_HEIGHT,
                     padding: '0 6px',
@@ -277,15 +268,15 @@ function InternalTable({
                   }}
                 >
                   <div style={{ display: 'flex' }}>
-                    {column.cell ? (
-                      column.cell(row, { forceHover, setForceHover })
+                    {field.render ? (
+                      field.render(row, { forceHover, setForceHover })
                     ) : (
                       <Text
                         singleLine
                         variant="display-medium"
                         color="neutral80"
                       >
-                        {row[column.key]}
+                        {row[field.key]}
                       </Text>
                     )}
                   </div>
@@ -312,7 +303,7 @@ function InternalTable({
 type TableProps = Pick<
   InternalTableProps,
   | 'data'
-  | 'columns'
+  | 'fields'
   | 'sort'
   | 'onSortChange'
   | 'select'
@@ -327,7 +318,7 @@ function Table(props: TableProps) {
 type VirtualizedTableProps = Pick<
   InternalTableProps,
   | 'data'
-  | 'columns'
+  | 'fields'
   | 'sort'
   | 'onSortChange'
   | 'select'
@@ -356,7 +347,7 @@ function VirtualizedTable({ data, ...props }: VirtualizedTableProps) {
 type BasedTableProps = UseInfiniteQueryOptions &
   Pick<
     InternalTableProps,
-    | 'columns'
+    | 'fields'
     | 'sort'
     | 'onSortChange'
     | 'select'
@@ -400,5 +391,5 @@ export type {
   TableProps,
   VirtualizedTableProps,
   BasedTableProps,
-  TableColumn,
+  TableFieldRenderOptions,
 }

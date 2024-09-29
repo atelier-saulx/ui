@@ -1,0 +1,145 @@
+import { useMemo, useState } from 'react'
+import { Sort, Select, Field } from '../../utils/common.js'
+import { Menu, MenuItemProps } from '../Menu/index.js'
+import { IconButton } from '../IconButton/index.js'
+import { AppHeader } from '../AppHeader/index.js'
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+} from '../../hooks/useInfiniteQuery.js'
+import {
+  BasedTable,
+  InternalTable,
+  TableColumn,
+  VirtualizedTable,
+} from '../Table/index.js'
+import { useQuery } from '@based/react'
+import { Text } from '../Text/index.js'
+import { Button } from '../Button/index.js'
+
+type FinderView = 'grid' | 'table'
+
+type FinderProps = {
+  title: string
+  fields: Field[]
+  defaultView?: FinderView
+  onItemClick?: (item: any) => void
+  itemActions?: {
+    label: string
+    icon?: MenuItemProps['leadIcon']
+    color?: MenuItemProps['color']
+    onClick?: (item: any) => void
+  }[]
+} & UseInfiniteQueryOptions
+
+function Finder({
+  title,
+  fields,
+  defaultView = 'table',
+  query,
+  totalQuery,
+  transformQueryResult,
+  onItemClick,
+  itemActions,
+}: FinderProps) {
+  const [view, setView] = useState(defaultView)
+  const [sort, setSort] = useState<Sort>()
+  const [select, setSelect] = useState<Select>()
+
+  const { data, total, handleScroll, reset, scroll } = useInfiniteQuery({
+    query,
+    totalQuery,
+    transformQueryResult,
+  })
+
+  // TODO fix any
+  // TODO when scrolling stick to the wrong rows
+  function renderActionButton(row: any, table: any) {
+    return (
+      <Menu
+        onOpenChange={(open) => {
+          table.setForceHover(open ? row.id : undefined)
+        }}
+      >
+        <Menu.Trigger>
+          <div
+            onClick={(e) => {
+              e.stopPropagation()
+            }}
+            style={{ display: 'flex', marginLeft: 'auto' }}
+          >
+            <IconButton icon="more-vertical" size="small" />
+          </div>
+        </Menu.Trigger>
+        <Menu.Items>
+          {itemActions.map((action) => (
+            <Menu.Item
+              leadIcon={action.icon}
+              onClick={() => {
+                action?.onClick(row)
+              }}
+              color={action.color}
+            >
+              {action.label}
+            </Menu.Item>
+          ))}
+        </Menu.Items>
+      </Menu>
+    )
+  }
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        width: '100%',
+      }}
+    >
+      <AppHeader>
+        <AppHeader.Title>{title}</AppHeader.Title>
+        <AppHeader.Right>
+          {scroll && total && (
+            <Text variant="display-regular" color="neutral60">
+              {scroll.first} - {scroll.last} of {total}
+            </Text>
+          )}
+          {!!select?.length && (
+            <Button trailIcon="chevron-down">{select.length} selected</Button>
+          )}
+          <AppHeader.Separator />
+          <Button variant="ghost" leadIcon="sort">
+            Sort
+          </Button>
+          <AppHeader.Separator />
+          <IconButton
+            icon="sheet"
+            onClick={() => {
+              setView(view === 'table' ? 'grid' : 'table')
+            }}
+          />
+          <Button leadIcon="add">Add</Button>
+        </AppHeader.Right>
+      </AppHeader>
+
+      {view === 'table' && (
+        <InternalTable
+          virtualized
+          fields={fields}
+          data={data}
+          totalCount={total}
+          onScroll={(first, last) => {
+            handleScroll(first, last)
+          }}
+          onItemClick={onItemClick}
+          select={select}
+          onSelectChange={setSelect}
+        />
+      )}
+    </div>
+  )
+}
+
+export { Finder }
+export type { FinderProps }
