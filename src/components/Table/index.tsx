@@ -68,7 +68,8 @@ function InternalTable({
       const { scrollTop, clientHeight } = scrollElementRef.current
 
       const count = Math.ceil((clientHeight - HEADER_HEIGHT) / ROW_HEIGHT)
-      const extra = count
+      // const extra = count
+      const extra = 0
       const first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - extra)
       const last = Math.floor(scrollTop / ROW_HEIGHT) + count + extra
 
@@ -393,5 +394,11 @@ function BasedTable({
   )
 }
 
-export { Table, VirtualizedTable, BasedTable }
-export type { TableProps, VirtualizedTableProps, BasedTableProps, TableColumn }
+export { InternalTable, Table, VirtualizedTable, BasedTable }
+export type {
+  InternalTableProps,
+  TableProps,
+  VirtualizedTableProps,
+  BasedTableProps,
+  TableColumn,
+}

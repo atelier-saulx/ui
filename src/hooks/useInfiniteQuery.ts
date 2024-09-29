@@ -107,7 +107,7 @@ function useInfiniteQuery({
     setChunks([])
   }, [])
 
-  return { data, total: totalData?.total, handleScroll, reset }
+  return { data, total: totalData?.total, handleScroll, reset, scroll }
 }
 
 export { useInfiniteQuery }
