@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Sort, Select, Field } from '../../utils/common.js'
 import { Menu, MenuItemProps } from '../Menu/index.js'
 import { IconButton } from '../IconButton/index.js'
@@ -47,8 +47,7 @@ function Finder({
     transformQueryResult,
   })
 
-  // TODO fix any
-  // TODO when scrolling stick to the wrong rows
+  // TODO when scrolling it sticks to the wrong rows on table, prob a bug it table and not here
   function renderActionButton(row: any, opts?: TableFieldRenderOptions) {
     return (
       <Menu
