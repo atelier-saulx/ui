@@ -40,15 +40,12 @@ export const Regular = () => {
           },
           {
             key: 'name',
-            type: 'title',
           },
           {
             key: 'email',
-            type: 'description',
           },
           {
             key: 'airport',
-            type: 'description',
           },
         ]}
       />
@@ -72,15 +69,12 @@ export const Virtualized = () => {
           },
           {
             key: 'name',
-            type: 'title',
           },
           {
             key: 'email',
-            type: 'description',
           },
           {
             key: 'airport',
-            type: 'description',
           },
         ]}
       />
@@ -136,15 +130,12 @@ export const Based = () => {
           },
           {
             key: 'name',
-            type: 'title',
           },
           {
             key: 'size',
-            type: 'description',
           },
           {
             key: 'statusText',
-            type: 'description',
           },
         ]}
       />

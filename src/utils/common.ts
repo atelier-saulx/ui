@@ -11,7 +11,8 @@ type Sort = {
 type Field = {
   key: string
   title?: string | (() => ReactNode)
-  render?: (item: any, opts?: TableFieldRenderOptions) => ReactNode
+  render?: (item: any, opts?: TableFieldRenderOptions) => ReactNode // TODO add index here too, it can be useful sometimes
+  type?: 'image' | 'badge' | 'number-bytes' | 'date-time-human'
 }
 
 export type { Select, Sort, Field }

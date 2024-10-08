@@ -16,7 +16,7 @@ import { Select, Sort } from '../../utils/common.js'
 import { useToast } from '../Toast/index.js'
 
 export default {
-  title: 'Table (WIP)',
+  title: 'Table',
   component: Table,
   parameters: {
     layout: 'fullscreen',

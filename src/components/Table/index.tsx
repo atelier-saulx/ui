@@ -10,6 +10,9 @@ import {
 } from '../../hooks/useInfiniteQuery.js'
 import { ScrollArea } from '../ScrollArea/index.js'
 import type { Sort, Select, Field } from '../../utils/common.js'
+import { Badge } from '../Badge/index.js'
+import { prettyNumber } from '@based/pretty-number'
+import { prettyDate } from '@based/pretty-date'
 
 type TableFieldRenderOptions = {
   forceHover?: string
@@ -271,7 +274,31 @@ function InternalTable({
                   }}
                 >
                   <div style={{ display: 'flex' }}>
-                    {field.render ? (
+                    {field.type === 'image' ? (
+                      <img
+                        key={row[field.key]}
+                        style={{ height: 24, width: 24 }}
+                        src={row[field.key]}
+                      />
+                    ) : field.type === 'badge' ? (
+                      <Badge>{[row[field.key]]}</Badge>
+                    ) : field.type === 'number-bytes' ? (
+                      <Text
+                        singleLine
+                        variant="display-medium"
+                        color="neutral80"
+                      >
+                        {prettyNumber(row[field.key], 'number-bytes')}
+                      </Text>
+                    ) : field.type === 'date-time-human' ? (
+                      <Text
+                        singleLine
+                        variant="display-medium"
+                        color="neutral80"
+                      >
+                        {prettyDate(row[field.key], 'date-time-human')}
+                      </Text>
+                    ) : field.render ? (
                       field.render(row, { forceHover, setForceHover })
                     ) : (
                       <Text

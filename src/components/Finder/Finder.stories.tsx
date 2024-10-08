@@ -20,6 +20,7 @@ export const Default = () => {
   return (
     <div style={{ height: '100svh' }}>
       <Finder
+        defaultView="grid"
         title="Media library"
         query={({ limit, offset }) => ({
           files: {
@@ -60,47 +61,26 @@ export const Default = () => {
         })}
         fields={[
           { key: 'id', title: 'ID' },
-          { key: 'name', title: 'Name' },
           {
-            key: 'image',
+            key: 'src',
             title: 'Preview',
-            render: (item) => (
-              <img
-                key={item.src}
-                style={{ height: 24, width: 24 }}
-                src={item.src}
-              />
-            ),
+            type: 'image',
           },
+          { key: 'name', title: 'Name' },
           {
             key: 'statusText',
             title: 'Status',
-            render: (item) => (
-              <Badge
-                color={item.status === 3 ? 'green-subtle' : 'red-subtle'}
-                leadIcon={item.status === 3 ? 'checkmark' : 'error'}
-              >
-                {item.statusText}
-              </Badge>
-            ),
+            type: 'badge',
           },
           {
             key: 'size',
             title: 'Size',
-            render: (item) => (
-              <Text variant="display-medium" color="neutral80">
-                {prettyNumber(item?.size ?? 0, 'number-bytes').toUpperCase()}
-              </Text>
-            ),
+            type: 'number-bytes',
           },
           {
             key: 'createdAt',
             title: 'Created At',
-            render: (item) => (
-              <Text variant="display-medium" color="neutral80">
-                {prettyDate(item.createdAt, 'date-time-human')}
-              </Text>
-            ),
+            type: 'date-time-human',
           },
         ]}
         onItemClick={(item) => {

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 import { Sort, Select, Field } from '../../utils/common.js'
 import { Menu, MenuItemProps } from '../Menu/index.js'
 import { IconButton } from '../IconButton/index.js'
@@ -7,15 +7,10 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
 } from '../../hooks/useInfiniteQuery.js'
-import {
-  BasedTable,
-  InternalTable,
-  TableColumn,
-  VirtualizedTable,
-} from '../Table/index.js'
-import { useQuery } from '@based/react'
+import { InternalTable, TableFieldRenderOptions } from '../Table/index.js'
 import { Text } from '../Text/index.js'
 import { Button } from '../Button/index.js'
+import { InternalGrid } from '../Grid/index.js'
 
 type FinderView = 'grid' | 'table'
 
@@ -34,7 +29,7 @@ type FinderProps = {
 
 function Finder({
   title,
-  fields,
+  fields: fieldsProp,
   defaultView = 'table',
   query,
   totalQuery,
@@ -54,11 +49,11 @@ function Finder({
 
   // TODO fix any
   // TODO when scrolling stick to the wrong rows
-  function renderActionButton(row: any, table: any) {
+  function renderActionButton(row: any, opts?: TableFieldRenderOptions) {
     return (
       <Menu
         onOpenChange={(open) => {
-          table.setForceHover(open ? row.id : undefined)
+          opts?.setForceHover(open ? row.id : undefined)
         }}
       >
         <Menu.Trigger>
@@ -87,6 +82,19 @@ function Finder({
       </Menu>
     )
   }
+
+  const fields: Field[] = [
+    ...fieldsProp,
+    ...(itemActions
+      ? [
+          {
+            key: '_item_action',
+            title: () => null,
+            render: renderActionButton,
+          } satisfies Field,
+        ]
+      : []),
+  ]
 
   return (
     <div
@@ -135,9 +143,21 @@ function Finder({
           onSelectChange={setSelect}
         />
       )}
+
+      {view === 'grid' && (
+        <InternalGrid
+          virtualized
+          fields={fields}
+          data={data}
+          totalCount={total}
+          onScroll={handleScroll}
+          onItemClick={onItemClick}
+          select={select}
+          onSelectChange={setSelect}
+        />
+      )}
     </div>
   )
 }
-
 export { Finder }
 export type { FinderProps }

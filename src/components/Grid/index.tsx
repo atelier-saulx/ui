@@ -10,25 +10,27 @@ import {
   UseInfiniteQueryOptions,
 } from '../../hooks/useInfiniteQuery.js'
 import { ScrollArea } from '../ScrollArea/index.js'
-import { Select } from '../../utils/common.js'
+import { Field, Select } from '../../utils/common.js'
 import { CheckboxInput } from '../CheckboxInput/index.js'
+import { Badge } from '../Badge/index.js'
+import { prettyDate } from '@based/pretty-date'
+import { prettyNumber } from '@based/pretty-number'
 
-type GridField = {
-  key: string
-  type?: 'image' | 'title' | 'description'
-}
+// TODO add item action
 
 type GridItemProps = {
   data: any
-  fields: GridField[]
+  fields: Field[]
+  onClick?: () => void
 } & Pick<InternalGridProps, 'select' | 'onSelectChange'>
 
 const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
-  ({ data, fields, select, onSelectChange }, ref) => {
+  ({ data, fields, select, onSelectChange, onClick }, ref) => {
     const selected = select?.includes(data.id)
 
     return (
       <styled.div
+        onClick={onClick}
         ref={ref}
         data-selected={selected ? true : undefined}
         style={{
@@ -60,6 +62,9 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
               background: colors.neutralInverted100,
               overflow: 'hidden',
             }}
+            onClick={(e) => {
+              e.stopPropagation()
+            }}
           >
             <div
               style={{
@@ -90,88 +95,117 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
             </div>
           </div>
         )}
-        {fields.map((field) => {
-          const children: ReactNode[] = []
+        {fields
+          .filter((field) => !['id', '_item_action'].includes(field.key))
+          .map((field) => {
+            const children: ReactNode[] = []
 
-          //   TODO hoist them into GridImageField, GridTitleField, GridDescriptionfield (maybe desc can be the default), then have a similar api to Table for rendering custom stuff
-          if (field.type === 'image') {
-            children.push(
-              <div
-                key={field.key}
-                style={{
-                  borderRadius: radius[8],
-                  background: colors.neutral10Adjusted,
-                  border: `1px solid ${colors.neutral20Adjusted}`,
-                  aspectRatio: 1,
-                  overflow: 'hidden',
-                  marginBottom: 6,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                {data[field.key] ? (
-                  <img
-                    src={data[field.key]}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                ) : (
-                  <Icon variant="image" />
-                )}
-              </div>,
-            )
-          }
-
-          if (field.type === 'title') {
-            children.push(
-              <div
-                style={{
-                  height: 24,
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
+            if (field.type === 'image') {
+              children.push(
+                <div
                   key={field.key}
-                  variant="display-medium"
-                  color="neutral80"
-                  singleLine
+                  style={{
+                    borderRadius: radius[8],
+                    background: colors.neutral10Adjusted,
+                    border: `1px solid ${colors.neutral20Adjusted}`,
+                    aspectRatio: 1,
+                    overflow: 'hidden',
+                    marginBottom: 6,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
                 >
-                  {data[field.key]}
-                </Text>
-              </div>,
-            )
-          }
-
-          if (field.type === 'description') {
-            children.push(
-              <div
-                style={{
-                  height: 24,
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
-                  key={field.key}
-                  variant="display-regular"
-                  color="neutral60"
-                  singleLine
+                  {data[field.key] ? (
+                    <img
+                      src={data[field.key]}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                      }}
+                    />
+                  ) : (
+                    <Icon variant="image" />
+                  )}
+                </div>,
+              )
+            } else if (field.type === 'badge') {
+              children.push(
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Badge>{data[field.key]}</Badge>
+                </div>,
+              )
+            } else if (field.type === 'number-bytes') {
+              children.push(
+                <div
+                  style={{
+                    height: 24,
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
                 >
-                  {data[field.key]}
-                </Text>
-              </div>,
-            )
-          }
+                  <Text
+                    key={field.key}
+                    variant="display-medium"
+                    color="neutral80"
+                    singleLine
+                  >
+                    {prettyNumber(data[field.key], 'number-bytes')}
+                  </Text>
+                </div>,
+              )
+            } else if (field.type === 'date-time-human') {
+              children.push(
+                <div
+                  style={{
+                    height: 24,
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text
+                    key={field.key}
+                    variant="display-medium"
+                    color="neutral80"
+                    singleLine
+                  >
+                    {prettyDate(data[field.key], 'date-time-human')}
+                  </Text>
+                </div>,
+              )
+            } else if (field.render) {
+              children.push(
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {field.render(data)}
+                </div>,
+              )
+            } else {
+              children.push(
+                <div
+                  style={{
+                    height: 24,
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text
+                    key={field.key}
+                    variant="display-medium"
+                    color="neutral80"
+                    singleLine
+                  >
+                    {data[field.key]}
+                  </Text>
+                </div>,
+              )
+            }
 
-          return children
-        })}
+            return children
+          })}
       </styled.div>
     )
   },
@@ -189,15 +223,18 @@ type GridState = {
 
 type InternalGridProps = {
   data: any[]
-  fields: GridField[]
+  fields: Field[]
   virtualized?: boolean
   totalCount?: number
   onScroll?: (
     firstVisibleItemIndex: number,
     lastVisibleItemIndex: number,
+    realFirstVisibleItemIndex: number,
+    realLastVisibleItemIndex: number,
   ) => void
   select?: Select
   onSelectChange?: (select?: Select) => void
+  onItemClick?: (item: any) => void
 }
 
 const GRID_GAP = 4
@@ -210,6 +247,7 @@ function InternalGrid({
   onScroll,
   select,
   onSelectChange,
+  onItemClick,
 }: InternalGridProps) {
   const scrollElementRef = useRef<HTMLDivElement>()
   const firstItemRef = useRef<HTMLDivElement>()
@@ -235,23 +273,25 @@ function InternalGrid({
         firstItemRef.current?.clientHeight ?? state.current.itemHeight
       const itemWidth =
         firstItemRef.current?.clientWidth ?? state.current.itemWidth
+      const columns = Math.round(clientWidth / (itemWidth + GRID_GAP))
+      const rows = Math.ceil(clientHeight / (itemHeight + GRID_GAP))
+      const extra = rows
+      const firstRow = Math.floor(scrollTop / (itemHeight + GRID_GAP))
+      const firstRowWithOverscan = Math.max(0, firstRow - extra)
+      const lastRow = firstRow + rows
+      const lastRowWithOverscan = lastRow + extra
 
-      state.current.columns = Math.round(clientWidth / (itemWidth + GRID_GAP))
-      const extra = Math.ceil(clientHeight / (itemHeight + GRID_GAP))
-      state.current.firstRow = Math.max(
-        0,
-        Math.floor(scrollTop / (itemHeight + GRID_GAP)) - extra,
-      )
-      state.current.lastRow =
-        Math.floor(scrollTop / (itemHeight + GRID_GAP)) +
-        Math.ceil(clientHeight / (itemHeight + GRID_GAP)) +
-        extra
+      state.current.columns = columns
+      state.current.firstRow = firstRowWithOverscan
+      state.current.lastRow = lastRowWithOverscan
       state.current.itemHeight = itemHeight
       state.current.itemWidth = itemWidth
 
       onScroll?.(
-        state.current.firstRow * state.current.columns,
-        state.current.lastRow * state.current.columns + state.current.columns,
+        firstRowWithOverscan * columns,
+        lastRowWithOverscan * columns,
+        firstRow * columns,
+        lastRow * columns,
       )
       rerender()
     }
@@ -301,6 +341,9 @@ function InternalGrid({
             fields={fields}
             select={select}
             onSelectChange={onSelectChange}
+            onClick={() => {
+              onItemClick?.(item)
+            }}
           />
         ))}
         {virtualized &&
@@ -376,5 +419,11 @@ function BasedGrid({
   )
 }
 
-export { Grid, VirtualizedGrid, BasedGrid }
-export type { GridProps, VirtualizedGridProps, BasedGridProps, GridSelect }
+export { InternalGrid, Grid, VirtualizedGrid, BasedGrid }
+export type {
+  InternalGridProps,
+  GridProps,
+  VirtualizedGridProps,
+  BasedGridProps,
+  GridSelect,
+}
