@@ -15,31 +15,30 @@ type SidebarProps = {
   value?: string
   onChange: (value: string) => void
   children: ReactNode
+  side?: 'left' | 'right'
 }
 
-function Sidebar({ children, value, onChange }: SidebarProps) {
+function Sidebar({ children, value, onChange, side = 'left' }: SidebarProps) {
   return (
     <SidebarContext.Provider value={{ value, onChange }}>
       <div
         style={{
+          flexShrink: 0,
           width: 312,
           position: 'relative',
           background: colors.neutralInverted100,
           height: '100%',
-          borderRight: `1px solid ${colors.neutral20Adjusted}`,
           padding: 16,
           display: 'flex',
           flexDirection: 'column',
+          ...(side === 'left' && {
+            borderRight: `1px solid ${colors.neutral20Adjusted}`,
+          }),
+          ...(side === 'right' && {
+            borderLeft: `1px solid ${colors.neutral20Adjusted}`,
+          }),
         }}
       >
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: colors.neutral5,
-            pointerEvents: 'none',
-          }}
-        />
         <div
           style={{
             width: '100%',

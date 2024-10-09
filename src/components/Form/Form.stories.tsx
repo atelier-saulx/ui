@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { FormErrors, FormField, FormFieldGroup, useForm } from './index.js'
-import { TextInput } from '../TextInput/index.js'
-import { TextAreaInput } from '../TextAreaInput/index.js'
-import { NumberInput } from '../NumberInput/index.js'
-import { CheckboxInput } from '../CheckboxInput/index.js'
-import { SwitchInput } from '../SwitchInput/index.js'
-import { Calendar } from '../Calendar/index.js'
+import { FormErrors } from './index.js'
 import { Button } from '../Button/index.js'
-import { format } from 'date-fns'
 import { Form } from './Form.js'
 import { Badge } from '../Badge/index.js'
+import { Sidebar } from '../Sidebar/index.js'
+import { AppHeader } from '../AppHeader/index.js'
+import { colors } from '../../utils/colors.js'
+import { ScrollArea } from '../ScrollArea/index.js'
 
 export default {
   title: 'Form',
   component: () => {},
+  parameters: {
+    layout: 'fullscreen',
+  },
 }
 
 export const Component = () => {
@@ -121,6 +121,139 @@ export const Component = () => {
             </div>
           </div>
         </>
+      )}
+    </Form>
+  )
+}
+
+export const FullScreenGroups = () => {
+  return (
+    <Form
+      groups={[
+        { label: 'General', fields: ['title', 'type', 'platform', 'price'] },
+        { label: 'Legal', fields: ['terms', 'privacy'] },
+      ]}
+      fields={(values) => ({
+        title: {
+          type: 'text',
+          label: 'Title',
+          description: 'Used internally and publicly',
+        },
+        type: {
+          type: 'select',
+          label: 'Type',
+          options: [
+            { label: 'Cashcall', value: 'cashcall' },
+            { label: 'SMS', value: 'sms' },
+          ],
+          note:
+            values.type === 'sms'
+              ? {
+                  title: 'What are SMS games?',
+                  description: 'Lorem ipsum',
+                }
+              : {
+                  title: 'What are cashcall games?',
+                  description:
+                    'In cashcall games the participant calls or texts a phone number. Based on a set of rules they have the chance to win awards.',
+                },
+        },
+        platform: {
+          type: 'select',
+          label: 'Platform',
+          options: [
+            { label: 'Bild', value: 'bild' },
+            { label: 'Bild+', value: 'bildplus' },
+          ],
+        },
+        price: {
+          type: 'number',
+          label: 'Price (EUR)',
+        },
+        terms: {
+          type: 'textarea',
+          label: 'Terms & Conditions',
+        },
+        privacy: {
+          type: 'textarea',
+          label: 'Privacy policy',
+        },
+      })}
+      onSubmit={console.log}
+    >
+      {({ submitForm }) => (
+        <div style={{ display: 'flex' }}>
+          <div style={{ height: '100svh' }}>
+            <Sidebar value="games" onChange={console.log}>
+              <Sidebar.Header>
+                <svg fill="none" viewBox="0 0 80 80" width="40" height="40">
+                  <path
+                    d="m60.822 26.3984-19.0829 19.0829h-19.0829l19.0829-19.0829z"
+                    fill="#4b41ff"
+                  ></path>
+                  <path
+                    d="m65.3125 45.481-19.0829 19.0828h-23.5734l19.0829-19.0828z"
+                    fill="#ff1f85"
+                  ></path>
+                  <path
+                    d="m41.7391 8.4375-19.0829 19.0829v17.9606l19.0829-19.0829z"
+                    fill="#008cff"
+                  ></path>
+                </svg>
+              </Sidebar.Header>
+              <Sidebar.Items>
+                <Sidebar.Group title="Content management">
+                  <Sidebar.Item value="games" icon="columns">
+                    Games
+                  </Sidebar.Item>
+                </Sidebar.Group>
+              </Sidebar.Items>
+            </Sidebar>
+          </div>
+          <div
+            style={{
+              width: '100%',
+              height: '100svh',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <AppHeader>
+              <AppHeader.Title>Create Game</AppHeader.Title>
+              <AppHeader.Right>
+                <Button onClick={submitForm}>Save changes</Button>
+              </AppHeader.Right>
+            </AppHeader>
+            <div
+              style={{
+                display: 'flex',
+                height: `calc(100vh - 68px)`,
+              }}
+            >
+              <ScrollArea
+                style={{
+                  background: colors.neutral5,
+                }}
+              >
+                <div
+                  style={{
+                    padding: 32,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 64,
+                    maxWidth: 600,
+                    width: '100%',
+                    height: '100%',
+                    margin: '0 auto',
+                  }}
+                >
+                  <Form.Fields fullScreen />
+                </div>
+              </ScrollArea>
+              <Form.Sidebar />
+            </div>
+          </div>
+        </div>
       )}
     </Form>
   )

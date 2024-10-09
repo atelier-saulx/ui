@@ -487,15 +487,12 @@ export function App() {
               },
               {
                 key: 'name',
-                type: 'title',
               },
               {
                 key: 'size',
-                type: 'description',
               },
               {
                 key: 'statusText',
-                type: 'description',
               },
             ]}
           />

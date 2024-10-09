@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { Text } from '../Text/index.js'
 import { colors } from '../../utils/colors.js'
 import { Icon } from '../Icon/index.js'
+import { Note, NoteProps } from '../Note/index.js'
 
 type FormFieldProps = {
   label?: string
@@ -9,6 +10,7 @@ type FormFieldProps = {
   error?: string
   children: ReactNode
   horizontal?: boolean
+  note?: Pick<NoteProps, 'title' | 'description'>
 }
 
 function FormField({
@@ -17,6 +19,7 @@ function FormField({
   description,
   error,
   horizontal = false,
+  note,
 }: FormFieldProps) {
   if (horizontal) {
     return (
@@ -65,6 +68,7 @@ function FormField({
               {description}
             </Text>
           )}
+          {note && <Note {...note} />}
         </div>
       </div>
     )
@@ -107,6 +111,7 @@ function FormField({
           {description}
         </Text>
       )}
+      {note && <Note {...note} />}
     </div>
   )
 }

@@ -15,6 +15,17 @@ export const Vertical = () => {
   )
 }
 
+export const VerticalNote = () => {
+  return (
+    <FormField
+      label="Label"
+      note={{ title: 'Title', description: 'Description' }}
+    >
+      <TextInput error onChange={() => {}} />
+    </FormField>
+  )
+}
+
 export const Horizontal = () => {
   return (
     <FormField
@@ -22,6 +33,18 @@ export const Horizontal = () => {
       label="Label"
       description="Description text"
       error="Error text"
+    >
+      <TextInput error onChange={() => {}} />
+    </FormField>
+  )
+}
+
+export const HorizontalNote = () => {
+  return (
+    <FormField
+      horizontal
+      label="Label"
+      note={{ title: 'Title', description: 'Description' }}
     >
       <TextInput error onChange={() => {}} />
     </FormField>
