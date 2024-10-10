@@ -113,9 +113,10 @@ type SidebarItemProps = {
   children: ReactNode
   value: string
   icon?: IconProps['variant']
+  description?: string
 }
 
-function SidebarItem({ children, value, icon }: SidebarItemProps) {
+function SidebarItem({ children, value, icon, description }: SidebarItemProps) {
   const { value: contextValue, onChange } = useContext(SidebarContext)
   const active = value === contextValue
 
@@ -125,11 +126,9 @@ function SidebarItem({ children, value, icon }: SidebarItemProps) {
       style={{
         display: 'flex',
         alignItems: 'center',
-        padding: '0 8px',
+        padding: 8,
         gap: 8,
-        height: 40,
         borderRadius: radius[8],
-        color: colors.neutral80,
         '&:hover:not([data-active])': {
           background: colors.neutral10Adjusted,
         },
@@ -145,9 +144,24 @@ function SidebarItem({ children, value, icon }: SidebarItemProps) {
       }}
     >
       {icon && <Icon variant={icon} />}
-      <Text color="inherit" variant="display-medium">
-        {children}
-      </Text>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: 4,
+          minHeight: 24,
+        }}
+      >
+        <Text color="neutral80" variant="display-medium">
+          {children}
+        </Text>
+        {description && (
+          <Text color="neutral60" variant="subtext-regular">
+            {description}
+          </Text>
+        )}
+      </div>
     </styled.div>
   )
 }

@@ -28,7 +28,12 @@ function FormSidebar(props: FormSidebarProps) {
       <Sidebar.Items>
         <Sidebar.Group title="Sections">
           {groups.map((group) => (
-            <Sidebar.Item key={group.label} value={group.label} icon="columns">
+            <Sidebar.Item
+              key={group.label}
+              value={group.label}
+              icon={group.icon}
+              description={group.description}
+            >
               {group.label}
             </Sidebar.Item>
           ))}

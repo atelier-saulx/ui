@@ -130,8 +130,18 @@ export const FullScreenGroups = () => {
   return (
     <Form
       groups={[
-        { label: 'General', fields: ['title', 'type', 'platform', 'price'] },
-        { label: 'Legal', fields: ['terms', 'privacy'] },
+        {
+          label: 'General',
+          description: 'Tile, type and platforms',
+          icon: 'error',
+          fields: ['title', 'type', 'platform', 'price'],
+        },
+        {
+          label: 'Legal',
+          icon: 'page',
+          description: 'Terms & conditions, privacy policy',
+          fields: ['terms', 'privacy'],
+        },
       ]}
       fields={(values) => ({
         title: {
