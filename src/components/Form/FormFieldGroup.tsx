@@ -12,11 +12,13 @@ type FormFieldGroupProps = {
 function FormFieldGroup({ label, children, fullScreen }: FormFieldGroupProps) {
   return (
     <div
+      id={label ? `_form_field_group_${label}` : undefined}
       style={{
         display: 'flex',
         flexDirection: 'column',
         gap: 16,
         ...(fullScreen && {
+          scrollMarginTop: 32,
           padding: 32,
           gap: 24,
           background: colors.neutralInverted100,

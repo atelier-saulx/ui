@@ -7,6 +7,7 @@ import { Sidebar } from '../Sidebar/index.js'
 import { AppHeader } from '../AppHeader/index.js'
 import { colors } from '../../utils/colors.js'
 import { ScrollArea } from '../ScrollArea/index.js'
+import { useToast } from '../Toast/index.js'
 
 export default {
   title: 'Form',
@@ -127,6 +128,8 @@ export const Component = () => {
 }
 
 export const FullScreenGroups = () => {
+  const toast = useToast()
+
   return (
     <Form
       groups={[
@@ -135,6 +138,12 @@ export const FullScreenGroups = () => {
           description: 'Tile, type and platforms',
           icon: 'error',
           fields: ['title', 'type', 'platform', 'price'],
+        },
+        {
+          label: 'Winners and prizes',
+          description: 'Number of winners, prize category',
+          icon: 'layers',
+          fields: ['foo', 'foo2', 'bar', 'bar2'],
         },
         {
           label: 'Legal',
@@ -180,6 +189,22 @@ export const FullScreenGroups = () => {
           type: 'number',
           label: 'Price (EUR)',
         },
+        foo: {
+          type: 'text',
+          label: 'Foo',
+        },
+        foo2: {
+          type: 'textarea',
+          label: 'Foo 2',
+        },
+        bar: {
+          type: 'textarea',
+          label: 'Bar',
+        },
+        bar2: {
+          type: 'number',
+          label: 'Bar 2',
+        },
         terms: {
           type: 'textarea',
           label: 'Terms & Conditions',
@@ -189,7 +214,22 @@ export const FullScreenGroups = () => {
           label: 'Privacy policy',
         },
       })}
-      onSubmit={console.log}
+      validate={(values) => {
+        const errors: FormErrors = {}
+
+        if (!values.title) {
+          errors.title = 'A title is required'
+        }
+
+        return errors
+      }}
+      onSubmitError={() => {
+        toast("Couldn't save changes", {
+          icon: 'error',
+          description: 'Make sure all fields are valid before proceeding',
+        })
+      }}
+      onSubmit={() => {}}
     >
       {({ submitForm }) => (
         <div style={{ display: 'flex' }}>
@@ -250,7 +290,7 @@ export const FullScreenGroups = () => {
                     padding: 32,
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 64,
+                    gap: 32,
                     maxWidth: 600,
                     width: '100%',
                     height: '100%',

@@ -1,12 +1,9 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { FormContext } from './Form.js'
 import { Sidebar } from '../Sidebar/index.js'
 
 type FormSidebarProps = {}
 
-// TODO add customizable description and icon
-// TODO scroll into view when clicking on an item
-// TODO auto updating active based on scroll position
 function FormSidebar(props: FormSidebarProps) {
   const [active, setActive] = useState<string>()
   const ctx = useContext(FormContext)
@@ -18,13 +15,46 @@ function FormSidebar(props: FormSidebarProps) {
   const { groups } = ctx
 
   useEffect(() => {
-    if (!active) {
-      setActive(groups[0].label)
+    const ratios: { [key: string]: number } = {}
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          ratios[entry.target.id.split('_').pop()] = entry.intersectionRatio
+        }
+
+        const max = Math.max(...Object.values(ratios))
+        const maxKey = Object.entries(ratios).findLast(
+          ([, value]) => value === max,
+        )[0]
+        setActive(maxKey)
+      },
+      {
+        threshold: Array.from({ length: 100 }, (_, i) => i / 100),
+      },
+    )
+
+    for (const group of groups) {
+      const element = document.getElementById(
+        `_form_field_group_${group.label}`,
+      )
+
+      if (element) {
+        observer.observe(element)
+      }
     }
-  }, [groups])
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <Sidebar side="right" value={active} onChange={setActive}>
+    <Sidebar
+      side="right"
+      value={active}
+      onChange={(value) => {
+        document.getElementById(`_form_field_group_${value}`)?.scrollIntoView()
+      }}
+    >
       <Sidebar.Items>
         <Sidebar.Group title="Sections">
           {groups.map((group) => (

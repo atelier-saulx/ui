@@ -7,9 +7,15 @@ type UseFormProps = {
   initialValues?: FormValues
   onSubmit: (values: FormValues) => void | Promise<void>
   validate?: (values: FormValues) => FormErrors | Promise<FormErrors>
+  onSubmitError?: () => void
 }
 
-function useForm({ initialValues = {}, onSubmit, validate }: UseFormProps) {
+function useForm({
+  initialValues = {},
+  onSubmit,
+  validate,
+  onSubmitError,
+}: UseFormProps) {
   const rerender = useRerender()
   const state = useRef<FormState>({
     values: initialValues,
@@ -93,6 +99,7 @@ function useForm({ initialValues = {}, onSubmit, validate }: UseFormProps) {
 
     await validateForm()
     if (Object.keys(state.current.errors).length !== 0) {
+      onSubmitError()
       state.current.isSubmitting = false
       rerender()
       return
