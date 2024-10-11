@@ -194,16 +194,17 @@ export const FullScreenGroups = () => {
           label: 'Foo',
         },
         foo2: {
-          type: 'textarea',
+          type: 'checkbox',
           label: 'Foo 2',
         },
         bar: {
-          type: 'textarea',
+          type: 'switch',
           label: 'Bar',
         },
         bar2: {
-          type: 'number',
+          type: 'datetime',
           label: 'Bar 2',
+          variant: 'date-time',
         },
         terms: {
           type: 'textarea',

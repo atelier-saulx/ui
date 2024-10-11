@@ -16,6 +16,7 @@ function SwitchInput({ value, onChange, disabled, error }: SwitchInputProps) {
       data-checked={value ? value : undefined}
       data-error={error ? value : undefined}
       style={{
+        position: 'relative',
         display: 'inline-flex',
         width: 24,
         height: 16,
