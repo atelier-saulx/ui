@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { colors } from '../../utils/colors.js'
 import { radius } from '../../utils/radius.js'
 import { Text } from '../Text/index.js'
@@ -13,65 +13,45 @@ import {
 } from 'date-fns'
 import { Button } from '../Button/index.js'
 import { IconButton } from '../IconButton/index.js'
-
-// TODO go thru every day, see if the number of items after filling the array is bigger than maxItemsPerCell if so flag those whole items as hidden. (on prev days too!); show 81 more should be based on the number of hidden items so it's accurate.
+import { CalendarViewItem } from './CalendarViewItem.js'
 
 const TEST_DATA = [
   {
     id: 1,
-    start: new Date('2024/8/31'),
-    end: new Date('2024/9/2'),
+    start: new Date('2024/9/3'),
+    end: new Date('2024/9/7'),
     name: 'Example game',
     color: 'neutral',
   },
   {
     id: 2,
-    start: new Date('2024/9/2'),
-    end: new Date('2024/9/5'),
+    start: new Date('2024/9/4'),
+    end: new Date('2024/9/6'),
     name: 'Example game 2',
     color: 'blue',
+    repeating: true,
   },
   {
     id: 3,
-    start: new Date('2024/9/4'),
-    end: new Date('2024/9/8'),
+    start: new Date('2024/9/7'),
+    end: new Date('2024/9/11'),
     name: 'Example game 3',
     color: 'green',
   },
   {
     id: 4,
-    start: new Date('2024/9/1'),
-    end: new Date('2024/9/4'),
+    start: new Date('2024/9/10'),
+    end: new Date('2024/9/12'),
     name: 'Example game 4',
     color: 'orange',
+    repeating: true,
   },
   {
     id: 5,
-    start: new Date('2024/9/5'),
-    end: new Date('2024/9/7'),
+    start: new Date('2024/9/11'),
+    end: new Date('2024/9/14'),
     name: 'Example game 5',
-    color: 'neutral',
-  },
-  {
-    id: 6,
-    start: new Date('2024/9/5'),
-    end: new Date('2024/9/10'),
-    name: 'Example game 6',
     color: 'red',
-  },
-  {
-    id: 7,
-    start: new Date('2024/9/7'),
-    end: new Date('2024/9/8'),
-    name: 'Example game 7',
-    color: 'neutral',
-  },
-  {
-    id: 8,
-    start: new Date('2024/9/4'),
-    end: new Date('2024/9/7'),
-    name: 'Example game 8',
-    color: 'orange',
   },
 ]
 
@@ -128,12 +108,9 @@ function CalendarView(props: CalendarViewProps) {
       }
 
       for (const item of dayItems) {
-        const indexOfItemInPrevDay = TEST_DATA.filter((e) =>
-          isWithinInterval(addDays(currentPeriodStart, i - 1), {
-            start: e.start,
-            end: e.end,
-          }),
-        ).findIndex((e) => e.id === item.id)
+        const indexOfItemInPrevDay = prevDayItems.findIndex(
+          (e) => e.id === item.id,
+        )
 
         if (indexOfItemInPrevDay === -1) {
           const index = items.findIndex((e) => e === null)
@@ -146,7 +123,6 @@ function CalendarView(props: CalendarViewProps) {
         items.pop()
       }
 
-      console.log(format(day, 'MMM d'), items)
       res.push({ date: day, items })
     }
 
@@ -175,8 +151,6 @@ function CalendarView(props: CalendarViewProps) {
         }
       }
     }
-
-    console.log(overflowingItemIds)
 
     return res
   }, [currentPeriodStart, maxItemsPerCell])
@@ -252,11 +226,23 @@ function CalendarView(props: CalendarViewProps) {
                 alignItems: 'center',
               }}
             >
-              <Text variant="subtext-medium" color="neutral80">
+              <Button
+                variant={
+                  isSameDay(openDay, day.date)
+                    ? 'fill'
+                    : isSameDay(new Date(), day.date)
+                      ? 'border'
+                      : 'ghost'
+                }
+                size="small"
+                onClick={() => {
+                  setOpenDay(day.date)
+                }}
+              >
                 {isFirstDayOfMonth(day.date)
                   ? format(day.date, 'MMM d')
                   : format(day.date, 'd')}
-              </Text>
+              </Button>
             </div>
             <div
               style={{
@@ -280,99 +266,80 @@ function CalendarView(props: CalendarViewProps) {
                 }}
               >
                 {(() => {
-                  const items = day.items
-                  const showMoreButton = maxItemsPerCell < items.length
-
                   const children = []
 
-                  children.push(
-                    ...items
-                      //   .filter((e) => !e?.hidden)
-                      //   .slice(0, maxItemsPerCell - 1)
-                      .map((e, i) =>
-                        e === null ? (
-                          <div
-                            key={index + i}
-                            style={{
-                              height: 24,
-                              flexShrink: 0,
-                              background: 'pink',
-                            }}
-                          />
-                        ) : (
-                          <div
-                            key={index + i}
-                            style={{
-                              flexShrink: 0,
-                              height: 24,
-                              display: 'flex',
-                              alignItems: 'center',
-                              padding: '0 6px',
-                              ...(e.color === 'neutral' && {
-                                background: colors.neutral5,
-                                color: colors.neutral80,
-                              }),
-                              ...(e.color === 'green' && {
-                                background: colors.green10,
-                                color: colors.green100,
-                              }),
-                              ...(e.color === 'blue' && {
-                                background: colors.blue10,
-                                color: colors.blue100,
-                              }),
-                              ...(e.color === 'orange' && {
-                                background: colors.orange10,
-                                color: colors.orange100,
-                              }),
-                              ...(e.color === 'red' && {
-                                background: colors.red10,
-                                color: colors.red100,
-                              }),
-                              ...(isSameDay(day.date, e.start) && {
-                                borderTopLeftRadius: radius[8],
-                                borderBottomLeftRadius: radius[8],
-                              }),
-                              ...(isSameDay(day.date, e.end) && {
-                                borderTopRightRadius: radius[8],
-                                borderBottomRightRadius: radius[8],
-                              }),
-                              ...(!isSameDay(e.start, e.end) &&
-                                isSameDay(day.date, e.start) && {
-                                  marginRight: -8,
-                                }),
-                              ...(!isSameDay(e.start, e.end) &&
-                                isSameDay(day.date, e.end) && {
-                                  marginLeft: -9,
-                                }),
-                              ...(!isSameDay(e.start, e.end) &&
-                                !isSameDay(day.date, e.start) &&
-                                !isSameDay(day.date, e.end) && {
-                                  marginRight: -8,
-                                  marginLeft: -9,
-                                }),
-                              ...(!isSameDay(e.start, e.end) &&
-                                !isSameDay(day.date, e.start) &&
-                                !isSameDay(day.date, e.end) &&
-                                index % 7 === 6 && {
-                                  marginRight: -9,
-                                }),
-                            }}
-                          >
-                            {isSameDay(day.date, e.start) && (
-                              <Text
-                                singleLine
-                                variant="subtext-medium"
-                                color="inherit"
-                              >
-                                {e.name}
-                              </Text>
-                            )}
-                          </div>
-                        ),
-                      ),
-                  )
+                  const visiblePartOfDayOnlyContainsPlaceholders = day.items
+                    .filter((e) => !e?.hidden)
+                    .slice(0, maxItemsPerCell)
+                    .every((e) => e === null)
 
-                  if (showMoreButton) {
+                  if (!visiblePartOfDayOnlyContainsPlaceholders) {
+                    children.push(
+                      ...day.items
+                        .filter((e) => !e?.hidden)
+                        .slice(
+                          0,
+                          day.items.some((e) => e?.hidden)
+                            ? maxItemsPerCell - 1
+                            : maxItemsPerCell,
+                        )
+                        .map((e, i) =>
+                          e === null ? (
+                            <div
+                              key={index + i}
+                              style={{
+                                height: 24,
+                                flexShrink: 0,
+                              }}
+                            />
+                          ) : (
+                            <div
+                              key={index + i}
+                              style={{
+                                ...(!isSameDay(e.start, e.end) &&
+                                  isSameDay(day.date, e.start) && {
+                                    marginRight: -8,
+                                  }),
+                                ...(!isSameDay(e.start, e.end) &&
+                                  isSameDay(day.date, e.end) && {
+                                    marginLeft: -9,
+                                  }),
+                                ...(!isSameDay(e.start, e.end) &&
+                                  !isSameDay(day.date, e.start) &&
+                                  !isSameDay(day.date, e.end) && {
+                                    marginRight: -8,
+                                    marginLeft: -9,
+                                  }),
+                                ...(!isSameDay(e.start, e.end) &&
+                                  !isSameDay(day.date, e.start) &&
+                                  !isSameDay(day.date, e.end) &&
+                                  index % 7 === 6 && {
+                                    marginRight: -9,
+                                  }),
+                              }}
+                            >
+                              <CalendarViewItem
+                                color={e.color}
+                                title={e.name}
+                                repeating={e.repeating}
+                                position={
+                                  isSameDay(day.date, e.start) &&
+                                  isSameDay(day.date, e.end)
+                                    ? undefined
+                                    : isSameDay(day.date, e.start)
+                                      ? 'start'
+                                      : isSameDay(day.date, e.end)
+                                        ? 'end'
+                                        : 'middle'
+                                }
+                              />
+                            </div>
+                          ),
+                        ),
+                    )
+                  }
+
+                  if (day.items.some((e) => e?.hidden)) {
                     children.push(
                       <div
                         key="button"
@@ -403,6 +370,7 @@ function CalendarView(props: CalendarViewProps) {
           style={{
             marginTop: 40,
             width: 288,
+            flexShrink: 0,
             height: 'calc(100% - 40px)',
             borderRadius: radius[8],
             border: `1px solid ${colors.neutral20Adjusted}`,
@@ -436,6 +404,26 @@ function CalendarView(props: CalendarViewProps) {
                 setOpenDay(undefined)
               }}
             />
+          </div>
+          <div
+            style={{
+              padding: 16,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 8,
+            }}
+          >
+            {TEST_DATA.filter((e) =>
+              isWithinInterval(openDay, { start: e.start, end: e.end }),
+            ).map((e) => (
+              <CalendarViewItem
+                key={e.id}
+                title={e.name}
+                color={e.color as any}
+                description={`${format(e.start, 'MMM d · HH:mm')} - ${format(e.end, 'MMM d · HH:mm')}`}
+                repeating={e.repeating}
+              />
+            ))}
           </div>
         </div>
       )}

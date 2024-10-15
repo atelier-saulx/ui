@@ -116,6 +116,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             // size styles
             '&[data-size=regular]': {
               height: 36,
+              minWidth: 36,
               paddingTop: 0,
               paddingBottom: 0,
               paddingLeft: leadIcon ? 6 : 10,
@@ -123,6 +124,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             },
             '&[data-size=small]': {
               height: 24,
+              minWidth: 24,
               paddingTop: 0,
               paddingBottom: 0,
               paddingLeft: leadIcon ? 4 : 6,
