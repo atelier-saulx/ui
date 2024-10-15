@@ -34,7 +34,7 @@ const TEST_DATA = [
   {
     id: 3,
     start: new Date('2024/9/7'),
-    end: new Date('2024/9/11'),
+    end: new Date('2024/9/10'),
     name: 'Example game 3',
     color: 'green',
   },
@@ -52,6 +52,14 @@ const TEST_DATA = [
     end: new Date('2024/9/14'),
     name: 'Example game 5',
     color: 'red',
+  },
+  {
+    id: 6,
+    start: new Date('2024/9/11'),
+    end: new Date('2024/9/13'),
+    name: 'Example game 2',
+    color: 'blue',
+    repeating: true,
   },
 ]
 
@@ -352,7 +360,7 @@ function CalendarView(props: CalendarViewProps) {
                             setOpenDay(day.date)
                           }}
                         >
-                          {`Show more`}
+                          {`Show ${day.items.filter((e) => e?.hidden).length} more`}
                         </Button>
                       </div>,
                     )
