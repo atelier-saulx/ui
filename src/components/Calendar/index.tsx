@@ -18,6 +18,7 @@ import { IconButton } from '../IconButton/index.js'
 import { Field, getTitleField } from '../../utils/common.js'
 import { CalendarItem } from './CalendarItem.js'
 import { ScrollArea } from '../ScrollArea/index.js'
+import { CalendarDropdown } from '../DateInput/index.js'
 
 type CalendarVariant = 'monthly' | 'weekly' | '2-weekly'
 
@@ -569,13 +570,15 @@ function CalendarControls({
           )
         }}
       />
-      <Button variant="ghost">
-        {variant === 'monthly' && format(value, 'MMMM yyyy')}
-        {variant === '2-weekly' &&
-          `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 13), 'MMM d yyyy')}`}
-        {variant === 'weekly' &&
-          `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 6), 'MMM d yyyy')}`}
-      </Button>
+      <CalendarDropdown value={value} onChange={onChange} variant="date">
+        <Button variant="ghost">
+          {variant === 'monthly' && format(value, 'MMMM yyyy')}
+          {variant === '2-weekly' &&
+            `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 13), 'MMM d yyyy')}`}
+          {variant === 'weekly' &&
+            `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 6), 'MMM d yyyy')}`}
+        </Button>
+      </CalendarDropdown>
       <IconButton
         icon="arrow-right"
         onClick={() => {

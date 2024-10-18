@@ -42,5 +42,5 @@ function DateInput({
   )
 }
 
-export { DateInput }
+export { DateInput, Calendar as CalendarDropdown }
 export type { DateInputProps }
