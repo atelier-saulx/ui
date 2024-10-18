@@ -36,6 +36,7 @@ function Calendar({
   variant = 'monthly',
   visiblePeriod,
   fields,
+  onItemClick,
 }: CalendarProps) {
   const startField = fields.find((e) => e.calendar === 'start')?.key
   const endField = fields.find((e) => e.calendar === 'end')?.key
@@ -153,7 +154,7 @@ function Calendar({
     return () => {
       resizeObserver.disconnect()
     }
-  }, [])
+  }, [data])
 
   return (
     <div
@@ -400,8 +401,11 @@ function Calendar({
                                 }
                                 description={
                                   variant !== 'monthly' &&
-                                  `${format(e.start, 'MMM d · HH:mm')} - ${format(e.end, 'MMM d · HH:mm')}`
+                                  `${format(new Date(e[startField]), 'MMM d · HH:mm')}${endField ? ` - ${format(new Date(e[endField]), 'MMM d · HH:mm')}` : ''}`
                                 }
+                                onClick={() => {
+                                  onItemClick?.(e)
+                                }}
                               />
                             </div>
                           ),
@@ -505,6 +509,9 @@ function Calendar({
                     key={e.id}
                     title={e.name}
                     description={`${format(new Date(e[startField]), 'MMM d · HH:mm')}${endField ? ` - ${format(new Date(e[endField]), 'MMM d · HH:mm')}` : ''}`}
+                    onClick={() => {
+                      onItemClick?.(e)
+                    }}
                   />
                 ))}
             </div>

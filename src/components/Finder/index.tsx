@@ -231,6 +231,7 @@ function Finder({
           data={data}
           visiblePeriod={calendarVisiblePeriod}
           variant={calendarVariant}
+          onItemClick={onItemClick}
         />
       )}
     </div>
