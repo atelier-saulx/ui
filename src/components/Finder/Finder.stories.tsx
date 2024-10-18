@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Finder } from './index.js'
 import { useToast } from '../Toast/index.js'
-import { Badge } from '../Badge/index.js'
-import { Text } from '../Text/index.js'
-import { prettyDate } from '@based/pretty-date'
-import { prettyNumber } from '@based/pretty-number'
 
 export default {
   title: 'Finder (WIP)',

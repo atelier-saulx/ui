@@ -16,4 +16,10 @@ type Field = {
   calendar?: 'start' | 'end'
 }
 
+const MOST_LIKELY_TITLE_FIELD_KEYS = ['title', 'name']
+function getTitleField(fields: Field[]) {
+  return fields.find((e) => MOST_LIKELY_TITLE_FIELD_KEYS.includes(e.key))
+}
+
+export { getTitleField }
 export type { Select, Sort, Field }

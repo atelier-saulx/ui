@@ -15,11 +15,9 @@ import {
 } from 'date-fns'
 import { Button } from '../Button/index.js'
 import { IconButton } from '../IconButton/index.js'
-import { Field } from '../../utils/common.js'
+import { Field, getTitleField } from '../../utils/common.js'
 import { CalendarItem } from './CalendarItem.js'
 import { ScrollArea } from '../ScrollArea/index.js'
-
-// TODO fix all e.name / title etc
 
 type CalendarVariant = 'monthly' | 'weekly' | '2-weekly'
 
@@ -40,6 +38,7 @@ function Calendar({
 }: CalendarProps) {
   const startField = fields.find((e) => e.calendar === 'start')?.key
   const endField = fields.find((e) => e.calendar === 'end')?.key
+  const titleField = getTitleField(fields)?.key
   const data = dataProp.filter(
     (e) => e[startField] && (!endField || e[endField]),
   )
@@ -379,7 +378,7 @@ function Calendar({
                               }
                             >
                               <CalendarItem
-                                title={e.name}
+                                title={titleField ? e[titleField] : ''}
                                 position={
                                   !endField ||
                                   isSameDay(
@@ -507,7 +506,7 @@ function Calendar({
                 .map((e) => (
                   <CalendarItem
                     key={e.id}
-                    title={e.name}
+                    title={titleField ? e[titleField] : ''}
                     description={`${format(new Date(e[startField]), 'MMM d · HH:mm')}${endField ? ` - ${format(new Date(e[endField]), 'MMM d · HH:mm')}` : ''}`}
                     onClick={() => {
                       onItemClick?.(e)
