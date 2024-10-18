@@ -4,7 +4,7 @@ import { Icon } from '../Icon/index.js'
 import { Text } from '../Text/index.js'
 import { styled } from 'inlines'
 
-type CalendarViewItemProps = {
+type CalendarItemProps = {
   title?: string
   description?: string
   color?: 'neutral' | 'green' | 'blue' | 'orange' | 'red'
@@ -13,14 +13,14 @@ type CalendarViewItemProps = {
   onClick?: () => void
 }
 
-function CalendarViewItem({
+function CalendarItem({
   title,
   description,
   color = 'neutral',
   position,
   repeating,
   onClick,
-}: CalendarViewItemProps) {
+}: CalendarItemProps) {
   return (
     <styled.div
       style={{
@@ -115,5 +115,5 @@ function CalendarViewItem({
   )
 }
 
-export { CalendarViewItem }
-export type { CalendarViewItemProps }
+export { CalendarItem }
+export type { CalendarItemProps }

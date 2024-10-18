@@ -11,8 +11,9 @@ import { InternalTable, TableFieldRenderOptions } from '../Table/index.js'
 import { Text } from '../Text/index.js'
 import { Button } from '../Button/index.js'
 import { InternalGrid } from '../Grid/index.js'
+import { Calendar, CalendarVariant } from '../Calendar/index.js'
 
-type FinderView = 'grid' | 'table'
+type FinderView = 'grid' | 'table' | 'calendar'
 
 type FinderProps = {
   title: string
@@ -40,6 +41,9 @@ function Finder({
   const [view, setView] = useState(defaultView)
   const [sort, setSort] = useState<Sort>()
   const [select, setSelect] = useState<Select>()
+  const [calendarVisiblePeriod, setCalendarVisiblePeriod] = useState(Date.now())
+  const [calendarVariant, setCalendarVariant] =
+    useState<CalendarVariant>('monthly')
 
   const { data, total, handleScroll, reset, scroll } = useInfiniteQuery({
     query,
@@ -107,25 +111,90 @@ function Finder({
       <AppHeader>
         <AppHeader.Title>{title}</AppHeader.Title>
         <AppHeader.Right>
-          {scroll && total && (
-            <Text variant="display-regular" color="neutral60">
-              {scroll.realFirst} - {scroll.realLast} of {total}
-            </Text>
+          {view !== 'calendar' && (
+            <>
+              {scroll && total && (
+                <Text variant="display-regular" color="neutral60">
+                  {scroll.realFirst} - {scroll.realLast} of {total}
+                </Text>
+              )}
+              {!!select?.length && (
+                <Button trailIcon="chevron-down">
+                  {select.length} selected
+                </Button>
+              )}
+              <AppHeader.Separator />
+              <Button variant="ghost" leadIcon="sort">
+                Sort
+              </Button>
+            </>
           )}
-          {!!select?.length && (
-            <Button trailIcon="chevron-down">{select.length} selected</Button>
+          {view === 'calendar' && (
+            <Calendar.Controls
+              value={calendarVisiblePeriod}
+              onChange={setCalendarVisiblePeriod}
+              variant={calendarVariant}
+            />
           )}
           <AppHeader.Separator />
-          <Button variant="ghost" leadIcon="sort">
-            Sort
-          </Button>
-          <AppHeader.Separator />
-          <IconButton
-            icon="sheet"
-            onClick={() => {
-              setView(view === 'table' ? 'grid' : 'table')
-            }}
-          />
+          <Menu>
+            <Menu.Trigger>
+              <IconButton icon="sheet" />
+            </Menu.Trigger>
+            <Menu.Items>
+              <Menu.OptionCardGroup
+                value={view}
+                onChange={(v) => {
+                  setView(v as FinderView)
+                }}
+                options={[
+                  { label: 'Table', value: 'table', icon: 'sheet' },
+                  { label: 'Grid', value: 'grid', icon: 'gallery' },
+                  { label: 'Calendar', value: 'calendar', icon: 'date' },
+                ]}
+              />
+              {view === 'calendar' && (
+                <>
+                  <Menu.Header>Timescale</Menu.Header>
+                  <Menu.ToggleItem
+                    value={calendarVariant === 'monthly'}
+                    onChange={() => {
+                      setCalendarVariant('monthly')
+                    }}
+                  >
+                    Month
+                  </Menu.ToggleItem>
+                  <Menu.ToggleItem
+                    value={calendarVariant === '2-weekly'}
+                    onChange={() => {
+                      setCalendarVariant('2-weekly')
+                    }}
+                  >
+                    2 week
+                  </Menu.ToggleItem>
+                  <Menu.ToggleItem
+                    value={calendarVariant === 'weekly'}
+                    onChange={() => {
+                      setCalendarVariant('weekly')
+                    }}
+                  >
+                    Week
+                  </Menu.ToggleItem>
+                </>
+              )}
+              <Menu.Separator />
+              <Menu.Item
+                leadIcon="revert"
+                onClick={() => {
+                  setView(defaultView)
+                  setCalendarVariant('monthly')
+                  setCalendarVisiblePeriod(Date.now())
+                }}
+              >
+                Reset view
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
           <Button leadIcon="add">Add</Button>
         </AppHeader.Right>
       </AppHeader>
@@ -153,6 +222,15 @@ function Finder({
           onItemClick={onItemClick}
           select={select}
           onSelectChange={setSelect}
+        />
+      )}
+
+      {view === 'calendar' && (
+        <Calendar
+          fields={fields}
+          data={data}
+          visiblePeriod={calendarVisiblePeriod}
+          variant={calendarVariant}
         />
       )}
     </div>

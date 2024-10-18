@@ -1,593 +1,611 @@
-import {
-  autoPlacement,
-  autoUpdate,
-  FloatingFocusManager,
-  FloatingPortal,
-  offset,
-  useClick,
-  useDismiss,
-  useFloating,
-  useHover,
-  useInteractions,
-  useTransitionStyles,
-} from '@floating-ui/react'
-import {
-  cloneElement,
-  createContext,
-  Dispatch,
-  ReactElement,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { radius } from '../../utils/radius.js'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { colors } from '../../utils/colors.js'
-import { shadows } from '../../utils/shadows.js'
+import { radius } from '../../utils/radius.js'
 import { Text } from '../Text/index.js'
 import {
   addDays,
-  addMinutes,
   addMonths,
-  addYears,
-  compareAsc,
-  endOfMonth,
-  endOfWeek,
+  addWeeks,
   format,
-  getHours,
-  getMinutes,
-  getMonth,
-  getYear,
+  isFirstDayOfMonth,
   isSameDay,
-  isSameHour,
-  isSameMinute,
-  isSameMonth,
-  isSameYear,
-  isToday,
-  roundToNearestMinutes,
-  set,
-  setMonth,
-  setYear,
-  startOfDay,
+  isWithinInterval,
   startOfMonth,
   startOfWeek,
-  startOfYear,
 } from 'date-fns'
 import { Button } from '../Button/index.js'
 import { IconButton } from '../IconButton/index.js'
-import { Icon } from '../Icon/index.js'
-import { styled } from 'inlines'
+import { Field } from '../../utils/common.js'
+import { CalendarItem } from './CalendarItem.js'
 import { ScrollArea } from '../ScrollArea/index.js'
 
+// TODO fix all e.name / title etc
+
+type CalendarVariant = 'monthly' | 'weekly' | '2-weekly'
+
 type CalendarProps = {
-  children: ReactElement | (({ open }: { open: boolean }) => ReactElement)
-  variant: 'date' | 'date-time'
-  value?: number // milliseconds elapsed since the epoch (so like Date.now())
-  onChange: (value: number) => void
+  data: any[]
+  fields: Field[]
+  visiblePeriod: number
+  variant?: CalendarVariant
+  onItemClick?: (item: any) => void
 }
 
 function Calendar({
-  children,
-  variant,
-  value: msValue,
-  onChange,
+  data: dataProp,
+  variant = 'monthly',
+  visiblePeriod,
+  fields,
 }: CalendarProps) {
-  const [open, setOpen] = useState(false)
-  const { refs, floatingStyles, context } = useFloating({
-    open,
-    onOpenChange: setOpen,
-    placement: 'bottom-start',
-    middleware: [
-      offset(8),
-      autoPlacement({
-        allowedPlacements: [
-          'top-start',
-          'top-end',
-          'bottom-start',
-          'bottom-end',
-        ],
-      }),
-    ],
-    whileElementsMounted: autoUpdate,
-  })
-  const value = useMemo(
-    () => (msValue ? new Date(msValue) : undefined),
-    [msValue],
+  const startField = fields.find((e) => e.calendar === 'start')?.key
+  const endField = fields.find((e) => e.calendar === 'end')?.key
+  const data = dataProp.filter(
+    (e) => e[startField] && (!endField || e[endField]),
   )
-
-  const click = useClick(context, {
-    event: 'click',
-    toggle: true,
-  })
-  const dismiss = useDismiss(context, { bubbles: true })
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    click,
-    dismiss,
-  ])
-
-  return (
-    <>
-      {cloneElement(
-        typeof children === 'function' ? children({ open }) : children,
-        {
-          ref: refs.setReference,
-          ...getReferenceProps(),
-        },
-      )}
-      {open && (
-        <FloatingPortal>
-          <FloatingFocusManager
-            modal={true}
-            context={context}
-            initialFocus={-1}
-            returnFocus={true}
-          >
-            <div
-              ref={refs.setFloating}
-              style={{
-                zIndex: 2,
-                position: 'relative',
-                width: 240,
-                borderRadius: radius[16],
-                padding: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-                outline: 'none',
-                background: colors.neutralInverted100,
-                boxShadow: shadows.popoverLarge,
-                ...floatingStyles,
-              }}
-              {...getFloatingProps()}
-            >
-              <div
-                style={{
-                  inset: 0,
-                  zIndex: -1,
-                  position: 'absolute',
-                  background: colors.neutral10Background,
-                  border: `1px solid ${colors.neutral10}`,
-                  borderRadius: radius[16],
-                }}
-              />
-              {variant === 'date' && (
-                <DatePicker
-                  value={value}
-                  onChange={(value) => {
-                    onChange(value.getTime())
-                  }}
-                />
-              )}
-              {variant === 'date-time' && (
-                <DateTimePicker
-                  value={value}
-                  onChange={(value) => {
-                    onChange(value.getTime())
-                  }}
-                />
-              )}
-            </div>
-          </FloatingFocusManager>
-        </FloatingPortal>
-      )}
-    </>
-  )
-}
-
-function DatePicker({
-  value,
-  onChange,
-}: {
-  value?: Date
-  onChange: (value: Date) => void
-}) {
-  const [view, setView] = useState('day')
-  const [currentMonth, setCurrentMonth] = useState(new Date())
-  const monthContainerRef = useRef<HTMLDivElement>(null)
-  const yearContainerRef = useRef<HTMLDivElement>()
-
-  useEffect(() => {
-    if (
-      view !== 'month' ||
-      !monthContainerRef.current ||
-      !yearContainerRef.current
-    )
-      return
-
-    monthContainerRef.current.scrollTop = (getMonth(currentMonth) - 1) * 34
-    yearContainerRef.current.scrollTop = 34 * 4
-  }, [view])
-
-  const getDays = useCallback(() => {
-    const days = []
-    let curr = startOfWeek(startOfMonth(startOfDay(currentMonth)), {
-      weekStartsOn: 1,
-    })
-    const end = endOfMonth(startOfDay(currentMonth))
-
-    while (compareAsc(curr, end) < 1) {
-      days.push(curr)
-      curr = addDays(curr, 1)
+  const currentPeriodStart = useMemo(() => {
+    if (variant === 'monthly') {
+      return startOfWeek(startOfMonth(new Date(visiblePeriod)), {
+        weekStartsOn: 1,
+      })
     }
 
-    return days
-  }, [currentMonth])
+    return startOfWeek(new Date(visiblePeriod), { weekStartsOn: 1 })
+  }, [visiblePeriod, variant])
+  const [openDay, setOpenDay] = useState<Date>()
+  const [cellHeight, setCellHeight] = useState<number>()
+  const cellRef = useRef<HTMLDivElement>()
+  const maxItemsPerCell = Math.floor(
+    (cellHeight + 4) / ((variant === 'monthly' ? 24 : 40) + 4),
+  )
 
-  if (view === 'month') {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          gap: 8,
-          flexDirection: 'column',
-        }}
-      >
-        <div>
-          <Button
-            trailIcon="tiny-chevron-up"
-            variant="ghost"
-            onClick={() => {
-              setView('day')
-            }}
-            tooltip="Day"
-          >
-            {format(currentMonth, 'MMM yyyy')}
-          </Button>
-        </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <styled.div
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-              height: 184,
-              overflowY: 'auto',
-            }}
-          >
-            <ScrollArea ref={monthContainerRef}>
-              {[...Array(12).keys()].map((e, i) => (
-                <styled.div
-                  key={i}
-                  style={{
-                    height: 32,
-                    flexShrink: 0,
-                    display: 'flex',
-                    padding: '0 8px',
-                    alignItems: 'center',
-                    gap: 8,
-                    cursor: 'pointer',
-                    borderRadius: radius[8],
-                    '&:hover': {
-                      background: colors.neutral10Adjusted,
-                    },
-                  }}
-                  onClick={() => {
-                    setCurrentMonth(setMonth(currentMonth, e))
-                  }}
-                >
-                  {getMonth(currentMonth) === e ? (
-                    <Icon variant="checkmark" />
-                  ) : (
-                    <div style={{ height: 24, width: 24 }} />
-                  )}
-                  <Text variant="display-medium">
-                    {format(addMonths(startOfYear(new Date()), e), 'MMM')}
-                  </Text>
-                </styled.div>
-              ))}
-            </ScrollArea>
-          </styled.div>
-          <styled.div
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-              height: 184,
-              overflowY: 'auto',
-              scrollbarWidth: 'none',
-            }}
-          >
-            <ScrollArea ref={yearContainerRef}>
-              {[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((e, i) => (
-                <styled.div
-                  key={i}
-                  style={{
-                    height: 32,
-                    flexShrink: 0,
-                    display: 'flex',
-                    padding: '0 8px',
-                    alignItems: 'center',
-                    gap: 8,
-                    cursor: 'pointer',
-                    borderRadius: radius[8],
-                    '&:hover': {
-                      background: colors.neutral10Adjusted,
-                    },
-                  }}
-                  onClick={() => {
-                    setCurrentMonth(
-                      setYear(currentMonth, getYear(new Date()) + e),
-                    )
-                  }}
-                >
-                  {isSameYear(
-                    currentMonth,
-                    addYears(startOfYear(new Date()), e),
-                  ) ? (
-                    <Icon variant="checkmark" />
-                  ) : (
-                    <div style={{ height: 24, width: 24 }} />
-                  )}
-                  <Text variant="display-medium">
-                    {format(addYears(startOfYear(new Date()), e), 'yyyy')}
-                  </Text>
-                </styled.div>
-              ))}
-            </ScrollArea>
-          </styled.div>
-        </div>
-      </div>
-    )
-  }
+  const days = useMemo(() => {
+    const count =
+      variant === 'monthly' ? 6 * 7 : variant === '2-weekly' ? 2 * 7 : 7
+    const res: { date: Date; items: any[] }[] = []
+    const prevDayItems: any[] = []
+
+    for (let i = 0; i < count; i++) {
+      const day = addDays(currentPeriodStart, i)
+
+      // TODO is structClone needed? it was a fix for the __hidden attribute sticking around but now it might not be necessary
+      const dayItems = structuredClone(data).filter((e) =>
+        endField
+          ? isWithinInterval(day, {
+              start: new Date(e[startField]),
+              end: new Date(e[endField]),
+            })
+          : isSameDay(day, new Date(e[startField])),
+      )
+
+      const items = Array.from({
+        length: Math.max(dayItems.length, prevDayItems.length),
+      }).fill(null)
+
+      for (const item of dayItems) {
+        const indexOfItemInPrevDay = prevDayItems.findIndex(
+          (e) => e.id === item.id,
+        )
+
+        if (indexOfItemInPrevDay !== -1) {
+          items[indexOfItemInPrevDay] = item
+        }
+      }
+
+      for (const item of dayItems) {
+        const indexOfItemInPrevDay = prevDayItems.findIndex(
+          (e) => e.id === item.id,
+        )
+
+        if (indexOfItemInPrevDay === -1) {
+          const index = items.findIndex((e) => e === null)
+          items[index] = item
+          prevDayItems[index] = item
+        }
+      }
+
+      while (items.length > 0 && items[items.length - 1] === null) {
+        items.pop()
+      }
+
+      res.push({ date: day, items })
+    }
+
+    const overflowingItemIds = new Set()
+
+    for (let k = 0; k < res.length; k++) {
+      const { items } = res[k]
+      if (items.length > maxItemsPerCell) {
+        const overflowingItems = items.slice(maxItemsPerCell - 1)
+
+        for (let l = 0; l < overflowingItems.length; l++) {
+          if (overflowingItems[l]) {
+            overflowingItemIds.add(overflowingItems[l].id)
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < res.length; i++) {
+      const { items } = res[i]
+      for (let j = 0; j < items.length; j++) {
+        if (items[j]) {
+          if (overflowingItemIds.has(items[j].id)) {
+            items[j].__hidden = true
+          }
+        }
+      }
+    }
+
+    return res
+  }, [currentPeriodStart, maxItemsPerCell, data, variant])
+
+  useLayoutEffect(() => {
+    if (!cellRef.current) return
+
+    function measure() {
+      setCellHeight(cellRef.current.clientHeight)
+    }
+
+    measure()
+    const resizeObserver = new ResizeObserver(measure)
+    resizeObserver.observe(cellRef.current)
+
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
 
   return (
     <div
       style={{
         display: 'flex',
-        gap: 8,
-        flexDirection: 'column',
+        width: '100%',
+        height: '100%',
+        gap: 20,
+        padding: '0 20px 20px',
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button
-          trailIcon="tiny-chevron-down"
-          variant="ghost"
-          onClick={() => {
-            setView('month')
-          }}
-          tooltip="Month & year"
-        >
-          {format(currentMonth, 'MMM yyyy')}
-        </Button>
-        <div>
-          <IconButton
-            size="small"
-            icon="chevron-left"
-            onClick={() => {
-              setCurrentMonth(addMonths(currentMonth, -1))
-            }}
-            tooltip="Previous month"
-          />
-          <IconButton
-            size="small"
-            icon="chevron-right"
-            onClick={() => {
-              setCurrentMonth(addMonths(currentMonth, 1))
-            }}
-            tooltip="Next month"
-          />
-        </div>
-      </div>
       <div
         style={{
           display: 'grid',
-          gridTemplateRows: '24px',
-          gridTemplateColumns: 'repeat(7, 24px)',
-          gap: 8,
-          padding: '0 4px',
-          placeItems: 'center',
+          width: '100%',
+          height: '100%',
+          gridTemplateColumns: 'repeat(7, 1fr)',
+          gridTemplateRows:
+            variant === 'monthly'
+              ? '40px repeat(6, 1fr)'
+              : variant === '2-weekly'
+                ? '40px repeat(2, 1fr)'
+                : '40px 1fr',
         }}
       >
-        {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((e, i) => (
-          <Text key={i} variant="subtext-regular" color="neutral20">
-            {e}
-          </Text>
+        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((e) => (
+          <div
+            key={e}
+            style={{
+              display: 'flex',
+              justifyContent: 'end',
+              alignItems: 'center',
+              padding: '0 14px',
+            }}
+          >
+            <Text variant="display-medium" color="neutral60">
+              {e}
+            </Text>
+          </div>
         ))}
-        {getDays().map((e) =>
-          isSameMonth(currentMonth, e) ? (
-            <Button
-              key={e.getTime()}
-              size="small"
-              width="full"
-              variant={
-                isSameDay(value, e) ? 'fill' : isToday(e) ? 'border' : 'ghost'
-              }
-              onClick={() => {
-                onChange(
-                  set(value ?? new Date(), {
-                    year: e.getFullYear(),
-                    month: e.getMonth(),
-                    date: e.getDate(),
-                  }),
-                )
-              }}
-            >
-              {format(e, 'd')}
-            </Button>
-          ) : (
-            <div key={e.getTime()} />
-          ),
-        )}
-      </div>
-    </div>
-  )
-}
-
-function TimePicker({
-  value: rawValue,
-  onChange,
-}: {
-  value?: Date
-  onChange: (value: Date) => void
-}) {
-  const value = useMemo(
-    () =>
-      rawValue
-        ? roundToNearestMinutes(rawValue, {
-            nearestTo: 30,
-            roundingMethod: 'floor',
-          })
-        : undefined,
-    [rawValue],
-  )
-  const timeContainerRef = useRef<HTMLDivElement>()
-
-  useEffect(() => {
-    if (!timeContainerRef.current) return
-
-    timeContainerRef.current.scrollTop =
-      (getHours(value) * 2 + getMinutes(value) / 30 - 1) * 34
-  }, [])
-
-  return (
-    <div style={{ display: 'flex', gap: 8 }}>
-      <styled.div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          height: 184,
-          overflowY: 'auto',
-          scrollbarWidth: 'none',
-        }}
-      >
-        <ScrollArea ref={timeContainerRef}>
-          {[...Array(24 * 2).keys()].map((e, i) => (
-            <styled.div
-              key={i}
+        {days.map((day, index) => (
+          <div
+            key={day.date.getTime()}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '0 8px 4px',
+              borderBottom: `1px solid ${colors.neutral20Adjusted}`,
+              borderRight: `1px solid ${colors.neutral20Adjusted}`,
+              ...(variant === 'monthly' && {
+                ...(index % 7 === 0 && {
+                  borderLeft: `1px solid ${colors.neutral20Adjusted}`,
+                }),
+                ...(index < 7 && {
+                  borderTop: `1px solid ${colors.neutral20Adjusted}`,
+                }),
+                ...(index === 0 && {
+                  borderTopLeftRadius: radius[8],
+                }),
+                ...(index === 6 && {
+                  borderTopRightRadius: radius[8],
+                }),
+                ...(index === 35 && {
+                  borderBottomLeftRadius: radius[8],
+                }),
+                ...(index === 41 && {
+                  borderBottomRightRadius: radius[8],
+                }),
+              }),
+              ...(variant === 'weekly' && {
+                borderTop: `1px solid ${colors.neutral20Adjusted}`,
+                ...(index === 0 && {
+                  borderLeft: `1px solid ${colors.neutral20Adjusted}`,
+                  borderTopLeftRadius: radius[8],
+                  borderBottomLeftRadius: radius[8],
+                }),
+                ...(index === 6 && {
+                  borderTopRightRadius: radius[8],
+                  borderBottomRightRadius: radius[8],
+                }),
+              }),
+              ...(variant === '2-weekly' && {
+                ...(index < 7 && {
+                  borderTop: `1px solid ${colors.neutral20Adjusted}`,
+                }),
+                ...(index % 7 === 0 && {
+                  borderLeft: `1px solid ${colors.neutral20Adjusted}`,
+                }),
+                ...(index === 0 && {
+                  borderTopLeftRadius: radius[8],
+                }),
+                ...(index === 6 && {
+                  borderTopRightRadius: radius[8],
+                }),
+                ...(index === 7 && {
+                  borderBottomLeftRadius: radius[8],
+                }),
+                ...(index === 13 && {
+                  borderBottomRightRadius: radius[8],
+                }),
+              }),
+            }}
+          >
+            <div
               style={{
-                height: 32,
-                flexShrink: 0,
+                height: 36,
                 display: 'flex',
-                padding: '0 8px',
+                justifyContent: 'end',
                 alignItems: 'center',
-                gap: 8,
-                cursor: 'pointer',
-                borderRadius: radius[8],
-                '&:hover': {
-                  background: colors.neutral10Adjusted,
-                },
-              }}
-              onClick={() => {
-                onChange(addMinutes(startOfDay(value ?? new Date()), e * 30))
               }}
             >
-              {value &&
-              getHours(value) ===
-                getHours(addMinutes(startOfDay(value), e * 30)) &&
-              getMinutes(value) ===
-                getMinutes(addMinutes(startOfDay(value), e * 30)) ? (
-                <Icon variant="checkmark" />
-              ) : (
-                <div style={{ height: 24, width: 24 }} />
-              )}
-              <Text variant="display-medium">
-                {format(
-                  addMinutes(startOfDay(value ?? new Date()), e * 30),
-                  'HH:mm',
-                )}
+              <Button
+                variant={
+                  isSameDay(openDay, day.date)
+                    ? 'fill'
+                    : isSameDay(new Date(), day.date)
+                      ? 'border'
+                      : 'ghost'
+                }
+                size="small"
+                onClick={() => {
+                  setOpenDay(day.date)
+                }}
+              >
+                {isFirstDayOfMonth(day.date)
+                  ? format(day.date, 'MMM d')
+                  : format(day.date, 'd')}
+              </Button>
+            </div>
+            <div
+              style={{
+                flex: 1,
+                position: 'relative',
+                minHeight: 2 * (variant === 'monthly' ? 24 : 40) + 4,
+              }}
+              ref={(e) => {
+                if (index === 0 && e) {
+                  cellRef.current = e
+                }
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 4,
+                }}
+              >
+                {(() => {
+                  const children = []
+
+                  const visiblePartOfDayOnlyContainsPlaceholders = day.items
+                    .filter((e) => !e?.__hidden)
+                    .slice(0, maxItemsPerCell)
+                    .every((e) => e === null)
+
+                  if (!visiblePartOfDayOnlyContainsPlaceholders) {
+                    children.push(
+                      ...day.items
+                        .filter((e) => !e?.__hidden)
+                        .slice(
+                          0,
+                          day.items.some((e) => e?.__hidden)
+                            ? maxItemsPerCell - 1
+                            : maxItemsPerCell,
+                        )
+                        .map((e, i) =>
+                          e === null ? (
+                            <div
+                              key={index + i}
+                              style={{
+                                height: variant === 'monthly' ? 24 : 40,
+                                flexShrink: 0,
+                              }}
+                            />
+                          ) : (
+                            <div
+                              key={index + i}
+                              style={
+                                endField &&
+                                !isSameDay(
+                                  new Date(e[startField]),
+                                  new Date(e[endField]),
+                                ) && {
+                                  ...(isSameDay(
+                                    day.date,
+                                    new Date(e[startField]),
+                                  ) && {
+                                    marginRight: -8,
+                                  }),
+                                  ...(isSameDay(
+                                    day.date,
+                                    new Date(e[endField]),
+                                  ) && {
+                                    marginLeft: -9,
+                                  }),
+                                  ...(!isSameDay(
+                                    day.date,
+                                    new Date(e[startField]),
+                                  ) &&
+                                    !isSameDay(
+                                      day.date,
+                                      new Date(e[endField]),
+                                    ) && {
+                                      marginRight: -8,
+                                      marginLeft: -9,
+                                    }),
+                                  ...(!isSameDay(
+                                    day.date,
+                                    new Date(e[startField]),
+                                  ) &&
+                                    !isSameDay(
+                                      day.date,
+                                      new Date(e[endField]),
+                                    ) &&
+                                    index % 7 === 6 && {
+                                      marginRight: -9,
+                                    }),
+                                }
+                              }
+                            >
+                              <CalendarItem
+                                title={e.name}
+                                position={
+                                  !endField ||
+                                  isSameDay(
+                                    new Date(e[startField]),
+                                    new Date(e[endField]),
+                                  )
+                                    ? undefined
+                                    : isSameDay(
+                                          day.date,
+                                          new Date(e[startField]),
+                                        )
+                                      ? 'start'
+                                      : isSameDay(
+                                            day.date,
+                                            new Date(e[endField]),
+                                          )
+                                        ? 'end'
+                                        : 'middle'
+                                }
+                                description={
+                                  variant !== 'monthly' &&
+                                  `${format(e.start, 'MMM d · HH:mm')} - ${format(e.end, 'MMM d · HH:mm')}`
+                                }
+                              />
+                            </div>
+                          ),
+                        ),
+                    )
+                  }
+
+                  if (day.items.some((e) => e?.__hidden)) {
+                    children.push(
+                      <div
+                        key="button"
+                        style={{ display: 'flex', flexShrink: 1 }}
+                      >
+                        <Button
+                          size="small"
+                          variant="ghost"
+                          onClick={() => {
+                            setOpenDay(day.date)
+                          }}
+                        >
+                          {`Show ${day.items.filter((e) => e?.__hidden).length} more`}
+                        </Button>
+                      </div>,
+                    )
+                  }
+
+                  return children
+                })()}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      {openDay && (
+        <div
+          style={{
+            position: 'relative',
+            marginTop: 40,
+            width: 288,
+            flexShrink: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            maxHeight: 'calc(100svh - 68px - 40px - 20px)', // viewport - appheader - margin on this element - bottom padding
+            borderRadius: radius[8],
+            border: `1px solid ${colors.neutral20Adjusted}`,
+          }}
+        >
+          <div
+            style={{
+              padding: 16,
+              borderBottom: `1px solid ${colors.neutral20Adjusted}`,
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <Text color="neutral80" variant="display-bold">
+                {format(openDay, 'MMM d, yyyy')}
               </Text>
-            </styled.div>
-          ))}
-        </ScrollArea>
-      </styled.div>
+              <Text color="neutral60" variant="display-regular">
+                {
+                  data.filter((e) =>
+                    endField
+                      ? isWithinInterval(openDay, {
+                          start: new Date(e[startField]),
+                          end: new Date(e[endField]),
+                        })
+                      : isSameDay(openDay, new Date(e[startField])),
+                  ).length
+                }{' '}
+                items
+              </Text>
+            </div>
+            <IconButton
+              size="small"
+              icon="close"
+              onClick={() => {
+                setOpenDay(undefined)
+              }}
+            />
+          </div>
+          <ScrollArea style={{ padding: 16 }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 8,
+              }}
+            >
+              {data
+                .filter((e) =>
+                  endField
+                    ? isWithinInterval(openDay, {
+                        start: new Date(e[startField]),
+                        end: new Date(e[endField]),
+                      })
+                    : isSameDay(openDay, new Date(e[startField])),
+                )
+                .map((e) => (
+                  <CalendarItem
+                    key={e.id}
+                    title={e.name}
+                    description={`${format(new Date(e[startField]), 'MMM d · HH:mm')}${endField ? ` - ${format(new Date(e[endField]), 'MMM d · HH:mm')}` : ''}`}
+                  />
+                ))}
+            </div>
+          </ScrollArea>
+        </div>
+      )}
     </div>
   )
 }
 
-function DateTimePicker({
+type CalendarControlsProps = Pick<CalendarProps, 'variant'> & {
+  value: number
+  onChange: (value: number) => void
+}
+
+function CalendarControls({
+  variant = 'monthly',
   value,
   onChange,
-}: {
-  value?: Date
-  onChange: (value: Date) => void
-}) {
-  const [view, setView] = useState('date')
-
+}: CalendarControlsProps) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingLeft: 10,
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <IconButton
+        icon="arrow-left"
+        onClick={() => {
+          if (variant === 'monthly') {
+            onChange(
+              addMonths(
+                startOfWeek(new Date(value), { weekStartsOn: 1 }),
+                -1,
+              ).getTime(),
+            )
+            return
+          }
+
+          if (variant === '2-weekly') {
+            onChange(
+              addWeeks(
+                startOfWeek(new Date(value), { weekStartsOn: 1 }),
+                -2,
+              ).getTime(),
+            )
+            return
+          }
+
+          onChange(
+            addWeeks(
+              startOfWeek(new Date(value), { weekStartsOn: 1 }),
+              -1,
+            ).getTime(),
+          )
         }}
-      >
-        <Text variant="display-medium" color="neutral60">
-          Date
-        </Text>{' '}
-        <Button
-          onClick={() => {
-            setView('date')
-          }}
-          variant="ghost"
-          forceHover={view === 'date'}
-          tooltip="Select date"
-        >
-          {format(value ?? new Date(), 'MMM dd, yyyy')}
-        </Button>
-      </div>
-      <div style={{ width: '100%', padding: '2px 8px' }}>
-        <div
-          style={{ height: 1, width: '100%', background: colors.neutral10 }}
-        />
-      </div>
-      {view === 'date' && <DatePicker value={value} onChange={onChange} />}
-      {view === 'date' && (
-        <div style={{ width: '100%', padding: '2px 8px' }}>
-          <div
-            style={{ height: 1, width: '100%', background: colors.neutral10 }}
-          />
-        </div>
-      )}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingLeft: 10,
+      />
+      <Button variant="ghost">
+        {variant === 'monthly' && format(value, 'MMMM yyyy')}
+        {variant === '2-weekly' &&
+          `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 13), 'MMM d yyyy')}`}
+        {variant === 'weekly' &&
+          `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 6), 'MMM d yyyy')}`}
+      </Button>
+      <IconButton
+        icon="arrow-right"
+        onClick={() => {
+          if (variant === 'monthly') {
+            onChange(
+              addMonths(
+                startOfWeek(new Date(value), { weekStartsOn: 1 }),
+                1,
+              ).getTime(),
+            )
+            return
+          }
+
+          if (variant === '2-weekly') {
+            onChange(
+              addWeeks(
+                startOfWeek(new Date(value), { weekStartsOn: 1 }),
+                2,
+              ).getTime(),
+            )
+            return
+          }
+
+          onChange(
+            addWeeks(
+              startOfWeek(new Date(value), { weekStartsOn: 1 }),
+              1,
+            ).getTime(),
+          )
         }}
-      >
-        <Text variant="display-medium" color="neutral60">
-          Time
-        </Text>
-        <Button
-          onClick={() => {
-            setView('time')
-          }}
-          variant="ghost"
-          forceHover={view === 'time'}
-          tooltip="Select time"
-        >
-          {format(
-            roundToNearestMinutes(value ?? new Date(), {
-              nearestTo: 30,
-              roundingMethod: 'floor',
-            }),
-            'HH:mm',
-          )}
-        </Button>
-      </div>
-      {view === 'time' && (
-        <div style={{ width: '100%', padding: '2px 8px' }}>
-          <div
-            style={{ height: 1, width: '100%', background: colors.neutral10 }}
-          />
-        </div>
-      )}
-      {view === 'time' && <TimePicker value={value} onChange={onChange} />}
+      />
     </div>
   )
 }
 
+Calendar.Controls = CalendarControls
+
 export { Calendar }
-export type { CalendarProps }
+export type { CalendarProps, CalendarVariant, CalendarControlsProps }

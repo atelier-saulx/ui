@@ -243,7 +243,7 @@ function MenuItems({ children }: MenuItemsProps) {
           <styled.div
             ref={refs.setFloating}
             style={{
-              zIndex: 2,
+              zIndex: 4,
               position: 'fixed',
               borderRadius: radius[16],
               padding: 8,

@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { Calendar } from '../Calendar/index.js'
+import { Calendar } from './Calendar.js'
 import { Dropdown } from '../Dropdown/index.js'
 
 type DateInputProps = {

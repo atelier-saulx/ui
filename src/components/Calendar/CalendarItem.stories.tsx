@@ -1,9 +1,9 @@
 import React from 'react'
-import { CalendarViewItem } from './CalendarViewItem.js'
+import { CalendarItem } from './CalendarItem.js'
 
 export default {
-  title: 'CalendarViewItem',
-  component: CalendarViewItem,
+  title: 'CalendarItem',
+  component: CalendarItem,
 }
 
 export const Default = {
@@ -19,7 +19,7 @@ export const Default = {
         (['neutral', 'green', 'blue', 'orange', 'red'] as const).map((color) =>
           ([false, true] as const).map((repeating) =>
             ([undefined, 'Description'] as const).map((description) => (
-              <CalendarViewItem
+              <CalendarItem
                 repeating={repeating}
                 position={position}
                 color={color}

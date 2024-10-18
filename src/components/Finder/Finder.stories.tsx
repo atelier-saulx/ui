@@ -20,7 +20,6 @@ export const Default = () => {
   return (
     <div style={{ height: '100svh' }}>
       <Finder
-        defaultView="grid"
         title="Media library"
         query={({ limit, offset }) => ({
           files: {
@@ -81,6 +80,7 @@ export const Default = () => {
             key: 'createdAt',
             title: 'Created At',
             type: 'date-time-human',
+            calendar: 'start',
           },
         ]}
         onItemClick={(item) => {
