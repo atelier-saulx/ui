@@ -571,13 +571,15 @@ function CalendarControls({
         }}
       />
       <CalendarDropdown value={value} onChange={onChange} variant="date">
-        <Button variant="ghost">
-          {variant === 'monthly' && format(value, 'MMMM yyyy')}
-          {variant === '2-weekly' &&
-            `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 13), 'MMM d yyyy')}`}
-          {variant === 'weekly' &&
-            `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 6), 'MMM d yyyy')}`}
-        </Button>
+        {({ open }) => (
+          <Button variant="ghost" forceHover={open}>
+            {variant === 'monthly' && format(value, 'MMMM yyyy')}
+            {variant === '2-weekly' &&
+              `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 13), 'MMM d yyyy')}`}
+            {variant === 'weekly' &&
+              `${format(startOfWeek(value, { weekStartsOn: 1 }), 'MMM d yyyy')} - ${format(addDays(startOfWeek(value, { weekStartsOn: 1 }), 6), 'MMM d yyyy')}`}
+          </Button>
+        )}
       </CalendarDropdown>
       <IconButton
         icon="arrow-right"
