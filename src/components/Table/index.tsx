@@ -91,7 +91,10 @@ function InternalTable({
   useLayoutEffect(() => {
     if (!scrollElementRef.current) return
 
-    scrollElementRef.current.scrollTop = 0
+    scrollElementRef.current.scrollTop = 1
+    requestAnimationFrame(() => {
+      scrollElementRef.current.scrollTop = 0
+    })
   }, [sort])
 
   return (
@@ -374,7 +377,7 @@ function VirtualizedTable({ data, ...props }: VirtualizedTableProps) {
   )
 }
 
-type BasedTableProps = UseInfiniteQueryOptions &
+type BasedTableProps = Omit<UseInfiniteQueryOptions, 'view'> &
   Pick<
     InternalTableProps,
     | 'fields'
@@ -394,6 +397,7 @@ function BasedTable({
   ...props
 }: BasedTableProps) {
   const { data, total, handleScroll, reset } = useInfiniteQuery({
+    view: 'table',
     query,
     totalQuery,
     transformQueryResult,

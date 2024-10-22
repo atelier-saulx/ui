@@ -1,17 +1,18 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Sort, Select, Field } from '../../utils/common.js'
 import { Menu, MenuItemProps } from '../Menu/index.js'
 import { IconButton } from '../IconButton/index.js'
 import { AppHeader } from '../AppHeader/index.js'
-import {
-  useInfiniteQuery,
-  UseInfiniteQueryOptions,
-} from '../../hooks/useInfiniteQuery.js'
+import { useInfiniteQuery } from '../../hooks/useInfiniteQuery.js'
 import { InternalTable, TableFieldRenderOptions } from '../Table/index.js'
 import { Text } from '../Text/index.js'
 import { Button } from '../Button/index.js'
 import { InternalGrid } from '../Grid/index.js'
-import { Calendar, CalendarVariant } from '../Calendar/index.js'
+import {
+  Calendar,
+  CalendarVariant,
+  getCalendarVisiblePeriod,
+} from '../Calendar/index.js'
 
 type FinderView = 'grid' | 'table' | 'calendar'
 
@@ -26,7 +27,10 @@ type FinderProps = {
     color?: MenuItemProps['color']
     onClick?: (item: any) => void
   }[]
-} & UseInfiniteQueryOptions
+  totalQuery: () => any
+  transformQueryResult: (queryResult: any) => any
+  query: (view: FinderView, offsetOrStart: number, limitOrEnd: number) => any
+}
 
 function Finder({
   title,
@@ -41,15 +45,17 @@ function Finder({
   const [view, setView] = useState(defaultView)
   const [sort, setSort] = useState<Sort>()
   const [select, setSelect] = useState<Select>()
-  const [calendarVisiblePeriod, setCalendarVisiblePeriod] = useState(Date.now())
+  const [calendarDate, setCalendarDate] = useState(Date.now())
   const [calendarVariant, setCalendarVariant] =
     useState<CalendarVariant>('monthly')
 
-  const { data, total, handleScroll, reset, scroll } = useInfiniteQuery({
-    query,
-    totalQuery,
-    transformQueryResult,
-  })
+  const { data, total, handleScroll, scroll, handleCalendar } =
+    useInfiniteQuery({
+      view,
+      query,
+      totalQuery,
+      transformQueryResult,
+    })
 
   // TODO when scrolling it sticks to the wrong rows on table, prob a bug it table and not here
   function renderActionButton(row: any, opts?: TableFieldRenderOptions) {
@@ -131,9 +137,16 @@ function Finder({
           )}
           {view === 'calendar' && (
             <Calendar.Controls
-              value={calendarVisiblePeriod}
-              onChange={setCalendarVisiblePeriod}
+              value={calendarDate}
               variant={calendarVariant}
+              onChange={(value) => {
+                setCalendarDate(value)
+                const { start, end } = getCalendarVisiblePeriod(
+                  value,
+                  calendarVariant,
+                )
+                handleCalendar(start, end)
+              }}
             />
           )}
           <AppHeader.Separator />
@@ -160,6 +173,11 @@ function Finder({
                     value={calendarVariant === 'monthly'}
                     onChange={() => {
                       setCalendarVariant('monthly')
+                      const { start, end } = getCalendarVisiblePeriod(
+                        calendarDate,
+                        calendarVariant,
+                      )
+                      handleCalendar(start, end)
                     }}
                   >
                     Month
@@ -168,6 +186,11 @@ function Finder({
                     value={calendarVariant === '2-weekly'}
                     onChange={() => {
                       setCalendarVariant('2-weekly')
+                      const { start, end } = getCalendarVisiblePeriod(
+                        calendarDate,
+                        calendarVariant,
+                      )
+                      handleCalendar(start, end)
                     }}
                   >
                     2 week
@@ -176,23 +199,17 @@ function Finder({
                     value={calendarVariant === 'weekly'}
                     onChange={() => {
                       setCalendarVariant('weekly')
+                      const { start, end } = getCalendarVisiblePeriod(
+                        calendarDate,
+                        calendarVariant,
+                      )
+                      handleCalendar(start, end)
                     }}
                   >
                     Week
                   </Menu.ToggleItem>
                 </>
               )}
-              <Menu.Separator />
-              <Menu.Item
-                leadIcon="revert"
-                onClick={() => {
-                  setView(defaultView)
-                  setCalendarVariant('monthly')
-                  setCalendarVisiblePeriod(Date.now())
-                }}
-              >
-                Reset view
-              </Menu.Item>
             </Menu.Items>
           </Menu>
           <Button leadIcon="add">Add</Button>
@@ -229,7 +246,9 @@ function Finder({
         <Calendar
           fields={fields}
           data={data}
-          visiblePeriod={calendarVisiblePeriod}
+          visiblePeriodStart={
+            getCalendarVisiblePeriod(calendarDate, calendarVariant).start
+          }
           variant={calendarVariant}
           onItemClick={onItemClick}
         />
@@ -238,4 +257,4 @@ function Finder({
   )
 }
 export { Finder }
-export type { FinderProps }
+export type { FinderProps, FinderView }

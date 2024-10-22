@@ -310,7 +310,7 @@ export function App() {
         </AppHeader>
         {view === 'table' && (
           <BasedTable
-            query={({ limit, offset }) => ({
+            query={(_, offset, limit) => ({
               files: {
                 $all: true,
                 $list: {
@@ -442,7 +442,7 @@ export function App() {
         )}
         {view === 'grid' && (
           <BasedGrid
-            query={({ limit, offset }) => ({
+            query={(_, offset, limit) => ({
               files: {
                 $all: true,
                 $list: {

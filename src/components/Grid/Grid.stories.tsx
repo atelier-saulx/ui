@@ -90,7 +90,7 @@ export const Based = () => {
       <BasedGrid
         select={select}
         onSelectChange={setSelect}
-        query={({ limit, offset }) => ({
+        query={(_, offset, limit) => ({
           files: {
             $all: true,
             $list: {

@@ -17,21 +17,39 @@ export const Default = () => {
     <div style={{ height: '100svh' }}>
       <Finder
         title="Media library"
-        query={({ limit, offset }) => ({
+        query={(view, offsetOrStart, limitOrEnd) => ({
           files: {
             $all: true,
             $list: {
-              $limit: limit,
-              $offset: offset,
+              ...(view !== 'calendar' && {
+                $offset: offsetOrStart,
+                $limit: limitOrEnd,
+              }),
               $find: {
                 $traverse: 'children',
-                $filter: {
-                  $field: 'type',
-                  $operator: '=',
-                  $value: 'file',
-                },
+                $filter: [
+                  {
+                    $field: 'type',
+                    $operator: '=',
+                    $value: 'file',
+                  },
+                  ...(view === 'calendar'
+                    ? [
+                        {
+                          $field: 'createdAt',
+                          $operator: '>',
+                          $value: offsetOrStart,
+                        },
+                        {
+                          $field: 'createdAt',
+                          $operator: '<',
+                          $value: limitOrEnd,
+                        },
+                      ]
+                    : []),
+                ],
               },
-              //    TODO get sort here somehow
+              //    TODO get sort here
               //   ...(sort && {
               //     $sort: { $field: sort.key, $order: sort.direction },
               //   }),

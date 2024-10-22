@@ -393,7 +393,7 @@ function VirtualizedGrid({ data, ...props }: GridProps) {
   )
 }
 
-type BasedGridProps = UseInfiniteQueryOptions &
+type BasedGridProps = Omit<UseInfiniteQueryOptions, 'view'> &
   Pick<InternalGridProps, 'fields' | 'select' | 'onSelectChange'>
 
 function BasedGrid({
@@ -403,6 +403,7 @@ function BasedGrid({
   ...props
 }: BasedGridProps) {
   const { data, total, handleScroll } = useInfiniteQuery({
+    view: 'grid',
     query,
     totalQuery,
     transformQueryResult,

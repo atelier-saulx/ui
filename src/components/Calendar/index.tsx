@@ -6,10 +6,12 @@ import {
   addDays,
   addMonths,
   addWeeks,
+  endOfDay,
   format,
   isFirstDayOfMonth,
   isSameDay,
   isWithinInterval,
+  startOfDay,
   startOfMonth,
   startOfWeek,
 } from 'date-fns'
@@ -25,7 +27,7 @@ type CalendarVariant = 'monthly' | 'weekly' | '2-weekly'
 type CalendarProps = {
   data: any[]
   fields: Field[]
-  visiblePeriod: number
+  visiblePeriodStart: number
   variant?: CalendarVariant
   onItemClick?: (item: any) => void
 }
@@ -33,9 +35,9 @@ type CalendarProps = {
 function Calendar({
   data: dataProp,
   variant = 'monthly',
-  visiblePeriod,
   fields,
   onItemClick,
+  visiblePeriodStart,
 }: CalendarProps) {
   const startField = fields.find((e) => e.calendar === 'start')?.key
   const endField = fields.find((e) => e.calendar === 'end')?.key
@@ -43,15 +45,6 @@ function Calendar({
   const data = dataProp.filter(
     (e) => e[startField] && (!endField || e[endField]),
   )
-  const currentPeriodStart = useMemo(() => {
-    if (variant === 'monthly') {
-      return startOfWeek(startOfMonth(new Date(visiblePeriod)), {
-        weekStartsOn: 1,
-      })
-    }
-
-    return startOfWeek(new Date(visiblePeriod), { weekStartsOn: 1 })
-  }, [visiblePeriod, variant])
   const [openDay, setOpenDay] = useState<Date>()
   const [cellHeight, setCellHeight] = useState<number>()
   const cellRef = useRef<HTMLDivElement>()
@@ -66,7 +59,7 @@ function Calendar({
     const prevDayItems: any[] = []
 
     for (let i = 0; i < count; i++) {
-      const day = addDays(currentPeriodStart, i)
+      const day = addDays(new Date(visiblePeriodStart), i)
 
       // TODO is structClone needed? it was a fix for the __hidden attribute sticking around but now it might not be necessary
       const dayItems = structuredClone(data).filter((e) =>
@@ -138,7 +131,7 @@ function Calendar({
     }
 
     return res
-  }, [currentPeriodStart, maxItemsPerCell, data, variant])
+  }, [visiblePeriodStart, maxItemsPerCell, data, variant])
 
   useLayoutEffect(() => {
     if (!cellRef.current) return
@@ -618,5 +611,25 @@ function CalendarControls({
 
 Calendar.Controls = CalendarControls
 
-export { Calendar }
+function getCalendarVisiblePeriod(date: number, variant: CalendarVariant) {
+  if (variant === 'monthly') {
+    const start = startOfDay(
+      startOfWeek(startOfMonth(new Date(date)), {
+        weekStartsOn: 1,
+      }),
+    )
+    return {
+      start: start.getTime(),
+      end: endOfDay(addDays(start, 6 * 7)).getTime(),
+    }
+  }
+
+  const start = startOfDay(startOfWeek(new Date(date), { weekStartsOn: 1 }))
+  return {
+    start: start.getTime(),
+    end: endOfDay(addDays(start, variant === '2-weekly' ? 2 * 7 : 7)).getTime(),
+  }
+}
+
+export { Calendar, getCalendarVisiblePeriod }
 export type { CalendarProps, CalendarVariant, CalendarControlsProps }
