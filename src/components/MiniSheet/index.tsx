@@ -187,8 +187,8 @@ function MiniSheetItem({ onClick, ...props }: MiniSheetItemProps) {
   return (
     <IconButton
       {...props}
-      onClick={() => {
-        onClick?.()
+      onClick={(e) => {
+        onClick?.(e)
         setOpen(false)
       }}
     />
